@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DxLib_GFF-24-A_20231017", "DxLib_GFF-24-A_20231017.vcxproj", "{F18188AF-11A2-4144-9547-FE5EEB3B83AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		1D|x64 = 1D|x64
+		1D|x86 = 1D|x86
+		1R|x64 = 1R|x64
+		1R|x86 = 1R|x86
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1D|x64.ActiveCfg = 1D|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1D|x64.Build.0 = 1D|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1D|x86.ActiveCfg = 1D|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1D|x86.Build.0 = 1D|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1R|x64.ActiveCfg = 1R|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1R|x64.Build.0 = 1R|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1R|x86.ActiveCfg = 1R|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.1R|x86.Build.0 = 1R|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Debug|x64.ActiveCfg = Debug|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Debug|x64.Build.0 = Debug|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Debug|x86.ActiveCfg = Debug|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Debug|x86.Build.0 = Debug|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Release|x64.ActiveCfg = Release|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Release|x64.Build.0 = Release|x64
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Release|x86.ActiveCfg = Release|Win32
+		{F18188AF-11A2-4144-9547-FE5EEB3B83AD}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F7DB045-72B8-49D8-A421-5F20B563B190}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="インプットコントローラー">
+      <UniqueIdentifier>{252f5919-6a13-4329-b82c-4cd78c0a2e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シーンマネージャー">
+      <UniqueIdentifier>{d8ba978c-ce72-4977-9d4c-0dff73ba36d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSコントローラー">
+      <UniqueIdentifier>{69edd831-a027-44c8-98b4-4260c6bd045c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シーン">
+      <UniqueIdentifier>{221a9e51-73d2-4d22-a306-7e6760297c76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="メイン">
+      <UniqueIdentifier>{392ff1b7-8491-447a-b0b5-ebf74d71e47a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SourceFiles\scene.h">
+      <Filter>シーンマネージャー</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\sceneManager.h">
+      <Filter>シーンマネージャー</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\inputCtrl.h">
+      <Filter>インプットコントローラー</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\fpsCtrl.h">
+      <Filter>FPSコントローラー</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\scene_debug.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\main.h">
+      <Filter>メイン</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SourceFiles\scene_debug.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\sceneManager.cpp">
+      <Filter>シーンマネージャー</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\inputCtrl.cpp">
+      <Filter>インプットコントローラー</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\fpsCtrl.cpp">
+      <Filter>FPSコントローラー</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\main.cpp">
+      <Filter>メイン</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
