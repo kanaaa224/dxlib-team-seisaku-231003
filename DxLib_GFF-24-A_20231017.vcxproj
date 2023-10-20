@@ -41,6 +41,7 @@
     <ClInclude Include="SourceFiles\main.h" />
     <ClInclude Include="SourceFiles\sceneManager.h" />
     <ClInclude Include="SourceFiles\scene_debug.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceFiles\fpsCtrl.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="SourceFiles\main.cpp" />
     <ClCompile Include="SourceFiles\sceneManager.cpp" />
     <ClCompile Include="SourceFiles\scene_debug.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
