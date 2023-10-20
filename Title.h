@@ -4,6 +4,14 @@
 class Title :public Scene
 {
 private:
+	int TitleImage;
+
+	enum class TITLE_MENU {
+		START,
+		HELP,
+		CLEDIT,
+		END
+	};
 
 public:
 	Title();
