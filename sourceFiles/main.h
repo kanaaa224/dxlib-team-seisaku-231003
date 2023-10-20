@@ -35,18 +35,18 @@ using std::to_string;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ゲームメイン処理のヘッダーファイル
-//class GameScene;
+class GameScene;
 //#include "game_collider.h"
 //#include "game_characterBase.h"
 //#include "game_bullet.h"
 //#include "game_bulletSpawner.h"
 //#include "game_nwaySpawner.h"
 //#include "game_player.h"
-//#include "game_ui.h"
+#include "game_ui.h"
 //#include "game_main.h"
 
 // 各シーンのヘッダーファイル
 #include "scene_debug.h"
 //#include "scene_title.h"
-//#include "scene_game.h"
+#include "scene_game.h"
 //#include "scene_result.h"

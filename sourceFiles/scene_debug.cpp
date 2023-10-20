@@ -15,6 +15,8 @@ Scene* DebugScene::update() {
 
 	     if (InputCtrl::GetKeyState(KEY_INPUT_UP)   == PRESS) state++;
 	else if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) state--;
+		 
+	if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) return new GameScene();
 
 	return this;
 };
@@ -167,4 +169,9 @@ void DebugScene::draw() const {
 	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: %d - %d", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
 
 	x -= 20;
+
+	//////////////////////////////////////////////////
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Enterキー で仮のゲームメインシーンへ");
 };
