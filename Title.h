@@ -13,6 +13,12 @@ private:
 		END
 	};
 
+	int EnemyImage0;
+	int EnemyImage1;
+	int EnemyImage2;
+	int EnemyImage3;
+	int EnemyImage4;
+
 public:
 	Title();
 	~Title();

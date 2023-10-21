@@ -1,4 +1,5 @@
 ﻿#include "main.h"
+#include "../Title.h"
 
 // 開始
 int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR LpCmdLine, _In_ int NCmdShow) {
@@ -11,7 +12,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	SetDrawScreen(DX_SCREEN_BACK);                 // 描画先画面を裏にする（ダブルバッファリング）
 
 	// シーンマネージャーオブジェクトを作成し、シーンを割り当て
-	SceneManager* sceneMng = new SceneManager((Scene*) new DebugScene());
+	SceneManager* sceneMng = new SceneManager((Scene*) new Title());
 
 	// FPSコントローラーを設定
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
