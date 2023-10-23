@@ -4,10 +4,12 @@
 //////////////////////////////////////////////////
 #pragma once
 
-// ゲームユーザーインターフェースクラス（スコア、残機表示など）
 class GameUI {
 private:
-	int score, level, floor, hp, exp, enemy, weapon;
+	int state, frameCounter;
+
+	int score, level, floor, hp, exp, enemy;
+	std::map<std::string, int> weapon;
 
 public:
 	GameUI() {
@@ -50,4 +52,18 @@ public:
 
 	// 所持している武器 を描画
 	void drawWeapon() const; */
+
+	//////////////////////////////////////////////////
+
+	// ゲームスタート
+	//void gameStart();
+
+	// ゲームポーズ
+	//void gamePause();
+
+	// ゲームクリアアニメーション
+	//void gameClear();
+
+	// ゲームクリアアニメーション
+	//void gameOver();
 };

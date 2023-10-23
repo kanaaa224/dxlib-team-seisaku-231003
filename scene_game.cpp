@@ -28,9 +28,9 @@ GameScene::~GameScene() {
 };
 
 Scene* GameScene::update() {
-	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene();
-
 	frameCounter++;
+
+	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
 	//player->update(this);
 

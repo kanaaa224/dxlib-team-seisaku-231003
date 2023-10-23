@@ -19,6 +19,9 @@
     <Filter Include="ゲーム処理">
       <UniqueIdentifier>{f7057e4a-221d-4c88-a799-75762fc5aa83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム処理\ゲームUI / プレイヤーUI">
+      <UniqueIdentifier>{7a2d1699-2d3b-421b-9774-2d99ec39e015}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -39,11 +42,11 @@
     <ClInclude Include="main.h">
       <Filter>メイン</Filter>
     </ClInclude>
-    <ClInclude Include="game_ui.h">
-      <Filter>ゲーム処理</Filter>
-    </ClInclude>
     <ClInclude Include="scene_game.h">
       <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="game_ui.h">
+      <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,11 +65,11 @@
     <ClCompile Include="main.cpp">
       <Filter>メイン</Filter>
     </ClCompile>
-    <ClCompile Include="game_ui.cpp">
-      <Filter>ゲーム処理</Filter>
-    </ClCompile>
     <ClCompile Include="scene_game.cpp">
       <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="game_ui.cpp">
+      <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

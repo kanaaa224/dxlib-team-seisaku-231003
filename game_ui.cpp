@@ -5,17 +5,24 @@
 #include "main.h"
 
 void GameUI::init() {
+	state = 0;
+	frameCounter = 0;
+
 	score  = 0;
 	level  = 0;
 	floor  = 0;
 	hp     = 0;
 	exp    = 0;
 	enemy  = 0;
-	weapon = 0;
 };
 
 void GameUI::update(GameScene* gameScene) {
+	frameCounter++;
+
 	//score = gameScene->getScore();
+
+	// 仮
+	//weapon["a"];
 };
 
 void GameUI::draw() const {
