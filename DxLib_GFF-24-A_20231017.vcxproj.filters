@@ -37,6 +37,7 @@
       <Filter>メイン</Filter>
     </ClInclude>
     <ClInclude Include="Title.h" />
+    <ClInclude Include="GameMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceFiles\scene_debug.cpp">
@@ -55,5 +56,6 @@
       <Filter>メイン</Filter>
     </ClCompile>
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="GameMain.cpp" />
   </ItemGroup>
 </Project>

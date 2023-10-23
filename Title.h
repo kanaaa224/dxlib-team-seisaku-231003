@@ -22,7 +22,7 @@ private:
 public:
 	Title();
 	~Title();
-	virtual Scene* Update() = 0;
-	virtual void draw() const = 0;
+	Scene* update() override;
+	void draw() const override;
 
 };

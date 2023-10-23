@@ -35,6 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameMain.h" />
     <ClInclude Include="SourceFiles\scene.h" />
     <ClInclude Include="SourceFiles\fpsCtrl.h" />
     <ClInclude Include="SourceFiles\inputCtrl.h" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="SourceFiles\fpsCtrl.cpp" />
     <ClCompile Include="SourceFiles\inputCtrl.cpp" />
     <ClCompile Include="SourceFiles\main.cpp" />

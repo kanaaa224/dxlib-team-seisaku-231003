@@ -47,6 +47,6 @@ using std::to_string;
 
 // 各シーンのヘッダーファイル
 #include "scene_debug.h"
-//#include "scene_title.h"
+#include "../Title.h"
 //#include "scene_game.h"
 //#include "scene_result.h"

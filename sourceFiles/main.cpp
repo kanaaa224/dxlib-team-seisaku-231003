@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "../Title.h"
+#include "../GameMain.h"
 
 // 開始
 int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR LpCmdLine, _In_ int NCmdShow) {
