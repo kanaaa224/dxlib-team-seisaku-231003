@@ -10,6 +10,7 @@ GameScene::GameScene() {
 
 	/*player = new Player;*/
 
+	stage = new Stage;
 	gameUI = new GameUI;
 
 	//////////////////////////////////////////////////
@@ -20,6 +21,7 @@ GameScene::GameScene() {
 GameScene::~GameScene() {
 	//delete player;
 
+	delete stage;
 	delete gameUI;
 
 	//////////////////////////////////////////////////
@@ -34,6 +36,7 @@ Scene* GameScene::update() {
 
 	//player->update(this);
 
+	stage->update(this);
 	gameUI->update(this);
 
 	return this;
@@ -43,6 +46,7 @@ void GameScene::draw() const {
 	DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
 	//player->draw();
-
-	gameUI->draw();
+	
+	stage->draw();
+	//gameUI->draw();
 };

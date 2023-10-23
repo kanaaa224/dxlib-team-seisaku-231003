@@ -5,6 +5,7 @@
 #pragma once
 
 #include "scene.h"
+#include "Stage.h"
 
 class GameScene : public Scene {
 private:
@@ -12,6 +13,7 @@ private:
 
 	//Player* player;
 
+	Stage* stage;
 	GameUI* gameUI;
 
 	//////////////////////////////////////////////////
