@@ -54,6 +54,9 @@
     <ClInclude Include="Stage.h">
       <Filter>ステージ</Filter>
     </ClInclude>
+    <ClInclude Include="scene_weapon.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ステージ</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_weapon.cpp">
+      <Filter>シーン</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
