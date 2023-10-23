@@ -5,17 +5,23 @@
 #include "main.h"
 
 void GameUI::init() {
-	score    = 0;
-	stock    = 0;
-	timeLeft = 0;
-	nowStage = 0;
-	mode     = 0;
+	score  = 0;
+	level  = 0;
+	floor  = 0;
+	hp     = 0;
+	exp    = 0;
+	enemy  = 0;
+	weapon = 0;
 };
 
 void GameUI::update(GameScene* gameScene) {
 	score = gameScene->getScore();
-	stock = gameScene->getStock();
-	nowStage = gameScene->getNowStage();
+	level = 0;
+	floor = 0;
+	hp = 0;
+	exp = 0;
+	enemy = 0;
+	weapon = 0;
 
 	//timeLeft = _timeLeft;
 	//mode     = _mode;

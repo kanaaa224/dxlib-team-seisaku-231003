@@ -7,11 +7,17 @@
 // ゲームユーザーインターフェースクラス（スコア、残機表示など）
 class GameUI {
 private:
-	int score, stock, timeLeft, nowStage, mode;
+	int score, level, floor, hp, exp, enemy, weapon;
 
 public:
 	GameUI() {
+		//LoadGraph();
+
 		init();
+	};
+
+	~GameUI() {
+		//DeleteGraph();
 	};
 
 	//////////////////////////////////////////////////

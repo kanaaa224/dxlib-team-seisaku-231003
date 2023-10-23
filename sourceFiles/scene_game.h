@@ -21,15 +21,9 @@ private:
 	GameUI* gameUI;
 
 public:
-	//Bullet* bullet[MAX_BULLET];
-
-	//////////////////////////////////////////////////
-
 	GameScene();
 
 	~GameScene();
-
-	//////////////////////////////////////////////////
 
 	virtual Scene* update() override;
 
