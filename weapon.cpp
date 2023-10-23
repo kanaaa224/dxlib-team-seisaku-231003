@@ -26,7 +26,7 @@ void weapon::Update()
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
-	int length = sqrt((x - 640) * (x - 640) + (y - 360) * (y - 360));
+	int length = sqrt((x) * (x) + (y) * (y));
 
 	float innerProduct = (x - 640 * baseVec.x) + (y - 360 * baseVec.y);
 	float angle = acos(innerProduct / (length * baseVec.length));
