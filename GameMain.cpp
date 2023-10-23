@@ -15,11 +15,6 @@ GameMain::~GameMain()
 
 Scene* GameMain::update()
 {
-	InputCtrl::Update();
-	if (InputCtrl::GetKeyState(KEY_INPUT_B))
-	{
-		return new Title;
-	}
 	return this;
 }
 

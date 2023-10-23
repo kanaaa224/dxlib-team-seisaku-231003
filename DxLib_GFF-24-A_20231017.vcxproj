@@ -35,7 +35,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Credit.h" />
+    <ClInclude Include="End.h" />
     <ClInclude Include="GameMain.h" />
+    <ClInclude Include="Help.h" />
     <ClInclude Include="SourceFiles\scene.h" />
     <ClInclude Include="SourceFiles\fpsCtrl.h" />
     <ClInclude Include="SourceFiles\inputCtrl.h" />
@@ -45,7 +48,10 @@
     <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="End.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Help.cpp" />
     <ClCompile Include="SourceFiles\fpsCtrl.cpp" />
     <ClCompile Include="SourceFiles\inputCtrl.cpp" />
     <ClCompile Include="SourceFiles\main.cpp" />

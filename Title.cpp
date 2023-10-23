@@ -2,6 +2,9 @@
 #include "Title.h"
 #include "GameMain.h"
 #include "sourceFiles/inputCtrl.h"
+#include "Help.h"
+#include "Credit.h"
+#include "End.h"
 
 //コンストラクタ
 Title::Title()
@@ -11,6 +14,8 @@ Title::Title()
 	EnemyImage2 = LoadGraph("resources/images/(仮)スライム.png");
 	EnemyImage3 = LoadGraph("resources/images/(仮)ミノタウロス.png");
 	EnemyImage4 = LoadGraph("resources/images/(仮)まおう.png");
+
+	g_MenuNumber = 0;
 }
 
 //デストラクタ
@@ -25,7 +30,28 @@ Scene*Title::update()
 	InputCtrl::Update();
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
-		return new GameMain;
+		if (g_MenuNumber == 0) {
+			return new GameMain;
+		}
+		if (g_MenuNumber == 1) {
+			return new Help;
+		}
+		if (g_MenuNumber == 2) {
+			return new Credit;
+		}
+		if (g_MenuNumber == 3) {
+			return new End;
+		}
+		//十字キー下ボタンでカーソルを下に移動
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN))
+		{
+			if (++g_MenuNumber > 4)g_MenuNumber = 0;
+		}
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP))
+		{
+			if (--g_MenuNumber < 0)g_MenuNumber = 4;
+		}
+		g_Menu = g_MenuNumber * 52;
 	}
 	return this;
 }
@@ -39,4 +65,7 @@ void Title::draw() const
 	DrawString(470, 370, "Help", 0xffffff);
 	DrawString(470, 440, "Credit", 0xffffff);
 	DrawString(470, 510, "End", 0xffffff);
+
+	//メニューカーソル（三角形）の表示
+	DrawTriangle(430, 300 + g_Menu, 450, 325 + g_Menu, 430, 340 + g_Menu, 0xffffff, TRUE);
 }

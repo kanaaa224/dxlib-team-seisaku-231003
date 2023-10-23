@@ -38,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="Title.h" />
     <ClInclude Include="GameMain.h" />
+    <ClInclude Include="Help.h" />
+    <ClInclude Include="Credit.h" />
+    <ClInclude Include="End.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceFiles\scene_debug.cpp">
@@ -57,5 +60,8 @@
     </ClCompile>
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Help.cpp" />
+    <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="End.cpp" />
   </ItemGroup>
 </Project>
