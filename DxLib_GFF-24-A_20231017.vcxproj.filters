@@ -21,51 +21,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceFiles\scene.h">
+    <ClInclude Include="scene.h">
       <Filter>シーンマネージャー</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\sceneManager.h">
+    <ClInclude Include="sceneManager.h">
       <Filter>シーンマネージャー</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\inputCtrl.h">
+    <ClInclude Include="inputCtrl.h">
       <Filter>インプットコントローラー</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\fpsCtrl.h">
+    <ClInclude Include="fpsCtrl.h">
       <Filter>FPSコントローラー</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\scene_debug.h">
+    <ClInclude Include="scene_debug.h">
       <Filter>シーン</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\main.h">
+    <ClInclude Include="main.h">
       <Filter>メイン</Filter>
     </ClInclude>
-    <ClInclude Include="sourceFiles\game_ui.h">
+    <ClInclude Include="game_ui.h">
       <Filter>ゲーム処理</Filter>
     </ClInclude>
-    <ClInclude Include="sourceFiles\scene_game.h">
+    <ClInclude Include="scene_game.h">
       <Filter>シーン</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceFiles\scene_debug.cpp">
+    <ClCompile Include="scene_debug.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\sceneManager.cpp">
+    <ClCompile Include="sceneManager.cpp">
       <Filter>シーンマネージャー</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\inputCtrl.cpp">
+    <ClCompile Include="inputCtrl.cpp">
       <Filter>インプットコントローラー</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\fpsCtrl.cpp">
+    <ClCompile Include="fpsCtrl.cpp">
       <Filter>FPSコントローラー</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>メイン</Filter>
     </ClCompile>
-    <ClCompile Include="sourceFiles\game_ui.cpp">
+    <ClCompile Include="game_ui.cpp">
       <Filter>ゲーム処理</Filter>
     </ClCompile>
-    <ClCompile Include="sourceFiles\scene_game.cpp">
+    <ClCompile Include="scene_game.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
   </ItemGroup>

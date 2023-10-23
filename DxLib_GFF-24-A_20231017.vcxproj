@@ -35,23 +35,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sourceFiles\game_ui.h" />
-    <ClInclude Include="SourceFiles\scene.h" />
-    <ClInclude Include="SourceFiles\fpsCtrl.h" />
-    <ClInclude Include="SourceFiles\inputCtrl.h" />
-    <ClInclude Include="SourceFiles\main.h" />
-    <ClInclude Include="SourceFiles\sceneManager.h" />
-    <ClInclude Include="SourceFiles\scene_debug.h" />
-    <ClInclude Include="sourceFiles\scene_game.h" />
+    <ClInclude Include="game_ui.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="fpsCtrl.h" />
+    <ClInclude Include="inputCtrl.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="scene_debug.h" />
+    <ClInclude Include="scene_game.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceFiles\fpsCtrl.cpp" />
-    <ClCompile Include="sourceFiles\game_ui.cpp" />
-    <ClCompile Include="SourceFiles\inputCtrl.cpp" />
-    <ClCompile Include="SourceFiles\main.cpp" />
-    <ClCompile Include="SourceFiles\sceneManager.cpp" />
-    <ClCompile Include="SourceFiles\scene_debug.cpp" />
-    <ClCompile Include="sourceFiles\scene_game.cpp" />
+    <ClCompile Include="fpsCtrl.cpp" />
+    <ClCompile Include="game_ui.cpp" />
+    <ClCompile Include="inputCtrl.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="scene_debug.cpp" />
+    <ClCompile Include="scene_game.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
