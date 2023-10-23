@@ -2,7 +2,7 @@
 
 // 開始
 int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR LpCmdLine, _In_ int NCmdShow) {
-	SetOutApplicationLogValidFlag(FALSE);          // DxLib の Log.txt 自動生成をしない
+	//SetOutApplicationLogValidFlag(FALSE);          // DxLib の Log.txt 自動生成をしない
 	SetMainWindowText(APP_NAME);                   // ウィンドウタイトルを設定
 	SetMainWindowClassName(APP_NAME);              // 他のDxLibと競合しないようにウィンドウクラスを設定
 	ChangeWindowMode(TRUE);                        // ウインドウモードで起動
