@@ -15,16 +15,7 @@ void GameUI::init() {
 };
 
 void GameUI::update(GameScene* gameScene) {
-	score = gameScene->getScore();
-	level = 0;
-	floor = 0;
-	hp = 0;
-	exp = 0;
-	enemy = 0;
-	weapon = 0;
-
-	//timeLeft = _timeLeft;
-	//mode     = _mode;
+	//score = gameScene->getScore();
 };
 
 void GameUI::draw() const {

@@ -10,15 +10,13 @@ class GameScene : public Scene {
 private:
 	int state, frameCounter;
 
-	int score, stock, nowStage;
-
-	int img_background; // 仮
-
-	//////////////////////////////////////////////////
-
 	//Player* player;
 
 	GameUI* gameUI;
+
+	//////////////////////////////////////////////////
+
+	int img_background; // 仮
 
 public:
 	GameScene();
@@ -31,25 +29,7 @@ public:
 
 	//////////////////////////////////////////////////
 
-	int getScore() {
-		return score;
+	int getState() {
+		return state;
 	};
-
-	int getStock() {
-		return stock;
-	};
-
-	int getNowStage() {
-		return nowStage;
-	};
-
-	//////////////////////////////////////////////////
-
-	void setStock(int Stock) {
-		stock = Stock;
-	};
-
-	//////////////////////////////////////////////////
-
-	//void spawnBullet(Collider* _collider, float _angle, int _speed, int _shooter);
 };
