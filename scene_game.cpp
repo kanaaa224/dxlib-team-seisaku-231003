@@ -10,7 +10,7 @@ GameScene::GameScene() {
 
 	/*player = new Player;*/
 
-	stage = new Stage;
+	//stage = new Stage;
 	gameUI = new GameUI;
 
 	//////////////////////////////////////////////////
@@ -21,7 +21,7 @@ GameScene::GameScene() {
 GameScene::~GameScene() {
 	//delete player;
 
-	delete stage;
+	//delete stage;
 	delete gameUI;
 
 	//////////////////////////////////////////////////
@@ -51,7 +51,7 @@ Scene* GameScene::update() {
 
 	//player->update(this);
 
-	stage->update(this);
+	//stage->update(this);
 	gameUI->update(this);
 
 	return this;
@@ -72,6 +72,6 @@ void GameScene::draw() const {
 
 	//player->draw();
 	
-	stage->draw();
+	//stage->draw();
 	//gameUI->draw();
 };
