@@ -24,11 +24,12 @@ weapon::~weapon()
 void weapon::Update()
 {
 	//debug
-	int x = InputCtrl::GetMouseCursor().x;
-	int y = InputCtrl::GetMouseCursor().y;
-	int length = sqrt((x) * (x) + (y) * (y));
+	//x y length　にはプレイヤーとカーソルのベクトルを入れる
+	float x = InputCtrl::GetMouseCursor().x - 640;
+	float y = InputCtrl::GetMouseCursor().y - 360;
+	float length = sqrt((x) * (x) + (y) * (y));
 
-	float innerProduct = (x - 640 * baseVec.x) + (y - 360 * baseVec.y);
+	float innerProduct = ((x) * baseVec.x) + ((y) * baseVec.y);
 	float angle = acos(innerProduct / (length * baseVec.length));
 	if (y > 0) {
 		angle = (M_PI - angle);
@@ -54,9 +55,12 @@ void weapon::Draw() const
 	int y = InputCtrl::GetMouseCursor().y;
 
 	DrawFormatString(0, 0, 0xffffff, "%d", x);
-	DrawFormatString(0, 30, 0xffffff, "%f", collisionX);
-	DrawFormatString(0, 60, 0xffffff, "%f", collisionY);
+	DrawFormatString(0, 30, 0xffffff, "%f", baseVec.x);
+	DrawFormatString(0, 60, 0xffffff, "%f", baseVec.y);
+	DrawFormatString(0, 90, 0xffffff, "%f", rot);
 	DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+	DrawCircle(640, 360, 3, 0xff0000, TRUE);
+	DrawLine(640, 360, collisionX, collisionY, 0xffffff);
 	
 }
 
