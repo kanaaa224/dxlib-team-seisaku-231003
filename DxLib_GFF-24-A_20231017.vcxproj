@@ -43,6 +43,7 @@
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="scene_debug.h" />
     <ClInclude Include="scene_game.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fpsCtrl.cpp" />
@@ -52,6 +53,7 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_game.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
