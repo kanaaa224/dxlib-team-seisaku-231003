@@ -82,12 +82,12 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>敵</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>プレイヤー</Filter>
+    </ClInclude>
     <ClInclude Include="map.h" />
     <ClInclude Include="scene_load.h">
       <Filter>シーン</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>プレイヤー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,12 +130,12 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>敵</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>プレイヤー</Filter>
+    </ClCompile>
     <ClCompile Include="map.cpp" />
     <ClCompile Include="scene_load.cpp">
       <Filter>シーン</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>プレイヤー</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

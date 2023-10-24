@@ -6,6 +6,7 @@
 
 #include "scene.h"
 #include "Stage.h"
+#include "weapon.h"
 #include "Player.h"
 #include "Slime.h"
 #include "Common.h"
@@ -16,6 +17,7 @@ private:
 
 	Player* player;
 	Stage* backimg;
+	weapon* Weapon;
 	GameUI* gameUI;
 
 	//////////////////////////////////////////////////

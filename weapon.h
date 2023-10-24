@@ -48,12 +48,17 @@ private:
 	int maxCoolTime;  //クールタイムの値
 	bool isAttacking;	//攻撃中かどうか
 	int damage;
+
+
+
+
+	float tmp, tmp1;
 public:
 	weapon();
 	weapon(int type);
 	~weapon();
 
-	void Update();
+	void Update(float cursorX, float cursorY);
 	void Draw() const;
 
 	void SetWeaponType(int type);
