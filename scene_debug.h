@@ -8,18 +8,14 @@
 
 class DebugScene : public Scene {
 private:
-	int state = 0; // 状態
+	int state;
 
 public:
-	DebugScene() {
-		state = 0;
-	};
+	DebugScene();
 
-	~DebugScene() {};
+	~DebugScene();
 
 	virtual Scene* update() override;
 
 	virtual void draw() const override;
-
-	//////////////////////////////////////////////////
 };

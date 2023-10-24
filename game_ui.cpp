@@ -4,6 +4,16 @@
 //////////////////////////////////////////////////
 #include "main.h"
 
+GameUI::GameUI() {
+	//LoadGraph();
+
+	init();
+};
+
+GameUI::~GameUI() {
+	//DeleteGraph();
+};
+
 void GameUI::init() {
 	state = 0;
 	frameCounter = 0;

@@ -1,4 +1,15 @@
 #pragma once
+#define INIT_COOLTIME_SWORD  150
+#define INIT_COOLTIME_DAGGER  60
+#define INIT_COOLTIME_GREATSWORD  300
+
+#define INIT_ROTATION_SWORD  60.0f
+#define INIT_ROTATION_DAGGER  60.0f
+#define INIT_ROTATION_GREATSWORD  90.0f
+
+#define INIT_DAMAGE_SWORD  7
+#define INIT_DAMAGE_DAGGER  4
+#define INIT_DAMAGE_GREATSWORD  25
 
 struct Vector
 {
@@ -20,7 +31,8 @@ enum weapontype
 class weapon {
 private:
 	int weaponType;
-
+	int weaponLevel;
+	bool levelUpFlg;
 
 
 	Vector weaponVec;
@@ -32,17 +44,30 @@ private:
 	float relativeRot;		//プレイヤーのベクトルを中心とした回転
 	float maxRot;			//最大どれくらい回転するか
 
-	int coolTime;	//クールタイム
+	int coolTime;	//クールタイムを計算する変数
+	int maxCoolTime;  //クールタイムの値
 	bool isAttacking;	//攻撃中かどうか
+	int damage;
 
+
+
+
+	float tmp, tmp1;
 public:
 	weapon();
 	weapon(int type);
 	~weapon();
 
-	void Update();
+	void Update(float cursorX, float cursorY);
 	void Draw() const;
 
 	void SetWeaponType(int type);
+
+	void LevelUpDebug(int num);
+	void LevelState();
+
+
+
+	bool GetLevelUpFlg() { return levelUpFlg; }
 };
 

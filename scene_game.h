@@ -5,6 +5,9 @@
 #pragma once
 
 #include "scene.h"
+#include "Stage.h"
+#include "weapon.h"
+#include "Player.h"
 #include "Slime.h"
 #include "Common.h"
 #include"scene_weapon.h"
@@ -13,8 +16,9 @@ class GameScene : public Scene {
 private:
 	int state, frameCounter;
 
-	//Player* player;
-
+	Player* player;
+	Stage* backimg;
+	weapon* Weapon;
 	GameUI* gameUI;
 
 	weapon* _weapon;

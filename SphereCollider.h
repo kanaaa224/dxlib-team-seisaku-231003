@@ -1,6 +1,6 @@
 #pragma once
 #include "DxLib.h"
-#include"weapon.h"
+#include "weapon.h"
 
 struct Location
 {

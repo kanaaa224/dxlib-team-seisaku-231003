@@ -40,6 +40,7 @@
     <ClInclude Include="game_ui.h" />
     <ClInclude Include="kitamura_test.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="fpsCtrl.h" />
     <ClInclude Include="inputCtrl.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="scene_weapon.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="scene_load.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyBase.cpp" />
@@ -61,6 +63,7 @@
     <ClCompile Include="kitamura_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_game.cpp" />
@@ -69,6 +72,7 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="scene_weapon.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="scene_load.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
