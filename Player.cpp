@@ -67,12 +67,12 @@ void Player::draw()const {
 
 int Player::Player_AimingX() {
 
-	return AimingY;
+	return AimingX;
 
 }
 
 int Player::Player_AimingY() {
 
-	return AimingX;
+	return AimingY;
 
 }

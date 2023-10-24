@@ -8,20 +8,20 @@
 
 class LoadScene : public Scene {
 private:
-	int state = 0; // 状態
+	int state, frameCounter;
+
+	float progress;     // 読み込み進捗
+	float opacity;      // 不透明度
+
+	int img_background; // 背景
+	int img_cat;        // キャラクター
 
 public:
-	LoadScene() {
-		state = 0;
-	};
+	LoadScene();
 
-	~LoadScene() {};
-
-	//////////////////////////////////////////////////
+	~LoadScene();
 
 	virtual Scene* update() override;
 
 	virtual void draw() const override;
-
-	//////////////////////////////////////////////////
 };

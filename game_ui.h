@@ -12,17 +12,9 @@ private:
 	std::map<std::string, int> weapon;
 
 public:
-	GameUI() {
-		//LoadGraph();
+	GameUI();
 
-		init();
-	};
-
-	~GameUI() {
-		//DeleteGraph();
-	};
-
-	//////////////////////////////////////////////////
+	~GameUI();
 
 	void update(GameScene* gameScene);
 

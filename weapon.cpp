@@ -45,12 +45,18 @@ weapon::~weapon()
 {
 }
 
-void weapon::Update()
+void weapon::Update(float cursorX, float cursorY)
 {
 	//debug
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
-	float x = InputCtrl::GetMouseCursor().x - 640;
-	float y = InputCtrl::GetMouseCursor().y - 360;
+	/*float x = InputCtrl::GetMouseCursor().x - 640;
+	float y = InputCtrl::GetMouseCursor().y - 360;*/
+
+	tmp = cursorX;
+	tmp1 = cursorY;
+
+	float x = cursorX - 640;
+	float y = cursorY - 360;
 	float length = sqrt((x) * (x) + (y) * (y));
 
 	float innerProduct = ((x) * baseVec.x) + ((y) * baseVec.y);
@@ -150,6 +156,8 @@ void weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
 	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);
+	DrawFormatString(0, 180, 0xffffff, "カーソルX %f", tmp);
+	DrawFormatString(0, 210, 0xffffff, "カーソルY %f", tmp1);
 
 
 
