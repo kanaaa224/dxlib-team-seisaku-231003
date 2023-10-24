@@ -1,20 +1,21 @@
 #pragma once
 
-class Stage {
+class Player
+{
 
 private:
-	int StageX;
-	int StageY;
-	int StageImg;
+	int PlayerImg;
+
+	int PlayerX;
+	int PlayerY;
 
 public:
-	Stage();
-	~Stage();
+
+	Player();
+	~Player();
 
 	void update(GameScene* gameScene);
 
 	//•`‰æˆ—
 	void draw() const;
-
-
 };

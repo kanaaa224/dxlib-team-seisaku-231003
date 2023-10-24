@@ -8,23 +8,24 @@ GameScene::GameScene() {
 	state = 0;
 	frameCounter = 0;
 
-	/*player = new Player;*/
-
+	player = new Player;
+	backimg = new Stage;
 	gameUI = new GameUI;
 
 	//////////////////////////////////////////////////
 
-	img_background = LoadGraph("./resources/images/background.png"); // 仮
+	//img_background = LoadGraph("./resources/images/background.png"); // 仮
 };
 
 GameScene::~GameScene() {
-	//delete player;
 
+	delete player;
+	delete backimg;
 	delete gameUI;
 
 	//////////////////////////////////////////////////
 
-	DeleteGraph(img_background); // 仮
+	//DeleteGraph(img_background); // 仮
 };
 
 Scene* GameScene::update() {
@@ -49,13 +50,20 @@ Scene* GameScene::update() {
 
 	//player->update(this);
 
+	//stage->update(this);
 	gameUI->update(this);
 
 	return this;
 };
 
 void GameScene::draw() const {
-	DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
+	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
+
+	
+
+	backimg->draw();
+
+	player->draw();
 
 	//敵//
 	if (stage == 1) {
@@ -66,8 +74,5 @@ void GameScene::draw() const {
 		}
 	}
 	////////////
-
-	//player->draw();
-
-	gameUI->draw();
+	//gameUI->draw();
 };
