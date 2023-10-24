@@ -81,6 +81,7 @@
       <Filter>敵</Filter>
 
     </ClInclude>
+    <ClInclude Include="map.h" />
     <ClInclude Include="scene_weapon.h">
       <Filter>シーン</Filter>
     </ClInclude>
@@ -130,5 +131,6 @@
     <ClCompile Include="scene_weapon.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
+    <ClCompile Include="map.cpp" />
   </ItemGroup>
 </Project>
