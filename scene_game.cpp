@@ -71,20 +71,18 @@ Scene* GameScene::update() {
 void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
-	
-
 	//backimg->draw();
 	Weapon->Draw();
 	player->draw();
 
 	//敵//
-	if (stage == 1) {
+	/*if (stage == 1) {
 		for (int i = 0; i < MAX_SLIME_NUM; i++) {
 			if (slime[i] != nullptr) {
 				slime[i]->Draw();
 			}
 		}
-	}
+	}*/
 	////////////
 	//gameUI->draw();
 };
