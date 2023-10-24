@@ -81,6 +81,7 @@
       <Filter>敵</Filter>
 
     </ClInclude>
+    <ClInclude Include="map.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -124,5 +125,6 @@
       <Filter>敵</Filter>
 
     </ClCompile>
+    <ClCompile Include="map.cpp" />
   </ItemGroup>
 </Project>
