@@ -14,12 +14,13 @@ Scene* kitamura_test::update()
             wp.SetWeaponType(greatSword);
         }
     }
-    wp.Update();
-
+    wp.Update(p.Player_AimingX(), p.Player_AimingY());
+    p.update();
     return this;
 }
 
 void kitamura_test::draw() const
 {
+    p.draw();
     wp.Draw();
 }

@@ -61,7 +61,7 @@ Scene* GameScene::update() {
 	////////////
 
 	player->update();
-	Weapon->Update();
+	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
 	//stage->update(this);
 	gameUI->update(this);
 
