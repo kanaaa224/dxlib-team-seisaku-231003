@@ -16,7 +16,8 @@ Scene* DebugScene::update() {
 	     if (InputCtrl::GetKeyState(KEY_INPUT_UP)   == PRESS) state++;
 	else if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) state--;
 		 
-	if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) return new GameScene();
+		 if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS)   return new GameScene();
+		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) return new GameScene();
 
 	return this;
 };
@@ -166,12 +167,12 @@ void DebugScene::draw() const {
 	x -= 20;
 
 	y += 30;
-	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: %d - %d", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
+	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: %.1f - %.1f", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
 
 	x -= 20;
 
 	//////////////////////////////////////////////////
 
 	y += 50;
-	DrawFormatString(x, y, 0xffffff, "Enterキー で仮のゲームメインシーンへ");
+	DrawFormatString(x, y, 0xffffff, "Enterキー/Bボタン で仮のゲームメインシーンへ");
 };
