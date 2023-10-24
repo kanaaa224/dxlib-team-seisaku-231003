@@ -5,6 +5,8 @@
 #pragma once
 
 #include "scene.h"
+#include "Stage.h"
+#include "Player.h"
 #include "Slime.h"
 #include "Common.h"
 
@@ -12,8 +14,8 @@ class GameScene : public Scene {
 private:
 	int state, frameCounter;
 
-	//Player* player;
-
+	Player* player;
+	Stage* backimg;
 	GameUI* gameUI;
 
 	//////////////////////////////////////////////////

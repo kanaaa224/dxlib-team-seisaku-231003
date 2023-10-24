@@ -28,6 +28,9 @@
     <Filter Include="敵">
       <UniqueIdentifier>{398ca3f0-f89d-4600-bab8-dcf41ef29e5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="プレイヤー">
+      <UniqueIdentifier>{c6e4017d-34bc-4052-9cea-cc5bf98c8a0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -69,6 +72,9 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>敵</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>プレイヤー</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -103,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>敵</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>プレイヤー</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
