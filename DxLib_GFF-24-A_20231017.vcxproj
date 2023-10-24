@@ -38,6 +38,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="game_ui.h" />
+    <ClInclude Include="kitamura_test.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="fpsCtrl.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="scene_debug.h" />
     <ClInclude Include="scene_game.h" />
+    <ClInclude Include="weapon.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Stage.h" />
@@ -55,11 +57,13 @@
     <ClCompile Include="fpsCtrl.cpp" />
     <ClCompile Include="game_ui.cpp" />
     <ClCompile Include="inputCtrl.cpp" />
+    <ClCompile Include="kitamura_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_game.cpp" />
+    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Stage.cpp" />

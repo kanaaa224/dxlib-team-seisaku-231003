@@ -22,6 +22,10 @@
     <Filter Include="ゲーム処理\ゲームUI / プレイヤーUI">
       <UniqueIdentifier>{7a2d1699-2d3b-421b-9774-2d99ec39e015}</UniqueIdentifier>
     </Filter>
+
+    <Filter Include="weapon">
+      <UniqueIdentifier>{b6f9855e-5c43-4fec-80a0-add291ac6a53}</UniqueIdentifier>
+	</Filter>
     <Filter Include="ステージ">
       <UniqueIdentifier>{a0003b8f-e6a4-41fd-9fff-4fc9c0429512}</UniqueIdentifier>
     </Filter>
@@ -57,6 +61,13 @@
     <ClInclude Include="game_ui.h">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClInclude>
+
+    <ClInclude Include="kitamura_test.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>weapon</Filter>
+	</ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ステージ</Filter>
     </ClInclude>
@@ -71,6 +82,7 @@
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
       <Filter>敵</Filter>
+
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>プレイヤー</Filter>
@@ -98,6 +110,13 @@
     <ClCompile Include="game_ui.cpp">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClCompile>
+
+    <ClCompile Include="kitamura_test.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>weapon</Filter>
+	</ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ステージ</Filter>
     </ClCompile>
@@ -109,6 +128,7 @@
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>敵</Filter>
+
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>プレイヤー</Filter>
