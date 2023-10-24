@@ -21,8 +21,6 @@ private:
 	weapon* Weapon;
 	GameUI* gameUI;
 
-	weapon* _weapon;
-
 	//////////////////////////////////////////////////
 
 	int img_background; // 仮
