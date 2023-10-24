@@ -44,11 +44,11 @@ Scene*Title::update()
 	}
 
 	//十字キー下ボタンでカーソルを下に移動
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).x)
 	{
 		if (++g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).x)
 	{
 		if (--g_MenuNumber < 0)g_MenuNumber = 3;
 	}

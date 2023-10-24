@@ -18,5 +18,7 @@ Scene* End::update()
 
 void End::draw()const
 {
-
+	DrawBox(0, 0, 1280, 720, 0xffffff, TRUE);
+	SetFontSize(100);
+	DrawString(100, 300, "Thank you", 0x000000);
 }
