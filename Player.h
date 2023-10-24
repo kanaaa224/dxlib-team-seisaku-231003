@@ -9,13 +9,19 @@ private:
 	int PlayerX;
 	int PlayerY;
 
+	float Provisional_LStickX;
+	float Provisional_LStickY;
+
 public:
 
 	Player();
 	~Player();
 
-	void update(GameScene* gameScene);
+	void update();
 
 	//•`‰æˆ—
 	void draw() const;
+
+	int Player_LStickY();
+	int Player_LStickX();
 };

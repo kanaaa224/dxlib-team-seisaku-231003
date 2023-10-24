@@ -10,6 +10,7 @@ GameScene::GameScene() {
 
 	player = new Player;
 	backimg = new Stage;
+	Weapon = new weapon;
 	gameUI = new GameUI;
 
 	//////////////////////////////////////////////////
@@ -21,6 +22,7 @@ GameScene::~GameScene() {
 
 	delete player;
 	delete backimg;
+	delete Weapon;
 	delete gameUI;
 
 	//////////////////////////////////////////////////
@@ -46,10 +48,20 @@ Scene* GameScene::update() {
 			}
 		}
 	}
+
+	if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
+		Weapon->SetWeaponType(sword);
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
+		Weapon->SetWeaponType(dagger);
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
+		Weapon->SetWeaponType(greatSword);
+	}
 	////////////
 
-	//player->update(this);
-
+	player->update();
+	Weapon->Update();
 	//stage->update(this);
 	gameUI->update(this);
 
@@ -61,8 +73,8 @@ void GameScene::draw() const {
 
 	
 
-	backimg->draw();
-
+	//backimg->draw();
+	Weapon->Draw();
 	player->draw();
 
 	//敵//
