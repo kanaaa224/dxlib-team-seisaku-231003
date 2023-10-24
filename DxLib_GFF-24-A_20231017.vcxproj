@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game_ui.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="fpsCtrl.h" />
     <ClInclude Include="inputCtrl.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="game_ui.cpp" />
     <ClCompile Include="inputCtrl.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_game.cpp" />
