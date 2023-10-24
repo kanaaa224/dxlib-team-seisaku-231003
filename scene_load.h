@@ -1,21 +1,21 @@
 ﻿//////////////////////////////////////////////////
-// デバッグ シーン
+// ロード シーン
 // 作成：島袋
 //////////////////////////////////////////////////
 #pragma once
 
 #include "scene.h"
 
-class DebugScene : public Scene {
+class LoadScene : public Scene {
 private:
 	int state = 0; // 状態
 
 public:
-	DebugScene() {
+	LoadScene() {
 		state = 0;
 	};
 
-	~DebugScene() {};
+	~LoadScene() {};
 
 	//////////////////////////////////////////////////
 

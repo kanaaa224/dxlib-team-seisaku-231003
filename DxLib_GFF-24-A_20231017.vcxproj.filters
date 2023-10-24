@@ -48,6 +48,9 @@
     <ClInclude Include="game_ui.h">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClInclude>
+    <ClInclude Include="scene_load.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="game_ui.cpp">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_load.cpp">
+      <Filter>シーン</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

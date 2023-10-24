@@ -50,3 +50,4 @@ class GameScene;
 //#include "scene_title.h"
 #include "scene_game.h"
 //#include "scene_result.h"
+#include "scene_load.h"
