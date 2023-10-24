@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "Slime.h"
 #include "Common.h"
+#include"scene_weapon.h"
 
 class GameScene : public Scene {
 private:
@@ -16,6 +17,8 @@ private:
 
 	GameUI* gameUI;
 
+	weapon* _weapon;
+
 	//////////////////////////////////////////////////
 
 	int img_background; // 仮
@@ -23,9 +26,15 @@ private:
 	//敵//
 	Slime* slime[MAX_SLIME_NUM];
 	int tmpSlimeNum = 0;
+
+	//シーン
+	Weapon_Selection* weapon_selection;
+
 	//////////
 
 	int stage = 1;//ステージ
+
+	bool is_weapon_selct;
 
 public:
 	GameScene();
