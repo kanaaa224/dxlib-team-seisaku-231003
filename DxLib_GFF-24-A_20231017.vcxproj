@@ -61,8 +61,10 @@
     <ClCompile Include="inputCtrl.cpp" />
     <ClCompile Include="kitamura_test.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="map.cpp" />
+>>>>>>>>> Temporary merge branch 2
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_game.cpp" />
