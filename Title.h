@@ -13,7 +13,7 @@ private:
 	int EnemyImage4;
 
 	int g_MenuNumber;
-	int g_Menu;
+	int g_MenuY;
 
 public:
 	Title();

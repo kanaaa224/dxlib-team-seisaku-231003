@@ -14,7 +14,6 @@ Title::Title()
 	EnemyImage2 = LoadGraph("resources/images/(仮)スライム.png");
 	EnemyImage3 = LoadGraph("resources/images/(仮)ミノタウロス.png");
 	EnemyImage4 = LoadGraph("resources/images/(仮)まおう.png");
-
 	g_MenuNumber = 0;
 }
 
@@ -42,17 +41,19 @@ Scene*Title::update()
 		if (g_MenuNumber == 3) {
 			return new End;
 		}
-		//十字キー下ボタンでカーソルを下に移動
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN))
-		{
-			if (++g_MenuNumber > 4)g_MenuNumber = 0;
-		}
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP))
-		{
-			if (--g_MenuNumber < 0)g_MenuNumber = 4;
-		}
-		g_Menu = g_MenuNumber * 52;
 	}
+
+	//十字キー下ボタンでカーソルを下に移動
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS)
+	{
+		if (++g_MenuNumber > 3)g_MenuNumber = 0;
+	}
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
+	{
+		if (--g_MenuNumber < 0)g_MenuNumber = 3;
+	}
+	g_MenuY = g_MenuNumber * 65;
+
 	return this;
 }
 
@@ -66,6 +67,6 @@ void Title::draw() const
 	DrawString(470, 440, "Credit", 0xffffff);
 	DrawString(470, 510, "End", 0xffffff);
 
-	//メニューカーソル（三角形）の表示
-	DrawTriangle(430, 300 + g_Menu, 450, 325 + g_Menu, 430, 340 + g_Menu, 0xffffff, TRUE);
+	DrawTriangle(420, 315 + g_MenuY, 460, 345 + g_MenuY, 420, 375 + g_MenuY, 0xff0000, TRUE);
+
 }
