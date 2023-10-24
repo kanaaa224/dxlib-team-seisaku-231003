@@ -61,13 +61,12 @@
     <ClInclude Include="game_ui.h">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClInclude>
-
     <ClInclude Include="kitamura_test.h">
       <Filter>シーン</Filter>
     </ClInclude>
     <ClInclude Include="weapon.h">
       <Filter>weapon</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ステージ</Filter>
     </ClInclude>
@@ -82,12 +81,14 @@
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
       <Filter>敵</Filter>
-
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>プレイヤー</Filter>
     </ClInclude>
     <ClInclude Include="map.h" />
+    <ClInclude Include="scene_load.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -111,13 +112,12 @@
     <ClCompile Include="game_ui.cpp">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClCompile>
-
     <ClCompile Include="kitamura_test.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
     <ClCompile Include="weapon.cpp">
       <Filter>weapon</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ステージ</Filter>
     </ClCompile>
@@ -129,11 +129,13 @@
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>敵</Filter>
-
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>プレイヤー</Filter>
     </ClCompile>
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="scene_load.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

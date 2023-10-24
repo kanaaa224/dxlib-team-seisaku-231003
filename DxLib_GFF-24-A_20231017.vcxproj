@@ -52,6 +52,7 @@
     <ClInclude Include="Slime.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="scene_load.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyBase.cpp" />
@@ -69,6 +70,7 @@
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="scene_load.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
