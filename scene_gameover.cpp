@@ -34,6 +34,9 @@ void GameOverScene::draw() const
 	DrawFormatString(0, 0, 0xffffff, "GameOver");
 #endif
 
+	// îwåiêF
+	DrawBox(0, 0, 1280, 720, 0x646464, TRUE);
+
 	// âÊëúï\é¶
 	DrawGraph(0, 0, img_gameover, TRUE);
 	DrawGraph(1000, 600, img_button_a, TRUE);

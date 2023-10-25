@@ -32,6 +32,10 @@ void GameClearScene::draw() const
 #ifdef _DEBUG
 	DrawFormatString(0, 0, 0xffffff, "GameClear");
 #endif
+
+	// îwåiêF
+	DrawBox(0, 0, 1280, 720, 0xfffaf0, TRUE);
+
 	// âÊëúï\é¶
 	DrawGraph(0, 0, img_gameclear, TRUE);
 	DrawGraph(1000, 600, img_button_a, TRUE);
