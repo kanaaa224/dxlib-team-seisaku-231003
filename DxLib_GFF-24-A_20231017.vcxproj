@@ -48,6 +48,9 @@
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="scene_debug.h" />
     <ClInclude Include="scene_game.h" />
+    <ClInclude Include="scene_gameclear.h" />
+    <ClInclude Include="scene_gameover.h" />
+    <ClInclude Include="scene_result.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -67,6 +70,9 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_game.cpp" />
+    <ClCompile Include="scene_gameclear.cpp" />
+    <ClCompile Include="scene_gameover.cpp" />
+    <ClCompile Include="scene_result.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
