@@ -29,6 +29,8 @@ void Player::update() {
 	Provisional_LStickX = InputCtrl::GetStickRatio(R).x;
 	Provisional_LStickY = InputCtrl::GetStickRatio(R).y;
 
+
+
 	//‰¡
 	if (Provisional_LStickX > MOVE_RIGHT) {
 
