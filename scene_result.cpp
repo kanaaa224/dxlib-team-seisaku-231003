@@ -15,7 +15,7 @@ Scene* ResultScene::update()
 {
 	// ƒ^ƒCƒgƒ‹‚Ö‘JˆÚ
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		//return new Title;
+		return new Title;
 	}
 
 	return this;

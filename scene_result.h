@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "inputCtrl.h"
 #include "scene.h"
+#include "scene_title.h"
 
 class ResultScene : public Scene
 {
