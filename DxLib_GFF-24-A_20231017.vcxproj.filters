@@ -28,14 +28,14 @@
     <Filter Include="ステージ">
       <UniqueIdentifier>{a0003b8f-e6a4-41fd-9fff-4fc9c0429512}</UniqueIdentifier>
     </Filter>
-    <Filter Include="敵">
-      <UniqueIdentifier>{398ca3f0-f89d-4600-bab8-dcf41ef29e5a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="プレイヤー">
       <UniqueIdentifier>{c6e4017d-34bc-4052-9cea-cc5bf98c8a0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="マップ">
       <UniqueIdentifier>{fe436a94-e38e-43fd-a920-ed4a64308cf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{398ca3f0-f89d-4600-bab8-dcf41ef29e5a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,16 +73,10 @@
       <Filter>ステージ</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
-      <Filter>敵</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBase.h">
-      <Filter>敵</Filter>
-    </ClInclude>
-    <ClInclude Include="Slime.h">
-      <Filter>敵</Filter>
+      <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>敵</Filter>
+      <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>プレイヤー</Filter>
@@ -117,6 +111,12 @@
     <ClInclude Include="scene_title.h">
       <Filter>シーン</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -149,14 +149,8 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ステージ</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.cpp">
-      <Filter>敵</Filter>
-    </ClCompile>
-    <ClCompile Include="Slime.cpp">
-      <Filter>敵</Filter>
-    </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>敵</Filter>
+      <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>プレイヤー</Filter>
@@ -190,6 +184,12 @@
     </ClCompile>
     <ClCompile Include="scene_title.cpp">
       <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

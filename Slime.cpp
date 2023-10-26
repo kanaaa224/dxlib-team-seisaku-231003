@@ -1,92 +1,36 @@
-ï»¿#include "Slime.h"
+#include "Slime.h"
 #include "Common.h"
 
 Slime::Slime()
 {
-	//ç”»åƒèª­è¾¼
-	img = LoadGraph("resources/images/slime_cat.png");
-	//å¤‰æ•°ã®åˆæœŸåŒ–
+	//‰æ‘œ“Ç
+	img = LoadGraph("Images/slime_cat.png");
+	//•Ï”‚Ì‰Šú‰»
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
 
-	//ãƒªã‚¹ãƒãƒ¼ãƒ³ãƒã‚¤ãƒ³ãƒˆæ±ºã‚
-	int tmp = GetRand(11);
-	if (tmp == 0) {
-		respawnPosition = 0;
-		location.x = POINT_0_X;
-		location.y = POINT_0_Y;
-	}
-	else if (tmp == 1) {
-		respawnPosition = 1;
-		location.x = POINT_1_X;
-		location.y = POINT_1_Y;
-	}
-	else if (tmp == 2) {
-		respawnPosition = 2;
-		location.x = POINT_2_X;
-		location.y = POINT_2_Y;
-	}
-	else if (tmp == 3) {
-		respawnPosition = 3;
-		location.x = POINT_3_X;
-		location.y = POINT_3_Y;
-	}
-	else if (tmp == 4) {
-		respawnPosition = 4;
-		location.x = POINT_4_X;
-		location.y = POINT_4_Y;
-	}
-	else if (tmp == 5) {
-		respawnPosition = 5;
-		location.x = POINT_5_X;
-		location.y = POINT_5_Y;
-	}
-	else if (tmp == 6) {
-		respawnPosition = 6;
-		location.x = POINT_6_X;
-		location.y = POINT_6_Y;
-	}
-	else if (tmp == 7) {
-		respawnPosition = 7;
-		location.x = POINT_7_X;
-		location.y = POINT_7_Y;
-	}
-	else if (tmp == 8) {
-		respawnPosition = 8;
-		location.x = POINT_8_X;
-		location.y = POINT_8_Y;
-	}
-	else if (tmp == 9) {
-		respawnPosition = 9;
-		location.x = POINT_9_X;
-		location.y = POINT_9_Y;
-	}
-	else if (tmp == 10) {
-		respawnPosition = 10;
-		location.x = POINT_10_X;
-		location.y = POINT_10_Y;
-	}
-	else if (tmp == 11) {
-		respawnPosition = 11;
-		location.x = POINT_11_X;
-		location.y = POINT_11_Y;
-	}
+	tmpVX = 0;
+	tmpVY = 0;
+
+	//ƒŠƒXƒ|[ƒ“ƒ|ƒCƒ“ƒgŒˆ‚ß
+	SetRespawnPoint();
 }
 
 void Slime::Update()
 {
-	//ç§»å‹•å‡¦ç†//
+	//ˆÚ“®ˆ—//
 	X();
 	location.x += vector.x;
+
 	Y();
 	location.y += vector.y;
 }
 
 void Slime::Draw()
 {
-	DrawGraph((int)location.x, (int)location.y, img, TRUE);
+	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 }
 
 void Slime::X()
@@ -97,4 +41,10 @@ void Slime::X()
 void Slime::Y()
 {
 	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+}
+
+int Slime::GetStageNum()
+{
+	int r = SLIME_1_STAGE_NUM;
+	return r;
 }

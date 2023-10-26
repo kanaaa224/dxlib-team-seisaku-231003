@@ -94,13 +94,13 @@ void GameScene::draw() const {
 	player->draw();
 
 	//敵//
-	/*if (stage == 1) {
+	if (stage == 1) {
 		for (int i = 0; i < MAX_SLIME_NUM; i++) {
 			if (slime[i] != nullptr) {
 				slime[i]->Draw();
 			}
 		}
-	}*/
+	}
 	////////////
 
 	//player->draw();

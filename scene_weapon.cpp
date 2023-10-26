@@ -47,7 +47,7 @@ void Weapon_Selection::update(weapon* _weapon, bool &flg)
 		}
 	}
 
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
 	{
 		if (cursor_num == 0)
 		{
