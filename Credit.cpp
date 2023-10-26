@@ -1,6 +1,7 @@
 #include "Credit.h"
 #include "DxLib.h"
 #include "Title.h"
+#include "sourceFiles/inputCtrl.h"
 
 Credit::Credit()
 {
@@ -14,6 +15,11 @@ Credit::~Credit()
 
 Scene* Credit::update()
 {
+	InputCtrl::Update();
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+	{
+		return new Title;
+	}
 	return this;
 }
 
