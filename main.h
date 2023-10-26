@@ -7,7 +7,6 @@
 #define SCREEN_HEIGHT 720  // 画面サイズ（高さ）
 #define SCREEN_FPS    60   // 起動時の最大FPS
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -51,4 +50,10 @@ class GameScene;
 //#include "scene_title.h"
 #include "scene_game.h"
 //#include "scene_result.h"
+#include "scene_load.h"
+
 #include "kitamura_test.h"
+
+#include "scene_gameclear.h"
+#include "scene_gameover.h"
+#include "../Title.h"

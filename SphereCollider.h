@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
+#include "weapon.h"
 
 struct Location
 {
@@ -7,11 +8,11 @@ struct Location
 	float y;
 };
 
-struct Vector
-{
-	float x;
-	float y;
-};
+//struct Vector
+//{
+//	float x;
+//	float y;
+//};
 
 struct DiffLocation
 {

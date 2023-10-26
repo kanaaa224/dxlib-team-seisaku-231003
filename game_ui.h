@@ -12,19 +12,9 @@ private:
 	std::map<std::string, int> weapon;
 
 public:
-	GameUI() {
-		//LoadGraph();
+	GameUI();
 
-		init();
-	};
-
-	~GameUI() {
-		//DeleteGraph();
-	};
-
-	//////////////////////////////////////////////////
-
-	void init();
+	~GameUI();
 
 	void update(GameScene* gameScene);
 
@@ -32,6 +22,11 @@ public:
 
 	//////////////////////////////////////////////////
 
+	// 初期化
+	void init();
+
+	//////////////////////////////////////////////////
+	
 	// 現在のスコア を描画
 	/* void drawScore() const;
 
