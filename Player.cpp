@@ -57,6 +57,8 @@ void Player::draw()const {
 
 	DrawFormatString(0, 300, GetColor(255, 255, 255), "LStick:ècé≤íl %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 320, GetColor(255, 255, 255), "LStick:â°é≤íl %0.1f", Provisional_LStickX);
+	//DrawFormatString(0, 380, GetColor(255, 255, 255), "RStick:ècé≤íl %0.1f", InputCtrl::GetStickState(R).x);
+	//DrawFormatString(0, 400, GetColor(255, 255, 255), "RStick:â°é≤íl %0.1f", InputCtrl::GetStickState(R).y);
 
 	//DrawGraph(0, 300, PlayerImg, TRUE);
 
