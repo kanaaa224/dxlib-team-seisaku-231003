@@ -4,7 +4,7 @@
 Slime::Slime()
 {
 	//‰æ‘œ“Ç
-	img = LoadGraph("Images/slime_cat.png");
+	img = LoadGraph("resources/images/slime_cat.png");
 	//•Ï”‚Ì‰Šú‰»
 	location.x = 0;
 	location.y = 0;
