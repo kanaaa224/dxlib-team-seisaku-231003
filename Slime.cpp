@@ -1,17 +1,17 @@
-#include "Slime.h"
+ï»¿#include "Slime.h"
 #include "Common.h"
 
 Slime::Slime()
 {
-	//‰æ‘œ“Ç
+	//ç”»åƒèª­è¾¼
 	img = LoadGraph("resources/images/slime_cat.png");
-	//•Ï”‚Ì‰Šú‰»
+	//å¤‰æ•°ã®åˆæœŸåŒ–
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
 
-	//ƒŠƒXƒ|[ƒ“ƒ|ƒCƒ“ƒgŒˆ‚ß
+	//ãƒªã‚¹ãƒãƒ¼ãƒ³ãƒã‚¤ãƒ³ãƒˆæ±ºã‚
 	int tmp = GetRand(11);
 	if (tmp == 0) {
 		respawnPosition = 0;
@@ -77,7 +77,7 @@ Slime::Slime()
 
 void Slime::Update()
 {
-	//ˆÚ“®ˆ—//
+	//ç§»å‹•å‡¦ç†//
 	X();
 	location.x += vector.x;
 	Y();

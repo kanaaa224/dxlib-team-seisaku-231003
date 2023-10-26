@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SphereCollider.h"
 
 class EnemyBase :public SphereCollider
@@ -6,20 +6,20 @@ class EnemyBase :public SphereCollider
 private:
 	
 protected:
-	int img;			//‰æ‘œŠi”[—p•Ï”
-	int hp;				//“G‚ÌHP
-	int damage;			//ƒvƒŒƒCƒ„[‚É—^‚¦‚éƒ_ƒ[ƒW
-	int damageStopCnt;	//ƒ_ƒ[ƒWƒXƒgƒbƒv—p‚ÌƒJƒEƒ“ƒg•Ï”
-	int respawnPosition;//ƒŠƒXƒ|[ƒ“‚·‚éêŠ
+	int img;			//ç”»åƒæ ¼ç´ç”¨å¤‰æ•°
+	int hp;				//æ•µã®HP
+	int damage;			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+	int damageStopCnt;	//ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¹ãƒˆãƒƒãƒ—ç”¨ã®ã‚«ã‚¦ãƒ³ãƒˆå¤‰æ•°
+	int respawnPosition;//ãƒªã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹å ´æ‰€
 
-	bool playerHitFlg;	//ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚çTRUE‚ğ•Ô‚·
+	bool playerHitFlg;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å½“ãŸã£ãŸã‚‰TRUEã‚’è¿”ã™
 
 public:
-	//ƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£‚ğ‹‚ß‚é
-	float PlayerLoad_X(float location_x);//XÀ•Wã‚Å‚ÌƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
-	float PlayerLoad_Y(float location_y);//YÀ•Wã‚Å‚ÌƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
-	//³‹K‰»
-	float Normalization_X(float location_x, float location_y);//XÀ•Wã‚Å‚ÌƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£‚ğ³‹K‰»
-	float Normalization_Y(float location_x, float location_y);//YÀ•Wã‚Å‚ÌƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£‚ğ³‹K‰»
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
+	float PlayerLoad_X(float location_x);//Xåº§æ¨™ä¸Šã§ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢
+	float PlayerLoad_Y(float location_y);//Yåº§æ¨™ä¸Šã§ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢
+	//æ­£è¦åŒ–
+	float Normalization_X(float location_x, float location_y);//Xåº§æ¨™ä¸Šã§ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢ã‚’æ­£è¦åŒ–
+	float Normalization_Y(float location_x, float location_y);//Yåº§æ¨™ä¸Šã§ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢ã‚’æ­£è¦åŒ–
 };
 
