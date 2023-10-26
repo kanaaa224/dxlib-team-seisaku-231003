@@ -1,8 +1,4 @@
-#include "Help.h"
-#include "DxLib.h"
-#include "Title.h"
-#include "sourceFiles/inputCtrl.h"
-#include "GameMain.h"
+#include "main.h"
 
 Help::Help()
 {
@@ -20,7 +16,7 @@ Scene*Help::update()
 	InputCtrl::Update();
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
-		return new GameMain;
+		return new GameScene;
 	}
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 	{

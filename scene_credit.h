@@ -1,5 +1,7 @@
 #pragma once
-#include "sourceFiles/scene.h"
+
+#include "scene.h"
+
 class Credit : public Scene
 {
 private:

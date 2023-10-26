@@ -34,6 +34,9 @@
     <Filter Include="プレイヤー">
       <UniqueIdentifier>{c6e4017d-34bc-4052-9cea-cc5bf98c8a0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="マップ">
+      <UniqueIdentifier>{fe436a94-e38e-43fd-a920-ed4a64308cf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -84,7 +87,6 @@
     <ClInclude Include="Player.h">
       <Filter>プレイヤー</Filter>
     </ClInclude>
-    <ClInclude Include="map.h" />
     <ClInclude Include="scene_load.h">
       <Filter>シーン</Filter>
     </ClInclude>
@@ -100,11 +102,21 @@
     <ClInclude Include="scene_result.h">
       <Filter>シーン</Filter>
     </ClInclude>
-      <ClInclude Include="Title.h" />
-    <ClInclude Include="GameMain.h" />
-    <ClInclude Include="Help.h" />
-    <ClInclude Include="Credit.h" />
-    <ClInclude Include="End.h" />
+    <ClInclude Include="map.h">
+      <Filter>マップ</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_credit.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_end.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_help.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_title.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -152,7 +164,6 @@
     <ClCompile Include="scene_weapon.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
-    <ClCompile Include="map.cpp" />
     <ClCompile Include="scene_load.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
@@ -165,10 +176,20 @@
     <ClCompile Include="scene_result.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
-     <ClCompile Include="Title.cpp" />
-    <ClCompile Include="GameMain.cpp" />
-    <ClCompile Include="Help.cpp" />
-    <ClCompile Include="Credit.cpp" />
-    <ClCompile Include="End.cpp" />
+    <ClCompile Include="map.cpp">
+      <Filter>マップ</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_credit.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_end.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_help.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_title.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

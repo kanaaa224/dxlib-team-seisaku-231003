@@ -1,5 +1,6 @@
 #pragma once
-#include "sourceFiles/scene.h"
+
+#include "main.h"
 
 class Help :  public Scene
 {
