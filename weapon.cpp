@@ -4,6 +4,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
+#include "SphereCollider.h"
+
 
 #define d_r(_d) _d * (M_PI / 180)
 #define r_d(_r) _r * (180 / M_PI)
@@ -19,6 +21,8 @@ weapon::weapon()
 	isAttacking = false;
 	weaponLevel = 0;
 	levelUpFlg = false;
+
+	tmp = 0;
 }
 
 weapon::weapon(int type)
@@ -47,17 +51,17 @@ weapon::~weapon()
 
 void weapon::Update(float cursorX, float cursorY)
 {
+
 	//debug
+	Location el = { 680,310 };
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
 	float y = InputCtrl::GetMouseCursor().y - 360;*/
 
-	tmp = cursorX;
-	tmp1 = cursorY;
-
 	float x = cursorX - 640;
 	float y = cursorY - 360;
 	float length = sqrt((x) * (x) + (y) * (y));
+
 
 	float innerProduct = ((x) * baseVec.x) + ((y) * baseVec.y);
 	float angle = acos(innerProduct / (length * baseVec.length));
@@ -83,18 +87,35 @@ void weapon::Update(float cursorX, float cursorY)
 			}
 			rot = -1 * (angle - (d_r(relativeRot)));
 
+			//回転中の武器の座標
 			collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + 640;
 			collisionY = (baseVec.x * sin((rot)) + baseVec.y * cos((rot))) + 360;
 
-			relativeRot -= 4.0f;
-		}
+			//回転中の武器のベクトル
+			collisionVec.x = collisionX - 640;
+			collisionVec.y = collisionY - 360;
+			collisionVec.length = sqrt((collisionVec.x) * (collisionVec.x) + (collisionVec.y) * (collisionVec.y));
 
+			//回転
+			relativeRot -= 4.0f;
+
+
+			//単位ベクトル
+			unitVec.x = collisionVec.x / collisionVec.length;
+			unitVec.y = collisionVec.y / collisionVec.length;
+			unitVec.length = sqrt((unitVec.x) * (unitVec.x) + (unitVec.y) * (unitVec.y));
+
+			if (WeaponCollision(el, 10)) {
+				tmp = 1;
+			}
+			
+		}
 
 	}
 
 	
 
-
+	//レベルアップデバッグ
 	if (levelUpFlg) {
 		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 			levelUpFlg = false;
@@ -156,8 +177,9 @@ void weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
 	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);
-	DrawFormatString(0, 180, 0xffffff, "カーソルX %f", tmp);
-	DrawFormatString(0, 210, 0xffffff, "カーソルY %f", tmp1);
+	DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
+	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
+	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
 
 
 
@@ -168,6 +190,9 @@ void weapon::Draw() const
 	
 
 	DrawCircle(640, 360, 3, 0xff0000, TRUE);
+	if (tmp == 0) {
+		DrawCircle(680, 310, 10, 0xff0000, TRUE);
+	}
 
 	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
@@ -487,6 +512,28 @@ void weapon::LevelState()
 		break;
 	}
 	coolTime = maxCoolTime;
+}
+
+bool weapon::WeaponCollision(Location enemyLocation, float radius)
+{
+	Location weaponCollisionLocation;
+
+	for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+		weaponCollisionLocation.x = 640 + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
+		weaponCollisionLocation.y = 360 + unitVec.y * (i * 10);
+
+		float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+		float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+		if (tmp_length < radius + 10) {
+			return true;
+		}
+	}
+
+	
+
+	return false;
 }
 
 //回転の公式

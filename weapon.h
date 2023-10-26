@@ -26,7 +26,7 @@ enum weapontype
 	none = 99
 };
 
-
+struct Location;
 
 class weapon {
 private:
@@ -37,8 +37,10 @@ private:
 
 	Vector weaponVec;
 	Vector baseVec;
+	Vector unitVec;
 
 	float collisionX, collisionY;	//回転後の座標、当たり判定に使う
+	Vector collisionVec;
 
 	float rot;				//回転
 	float relativeRot;		//プレイヤーのベクトルを中心とした回転
@@ -66,7 +68,7 @@ public:
 	void LevelUpDebug(int num);
 	void LevelState();
 
-
+	bool WeaponCollision(Location enemyLocation, float radius);
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 };
