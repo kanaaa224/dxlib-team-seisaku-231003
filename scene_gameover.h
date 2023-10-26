@@ -17,7 +17,9 @@ class GameOverScene : public Scene
 private:
 	int ghost_x;
 	int ghost_y;
-	float count;
+	int count;
+
+	int value;
 
 	// ‰æ‘œ—p•Ï”
 	int img_gameover;

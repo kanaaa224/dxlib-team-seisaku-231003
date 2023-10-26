@@ -8,6 +8,7 @@
 class ResultScene : public Scene
 {
 private:
+	int value;
 
 	// ‰æ‘œ—p•Ï”
 	//int img_map;
