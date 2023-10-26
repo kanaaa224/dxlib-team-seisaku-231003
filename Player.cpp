@@ -42,11 +42,11 @@ void Player::update() {
 	}
 
 	//c
-	if (Provisional_LStickY > MOVE_DOWN) {
+	if (Provisional_LStickY > MOVE_UP) {
 
 		AimingY = AimingY - Additional_Value * Provisional_LStickY;
 	}
-	else if (Provisional_LStickY < MOVE_UP) {
+	else if (Provisional_LStickY < MOVE_DOWN) {
 
 		AimingY = AimingY - Additional_Value * Provisional_LStickY;
 
