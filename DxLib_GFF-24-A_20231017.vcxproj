@@ -55,8 +55,8 @@
     <ClInclude Include="scene_help.h" />
     <ClInclude Include="scene_result.h" />
     <ClInclude Include="scene_title.h" />
-    <ClInclude Include="weapon.h" />
     <ClInclude Include="Slime.h" />
+    <ClInclude Include="weapon.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="scene_weapon.h" />
     <ClInclude Include="Stage.h" />
@@ -81,8 +81,8 @@
     <ClCompile Include="scene_help.cpp" />
     <ClCompile Include="scene_result.cpp" />
     <ClCompile Include="scene_title.cpp" />
-    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="scene_weapon.cpp" />
     <ClCompile Include="Stage.cpp" />

@@ -1,8 +1,11 @@
-ï»¿#pragma once
+#pragma once
 #include "EnemyBase.h"
 class Slime :public EnemyBase
 {
 private:
+
+	float tmpVX;
+	float tmpVY;
 
 public:
 	Slime();
@@ -10,7 +13,11 @@ public:
 	void Update();
 	void Draw();
 
+	//ˆÚ“®ˆ—
 	void X();
 	void Y();
+
+	//Œ»İ‚ÌƒXƒe[ƒW‚Å‚ÌoŒ»‚·‚é”‚ğ•Ô‚·
+	int GetStageNum();
 };
 
