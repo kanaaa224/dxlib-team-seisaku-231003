@@ -3,6 +3,7 @@
 
 GameClearScene::GameClearScene()
 {
+	// ‰æ‘œ“Ç
 	img_gameclear = LoadGraph("resources/images/gameclear.png");
 	img_button_a = LoadGraph("resources/images/button_a.png");
 }
