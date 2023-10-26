@@ -13,6 +13,13 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	gameUI = new GameUI;
 
+	
+	//
+	weapon_selection = new Weapon_Selection();
+
+	is_weapon_selct = false;
+
+
 	//////////////////////////////////////////////////
 
 	//img_background = LoadGraph("./resources/images/background.png"); // 仮
@@ -34,6 +41,17 @@ Scene* GameScene::update() {
 	frameCounter++;
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+
+	if (is_weapon_selct != true)
+	{
+		weapon_selection->update(Weapon, is_weapon_selct);
+		if (is_weapon_selct == true)
+		{
+			delete weapon_selection;
+			weapon_selection = nullptr;
+		}
+		return this;
+	}
 
 	//敵//
 	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
@@ -84,5 +102,13 @@ void GameScene::draw() const {
 		}
 	}*/
 	////////////
+
+	//player->draw();
+
+
+	if (is_weapon_selct != true)
+	{
+		weapon_selection->draw();
+	}
 	//gameUI->draw();
 };

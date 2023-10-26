@@ -53,3 +53,6 @@ class GameScene;
 #include "scene_load.h"
 
 #include "kitamura_test.h"
+
+#include "scene_gameclear.h"
+#include "scene_gameover.h"

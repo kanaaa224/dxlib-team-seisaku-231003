@@ -22,10 +22,9 @@
     <Filter Include="ゲーム処理\ゲームUI / プレイヤーUI">
       <UniqueIdentifier>{7a2d1699-2d3b-421b-9774-2d99ec39e015}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="weapon">
       <UniqueIdentifier>{b6f9855e-5c43-4fec-80a0-add291ac6a53}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="ステージ">
       <UniqueIdentifier>{a0003b8f-e6a4-41fd-9fff-4fc9c0429512}</UniqueIdentifier>
     </Filter>
@@ -89,6 +88,18 @@
     <ClInclude Include="scene_load.h">
       <Filter>シーン</Filter>
     </ClInclude>
+    <ClInclude Include="scene_weapon.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_gameclear.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_gameover.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_result.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -133,8 +144,20 @@
     <ClCompile Include="Player.cpp">
       <Filter>プレイヤー</Filter>
     </ClCompile>
+    <ClCompile Include="scene_weapon.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
     <ClCompile Include="map.cpp" />
     <ClCompile Include="scene_load.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_gameclear.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_gameover.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_result.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
   </ItemGroup>
