@@ -17,7 +17,7 @@ GameScene::GameScene() {
 	//
 	weapon_selection = new Weapon_Selection();
 
-	is_weapon_selct = true;
+	is_weapon_selct = false;
 
 
 	//////////////////////////////////////////////////
@@ -107,5 +107,6 @@ void GameScene::draw() const {
 	{
 		weapon_selection->draw();
 	}
+
 	//gameUI->draw();
 };
