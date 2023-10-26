@@ -6,9 +6,13 @@ Weapon_Selection::Weapon_Selection()
 {
 	interval = 0;
 	cursor_num = 0;
+	select_num = 0;
 	cursor_x = 0;
 
-	sword_image = LoadGraph("resources/images/game_ken.png");
+	dagger_image = LoadGraph("resources/images/sword_shortsword_brown.png");
+	sword_image = LoadGraph("resources/images/sword_longsword_brown.png");
+	great_sword_image = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
 
 	is_selecting = false;
@@ -94,14 +98,17 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 				if (cursor_num == 0)
 				{
 					_weapon->SetWeaponType(dagger);
+					select_num = 0;
 				}
 				else if (cursor_num == 1)
 				{
 					_weapon->SetWeaponType(sword);
+					select_num = 1;
 				}
 				else
 				{
 					_weapon->SetWeaponType(greatSword);
+					select_num = 2;
 				}
 			}
 			//ïêäÌÇëIëÇµÇΩÇ±Ç∆Ç™Ç†ÇÈÇ»ÇÁ
@@ -110,14 +117,17 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 				if (cursor_num == 0)
 				{
 					//_weapon->SetWeaponType();
+					select_num = 0;
 				}
 				else if (cursor_num == 1)
 				{
 					//_weapon->SetWeaponType();
+					select_num = 1;
 				}
 				else
 				{
 					//_weapon->SetWeaponType();
+					select_num = 2;
 				}
 			}
 			//ïêäÌÇëIëÇµÇΩèÛë‘Ç…Ç∑ÇÈ
@@ -152,11 +162,11 @@ void Weapon_Selection::draw() const
 	{		
 		DrawString(530, 10, "ç≈èâÇÃïêäÌÇëIÇÒÇ≈Ç≠ÇæÇ≥Ç¢\n",0xffffff);
 
-		DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+		DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
 		DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
-		DrawRotaGraph(950, 300, .45f, .0625f, sword_image, TRUE);
+		DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
 
-		DrawRotaGraph(250 + cursor_x, 600, .5f, 0, cursor_image, TRUE);
+		DrawRotaGraph(400 + cursor_x, 600, .5f, 0, cursor_image, TRUE);
 
 
 	}
@@ -167,26 +177,26 @@ void Weapon_Selection::draw() const
 
 		if (was_selected != true)
 		{
-			if (cursor_num == 0)
+			if (select_num == 0)
 			{
-				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
 			}
-			else if (cursor_num == 1)
+			else if (select_num == 1)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
 			}
 			else
 			{
-				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawRotaGraph(350, 300, .45f, .0625f, great_sword_image, TRUE);
 			}
 		}
 		else
 		{
-			if (cursor_num == 0)
+			if (select_num == 0)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
 			}
-			else if (cursor_num == 1)
+			else if (select_num == 1)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
 			}
