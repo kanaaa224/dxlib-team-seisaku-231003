@@ -56,3 +56,4 @@ class GameScene;
 
 #include "scene_gameclear.h"
 #include "scene_gameover.h"
+#include "../Title.h"

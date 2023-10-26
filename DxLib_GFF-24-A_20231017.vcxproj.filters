@@ -100,6 +100,11 @@
     <ClInclude Include="scene_result.h">
       <Filter>シーン</Filter>
     </ClInclude>
+      <ClInclude Include="Title.h" />
+    <ClInclude Include="GameMain.h" />
+    <ClInclude Include="Help.h" />
+    <ClInclude Include="Credit.h" />
+    <ClInclude Include="End.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -160,5 +165,10 @@
     <ClCompile Include="scene_result.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
+     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Help.cpp" />
+    <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="End.cpp" />
   </ItemGroup>
 </Project>

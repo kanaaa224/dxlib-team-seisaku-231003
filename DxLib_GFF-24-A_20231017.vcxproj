@@ -57,6 +57,17 @@
     <ClInclude Include="scene_weapon.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="scene_load.h" />
+        <ClInclude Include="Credit.h" />
+    <ClInclude Include="End.h" />
+     <ClInclude Include="GameMain.h" />
+     <ClInclude Include="Help.h" />
+    <ClInclude Include="SourceFiles\scene.h" />
+    <ClInclude Include="SourceFiles\fpsCtrl.h" />
+    <ClInclude Include="SourceFiles\inputCtrl.h" />
+    <ClInclude Include="SourceFiles\main.h" />
+    <ClInclude Include="SourceFiles\sceneManager.h" />
+    <ClInclude Include="SourceFiles\scene_debug.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyBase.cpp" />
@@ -79,6 +90,16 @@
     <ClCompile Include="scene_weapon.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="scene_load.cpp" />
+    <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="End.cpp" />
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Help.cpp" />
+    <ClCompile Include="SourceFiles\fpsCtrl.cpp" />
+    <ClCompile Include="SourceFiles\inputCtrl.cpp" />
+    <ClCompile Include="SourceFiles\main.cpp" />
+    <ClCompile Include="SourceFiles\sceneManager.cpp" />
+    <ClCompile Include="SourceFiles\scene_debug.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
