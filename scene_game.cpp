@@ -89,6 +89,11 @@ Scene* GameScene::update() {
 void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
+	if (is_weapon_selct != true)
+	{
+		weapon_selection->draw();
+	}
+
 	//backimg->draw();
 	Weapon->Draw();
 	player->draw();
@@ -105,10 +110,5 @@ void GameScene::draw() const {
 
 	//player->draw();
 
-
-	if (is_weapon_selct != true)
-	{
-		weapon_selection->draw();
-	}
 	//gameUI->draw();
 };
