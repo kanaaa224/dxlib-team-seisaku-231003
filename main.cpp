@@ -28,6 +28,12 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		FPSCtrl::Limit();
 		FPSCtrl::Update();
 
+		//強制終了
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_BACK))
+		{
+			break;
+		}
+
 		// シーンマネジャーでシーンの描画開始
 		sceneMng->draw();
 

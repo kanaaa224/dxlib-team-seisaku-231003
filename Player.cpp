@@ -29,6 +29,8 @@ void Player::update() {
 	Provisional_LStickX = InputCtrl::GetStickRatio(R).x;
 	Provisional_LStickY = InputCtrl::GetStickRatio(R).y;
 
+
+
 	//‰¡
 	if (Provisional_LStickX > MOVE_RIGHT) {
 
@@ -40,11 +42,11 @@ void Player::update() {
 	}
 
 	//c
-	if (Provisional_LStickY > MOVE_DOWN) {
+	if (Provisional_LStickY > MOVE_UP) {
 
 		AimingY = AimingY - Additional_Value * Provisional_LStickY;
 	}
-	else if (Provisional_LStickY < MOVE_UP) {
+	else if (Provisional_LStickY < MOVE_DOWN) {
 
 		AimingY = AimingY - Additional_Value * Provisional_LStickY;
 
@@ -55,6 +57,8 @@ void Player::draw()const {
 
 	DrawFormatString(0, 300, GetColor(255, 255, 255), "LStick:cŽ²’l %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 320, GetColor(255, 255, 255), "LStick:‰¡Ž²’l %0.1f", Provisional_LStickX);
+	//DrawFormatString(0, 380, GetColor(255, 255, 255), "RStick:cŽ²’l %0.1f", InputCtrl::GetStickState(R).x);
+	//DrawFormatString(0, 400, GetColor(255, 255, 255), "RStick:‰¡Ž²’l %0.1f", InputCtrl::GetStickState(R).y);
 
 	//DrawGraph(0, 300, PlayerImg, TRUE);
 
