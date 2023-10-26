@@ -44,11 +44,11 @@ Scene*Title::update()
 	}
 
 	//十字キー下ボタンでカーソルを下に移動
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS )
 	{
 		if (++g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS )
 	{
 		if (--g_MenuNumber < 0)g_MenuNumber = 3;
 	}
@@ -60,7 +60,8 @@ Scene*Title::update()
 //描画
 void Title::draw() const
 {
-	//DrawGraph(0, 0, EnemyImage0,FALSE);
+	SetFontSize(100);
+	DrawString(350, 150, "タイトル名", 0xffffff);
 	SetFontSize(75);
 	DrawString(470, 300, "Start", 0xffffff);
 	DrawString(470, 370, "Help", 0xffffff);

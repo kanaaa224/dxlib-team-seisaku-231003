@@ -3,7 +3,7 @@
 
 End::End()
 {
-
+	g_WaitTime = 0;
 }
 
 End::~End()
@@ -13,6 +13,10 @@ End::~End()
 
 Scene* End::update()
 {
+	if (++g_WaitTime > 300)
+	{
+		return nullptr;
+	}
 	return this;
 }
 

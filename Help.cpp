@@ -36,6 +36,6 @@ void Help::draw()const
 	//DrawString(300, 350, "Help", 0x000000);
 		DrawGraph(0, 0, HelpImage1, TRUE);
 		SetFontSize(50);
-		DrawString(500, 630, "Aボタンでゲームスタートへ", 0xff0000);
-		DrawString(600, 630, "Bボタンでタイトル画面へ", 0xff0000);
+		DrawString(400, 670, "Aボタン:スタート", 0xff0000);
+		DrawString(850, 670, "Bボタン:タイトル", 0xff0000);
 }
