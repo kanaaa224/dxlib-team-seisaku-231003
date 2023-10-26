@@ -1,4 +1,4 @@
-#include "SphereCollider.h"
+ï»¿#include "SphereCollider.h"
 #include <math.h>
 #include <stdio.h>
 #include "Common.h"
@@ -6,18 +6,18 @@
 
 SphereCollider::SphereCollider()
 {
-    diff.x = 0;//‚±‚±‚ÉƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê‚ğ“ü‚ê‚é
+    diff.x = 0;//ã“ã“ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é‡ã‚’å…¥ã‚Œã‚‹
     diff.y = 0;
 }
 
 int SphereCollider::CheckCollision(SphereCollider sphereCollider)
 {
-    //O•½•û‚Ì’è—‚ğg‚¤
+    //ä¸‰å¹³æ–¹ã®å®šç†ã‚’ä½¿ã†
     float a = (location.x + diff.x) - (sphereCollider.location.x + sphereCollider.diff.x);
     float b = (location.y + diff.y) - (sphereCollider.location.y + sphereCollider.diff.y);
     float c = sqrtf(a * a + b * b);
 
-    //‚»‚ê‚¼‚ê‚Ì”¼Œa‚Ì‡Œv‚Æ2“_ŠÔ‚Ì‹——£‚ğ”ä‚×‚é
+    //ãã‚Œãã‚Œã®åŠå¾„ã®åˆè¨ˆã¨2ç‚¹é–“ã®è·é›¢ã‚’æ¯”ã¹ã‚‹
     if (c <= radius + sphereCollider.radius) {
         return COLLISION;
     }

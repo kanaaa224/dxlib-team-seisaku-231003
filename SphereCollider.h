@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #include "weapon.h"
 
@@ -23,10 +23,10 @@ struct DiffLocation
 class SphereCollider
 {
 protected:
-	Location location;	//À•W
-	DiffLocation diff;	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê
-	Vector vector;		//ˆÚ“®—Ê
-	float radius;		//”¼Œa
+	Location location;	//åº§æ¨™
+	DiffLocation diff;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é‡
+	Vector vector;		//ç§»å‹•é‡
+	float radius;		//åŠå¾„
 public:
 	SphereCollider();
 
