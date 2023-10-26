@@ -27,6 +27,8 @@ Scene* DebugScene::update() {
 
 		 if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) return new LoadScene();
 
+		 if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
+
 	return this;
 };
 
@@ -186,4 +188,7 @@ void DebugScene::draw() const {
 
 	y += 50;
 	DrawFormatString(x, y, 0xffffff, "Lキー でロード画面付きで仮のゲームメインシーンへ");
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
 };

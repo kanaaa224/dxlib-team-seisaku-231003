@@ -1,7 +1,4 @@
-#include "Credit.h"
-#include "DxLib.h"
-#include "Title.h"
-#include "sourceFiles/inputCtrl.h"
+#include "main.h"
 
 Credit::Credit()
 {

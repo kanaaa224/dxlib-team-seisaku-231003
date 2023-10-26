@@ -1,10 +1,4 @@
-#include "DxLib.h"
-#include "Title.h"
-#include "GameMain.h"
-#include "sourceFiles/inputCtrl.h"
-#include "Help.h"
-#include "Credit.h"
-#include "End.h"
+#include "main.h"
 
 //コンストラクタ
 Title::Title()
@@ -30,7 +24,7 @@ Scene*Title::update()
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (g_MenuNumber == 0) {
-			return new GameMain;
+			return new GameScene;
 		}
 		if (g_MenuNumber == 1) {
 			return new Help;

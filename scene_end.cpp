@@ -1,5 +1,4 @@
-#include "End.h"
-#include "DxLib.h"
+#include "main.h"
 
 End::End()
 {
