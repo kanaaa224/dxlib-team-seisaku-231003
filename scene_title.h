@@ -1,0 +1,25 @@
+#pragma once
+
+#include "scene.h"
+
+class Title :public Scene
+{
+private:
+	//‰æ‘œ‚Ì“Ç•Ï”
+	int TitleImage;
+	int EnemyImage0;
+	int EnemyImage1;
+	int EnemyImage2;
+	int EnemyImage3;
+	int EnemyImage4;
+
+	int g_MenuNumber;
+	int g_MenuY;
+
+public:
+	Title();
+	~Title();
+	Scene* update() override;
+	void draw() const override;
+
+};

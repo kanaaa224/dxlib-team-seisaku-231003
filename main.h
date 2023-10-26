@@ -47,12 +47,14 @@ class GameScene;
 
 // 各シーンのヘッダーファイル
 #include "scene_debug.h"
-//#include "scene_title.h"
+#include "scene_title.h"
+#include "scene_help.h"
 #include "scene_game.h"
-//#include "scene_result.h"
+#include "scene_gameclear.h"
+#include "scene_gameover.h"
+#include "scene_result.h"
+#include "scene_end.h"
+#include "scene_credit.h"
 #include "scene_load.h"
 
 #include "kitamura_test.h"
-
-#include "scene_gameclear.h"
-#include "scene_gameover.h"

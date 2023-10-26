@@ -14,7 +14,7 @@ private:
 	//int img_weapon1;
 	//int img_weapon2;
 	//int img_background;
-	int img_button_a;			// Aƒ{ƒ^ƒ“
+	int img_button_a;
 
 public:
 	ResultScene();
