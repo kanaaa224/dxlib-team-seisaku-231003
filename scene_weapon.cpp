@@ -89,9 +89,8 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 
 	//•Ší‚ğ‘I‘ğ‚µ‚Ä‚¢‚È‚¢‚È‚ç
 	if (is_selecting != true)
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
 	{
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
 		{
 			//‚Ü‚¾•Ší‚ğ‘I‘ğ‚µ‚½‚±‚Æ‚ª‚È‚¢‚È‚ç
 			if (was_selected != true)
