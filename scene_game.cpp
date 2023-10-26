@@ -17,7 +17,7 @@ GameScene::GameScene() {
 	//
 	weapon_selection = new Weapon_Selection();
 
-	is_weapon_selct = false;
+	is_weapon_selct = true;
 
 
 	//////////////////////////////////////////////////
@@ -42,6 +42,7 @@ Scene* GameScene::update() {
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
+	//武器選択画面
 	if (is_weapon_selct != true)
 	{
 		weapon_selection->update(Weapon, is_weapon_selct);
@@ -77,10 +78,9 @@ Scene* GameScene::update() {
 		Weapon->SetWeaponType(greatSword);
 	}
 	////////////
-
+	backimg->update();
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
-	//stage->update(this);
 	gameUI->update(this);
 
 	return this;
@@ -89,7 +89,7 @@ Scene* GameScene::update() {
 void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
-	//backimg->draw();
+	backimg->draw();
 	Weapon->Draw();
 	player->draw();
 
@@ -102,9 +102,6 @@ void GameScene::draw() const {
 		}
 	}*/
 	////////////
-
-	//player->draw();
-
 
 	if (is_weapon_selct != true)
 	{
