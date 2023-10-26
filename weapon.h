@@ -45,6 +45,7 @@ private:
 	float rot;				//回転
 	float relativeRot;		//プレイヤーのベクトルを中心とした回転
 	float maxRot;			//最大どれくらい回転するか
+	float weaponAngle;
 
 	int coolTime;	//クールタイムを計算する変数
 	int maxCoolTime;  //クールタイムの値

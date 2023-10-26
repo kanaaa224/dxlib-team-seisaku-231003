@@ -58,16 +58,19 @@ void weapon::Update(float cursorX, float cursorY)
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
 	float y = InputCtrl::GetMouseCursor().y - 360;*/
 
+
 	float x = cursorX - 640;
 	float y = cursorY - 360;
 	float length = sqrt((x) * (x) + (y) * (y));
 
 
 	float innerProduct = ((x) * baseVec.x) + ((y) * baseVec.y);
-	float angle = acos(innerProduct / (length * baseVec.length));
-	if (y > 0) {
-		angle = (M_PI - angle);
-		angle += M_PI;
+	if (!isAttacking) {
+		weaponAngle = acos(innerProduct / (length * baseVec.length));
+		if (y > 0) {
+			weaponAngle = (M_PI - weaponAngle);
+			weaponAngle += M_PI;
+		}
 	}
 
 	//武器所有中なら
@@ -85,7 +88,7 @@ void weapon::Update(float cursorX, float cursorY)
 				relativeRot = maxRot;
 				isAttacking = false;
 			}
-			rot = -1 * (angle - (d_r(relativeRot)));
+			rot = -1 * (weaponAngle - (d_r(relativeRot)));
 
 			//回転中の武器の座標
 			collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + 640;
@@ -197,6 +200,9 @@ void weapon::Draw() const
 	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
+	}
+	else {
+		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
 	}
 }
 
@@ -530,8 +536,6 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 			return true;
 		}
 	}
-
-	
 
 	return false;
 }
