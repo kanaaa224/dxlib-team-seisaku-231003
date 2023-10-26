@@ -160,20 +160,35 @@ void Weapon_Selection::draw() const
 	//武器を選択していないなら
 	if (is_selecting != true)
 	{		
-		DrawString(530, 10, "最初の武器を選んでください\n",0xffffff);
+		if (was_selected != true)
+		{
+			SetFontSize(32);
+			DrawString(430, 10, "最初の武器を選んでください\n",0xffffff);
+			SetFontSize(16);
 
-		DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
-		DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
-		DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
+			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
+			DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
+			DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
 
+		}
+		else
+		{
+			SetFontSize(32);
+			DrawString(430, 10, "２つ目の武器を選んでください\n", 0xffffff);
+			SetFontSize(16);
+
+			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
+			DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
+			DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
+		}
 		DrawRotaGraph(400 + cursor_x, 600, .5f, 0, cursor_image, TRUE);
-
-
 	}
 	//武器を選択したなら
 	else
 	{		
-		DrawString(530, 10, "この武器を選びますか？\n", 0xffffff);
+		SetFontSize(32);
+		DrawString(430, 10, "この武器を選びますか？\n", 0xffffff);
+		SetFontSize(16);
 
 		if (was_selected != true)
 		{
