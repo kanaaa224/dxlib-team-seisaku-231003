@@ -68,14 +68,16 @@ Scene* GameScene::update() {
 		}
 	}
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
-		Weapon->SetWeaponType(sword);
-	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
-		Weapon->SetWeaponType(dagger);
-	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
-		Weapon->SetWeaponType(greatSword);
+	if (!Weapon->GetLevelUpFlg()) {
+		if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
+			Weapon->SetWeaponType(sword);
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
+			Weapon->SetWeaponType(dagger);
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
+			Weapon->SetWeaponType(greatSword);
+		}
 	}
 	////////////
 	backimg->update();

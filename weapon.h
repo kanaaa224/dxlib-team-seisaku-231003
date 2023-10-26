@@ -52,7 +52,9 @@ private:
 	bool isAttacking;	//UŒ‚’†‚©‚Ç‚¤‚©
 	int damage;
 
-
+	int sword_img;
+	int dagger_img;
+	int greatsword_img;
 
 
 	float tmp, tmp1;

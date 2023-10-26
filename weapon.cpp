@@ -23,6 +23,12 @@ weapon::weapon()
 	levelUpFlg = false;
 
 	tmp = 0;
+
+
+
+	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
+	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
+	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 }
 
 weapon::weapon(int type)
@@ -65,13 +71,13 @@ void weapon::Update(float cursorX, float cursorY)
 
 
 	float innerProduct = ((x) * baseVec.x) + ((y) * baseVec.y);
-	if (!isAttacking) {
-		weaponAngle = acos(innerProduct / (length * baseVec.length));
-		if (y > 0) {
-			weaponAngle = (M_PI - weaponAngle);
-			weaponAngle += M_PI;
-		}
+	
+	weaponAngle = acos(innerProduct / (length * baseVec.length));
+	if (y > 0) {
+		weaponAngle = (M_PI - weaponAngle);
+		weaponAngle += M_PI;
 	}
+	
 
 	//武器所有中なら
 	if (weaponType != none) {
@@ -170,6 +176,27 @@ void weapon::Update(float cursorX, float cursorY)
 
 void weapon::Draw() const
 {
+	//武器描画
+	if (isAttacking) {
+		switch (weaponType)
+		{
+		case sword:
+			DrawRotaGraph2(640, 360, 0, 500, 0.16, rot + (M_PI / 4), sword_img, TRUE, TRUE);
+			break;
+		case dagger:
+			DrawRotaGraph2(640, 360, 0, 500, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			break;
+		case greatSword:
+			DrawRotaGraph2(640, 360, 0, 500, 0.2, rot + (M_PI / 4), greatsword_img, TRUE, TRUE);
+			break;
+		default:
+			break;
+		}
+	}
+
+
+
+
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
@@ -204,6 +231,9 @@ void weapon::Draw() const
 	else {
 		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
 	}
+
+
+	
 }
 
 void weapon::SetWeaponType(int type)
