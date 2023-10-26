@@ -26,7 +26,7 @@ enum weapontype
 	none = 99
 };
 
-
+struct Location;
 
 class weapon {
 private:
@@ -37,19 +37,24 @@ private:
 
 	Vector weaponVec;
 	Vector baseVec;
+	Vector unitVec;
 
 	float collisionX, collisionY;	//回転後の座標、当たり判定に使う
+	Vector collisionVec;
 
 	float rot;				//回転
 	float relativeRot;		//プレイヤーのベクトルを中心とした回転
 	float maxRot;			//最大どれくらい回転するか
+	float weaponAngle;
 
 	int coolTime;	//クールタイムを計算する変数
 	int maxCoolTime;  //クールタイムの値
 	bool isAttacking;	//攻撃中かどうか
 	int damage;
 
-
+	int sword_img;
+	int dagger_img;
+	int greatsword_img;
 
 
 	float tmp, tmp1;
@@ -66,7 +71,7 @@ public:
 	void LevelUpDebug(int num);
 	void LevelState();
 
-
+	bool WeaponCollision(Location enemyLocation, float radius);
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 };

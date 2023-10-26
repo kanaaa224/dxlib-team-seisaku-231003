@@ -32,7 +32,9 @@ private:
 	int boss_img = 0;
 public:
 	Map();
+
 	~Map();
+
 	virtual Scene* update() override;
 
 	virtual void draw() const override;

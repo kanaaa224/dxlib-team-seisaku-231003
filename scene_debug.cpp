@@ -29,6 +29,9 @@ Scene* DebugScene::update() {
 
 		 if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
 
+		 if (InputCtrl::GetKeyState(KEY_INPUT_M) == PRESS) return new Map();
+		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new Map();
+
 	return this;
 };
 
