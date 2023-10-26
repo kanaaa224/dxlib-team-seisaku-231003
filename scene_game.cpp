@@ -83,6 +83,12 @@ Scene* GameScene::update() {
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
 	gameUI->update(this);
 
+
+	// ゲームオーバー画面へ遷移
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
+		return new GameOverScene;
+	}
+
 	return this;
 };
 
