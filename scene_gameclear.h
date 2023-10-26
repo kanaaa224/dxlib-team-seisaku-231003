@@ -9,7 +9,7 @@ class GameClearScene : public Scene {
 private:
 	// ‰æ‘œ—p•Ï”
 	int img_gameclear;
-	int img_button_a;			// Aƒ{ƒ^ƒ“
+	int img_button_a;
 	//int img_background;
 
 public:

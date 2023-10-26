@@ -10,7 +10,8 @@ class GameOverScene : public Scene
 private:
 	// ‰æ‘œ—p•Ï”
 	int img_gameover;
-	int img_button_a;			// Aƒ{ƒ^ƒ“
+	int img_ghost;
+	int img_button_a;
 	//int img_background;
 
 public:

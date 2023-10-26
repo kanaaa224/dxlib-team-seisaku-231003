@@ -1,4 +1,5 @@
 #include "scene_gameclear.h"
+#include "scene_gameover.h"			// 仮
 
 GameClearScene::GameClearScene()
 {
@@ -15,7 +16,7 @@ Scene* GameClearScene::update()
 {
 #ifdef _DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
-		return new ResultScene;
+		return new GameOverScene;
 	}
 #endif
 
@@ -29,17 +30,20 @@ Scene* GameClearScene::update()
 
 void GameClearScene::draw() const
 {
-#ifdef _DEBUG
-	DrawFormatString(0, 0, 0xffffff, "GameClear");
-#endif
-
 	// 背景色
-	DrawBox(0, 0, 1280, 720, 0xfffaf0, TRUE);
+	//DrawBox(0, 0, 1280, 720, 0xFFFFB5, TRUE);
 
 	// 画像表示
 	DrawGraph(0, 0, img_gameclear, TRUE);
-	DrawGraph(1000, 600, img_button_a, TRUE);
+	DrawGraph(1100, 670, img_button_a, TRUE);
 
-	DrawFormatString(0, 70, 0xffffff, "リザルト");
+	// テキスト表示
+	SetFontSize(60);
+	DrawFormatString(545, 515, 0xffffff, "GAME CLEAR");
+	SetFontSize(20);
+	DrawFormatString(1150, 680, 0xffffff, "RESULT");
 
+#ifdef _DEBUG
+	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+#endif
 }

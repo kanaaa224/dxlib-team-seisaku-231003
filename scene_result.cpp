@@ -22,18 +22,17 @@ Scene* ResultScene::update()
 
 void ResultScene::draw() const
 {
-#ifdef _DEBUG
-	DrawFormatString(0, 0, 0xffffff, "Result");
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		DrawFormatString(0, 0, 0xffffff, "押されました");
-	}
-#endif
+	// 背景色
+	DrawBox(0, 0, 1280, 720, 0x646464, TRUE);
 
 	// 画像表示
-	DrawGraph(1000, 600, img_button_a, TRUE);
+	DrawGraph(1100, 670, img_button_a, TRUE);
 
 	// テキスト表示
-	DrawFormatString(1150, 680, 0xffffff, "A:タイトル");
+	SetFontSize(60);
+	DrawFormatString(550, 10, 0xffffff, "RESULT");
+	SetFontSize(20);
+	DrawFormatString(1150, 680, 0xffffff, "TITLE");
 
 	DrawFormatString(10, 50, 0xffffff, "縮小マップ");
 
@@ -46,5 +45,9 @@ void ResultScene::draw() const
 	DrawFormatString(850, 400, 0xffffff, "武器名２");
 	DrawFormatString(850, 450, 0xffffff, "Lv.              0");
 	DrawFormatString(850, 500, 0xffffff, "総ダメージ数      100000");
+
+#ifdef _DEBUG
+	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+#endif
 
 }
