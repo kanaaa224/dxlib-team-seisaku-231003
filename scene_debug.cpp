@@ -194,4 +194,7 @@ void DebugScene::draw() const {
 
 	y += 50;
 	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Mキー でマップへ");
 };
