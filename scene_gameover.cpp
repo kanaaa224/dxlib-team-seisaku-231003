@@ -11,6 +11,7 @@ GameOverScene::GameOverScene()
 	// 変数の初期化
 	ghost_x = 750;
 	ghost_y = 150;
+	count = 0.0f;
 }
 
 GameOverScene::~GameOverScene()
@@ -21,10 +22,20 @@ GameOverScene::~GameOverScene()
 Scene* GameOverScene::update()
 {
 #ifdef _DEBUG
+	// スペースキーでゲームクリア画面へ
 	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
 		return new GameClearScene;
 	}
 #endif
+
+	if (count < FPS_PERIOD)
+	{
+		count++;
+	}
+	else
+	{
+		count = 0;
+	}
 
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
@@ -41,8 +52,10 @@ void GameOverScene::draw() const
 
 	// 画像表示
 	DrawGraph(0, 0, img_gameover, TRUE);
-	DrawGraph(ghost_x, ghost_y, img_ghost, TRUE);
+	// sin( PI*2 / 周期 * Count ) * 振幅
+	DrawGraph(ghost_x, ghost_y + sinf(M_PI * 2 / FPS_PERIOD * count) * 40, img_ghost, TRUE);
 	DrawGraph(1100, 670, img_button_a, TRUE);
+
 
 	// テキスト表示
 	SetFontSize(60);
@@ -51,7 +64,9 @@ void GameOverScene::draw() const
 	DrawFormatString(1150, 680, 0x000000, "RESULT");
 
 #ifdef _DEBUG
-	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+	//DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+	DrawFormatString(0, 0, 0xffffff, "%f",count);
+
 #endif
 
 }

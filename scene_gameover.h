@@ -1,6 +1,10 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES				// <math.h>
+
+// アニメーション
+#define FPS_PERIOD 120					// 周期
+#define AMPLITUDE 40					// 振幅
 
 #include <math.h>
 #include "DxLib.h"
@@ -13,6 +17,7 @@ class GameOverScene : public Scene
 private:
 	int ghost_x;
 	int ghost_y;
+	float count;
 
 	// 画像用変数
 	int img_gameover;
