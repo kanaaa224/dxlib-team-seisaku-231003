@@ -56,5 +56,6 @@ class GameScene;
 #include "scene_end.h"
 #include "scene_credit.h"
 #include "scene_load.h"
+#include "map.h"
 
 #include "kitamura_test.h"
