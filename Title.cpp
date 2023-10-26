@@ -9,12 +9,9 @@
 //コンストラクタ
 Title::Title()
 {
-	EnemyImage0 = LoadGraph("resources/images/(仮)魔法使い.png");
-	EnemyImage1 = LoadGraph("resources/images/(仮)スケルトン.png");
-	EnemyImage2 = LoadGraph("resources/images/(仮)スライム.png");
-	EnemyImage3 = LoadGraph("resources/images/(仮)ミノタウロス.png");
-	EnemyImage4 = LoadGraph("resources/images/(仮)まおう.png");
+	TitleImage = LoadGraph("resources/images/Title.png");
 	g_MenuNumber = 0;
+	interval = 0;
 }
 
 //デストラクタ
@@ -27,6 +24,7 @@ Title::~Title()
 Scene*Title::update()
 {
 	InputCtrl::Update();
+	InputCtrl::GetStickRatio(L).y;
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (g_MenuNumber == 0) {
@@ -44,11 +42,11 @@ Scene*Title::update()
 	}
 
 	//十字キー下ボタンでカーソルを下に移動
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS )
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y>STICK_MAX && interval>=30)
 	{
 		if (++g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS )
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y<-STICK_MAX && interval>=30)
 	{
 		if (--g_MenuNumber < 0)g_MenuNumber = 3;
 	}
@@ -60,14 +58,15 @@ Scene*Title::update()
 //描画
 void Title::draw() const
 {
+	DrawGraph(0, 0, TitleImage, TRUE);
 	SetFontSize(100);
-	DrawString(350, 150, "タイトル名", 0xffffff);
+	DrawString(400, 150, "タイトル名", 0x000000);
 	SetFontSize(75);
-	DrawString(470, 300, "Start", 0xffffff);
-	DrawString(470, 370, "Help", 0xffffff);
-	DrawString(470, 440, "Credit", 0xffffff);
-	DrawString(470, 510, "End", 0xffffff);
+	DrawString(550, 300, "Start", 0x000000);
+	DrawString(550, 370, "Help", 0x000000);
+	DrawString(550, 440, "Credit", 0x000000);
+	DrawString(550, 510, "End", 0x000000);
 
-	DrawTriangle(420, 315 + g_MenuY, 460, 345 + g_MenuY, 420, 375 + g_MenuY, 0xff0000, TRUE);
+	DrawTriangle(470, 315 + g_MenuY, 510, 345 + g_MenuY, 470, 375 + g_MenuY, 0xff0000, TRUE);
 
 }
