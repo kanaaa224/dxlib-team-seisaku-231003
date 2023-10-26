@@ -1,12 +1,10 @@
 #include "main.h"
 #include "Stage.h"
+#include "Player.h"
 
 Stage::Stage() {
 
 	if (StageImg1 = LoadGraph("resources/images/stageimage2.png")) {}
-	/*if (StageImg2 = LoadGraph("resources/images/stageimage2.png")) {}
-	if (StageImg3 = LoadGraph("resources/images/stageimage2.png")) {}
-	if (StageImg4 = LoadGraph("resources/images/stageimage2.png")) {}*/
 
 	for (int i = 0; i < 4; i++) {
 
@@ -21,9 +19,6 @@ Stage::Stage() {
 	/*StageX = 640.0;
 	StageY = 369.5;*/
 
-	Provisional_RStickX = 0;
-	Provisional_RStickY = 0;
-
 	Xspeed = 2.0;
 	Yspeed = 2.0;
 }
@@ -31,55 +26,50 @@ Stage::Stage() {
 Stage::~Stage() {
 
 	DeleteGraph(StageImg1);
-	/*DeleteGraph(StageImg2);
-	DeleteGraph(StageImg3);
-	DeleteGraph(StageImg4);*/
-
 }
 
 void Stage::update() {
 
-	Provisional_RStickX = InputCtrl::GetStickRatio(L).x;
-	Provisional_RStickY = InputCtrl::GetStickRatio(L).y;
-
 	//‰¡
-	if (Provisional_RStickX > MOVE_RIGHT) {
+	//if (Provisional_RStickX > MOVE_RIGHT) {
 
-		//StageX = StageX + Xspeed;
-		for (int i = 0; i < 4; i++) {
-			StageArrayImg[i].x = StageArrayImg[i].x - Xspeed;
-		}
-	}
-	else if (Provisional_RStickX < MOVE_LEFT) {
+	//	//StageX = StageX + Xspeed;
+	//	for (int i = 0; i < 4; i++) {
+	//		StageArrayImg[i].x = StageArrayImg[i].x - Xspeed;
+	//	}
+	//}
+	//else if (Provisional_RStickX < MOVE_LEFT) {
 
-		//StageX = StageX - Xspeed;
-		for (int i = 0; i < 4; i++) {
-			StageArrayImg[i].x = StageArrayImg[i].x + Xspeed;
-		}
-	}
+	//	//StageX = StageX - Xspeed;
+	//	for (int i = 0; i < 4; i++) {
+	//		StageArrayImg[i].x = StageArrayImg[i].x + Xspeed;
+	//	}
+	//}
 
-	//c
-	if (Provisional_RStickY > MOVE_UP) {
+	////c
+	//if (Provisional_RStickY > MOVE_UP) {
 
-		//StageY = StageY - Yspeed;
-		for (int i = 0; i < 4; i++) {
-			StageArrayImg[i].y = StageArrayImg[i].y + Yspeed;
-		}
-	}
-	else if (Provisional_RStickY < MOVE_DOWN) {
+	//	//StageY = StageY - Yspeed;
+	//	for (int i = 0; i < 4; i++) {
+	//		StageArrayImg[i].y = StageArrayImg[i].y + Yspeed;
+	//	}
+	//}
+	//else if (Provisional_RStickY < MOVE_DOWN) {
 
-		//StageY = StageY + Yspeed;
-		for (int i = 0; i < 4; i++) {
-			StageArrayImg[i].y = StageArrayImg[i].y - Yspeed;
-		}
+	//	//StageY = StageY + Yspeed;
+	//	for (int i = 0; i < 4; i++) {
+	//		StageArrayImg[i].y = StageArrayImg[i].y - Yspeed;
+	//	}
+	//}
+
+	for (int i = 0; i < 4; i++) {
+		StageArrayImg[i].x = Player::Player_MovingX();
+		StageArrayImg[i].y = Player::Player_MovingY();
 	}
 
 }
 
 void Stage::draw()const {
-
-	DrawFormatString(0, 340, GetColor(255, 255, 255), "RStick:cŽ²’l %0.1f", Provisional_RStickX);
-	DrawFormatString(0, 360, GetColor(255, 255, 255), "RStick:‰¡Ž²’l %0.1f", Provisional_RStickY);
 
 	//DrawGraph(StageX, StageY, StageImg1, TRUE);
 
