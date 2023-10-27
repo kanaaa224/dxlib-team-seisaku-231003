@@ -18,13 +18,18 @@ Slime::Slime()
 	SetRespawnPoint();
 }
 
-void Slime::Update()
+void Slime::Update(Player* player)
 {
+	SetPlayerAmountOfTravel_X(player->Player_MoveX());
+	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
+
 	//ˆÚ“®ˆ—//
 	X();
+	location.x -= diff.x;
 	location.x += vector.x;
 
 	Y();
+	location.y -= diff.y;
 	location.y += vector.y;
 }
 
