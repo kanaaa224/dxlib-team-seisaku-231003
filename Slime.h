@@ -1,5 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
+#include "Player.h"
+
 class Slime :public EnemyBase
 {
 private:
@@ -10,7 +12,7 @@ private:
 public:
 	Slime();
 
-	void Update();
+	void Update(Player* player);
 	void Draw();
 
 	//ˆÚ“®ˆ—
