@@ -143,22 +143,22 @@ int Player::Player_AimingY() {
 	return AimingY;
 }
 
-int Player::Player_MoveX() {
+float Player::Player_MoveX() {
 
 	return MoveX;
 }
 
-int Player::Player_MoveY() {
+float Player::Player_MoveY() {
 
 	return MoveY;
 }
 
-int Player::Player_MovingX() {
+float Player::Player_MovingX() {
 
 	return MovingX;
 }
 
-int Player::Player_MovingY() {
+float Player::Player_MovingY() {
 
 	return MovingY;
 }
