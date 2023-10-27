@@ -12,6 +12,7 @@ Title::Title()
 	TitleImage = LoadGraph("resources/images/Title.png");
 	g_MenuNumber = 0;
 	interval = 0;
+	cursor = LoadGraph("resources/images/cursor.png");
 }
 
 //デストラクタ
@@ -67,6 +68,6 @@ void Title::draw() const
 	DrawString(550, 440, "Credit", 0x000000);
 	DrawString(550, 510, "End", 0x000000);
 
-	DrawTriangle(470, 315 + g_MenuY, 510, 345 + g_MenuY, 470, 375 + g_MenuY, 0xff0000, TRUE);
+	DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
 
 }

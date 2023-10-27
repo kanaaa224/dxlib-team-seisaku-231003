@@ -17,6 +17,7 @@ private:
 	int g_MenuY;
 	int interval;
 	short PadStick;
+	int cursor;
 
 public:
 	Title();
