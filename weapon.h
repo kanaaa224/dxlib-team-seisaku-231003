@@ -73,6 +73,11 @@ public:
 
 	bool WeaponCollision(Location enemyLocation, float radius);
 
+
+
+
 	bool GetLevelUpFlg() { return levelUpFlg; }
+	int GetDamage() { return damage; }
+	int GetWeaponType() { return weaponType; }
 };
 

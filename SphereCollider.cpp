@@ -39,3 +39,8 @@ void SphereCollider::SetPlayerAmountOfTravel_Y(float y)
 {
     diff.y = y;
 }
+
+float SphereCollider::GetEnemyRadius()
+{
+    return radius;
+}

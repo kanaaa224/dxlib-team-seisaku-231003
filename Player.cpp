@@ -35,6 +35,8 @@ Player::Player() {
 
 	MovingX = 0.0;
 	MovingY = 0.0;
+
+	Player_HP = 100;
 }
 
 Player::~Player() {
@@ -161,4 +163,9 @@ float Player::Player_MovingX() {
 float Player::Player_MovingY() {
 
 	return MovingY;
+}
+
+int Player::GetPlayer_HP() {
+
+	return Player_HP;
 }

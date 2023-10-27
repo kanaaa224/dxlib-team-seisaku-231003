@@ -37,6 +37,7 @@ private:
 	float MoveY;
 	float MoveZ;
 
+	int Player_HP;
 	
 
 public:
@@ -60,4 +61,6 @@ public:
 
 	static float Player_MovingX();
 	static float Player_MovingY();
+
+	int GetPlayer_HP();
 };

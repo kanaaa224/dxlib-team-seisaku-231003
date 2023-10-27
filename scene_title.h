@@ -5,6 +5,7 @@
 class Title :public Scene
 {
 private:
+
 	//‰æ‘œ‚Ì“Ç•Ï”
 	int TitleImage;
 	int EnemyImage0;
@@ -15,6 +16,9 @@ private:
 
 	int g_MenuNumber;
 	int g_MenuY;
+	int interval;
+	short PadStick;
+	int cursor;
 
 public:
 	Title();

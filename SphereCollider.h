@@ -39,5 +39,6 @@ public:
 	void SetPlayerAmountOfTravel_X(float x);
 	void SetPlayerAmountOfTravel_Y(float y);
 
+	float GetEnemyRadius();
 };
 
