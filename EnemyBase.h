@@ -29,4 +29,6 @@ public:
 	void SetRespawnPoint();
 
 	int SetGetRand(int min, int max);
+
+	Location GetEnemyLocation();
 };

@@ -78,3 +78,8 @@ int EnemyBase::SetGetRand(int min, int max) {
 		return GetRand(abs(min) - abs(max) + 1) + max;
 	}
 }
+
+Location EnemyBase::GetEnemyLocation()
+{
+	return location;
+}
