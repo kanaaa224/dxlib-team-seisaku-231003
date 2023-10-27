@@ -4,7 +4,7 @@
 class EnemyBase :public SphereCollider
 {
 private:
-	
+
 protected:
 	int img;			//‰æ‘œŠi”[—p•Ï”
 	int hp;				//“G‚ÌHP

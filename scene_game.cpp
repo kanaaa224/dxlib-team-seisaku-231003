@@ -68,6 +68,20 @@ Scene* GameScene::update() {
 		}
 	}
 
+
+	//武器と敵の当たり判定
+	if (stage == 1) {
+		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+			if (slime[i] != nullptr) {
+				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+					//ここに敵のHPが削れる処理
+					Weapon->SetWeaponType(99);
+				}
+			}
+		}
+	}
+
+	//武器のレベルアップ（デバッグ用）
 	if (!Weapon->GetLevelUpFlg()) {
 		if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
 			Weapon->SetWeaponType(sword);
