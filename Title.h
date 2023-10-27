@@ -21,7 +21,6 @@ private:
 
 public:
 	Title();
-	~Title();
 	Scene* update() override;
 	void draw() const override;
 
