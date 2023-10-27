@@ -1,5 +1,6 @@
 #include "Slime.h"
 #include "Common.h"
+#include "Player.h"
 
 Slime::Slime()
 {
@@ -20,11 +21,16 @@ Slime::Slime()
 
 void Slime::Update()
 {
+	/*SetPlayerAmountOfTravel_X(Player::MovingX);
+	SetPlayerAmountOfTravel_Y(Player::MovingY);*/
+
 	//à⁄ìÆèàóù//
 	X();
+	location.x += diff.x;
 	location.x += vector.x;
 
 	Y();
+	location.y += diff.y;
 	location.y += vector.y;
 }
 
