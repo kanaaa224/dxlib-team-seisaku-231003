@@ -85,15 +85,20 @@ void GameUI::drawHUD() const {
 
 	DrawFormatString((SCREEN_WIDTH - 90) - GetDrawFormatStringWidth("Lv.") / 2, 70, 0xffffff, "Lv.");
 
-	ChangeFont("", DX_CHARSET_DEFAULT);
+	//ChangeFont("", DX_CHARSET_DEFAULT);
 
 	// 経験値
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 	DrawBox((SCREEN_WIDTH - 400), 70, (SCREEN_WIDTH - 110), 90, GetColor(0, 0, 0), true);
-	DrawCircle((SCREEN_WIDTH - 400), 80, 10, GetColor(0, 0, 0), true);
-
-
+	//DrawCircle((SCREEN_WIDTH - 400), 80, 10, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawBox((SCREEN_WIDTH - 400) + 5, 80 - 5, ((SCREEN_WIDTH - 400) + (290 * 0.8)) - 5, 90 - 5, GetColor(57, 165, 229), true);
+
+	DrawFormatString((SCREEN_WIDTH - 395)/* - GetDrawFormatStringWidth("EXP:") / 2*/, 60, 0xffffff, "EXP:");
+
+	ChangeFont("", DX_CHARSET_DEFAULT);
+
 
 	// 現在のスコア を描画
 	/* void drawScore() const;
