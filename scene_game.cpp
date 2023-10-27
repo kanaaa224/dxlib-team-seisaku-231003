@@ -75,7 +75,7 @@ Scene* GameScene::update() {
 			if (slime[i] != nullptr) {
 				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 					//ここに敵のHPが削れる処理
-					Weapon->SetWeaponType(99);
+					//例：slime[i].subtractionHP(Weapon->GetDamage);
 				}
 			}
 		}
