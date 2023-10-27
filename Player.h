@@ -55,9 +55,9 @@ public:
 	int Player_AimingX();
 	int Player_AimingY();
 
-	int Player_MoveX();
-	int Player_MoveY();
+	float Player_MoveX();
+	float Player_MoveY();
 
-	static int Player_MovingX();
-	static int Player_MovingY();
+	static float Player_MovingX();
+	static float Player_MovingY();
 };

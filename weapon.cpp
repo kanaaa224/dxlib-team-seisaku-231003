@@ -71,11 +71,12 @@ void weapon::Update(float cursorX, float cursorY)
 
 
 	float innerProduct = ((x) * baseVec.x) + ((y) * baseVec.y);
-	
-	weaponAngle = acos(innerProduct / (length * baseVec.length));
-	if (y > 0) {
-		weaponAngle = (M_PI - weaponAngle);
-		weaponAngle += M_PI;
+	if (!isAttacking) {
+		weaponAngle = acos(innerProduct / (length * baseVec.length));
+		if (y > 0) {
+			weaponAngle = (M_PI - weaponAngle);
+			weaponAngle += M_PI;
+		}
 	}
 	
 
