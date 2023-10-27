@@ -2,19 +2,21 @@
 
 ResultScene::ResultScene()
 {
-	value = 255;
-
 	// 画像読込
 	img_button_a = LoadGraph("resources/images/button_a.png");
-	//img = LoadGraph("resources/images/slime_cat.png");
+
+	// 変数の初期化
+	value = 180;
 }
 
 ResultScene::~ResultScene()
 {
+
 }
 
 Scene* ResultScene::update()
 {
+	// ブレンドモードのパラメータ
 	if (value > 0)
 	{
 		value--;

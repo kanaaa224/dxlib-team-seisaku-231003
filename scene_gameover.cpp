@@ -13,7 +13,7 @@ GameOverScene::GameOverScene()
 	ghost_y = 150;
 	count = 0;
 
-	value = 255;
+	value = 180;
 }
 
 GameOverScene::~GameOverScene()
@@ -30,6 +30,7 @@ Scene* GameOverScene::update()
 	}
 #endif
 
+	// ブレンドモードのパラメータ
 	if (value > 0)
 	{
 		value--;

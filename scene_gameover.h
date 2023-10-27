@@ -15,17 +15,19 @@
 class GameOverScene : public Scene
 {
 private:
-	int ghost_x;
-	int ghost_y;
-	int count;
-
-	int value;
-
 	// 画像用変数
 	int img_gameover;
 	int img_ghost;
 	int img_button_a;
 	//int img_background;
+
+	// 座標移動
+	int ghost_x;
+	int ghost_y;
+	int count;
+
+	// フェード演出
+	int value;
 
 public:
 	GameOverScene();

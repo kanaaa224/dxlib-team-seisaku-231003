@@ -8,8 +8,6 @@
 class ResultScene : public Scene
 {
 private:
-	int value;
-
 	// 画像用変数
 	//int img_map;
 	//int img_branchPoint;
@@ -17,6 +15,9 @@ private:
 	//int img_weapon2;
 	//int img_background;
 	int img_button_a;
+
+	// フェード演出
+	int value;
 
 public:
 	ResultScene();
