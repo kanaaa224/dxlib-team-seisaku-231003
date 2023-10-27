@@ -4,7 +4,7 @@
 class EnemyBase :public SphereCollider
 {
 private:
-	
+
 protected:
 	int img;			//‰æ‘œŠi”[—p•Ï”
 	int hp;				//“G‚ÌHP
@@ -29,4 +29,6 @@ public:
 	void SetRespawnPoint();
 
 	int SetGetRand(int min, int max);
+
+	Location GetEnemyLocation();
 };
