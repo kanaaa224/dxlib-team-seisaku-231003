@@ -7,7 +7,6 @@
 #define AMPLITUDE 40					// U•
 
 #include <math.h>
-#include "DxLib.h"
 #include "inputCtrl.h"
 #include "scene.h"
 #include "scene_result.h"
