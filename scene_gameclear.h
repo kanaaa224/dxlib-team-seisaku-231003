@@ -5,7 +5,8 @@
 #include "scene.h"
 #include "scene_result.h"
 
-class GameClearScene : public Scene {
+class GameClearScene : public Scene
+{
 private:
 	// ‰æ‘œ—p•Ï”
 	int img_gameclear;
