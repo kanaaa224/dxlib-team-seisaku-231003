@@ -22,9 +22,6 @@ private:
 
 	StageArray StageArrayImg[4];
 
-	int Provisional_RStickX;
-	int Provisional_RStickY;
-
 	float Xspeed;
 	float Yspeed;
 

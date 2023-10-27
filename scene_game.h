@@ -11,6 +11,7 @@
 #include "Slime.h"
 #include "Common.h"
 #include"scene_weapon.h"
+#include "scene_gameclear.h"
 
 class GameScene : public Scene {
 private:

@@ -85,6 +85,12 @@ Scene* GameScene::update() {
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
 	gameUI->update(this);
 
+
+	// ゲームオーバー画面へ遷移
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
+		return new GameOverScene;
+	}
+
 	return this;
 };
 
@@ -96,13 +102,13 @@ void GameScene::draw() const {
 	player->draw();
 
 	//敵//
-	/*if (stage == 1) {
+	if (stage == 1) {
 		for (int i = 0; i < MAX_SLIME_NUM; i++) {
 			if (slime[i] != nullptr) {
 				slime[i]->Draw();
 			}
 		}
-	}*/
+	}
 	////////////
 
 	if (is_weapon_selct != true)
