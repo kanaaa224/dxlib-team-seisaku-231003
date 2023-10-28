@@ -1,5 +1,6 @@
 #include "Slime.h"
 #include "Common.h"
+#include <math.h>
 
 Slime::Slime()
 {
@@ -20,17 +21,29 @@ Slime::Slime()
 
 void Slime::Update(Player* player)
 {
+	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
 	//移動処理//
-	X();
-	location.x -= diff.x;
-	location.x += vector.x;
+	if (HitFlg == true) {//当たった時
+		vector.x *= -1;
+		vector.y *= -1;
 
-	Y();
-	location.y -= diff.y;
-	location.y += vector.y;
+		location.x -= diff.x;
+		location.x += vector.x;
+
+		location.y -= diff.y;
+		location.y += vector.y;
+	}
+	else if (HitFlg == false) {//当たってない時
+		X();
+		location.x -= diff.x;
+		location.x += vector.x;
+		Y();
+		location.y -= diff.y;
+		location.y += vector.y;
+	}
 }
 
 void Slime::Draw()
@@ -52,4 +65,10 @@ int Slime::GetStageNum()
 {
 	int r = SLIME_1_STAGE_NUM;
 	return r;
+}
+
+void Slime::SetHitVector(Vector v)
+{
+	vector.x += -v.x;
+	vector.y += -v.y;
 }

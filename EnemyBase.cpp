@@ -1,9 +1,10 @@
-#include "EnemyBase.h"
+ï»¿#include "EnemyBase.h"
 #include "Common.h"
 #include <math.h>
 
 EnemyBase::EnemyBase()
 {
+	HitFlg = false;
 	radius = 20;
 }
 
@@ -38,19 +39,19 @@ void EnemyBase::SetRespawnPoint()
 	respawnPosition = GetRand(3);
 
 	switch(respawnPosition){
-	case 0://ã
+	case 0://ä¸Š
 		location.x = SetGetRand(-100, 1380);
 		location.y = 0;
 		break;
-	case 1://‰º
+	case 1://ä¸‹
 		location.x = SetGetRand(-100, 1380);
 		location.y = 720;
 		break;
-	case 2://‰E
+	case 2://å³
 		location.x = 1280;
 		location.y = SetGetRand(-100, 820);
 		break;
-	case 3://¶
+	case 3://å·¦
 		location.x = 0;
 		location.y = SetGetRand(-100, 820);
 		break;
@@ -59,22 +60,22 @@ void EnemyBase::SetRespawnPoint()
 
 int EnemyBase::SetGetRand(int min, int max) {
 	if (min > max) {
-		// min‚Æmax‚Ì’l‚ğŒğŠ·‚·‚é
+		// minã¨maxã®å€¤ã‚’äº¤æ›ã™ã‚‹
 		int temp = min;
 		min = max;
 		max = temp;
 	}
 
 	if (min >= 0) {
-		// —¼•û‚Ì’l‚ª0ˆÈã‚Ìê‡
+		// ä¸¡æ–¹ã®å€¤ãŒ0ä»¥ä¸Šã®å ´åˆ
 		return GetRand(max - min + 1) + min;
 	}
 	else if (max >= 0) {
-		// min‚ªƒ}ƒCƒiƒX‚Åmax‚ª0ˆÈã‚Ìê‡
+		// minãŒãƒã‚¤ãƒŠã‚¹ã§maxãŒ0ä»¥ä¸Šã®å ´åˆ
 		return GetRand(max + abs(min) + 1) - abs(min);
 	}
 	else {
-		// —¼•û‚Ì’l‚ªƒ}ƒCƒiƒX‚Ìê‡
+		// ä¸¡æ–¹ã®å€¤ãŒãƒã‚¤ãƒŠã‚¹ã®å ´åˆ
 		return GetRand(abs(min) - abs(max) + 1) + max;
 	}
 }
@@ -82,4 +83,14 @@ int EnemyBase::SetGetRand(int min, int max) {
 Location EnemyBase::GetEnemyLocation()
 {
 	return location;
+}
+
+bool EnemyBase::GetHitFlg()
+{
+	return HitFlg;
+}
+
+void EnemyBase::SetHitFlg(bool hit)
+{
+	HitFlg = hit;
 }

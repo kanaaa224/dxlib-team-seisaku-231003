@@ -53,4 +53,6 @@ public:
 	int getState() {
 		return state;
 	};
+
+	void HitCheck();
 };
