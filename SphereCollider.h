@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "DxLib.h"
 #include "weapon.h"
+#include "Player.h"
 
 struct Location
 {
@@ -33,7 +34,7 @@ public:
 	SphereCollider();
 
 	//当たり判定処理
-	int CheckCollision(SphereCollider sphereCollider);
+	int CheckCollision(SphereCollider sphereCollider, Player* player);
 
 	//プレイヤーの移動量を加算
 	void SetPlayerAmountOfTravel_X(float x);
