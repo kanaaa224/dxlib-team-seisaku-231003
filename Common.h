@@ -13,8 +13,9 @@
 #define C_WHITE GetColor(255,255,255)   //白
 
 //当たり判定
-#define COLLISION 1
 #define NO_COLLISION 0
+#define HIT          1
+#define OVERLAP      2
 
 //プレイヤー
 #define PLAYER_LOCATION_X 640

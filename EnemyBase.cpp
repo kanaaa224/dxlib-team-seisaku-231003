@@ -4,7 +4,8 @@
 
 EnemyBase::EnemyBase()
 {
-	HitFlg = false;
+	hitFlg = false;
+	respawnFlg = false;
 	radius = 20;
 }
 
@@ -85,12 +86,12 @@ Location EnemyBase::GetEnemyLocation()
 	return location;
 }
 
-bool EnemyBase::GetHitFlg()
+int EnemyBase::GetHitFlg()
 {
-	return HitFlg;
+	return hitFlg;
 }
 
-void EnemyBase::SetHitFlg(bool hit)
+void EnemyBase::SetHitFlg(int hit)
 {
-	HitFlg = hit;
+	hitFlg = hit;
 }

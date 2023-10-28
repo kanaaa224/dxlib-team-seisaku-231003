@@ -11,10 +11,13 @@ protected:
 	int damage;			//プレイヤーに与えるダメージ
 	int damageStopCnt;	//ダメージストップ用のカウント変数
 	int respawnPosition;//リスポーンする場所
+	int respawnTime;	//リスポーンまでの時間を格納する
+	int respawnTimeCnt;	//リスポーンまでのカウント変数
 
+	//Flg変数
 	bool playerHitFlg;	//プレイヤーに当たったらTRUEを返す
-
-	bool HitFlg;//何かに当たったら（全ての敵、プレイヤー、）
+	int hitFlg;			//何かに当たったら（全ての敵、プレイヤー、）
+	bool respawnFlg;	//リスポーンしているか
 public:
 	EnemyBase();
 
@@ -32,7 +35,7 @@ public:
 
 	Location GetEnemyLocation();
 
-	bool GetHitFlg();
-	void SetHitFlg(bool hit);
+	int GetHitFlg();
+	void SetHitFlg(int hit);
 
 };

@@ -56,18 +56,19 @@ Scene* GameScene::update() {
 
 	//敵//
 	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime;
+		slime[tmpSlimeNum] = new Slime(tmpSlimeNum);
 		tmpSlimeNum++;
 	}
 
 	if (stage == 1) {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
-				slime[i]->Update(player);
+				slime[i]->Update(i, player);
 			}
 		}
 	}
 
+	HitCheck();
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -145,14 +146,17 @@ void GameScene::HitCheck()
 				}
 
 				if (slime[j] != nullptr) {
-					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == COLLISION) {
-						//ここに当たった時のスライムの挙動を書く
-						slime[i]->SetHitFlg(true);
-						slime[j]->SetHitFlg(true);
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == OVERLAP) {//重なっている
+						slime[i]->SetHitFlg(OVERLAP);
+						slime[j]->SetHitFlg(OVERLAP);
 					}
-					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
-						/*slime[i]->SetHitFlg(false);
-						slime[j]->SetHitFlg(false);*/
+					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
+						slime[i]->SetHitFlg(HIT);
+						slime[j]->SetHitFlg(HIT);
+					}
+					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
+						slime[i]->SetHitFlg(NO_COLLISION);
+						slime[j]->SetHitFlg(NO_COLLISION);
 					}
 				}
 			}

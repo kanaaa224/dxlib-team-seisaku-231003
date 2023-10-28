@@ -1,54 +1,64 @@
-#include "Slime.h"
+ï»¿#include "Slime.h"
 #include "Common.h"
 #include <math.h>
 
-Slime::Slime()
+Slime::Slime(int arrayNum)
 {
-	//‰æ‘œ“Ç
+	//ç”»åƒèª­è¾¼
 	img = LoadGraph("resources/images/slime_cat.png");
-	//•Ï”‚Ì‰Šú‰»
+	//å¤‰æ•°ã®åˆæœŸåŒ–
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
 
+	respawnTimeCnt = 0;
+	respawnTime = arrayNum * 60;
+
 	tmpVX = 0;
 	tmpVY = 0;
 
-	//ƒŠƒXƒ|[ƒ“ƒ|ƒCƒ“ƒgŒˆ‚ß
+	//ãƒªã‚¹ãƒãƒ¼ãƒ³ãƒã‚¤ãƒ³ãƒˆæ±ºã‚
 	SetRespawnPoint();
 }
 
-void Slime::Update(Player* player)
+void Slime::Update(int arrayNum, Player* player)
 {
-	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê‚ğdiff‚ÉƒZƒbƒg
-	SetPlayerAmountOfTravel_X(player->Player_MoveX());
-	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
+	if (respawnFlg == true) {
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é‡ã‚’diffã«ã‚»ãƒƒãƒˆ
+		SetPlayerAmountOfTravel_X(player->Player_MoveX());
+		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
-	//ˆÚ“®ˆ—//
-	if (HitFlg == true) {//“–‚½‚Á‚½
-		vector.x *= -1;
-		vector.y *= -1;
+		//ç§»å‹•å‡¦ç†//
+		if (hitFlg == HIT) {//å½“ãŸã£ãŸæ™‚
 
-		location.x -= diff.x;
-		location.x += vector.x;
+		}
+		else if (hitFlg == OVERLAP) {//é‡ãªã£ã¦ã„ã‚‹æ™‚
 
-		location.y -= diff.y;
-		location.y += vector.y;
+		}
+		else if (hitFlg == NO_COLLISION) {//å½“ãŸã£ã¦ãªã„æ™‚
+			X();
+			location.x -= diff.x;
+			location.x += vector.x;
+			Y();
+			location.y -= diff.y;
+			location.y += vector.y;
+		}
 	}
-	else if (HitFlg == false) {//“–‚½‚Á‚Ä‚È‚¢
-		X();
-		location.x -= diff.x;
-		location.x += vector.x;
-		Y();
-		location.y -= diff.y;
-		location.y += vector.y;
+
+	//Cnt
+	if (respawnTimeCnt == respawnTime) {
+		respawnFlg = true;
 	}
+	respawnTimeCnt++;
 }
 
 void Slime::Draw()
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+	if (respawnFlg == true) {
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", hitFlg);
+	}
 }
 
 void Slime::X()
