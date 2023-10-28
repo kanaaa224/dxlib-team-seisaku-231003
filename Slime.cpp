@@ -53,11 +53,12 @@ void Slime::Update(int arrayNum, Player* player)
 	respawnTimeCnt++;
 }
 
-void Slime::Draw()
+void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", hitFlg);
+		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", arrayNum);
+		DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "%d", hitFlg);
 	}
 }
 

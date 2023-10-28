@@ -13,7 +13,7 @@ public:
 	Slime(int arrayNum);
 
 	void Update(int arrayNum, Player* player);
-	void Draw();
+	void Draw(int arrayNum);
 
 	//移動処理
 	void X();
