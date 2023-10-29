@@ -138,31 +138,43 @@ void GameScene::HitCheck()
 {
 
 	//スライムの当たり判定
+	//for (int i = 0; i <= SLIME_1_STAGE_NUM; i++) {
+	//	if (slime[i] != nullptr) {
+	//		for (int j = i + 1; j <= SLIME_1_STAGE_NUM; j++) {
+	//			if (slime[j] != nullptr) {
+	//				if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == OVERLAP) {//重なっている
+	//					slime[i]->SetHitFlg(OVERLAP);
+	//					slime[j]->SetHitFlg(OVERLAP);
+	//				}
+	//				else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
+	//					slime[i]->SetHitFlg(HIT);
+	//					slime[j]->SetHitFlg(HIT);
+	//				}
+	//				else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
+	//					slime[i]->SetHitFlg(NO_COLLISION);
+	//					slime[j]->SetHitFlg(NO_COLLISION);
+	//				}
+	//			}
+	//		}
+
+	//	}
+	//}
+
 	for (int i = 0; i <= SLIME_1_STAGE_NUM; i++) {
-		if (slime[i] != nullptr) {
-			for (int j = 0; j <= SLIME_1_STAGE_NUM; j++) {
-				if (i == j) {
-					j = i + 1;
-				}
-
-				if (slime[j] != nullptr) {
-					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == OVERLAP) {//重なっている
-						slime[i]->SetHitFlg(OVERLAP);
-						slime[j]->SetHitFlg(OVERLAP);
-					}
-					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
-						slime[i]->SetHitFlg(HIT);
-						slime[j]->SetHitFlg(HIT);
-					}
-					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
-						slime[i]->SetHitFlg(NO_COLLISION);
-						slime[j]->SetHitFlg(NO_COLLISION);
-					}
-				}
+		for (int j = i + 1; j <= SLIME_1_STAGE_NUM; j++) {
+			if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == OVERLAP) {//重なっている
+				slime[i]->SetHitFlg(OVERLAP);
+				slime[j]->SetHitFlg(OVERLAP);
 			}
-
+			else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
+				slime[i]->SetHitFlg(HIT);
+				slime[j]->SetHitFlg(HIT);
+			}
+			else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
+				slime[i]->SetHitFlg(NO_COLLISION);
+				slime[j]->SetHitFlg(NO_COLLISION);
+			}
 		}
 	}
-	
+
 }
-;
