@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "DxLib.h"
 #include "weapon.h"
-#include "Player.h"
+
+class Player;
 
 struct Location
 {
@@ -41,5 +42,10 @@ public:
 	void SetPlayerAmountOfTravel_Y(float y);
 
 	float GetEnemyRadius();
+
+	Location GetLocation()
+	{
+		return location;
+	}
 };
 

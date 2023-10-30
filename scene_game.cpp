@@ -19,6 +19,8 @@ GameScene::GameScene() {
 
 	is_weapon_selct = false;
 
+	is_hit = false;
+
 
 	//////////////////////////////////////////////////
 
@@ -131,6 +133,11 @@ void GameScene::draw() const {
 		weapon_selection->draw();
 	}
 
+	if (is_hit)
+	{
+		DrawString(player->GetLocation().x - 12, player->GetLocation().y - 27, "Hit", 0xffffff);
+	}
+
 	//gameUI->draw();
 }
 
@@ -139,6 +146,14 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
+			if (player->CheckCollision(*(slime[i]), player) == HIT)
+			{
+				is_hit = true;
+			}
+			//else
+			//{
+			//	is_hit = false;
+			//}
 			for (int j = 0; j < MAX_SLIME_NUM; j++) {
 				if (slime[j] != nullptr && i != j) {
 					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている

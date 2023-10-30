@@ -12,6 +12,11 @@ Player::Player() {
 	PlayerX = 640;
 	PlayerY = 360;
 
+	location.x = PlayerX;
+	location.y = PlayerY;
+
+	radius = 20;
+
 	AimingX = 300.0;
 	AimingY = 300.0;
 
@@ -110,11 +115,8 @@ void Player::update() {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
-
-	if (0.9 > Provisional_LStickX > 0) {
-
+	else if (Provisional_LStickX == 0) {
 		MoveX = 0;
-		MovingX = MovingX + MoveX;
 	}
 
 	//c
@@ -128,11 +130,8 @@ void Player::update() {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
 	}
-
-	if (0.9 > Provisional_LStickY > 0) {
-
+	else if (Provisional_LStickY == 0) {
 		MoveY = 0;
-		MovingY = MovingY + MoveY;
 	}
 }
 
@@ -156,7 +155,8 @@ void Player::draw()const {
 
 	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
 
-	DrawRotaGraph(PlayerX, PlayerY, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
 }
 
 int Player::Player_AimingX() {
