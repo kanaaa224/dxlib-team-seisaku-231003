@@ -77,11 +77,12 @@ void GameUI::drawHUD() const {
 	DrawCircle((SCREEN_WIDTH - 60), 60, 40, GetColor(242, 166, 68), false, 3);
 
 	SetFontSize(50);
-	ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
+	ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
 
 	DrawFormatString((SCREEN_WIDTH - 60) - GetDrawFormatStringWidth("2") / 2, 35, 0xffffff, "2");
 
 	SetFontSize(20);
+	ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
 
 	DrawFormatString((SCREEN_WIDTH - 90) - GetDrawFormatStringWidth("Lv.") / 2, 70, 0xffffff, "Lv.");
 
@@ -94,6 +95,23 @@ void GameUI::drawHUD() const {
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	DrawBox((SCREEN_WIDTH - 400) + 5, 80 - 5, ((SCREEN_WIDTH - 400) + (290 * 0.8)) - 5, 90 - 5, GetColor(57, 165, 229), true);
+
+	SetFontSize(18);
+	ChangeFont("Algerian", DX_CHARSET_DEFAULT);
+
+	DrawFormatString((SCREEN_WIDTH - 395)/* - GetDrawFormatStringWidth("EXP:") / 2*/, 60, 0xffffff, "EXP:");
+
+	ChangeFont("", DX_CHARSET_DEFAULT);
+
+	// HP
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
+	DrawBox(40, 40, 460, 70, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawBox(40 + 5, 40 - 5, ((SCREEN_WIDTH - 400) + (290 * 0.8)) - 5, 90 - 5, GetColor(57, 165, 229), true);
+
+	SetFontSize(18);
+	ChangeFont("Algerian", DX_CHARSET_DEFAULT);
 
 	DrawFormatString((SCREEN_WIDTH - 395)/* - GetDrawFormatStringWidth("EXP:") / 2*/, 60, 0xffffff, "EXP:");
 
