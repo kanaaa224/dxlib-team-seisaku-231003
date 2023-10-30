@@ -24,4 +24,4 @@
 //敵
 //スライム
 #define MAX_SLIME_NUM 10000//スライムの最大数
-#define SLIME_1_STAGE_NUM 3 //１ステージ目のスライムの数
+#define SLIME_1_STAGE_NUM 2 //１ステージ目のスライムの数

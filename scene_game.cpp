@@ -137,25 +137,22 @@ void GameScene::draw() const {
 void GameScene::HitCheck()
 {
 	//スライムの当たり判定
-	for (int i = 0; i <= MAX_SLIME_NUM; i++) {
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			for (int j = 0; j <= MAX_SLIME_NUM; j++) {
+			for (int j = 0; j < MAX_SLIME_NUM; j++) {
 				if (slime[j] != nullptr && i != j) {
-					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == OVERLAP) {//重なっている
-						slime[i]->SetHitFlg(OVERLAP);
-						slime[j]->SetHitFlg(OVERLAP);
-					}
-					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 					}
-					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
-						slime[i]->SetHitFlg(NO_COLLISION);
-						slime[j]->SetHitFlg(NO_COLLISION);
-					}
+					//else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
+					//	if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない
+					//		if (!slime[i]->GetHitFlg()) slime[i]->SetHitFlg(NO_COLLISION);
+					//		if (!slime[j]->GetHitFlg()) slime[j]->SetHitFlg(NO_COLLISION);
+					//	}
+					//}
 				}
 			}
-
 		}
 	}
 }

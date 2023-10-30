@@ -11,6 +11,7 @@ Slime::Slime(int arrayNum)
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
+	
 
 	respawnTimeCnt = 0;
 	respawnTime = arrayNum * 60;
@@ -31,18 +32,20 @@ void Slime::Update(int arrayNum, Player* player)
 
 		//移動処理//
 		if (hitFlg == HIT) {//当たった時
+			X();
+			vector.x *= 0;
+			location.x += vector.x - diff.x;
+			Y();
+			vector.y *= 0;
+			location.y += vector.y - diff.y;
 
-		}
-		else if (hitFlg == OVERLAP) {//重なっている時
-
+			hitFlg = NO_COLLISION;
 		}
 		else if (hitFlg == NO_COLLISION) {//当たってない時
 			X();
-			location.x -= diff.x;
-			location.x += vector.x;
+			location.x += vector.x - diff.x;
 			Y();
-			location.y -= diff.y;
-			location.y += vector.y;
+			location.y += vector.y - diff.y;
 		}
 	}
 
@@ -78,8 +81,7 @@ int Slime::GetStageNum()
 	return r;
 }
 
-void Slime::SetHitVector(Vector v)
+int Slime::GetSlimeDamage()
 {
-	vector.x += -v.x;
-	vector.y += -v.y;
+	return 0;
 }

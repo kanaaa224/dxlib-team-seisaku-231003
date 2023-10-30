@@ -24,8 +24,5 @@ public:
 
 	//スライムのダメージ取得
 	int GetSlimeDamage();
-
-	//
-	void SetHitVector(Vector v);
 };
 

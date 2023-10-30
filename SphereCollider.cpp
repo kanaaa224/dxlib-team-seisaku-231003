@@ -24,10 +24,7 @@ int SphereCollider::CheckCollision(SphereCollider sphereCollider,Player* player)
     float c = sqrtf(a * a + b * b);
 
     //それぞれの半径の合計と2点間の距離を比べる
-    if (c < radius + sphereCollider.radius) {
-        return OVERLAP;
-    }
-    else if (c == radius + sphereCollider.radius) {
+    if (c <= radius + sphereCollider.radius) {
         return HIT;
     }
     return NO_COLLISION;

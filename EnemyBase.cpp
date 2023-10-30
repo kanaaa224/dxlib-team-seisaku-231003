@@ -4,7 +4,7 @@
 
 EnemyBase::EnemyBase()
 {
-	hitFlg = false;
+	hitFlg = NO_COLLISION;
 	respawnFlg = false;
 	radius = 20;
 }
@@ -93,5 +93,6 @@ int EnemyBase::GetHitFlg()
 
 void EnemyBase::SetHitFlg(int hit)
 {
-	hitFlg = hit;
+	const int r = hit;
+	hitFlg = r;
 }
