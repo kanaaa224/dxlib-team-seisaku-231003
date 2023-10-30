@@ -12,6 +12,11 @@ Player::Player() {
 	PlayerX = 640;
 	PlayerY = 360;
 
+	location.x = PlayerX;
+	location.y = PlayerY;
+
+	radius = 20;
+
 	AimingX = 300.0;
 	AimingY = 300.0;
 
@@ -150,7 +155,8 @@ void Player::draw()const {
 
 	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
 
-	DrawRotaGraph(PlayerX, PlayerY, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
 }
 
 int Player::Player_AimingX() {
