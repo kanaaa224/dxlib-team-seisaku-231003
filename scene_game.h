@@ -38,7 +38,8 @@ private:
 	int stage = 1;//ステージ
 
 	bool is_weapon_selct;
-
+	
+	bool is_hit;	//仮で当たったか
 public:
 	GameScene();
 

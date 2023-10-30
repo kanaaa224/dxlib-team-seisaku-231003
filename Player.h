@@ -1,4 +1,5 @@
 #pragma once
+#include"SphereCollider.h"
 
 #define MOVE_RIGHT 1.0
 #define MOVE_LEFT -1.0
@@ -6,7 +7,7 @@
 #define MOVE_DOWN -1.0
 
 
-class Player
+class Player :public SphereCollider
 {
 private:
 	//‰æ‘œ—p•Ï”
