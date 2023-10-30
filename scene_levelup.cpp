@@ -14,7 +14,7 @@ WeaponLevelUp::~WeaponLevelUp()
 // 更新
 void WeaponLevelUp::update()
 {
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
 		test++;
 	}
@@ -27,6 +27,9 @@ void WeaponLevelUp::draw() const
 	DrawBox(0, 0, 960, 600, 0xa0a0a0, TRUE);
 	SetFontSize(30);
 	DrawFormatString(100, 300, 0x000000, "レベルアップ");
-	DrawFormatString(0, 0, 0x000000, "test : %d", test);
+	SetFontSize(20);
+	DrawFormatString(0, 0, 0x000000, "Xボタン：閉じる");
+	DrawFormatString(0, 20, 0x000000, "Aボタン：加算");
+	DrawFormatString(0, 40, 0x000000, "test : %d", test);
 
 }
