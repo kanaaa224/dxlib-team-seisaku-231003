@@ -73,11 +73,10 @@ void Player::update() {
 		MoveZ = Additional_Value3;
 		MovingX = MovingX - MoveZ;
 	}
-	//else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
-	//	MoveZ = Additional_Value3;
-	//	MovingX = MovingX + MoveZ;
-	//	//MovingY = MovingY + MoveZ;
-	//}
+	else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
+		MoveZ = Additional_Value3;
+		MovingX = MovingX + MoveZ;
+	}
 
 	//照準　右スティック
 	//横
@@ -111,11 +110,11 @@ void Player::update() {
 		MovingX = MovingX - MoveX;
 	}
 
-	if (0.9 > Provisional_LStickX > 0) {
+	/*if (0.9 > Provisional_LStickX > 0) {
 
 		MoveX = 0;
 		MovingX = MovingX + MoveX;
-	}
+	}*/
 
 	//縦
 	if (Provisional_LStickY < MOVE_DOWN) {
@@ -129,11 +128,11 @@ void Player::update() {
 		MovingY = MovingY - MoveY;
 	}
 
-	if (0.9 > Provisional_LStickY > 0) {
+	/*if (0.9 > Provisional_LStickY > 0) {
 
 		MoveY = 0;
 		MovingY = MovingY + MoveY;
-	}
+	}*/
 }
 
 void Player::draw()const {
@@ -192,4 +191,9 @@ float Player::Player_MovingY() {
 int Player::GetPlayer_HP() {
 
 	return Player_HP;
+}
+
+void Player::SetPlayer_HP(int value) {
+
+	Player_HP = Player_HP - value;
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-#define MOVE_RIGHT 1.0
-#define MOVE_LEFT -1.0
-#define MOVE_UP 1.0
-#define MOVE_DOWN -1.0
+#define MOVE_RIGHT 0.1
+#define MOVE_LEFT -0.1
+#define MOVE_UP 0.1
+#define MOVE_DOWN -0.1
 
 
 class Player
@@ -70,4 +70,5 @@ public:
 	static float Player_MovingY();
 
 	int GetPlayer_HP();
+	void SetPlayer_HP(int value);
 };
