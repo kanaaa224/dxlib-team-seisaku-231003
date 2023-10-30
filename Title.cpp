@@ -15,12 +15,6 @@ Title::Title()
 	cursor = LoadGraph("resources/images/cursor.png");
 }
 
-//デストラクタ
-Title::~Title()
-{
-
-}
-
 //更新
 Scene*Title::update()
 {
@@ -43,11 +37,11 @@ Scene*Title::update()
 	}
 
 	//十字キー下ボタンでカーソルを下に移動
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y>STICK_MAX && interval>=30)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS)
 	{
 		if (++g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y<-STICK_MAX && interval>=30)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
 	{
 		if (--g_MenuNumber < 0)g_MenuNumber = 3;
 	}
