@@ -202,5 +202,5 @@ void DebugScene::draw() const {
 	DrawFormatString(x, y, 0xffffff, "Mキー でマップへ");
 
 	//y += 50;
-	//if(InputCtrl::GetStickRatio(L).x) DrawFormatString(x, y, 0xffffff, "aaaaaaa");
+	//if(InputCtrl::GetStickRatio(L).x) DrawFormatString(x, y, 0xffffff, "傾き");
 };
