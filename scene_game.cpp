@@ -16,8 +16,10 @@ GameScene::GameScene() {
 	
 	//
 	weapon_selection = new Weapon_Selection();
+	weapon_level_up = new WeaponLevelUp;
 
 	is_weapon_selct = false;
+	open_level_up = false;
 
 
 	//////////////////////////////////////////////////
@@ -51,6 +53,29 @@ Scene* GameScene::update() {
 			delete weapon_selection;
 			weapon_selection = nullptr;
 		}
+		return this;
+	}
+
+	// 武器のレベルアップ画面
+	// Xボタンで表示と非表示を切り替え
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+	{
+		if (open_level_up)
+		{
+			// 非表示
+			open_level_up = false;
+		}
+		else
+		{
+			// 表示
+			open_level_up = true;
+		}
+	}
+
+	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
+	if (open_level_up)
+	{
+		weapon_level_up->update();
 		return this;
 	}
 
@@ -128,6 +153,12 @@ void GameScene::draw() const {
 	if (is_weapon_selct != true)
 	{
 		weapon_selection->draw();
+	}
+
+	// 武器のレベルアップ画面
+	if (open_level_up)
+	{
+		weapon_level_up->draw();
 	}
 
 	//gameUI->draw();
