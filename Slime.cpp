@@ -1,6 +1,7 @@
 ﻿#include "Slime.h"
 #include "Common.h"
 #include <math.h>
+#include "inputCtrl.h"
 
 Slime::Slime(int arrayNum)
 {
@@ -30,13 +31,15 @@ void Slime::Update(int arrayNum, Player* player)
 		SetPlayerAmountOfTravel_X(player->Player_MoveX());
 		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
+		
+
 		//移動処理//
 		if (hitFlg == HIT) {//当たった時
 			X();
-			vector.x *= 0;
+			vector.x = 0;
 			location.x += vector.x - diff.x;
 			Y();
-			vector.y *= 0;
+			vector.y = 0;
 			location.y += vector.y - diff.y;
 
 			hitFlg = NO_COLLISION;
@@ -61,7 +64,8 @@ void Slime::Draw(int arrayNum)
 	if (respawnFlg == true) {
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", arrayNum);
-		DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "%d", hitFlg);
+		DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%f, VY:%f", vector.x,vector.y);
+		DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%f, dy:%f", diff.x,diff.y);
 	}
 }
 
