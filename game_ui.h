@@ -11,6 +11,8 @@ private:
 	int score, level, floor, hp, exp, enemy;
 	std::map<std::string, int> weapon;
 
+	std::map<std::string, double> hud;
+
 public:
 	GameUI();
 
@@ -26,27 +28,9 @@ public:
 	void init();
 
 	//////////////////////////////////////////////////
-	
-	// 現在のスコア を描画
-	/* void drawScore() const;
 
-	// 現在のレベル を描画
-	void drawLevel() const;
-
-	// 現在のフロア を描画
-	void drawFloor() const;
-
-	// 体力ゲージ を描画
-	void drawHP() const;
-
-	// 経験値ゲージ を描画
-	void drawEXP() const;
-
-	// 残りの敵 を描画
-	void drawEnemy() const;
-
-	// 所持している武器 を描画
-	void drawWeapon() const; */
+	// ヘッドアップディスプレイ
+	void drawHUD() const;
 
 	//////////////////////////////////////////////////
 
