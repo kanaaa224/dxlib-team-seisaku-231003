@@ -36,10 +36,10 @@ void Slime::Update(int arrayNum, Player* player)
 		//移動処理//
 		if (hitFlg == HIT) {//当たった時
 			X();
-			vector.x = 0;
+			vector.x *= -1;
 			location.x += vector.x - diff.x;
 			Y();
-			vector.y = 0;
+			vector.y *= -1;
 			location.y += vector.y - diff.y;
 
 			hitFlg = NO_COLLISION;
@@ -62,13 +62,16 @@ void Slime::Update(int arrayNum, Player* player)
 void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
-		/*if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {
-			DrawBox()
-		}*/
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", arrayNum);
-		DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%f, VY:%f", vector.x,vector.y);
-		DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%f, dy:%f", diff.x,diff.y);
+		if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {
+			DrawBox(location.x - 20, location.y - 30, location.x + 20, location.y - 25, C_BLACK, TRUE);
+			
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESSED) {
+			DrawFormatString((int)location.x, (int)location.y, C_RED, "array:%d", arrayNum);
+			DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%f, VY:%f", vector.x, vector.y);
+			DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%f, dy:%f", diff.x, diff.y);
+		}
 	}
 }
 
