@@ -10,6 +10,8 @@ private:
 	float tmpVX;
 	float tmpVY;
 
+	int EF_hitHp;
+
 public:
 	Slime(int arrayNum);
 
