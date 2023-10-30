@@ -43,6 +43,8 @@ private:
 
 	bool open_level_up;
 
+	
+	bool is_hit;	//仮で当たったか
 public:
 	GameScene();
 
@@ -57,4 +59,6 @@ public:
 	int getState() {
 		return state;
 	};
+
+	void HitCheck();
 };

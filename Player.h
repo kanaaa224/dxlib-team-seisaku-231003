@@ -1,4 +1,5 @@
 #pragma once
+#include"SphereCollider.h"
 
 #define MOVE_RIGHT 0.1
 #define MOVE_LEFT -0.1
@@ -6,39 +7,46 @@
 #define MOVE_DOWN -0.1
 
 
-class Player
+class Player :public SphereCollider
 {
-
 private:
+	//画像用変数
 	int PlayerImg;
 	int AimingImg;
 
+	//PlayerLocation
 	int PlayerX;
 	int PlayerY;
 
+	//照準
 	float AimingX;
 	float AimingY;
 
+	//左スティック
 	float Provisional_LStickX;
 	float Provisional_LStickY;
 
+	//右スティック
 	float Provisional_RStickX;
 	float Provisional_RStickY;
 
+	// Aボタン
 	int Provisional_Abtn;
 
+	//　加算値
 	float Additional_Value;
 	float Additional_Value2;
 	float Additional_Value3;
 
 	float Avoidance;
 
+	//移動量
 	float MoveX;
 	float MoveY;
 	float MoveZ;
 
+	//プレイヤーの体力
 	int Player_HP;
-	
 
 public:
 

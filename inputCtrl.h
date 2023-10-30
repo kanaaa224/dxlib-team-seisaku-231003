@@ -4,6 +4,7 @@
 //////////////////////////////////////////////////
 #pragma once
 
+#include <math.h>
 #include "DxLib.h"
 
 #define PAD_BUTTONS   16  // ゲームコントローラー全ボタン数
@@ -106,6 +107,8 @@ public:
 			stickRatio.x = padRStick.x / STICK_MAX;
 			stickRatio.y = padRStick.y / STICK_MAX;
 		};
+		stickRatio.x = round(stickRatio.x * 10.0f) / 10.0f;
+		stickRatio.y = round(stickRatio.y * 10.0f) / 10.0f;
 		return stickRatio;
 	};
 

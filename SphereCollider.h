@@ -2,6 +2,8 @@
 #include "DxLib.h"
 #include "weapon.h"
 
+class Player;
+
 struct Location
 {
 	float x;
@@ -33,12 +35,17 @@ public:
 	SphereCollider();
 
 	//当たり判定処理
-	int CheckCollision(SphereCollider sphereCollider);
+	int CheckCollision(SphereCollider sphereCollider, Player* player);
 
 	//プレイヤーの移動量を加算
 	void SetPlayerAmountOfTravel_X(float x);
 	void SetPlayerAmountOfTravel_Y(float y);
 
 	float GetEnemyRadius();
+
+	Location GetLocation()
+	{
+		return location;
+	}
 };
 

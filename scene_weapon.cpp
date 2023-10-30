@@ -164,6 +164,11 @@ void Weapon_Selection::draw() const
 		{
 			SetFontSize(32);
 			DrawString(430, 10, "Å‰‚Ì•Ší‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢\n",0xffffff);
+
+			DrawString(350, 450, "’ZŒ•", 0xffffff);
+			DrawString(650, 450, "•ĞèŒ•", 0xffffff);
+			DrawString(950, 450, "‘åŒ•", 0xffffff);
+
 			SetFontSize(16);
 
 			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
@@ -175,6 +180,11 @@ void Weapon_Selection::draw() const
 		{
 			SetFontSize(32);
 			DrawString(430, 10, "‚Q‚Â–Ú‚Ì•Ší‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢\n", 0xffffff);
+
+			DrawString(350, 450, "’ZŒ•", 0xffffff);
+			DrawString(650, 450, "•ĞèŒ•", 0xffffff);
+			DrawString(950, 450, "‘åŒ•", 0xffffff);
+
 			SetFontSize(16);
 
 			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
@@ -188,21 +198,23 @@ void Weapon_Selection::draw() const
 	{		
 		SetFontSize(32);
 		DrawString(430, 10, "‚±‚Ì•Ší‚ğ‘I‚Ñ‚Ü‚·‚©H\n", 0xffffff);
-		SetFontSize(16);
 
 		if (was_selected != true)
 		{
 			if (select_num == 0)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
+				DrawString(350, 450, "’ZŒ•", 0xffffff);
 			}
 			else if (select_num == 1)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "•ĞèŒ•", 0xffffff);
 			}
 			else
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, great_sword_image, TRUE);
+				DrawString(350, 450, "‘åŒ•", 0xffffff);
 			}
 		}
 		else
@@ -210,14 +222,17 @@ void Weapon_Selection::draw() const
 			if (select_num == 0)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "’ZŒ•", 0xffffff);
 			}
 			else if (select_num == 1)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "’ZŒ•", 0xffffff);
 			}
 			else
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "’ZŒ•", 0xffffff);
 			}
 		}
 

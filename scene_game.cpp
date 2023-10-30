@@ -21,6 +21,8 @@ GameScene::GameScene() {
 	is_weapon_selct = false;
 	open_level_up = false;
 
+	is_hit = false;
+
 
 	//////////////////////////////////////////////////
 
@@ -81,18 +83,19 @@ Scene* GameScene::update() {
 
 	//敵//
 	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime;
+		slime[tmpSlimeNum] = new Slime(tmpSlimeNum);
 		tmpSlimeNum++;
 	}
 
 	if (stage == 1) {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
-				slime[i]->Update(player);
+				slime[i]->Update(i, player);
 			}
 		}
 	}
 
+	HitCheck();
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -144,7 +147,7 @@ void GameScene::draw() const {
 	if (stage == 1) {
 		for (int i = 0; i < MAX_SLIME_NUM; i++) {
 			if (slime[i] != nullptr) {
-				slime[i]->Draw();
+				slime[i]->Draw(i);
 			}
 		}
 	}
@@ -161,5 +164,41 @@ void GameScene::draw() const {
 		weapon_level_up->draw();
 	}
 
+	if (is_hit)
+	{
+		DrawString(player->GetLocation().x - 12, player->GetLocation().y - 27, "Hit", 0xffffff);
+	}
+
 	//gameUI->draw();
-};
+}
+
+void GameScene::HitCheck()
+{
+	//スライムの当たり判定
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (player->CheckCollision(*(slime[i]), player) == HIT)
+			{
+				is_hit = true;
+			}
+			//else
+			//{
+			//	is_hit = false;
+			//}
+			for (int j = 0; j < MAX_SLIME_NUM; j++) {
+				if (slime[j] != nullptr && i != j) {
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
+						slime[i]->SetHitFlg(HIT);
+						slime[j]->SetHitFlg(HIT);
+					}
+					//else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
+					//	if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない
+					//		if (!slime[i]->GetHitFlg()) slime[i]->SetHitFlg(NO_COLLISION);
+					//		if (!slime[j]->GetHitFlg()) slime[j]->SetHitFlg(NO_COLLISION);
+					//	}
+					//}
+				}
+			}
+		}
+	}
+}

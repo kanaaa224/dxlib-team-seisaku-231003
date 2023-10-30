@@ -1,41 +1,75 @@
-#include "Slime.h"
+Ôªø#include "Slime.h"
 #include "Common.h"
+#include <math.h>
+#include "inputCtrl.h"
 
-Slime::Slime()
+Slime::Slime(int arrayNum)
 {
-	//âÊëúì«çû
+	//ÁîªÂÉèË™≠Ëæº
 	img = LoadGraph("resources/images/slime_cat.png");
-	//ïœêîÇÃèâä˙âª
+	//Â§âÊï∞„ÅÆÂàùÊúüÂåñ
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
+	
+
+	respawnTimeCnt = 0;
+	respawnTime = arrayNum * 60;
 
 	tmpVX = 0;
 	tmpVY = 0;
 
-	//ÉäÉXÉ|Å[ÉìÉ|ÉCÉìÉgåàÇﬂ
+	//„É™„Çπ„Éù„Éº„É≥„Éù„Ç§„É≥„ÉàÊ±∫„ÇÅ
 	SetRespawnPoint();
 }
 
-void Slime::Update(Player* player)
+void Slime::Update(int arrayNum, Player* player)
 {
-	SetPlayerAmountOfTravel_X(player->Player_MoveX());
-	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
+	if (respawnFlg == true) {
+		//„Éó„É¨„Ç§„É§„Éº„ÅÆÁßªÂãïÈáè„Çídiff„Å´„Çª„ÉÉ„Éà
+		SetPlayerAmountOfTravel_X(player->Player_MoveX());
+		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
-	//à⁄ìÆèàóù//
-	X();
-	location.x -= diff.x;
-	location.x += vector.x;
+		
 
-	Y();
-	location.y -= diff.y;
-	location.y += vector.y;
+		//ÁßªÂãïÂá¶ÁêÜ//
+		if (hitFlg == HIT) {//ÂΩì„Åü„Å£„ÅüÊôÇ
+			X();
+			vector.x = 0;
+			location.x += vector.x - diff.x;
+			Y();
+			vector.y = 0;
+			location.y += vector.y - diff.y;
+
+			hitFlg = NO_COLLISION;
+		}
+		else if (hitFlg == NO_COLLISION) {//ÂΩì„Åü„Å£„Å¶„Å™„ÅÑÊôÇ
+			X();
+			location.x += vector.x - diff.x;
+			Y();
+			location.y += vector.y - diff.y;
+		}
+	}
+
+	//Cnt
+	if (respawnTimeCnt == respawnTime) {
+		respawnFlg = true;
+	}
+	respawnTimeCnt++;
 }
 
-void Slime::Draw()
+void Slime::Draw(int arrayNum)
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+	if (respawnFlg == true) {
+		/*if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {
+			DrawBox()
+		}*/
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", arrayNum);
+		DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%f, VY:%f", vector.x,vector.y);
+		DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%f, dy:%f", diff.x,diff.y);
+	}
 }
 
 void Slime::X()
@@ -52,4 +86,9 @@ int Slime::GetStageNum()
 {
 	int r = SLIME_1_STAGE_NUM;
 	return r;
+}
+
+int Slime::GetSlimeDamage()
+{
+	return 0;
 }

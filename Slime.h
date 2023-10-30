@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "EnemyBase.h"
 #include "Player.h"
 
@@ -10,19 +10,19 @@ private:
 	float tmpVY;
 
 public:
-	Slime();
+	Slime(int arrayNum);
 
-	void Update(Player* player);
-	void Draw();
+	void Update(int arrayNum, Player* player);
+	void Draw(int arrayNum);
 
-	//ˆÚ“®ˆ—
+	//ç§»å‹•å‡¦ç†
 	void X();
 	void Y();
 
-	//Œ»İ‚ÌƒXƒe[ƒW‚Å‚ÌoŒ»‚·‚é”‚ğ•Ô‚·
+	//ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã§ã®å‡ºç¾ã™ã‚‹æ•°ã‚’è¿”ã™
 	int GetStageNum();
 
-	//ƒXƒ‰ƒCƒ€‚Ìƒ_ƒ[ƒWæ“¾
+	//ã‚¹ãƒ©ã‚¤ãƒ ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å–å¾—
 	int GetSlimeDamage();
 };
 

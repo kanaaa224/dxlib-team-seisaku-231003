@@ -12,6 +12,11 @@ Player::Player() {
 	PlayerX = 640;
 	PlayerY = 360;
 
+	location.x = PlayerX;
+	location.y = PlayerY;
+
+	radius = 20;
+
 	AimingX = 300.0;
 	AimingY = 300.0;
 
@@ -25,7 +30,7 @@ Player::Player() {
 
 	Additional_Value = 10.0;
 	Additional_Value2 = 2.0;
-	Additional_Value3 = 500.0;
+	Additional_Value3 = 100.0;
 
 	Avoidance = 0.0;
 
@@ -58,12 +63,26 @@ void Player::update() {
 	//Aボタン
 	Provisional_Abtn = InputCtrl::GetButtonState(XINPUT_BUTTON_A);
 
-	//回避　Aボタン
-	if (Provisional_Abtn == PRESS) {
-		MoveZ = Additional_Value3 * Provisional_LStickX;
-		//MovingX = MovingX + MoveZ;
+	//回避　Aボタン 縦軸
+	if (Provisional_Abtn == PRESS && Provisional_LStickY < MOVE_DOWN) {
+		MoveZ = Additional_Value3;
+		MovingY = MovingY - MoveZ;
+	}
+	else if (Provisional_Abtn == PRESS && Provisional_LStickY > MOVE_UP) {
+		MoveZ = Additional_Value3;
 		MovingY = MovingY + MoveZ;
 	}
+
+	//回避　Aボタン　横軸
+	if (Provisional_Abtn == PRESS && Provisional_LStickX > MOVE_RIGHT) {
+		MoveZ = Additional_Value3;
+		MovingX = MovingX - MoveZ;
+	}
+	//else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
+	//	MoveZ = Additional_Value3;
+	//	MovingX = MovingX + MoveZ;
+	//	//MovingY = MovingY + MoveZ;
+	//}
 
 	//照準　右スティック
 	//横
@@ -84,7 +103,6 @@ void Player::update() {
 	else if (Provisional_RStickY < MOVE_DOWN) {
 
 		AimingY = AimingY - Additional_Value * Provisional_RStickY;
-
 	}
 
 	//移動　左スティック
@@ -97,6 +115,9 @@ void Player::update() {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
+	else if (Provisional_LStickX == 0) {
+		MoveX = 0;
+	}
 
 	//縦
 	if (Provisional_LStickY < MOVE_DOWN) {
@@ -108,7 +129,9 @@ void Player::update() {
 
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
-
+	}
+	else if (Provisional_LStickY == 0) {
+		MoveY = 0;
 	}
 }
 
@@ -132,7 +155,8 @@ void Player::draw()const {
 
 	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
 
-	DrawRotaGraph(PlayerX, PlayerY, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
 }
 
 int Player::Player_AimingX() {
