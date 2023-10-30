@@ -3,6 +3,7 @@
 WeaponLevelUp::WeaponLevelUp()
 {
 	test = 0;
+	initial_cursor_position = 0;
 }
 
 WeaponLevelUp::~WeaponLevelUp()

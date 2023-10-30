@@ -13,6 +13,7 @@ private:
 	//int img_background;			// 背景
 
 	int test;
+	int initial_cursor_position;	// 初期のカーソル位置
 
 public:
 	WeaponLevelUp();
