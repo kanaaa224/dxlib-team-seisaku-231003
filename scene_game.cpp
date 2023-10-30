@@ -95,6 +95,14 @@ Scene* GameScene::update() {
 		}
 	}
 
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHP() <= 0) {
+				slime[i] = nullptr;
+			}
+		}
+	}
+
 	HitCheck();
 
 	//武器と敵の当たり判定
