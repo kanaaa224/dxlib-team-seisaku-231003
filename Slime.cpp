@@ -62,6 +62,9 @@ void Slime::Update(int arrayNum, Player* player)
 void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
+		/*if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {
+			DrawBox()
+		}*/
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 		DrawFormatString((int)location.x, (int)location.y, C_RED, "%d", arrayNum);
 		DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%f, VY:%f", vector.x,vector.y);

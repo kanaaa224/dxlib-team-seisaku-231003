@@ -110,11 +110,8 @@ void Player::update() {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
-
-	if (0.9 > Provisional_LStickX > 0) {
-
+	else if (Provisional_LStickX == 0) {
 		MoveX = 0;
-		MovingX = MovingX + MoveX;
 	}
 
 	//c
@@ -128,11 +125,8 @@ void Player::update() {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
 	}
-
-	if (0.9 > Provisional_LStickY > 0) {
-
+	else if (Provisional_LStickY == 0) {
 		MoveY = 0;
-		MovingY = MovingY + MoveY;
 	}
 }
 
