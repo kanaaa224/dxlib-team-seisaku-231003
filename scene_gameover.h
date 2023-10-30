@@ -15,10 +15,10 @@ class GameOverScene : public Scene
 {
 private:
 	// 画像用変数
-	int img_gameover;
-	int img_ghost;
-	int img_button_a;
-	//int img_background;
+	int img_gameover;					// ゲームオーバー（装飾）
+	int img_ghost;						// ゴースト
+	int img_button_a;					// Aボタン
+	//int img_background;				// 背景
 
 	// 座標移動
 	int ghost_x;
@@ -26,7 +26,7 @@ private:
 	int count;
 
 	// フェード演出
-	int value;
+	int value;							// 不透明度
 
 public:
 	GameOverScene();
