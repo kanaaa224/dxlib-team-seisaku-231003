@@ -27,4 +27,4 @@
 //スライム
 #define SLIME_HP_MAX 100.0f	//HP
 #define MAX_SLIME_NUM 10000	//スライムの最大数
-#define SLIME_1_STAGE_NUM 2 //１ステージ目のスライムの数
+#define SLIME_1_STAGE_NUM 1 //１ステージ目のスライムの数

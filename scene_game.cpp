@@ -91,6 +91,9 @@ Scene* GameScene::update() {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
 				slime[i]->Update(i, player, Weapon);
+				if (slime[i]->GetHP() <= 0) {
+					slime[i] = nullptr;
+				}
 			}
 		}
 	}
@@ -102,8 +105,8 @@ Scene* GameScene::update() {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
 				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-					//ここに敵のHPが削れる処理
-					//例：slime[i].subtractionHP(Weapon->GetDamage);
+					slime[i]->SetHitHP(Weapon->GetDamage());
+					slime[i]->SetHitWeaponFlg();
 				}
 			}
 		}
