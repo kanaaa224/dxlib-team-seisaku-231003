@@ -38,8 +38,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
 
-		if (stage.GetStageArray(0).x<location.x - radius && stage.GetStageArray(1).x + STAGEIMG_X>location.x + radius &&
-			stage.GetStageArray(0).y<location.y - radius && stage.GetStageArray(2).y + STAGEIMG_Y>location.y + radius)
+		if (IsMoveLimit(stage))
 		{
 			is_area = true;	
 			//移動処理//
