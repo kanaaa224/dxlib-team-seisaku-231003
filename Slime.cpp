@@ -59,17 +59,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		else
 		{
 			is_area = false;
-		}
-
-		//武器からのダメージ処理//
-		SetHitWeapon(w);//hitWeapon = 武器からのhitFlg
-		if (hitWeaponFlg == true) {
-			SetWeaponDamage(w);//weaponDamage = 武器からのDamage
-			if (hp != 0) {//hpが０じゃないなら
-				hp -= weaponDamage;
-			}
-		}
-		
+		}		
 	}
 
 	//Cnt
