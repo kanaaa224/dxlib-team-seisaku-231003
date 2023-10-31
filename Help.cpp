@@ -17,11 +17,11 @@ Help::~Help()
 
 Scene*Help::update()
 {
-	/*InputCtrl::Update();
+	InputCtrl::Update();
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
 		return new GameMain;
-	}*/
+	}
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 	{
 		return new Title;
@@ -35,7 +35,7 @@ void Help::draw()const
 		SetFontSize(50);
 		DrawString(1100, 670, "Aƒ{ƒ^ƒ“:ŽŸ‚Ö", 0xff0000);
 
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_X))
 		{
 			DrawGraph(0, 0, HelpImage2, TRUE);
 			SetFontSize(50);

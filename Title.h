@@ -19,6 +19,8 @@ private:
 	short PadStick;
 	int cursor;
 
+	float interval;
+
 public:
 	Title();
 	Scene* update() override;

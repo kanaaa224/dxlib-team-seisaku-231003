@@ -11,7 +11,7 @@ Title::Title()
 {
 	TitleImage = LoadGraph("resources/images/Title.png");
 	g_MenuNumber = 0;
-	interval = 0;
+	interval = 0.7f;
 	cursor = LoadGraph("resources/images/cursor.png");
 }
 
@@ -36,10 +36,11 @@ Scene*Title::update()
 		}
 	}
 
-	//十字キー下ボタンでカーソルを下に移動
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS)
+	//十字キー下ボタンでカーソルを下に
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || (InputCtrl::GetStickState(L).y >= interval)==PRESSED)
 	{
 		if (++g_MenuNumber > 3)g_MenuNumber = 0;
+		interval = 0;
 	}
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
 	{
