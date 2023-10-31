@@ -2,7 +2,9 @@
 
 #include"inputCtrl.h"
 
-#define MAX_LEVEL 5
+#define MAX_LEVEL 7					// レベルの最大値
+
+class weapon;
 
 class WeaponLevelUp
 {
@@ -21,15 +23,15 @@ private:
 	int cursor_y;					// カーソルY座標
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
-	int level_weapon1;						// 武器のレベル
-	int level_weapon2;						// 武器のレベル
+	int level_weapon1;						// 武器1のレベル
+	int level_weapon2;						// 武器2のレベル
 
 public:
 	WeaponLevelUp();
 	~WeaponLevelUp();
 
 	// 更新
-	void update();
+	void update(weapon* weapon);
 
 	// 描画
 	void draw()const;

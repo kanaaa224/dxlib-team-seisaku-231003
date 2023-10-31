@@ -1,4 +1,5 @@
 #include "scene_levelup.h"
+#include"weapon.h"
 
 WeaponLevelUp::WeaponLevelUp()
 {
@@ -19,7 +20,7 @@ WeaponLevelUp::~WeaponLevelUp()
 }
 
 // 更新
-void WeaponLevelUp::update()
+void WeaponLevelUp::update(weapon* weapon)
 {
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
@@ -67,6 +68,8 @@ void WeaponLevelUp::update()
 				{
 					level_weapon1 = MAX_LEVEL;
 				}
+				// レベルのセット
+				weapon->LevelUpDebug(level_weapon1);
 			}
 		}
 		else
