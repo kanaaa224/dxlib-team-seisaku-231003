@@ -42,7 +42,7 @@ GameScene::~GameScene() {
 };
 
 Scene* GameScene::update() {
-	frameCounter++;
+	
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
@@ -105,8 +105,11 @@ Scene* GameScene::update() {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
 				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-					slime[i]->SetHitHP(Weapon->GetDamage());
-					slime[i]->SetHitWeaponFlg();
+					if (hitFrameCounter == 0) {
+						slime[i]->SetHitWeaponFlg();
+						slime[i]->SetHitHP(Weapon->GetDamage());
+						hitFlg = true;
+					}
 				}
 			}
 		}
@@ -135,7 +138,16 @@ Scene* GameScene::update() {
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
 		return new GameOverScene;
 	}
+	
+	if (hitFrameCounter >= DAMAGE_STOP_FRAME) {
+		hitFlg = false;
+		hitFrameCounter = 0;
+	}
 
+	if (hitFlg == true) {
+		hitFrameCounter++;
+	}
+	frameCounter++;
 	return this;
 };
 

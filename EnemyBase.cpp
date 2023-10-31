@@ -103,6 +103,11 @@ float EnemyBase::GetHP()
 	return hp;
 }
 
+bool EnemyBase::GetHitWeaponFlg()
+{
+	return hitWeaponFlg;
+}
+
 void EnemyBase::SetWeaponDamage(int d)
 {
 	const int r = d;

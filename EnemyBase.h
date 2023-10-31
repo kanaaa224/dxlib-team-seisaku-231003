@@ -37,6 +37,7 @@ public:
 	Location GetEnemyLocation();
 	int GetHitFlg();
 	float GetHP();
+	bool GetHitWeaponFlg();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
