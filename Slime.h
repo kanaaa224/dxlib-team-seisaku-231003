@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "EnemyBase.h"
 #include "Player.h"
+#include "weapon.h"
 
 class Slime :public EnemyBase
 {
@@ -9,10 +10,12 @@ private:
 	float tmpVX;
 	float tmpVY;
 
+	int EF_hitHp;
+
 public:
 	Slime(int arrayNum);
 
-	void Update(int arrayNum, Player* player);
+	void Update(int arrayNum, Player* player ,weapon* w);
 	void Draw(int arrayNum);
 
 	//移動処理

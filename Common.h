@@ -22,6 +22,9 @@
 #define PLAYER_LOCATION_Y 360
 
 //敵
+// 
+#define MAX_ALPHA 255		//透過の最大値
 //スライム
-#define MAX_SLIME_NUM 10000//スライムの最大数
+#define SLIME_HP_MAX 100.0f	//HP
+#define MAX_SLIME_NUM 10000	//スライムの最大数
 #define SLIME_1_STAGE_NUM 2 //１ステージ目のスライムの数

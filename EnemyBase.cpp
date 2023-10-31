@@ -7,6 +7,7 @@ EnemyBase::EnemyBase()
 	hitFlg = NO_COLLISION;
 	respawnFlg = false;
 	radius = 20;
+	alphaNum = MAX_ALPHA;
 }
 
 float EnemyBase::PlayerLoad_X(float location_x)
@@ -95,4 +96,16 @@ void EnemyBase::SetHitFlg(int hit)
 {
 	const int r = hit;
 	hitFlg = r;
+}
+
+void EnemyBase::SetHitWeapon(weapon* w)
+{
+	const bool r = false;//falseの所に武器の当たり判定Flgを入れる
+	hitWeaponFlg = r;
+}
+
+void EnemyBase::SetWeaponDamage(weapon* w)
+{
+	const int r = w->GetDamage();
+	weaponDamage = r;
 }

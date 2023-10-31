@@ -16,8 +16,10 @@ GameScene::GameScene() {
 	
 	//
 	weapon_selection = new Weapon_Selection();
+	weapon_level_up = new WeaponLevelUp;
 
 	is_weapon_selct = false;
+	open_level_up = false;
 
 	is_hit = false;
 
@@ -56,6 +58,29 @@ Scene* GameScene::update() {
 		return this;
 	}
 
+	// 武器のレベルアップ画面
+	// Xボタンで表示と非表示を切り替え
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+	{
+		if (open_level_up)
+		{
+			// 非表示
+			open_level_up = false;
+		}
+		else
+		{
+			// 表示
+			open_level_up = true;
+		}
+	}
+
+	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
+	if (open_level_up)
+	{
+		weapon_level_up->update();
+		return this;
+	}
+
 	//敵//
 	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
 		slime[tmpSlimeNum] = new Slime(tmpSlimeNum);
@@ -65,7 +90,7 @@ Scene* GameScene::update() {
 	if (stage == 1) {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player);
+				slime[i]->Update(i, player, Weapon);
 			}
 		}
 	}
@@ -131,6 +156,12 @@ void GameScene::draw() const {
 	if (is_weapon_selct != true)
 	{
 		weapon_selection->draw();
+	}
+
+	// 武器のレベルアップ画面
+	if (open_level_up)
+	{
+		weapon_level_up->draw();
 	}
 
 	if (is_hit)
