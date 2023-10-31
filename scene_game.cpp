@@ -20,6 +20,7 @@ GameScene::GameScene() {
 
 	is_weapon_selct = false;
 	open_level_up = false;
+	restor_cursor_position = true;
 
 	is_hit = false;
 
@@ -66,6 +67,7 @@ Scene* GameScene::update() {
 		{
 			// 非表示
 			open_level_up = false;
+			restor_cursor_position = true;
 		}
 		else
 		{
@@ -77,7 +79,7 @@ Scene* GameScene::update() {
 	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
 	if (open_level_up)
 	{
-		weapon_level_up->update(Weapon);
+		weapon_level_up->update(Weapon, restor_cursor_position);
 		return this;
 	}
 

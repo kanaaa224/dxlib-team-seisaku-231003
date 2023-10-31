@@ -41,7 +41,8 @@ private:
 
 	bool is_weapon_selct;
 
-	bool open_level_up;
+	bool open_level_up;				// レベルアップ画面が開いているか
+	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
 
 	
 	bool is_hit;	//仮で当たったか
