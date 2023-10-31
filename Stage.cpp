@@ -62,10 +62,20 @@ void Stage::update() {
 	//	}
 	//}
 
-	for (int i = 0; i < 4; i++) {
-		StageArrayImg[i].x = Player::Player_MovingX();
-		StageArrayImg[i].y = Player::Player_MovingY();
-	}
+	//for (int i = 0; i < 4; i++) {
+	//	StageArrayImg[i].x = Player::Player_MovingX();
+	//	StageArrayImg[i].y = Player::Player_MovingY();
+	//}
+
+	StageArrayImg[0].x = Player::Player_MovingX();
+	StageArrayImg[1].x = Player::Player_MovingX() + STAGEIMG_X;
+	StageArrayImg[2].x = Player::Player_MovingX();
+	StageArrayImg[3].x = Player::Player_MovingX() + STAGEIMG_X;
+
+	StageArrayImg[0].y = Player::Player_MovingY();
+	StageArrayImg[1].y = Player::Player_MovingY();
+	StageArrayImg[2].y = Player::Player_MovingY() + STAGEIMG_Y;
+	StageArrayImg[3].y = Player::Player_MovingY() + STAGEIMG_Y;
 
 }
 
@@ -74,13 +84,13 @@ void Stage::draw()const {
 	//DrawGraph(StageX, StageY, StageImg1, TRUE);
 
 	//¶ã
-	DrawGraph(StageArrayImg[0].x + STAGEIMG_X, StageArrayImg[0].y + STAGEIMG_Y, StageArrayImg[0].img, TRUE);
+	DrawGraph(StageArrayImg[0].x, StageArrayImg[0].y, StageArrayImg[0].img, TRUE);
 
 	//‰Eã
-	DrawGraph(StageArrayImg[1].x, StageArrayImg[1].y + STAGEIMG_Y, StageArrayImg[1].img, TRUE);
+	DrawGraph(StageArrayImg[1].x, StageArrayImg[1].y, StageArrayImg[1].img, TRUE);
 
 	//¶‰º
-	DrawGraph(StageArrayImg[2].x + STAGEIMG_X, StageArrayImg[2].y, StageArrayImg[2].img, TRUE);
+	DrawGraph(StageArrayImg[2].x, StageArrayImg[2].y, StageArrayImg[2].img, TRUE);
 
 	//‰E‰º
 	DrawGraph(StageArrayImg[3].x, StageArrayImg[3].y, StageArrayImg[3].img, TRUE);

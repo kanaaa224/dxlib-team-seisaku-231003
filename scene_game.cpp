@@ -90,7 +90,7 @@ Scene* GameScene::update() {
 	if (stage == 1) {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player, Weapon);
+				slime[i]->Update(i, player, Weapon, *(backimg));
 			}
 		}
 	}

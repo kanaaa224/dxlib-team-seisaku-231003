@@ -2,6 +2,7 @@
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
+#include"Stage.h"
 
 #define DEBUG
 
@@ -23,22 +24,35 @@ Slime::Slime(int arrayNum)
 	tmpVX = 0;
 	tmpVY = 0;
 
+	is_area = false;
+
 	//リスポーンポイント決め
 	SetRespawnPoint();
 }
 
-void Slime::Update(int arrayNum, Player* player, weapon* w)
+void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 {
 	if (respawnFlg == true && hp > 0) {
 		//プレイヤーの移動量をdiffにセット
 		SetPlayerAmountOfTravel_X(player->Player_MoveX());
 		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
-		//移動処理//
-		X();
-		location.x += vector.x - diff.x;
-		Y();
-		location.y += vector.y - diff.y;
+
+		if (stage.GetStageArray(0).x<location.x - radius && stage.GetStageArray(1).x + STAGEIMG_X>location.x + radius &&
+			stage.GetStageArray(0).y<location.y - radius && stage.GetStageArray(2).y + STAGEIMG_Y>location.y + radius)
+		{
+			is_area = true;	
+			//移動処理//
+			X();
+			location.x += vector.x - diff.x;
+			Y();			
+			location.y += vector.y - diff.y;
+
+		}
+		else
+		{
+			is_area = false;
+		}
 
 		//武器からのダメージ処理//
 		SetHitWeapon(w);//hitWeapon = 武器からのhitFlg
@@ -72,7 +86,10 @@ void Slime::Update(int arrayNum, Player* player, weapon* w)
 void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
-		
+		if (is_area)
+		{
+			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
+		}
 		if (hitWeaponFlg == true && hp > 0) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
 			SetDrawBright(255, 0, 0);
 			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
