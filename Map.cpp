@@ -5,45 +5,51 @@ Map::Map() {
 	// マップデータ初期化処理
 	for (int i = 0; i <= DATA_MAX; i++)
 	{
-		Mapdata[i] = 0;
-		randnum[i] = 0;
+		MapData[i] = 0;
 	}
 
 	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
-	Mapdata[7] = 1;
+	MapData[7] = 1;
 
 
-	randnum[0] = GetRand(1) + 1;
-	for (int i = 0; i < randnum[0]; i++) {
+	RandNum[0] = GetRand(1) + 1;
+	for (int i = 0; i < RandNum[0]; i++) {
 		int r = GetRand(3) + 3;
-		if (Mapdata[r] == 0) {
-			Mapdata[r] = 2;
+		if (MapData[r] == 0) {
+			MapData[r] = 2;
 		}else continue;
 	}
 
-	randnum[1] = GetRand(1) + 2;
-	for (int i = 0; i < randnum[1]; i++) {
+	RandNum[1] = GetRand(1) + 2;
+	for (int i = 0; i < RandNum[1]; i++) {
 		int r = GetRand(10) + 9;
-		if (Mapdata[r] == 0) {
-			Mapdata[r] = 2;
+		if (MapData[r] == 0) {
+			MapData[r] = 2;
 		}
 		else continue;
 	}
-	Mapdata[19] = 2;
+	MapData[19] = 2;
 
 
-	randnum[2] = GetRand(1) + 1;
-	for (int i = 0; i < randnum[2]; i++) {
+	RandNum[2] = GetRand(1) + 1;
+	for (int i = 0; i < RandNum[2]; i++) {
 		int r = GetRand(10) + 9;
-		if (Mapdata[r] == 0) {
-			Mapdata[r] = 3;
+		if (MapData[r] == 0) {
+			MapData[r] = 3;
 		}
 		else continue;
 	}
 
 
-	Mapdata[20] = 4;
+	MapData[20] = 4;
 
+	for (int i = 0; i < DATA_MAX; i++)
+	{
+		icon_loc[i][0] = icon_loc_def[i][0];
+		icon_loc[i][1] = icon_loc_def[i][1];
+	}
+
+	icon_vec = 0;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -58,6 +64,40 @@ Map::~Map() {
 
 Scene* Map::update() {
 
+
+	if (InputCtrl::GetStickRatio(R).y >= 0.1 && InputCtrl::GetStickRatio(R).y < 0.4) {
+		icon_vec = 1;
+	}
+	else if (InputCtrl::GetStickRatio(R).y >= 0.4 && InputCtrl::GetStickRatio(R).y < 0.7) {
+		icon_vec = 3;
+	}
+	else if (InputCtrl::GetStickRatio(R).y >= 0.7) {
+		icon_vec = 5;
+	}
+	else if (InputCtrl::GetStickRatio(R).y <= -0.1 && InputCtrl::GetStickRatio(R).y > -0.4) {
+		icon_vec = -1;
+	}
+	else if (InputCtrl::GetStickRatio(R).y <= -0.4 && InputCtrl::GetStickRatio(R).y > -0.7) {
+		icon_vec = -3;
+	}
+	else if (InputCtrl::GetStickRatio(R).y <= -0.7) {
+		icon_vec = -5;
+	}
+	else {
+		icon_vec = 0;
+	}
+
+	if (icon_loc[0][1] <= SCREEN_HEIGHT - 100 && icon_vec < 0) {
+		icon_vec = 0;
+	} else if (icon_loc[20][1] >= 50 && icon_vec > 0) {
+		icon_vec = 0;
+	}
+
+
+	for (int i = 0; i < DATA_MAX; i++)
+	{
+		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
+	}
 	return this;
 };
 
@@ -65,7 +105,7 @@ void Map::draw() const {
 
 	for (int i = 0; i < DATA_MAX; i++)
 	{
-		DrawFormatString(10 * i + 10, 20, 0xffffff, "%d", Mapdata[i]);
+		DrawFormatString(10 * i + 10, 20, 0xffffff, "%d", MapData[i]);
 
 
 		// ステージ間のライン
@@ -78,7 +118,7 @@ void Map::draw() const {
 		}
 
 		// アイコン表示
-		switch (Mapdata[i]) {
+		switch (MapData[i]) {
 		case 0:
 			DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
 			break;
