@@ -13,6 +13,8 @@ Title::Title()
 	g_MenuNumber = 0;
 	interval = 0.7f;
 	cursor = LoadGraph("resources/images/cursor.png");
+
+	Ctrl = false;
 }
 
 //更新
@@ -22,32 +24,34 @@ Scene*Title::update()
 	InputCtrl::GetStickRatio(L).y;
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
-		if (g_MenuNumber == 0) {
+		if (state == 0) {
 			return new GameMain;
 		}
-		if (g_MenuNumber == 1) {
+		if (state == 1) {
 			return new Help;
 		}
-		if (g_MenuNumber == 2) {
+		if (state == 2) {
 			return new Credit;
 		}
-		if (g_MenuNumber == 3) {
+		if (state == 3) {
 			return new End;
 		}
 	}
 
 	//十字キー下ボタンでカーソルを下に
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || (InputCtrl::GetStickState(L).y >= interval)==PRESSED)
-	{
-		if (++g_MenuNumber > 3)g_MenuNumber = 0;
-		interval = 0;
-	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
-	{
-		if (--g_MenuNumber < 0)g_MenuNumber = 3;
-	}
-	g_MenuY = g_MenuNumber * 65;
 
+	if (((InputCtrl::GetStickState(L).y < 0.3f) && (InputCtrl::GetStickState(L).y > -0.3f))) Ctrl = true;
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) || ((InputCtrl::GetStickState(L).y >= 0.7f) && Ctrl)){
+		if (state < 10) state += 20;
+		else state -= 10;
+			Ctrl = false;
+	}
+	else if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) || (((InputCtrl::GetStickState(L).y <= -0.7f) && Ctrl))){
+		if (state >= 20) state -= 20;
+		else state += 10;
+			Ctrl = false;
+	}
+	
 	return this;
 }
 
@@ -63,6 +67,6 @@ void Title::draw() const
 	DrawString(550, 440, "Credit", 0x000000);
 	DrawString(550, 510, "End", 0x000000);
 
-	DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
+	DrawGraph(470, 290 + state, cursor, TRUE);
 
 }
