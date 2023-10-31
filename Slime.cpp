@@ -10,7 +10,7 @@ Slime::Slime(int arrayNum)
 	//画像読込
 	img = LoadGraph("resources/images/slime_cat.png");
 	//変数の初期化
-	hp = 100;
+	hp = SLIME_HP_MAX;
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;

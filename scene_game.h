@@ -38,6 +38,8 @@ private:
 	//////////
 
 	int stage = 1;//ステージ
+	bool hitFlg = false;
+	int hitFrameCounter = 0;
 
 	bool is_weapon_selct;
 
