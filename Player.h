@@ -96,7 +96,7 @@ public:
 	int GetPlayer_Avoidance();
 
 	// ƒvƒŒƒCƒ„[‚Ì‘Ì—Í‚ğˆø‚­
-	void SetPlayer_HP(int value);
+	void SetPlayer_HP(float value);
 
 
 	Location Player_Location();
