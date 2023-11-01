@@ -89,7 +89,7 @@ int EnemyBase::GetHitFrameCnt()
 	return hitFrameCounter;
 }
 
-int EnemyBase::GetDamage() 
+float EnemyBase::GetDamage() 
 {
 	return damage;
 }
