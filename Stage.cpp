@@ -9,23 +9,25 @@ Stage::Stage() {
 	for (int i = 0; i < 4; i++) {
 
 		StageArrayImg[i].img = LoadGraph("resources/images/stageimage2.png");
-		StageArrayImg[i].x = 0.0;
-		StageArrayImg[i].y = 0.0;
+
 
 		switch (i)
 		{
 		case 0:
+			StageArrayImg[i].x = 0.0;
+			StageArrayImg[i].y = 0.0;
 			break;
 		case 1:
-			StageArrayImg[i].x += STAGEIMG_X;
+			StageArrayImg[i].x = STAGEIMG_X;
+			StageArrayImg[i].y = 0.0;
 			break;
 		case 2:
-			StageArrayImg[i].y += STAGEIMG_Y;
-
+			StageArrayImg[i].x = 0.0;
+			StageArrayImg[i].y = STAGEIMG_Y;
 			break;
 		case 3:
-			StageArrayImg[i].x += STAGEIMG_X;
-			StageArrayImg[i].y += STAGEIMG_Y;
+			StageArrayImg[i].x = STAGEIMG_X;
+			StageArrayImg[i].y = STAGEIMG_Y;
 			break;
 		default:
 			break;
@@ -85,7 +87,7 @@ void Stage::update(float moveX, float moveY) {
 		StageArrayImg[i].y -= moveY;
 	}
 
-	for (int i = 0; i < 4; i++)
+	/*for (int i = 0; i < 4; i++)
 	{
 		switch (i)
 		{
@@ -105,7 +107,7 @@ void Stage::update(float moveX, float moveY) {
 		default:
 			break;
 		}
-	}
+	}*/
 
 }
 

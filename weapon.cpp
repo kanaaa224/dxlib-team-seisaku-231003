@@ -4,7 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
-#include "SphereCollider.h"
+//#include "SphereCollider.h"
 
 
 #define d_r(_d) _d * (M_PI / 180)
@@ -24,7 +24,7 @@ weapon::weapon()
 
 	tmp = 0;
 
-
+	location = { 640.360 };
 
 	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
 	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
@@ -55,17 +55,17 @@ weapon::~weapon()
 {
 }
 
-void weapon::Update(float cursorX, float cursorY)
+void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 {
-
+	location = playerLocation;
 	//debug
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
 	float y = InputCtrl::GetMouseCursor().y - 360;*/
 
 
-	float x = cursorX - 640;
-	float y = cursorY - 360;
+	float x = cursorX - location.x; //kk
+	float y = cursorY - location.y;	//kk
 	float length = sqrt((x) * (x) + (y) * (y));
 
 
@@ -97,12 +97,12 @@ void weapon::Update(float cursorX, float cursorY)
 			rot = -1 * (weaponAngle - (d_r(relativeRot)));
 
 			//回転中の武器の座標
-			collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + 640;
-			collisionY = (baseVec.x * sin((rot)) + baseVec.y * cos((rot))) + 360;
+			collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk
+			collisionY = (baseVec.x * sin((rot)) + baseVec.y * cos((rot))) + location.y;	//kk
 
 			//回転中の武器のベクトル
-			collisionVec.x = collisionX - 640;
-			collisionVec.y = collisionY - 360;
+			collisionVec.x = collisionX - location.x;	//kk
+			collisionVec.y = collisionY - location.y;	//kk
 			collisionVec.length = sqrt((collisionVec.x) * (collisionVec.x) + (collisionVec.y) * (collisionVec.y));
 
 			//回転
@@ -172,18 +172,18 @@ void weapon::Update(float cursorX, float cursorY)
 
 void weapon::Draw() const
 {
-	//武器描画
+	//武器描画	//kk
 	if (isAttacking) {
 		switch (weaponType)
 		{
 		case sword:
-			DrawRotaGraph2(640, 360, 0, 500, 0.16, rot + (M_PI / 4), sword_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 0, 500, 0.16, rot + (M_PI / 4), sword_img, TRUE, TRUE);
 			break;
 		case dagger:
-			DrawRotaGraph2(640, 360, 0, 500, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 0, 500, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
 			break;
 		case greatSword:
-			DrawRotaGraph2(640, 360, 0, 500, 0.2, rot + (M_PI / 4), greatsword_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 0, 500, 0.2, rot + (M_PI / 4), greatsword_img, TRUE, TRUE);
 			break;
 		default:
 			break;
@@ -208,10 +208,10 @@ void weapon::Draw() const
 	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
 
 
-
+	//kk
 	if (isAttacking) {
 		DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(640, 360, collisionX, collisionY, 0xffffff);
+		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
 	}
 	
 
@@ -553,8 +553,8 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 	if (isAttacking) {
 
 		for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
-			weaponCollisionLocation.x = 640 + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
-			weaponCollisionLocation.y = 360 + unitVec.y * (i * 10);
+			weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
+			weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			//kk
 
 			float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
 			float tmp_y = weaponCollisionLocation.y - enemyLocation.y;

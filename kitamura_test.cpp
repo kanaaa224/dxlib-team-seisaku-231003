@@ -14,7 +14,7 @@ Scene* kitamura_test::update()
             wp.SetWeaponType(greatSword);
         }
     }
-    wp.Update(p.Player_AimingX(), p.Player_AimingY());
+    wp.Update(p.Player_AimingX(), p.Player_AimingY(),p.Player_Location());
     p.update();
     return this;
 }
