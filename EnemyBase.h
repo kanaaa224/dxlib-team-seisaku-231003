@@ -19,6 +19,9 @@ protected:
 
 	int weaponDamage;   //武器のダメージを格納する変数
 
+	float hitvx;
+	float hitvy;
+
 	//FrameCnt変数
 	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
 	int redFrameCounter = 0;//画像を赤くする時間をCnt
@@ -39,6 +42,9 @@ public:
 	float Normalization_X(float location_x, float location_y);//X座標上でのプレイヤーまでの距離を正規化
 	float Normalization_Y(float location_x, float location_y);//Y座標上でのプレイヤーまでの距離を正規化
 
+	float HitMoveCale_X(float myvx,float hitvx);
+	float HitMoveCale_Y(float myvy,float hitvy);
+
 	//Inc
 	void hitFrameCntInc();
 
@@ -49,7 +55,9 @@ public:
 	bool GetHitWeaponFlg();
 	bool GetHit1stFrameFlg();
 	int GetHitFrameCnt();
-	int GetDamage();
+	float GetVec_X();
+	float GetVec_Y();
+	float GetDamage();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
@@ -60,6 +68,11 @@ public:
 	void SetHitWeaponFlg();
 	void SetHit1stFrameFlg(bool flg);
 	void SetHitFrameCnt(int i);
+
+	void SetHitVec_X(float vx);
+	void SetHitVec_Y(float vy);
+
+	void SetPlayer_Location(Location PL);
 
 	//動けるかどうか判定する
 	bool IsMoveLimit(Stage stage);

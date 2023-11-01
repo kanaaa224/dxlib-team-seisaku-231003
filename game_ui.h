@@ -70,13 +70,13 @@ public:
 	void setEXP(int Current, int Max, int Ratio) {
 		exp["current"] = Current;
 		exp["max"]     = Max;
-		exp["ratio"]   = Ratio;
+		if (Ratio >= 0 && Ratio <= 100) exp["ratio"] = Ratio;
 	};
 
 	void setHP(int Current, int Max, int Ratio) {
 		hp["current"] = Current;
 		hp["max"]     = Max;
-		hp["ratio"]   = Ratio;
+		if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
 	};
 
 	void setEnemy(int Current, int Max) {

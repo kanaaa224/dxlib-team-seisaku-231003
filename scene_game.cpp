@@ -168,13 +168,21 @@ Scene* GameScene::update() {
 		hitFrameCounter++;
 	}*/
 	frameCounter++;
-	// 仮
+
+	//////////////////////////////////////////////////
+	// GameUI 仮
 	gameUI->setScore(432);
 	gameUI->setLevel(7);
 	gameUI->setFloor(-2);
-	gameUI->setHP(900, 1000, 90);
+	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(1500, 2000, 75);
-	gameUI->setEnemy(234, 2384);
+
+	int c = 0;
+	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+		if (slime[i] != nullptr) c++;
+	};
+	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
+	//////////////////////////////////////////////////
 
 	return this;
 };
@@ -223,7 +231,7 @@ void GameScene::HitCheck()
 			{
 				if (player->CheckCollision(*(slime[i]), player) == HIT)
 				{
-					player->SetPlayer_HP(slime[i]->GetSlimeDamage());
+					player->SetPlayer_HP(slime[i]->GetDamage());
 					player->SetIsHit(true);
 				}
 			}
@@ -236,6 +244,11 @@ void GameScene::HitCheck()
 					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
+
+						slime[i]->SetHitVec_X(slime[j]->GetVec_X());
+						slime[i]->SetHitVec_Y(slime[j]->GetVec_Y());
+						slime[j]->SetHitVec_X(slime[i]->GetVec_X());
+						slime[j]->SetHitVec_Y(slime[i]->GetVec_Y());
 					}
 					//else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
 					//	if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない
