@@ -98,14 +98,27 @@ void EnemyBase::SetHitFlg(int hit)
 	hitFlg = r;
 }
 
-void EnemyBase::SetHitWeapon(weapon* w)
+float EnemyBase::GetHP()
 {
-	const bool r = false;//falseの所に武器の当たり判定Flgを入れる
-	hitWeaponFlg = r;
+	return hp;
 }
 
-void EnemyBase::SetWeaponDamage(weapon* w)
+bool EnemyBase::GetHitWeaponFlg()
 {
-	const int r = w->GetDamage();
+	return hitWeaponFlg;
+}
+
+void EnemyBase::SetWeaponDamage(int d)
+{
+	const int r = d;
 	weaponDamage = r;
+}
+
+void EnemyBase::SetHitHP(int d) {
+	hp -= d;
+}
+
+void EnemyBase::SetHitWeaponFlg()
+{
+	hitWeaponFlg = true;
 }

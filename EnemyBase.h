@@ -37,12 +37,13 @@ public:
 	Location GetEnemyLocation();
 	int GetHitFlg();
 	float GetHP();
+	bool GetHitWeaponFlg();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
 	int SetGetRand(int min, int max);
 	void SetHitFlg(int hit);
-	void SetHitWeapon(weapon* w);
-	void SetWeaponDamage(weapon* w);
-
+	void SetWeaponDamage(int d);
+	void SetHitHP(int d);//武器からのダメージを受けた時の処理
+	void SetHitWeaponFlg();
 };

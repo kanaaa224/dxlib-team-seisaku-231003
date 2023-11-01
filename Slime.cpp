@@ -10,7 +10,7 @@ Slime::Slime(int arrayNum)
 	//画像読込
 	img = LoadGraph("resources/images/slime_cat.png");
 	//変数の初期化
-	hp = 100;
+	hp = SLIME_HP_MAX;
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
@@ -35,19 +35,20 @@ void Slime::Update(int arrayNum, Player* player, weapon* w)
 		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
 		//移動処理//
-		X();
-		location.x += vector.x - diff.x;
-		Y();
-		location.y += vector.y - diff.y;
-
-		//武器からのダメージ処理//
-		SetHitWeapon(w);//hitWeapon = 武器からのhitFlg
-		if (hitWeaponFlg == true) {
-			SetWeaponDamage(w);//weaponDamage = 武器からのDamage
-			if (hp != 0) {//hpが０じゃないなら
-				hp -= weaponDamage;
-			}
+		if (hitWeaponFlg == false) {
+			X();
+			location.x += vector.x - diff.x;
+			Y();
+			location.y += vector.y - diff.y;
 		}
+		else if (hitWeaponFlg == true) {
+			vector.x = -vector.x * 2;
+			location.x += vector.x - diff.x;
+			vector.y = -vector.y * 2;
+			location.y += vector.y - diff.y;
+			hitWeaponFlg = false;
+		}
+		
 	}
 
 	//Cnt
@@ -92,12 +93,14 @@ void Slime::Draw(int arrayNum)
 		//デバッグ表示（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
 #ifdef DEBUG
 		if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {//HP表示
-			float hpRate = hp / SLIME_HP_MAX;
-			float sizeRate = -20.0f + 40.0f * hpRate;
-			DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + 20, (int)location.y - 25, C_BLACK, TRUE);
-			DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + (int)sizeRate, (int)location.y - 25, C_RED, TRUE);
-			DrawFormatString((int)location.x, (int)location.y, C_RED, "hpRate:%.2f", hpRate);
-			DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "sizeRate:%.2f", sizeRate);
+			if (hp > 0) {
+				float hpRate = hp / SLIME_HP_MAX;
+				float sizeRate = -20.0f + 40.0f * hpRate;
+				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + 20, (int)location.y - 25, C_BLACK, TRUE);
+				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + (int)sizeRate, (int)location.y - 25, C_RED, TRUE);
+				DrawFormatString((int)location.x, (int)location.y, C_RED, "hpRate:%.2f", hpRate);
+				DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "sizeRate:%.2f", sizeRate);
+			}
 		}
 		if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESSED) {//ステータス表示
 			DrawFormatString((int)location.x, (int)location.y, C_RED, "array:%d", arrayNum);
