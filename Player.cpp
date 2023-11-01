@@ -73,7 +73,9 @@ void Player::update() {
 	Provisional_Abtn = InputCtrl::GetButtonState(XINPUT_BUTTON_A);
 
 	//‰ñ”ðƒtƒ‰ƒO ON
-	if (Provisional_Abtn == PRESS) {
+	if (Provisional_Abtn == PRESS && Provisional_LStickX > 0 || Provisional_Abtn == PRESS && Provisional_LStickX < 0 ||
+		Provisional_Abtn == PRESS && Provisional_LStickY > 0 || Provisional_Abtn == PRESS && Provisional_LStickY < 0) 
+	{
 		A_value = true;
 	}
 
@@ -210,8 +212,9 @@ void Player::Player_Avoidance() {
 	//cŽ²@ã
 	if (Provisional_LStickY > MOVE_UP) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveY = Additional_Value3;
-		MovingY = MovingY + MoveY;
+		MoveZ = Additional_Value3;
+		//MoveY = Additional_Value3;
+		MovingY = MovingY + MoveZ;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
