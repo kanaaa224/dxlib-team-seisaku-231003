@@ -220,10 +220,11 @@ void Player::Player_Avoidance() {
 	}
 	//cŽ²@ã
 	else if (Provisional_LStickY > MOVE_UP) {
-		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		Additional_Value3 = Additional_Value3 + -1.5f;
+		//MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		MoveY = Additional_Value3;
 		MovingY = MovingY + MoveY;
-		if (Additional_Value3 > 13.0f) {
+		if (Additional_Value3 < -13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
@@ -233,16 +234,16 @@ void Player::Player_Avoidance() {
 	if (Provisional_LStickX > MOVE_RIGHT) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
 		MoveX = Additional_Value3;
-		MovingX = MovingX - MoveX;
+		MovingX = MovingX + MoveX;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
-		Additional_Value3 = Additional_Value3 - 1.5f;
+		Additional_Value3 = Additional_Value3 + -1.5f;
 		MoveX = Additional_Value3;
-		MovingX = MovingX + MoveX;
+		MovingX = MovingX - MoveX;
 		if (Additional_Value3 < -13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
