@@ -290,42 +290,69 @@ void Player::Player_CoolTime() {
 void Player::Player_Camera()
 {
 	//¶
-	if (lefttop.x > 5) {
+	if (lefttop.x > -50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
 		camera_flg = false;
 	}
-	if (location.x > 640 && lefttop.x > 5) {
+	if (location.x > 640 && lefttop.x > -50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
 		camera_flg = false;
 	}
 	//ã
-	if (lefttop.y > 5) {
+	if (lefttop.y > -50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
 	}
-	if (location.y > 360 && lefttop.y > 5) {
+	if (location.y > 360 && lefttop.y > -50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
 	}
 	//‰E
-	if (rightbottom.x < -5) {
+	if (rightbottom.x < 50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
 	}
-	if (location.x < 640 && rightbottom.x < -5) {
+	if (location.x < 640 && rightbottom.x < 50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
 	}
 	//‰º
-	if (rightbottom.y < -5) {
+	if (rightbottom.y < 50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
 	}
-	if (location.y < 360 && rightbottom.y < -5) {
+	if (location.y < 360 && rightbottom.y < 50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
+	}
+
+	//ˆÚ“®§ŒÀ
+	if (location.x < 25) {
+		location.x = 25;
+	}
+	if (location.x > 1255) {
+		location.x = 1255;
+	}
+	if (location.y < 25) {
+		location.y = 25;
+	}
+	if (location.y > 695) {
+		location.y = 695;
+	}
+
+	if (AimingX < 50) {
+		AimingX = 50;
+	}
+	if (AimingX > 1280) {
+		AimingX = 1280;
+	}
+	if (AimingY < 50) {
+		AimingY = 50;
+	}
+	if (AimingY > 720) {
+		AimingY = 720;
 	}
 }
 

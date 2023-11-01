@@ -14,20 +14,20 @@ Stage::Stage() {
 		switch (i)
 		{
 		case 0:
-			StageArrayImg[i].x = 0.0;
-			StageArrayImg[i].y = 0.0;
+			StageArrayImg[i].x = -STAGEIMG_X / 2;
+			StageArrayImg[i].y = -STAGEIMG_Y / 2;
 			break;
 		case 1:
-			StageArrayImg[i].x = STAGEIMG_X;
-			StageArrayImg[i].y = 0.0;
+			StageArrayImg[i].x = STAGEIMG_X / 2;
+			StageArrayImg[i].y = -STAGEIMG_Y / 2;
 			break;
 		case 2:
-			StageArrayImg[i].x = 0.0;
-			StageArrayImg[i].y = STAGEIMG_Y;
+			StageArrayImg[i].x = -STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y / 2;
 			break;
 		case 3:
-			StageArrayImg[i].x = STAGEIMG_X;
-			StageArrayImg[i].y = STAGEIMG_Y;
+			StageArrayImg[i].x = STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y / 2;
 			break;
 		default:
 			break;
