@@ -49,6 +49,8 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
+
+	camera_flg = true;
 }
 
 Player::~Player() {
@@ -90,10 +92,14 @@ void Player::update() {
 		Player_CoolTime();
 	}
 
+	
+
 	//プレイヤーの移動　プレイヤーが回避をしていない間は動ける
-	if (A_value == false || CoolTime == true) {
+	if ((A_value == false || CoolTime == true) /*&& camera_flg*/) {
 		Player_Move();
 	}
+
+	Player_Camera();
 
 	Player_Aim();
 
@@ -259,6 +265,48 @@ void Player::Player_CoolTime() {
 	}
 }
 
+void Player::Player_Camera()
+{
+	//左
+	if (lefttop.x > 5) {
+		MoveX = 0;
+		location.x += Additional_Value2 * Provisional_LStickX;
+		camera_flg = false;
+	}
+	if (location.x > 640 && lefttop.x > 5) {
+		MoveX = Additional_Value2 * Provisional_LStickX;
+		location.x = 640;
+		camera_flg = false;
+	}
+	//上
+	if (lefttop.y > 5) {
+		MoveY = 0;
+		location.y += -1 * Additional_Value2 * Provisional_LStickY;
+	}
+	if (location.y > 360 && lefttop.y > 5) {
+		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
+		location.y = 360;
+	}
+	//右
+	if (rightbottom.x < -5) {
+		MoveX = 0;
+		location.x += Additional_Value2 * Provisional_LStickX;
+	}
+	if (location.x < 640 && rightbottom.x < -5) {
+		MoveX = Additional_Value2 * Provisional_LStickX;
+		location.x = 640;
+	}
+	//下
+	if (rightbottom.y < -5) {
+		MoveY = 0;
+		location.y += -1 * Additional_Value2 * Provisional_LStickY;
+	}
+	if (location.y < 360 && rightbottom.y < -5) {
+		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
+		location.y = 360;
+	}
+}
+
 int Player::Player_AimingX() {
 
 	return AimingX;
@@ -302,4 +350,9 @@ int Player::GetPlayer_Avoidance() {
 void Player::SetPlayer_HP(float value) {
 
 	Player_HP = Player_HP - value;
+}
+
+Location Player::Player_Location()
+{
+	return location;
 }
