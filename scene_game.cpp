@@ -105,10 +105,10 @@ Scene* GameScene::update() {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
 				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-					if (hitFrameCounter == 0) {
+					if (slime[i]->GetHitFrameCnt() == 0) {
 						slime[i]->SetHitWeaponFlg();
 						slime[i]->SetHitHP(Weapon->GetDamage());
-						hitFlg = true;
+						slime[i]->SetHit1stFrameFlg(true);
 					}
 				}
 			}
@@ -139,14 +139,29 @@ Scene* GameScene::update() {
 		return new GameOverScene;
 	}
 	
-	if (hitFrameCounter >= DAMAGE_STOP_FRAME) {
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				slime[i]->SetHit1stFrameFlg(false);
+				slime[i]->SetHitFrameCnt(0);
+			}
+		}
+	}
+	/*if (hitFrameCounter >= DAMAGE_STOP_FRAME) {
 		hitFlg = false;
 		hitFrameCounter = 0;
-	}
+	}*/
 
-	if (hitFlg == true) {
-		hitFrameCounter++;
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHit1stFrameFlg() == true) {
+				slime[i]->hitFrameCntInc();
+			}
+		}
 	}
+	/*if (hitFlg == true) {
+		hitFrameCounter++;
+	}*/
 	frameCounter++;
 	return this;
 };
@@ -179,10 +194,9 @@ void GameScene::draw() const {
 		weapon_level_up->draw();
 	}
 
-	if (is_hit)
-	{
-		DrawString(player->GetLocation().x - 12, player->GetLocation().y - 27, "Hit", 0xffffff);
-	}
+
+	DrawFormatString(player->GetLocation().x - 12, player->GetLocation().y - 27, 0xffffff, "%f", player->GetPlayer_HP());
+
 
 	//gameUI->draw();
 }
@@ -195,6 +209,7 @@ void GameScene::HitCheck()
 			if (player->CheckCollision(*(slime[i]), player) == HIT)
 			{
 				is_hit = true;
+				player->SetPlayer_HP(slime[i]->GetSlimeDamage());
 			}
 			//else
 			//{

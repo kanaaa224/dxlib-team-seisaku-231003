@@ -299,8 +299,7 @@ int Player::GetPlayer_Avoidance() {
 	return Avoidance_Flg;
 }
 
-
-void Player::SetPlayer_HP(int value) {
+void Player::SetPlayer_HP(float value) {
 
 	Player_HP = Player_HP - value;
 }
