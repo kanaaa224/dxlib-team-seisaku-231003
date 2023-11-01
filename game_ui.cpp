@@ -67,7 +67,7 @@ void GameUI::draw() const {
 		//ChangeFont("");
 
 		SetFontSize(40);
-		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("MISSION") / 2, 300, 0xffffff, "MISSION");
+		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("MISSION（仮）") / 2, 300, 0xffffff, "MISSION（仮）");
 
 		SetFontSize(24);
 		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("すべてのモンスターを倒してください") / 2, 350, 0xffffff, "すべてのモンスターを倒してください");
@@ -140,7 +140,7 @@ void GameUI::drawHUD() const {
 
 	int lx = (SCREEN_WIDTH - 400 + 5) + (SCREEN_WIDTH * hud_visibility);
 	int ly = 80 - 5;
-	int rx = (lx + static_cast<int>(290 * (ratio / 100.0f)) - 5) + (SCREEN_WIDTH * hud_visibility);
+	int rx = ((lx - 5) + static_cast<int>(290 * (ratio / 100.0f)) - 5) + (SCREEN_WIDTH * hud_visibility);
 	int ry = 90 - 5;
 
 	if (!ratio) rx = lx;
@@ -176,7 +176,7 @@ void GameUI::drawHUD() const {
 
 	lx = (40 + 5) - (SCREEN_WIDTH * hud_visibility);
 	ly = 40 + 5;
-	rx = (lx + static_cast<int>(420 * (ratio / 100.0f)) - 5) - (SCREEN_WIDTH * hud_visibility);
+	rx = ((lx - 5) + static_cast<int>(420 * (ratio / 100.0f)) - 5) - (SCREEN_WIDTH * hud_visibility);
 	ry = 70 - 5;
 
 	if (!ratio) rx = lx;
