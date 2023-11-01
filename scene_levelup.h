@@ -2,7 +2,7 @@
 
 #include"inputCtrl.h"
 
-#define MAX_LEVEL 7					// レベルの最大値
+#define MAX_LEVEL 8					// レベルの最大値
 #define NONE 99						// 空
 
 class weapon;

@@ -131,7 +131,7 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 void WeaponLevelUp::draw() const
 {
 	// 背景
-	DrawBox(0, 0, 960, 600, 0xa0a0a0, TRUE);
+	DrawBox(0, 0, 960, 700, 0xa0a0a0, TRUE);
 
 	SetFontSize(30);
 	DrawFormatString(300, 0, 0x000000, "レベルアップ");
