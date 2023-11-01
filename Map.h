@@ -28,11 +28,17 @@ private:
 		{12,13},{14},{16},{15},{17,18},
 		{16},{17,18},{19},{19},{20},
 	};
+
+	int cursor_pos;
+	int move_cool;
+	bool cursor_move;
+
 	int battle_img = 0;
 	int event_img = 0;
 	int rest_img = 0;
 	int anvil_img = 0;
 	int boss_img = 0;
+	int map_cursor = 0;
 public:
 	Map();
 
