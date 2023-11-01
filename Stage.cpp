@@ -80,10 +80,10 @@ void Stage::update() {
 	//	}
 	//}
 
-	for (int i = 0; i < 4; i++) {
-		StageArrayImg[i].x = Player::Player_MovingX();
-		StageArrayImg[i].y = Player::Player_MovingY();
-	}
+	//for (int i = 0; i < 4; i++) {
+	//	StageArrayImg[i].x = Player::Player_MovingX();
+	//	StageArrayImg[i].y = Player::Player_MovingY();
+	//}
 
 	for (int i = 0; i < 4; i++)
 	{
