@@ -66,10 +66,10 @@ void Player::update() {
 	
 	if (is_hit)
 	{
-		//if (fps % 30 == 0)
-		//{
-		//	is_hit = false;
-		//}
+		if (fps % 30 == 0)
+		{
+			is_hit = false;
+		}
 	}
 
 	//左スティック

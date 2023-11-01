@@ -208,7 +208,7 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			if (player->GetIsHit() != true)
+			if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
 			{
 				if (player->CheckCollision(*(slime[i]), player) == HIT)
 				{
