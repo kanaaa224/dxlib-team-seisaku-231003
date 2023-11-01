@@ -50,13 +50,16 @@ Map::Map() {
 	}
 
 	icon_vec = 0;
-
+	cursor_pos = 0;
+	move_cool = 0;
+	cursor_move = FALSE;
 	// ‰æ‘œ“Çž
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
 	if (event_img == 0) event_img = (LoadGraph("resources/images/event.png"));
 	if (rest_img == 0) rest_img = (LoadGraph("resources/images/rest.png"));
 	if (anvil_img == 0) anvil_img = (LoadGraph("resources/images/anvil.png"));
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
+	if (map_cursor == 0) map_cursor = (LoadGraph("resources/images/map_cursor.png"));
 }
 Map::~Map() {
 
@@ -64,40 +67,69 @@ Map::~Map() {
 
 Scene* Map::update() {
 
+	icon_vec = 0;
 
-	if (InputCtrl::GetStickRatio(R).y >= 0.1 && InputCtrl::GetStickRatio(R).y < 0.4) {
-		icon_vec = 1;
+	if (move_cool <= 0) {
+		if (InputCtrl::GetStickRatio(L).y >= 0.3 && cursor_pos < DATA_MAX - 1) {
+			cursor_pos++;
+			move_cool = 15;
+			cursor_move = TRUE;
+		}
+		else if (InputCtrl::GetStickRatio(L).y <= -0.3 && cursor_pos > 0) {
+			cursor_pos--;
+			move_cool = 15;
+			cursor_move = TRUE;
+		}
 	}
-	else if (InputCtrl::GetStickRatio(R).y >= 0.4 && InputCtrl::GetStickRatio(R).y < 0.7) {
-		icon_vec = 3;
-	}
-	else if (InputCtrl::GetStickRatio(R).y >= 0.7) {
-		icon_vec = 5;
-	}
-	else if (InputCtrl::GetStickRatio(R).y <= -0.1 && InputCtrl::GetStickRatio(R).y > -0.4) {
-		icon_vec = -1;
-	}
-	else if (InputCtrl::GetStickRatio(R).y <= -0.4 && InputCtrl::GetStickRatio(R).y > -0.7) {
-		icon_vec = -3;
-	}
-	else if (InputCtrl::GetStickRatio(R).y <= -0.7) {
-		icon_vec = -5;
-	}
-	else {
-		icon_vec = 0;
-	}
+	else { move_cool--; }
 
-	if (icon_loc[0][1] <= SCREEN_HEIGHT - 100 && icon_vec < 0) {
-		icon_vec = 0;
-	} else if (icon_loc[20][1] >= 50 && icon_vec > 0) {
-		icon_vec = 0;
+
+	if (cursor_move == TRUE){
+		if (icon_loc[cursor_pos][1] <= 50) {
+			icon_vec = 10;
+		}
+		else if (icon_loc[cursor_pos][1] >= SCREEN_HEIGHT - 100) {
+			icon_vec = -10;
+		}
 	}
 
+	
+
+	if (InputCtrl::GetStickRatio(R).y >= 0.2 || InputCtrl::GetStickRatio(R).y <= -0.2)
+	{
+		icon_vec = 0;
+		cursor_move = FALSE;
+
+		if (icon_loc[20][1] < 50) {
+			if (InputCtrl::GetStickRatio(R).y >= 0.2 && InputCtrl::GetStickRatio(R).y < 0.5) {
+				icon_vec = 1;
+			}
+			else if (InputCtrl::GetStickRatio(R).y >= 0.5 && InputCtrl::GetStickRatio(R).y < 0.8) {
+				icon_vec = 3;
+			}
+			else if (InputCtrl::GetStickRatio(R).y >= 0.8) {
+				icon_vec = 5;
+			}
+		}
+		if (icon_loc[0][1] > SCREEN_HEIGHT - 100) {
+			if (InputCtrl::GetStickRatio(R).y <= -0.2 && InputCtrl::GetStickRatio(R).y > -0.5) {
+				icon_vec = -1;
+			}
+			else if (InputCtrl::GetStickRatio(R).y <= -0.5 && InputCtrl::GetStickRatio(R).y > -0.8) {
+				icon_vec = -3;
+			}
+			else if (InputCtrl::GetStickRatio(R).y <= -0.8) {
+				icon_vec = -5;
+			}
+		}
+	}
 
 	for (int i = 0; i < DATA_MAX; i++)
 	{
 		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
 	}
+
+
 	return this;
 };
 
@@ -137,7 +169,7 @@ void Map::draw() const {
 		default:
 			break;
 		}
-
 	}
-	
+	DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
+
 }

@@ -27,7 +27,6 @@ Slime::Slime(int arrayNum)
 
 	is_area = false;
 
-	damage = 1.f;
 
 	//リスポーンポイント決め
 	SetRespawnPoint();
@@ -135,9 +134,11 @@ void Slime::Draw(int arrayNum)
 void Slime::X()
 {
 	if (hitFlg == HIT) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
-		vector.x = HitMoveCale_X(vector.x, hitvx);
+		//ここに敵同士の当たり判定の処理を書く
+		//vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		//vector.x = HitMoveCale_X(vector.x, hitvx);
 		//hitFlg = NO_COLLISION;
+		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
@@ -147,9 +148,11 @@ void Slime::X()
 void Slime::Y()
 {
 	if (hitFlg == HIT) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
-		vector.y = HitMoveCale_Y(vector.y, hitvy);
+		//ここに敵同士の当たり判定の処理を書く
+		//vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		//vector.y = HitMoveCale_Y(vector.y, hitvy);
 		//hitFlg = NO_COLLISION;
+		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));

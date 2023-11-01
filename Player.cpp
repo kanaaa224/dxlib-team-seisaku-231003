@@ -52,7 +52,8 @@ Player::Player() {
 
 	is_hit = false;
 
-	camera_flg = true;
+	camera_flg_top_bottom = false;
+	camera_flg_left_right = false;
 }
 
 Player::~Player() {
@@ -122,26 +123,26 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	DrawFormatString(0, 480, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
+	/*DrawFormatString(0, 480, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 500, GetColor(255, 0, 0), "MoveY %0.1f", MoveY);
 	DrawFormatString(0, 520, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Provisional_LStickX);
-	DrawFormatString(0, 540, GetColor(255, 0, 0), "MoveX %0.1f", MoveX);
+	DrawFormatString(0, 540, GetColor(255, 0, 0), "MoveX %0.1f", MoveX);*/
 
 	//右スティック
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", Provisional_RStickY);
-	DrawFormatString(0, 360, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", Provisional_RStickX);
+	/*DrawFormatString(0, 340, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", Provisional_RStickY);
+	DrawFormatString(0, 360, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", Provisional_RStickX);*/
 
 	//Aボタン
-	DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
-	DrawFormatString(0, 400, GetColor(255, 0, 0), "加算値　回避　: %f", Additional_Value3);
+	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
+	DrawFormatString(0, 400, GetColor(255, 0, 0), "加算値　回避　: %f", Additional_Value3);*/
 
-	DrawFormatString(0, 420, GetColor(255, 0, 0), "A_value  %d", A_value);
+	/*DrawFormatString(0, 420, GetColor(255, 0, 0), "A_value  %d", A_value);
 	DrawFormatString(0, 440, GetColor(255, 0, 0), "CoolTime %d", CoolTime);
-	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);
+	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);*/
 
 	//　中心線
-	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	/*DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);*/
 
 	//照準の画像　描画
 	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
@@ -231,8 +232,14 @@ void Player::Player_Avoidance() {
 	//横
 	if (Provisional_LStickX > MOVE_RIGHT) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveX = Additional_Value3 * Provisional_LStickX;
-		MovingX = MovingX - MoveX;
+		if (camera_flg_left_right) {
+			location.x += Additional_Value3 * Provisional_LStickX;
+		}
+		else{
+			MoveX = Additional_Value3 * Provisional_LStickX;
+			MovingX = MovingX - MoveX;
+		}
+	
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -240,8 +247,14 @@ void Player::Player_Avoidance() {
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveX = Additional_Value3 * Provisional_LStickX;
-		MovingX = MovingX - MoveX;
+		if (camera_flg_left_right) {
+			location.x += Additional_Value3 * Provisional_LStickX;
+		}
+		else {
+			MoveX = Additional_Value3 * Provisional_LStickX;
+			MovingX = MovingX - MoveX;
+		}
+
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -255,8 +268,13 @@ void Player::Player_Avoidance() {
 	//縦 下方向
 	if (Provisional_LStickY < MOVE_DOWN) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
-		MovingY = MovingY + MoveY;
+		if (camera_flg_top_bottom) {
+			location.y += -1 * Additional_Value3 * Provisional_LStickY;
+		}
+		else {
+			MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+			MovingY = MovingY + MoveY;
+		}
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -265,8 +283,13 @@ void Player::Player_Avoidance() {
 	//縦　上方向
 	else if (Provisional_LStickY > MOVE_UP) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
-		MovingY = MovingY + MoveY;
+		if (camera_flg_top_bottom) {
+			location.y += -1 * Additional_Value3 * Provisional_LStickY;
+		}
+		else {
+			MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+			MovingY = MovingY + MoveY;
+		}
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -301,39 +324,45 @@ void Player::Player_Camera()
 	if (lefttop.x > -50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
-		camera_flg = false;
+		camera_flg_left_right = true;
 	}
 	if (location.x > 640 && lefttop.x > -50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
-		camera_flg = false;
+		camera_flg_left_right = false;
 	}
 	//上
 	if (lefttop.y > -50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
+		camera_flg_top_bottom = true;
 	}
 	if (location.y > 360 && lefttop.y > -50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
+		camera_flg_top_bottom = false;
 	}
 	//右
 	if (rightbottom.x < 50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
+		camera_flg_left_right = true;
 	}
 	if (location.x < 640 && rightbottom.x < 50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
+		camera_flg_left_right = false;
 	}
 	//下
 	if (rightbottom.y < 50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
+		camera_flg_top_bottom = true;
 	}
 	if (location.y < 360 && rightbottom.y < 50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
+		camera_flg_top_bottom = false;
 	}
 
 	//移動制限
