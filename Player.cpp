@@ -48,6 +48,7 @@ Player::Player() {
 
 	A_value = false;
 	CoolTime = false;
+	Avoidance_Flg = false;
 }
 
 Player::~Player() {
@@ -81,6 +82,7 @@ void Player::update() {
 
 	//回避の動作を実効　指定の加算値に到達するまで動く　その後クールダウンをはさむ
 	if (A_value == true && CoolTime == false) {
+		Avoidance_Flg = true;
 		Player_Avoidance();
 	}
 	
@@ -200,9 +202,9 @@ void Player::Player_Avoidance() {
 
 	//回避　Aボタン 縦軸　下
 	if (Provisional_LStickY < MOVE_DOWN) {
-			Additional_Value3 = Additional_Value3 + 1.5f;
-			MoveZ = Additional_Value3;
-			MovingY = MovingY - MoveZ;
+		Additional_Value3 = Additional_Value3 + 1.5f;
+		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		MovingY = MovingY - MoveY;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
@@ -211,10 +213,10 @@ void Player::Player_Avoidance() {
 	}
 	//縦軸　上
 	else if (Provisional_LStickY > MOVE_UP) {
-		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveZ = Additional_Value3;
-		MovingY = MovingY + MoveZ;
-		if (Additional_Value3 > 13.0f) {
+		Additional_Value3 = Additional_Value3 + -1.5f;
+		MoveY = Additional_Value3 * Provisional_LStickY;
+		MovingY = MovingY + MoveY;
+		if (Additional_Value3 < -13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
@@ -223,18 +225,18 @@ void Player::Player_Avoidance() {
 	//回避　Aボタン　横軸
 	if (Provisional_LStickX > MOVE_RIGHT) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveZ = Additional_Value3;
-		MovingX = MovingX - MoveZ;
+		MoveX = Additional_Value3;
+		MovingX = MovingX - MoveX;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
-		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveZ = Additional_Value3;
-		MovingX = MovingX + MoveZ;
-		if (Additional_Value3 > 13.0f) {
+		Additional_Value3 = Additional_Value3 - 1.5f;
+		MoveX = Additional_Value3;
+		MovingX = MovingX + MoveX;
+		if (Additional_Value3 < -13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
@@ -251,6 +253,7 @@ void Player::Player_CoolTime() {
 		if (Second > 3) {
 			A_value = false;
 			CoolTime = false;
+			Avoidance_Flg = false;
 			Second = 0;
 		}
 	}
@@ -290,6 +293,12 @@ float Player::GetPlayer_HP() {
 
 	return Player_HP;
 }
+
+int Player::GetPlayer_Avoidance() {
+	
+	return Avoidance_Flg;
+}
+
 
 void Player::SetPlayer_HP(int value) {
 
