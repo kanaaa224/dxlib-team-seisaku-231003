@@ -89,5 +89,5 @@ public:
 	float GetPlayer_HP();
 
 	// ƒvƒŒƒCƒ„[‚Ì‘Ì—Í‚ğˆø‚­
-	void SetPlayer_HP(int value);
+	void SetPlayer_HP(float value);
 };

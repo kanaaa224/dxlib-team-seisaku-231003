@@ -27,6 +27,8 @@ Slime::Slime(int arrayNum)
 
 	is_area = false;
 
+	damage = .1f;
+
 	//リスポーンポイント決め
 	SetRespawnPoint();
 }
@@ -161,7 +163,7 @@ int Slime::GetStageNum()
 	return r;
 }
 
-int Slime::GetSlimeDamage()
+float Slime::GetSlimeDamage()
 {
-	return 0;
+	return damage;
 }

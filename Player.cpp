@@ -287,7 +287,7 @@ float Player::GetPlayer_HP() {
 	return Player_HP;
 }
 
-void Player::SetPlayer_HP(int value) {
+void Player::SetPlayer_HP(float value) {
 
 	Player_HP = Player_HP - value;
 }
