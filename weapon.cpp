@@ -550,16 +550,19 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 {
 	Location weaponCollisionLocation;
 
-	for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
-		weaponCollisionLocation.x = 640 + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
-		weaponCollisionLocation.y = 360 + unitVec.y * (i * 10);
+	if (isAttacking) {
 
-		float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-		float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+		for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+			weaponCollisionLocation.x = 640 + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
+			weaponCollisionLocation.y = 360 + unitVec.y * (i * 10);
 
-		if (tmp_length < radius + 10) {
-			return true;
+			float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (tmp_length < radius + 10) {
+				return true;
+			}
 		}
 	}
 
