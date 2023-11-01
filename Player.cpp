@@ -305,6 +305,33 @@ void Player::Player_Camera()
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
 	}
+
+	//à⁄ìÆêßå¿
+	if (location.x < 25) {
+		location.x = 25;
+	}
+	if (location.x > 1255) {
+		location.x = 1255;
+	}
+	if (location.y < 25) {
+		location.y = 25;
+	}
+	if (location.y > 695) {
+		location.y = 695;
+	}
+
+	if (AimingX < 50) {
+		AimingX = 50;
+	}
+	if (AimingX > 1280) {
+		AimingX = 1280;
+	}
+	if (AimingY < 50) {
+		AimingY = 50;
+	}
+	if (AimingY > 720) {
+		AimingY = 720;
+	}
 }
 
 int Player::Player_AimingX() {
