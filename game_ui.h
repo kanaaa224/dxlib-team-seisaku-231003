@@ -83,4 +83,10 @@ public:
 		enemy["current"] = Current;
 		enemy["max"]     = Max;
 	};
+
+	//////////////////////////////////////////////////
+
+	int getState() {
+		return state;
+	};
 };
