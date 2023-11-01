@@ -27,7 +27,7 @@ Slime::Slime(int arrayNum)
 
 	is_area = false;
 
-	damage = .1f;
+	damage = 1.f;
 
 	//リスポーンポイント決め
 	SetRespawnPoint();

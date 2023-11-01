@@ -24,8 +24,6 @@ GameScene::GameScene() {
 	open_level_up = false;
 	restor_cursor_position = true;
 
-	is_hit = false;
-
 
 	//////////////////////////////////////////////////
 
@@ -221,10 +219,13 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			if (player->CheckCollision(*(slime[i]), player) == HIT)
+			if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
 			{
-				is_hit = true;
-				player->SetPlayer_HP(slime[i]->GetSlimeDamage());
+				if (player->CheckCollision(*(slime[i]), player) == HIT)
+				{
+					player->SetPlayer_HP(slime[i]->GetSlimeDamage());
+					player->SetIsHit(true);
+				}
 			}
 			//else
 			//{

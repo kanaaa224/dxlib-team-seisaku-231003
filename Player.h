@@ -60,6 +60,9 @@ private:
 	StageArray lefttop;
 	StageArray rightbottom;
 	bool camera_flg;
+
+	bool is_hit;			//UŒ‚‚ğó‚¯‚½‚©‚Ç‚¤‚©
+
 public:
 
 	static float MovingX;
@@ -97,6 +100,18 @@ public:
 
 	// ƒvƒŒƒCƒ„[‚Ì‘Ì—Í‚ğˆø‚­
 	void SetPlayer_HP(float value);
+
+	//is_hit‚ğæ“¾‚·‚é
+	bool GetIsHit()
+	{
+		return is_hit;
+	}
+
+	//is_hit‚ğİ’è‚·‚é
+	void SetIsHit(const bool flg)
+	{
+		is_hit = flg;
+	}
 
 
 	Location Player_Location();
