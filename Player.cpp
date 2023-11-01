@@ -52,7 +52,7 @@ Player::Player() {
 
 	is_hit = false;
 
-	camera_flg = true;
+	camera_flg = false;
 }
 
 Player::~Player() {
@@ -293,7 +293,7 @@ void Player::Player_Camera()
 	if (lefttop.x > -50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
-		camera_flg = false;
+		camera_flg = true;
 	}
 	if (location.x > 640 && lefttop.x > -50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
@@ -304,28 +304,34 @@ void Player::Player_Camera()
 	if (lefttop.y > -50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
+		camera_flg = true;
 	}
 	if (location.y > 360 && lefttop.y > -50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
+		camera_flg = false;
 	}
 	//‰E
 	if (rightbottom.x < 50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
+		camera_flg = true;
 	}
 	if (location.x < 640 && rightbottom.x < 50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
+		camera_flg = false;
 	}
 	//‰º
 	if (rightbottom.y < 50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
+		camera_flg = true;
 	}
 	if (location.y < 360 && rightbottom.y < 50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
+		camera_flg = false;
 	}
 
 	//ˆÚ“®§ŒÀ
