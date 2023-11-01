@@ -8,6 +8,7 @@ Player::Player() {
 
 	if (PlayerImg = LoadGraph("resources/images/yusya_red.png")) {}
 	if (AimingImg = LoadGraph("resources/images/mark_maru.png")) {}
+	if (KaihiImg = LoadGraph("resources/images/yusya_kaihi.png")) {}
 
 	PlayerX = 640;
 	PlayerY = 360;
@@ -30,9 +31,7 @@ Player::Player() {
 
 	Additional_Value = 10.0;
 	Additional_Value2 = 2.0;
-	Additional_Value3 = 100.0;
-
-	Avoidance = 0.0;
+	Additional_Value3 = 0.0;
 
 	MoveX = 0.0;
 	MoveY = 0.0;
@@ -41,16 +40,26 @@ Player::Player() {
 	MovingX = 0.0;
 	MovingY = 0.0;
 
-	Player_HP = 100;
+	Player_HP = 100.0f;
+
+	fps = 0;
+	CoolTime_fps = 0;
+	Second = 0;
+
+	A_value = false;
+	CoolTime = false;
 }
 
 Player::~Player() {
 
 	DeleteGraph(PlayerImg);
 	DeleteGraph(AimingImg);
+	DeleteGraph(KaihiImg);
 }
 
 void Player::update() {
+
+	fps++;
 
 	//左スティック
 	Provisional_LStickX = InputCtrl::GetStickRatio(L).x;
@@ -63,46 +72,72 @@ void Player::update() {
 	//Aボタン
 	Provisional_Abtn = InputCtrl::GetButtonState(XINPUT_BUTTON_A);
 
-	//回避　Aボタン 縦軸
-	if (Provisional_Abtn == PRESS && Provisional_LStickY < MOVE_DOWN) {
-		MoveZ = Additional_Value3;
-		MovingY = MovingY - MoveZ;
-	}
-	else if (Provisional_Abtn == PRESS && Provisional_LStickY > MOVE_UP) {
-		MoveZ = Additional_Value3;
-		MovingY = MovingY + MoveZ;
+	//回避フラグ ON
+	if (Provisional_Abtn == PRESS) {
+		A_value = true;
 	}
 
-	//回避　Aボタン　横軸
-	if (Provisional_Abtn == PRESS && Provisional_LStickX > MOVE_RIGHT) {
-		MoveZ = Additional_Value3;
-		MovingX = MovingX - MoveZ;
+	//回避の動作を実効　指定の加算値に到達するまで動く　その後クールダウンをはさむ
+	if (A_value == true && CoolTime == false) {
+		Player_Avoidance();
 	}
-	else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
-		MoveZ = Additional_Value3;
-		MovingX = MovingX + MoveZ;
-	}
-
-	//照準　右スティック
-	//横
-	if (Provisional_RStickX > MOVE_RIGHT) {
-
-		AimingX = AimingX + Additional_Value * Provisional_RStickX;
-	}
-	else if (Provisional_RStickX < MOVE_LEFT) {
-
-		AimingX = AimingX + Additional_Value * Provisional_RStickX;
+	
+	if (CoolTime == true) {
+		Player_CoolTime();
 	}
 
-	//縦
-	if (Provisional_RStickY > MOVE_UP) {
-
-		AimingY = AimingY - Additional_Value * Provisional_RStickY;
+	//プレイヤーの移動　プレイヤーが回避をしていない間は動ける
+	if (A_value == false || CoolTime == true) {
+		Player_Move();
 	}
-	else if (Provisional_RStickY < MOVE_DOWN) {
 
-		AimingY = AimingY - Additional_Value * Provisional_RStickY;
+	Player_Aim();
+
+
+	if (fps > 59) {
+		fps = 0;
 	}
+}
+
+void Player::draw()const {
+
+	//左スティック
+	DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
+	DrawFormatString(0, 320, GetColor(255, 0, 0), "MoveY %0.1f", MoveY);
+
+	//右スティック
+	DrawFormatString(0, 340, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", Provisional_RStickY);
+	DrawFormatString(0, 360, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", Provisional_RStickX);
+
+	//Aボタン
+	DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
+	DrawFormatString(0, 400, GetColor(255, 0, 0), "加算値　回避　: %f", Additional_Value3);
+
+	DrawFormatString(0, 420, GetColor(255, 0, 0), "A_value  %d", A_value);
+	DrawFormatString(0, 440, GetColor(255, 0, 0), "CoolTime %d", CoolTime);
+	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);
+
+	//　中心線
+	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+
+	//照準の画像　描画
+	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
+
+	//回避中の画像の切り替え
+	if (A_value == true) {
+		DrawRotaGraph(location.x, location.y, 0.10f, 0.01, KaihiImg, TRUE);
+	}
+	else {
+		//プレイヤーの画像　描画
+		DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+	}
+
+	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
+}
+
+void Player::Player_Move() {
 
 	//移動　左スティック
 	//横
@@ -124,7 +159,8 @@ void Player::update() {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
 
-	}else if (Provisional_LStickY > MOVE_UP) {
+	}
+	else if (Provisional_LStickY > MOVE_UP) {
 
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
@@ -134,28 +170,83 @@ void Player::update() {
 	}
 }
 
-void Player::draw()const {
+void Player::Player_Aim() {
 
-	//左スティック
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "MoveY %0.1f", MoveY);
+	//照準　右スティック
+	//横
+	if (Provisional_RStickX > MOVE_RIGHT) {
 
-	//右スティック
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", Provisional_RStickY);
-	DrawFormatString(0, 360, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", Provisional_RStickX);
+		AimingX = AimingX + Additional_Value * Provisional_RStickX;
+	}
+	else if (Provisional_RStickX < MOVE_LEFT) {
 
-	//Aボタン
-	DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
+		AimingX = AimingX + Additional_Value * Provisional_RStickX;
+	}
 
-	//DrawFormatString(0, 380, GetColor(255, 255, 255), "RStick:縦軸値 %0.1f", InputCtrl::GetStickState(R).x);
-	//DrawFormatString(0, 400, GetColor(255, 255, 255), "RStick:横軸値 %0.1f", InputCtrl::GetStickState(R).y);
+	//縦
+	if (Provisional_RStickY > MOVE_UP) {
 
-	//DrawGraph(0, 300, PlayerImg, TRUE);
+		AimingY = AimingY - Additional_Value * Provisional_RStickY;
+	}
+	else if (Provisional_RStickY < MOVE_DOWN) {
 
-	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
+		AimingY = AimingY - Additional_Value * Provisional_RStickY;
+	}
+}
 
-	DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
-	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
+void Player::Player_Avoidance() {
+
+	//回避　Aボタン 縦軸
+	//if (Provisional_Abtn == PRESS && Provisional_LStickY < MOVE_DOWN) {
+	//		//if (fps % 2 == 0) {
+	//		Additional_Value3 = Additional_Value3 + 0.01;
+	//		MovingY = MovingY - Additional_Value3;
+	//		//}
+	//	/*if (Additional_Value3 >= 4.0f) {
+	//		Additional_Value3 = 0;
+	//	}*/
+	//}
+
+	//縦軸　上
+	if (Provisional_LStickY > MOVE_UP) {
+		Additional_Value3 = Additional_Value3 + 1.5f;
+		MoveY = Additional_Value3;
+		MovingY = MovingY + MoveY;
+		if (Additional_Value3 > 13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
+	}
+
+	/*else if (Provisional_Abtn == PRESS && Provisional_LStickY > MOVE_UP) {
+		MoveZ = Additional_Value3;
+		MovingY = MovingY + MoveZ;
+	}*/
+
+	//回避　Aボタン　横軸
+	/*if (Provisional_Abtn == PRESS && Provisional_LStickX > MOVE_RIGHT) {
+		MoveZ = Additional_Value3;
+		MovingX = MovingX - MoveZ;
+	}
+	else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
+		MoveZ = Additional_Value3;
+		MovingX = MovingX + MoveZ;
+	}*/
+}
+
+void Player::Player_CoolTime() {
+	
+	CoolTime_fps++;
+
+	if (CoolTime_fps > 59) {
+		CoolTime_fps = 0;
+		Second++;
+		if (Second > 3) {
+			A_value = false;
+			CoolTime = false;
+			Second = 0;
+		}
+	}
 }
 
 int Player::Player_AimingX() {
@@ -188,7 +279,7 @@ float Player::Player_MovingY() {
 	return MovingY;
 }
 
-int Player::GetPlayer_HP() {
+float Player::GetPlayer_HP() {
 
 	return Player_HP;
 }

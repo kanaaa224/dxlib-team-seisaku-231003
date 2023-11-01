@@ -13,6 +13,7 @@ private:
 	//画像用変数
 	int PlayerImg;
 	int AimingImg;
+	int KaihiImg;
 
 	//PlayerLocation
 	int PlayerX;
@@ -32,6 +33,8 @@ private:
 
 	// Aボタン
 	int Provisional_Abtn;
+	bool A_value;
+	bool CoolTime;
 
 	//　加算値
 	float Additional_Value;
@@ -46,7 +49,11 @@ private:
 	float MoveZ;
 
 	//プレイヤーの体力
-	int Player_HP;
+	float Player_HP;
+
+	int fps;
+	int CoolTime_fps;
+	int Second;
 
 public:
 
@@ -61,15 +68,26 @@ public:
 	//描画処理
 	void draw() const;
 
+	void Player_Move();
+	void Player_Aim();
+	void Player_Avoidance();
+	void Player_CoolTime();
+
+	//照準の関数 X Y を戻り値で返す
 	int Player_AimingX();
 	int Player_AimingY();
 
+	//プレイヤーの移動量 X Y を返す
 	float Player_MoveX();
 	float Player_MoveY();
 
+	//プレイヤーの座標を返す X Y
 	static float Player_MovingX();
 	static float Player_MovingY();
 
-	int GetPlayer_HP();
+	// プレイヤーの体力を返す
+	float GetPlayer_HP();
+
+	// プレイヤーの体力を引く
 	void SetPlayer_HP(int value);
 };
