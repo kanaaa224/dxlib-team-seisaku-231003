@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "weapon.h"
 
+class Stage;
+
 class Slime :public EnemyBase
 {
 private:
@@ -12,10 +14,12 @@ private:
 
 	int EF_hitHp;
 
+	bool is_area;
+
 public:
 	Slime(int arrayNum);
 
-	void Update(int arrayNum, Player* player ,weapon* w);
+	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum);
 
 	//移動処理

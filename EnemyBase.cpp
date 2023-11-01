@@ -1,6 +1,7 @@
 ﻿#include "EnemyBase.h"
 #include "Common.h"
 #include <math.h>
+#include"Stage.h"
 
 EnemyBase::EnemyBase()
 {
@@ -121,4 +122,18 @@ void EnemyBase::SetHitHP(int d) {
 void EnemyBase::SetHitWeaponFlg()
 {
 	hitWeaponFlg = true;
+}
+
+bool EnemyBase::IsMoveLimit(Stage stage)
+{
+	bool ret = false;
+
+	//ステージ内ならtrue
+	if (stage.GetStageArray(0).x<location.x - radius && stage.GetStageArray(1).x + STAGEIMG_X>location.x + radius &&
+		stage.GetStageArray(0).y<location.y - radius && stage.GetStageArray(2).y + STAGEIMG_Y>location.y + radius)
+	{
+		ret = true;
+	}
+
+	return ret;
 }
