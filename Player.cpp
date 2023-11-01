@@ -50,6 +50,8 @@ Player::Player() {
 	CoolTime = false;
 	Avoidance_Flg = false;
 
+	is_hit = false;
+
 	camera_flg = true;
 }
 
@@ -63,6 +65,14 @@ Player::~Player() {
 void Player::update() {
 
 	fps++;
+	
+	if (is_hit)
+	{
+		if (fps % 30 == 0)
+		{
+			is_hit = false;
+		}
+	}
 
 	//左スティック
 	Provisional_LStickX = InputCtrl::GetStickRatio(L).x;
@@ -105,7 +115,7 @@ void Player::update() {
 
 
 	if (fps > 59) {
-		fps = 0;
+		fps = 0;		
 	}
 }
 
@@ -140,7 +150,16 @@ void Player::draw()const {
 	}
 	else {
 		//プレイヤーの画像　描画
-		DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+		if (is_hit)
+		{
+			SetDrawBright(125, 50, 50);
+			DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+			SetDrawBright(255, 255, 255);
+		}
+		else
+		{
+			DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+		}
 	}
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
@@ -209,7 +228,8 @@ void Player::Player_Avoidance() {
 	//回避　Aボタン 縦軸　下
 	if (Provisional_LStickY < MOVE_DOWN) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		//MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		MoveY = Additional_Value3;
 		MovingY = MovingY - MoveY;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
@@ -220,7 +240,8 @@ void Player::Player_Avoidance() {
 	//縦軸　上
 	else if (Provisional_LStickY > MOVE_UP) {
 		Additional_Value3 = Additional_Value3 + -1.5f;
-		MoveY = Additional_Value3 * Provisional_LStickY;
+		//MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		MoveY = Additional_Value3;
 		MovingY = MovingY + MoveY;
 		if (Additional_Value3 < -13.0f) {
 			Additional_Value3 = 0.0f;
@@ -232,16 +253,16 @@ void Player::Player_Avoidance() {
 	if (Provisional_LStickX > MOVE_RIGHT) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
 		MoveX = Additional_Value3;
-		MovingX = MovingX - MoveX;
+		MovingX = MovingX + MoveX;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
-		Additional_Value3 = Additional_Value3 - 1.5f;
+		Additional_Value3 = Additional_Value3 + -1.5f;
 		MoveX = Additional_Value3;
-		MovingX = MovingX + MoveX;
+		MovingX = MovingX - MoveX;
 		if (Additional_Value3 < -13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
@@ -260,6 +281,7 @@ void Player::Player_CoolTime() {
 			A_value = false;
 			CoolTime = false;
 			Avoidance_Flg = false;
+			Additional_Value3 = 0.0f;
 			Second = 0;
 		}
 	}
