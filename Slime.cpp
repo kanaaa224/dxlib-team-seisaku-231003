@@ -44,7 +44,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 
 		if (IsMoveLimit(stage))
 		{
-			is_area = true;	
+			//is_area = true;	
 			//移動処理//
 			if (hitWeaponFlg == false) {
 				X();
