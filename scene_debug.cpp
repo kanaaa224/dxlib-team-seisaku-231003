@@ -4,6 +4,12 @@
 //////////////////////////////////////////////////
 #include "main.h"
 
+DebugScene::DebugScene() {
+	state = 0;
+};
+
+DebugScene::~DebugScene() {};
+
 Scene* DebugScene::update() {
 	//if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new TitleScene(false);
 
@@ -13,8 +19,18 @@ Scene* DebugScene::update() {
 	else if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) FPSCtrl::SetLimitRate(120);
 	else if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) FPSCtrl::SetLimitRate(240);
 
-	     if (InputCtrl::GetKeyState(KEY_INPUT_UP)   == PRESS) state++;
-	else if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) state--;
+	//     if (InputCtrl::GetKeyState(KEY_INPUT_UP)   == PRESS) state++;
+	//else if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) state--;
+		 
+		 if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS)   return new GameScene();
+		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) return new GameScene();
+
+		 if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) return new LoadScene();
+
+		 if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
+
+		 if (InputCtrl::GetKeyState(KEY_INPUT_M) == PRESS) return new Map();
+		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new Map();
 
 	return this;
 };
@@ -164,7 +180,21 @@ void DebugScene::draw() const {
 	x -= 20;
 
 	y += 30;
-	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: %d - %d", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
+	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: %.1f - %.1f", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
 
 	x -= 20;
+
+	//////////////////////////////////////////////////
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Enterキー/Bボタン で仮のゲームメインシーンへ");
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Lキー でロード画面付きで仮のゲームメインシーンへ");
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "Mキー でマップへ");
 };

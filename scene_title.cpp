@@ -1,10 +1,4 @@
-#include "DxLib.h"
-#include "Title.h"
-#include "GameMain.h"
-#include "sourceFiles/inputCtrl.h"
-#include "Help.h"
-#include "Credit.h"
-#include "End.h"
+#include "main.h"
 
 //コンストラクタ
 Title::Title()

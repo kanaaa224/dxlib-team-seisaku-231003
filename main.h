@@ -5,7 +5,7 @@
 
 #define SCREEN_WIDTH  1280 // 画面サイズ（幅）
 #define SCREEN_HEIGHT 720  // 画面サイズ（高さ）
-#define SCREEN_FPS    240  // 起動時の最大FPS
+#define SCREEN_FPS    60   // 起動時の最大FPS
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -35,18 +35,27 @@ using std::to_string;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ゲームメイン処理のヘッダーファイル
-//class GameScene;
+class GameScene;
 //#include "game_collider.h"
 //#include "game_characterBase.h"
 //#include "game_bullet.h"
 //#include "game_bulletSpawner.h"
 //#include "game_nwaySpawner.h"
 //#include "game_player.h"
-//#include "game_ui.h"
+#include "game_ui.h"
 //#include "game_main.h"
 
 // 各シーンのヘッダーファイル
 #include "scene_debug.h"
-#include "../Title.h"
-//#include "scene_game.h"
-//#include "scene_result.h"
+#include "scene_title.h"
+#include "scene_help.h"
+#include "scene_game.h"
+#include "scene_gameclear.h"
+#include "scene_gameover.h"
+#include "scene_result.h"
+#include "scene_end.h"
+#include "scene_credit.h"
+#include "scene_load.h"
+#include "map.h"
+
+#include "kitamura_test.h"
