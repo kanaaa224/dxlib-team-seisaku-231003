@@ -16,7 +16,7 @@ WeaponLevelUp::WeaponLevelUp()
 	weapon_selection = false;
 
 	weapon1_type = NONE;				// 空
-	weapon1_level = 0;
+	weapon1_level = 10;
 
 	weapon2_type = NONE;				// 空
 	weapon2_level = 0;
@@ -36,6 +36,8 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 		weapon_selection = false;
 		weapon_number = 1;
 		restor_cursor_position = false;
+		// 現在の武器レベルのセット
+		weapon1_level = weapon->GetWeaponLevel();
 	}
 
 	// 武器の種類のセット
@@ -96,8 +98,8 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 				{
 					weapon1_level = MAX_LEVEL;
 				}
-				// レベルのセット
-				weapon->LevelUpDebug(weapon1_level);
+				// 武器にレベルのセット
+				weapon->SetWeaponLevel(weapon1_level);
 			}
 		}
 		else
@@ -111,8 +113,8 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 				{
 					weapon2_level = MAX_LEVEL;
 				}
-				// レベルのセット
-				//weapon->LevelUpDebug(weapon2_level);
+				// 武器にレベルのセット
+				//weapon->SetWeaponLevel(weapon2_level);
 			}
 		}
 
