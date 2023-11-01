@@ -121,7 +121,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	
 
 	//レベルアップデバッグ
-	if (levelUpFlg) {
+	/*if (levelUpFlg) {
 		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 			levelUpFlg = false;
 		}
@@ -167,7 +167,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	}
 	else if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 		levelUpFlg = true;
-	}
+	}*/
 }
 
 void weapon::Draw() const
@@ -220,13 +220,13 @@ void weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	if (levelUpFlg) {
+	/*if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
-	}
+	}*/
 
 
 	
