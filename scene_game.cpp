@@ -167,6 +167,14 @@ Scene* GameScene::update() {
 		hitFrameCounter++;
 	}*/
 	frameCounter++;
+	// 仮
+	gameUI->setScore(432);
+	gameUI->setLevel(7);
+	gameUI->setFloor(-2);
+	gameUI->setHP(900, 1000, 90);
+	gameUI->setEXP(1500, 2000, 75);
+	gameUI->setEnemy(234, 2384);
+
 	return this;
 };
 
