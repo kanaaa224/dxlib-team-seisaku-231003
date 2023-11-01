@@ -21,8 +21,6 @@ GameScene::GameScene() {
 	is_weapon_selct = false;
 	open_level_up = false;
 
-	is_hit = false;
-
 
 	//////////////////////////////////////////////////
 
@@ -101,19 +99,19 @@ Scene* GameScene::update() {
 	HitCheck();
 
 	//武器と敵の当たり判定
-	if (stage == 1) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) {
-				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-					if (slime[i]->GetHitFrameCnt() == 0) {
-						slime[i]->SetHitWeaponFlg();
-						slime[i]->SetHitHP(Weapon->GetDamage());
-						slime[i]->SetHit1stFrameFlg(true);
-					}
-				}
-			}
-		}
-	}
+	////if (stage == 1) {
+	////	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+	////		if (slime[i] != nullptr) {
+	////			if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+	////				if (slime[i]->GetHitFrameCnt() == 0) {
+	////					slime[i]->SetHitWeaponFlg();
+	////					slime[i]->SetHitHP(Weapon->GetDamage());
+	////					slime[i]->SetHit1stFrameFlg(true);
+	////				}
+	////			}
+	////		}
+	////	}
+	//}
 
 	//武器のレベルアップ（デバッグ用）
 	if (!Weapon->GetLevelUpFlg()) {
@@ -206,10 +204,13 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			if (player->CheckCollision(*(slime[i]), player) == HIT)
+			if (player->GetIsHit() != true)
 			{
-				is_hit = true;
-				player->SetPlayer_HP(slime[i]->GetSlimeDamage());
+				if (player->CheckCollision(*(slime[i]), player) == HIT)
+				{
+					player->SetPlayer_HP(slime[i]->GetSlimeDamage());
+					player->SetIsHit(true);
+				}
 			}
 			//else
 			//{

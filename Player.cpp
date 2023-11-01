@@ -48,6 +48,8 @@ Player::Player() {
 
 	A_value = false;
 	CoolTime = false;
+
+	is_hit = false;
 }
 
 Player::~Player() {
@@ -60,6 +62,14 @@ Player::~Player() {
 void Player::update() {
 
 	fps++;
+	
+	if (is_hit)
+	{
+		//if (fps % 30 == 0)
+		//{
+		//	is_hit = false;
+		//}
+	}
 
 	//左スティック
 	Provisional_LStickX = InputCtrl::GetStickRatio(L).x;
@@ -97,7 +107,7 @@ void Player::update() {
 
 
 	if (fps > 59) {
-		fps = 0;
+		fps = 0;		
 	}
 }
 
@@ -132,7 +142,16 @@ void Player::draw()const {
 	}
 	else {
 		//プレイヤーの画像　描画
-		DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+		if (is_hit)
+		{
+			SetDrawBright(125, 50, 50);
+			DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+			SetDrawBright(255, 255, 255);
+		}
+		else
+		{
+			DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+		}
 	}
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);

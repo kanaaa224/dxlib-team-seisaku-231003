@@ -45,9 +45,7 @@ private:
 
 	bool open_level_up;
 
-	
-	bool is_hit;	//仮で当たったか
-public:
+	public:
 	GameScene();
 
 	~GameScene();
