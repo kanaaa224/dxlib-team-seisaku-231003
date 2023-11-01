@@ -15,12 +15,10 @@ GameClearScene::~GameClearScene()
 
 Scene* GameClearScene::update()
 {
-#ifdef _DEBUG
 	// スペースキーでゲームオーバー画面へ
 	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
 		return new GameOverScene;
 	}
-#endif
 
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
