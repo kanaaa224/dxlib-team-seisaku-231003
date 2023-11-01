@@ -19,7 +19,10 @@ GameScene::GameScene() {
 	weapon_level_up = new WeaponLevelUp;
 
 	is_weapon_selct = false;
+
+	// レベルアップ画面用
 	open_level_up = false;
+	restor_cursor_position = true;
 
 
 	//////////////////////////////////////////////////
@@ -64,6 +67,7 @@ Scene* GameScene::update() {
 		{
 			// 非表示
 			open_level_up = false;
+			restor_cursor_position = true;
 		}
 		else
 		{
@@ -75,7 +79,7 @@ Scene* GameScene::update() {
 	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
 	if (open_level_up)
 	{
-		weapon_level_up->update();
+		weapon_level_up->update(Weapon, restor_cursor_position);
 		return this;
 	}
 
@@ -186,7 +190,7 @@ void GameScene::draw() const {
 		weapon_selection->draw();
 	}
 
-	// 武器のレベルアップ画面
+	// 武器のレベルアップ画面描画
 	if (open_level_up)
 	{
 		weapon_level_up->draw();

@@ -48,6 +48,7 @@ Player::Player() {
 
 	A_value = false;
 	CoolTime = false;
+	Avoidance_Flg = false;
 
 	is_hit = false;
 }
@@ -91,6 +92,7 @@ void Player::update() {
 
 	//回避の動作を実効　指定の加算値に到達するまで動く　その後クールダウンをはさむ
 	if (A_value == true && CoolTime == false) {
+		Avoidance_Flg = true;
 		Player_Avoidance();
 	}
 	
@@ -217,43 +219,47 @@ void Player::Player_Aim() {
 
 void Player::Player_Avoidance() {
 
-	//回避　Aボタン 縦軸
-	//if (Provisional_Abtn == PRESS && Provisional_LStickY < MOVE_DOWN) {
-	//		//if (fps % 2 == 0) {
-	//		Additional_Value3 = Additional_Value3 + 0.01;
-	//		MovingY = MovingY - Additional_Value3;
-	//		//}
-	//	/*if (Additional_Value3 >= 4.0f) {
-	//		Additional_Value3 = 0;
-	//	}*/
-	//}
-
-	//縦軸　上
-	if (Provisional_LStickY > MOVE_UP) {
+	//回避　Aボタン 縦軸　下
+	if (Provisional_LStickY < MOVE_DOWN) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
-		MoveZ = Additional_Value3;
-		//MoveY = Additional_Value3;
-		MovingY = MovingY + MoveZ;
+		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+		MovingY = MovingY - MoveY;
+		if (Additional_Value3 > 13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
+
+	}
+	//縦軸　上
+	else if (Provisional_LStickY > MOVE_UP) {
+		Additional_Value3 = Additional_Value3 + -1.5f;
+		MoveY = Additional_Value3 * Provisional_LStickY;
+		MovingY = MovingY + MoveY;
+		if (Additional_Value3 < -13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
+	}
+	
+	//回避　Aボタン　横軸
+	if (Provisional_LStickX > MOVE_RIGHT) {
+		Additional_Value3 = Additional_Value3 + 1.5f;
+		MoveX = Additional_Value3;
+		MovingX = MovingX - MoveX;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
 	}
-
-	/*else if (Provisional_Abtn == PRESS && Provisional_LStickY > MOVE_UP) {
-		MoveZ = Additional_Value3;
-		MovingY = MovingY + MoveZ;
-	}*/
-
-	//回避　Aボタン　横軸
-	/*if (Provisional_Abtn == PRESS && Provisional_LStickX > MOVE_RIGHT) {
-		MoveZ = Additional_Value3;
-		MovingX = MovingX - MoveZ;
+	else if (Provisional_LStickX < MOVE_LEFT) {
+		Additional_Value3 = Additional_Value3 - 1.5f;
+		MoveX = Additional_Value3;
+		MovingX = MovingX + MoveX;
+		if (Additional_Value3 < -13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
 	}
-	else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
-		MoveZ = Additional_Value3;
-		MovingX = MovingX + MoveZ;
-	}*/
 }
 
 void Player::Player_CoolTime() {
@@ -266,6 +272,7 @@ void Player::Player_CoolTime() {
 		if (Second > 3) {
 			A_value = false;
 			CoolTime = false;
+			Avoidance_Flg = false;
 			Second = 0;
 		}
 	}
@@ -304,6 +311,11 @@ float Player::Player_MovingY() {
 float Player::GetPlayer_HP() {
 
 	return Player_HP;
+}
+
+int Player::GetPlayer_Avoidance() {
+	
+	return Avoidance_Flg;
 }
 
 void Player::SetPlayer_HP(float value) {
