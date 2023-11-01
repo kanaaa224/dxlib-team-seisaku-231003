@@ -195,9 +195,15 @@ void WeaponLevelUp::draw() const
 	{
 		if (weapon_number == 1)
 		{
+			if (weapon1_level == MAX_LEVEL)
+			{
+				DrawFormatString(250, 650, 0xb00000, "最大レベルです");
+				DrawFormatString(250, 670, 0xb00000, "次は最終強化です");
+			}
+
 			// 武器1
 			// レベル選択の円を描画
-			DrawCircle(cursor_x * weapon_number, cursor_y + 100 + (50 * weapon1_level), 20, 0xff0000, FALSE);
+			DrawCircle(cursor_x * weapon_number, cursor_y + 100 + (50 * weapon1_level), 20, 0xb00000, FALSE);
 		}
 		else
 		{
@@ -207,9 +213,15 @@ void WeaponLevelUp::draw() const
 			}
 			else
 			{
+				if (weapon2_level == MAX_LEVEL)
+				{
+					DrawFormatString(250, 650, 0xb00000, "最大レベルです");
+					DrawFormatString(250, 670, 0xb00000, "次は最終強化です");
+				}
+
 				// 武器2
 				// レベル選択の円を描画
-				DrawCircle(cursor_x * weapon_number, cursor_y + 100 + (50 * weapon2_level), 20, 0xff0000, FALSE);
+				DrawCircle(cursor_x * weapon_number, cursor_y + 100 + (50 * weapon2_level), 20, 0xb00000, FALSE);
 			}
 		}
 	}
