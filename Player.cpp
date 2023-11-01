@@ -198,43 +198,47 @@ void Player::Player_Aim() {
 
 void Player::Player_Avoidance() {
 
-	//回避　Aボタン 縦軸
-	//if (Provisional_Abtn == PRESS && Provisional_LStickY < MOVE_DOWN) {
-	//		//if (fps % 2 == 0) {
-	//		Additional_Value3 = Additional_Value3 + 0.01;
-	//		MovingY = MovingY - Additional_Value3;
-	//		//}
-	//	/*if (Additional_Value3 >= 4.0f) {
-	//		Additional_Value3 = 0;
-	//	}*/
-	//}
+	//回避　Aボタン 縦軸　下
+	if (Provisional_LStickY < MOVE_DOWN) {
+			Additional_Value3 = Additional_Value3 + 1.5f;
+			MoveZ = Additional_Value3;
+			MovingY = MovingY - MoveZ;
+		if (Additional_Value3 > 13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
 
+	}
 	//縦軸　上
-	if (Provisional_LStickY > MOVE_UP) {
+	else if (Provisional_LStickY > MOVE_UP) {
 		Additional_Value3 = Additional_Value3 + 1.5f;
 		MoveZ = Additional_Value3;
-		//MoveY = Additional_Value3;
 		MovingY = MovingY + MoveZ;
 		if (Additional_Value3 > 13.0f) {
 			Additional_Value3 = 0.0f;
 			CoolTime = true;
 		}
 	}
-
-	/*else if (Provisional_Abtn == PRESS && Provisional_LStickY > MOVE_UP) {
-		MoveZ = Additional_Value3;
-		MovingY = MovingY + MoveZ;
-	}*/
-
+	
 	//回避　Aボタン　横軸
-	/*if (Provisional_Abtn == PRESS && Provisional_LStickX > MOVE_RIGHT) {
+	if (Provisional_LStickX > MOVE_RIGHT) {
+		Additional_Value3 = Additional_Value3 + 1.5f;
 		MoveZ = Additional_Value3;
 		MovingX = MovingX - MoveZ;
+		if (Additional_Value3 > 13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
 	}
-	else if (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) {
+	else if (Provisional_LStickX < MOVE_LEFT) {
+		Additional_Value3 = Additional_Value3 + 1.5f;
 		MoveZ = Additional_Value3;
 		MovingX = MovingX + MoveZ;
-	}*/
+		if (Additional_Value3 > 13.0f) {
+			Additional_Value3 = 0.0f;
+			CoolTime = true;
+		}
+	}
 }
 
 void Player::Player_CoolTime() {
