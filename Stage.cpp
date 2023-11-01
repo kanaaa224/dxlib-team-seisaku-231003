@@ -80,9 +80,10 @@ void Stage::update(float moveX, float moveY) {
 	//	}
 	//}
 
-	//for (int i = 0; i < 4; i++) {
-	//	StageArrayImg[i].x += 
-	//}
+	for (int i = 0; i < 4; i++) {
+		StageArrayImg[i].x -= moveX;
+		StageArrayImg[i].y -= moveY;
+	}
 
 	for (int i = 0; i < 4; i++)
 	{
