@@ -36,6 +36,7 @@ GameScene::~GameScene() {
 	delete backimg;
 	delete Weapon;
 	delete gameUI;
+	delete weapon_level_up;
 
 	//////////////////////////////////////////////////
 
