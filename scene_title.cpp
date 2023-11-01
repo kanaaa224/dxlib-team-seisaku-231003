@@ -19,7 +19,7 @@ Scene*Title::update()
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (state == 0) {
-			return new GameMain;
+			return new GameScene;
 		}
 		if (state == 1) {
 			return new Help;
