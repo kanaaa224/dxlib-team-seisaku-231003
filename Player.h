@@ -63,7 +63,8 @@ private:
 	//ƒJƒƒ‰—p
 	StageArray lefttop;
 	StageArray rightbottom;
-	bool camera_flg;
+	bool camera_flg_top_bottom;
+	bool camera_flg_left_right;
 
 	bool is_hit;			//UŒ‚‚ğó‚¯‚½‚©‚Ç‚¤‚©
 

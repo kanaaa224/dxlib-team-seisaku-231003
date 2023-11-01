@@ -52,7 +52,8 @@ Player::Player() {
 
 	is_hit = false;
 
-	camera_flg = false;
+	camera_flg_top_bottom = false;
+	camera_flg_left_right = false;
 }
 
 Player::~Player() {
@@ -231,8 +232,14 @@ void Player::Player_Avoidance() {
 	//â°
 	if (Provisional_LStickX > MOVE_RIGHT) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveX = Additional_Value3 * Provisional_LStickX;
-		MovingX = MovingX - MoveX;
+		if (camera_flg_left_right) {
+			location.x += Additional_Value3 * Provisional_LStickX;
+		}
+		else{
+			MoveX = Additional_Value3 * Provisional_LStickX;
+			MovingX = MovingX - MoveX;
+		}
+	
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -240,8 +247,14 @@ void Player::Player_Avoidance() {
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveX = Additional_Value3 * Provisional_LStickX;
-		MovingX = MovingX - MoveX;
+		if (camera_flg_left_right) {
+			location.x += Additional_Value3 * Provisional_LStickX;
+		}
+		else {
+			MoveX = Additional_Value3 * Provisional_LStickX;
+			MovingX = MovingX - MoveX;
+		}
+
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -255,8 +268,13 @@ void Player::Player_Avoidance() {
 	//èc â∫ï˚å¸
 	if (Provisional_LStickY < MOVE_DOWN) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
-		MovingY = MovingY + MoveY;
+		if (camera_flg_top_bottom) {
+			location.y += -1 * Additional_Value3 * Provisional_LStickY;
+		}
+		else {
+			MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+			MovingY = MovingY + MoveY;
+		}
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -265,8 +283,13 @@ void Player::Player_Avoidance() {
 	//ècÅ@è„ï˚å¸
 	else if (Provisional_LStickY > MOVE_UP) {
 		Additional_Value3 = Additional_Value3 + Speed;
-		MoveY = -1 * Additional_Value3 * Provisional_LStickY;
-		MovingY = MovingY + MoveY;
+		if (camera_flg_top_bottom) {
+			location.y += -1 * Additional_Value3 * Provisional_LStickY;
+		}
+		else {
+			MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+			MovingY = MovingY + MoveY;
+		}
 		if (Additional_Value3 > Upper_Limit) {
 			Additional_Value3 = Initial_Value;
 			CoolTime = true;
@@ -301,45 +324,45 @@ void Player::Player_Camera()
 	if (lefttop.x > -50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
-		camera_flg = true;
+		camera_flg_left_right = true;
 	}
 	if (location.x > 640 && lefttop.x > -50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
-		camera_flg = false;
+		camera_flg_left_right = false;
 	}
 	//è„
 	if (lefttop.y > -50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
-		camera_flg = true;
+		camera_flg_top_bottom = true;
 	}
 	if (location.y > 360 && lefttop.y > -50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
-		camera_flg = false;
+		camera_flg_top_bottom = false;
 	}
 	//âE
 	if (rightbottom.x < 50) {
 		MoveX = 0;
 		location.x += Additional_Value2 * Provisional_LStickX;
-		camera_flg = true;
+		camera_flg_left_right = true;
 	}
 	if (location.x < 640 && rightbottom.x < 50) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		location.x = 640;
-		camera_flg = false;
+		camera_flg_left_right = false;
 	}
 	//â∫
 	if (rightbottom.y < 50) {
 		MoveY = 0;
 		location.y += -1 * Additional_Value2 * Provisional_LStickY;
-		camera_flg = true;
+		camera_flg_top_bottom = true;
 	}
 	if (location.y < 360 && rightbottom.y < 50) {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		location.y = 360;
-		camera_flg = false;
+		camera_flg_top_bottom = false;
 	}
 
 	//à⁄ìÆêßå¿
