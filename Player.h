@@ -1,11 +1,11 @@
 #pragma once
 #include"SphereCollider.h"
+#include "Stage.h"
 
 #define MOVE_RIGHT 0.1
 #define MOVE_LEFT -0.1
 #define MOVE_UP 0.1
 #define MOVE_DOWN -0.1
-
 
 class Player :public SphereCollider
 {
@@ -55,6 +55,10 @@ private:
 	int CoolTime_fps;
 	int Second;
 
+	//カメラ用
+	StageArray lefttop;
+	StageArray rightbottom;
+	bool camera_flg;
 public:
 
 	static float MovingX;
@@ -72,6 +76,7 @@ public:
 	void Player_Aim();
 	void Player_Avoidance();
 	void Player_CoolTime();
+	void Player_Camera();
 
 	//照準の関数 X Y を戻り値で返す
 	int Player_AimingX();
@@ -90,4 +95,15 @@ public:
 
 	// プレイヤーの体力を引く
 	void SetPlayer_HP(int value);
+
+
+	Location Player_Location();
+
+	//ステージの左上と右下を取得
+	void SetLeftTop(StageArray sa) {
+		lefttop = sa;
+	}
+	void SetRightBottom(StageArray sa) {
+		rightbottom = sa;
+	}
 };

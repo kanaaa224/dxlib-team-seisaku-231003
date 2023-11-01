@@ -4,11 +4,11 @@
 
 class Player;
 
-struct Location
-{
-	float x;
-	float y;
-};
+//struct Location
+//{
+//	float x;
+//	float y;
+//};
 
 //struct Vector
 //{
