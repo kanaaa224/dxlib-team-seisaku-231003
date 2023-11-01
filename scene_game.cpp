@@ -183,6 +183,9 @@ Scene* GameScene::update() {
 	};
 	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
 	//////////////////////////////////////////////////
+	if (!c) return new GameClearScene;
+	if(!player->GetPlayer_HP()) return new GameOverScene;
+	//////////////////////////////////////////////////
 
 	return this;
 };
