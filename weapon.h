@@ -1,4 +1,5 @@
 #pragma once
+
 #define INIT_COOLTIME_SWORD  150
 #define INIT_COOLTIME_DAGGER  60
 #define INIT_COOLTIME_GREATSWORD  300
@@ -26,7 +27,12 @@ enum weapontype
 	none = 99
 };
 
-struct Location;
+struct Location
+{
+	float x;
+	float y;
+};
+
 
 class weapon {
 private:
@@ -34,6 +40,7 @@ private:
 	int weaponLevel;
 	bool levelUpFlg;
 
+	Location location;
 
 	Vector weaponVec;
 	Vector baseVec;
@@ -63,7 +70,7 @@ public:
 	weapon(int type);
 	~weapon();
 
-	void Update(float cursorX, float cursorY);
+	void Update(float cursorX, float cursorY, Location playerLocation);
 	void Draw() const;
 
 	void SetWeaponType(int type);
