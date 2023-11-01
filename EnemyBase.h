@@ -49,7 +49,7 @@ public:
 	bool GetHitWeaponFlg();
 	bool GetHit1stFrameFlg();
 	int GetHitFrameCnt();
-	int GetDamage();
+	float GetDamage();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する

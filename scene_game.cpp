@@ -222,7 +222,7 @@ void GameScene::HitCheck()
 			{
 				if (player->CheckCollision(*(slime[i]), player) == HIT)
 				{
-					player->SetPlayer_HP(slime[i]->GetSlimeDamage());
+					player->SetPlayer_HP(slime[i]->GetDamage());
 					player->SetIsHit(true);
 				}
 			}
