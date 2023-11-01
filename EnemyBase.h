@@ -10,7 +10,6 @@ protected:
 	int img;			//画像格納用変数
 	float hp;			//敵のHP
 	int damage;			//プレイヤーに与えるダメージ
-	int damageStopCnt;	//ダメージストップ用のカウント変数
 	int respawnPosition;//リスポーンする場所
 	int respawnTime;	//リスポーンまでの時間を格納する
 	int respawnTimeCnt;	//リスポーンまでのカウント変数
@@ -18,11 +17,16 @@ protected:
 
 	int weaponDamage;   //武器のダメージを格納する変数
 
+	//FrameCnt変数
+	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
+	int redFrameCounter = 0;//画像を赤くする時間をCnt
+
 	//Flg変数
 	bool playerHitFlg;	//プレイヤーに当たったらTRUEを返す
 	int hitFlg;			//何かに当たったら（全ての敵、プレイヤー、）
 	bool respawnFlg;	//リスポーンしているか
 	bool hitWeaponFlg;  //武器とあたったか
+	bool hit1stFrameFlg = false;//武器と当たった最初のフレームか
 public:
 	EnemyBase();
 
@@ -33,11 +37,17 @@ public:
 	float Normalization_X(float location_x, float location_y);//X座標上でのプレイヤーまでの距離を正規化
 	float Normalization_Y(float location_x, float location_y);//Y座標上でのプレイヤーまでの距離を正規化
 
+	//Inc
+	void hitFrameCntInc();
+
 	//Get関数
 	Location GetEnemyLocation();
 	int GetHitFlg();
 	float GetHP();
 	bool GetHitWeaponFlg();
+	bool GetHit1stFrameFlg();
+	int GetHitFrameCnt();
+	int GetDamage();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
@@ -46,4 +56,6 @@ public:
 	void SetWeaponDamage(int d);
 	void SetHitHP(int d);//武器からのダメージを受けた時の処理
 	void SetHitWeaponFlg();
+	void SetHit1stFrameFlg(bool flg);
+	void SetHitFrameCnt(int i);
 };
