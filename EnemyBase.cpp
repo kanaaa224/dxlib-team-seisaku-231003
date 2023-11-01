@@ -37,6 +37,53 @@ float EnemyBase::Normalization_Y(float location_x, float location_y)
 	return r;
 }
 
+//----------------------Inc----------------------//
+
+void EnemyBase::hitFrameCntInc()
+{
+	hitFrameCounter++;
+}
+
+//-----------------------------------------------//
+//----------------------get----------------------//
+
+Location EnemyBase::GetEnemyLocation()
+{
+	return location;
+}
+
+int EnemyBase::GetHitFlg()
+{
+	return hitFlg;
+}
+
+float EnemyBase::GetHP()
+{
+	return hp;
+}
+
+bool EnemyBase::GetHitWeaponFlg()
+{
+	return hitWeaponFlg;
+}
+
+bool EnemyBase::GetHit1stFrameFlg()
+{
+	return hit1stFrameFlg;
+}
+
+int EnemyBase::GetHitFrameCnt()
+{
+	return hitFrameCounter;
+}
+
+int EnemyBase::GetDamage() {
+	return damage;
+}
+
+//-----------------------------------------------//
+//----------------------set----------------------//
+
 void EnemyBase::SetRespawnPoint()
 {
 	respawnPosition = GetRand(3);
@@ -83,30 +130,10 @@ int EnemyBase::SetGetRand(int min, int max) {
 	}
 }
 
-Location EnemyBase::GetEnemyLocation()
-{
-	return location;
-}
-
-int EnemyBase::GetHitFlg()
-{
-	return hitFlg;
-}
-
 void EnemyBase::SetHitFlg(int hit)
 {
 	const int r = hit;
 	hitFlg = r;
-}
-
-float EnemyBase::GetHP()
-{
-	return hp;
-}
-
-bool EnemyBase::GetHitWeaponFlg()
-{
-	return hitWeaponFlg;
 }
 
 void EnemyBase::SetWeaponDamage(int d)
@@ -124,6 +151,17 @@ void EnemyBase::SetHitWeaponFlg()
 	hitWeaponFlg = true;
 }
 
+void EnemyBase::SetHit1stFrameFlg(bool flg)
+{
+	hit1stFrameFlg = flg;
+}
+
+void EnemyBase::SetHitFrameCnt(int i) {
+	hitFrameCounter = i;
+}
+
+//-----------------------------------------------//
+
 bool EnemyBase::IsMoveLimit(Stage stage)
 {
 	bool ret = false;
@@ -137,3 +175,4 @@ bool EnemyBase::IsMoveLimit(Stage stage)
 
 	return ret;
 }
+

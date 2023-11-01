@@ -35,6 +35,7 @@ private:
 	int Provisional_Abtn;
 	bool A_value;
 	bool CoolTime;
+	bool Avoidance_Flg;
 
 	//　加算値
 	float Additional_Value;
@@ -87,7 +88,8 @@ public:
 
 	// プレイヤーの体力を返す
 	float GetPlayer_HP();
+	int GetPlayer_Avoidance();
 
 	// プレイヤーの体力を引く
-	void SetPlayer_HP(int value);
+	void SetPlayer_HP(float value);
 };

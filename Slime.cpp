@@ -12,6 +12,7 @@ Slime::Slime(int arrayNum)
 	img = LoadGraph("resources/images/slime_cat.png");
 	//変数の初期化
 	hp = SLIME_HP_MAX;
+	damage = SLIME_ATTAK_DAMAGE;
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
@@ -25,6 +26,8 @@ Slime::Slime(int arrayNum)
 	tmpVY = 0;
 
 	is_area = false;
+
+	damage = .1f;
 
 	//リスポーンポイント決め
 	SetRespawnPoint();
@@ -52,6 +55,13 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 				vector.x = -vector.x * 2;
 				location.x += vector.x - diff.x;
 				vector.y = -vector.y * 2;
+				location.y += vector.y - diff.y;
+				hitWeaponFlg = false;
+			}
+			else if (hitWeaponFlg == true) {
+				vector.x = -vector.x * KNCKBACK;
+				location.x += vector.x - diff.x;
+				vector.y = -vector.y * KNCKBACK;
 				location.y += vector.y - diff.y;
 				hitWeaponFlg = false;
 			}
@@ -106,10 +116,11 @@ void Slime::Draw(int arrayNum)
 
 		//デバッグ表示（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
 #ifdef DEBUG
+		float hpRate = hp / SLIME_HP_MAX;
+		float sizeRate = -20.0f + 40.0f * hpRate;
+		
 		if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {//HP表示
 			if (hp > 0) {
-				float hpRate = hp / SLIME_HP_MAX;
-				float sizeRate = -20.0f + 40.0f * hpRate;
 				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + 20, (int)location.y - 25, C_BLACK, TRUE);
 				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + (int)sizeRate, (int)location.y - 25, C_RED, TRUE);
 				DrawFormatString((int)location.x, (int)location.y, C_RED, "hpRate:%.2f", hpRate);
@@ -152,7 +163,7 @@ int Slime::GetStageNum()
 	return r;
 }
 
-int Slime::GetSlimeDamage()
+float Slime::GetSlimeDamage()
 {
-	return 0;
+	return damage;
 }
