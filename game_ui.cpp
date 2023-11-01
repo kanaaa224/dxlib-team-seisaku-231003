@@ -34,7 +34,10 @@ void GameUI::update(GameScene* gameScene) {
 	if ((int)FPSCtrl::Get()) {
 		frameCounter++;
 
-		if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) state = 0;
+		if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) {
+			init();
+			frameCounter = 1;
+		};
 
 		if (state == 0) {
 			hud["opacity"] = 0.0f;
@@ -61,7 +64,7 @@ void GameUI::draw() const {
 		DrawBox(0, (SCREEN_HEIGHT / 4), SCREEN_WIDTH, (SCREEN_HEIGHT / 4) * 3, GetColor(0, 0, 0), true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-		ChangeFont("");
+		//ChangeFont("");
 
 		SetFontSize(40);
 		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("MISSION") / 2, 300, 0xffffff, "MISSION");
@@ -105,13 +108,13 @@ void GameUI::drawHUD() const {
 	DrawCircle((SCREEN_WIDTH - 60) + (SCREEN_WIDTH * hud_visibility), 60, 40, color, false, 3);
 
 	SetFontSize(50);
-	ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
+	//ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
 
 	std::string str = std::to_string(level);
 	DrawFormatString(((SCREEN_WIDTH - 60) - GetDrawFormatStringWidth(str.c_str()) / 2) + (SCREEN_WIDTH * hud_visibility), 35, 0xffffff, str.c_str());
 
 	SetFontSize(20);
-	ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
+	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
 
 	DrawFormatString(((SCREEN_WIDTH - 90) - GetDrawFormatStringWidth("Lv.") / 2) + (SCREEN_WIDTH * hud_visibility), 70, 0xffffff, "Lv.");
 
@@ -145,7 +148,7 @@ void GameUI::drawHUD() const {
 	DrawBox(lx, ly, rx, ry, GetColor(57, 165, 229), true);
 
 	SetFontSize(16);
-	ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT); // Algerian
+	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT); // Algerian
 
 	str = "EXP: " + std::to_string(current) + "/" + std::to_string(max);
 
@@ -183,8 +186,8 @@ void GameUI::drawHUD() const {
 
 	DrawBox(lx, ly, rx, ry, color, true);
 
-	SetFontSize(16);
-	ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
+	//SetFontSize(16);
+	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
 
 	str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
 
@@ -199,8 +202,8 @@ void GameUI::drawHUD() const {
 	DrawBox(40 - (SCREEN_WIDTH * hud_visibility), 80, 260 - (SCREEN_WIDTH * hud_visibility), 110, GetColor(0, 0, 0), true);
 	if (hud_opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	SetFontSize(16);
-	ChangeFont("");
+	//SetFontSize(16);
+	//ChangeFont("");
 
 	str = "SCORE: " + std::to_string(score);
 
@@ -212,7 +215,7 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	SetFontSize(38);
-	ChangeFont("Century Gothic Bold Italic", DX_CHARSET_DEFAULT);
+	//ChangeFont("Century Gothic Bold Italic", DX_CHARSET_DEFAULT);
 	
 	if(floor < 0) str = "B" + std::to_string(abs(floor)) + "F";
 	else str = std::to_string(floor) + "F";
@@ -233,7 +236,7 @@ void GameUI::drawHUD() const {
 	if (it != enemy.end()) max = it->second;
 
 	SetFontSize(20);
-	ChangeFont("");
+	//ChangeFont("");
 
 	str = "残りの敵: " + std::to_string(current) + "/" + std::to_string(max) + " 体";
 
@@ -257,7 +260,6 @@ void GameUI::drawHUD() const {
 
 
 
-	ChangeFont("", DX_CHARSET_DEFAULT);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
