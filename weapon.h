@@ -73,8 +73,13 @@ public:
 
 	bool WeaponCollision(Location enemyLocation, float radius);
 
-
-
+	//武器レベルをセット
+	void SetWeaponLevel(int num) {
+		weaponLevel = num;
+		LevelState();
+	}
+	//武器レベルを取得
+	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetDamage() { return damage; }
