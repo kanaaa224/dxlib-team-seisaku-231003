@@ -30,6 +30,6 @@ public:
 	int GetStageNum();
 
 	//スライムのダメージ取得
-	int GetSlimeDamage();
+	float GetSlimeDamage();
 };
 

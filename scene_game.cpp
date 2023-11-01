@@ -179,10 +179,9 @@ void GameScene::draw() const {
 		weapon_level_up->draw();
 	}
 
-	if (is_hit)
-	{
-		DrawString(player->GetLocation().x - 12, player->GetLocation().y - 27, "Hit", 0xffffff);
-	}
+
+	DrawFormatString(player->GetLocation().x - 12, player->GetLocation().y - 27, 0xffffff, "%f", player->GetPlayer_HP());
+
 
 	//gameUI->draw();
 }
@@ -195,6 +194,7 @@ void GameScene::HitCheck()
 			if (player->CheckCollision(*(slime[i]), player) == HIT)
 			{
 				is_hit = true;
+				player->SetPlayer_HP(slime[i]->GetSlimeDamage());
 			}
 			//else
 			//{

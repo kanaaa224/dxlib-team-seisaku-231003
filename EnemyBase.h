@@ -11,7 +11,7 @@ private:
 protected:
 	int img;			//画像格納用変数
 	float hp;			//敵のHP
-	int damage;			//プレイヤーに与えるダメージ
+	float damage;			//プレイヤーに与えるダメージ
 	int damageStopCnt;	//ダメージストップ用のカウント変数
 	int respawnPosition;//リスポーンする場所
 	int respawnTime;	//リスポーンまでの時間を格納する
