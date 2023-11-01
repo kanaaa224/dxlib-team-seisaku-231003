@@ -85,16 +85,6 @@ void Stage::update() {
 	//	StageArrayImg[i].y = Player::Player_MovingY();
 	//}
 
-	StageArrayImg[0].x = Player::Player_MovingX();
-	StageArrayImg[1].x = Player::Player_MovingX() + STAGEIMG_X;
-	StageArrayImg[2].x = Player::Player_MovingX();
-	StageArrayImg[3].x = Player::Player_MovingX() + STAGEIMG_X;
-
-	StageArrayImg[0].y = Player::Player_MovingY();
-	StageArrayImg[1].y = Player::Player_MovingY();
-	StageArrayImg[2].y = Player::Player_MovingY() + STAGEIMG_Y;
-	StageArrayImg[3].y = Player::Player_MovingY() + STAGEIMG_Y;
-
 	for (int i = 0; i < 4; i++)
 	{
 		switch (i)
