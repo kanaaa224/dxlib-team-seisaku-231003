@@ -121,7 +121,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	
 
 	//レベルアップデバッグ
-	if (levelUpFlg) {
+	/*if (levelUpFlg) {
 		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 			levelUpFlg = false;
 		}
@@ -167,7 +167,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	}
 	else if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 		levelUpFlg = true;
-	}
+	}*/
 }
 
 void weapon::Draw() const
@@ -180,7 +180,7 @@ void weapon::Draw() const
 			DrawRotaGraph2(location.x, location.y, 0, 500, 0.16, rot + (M_PI / 4), sword_img, TRUE, TRUE);
 			break;
 		case dagger:
-			DrawRotaGraph2(location.x, location.y, 0, 500, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
 			break;
 		case greatSword:
 			DrawRotaGraph2(location.x, location.y, 0, 500, 0.2, rot + (M_PI / 4), greatsword_img, TRUE, TRUE);
@@ -197,15 +197,15 @@ void weapon::Draw() const
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
+	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
 	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);
-	DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
-	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
-	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
+	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);*/
+	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
+	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
+	//DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
 
 
 	//kk
@@ -220,13 +220,13 @@ void weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	if (levelUpFlg) {
+	/*if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
-	}
+	}*/
 
 
 	
@@ -310,21 +310,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -336,21 +336,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.9f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.9f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -362,21 +362,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -388,21 +388,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -414,21 +414,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -440,21 +440,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.6f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -466,21 +466,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.5f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.5f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -492,21 +492,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.4f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.4f;
 			damage = INIT_DAMAGE_GREATSWORD;
@@ -518,21 +518,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
-			baseVec = { 80,0,80 };
+			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.3f;
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
-			baseVec = { 50,0,50 };
+			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.1f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
-			baseVec = { 100,0,100 };
+			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.3f;
 			damage = INIT_DAMAGE_GREATSWORD;
