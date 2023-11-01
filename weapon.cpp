@@ -59,7 +59,6 @@ void weapon::Update(float cursorX, float cursorY)
 {
 
 	//debug
-	Location el = { 680,310 };
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
 	float y = InputCtrl::GetMouseCursor().y - 360;*/
@@ -114,10 +113,6 @@ void weapon::Update(float cursorX, float cursorY)
 			unitVec.x = collisionVec.x / collisionVec.length;
 			unitVec.y = collisionVec.y / collisionVec.length;
 			unitVec.length = sqrt((unitVec.x) * (unitVec.x) + (unitVec.y) * (unitVec.y));
-
-			if (WeaponCollision(el, 10)) {
-				tmp = 1;
-			}
 			
 		}
 
@@ -220,10 +215,10 @@ void weapon::Draw() const
 	}
 	
 
-	DrawCircle(640, 360, 3, 0xff0000, TRUE);
-	if (tmp == 0) {
+	//DrawCircle(640, 360, 3, 0xff0000, TRUE);
+	/*if (tmp == 0) {
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
-	}
+	}*/
 
 	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
@@ -555,16 +550,19 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 {
 	Location weaponCollisionLocation;
 
-	for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
-		weaponCollisionLocation.x = 640 + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
-		weaponCollisionLocation.y = 360 + unitVec.y * (i * 10);
+	if (isAttacking) {
 
-		float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-		float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+		for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+			weaponCollisionLocation.x = 640 + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
+			weaponCollisionLocation.y = 360 + unitVec.y * (i * 10);
 
-		if (tmp_length < radius + 10) {
-			return true;
+			float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (tmp_length < radius + 10) {
+				return true;
+			}
 		}
 	}
 

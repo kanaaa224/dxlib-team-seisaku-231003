@@ -2,6 +2,8 @@
 #include "SphereCollider.h"
 #include "weapon.h"
 
+class Stage;
+
 class EnemyBase :public SphereCollider
 {
 private:
@@ -58,4 +60,7 @@ public:
 	void SetHitWeaponFlg();
 	void SetHit1stFrameFlg(bool flg);
 	void SetHitFrameCnt(int i);
+
+	//動けるかどうか判定する
+	bool IsMoveLimit(Stage stage);
 };

@@ -90,7 +90,7 @@ Scene* GameScene::update() {
 	if (stage == 1) {
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player, Weapon);
+				slime[i]->Update(i, player, Weapon,*(backimg));
 				if (slime[i]->GetHP() <= 0) {
 					slime[i] = nullptr;
 				}
@@ -128,7 +128,7 @@ Scene* GameScene::update() {
 		}
 	}
 	////////////
-	backimg->update();
+	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
 	gameUI->update(this);
