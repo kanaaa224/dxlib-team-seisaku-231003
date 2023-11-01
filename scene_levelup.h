@@ -2,8 +2,9 @@
 
 #include"inputCtrl.h"
 
-#define MAX_LEVEL 8					// レベルの最大値
-#define NONE 99						// 空
+#define MAX_LEVEL		8			// レベルの最大値
+#define MAX_WEAPON		2			// 所持できる武器の最大数
+#define NONE_WEAPON		99			// 武器無し
 
 class weapon;
 
@@ -14,10 +15,11 @@ private:
 	//int img_tree_diagram;			// 樹形図
 	//int img_cursor;					// カーソル
 	//int img_background;			// 背景
+
+	// 武器画像用変数
 	int img_sword;					// 片手剣
 	int img_dagger;					// 短剣
 	int img_great_sword;			// 大剣
-
 
 	int interval;					// インターバル
 	int cursor_x;					// カーソルX座標

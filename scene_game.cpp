@@ -19,6 +19,8 @@ GameScene::GameScene() {
 	weapon_level_up = new WeaponLevelUp;
 
 	is_weapon_selct = false;
+
+	// レベルアップ画面用
 	open_level_up = false;
 	restor_cursor_position = true;
 
@@ -175,7 +177,7 @@ void GameScene::draw() const {
 		weapon_selection->draw();
 	}
 
-	// 武器のレベルアップ画面
+	// 武器のレベルアップ画面描画
 	if (open_level_up)
 	{
 		weapon_level_up->draw();

@@ -15,10 +15,12 @@ WeaponLevelUp::WeaponLevelUp()
 	weapon_number = 1;
 	weapon_selection = false;
 
-	weapon1_type = NONE;				// 空
-	weapon1_level = 10;
+	// 武器1
+	weapon1_type = NONE_WEAPON;				// 空
+	weapon1_level = 0;
 
-	weapon2_type = NONE;				// 空
+	// 武器2
+	weapon2_type = NONE_WEAPON;				// 空
 	weapon2_level = 0;
 }
 
@@ -52,15 +54,16 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 	// 武器の選択
 	if (weapon_selection == false)
 	{
-		if (weapon2_type != NONE)
-		{
+		// 武器を2種類持っていたら武器選択ができる
+		//if (weapon2_type != NONE_WEAPON)
+		//{
 			if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
 			{
 				//左スティックを右に
 				weapon_number++;
 				interval = 0;
 
-				if (weapon_number > 2)
+				if (weapon_number > MAX_WEAPON)
 				{
 					weapon_number = 1;
 				}
@@ -76,7 +79,7 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 					weapon_number = 2;
 				}
 			}
-		}
+		//}
 
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
@@ -104,17 +107,20 @@ void WeaponLevelUp::update(weapon* weapon, bool& restor_cursor_position)
 		}
 		else
 		{
-			// 武器2
-			// レベルアップ
-			if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+			if (weapon2_type == NONE_WEAPON)
 			{
-				weapon2_level++;
-				if (weapon2_level >= MAX_LEVEL)
+				// 武器2
+				// レベルアップ
+				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
-					weapon2_level = MAX_LEVEL;
+					weapon2_level++;
+					if (weapon2_level >= MAX_LEVEL)
+					{
+						weapon2_level = MAX_LEVEL;
+					}
+					// 武器にレベルのセット
+					//weapon->SetWeaponLevel(weapon2_level);
 				}
-				// 武器にレベルのセット
-				//weapon->SetWeaponLevel(weapon2_level);
 			}
 		}
 
@@ -134,7 +140,7 @@ void WeaponLevelUp::draw() const
 	DrawBox(0, 0, 960, 700, 0xa0a0a0, TRUE);
 
 	SetFontSize(30);
-	DrawFormatString(300, 0, 0x000000, "レベルアップ");
+	DrawFormatString(300, 0, 0x000000, "仮画面）レベルアップ");
 
 	// テスト表示
 	SetFontSize(20);
@@ -142,20 +148,22 @@ void WeaponLevelUp::draw() const
 	DrawFormatString(0, 20, 0x000000, "Aボタン：加算");
 	DrawFormatString(0, 40, 0x000000, "Bボタン：キャンセル");
 	DrawFormatString(0, 60, 0x000000, "level1 : %d", weapon1_level);
-	DrawFormatString(0, 80, 0x000000, "type_weapon1:%d", weapon1_type);
 	//DrawFormatString(0, 100, 0x000000, "level2 : %d", weapon2_level);
 
 	// 武器1の画像
 	switch (weapon1_type)
 	{
-		case 0:		// 片手剣
-			DrawRotaGraph(cursor_x, cursor_y, 0.2f, 0.0f, img_sword, TRUE);
+		case sword:			// 片手剣
+			DrawRotaGraph(cursor_x, cursor_y, 0.2f, 0.0f, img_sword, TRUE);	
+			DrawFormatString(300, 50, 0x000000, "片手剣");
 			break;
-		case 1:		// 短剣
+		case dagger:		// 短剣
 			DrawRotaGraph(cursor_x, cursor_y, 0.2f, 0.0f, img_dagger, TRUE);
+			DrawFormatString(300, 50, 0x000000, "短剣");
 			break;
-		case 2:		// 大剣
+		case greatSword:	// 大剣
 			DrawRotaGraph(cursor_x, cursor_y, 0.2f, 0.0f, img_great_sword, TRUE);
+			DrawFormatString(300, 50, 0x000000, "大剣");
 			break;
 		default:
 			DrawFormatString(cursor_x, cursor_y, 0x000000, "none");
@@ -193,9 +201,16 @@ void WeaponLevelUp::draw() const
 		}
 		else
 		{
-			// 武器2
-			// レベル選択の円を描画
-			DrawCircle(cursor_x * weapon_number, cursor_y + 100 + (50 * weapon2_level), 20, 0xff0000, FALSE);
+			if (weapon2_type == NONE_WEAPON)
+			{
+				DrawFormatString(600, 50, 0x000000, "武器がありません");
+			}
+			else
+			{
+				// 武器2
+				// レベル選択の円を描画
+				DrawCircle(cursor_x * weapon_number, cursor_y + 100 + (50 * weapon2_level), 20, 0xff0000, FALSE);
+			}
 		}
 	}
 }
