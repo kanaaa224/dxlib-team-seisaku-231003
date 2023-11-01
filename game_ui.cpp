@@ -34,7 +34,10 @@ void GameUI::update(GameScene* gameScene) {
 	if ((int)FPSCtrl::Get()) {
 		frameCounter++;
 
-		if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) state = 0;
+		if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) {
+			init();
+			frameCounter = 1;
+		};
 
 		if (state == 0) {
 			hud["opacity"] = 0.0f;
@@ -111,7 +114,7 @@ void GameUI::drawHUD() const {
 	DrawFormatString(((SCREEN_WIDTH - 60) - GetDrawFormatStringWidth(str.c_str()) / 2) + (SCREEN_WIDTH * hud_visibility), 35, 0xffffff, str.c_str());
 
 	SetFontSize(20);
-	ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
+	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
 
 	DrawFormatString(((SCREEN_WIDTH - 90) - GetDrawFormatStringWidth("Lv.") / 2) + (SCREEN_WIDTH * hud_visibility), 70, 0xffffff, "Lv.");
 
@@ -183,8 +186,8 @@ void GameUI::drawHUD() const {
 
 	DrawBox(lx, ly, rx, ry, color, true);
 
-	SetFontSize(16);
-	ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
+	//SetFontSize(16);
+	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
 
 	str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
 
@@ -199,7 +202,7 @@ void GameUI::drawHUD() const {
 	DrawBox(40 - (SCREEN_WIDTH * hud_visibility), 80, 260 - (SCREEN_WIDTH * hud_visibility), 110, GetColor(0, 0, 0), true);
 	if (hud_opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	SetFontSize(16);
+	//SetFontSize(16);
 	ChangeFont("");
 
 	str = "SCORE: " + std::to_string(score);
@@ -257,7 +260,6 @@ void GameUI::drawHUD() const {
 
 
 
-	ChangeFont("", DX_CHARSET_DEFAULT);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
