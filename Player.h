@@ -7,6 +7,10 @@
 #define MOVE_UP 0.1
 #define MOVE_DOWN -0.1
 
+#define Speed 1.5f
+#define Upper_Limit 13.0f
+#define Initial_Value 0.0f
+
 class Player :public SphereCollider
 {
 private:
@@ -96,7 +100,7 @@ public:
 
 	// プレイヤーの体力を返す
 	float GetPlayer_HP();
-	int GetPlayer_Avoidance();
+	bool GetPlayer_Avoidance();
 
 	// プレイヤーの体力を引く
 	void SetPlayer_HP(float value);

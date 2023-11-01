@@ -220,9 +220,6 @@ void GameScene::draw() const {
 	{
 		weapon_level_up->draw();
 	}
-
-
-	DrawFormatString(player->GetLocation().x - 12, player->GetLocation().y - 27, 0xffffff, "%f", player->GetPlayer_HP());
 };
 
 void GameScene::HitCheck()
@@ -230,18 +227,7 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
-			{
-				if (player->CheckCollision(*(slime[i]), player) == HIT)
-				{
-					player->SetPlayer_HP(slime[i]->GetDamage());
-					player->SetIsHit(true);
-				}
-			}
-			//else
-			//{
-			//	is_hit = false;
-			//}
+			HitEnemy(slime[i]);
 			for (int j = 0; j < MAX_SLIME_NUM; j++) {
 				if (slime[j] != nullptr && i != j) {
 					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
@@ -261,6 +247,18 @@ void GameScene::HitCheck()
 					//}
 				}
 			}
+		}
+	}
+}
+
+void GameScene::HitEnemy(EnemyBase* enemy)
+{
+	if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
+	{
+		if (player->CheckCollision(*(enemy), player) == HIT)
+		{
+			player->SetPlayer_HP(enemy->GetDamage());
+			player->SetIsHit(true);
 		}
 	}
 }
