@@ -199,6 +199,9 @@ void GameScene::draw() const {
 	{
 		weapon_selection->draw();
 	}
+	else {
+		gameUI->draw();
+	};
 
 	// 武器のレベルアップ画面描画
 	if (open_level_up)
@@ -208,10 +211,7 @@ void GameScene::draw() const {
 
 
 	DrawFormatString(player->GetLocation().x - 12, player->GetLocation().y - 27, 0xffffff, "%f", player->GetPlayer_HP());
-
-
-	//gameUI->draw();
-}
+};
 
 void GameScene::HitCheck()
 {
