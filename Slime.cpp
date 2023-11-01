@@ -39,6 +39,8 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		//プレイヤーの移動量をdiffにセット
 		SetPlayerAmountOfTravel_X(player->Player_MoveX());
 		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
+		//
+		SetPlayer_Location(player->GetLocation());
 
 
 		if (IsMoveLimit(stage))
@@ -50,13 +52,6 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 				location.x += vector.x - diff.x;
 				Y();
 				location.y += vector.y - diff.y;
-			}
-			else if (hitWeaponFlg == true) {
-				vector.x = -vector.x * 2;
-				location.x += vector.x - diff.x;
-				vector.y = -vector.y * 2;
-				location.y += vector.y - diff.y;
-				hitWeaponFlg = false;
 			}
 			else if (hitWeaponFlg == true) {
 				vector.x = -vector.x * KNCKBACK;
@@ -141,6 +136,8 @@ void Slime::X()
 {
 	if (hitFlg == HIT) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		vector.x = HitMoveCale_X(vector.x, hitvx);
+		//hitFlg = NO_COLLISION;
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
@@ -151,6 +148,8 @@ void Slime::Y()
 {
 	if (hitFlg == HIT) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		vector.y = HitMoveCale_Y(vector.y, hitvy);
+		//hitFlg = NO_COLLISION;
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));

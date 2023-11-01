@@ -13,13 +13,13 @@ EnemyBase::EnemyBase()
 
 float EnemyBase::PlayerLoad_X(float location_x)
 {
-	float r = PLAYER_LOCATION_X - location_x;
+	float r = dL.x - location_x;
 	return r;
 }
 
 float EnemyBase::PlayerLoad_Y(float location_y)
 {
-	float r = PLAYER_LOCATION_Y - location_y;
+	float r = dL.y - location_y;
 	return r;
 }
 
@@ -34,6 +34,18 @@ float EnemyBase::Normalization_Y(float location_x, float location_y)
 {
 	float a = sqrt(location_x * location_x + location_y * location_y);
 	float r = location_y / a;
+	return r;
+}
+
+float EnemyBase::HitMoveCale_X(float myvx, float hitvx) 
+{
+	float r = (myvx + hitvx) / 2;
+	return r;
+}
+
+float EnemyBase::HitMoveCale_Y(float myvy, float hitvy) 
+{
+	float r = (myvy + hitvy) / 2;
 	return r;
 }
 
@@ -77,8 +89,19 @@ int EnemyBase::GetHitFrameCnt()
 	return hitFrameCounter;
 }
 
-int EnemyBase::GetDamage() {
+int EnemyBase::GetDamage() 
+{
 	return damage;
+}
+
+float EnemyBase::GetVec_X() 
+{
+	return vector.x;
+}
+
+float EnemyBase::GetVec_Y()
+{
+	return vector.y;
 }
 
 //-----------------------------------------------//
@@ -158,6 +181,19 @@ void EnemyBase::SetHit1stFrameFlg(bool flg)
 
 void EnemyBase::SetHitFrameCnt(int i) {
 	hitFrameCounter = i;
+}
+
+void EnemyBase::SetHitVec_X(float vx) {
+	hitvx = vx;
+}
+
+void EnemyBase::SetHitVec_Y(float vy) {
+	hitvy = vy;
+}
+
+void EnemyBase::SetPlayer_Location(Location PL) {
+	dL.x = PL.x;
+	dL.y = PL.y;
 }
 
 //-----------------------------------------------//

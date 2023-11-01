@@ -16,6 +16,12 @@ class Player;
 //	float y;
 //};
 
+struct DiffVector
+{
+	float x;
+	float y;
+};
+
 struct DiffLocation
 {
 	float x;
@@ -26,9 +32,10 @@ class SphereCollider
 {
 protected:
 	Location location;	//座標
-	DiffLocation diff;	//プレイヤーの移動量
+	DiffVector diff;	//プレイヤーの移動量
 	Vector vector;		//移動量
 	float radius;		//半径
+	DiffLocation dL;
 
 public:
 	//
