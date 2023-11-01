@@ -128,7 +128,7 @@ Scene* GameScene::update() {
 		}
 	}
 	////////////
-	backimg->update();
+	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
 	gameUI->update(this);

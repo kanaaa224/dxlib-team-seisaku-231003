@@ -29,7 +29,7 @@ public:
 	Stage();
 	~Stage();
 
-	void update();
+	void update(float moveX, float moveY);
 
 	//•`‰æˆ—
 	void draw() const;

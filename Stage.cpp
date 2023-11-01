@@ -46,7 +46,7 @@ Stage::~Stage() {
 	DeleteGraph(StageImg1);
 }
 
-void Stage::update() {
+void Stage::update(float moveX, float moveY) {
 
 	//‰¡
 	//if (Provisional_RStickX > MOVE_RIGHT) {
@@ -80,10 +80,10 @@ void Stage::update() {
 	//	}
 	//}
 
-	//for (int i = 0; i < 4; i++) {
-	//	StageArrayImg[i].x = Player::Player_MovingX();
-	//	StageArrayImg[i].y = Player::Player_MovingY();
-	//}
+	for (int i = 0; i < 4; i++) {
+		StageArrayImg[i].x -= moveX;
+		StageArrayImg[i].y -= moveY;
+	}
 
 	for (int i = 0; i < 4; i++)
 	{
