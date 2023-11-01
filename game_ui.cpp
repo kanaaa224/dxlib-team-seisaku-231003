@@ -182,7 +182,8 @@ void GameUI::drawHUD() const {
 	if (!ratio) rx = lx;
 
 	color = GetColor(128, 207, 27);
-	if(ratio <= 10) color = GetColor(255, 0, 0);
+	if(ratio <= 15) color = GetColor(255, 0, 0);
+	else if (ratio <= 30) color = GetColor(255, 140, 76);
 
 	DrawBox(lx, ly, rx, ry, color, true);
 
