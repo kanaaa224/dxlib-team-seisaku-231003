@@ -10,10 +10,10 @@
 Title::Title()
 {
 	TitleImage = LoadGraph("resources/images/Title.png");
-	g_MenuNumber = 0;
-	interval = 0.7f;
+	/*g_MenuNumber = 0;
+	interval = 0.7f;*/
 	cursor = LoadGraph("resources/images/cursor.png");
-
+	state = 0;
 	Ctrl = false;
 }
 
@@ -39,15 +39,18 @@ Scene*Title::update()
 	}
 
 	//十字キー下ボタンでカーソルを下に
+	if (frameCounter++ % 40 == 0)state++;
+	if ((state % 10) >= 8)state -= 8;
 
-	if (((InputCtrl::GetStickState(L).y < 0.3f) && (InputCtrl::GetStickState(L).y > -0.3f))) Ctrl = true;
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) || ((InputCtrl::GetStickState(L).y >= 0.7f) && Ctrl)){
-		if (state < 10) state += 20;
+
+	if (((InputCtrl::GetStickState(L).y < 0.4f) && (InputCtrl::GetStickState(L).y > -0.4f))) Ctrl = true;
+	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickState(L).y >= 0.8f) && Ctrl)){
+		if (state < 10) state += 40;
 		else state -= 10;
 			Ctrl = false;
 	}
-	else if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) || (((InputCtrl::GetStickState(L).y <= -0.7f) && Ctrl))){
-		if (state >= 20) state -= 20;
+	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickState(L).y <= -0.8f) && Ctrl))){
+		if (state >= 40) state -= 40;
 		else state += 10;
 			Ctrl = false;
 	}

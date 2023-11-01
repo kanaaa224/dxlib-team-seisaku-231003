@@ -8,13 +8,10 @@ private:
 	//‰æ‘œ‚Ì“Ç•Ï”
 	int TitleImage;
 
-	int g_MenuNumber;
-	int interval;
+
 	short PadStick;
 	int cursor;
-	int state;
-
-	float interval;
+	int state,frameCounter;
 
 	bool Ctrl;
 
