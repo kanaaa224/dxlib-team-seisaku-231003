@@ -23,12 +23,10 @@ GameOverScene::~GameOverScene()
 
 Scene* GameOverScene::update()
 {
-#ifdef _DEBUG
 	// スペースキーでゲームクリア画面へ
 	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
 		return new GameClearScene;
 	}
-#endif
 
 	// ブレンドモードのパラメータ
 	if (value > 0)

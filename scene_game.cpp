@@ -19,7 +19,10 @@ GameScene::GameScene() {
 	weapon_level_up = new WeaponLevelUp;
 
 	is_weapon_selct = false;
+
+	// レベルアップ画面用
 	open_level_up = false;
+	restor_cursor_position = true;
 
 	is_hit = false;
 
@@ -66,6 +69,7 @@ Scene* GameScene::update() {
 		{
 			// 非表示
 			open_level_up = false;
+			restor_cursor_position = true;
 		}
 		else
 		{
@@ -77,7 +81,7 @@ Scene* GameScene::update() {
 	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
 	if (open_level_up)
 	{
-		weapon_level_up->update();
+		weapon_level_up->update(Weapon, restor_cursor_position);
 		return this;
 	}
 
@@ -128,9 +132,11 @@ Scene* GameScene::update() {
 		}
 	}
 	////////////
+	player->SetLeftTop(backimg->GetStageArray(0));
+	player->SetRightBottom(backimg->GetStageArray(3));
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
-	Weapon->Update(player->Player_AimingX(), player->Player_AimingY());
+	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
 	gameUI->update(this);
 
 
@@ -163,6 +169,14 @@ Scene* GameScene::update() {
 		hitFrameCounter++;
 	}*/
 	frameCounter++;
+	// 仮
+	gameUI->setScore(432);
+	gameUI->setLevel(7);
+	gameUI->setFloor(-2);
+	gameUI->setHP(900, 1000, 90);
+	gameUI->setEXP(1500, 2000, 75);
+	gameUI->setEnemy(234, 2384);
+
 	return this;
 };
 
@@ -187,8 +201,11 @@ void GameScene::draw() const {
 	{
 		weapon_selection->draw();
 	}
+	else {
+		gameUI->draw();
+	};
 
-	// 武器のレベルアップ画面
+	// 武器のレベルアップ画面描画
 	if (open_level_up)
 	{
 		weapon_level_up->draw();
@@ -196,10 +213,7 @@ void GameScene::draw() const {
 
 
 	DrawFormatString(player->GetLocation().x - 12, player->GetLocation().y - 27, 0xffffff, "%f", player->GetPlayer_HP());
-
-
-	//gameUI->draw();
-}
+};
 
 void GameScene::HitCheck()
 {
