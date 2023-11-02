@@ -20,6 +20,8 @@ private:
 
 	std::map<std::string, double> pauseMenu;
 
+	std::map<std::string, int> img;
+
 public:
 	GameUI();
 
