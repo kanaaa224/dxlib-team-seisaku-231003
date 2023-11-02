@@ -26,6 +26,7 @@ private:
 	int interval;					// インターバル
 	int cursor_x;					// カーソルX座標
 	int cursor_y;					// カーソルY座標
+	int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
 
@@ -55,4 +56,3 @@ public:
 	// 描画
 	void draw()const;
 };
-
