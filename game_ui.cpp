@@ -5,7 +5,8 @@
 #include "main.h"
 
 GameUI::GameUI() {
-	//LoadGraph();
+	if ((img["btnA"] = LoadGraph("resources/images/button_a.png")) == -1) throw;
+	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -18,7 +19,7 @@ GameUI::GameUI() {
 };
 
 GameUI::~GameUI() {
-	//DeleteGraph();
+	DeleteGraph(img["btnA"]);
 
 	//////////////////////////////////////////////////
 
@@ -27,105 +28,111 @@ GameUI::~GameUI() {
 
 void GameUI::init() {
 	state = 0;
-	frameCounter = 0;
+	frameCounter = 1;
 };
 
 void GameUI::update(GameScene* gameScene) {
 	if ((int)FPSCtrl::Get()) {
 		frameCounter++;
 
-		if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) {
-			init();
-			frameCounter = 1;
-		};
-
 		if (state == 0) {
 			hud["opacity"] = 0.0f;
-			hud["visibility"] = 1.0f;
+			hud["unvisibility"] = 1.0f;
 
 			if (frameCounter % ((int)FPSCtrl::Get() * 3) == 0) state = 1;
 		}
 		else if (state == 1) {
 			if (hud["opacity"] < 1.0f) hud["opacity"] += 0.04f;
-			if (hud["visibility"] >= 0.0f) hud["visibility"] -= 0.05f;
+			if (hud["unvisibility"] >= 0.0f) hud["unvisibility"] -= 0.05f;
 
 			if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) state = 2;
 		};
 	};
 
+	// 仮
+	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init();
 	//score = gameScene->getScore();
 };
 
 void GameUI::draw() const {
-	drawHUD();
-
-	if (state == 0) {
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
-		DrawBox(0, (SCREEN_HEIGHT / 4), SCREEN_WIDTH, (SCREEN_HEIGHT / 4) * 3, GetColor(0, 0, 0), true);
+	if (!state) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 		//ChangeFont("");
 
 		SetFontSize(40);
-		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("MISSION（仮）") / 2, 300, 0xffffff, "MISSION（仮）");
+		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("MISSION（仮）") / 2, 320, 0xffffff, "MISSION（仮）");
 
 		SetFontSize(24);
-		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("すべてのモンスターを倒してください") / 2, 350, 0xffffff, "すべてのモンスターを倒してください");
+		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("すべてのモンスターを倒してください") / 2, 370, 0xffffff, "すべてのモンスターを倒してください");
+	}
+	else {
+		drawHUD();
 	};
 };
 
 void GameUI::drawHUD() const {
-	double hud_opacity = 0.0f;
+	double opacity      = 0.0f;
+	double unvisibility = 0.0f;
 
 	auto msd = hud.find("opacity");
-	if (msd != hud.end()) hud_opacity = msd->second;
+	if (msd != hud.end()) opacity = msd->second;
 
-	double hud_visibility = 0.0f;
+	msd = hud.find("unvisibility");
+	if (msd != hud.end()) unvisibility = msd->second;
 
-	msd = hud.find("visibility");
-	if (msd != hud.end()) hud_visibility = msd->second;
-	
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(255 * hud_opacity));
+	//////////////////////////////////////////////////
+
+	int rootLX = 0,
+		rootLY = 0,
+		rootRX = SCREEN_WIDTH,
+		rootRY = 0;
+
+	if (state) {
+		rootLX = rootLX - (SCREEN_WIDTH * unvisibility);
+		rootRX = rootRX + (SCREEN_WIDTH * unvisibility);
+	};
+
+	//////////////////////////////////////////////////
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(255 * opacity));
 
 
 	//////////////////////////////////////////////////
 	// レベル
 	//////////////////////////////////////////////////
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * hud_opacity);
-	DrawCircle((SCREEN_WIDTH - 60) + (SCREEN_WIDTH * hud_visibility), 60, 40, GetColor(0, 0, 0), true);
-	if(hud_opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawCircle(rootRX - 60, rootRY + 60, 40, GetColor(0, 0, 0), true);
+	if(opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	int color = 0xffffff;
-
+	int color = GetColor(255, 255, 255);
 	if (level < 10) {
-		color = GetColor(242, 166, 68);
+		color = GetColor(255, 214, 0);
 	}
 	else if (level < 20) {
-		//
+		// 未完成
 	};
 
-	DrawCircle((SCREEN_WIDTH - 60) + (SCREEN_WIDTH * hud_visibility), 60, 40, color, false, 3);
+	DrawCircle(rootRX - 60, rootRY + 60, 40, color, false, 3);
 
 	SetFontSize(50);
 	//ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
 
 	std::string str = std::to_string(level);
-	DrawFormatString(((SCREEN_WIDTH - 60) - GetDrawFormatStringWidth(str.c_str()) / 2) + (SCREEN_WIDTH * hud_visibility), 35, 0xffffff, str.c_str());
+	DrawFormatString(((rootRX - 60) - GetDrawFormatStringWidth(str.c_str()) / 2), rootRY + 35, 0xffffff, str.c_str());
 
 	SetFontSize(20);
 	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
 
-	DrawFormatString(((SCREEN_WIDTH - 90) - GetDrawFormatStringWidth("Lv.") / 2) + (SCREEN_WIDTH * hud_visibility), 70, 0xffffff, "Lv.");
+	DrawFormatString(((rootRX - 90) - GetDrawFormatStringWidth("Lv.") / 2), rootRY + 70, 0xffffff, "Lv.");
 
 
 	//////////////////////////////////////////////////
 	// 経験値
 	//////////////////////////////////////////////////
-
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * hud_opacity);
-	DrawBox((SCREEN_WIDTH - 400) + (SCREEN_WIDTH * hud_visibility), 70, (SCREEN_WIDTH - 110) + (SCREEN_WIDTH * hud_visibility), 90, GetColor(0, 0, 0), true);
-	if (hud_opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int current = 0, max = 0, ratio = 0;
 
@@ -138,12 +145,21 @@ void GameUI::drawHUD() const {
 	it = exp.find("ratio");
 	if (it != exp.end()) ratio = it->second;
 
-	int lx = (SCREEN_WIDTH - 400 + 5) + (SCREEN_WIDTH * hud_visibility);
-	int ly = 80 - 5;
-	int rx = ((lx - 5) + static_cast<int>(290 * (ratio / 100.0f)) - 5) + (SCREEN_WIDTH * hud_visibility);
-	int ry = 90 - 5;
+	int lx = rootRX - 400;
+	int ly = rootRY + 70;
+	int rx = rootRX - 110;
+	int ry = rootRY + 90;
 
-	if (!ratio) rx = lx;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	lx = lx + 5;
+	ly = ly + 5;
+	rx = rx - 5;
+	ry = ry - 5;
+
+	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
 	DrawBox(lx, ly, rx, ry, GetColor(57, 165, 229), true);
 
@@ -151,19 +167,16 @@ void GameUI::drawHUD() const {
 	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT); // Algerian
 
 	str = "EXP: " + std::to_string(current) + "/" + std::to_string(max);
+	DrawFormatString((rootRX - 395)/* - GetDrawFormatStringWidth(str.c_str()) / 2*/, rootRY + 60, 0xffffff, str.c_str());
 
-	DrawFormatString((SCREEN_WIDTH - 395)/* - GetDrawFormatStringWidth(str.c_str()) / 2*/ + (SCREEN_WIDTH * hud_visibility), 60, 0xffffff, str.c_str());
-
-
+	
 	//////////////////////////////////////////////////
 	// HP
 	//////////////////////////////////////////////////
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * hud_opacity);
-	DrawBox(40 - (SCREEN_WIDTH * hud_visibility), 40, 460 - (SCREEN_WIDTH * hud_visibility), 70, GetColor(0, 0, 0), true);
-	if (hud_opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	current = 0, max = 0, ratio = 0;
+	current = 0;
+	max     = 0;
+	ratio   = 0;
 
 	it = hp.find("current");
 	if (it != hp.end()) current = it->second;
@@ -174,12 +187,21 @@ void GameUI::drawHUD() const {
 	it = hp.find("ratio");
 	if (it != hp.end()) ratio = it->second;
 
-	lx = (40 + 5) - (SCREEN_WIDTH * hud_visibility);
-	ly = 40 + 5;
-	rx = ((lx - 5) + static_cast<int>(420 * (ratio / 100.0f)) - 5) - (SCREEN_WIDTH * hud_visibility);
-	ry = 70 - 5;
+	lx = rootLX + 40;
+	ly = rootLY + 40;
+	rx = rootLX + 460;
+	ry = rootLY + 70;
 
-	if (!ratio) rx = lx;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	lx = lx + 5;
+	ly = ly + 5;
+	rx = rx - 5;
+	ry = ry - 5;
+
+	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
 	color = GetColor(128, 207, 27);
 	if(ratio <= 15) color = GetColor(255, 0, 0);
@@ -191,24 +213,22 @@ void GameUI::drawHUD() const {
 	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
 
 	str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
-
-	DrawFormatString(45 - (SCREEN_WIDTH * hud_visibility), 30, 0xffffff, str.c_str());
+	DrawFormatString(rootLX + 45, rootLY + 30, 0xffffff, str.c_str());
 
 
 	//////////////////////////////////////////////////
 	// スコア
 	//////////////////////////////////////////////////
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * hud_opacity);
-	DrawBox(40 - (SCREEN_WIDTH * hud_visibility), 80, 260 - (SCREEN_WIDTH * hud_visibility), 110, GetColor(0, 0, 0), true);
-	if (hud_opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawBox(rootLX + 40, rootLY + 80, rootLX + 260, rootLY + 110, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//SetFontSize(16);
 	//ChangeFont("");
 
 	str = "SCORE: " + std::to_string(score);
-
-	DrawFormatString(50 - (SCREEN_WIDTH * hud_visibility), 88, 0xffffff, str.c_str());
+	DrawFormatString(rootLX + 50, rootLY + 88, 0xffffff, str.c_str());
 
 
 	//////////////////////////////////////////////////
@@ -220,15 +240,15 @@ void GameUI::drawHUD() const {
 	
 	if(floor < 0) str = "B" + std::to_string(abs(floor)) + "F";
 	else str = std::to_string(floor) + "F";
-
-	DrawFormatString(50 - (SCREEN_WIDTH * hud_visibility), (SCREEN_HEIGHT - 120), 0xffffff, str.c_str());
+	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 120), 0xffffff, str.c_str());
 
 
 	//////////////////////////////////////////////////
 	// 残りの敵
 	//////////////////////////////////////////////////
 
-	current = 0, max = 0;
+	current = 0;
+	max     = 0;
 
 	it = enemy.find("current");
 	if (it != enemy.end()) current = it->second;
@@ -240,51 +260,41 @@ void GameUI::drawHUD() const {
 	//ChangeFont("");
 
 	str = "残りの敵: " + std::to_string(current) + "/" + std::to_string(max) + " 体";
-
-	DrawFormatString(50 - (SCREEN_WIDTH * hud_visibility), (SCREEN_HEIGHT - 80), 0xffffff, str.c_str());
-
+	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 80), 0xffffff, str.c_str());
 
 
+	//////////////////////////////////////////////////
+	// 操作案内
+	//////////////////////////////////////////////////
+
+	SetFontSize(18);
+
+	int img_btnA = 0, img_btnX = 0;
+
+	it = img.find("btnA");
+	if (it != img.end()) img_btnA = it->second;
+
+	it = img.find("btnX");
+	if (it != img.end()) img_btnX = it->second;
+
+	lx = rootLX + 50;
+	ly = rootLY + (SCREEN_HEIGHT - 200);
+	rx = lx + 30;
+	ry = ly + 30;
+
+	DrawExtendGraph(lx, ly, rx, ry, img_btnX, TRUE);
+
+	DrawFormatString(lx + 40, ly + 5 , 0xffffff, "レベルアップメニュー");
+
+	ly = rootLY + (SCREEN_HEIGHT - 240);
+	ry = ly + 30;
+
+	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
+
+	DrawFormatString(lx + 40, ly + 5, 0xffffff, "回避");
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	//DrawFormatString(20, 20, 0xffffff, "%f %f", hud_opacity, hud_visibility);
-
-
-	// 現在のスコア を描画
-	/* void drawScore() const;
-
-	// 現在のレベル を描画
-	void drawLevel() const;
-
-	// 現在のフロア を描画
-	void drawFloor() const;
-
-	// 体力ゲージ を描画
-	void drawHP() const;
-
-	// 経験値ゲージ を描画
-	void drawEXP() const;
-
-	// 残りの敵 を描画
-	void drawEnemy() const;
-
-	// 所持している武器 を描画
-	void drawWeapon() const; */
 };

@@ -152,6 +152,11 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 				is_selecting = false;
 			}
 		}
+
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			is_selecting = false;
+		}
 	}
 }
 

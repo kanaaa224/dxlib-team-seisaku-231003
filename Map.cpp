@@ -129,6 +129,33 @@ Scene* Map::update() {
 		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
 	}
 
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+		switch (MapData[cursor_pos])
+		{
+		case 0:
+			return new GameScene;
+			break;
+		case 1:
+			return new DebugScene;
+			break;
+		case 2:
+			return new DebugScene;
+			break;
+		case 3:
+			return new DebugScene;
+			break;
+		case 4:
+			return new DebugScene;
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
+		return new DebugScene;
+	}
 
 	return this;
 };
@@ -137,8 +164,10 @@ void Map::draw() const {
 
 	for (int i = 0; i < DATA_MAX; i++)
 	{
-		DrawFormatString(10 * i + 10, 20, 0xffffff, "%d", MapData[i]);
-
+		DrawFormatString(10, 30, 0xffff00, "内部データ");
+		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
+		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
+		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
 
 		// ステージ間のライン
 		for (int j = 0; next_stage[i][j] != 0 && j <= 2; j++)
