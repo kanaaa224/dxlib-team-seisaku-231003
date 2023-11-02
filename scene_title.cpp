@@ -4,47 +4,46 @@
 Title::Title()
 {
 	TitleImage = LoadGraph("resources/images/Title.png");
-	/*g_MenuNumber = 0;
-	interval = 0.7f;*/
+	g_MenuNumber = 0;
+	/*interval = 0.7f; */
 	cursor = LoadGraph("resources/images/cursor.png");
-	state = 0;
+	//state = 10;
 	Ctrl = false;
 }
 
 //更新
 Scene*Title::update()
 {
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
-	{
-		if (state == 0) {
-			return new GameScene;
-		}
-		if (state == 1) {
-			return new Help;
-		}
-		if (state == 2) {
-			return new Credit;
-		}
-		if (state == 3) {
-			return new End;
-		}
-	}
-
 	//十字キー下ボタンでカーソルを下に
 	if (frameCounter++ % 40 == 0);
-	if ((state % 10) >= 8)state -= 8;
+	if ((g_MenuNumber % 10) >= 8)g_MenuNumber -= 8;
 
 
-	if (((InputCtrl::GetStickState(L).y < 0.8f) && (InputCtrl::GetStickRatio(L).y > -0.8f))) Ctrl = true;
+	if (((InputCtrl::GetStickState(L).y < 0.4f) && (InputCtrl::GetStickRatio(L).y > -0.4f))) Ctrl = true;
 	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 0.8f) && Ctrl)){
-		if (state < 10) state += 200;
-		else state -= 60;
+		if (g_MenuNumber < 10) g_MenuNumber += 200;
+		else g_MenuNumber -= 60;
 			Ctrl = false;
 	}
 	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickRatio(L).y <= -0.8f) && Ctrl))){
-		if (state >= 200) state -= 200;
-		else state += 60;
+		if (g_MenuNumber >= 200) g_MenuNumber -= 200;
+		else g_MenuNumber += 60;
 			Ctrl = false;
+	}
+	else if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+	{
+		if (g_MenuNumber == 0) {
+			return new GameScene;
+		}
+		if (g_MenuNumber == 1) {
+			return new Help;
+		}
+		if (g_MenuNumber == 2) {
+			return new Credit;
+		}
+		if (g_MenuNumber == 3) {
+			return new End;
+		}
 	}
 	
 	return this;
@@ -62,6 +61,6 @@ void Title::draw() const
 	DrawString(550, 440, "Credit", 0x000000);
 	DrawString(550, 510, "End", 0x000000);
 
-	DrawGraph(470, 290 + state, cursor, TRUE);
+	DrawGraph(470, 290 + g_MenuNumber, cursor, TRUE);
 
 }

@@ -9,10 +9,10 @@ private:
 	//‰æ‘œ‚Ì“Ç•Ï”
 	int TitleImage;
 
-
+	int g_MenuNumber;
 	short PadStick;
 	int cursor;
-	int state,frameCounter;
+	int frameCounter;
 
 	bool Ctrl;
 
