@@ -12,12 +12,13 @@ class weapon;
 class WeaponLevelUp
 {
 private:
-	// 画像用変数
-	//int img_tree_diagram;			// 樹形図
-	//int img_cursor;					// カーソル
+	// 画像読込用変数
+	int img_tree_diagram;			// 樹形図
+	int img_cursor;					// カーソル
+	int img_choose;					// レベル分岐点（仮）
 	//int img_background;			// 背景
 
-	// 武器画像用変数
+	// 武器画像読込用変数
 	int img_sword;					// 片手剣
 	int img_dagger;					// 短剣
 	int img_great_sword;			// 大剣
@@ -28,8 +29,13 @@ private:
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
 
+	int img_x;						// 画像のX座標
+	int weapon1_img_x;				// 武器1画像のX座標（仮）
+	int weapon2_img_x;				// 武器2画像のX座標（仮）
+
 	int cursor_pos;					// レベルアップ時カーソル表示位置
-	int weapon1_level_hierarchy;	// レベルの階層
+	int weapon1_level_hierarchy;	// 武器1のレベルの階層
+	int weapon2_level_hierarchy;	// 武器2のレベルの階層
 
 	// 武器1
 	int weapon1_type;				// 武器1の種類
