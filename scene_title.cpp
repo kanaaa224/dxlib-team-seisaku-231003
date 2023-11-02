@@ -14,8 +14,6 @@ Title::Title()
 //更新
 Scene*Title::update()
 {
-	InputCtrl::Update();
-	InputCtrl::GetStickRatio(L).y;
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (state == 0) {
@@ -33,19 +31,19 @@ Scene*Title::update()
 	}
 
 	//十字キー下ボタンでカーソルを下に
-	if (frameCounter++ % 40 == 0)state++;
+	if (frameCounter++ % 40 == 0);
 	if ((state % 10) >= 8)state -= 8;
 
 
-	if (((InputCtrl::GetStickState(L).y < 0.4f) && (InputCtrl::GetStickState(L).y > -0.4f))) Ctrl = true;
-	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickState(L).y >= 0.8f) && Ctrl)){
-		if (state < 10) state += 40;
-		else state -= 10;
+	if (((InputCtrl::GetStickState(L).y < 0.8f) && (InputCtrl::GetStickRatio(L).y > -0.8f))) Ctrl = true;
+	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 0.8f) && Ctrl)){
+		if (state < 10) state += 200;
+		else state -= 60;
 			Ctrl = false;
 	}
-	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickState(L).y <= -0.8f) && Ctrl))){
-		if (state >= 40) state -= 40;
-		else state += 10;
+	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickRatio(L).y <= -0.8f) && Ctrl))){
+		if (state >= 200) state -= 200;
+		else state += 60;
 			Ctrl = false;
 	}
 	
