@@ -176,6 +176,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(1500, 2000, 75);
+	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
 
 	int c = 0;
 	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
@@ -183,8 +184,22 @@ Scene* GameScene::update() {
 	};
 	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
 	//////////////////////////////////////////////////
-	if (!c) return new Map;
-	if(!player->GetPlayer_HP()) return new GameOverScene;
+	if (c <= 0) {
+		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
+		if (gameUI->getState() == 2) {
+			gameUI->init();
+			gameUI->setState(banner);
+		};
+		if (gameUI->getState() == 1) return new Map;
+	};
+	if (player->GetPlayer_HP() <= 0) {
+		gameUI->setBanner("失敗、、", "体力が尽きました、、");
+		if (gameUI->getState() == 2) {
+			gameUI->init();
+			gameUI->setState(banner);
+		};
+		if (gameUI->getState() == 1) return new GameOverScene;
+	};
 	//////////////////////////////////////////////////
 
 	return this;
