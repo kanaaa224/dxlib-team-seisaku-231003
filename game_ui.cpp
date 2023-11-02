@@ -55,21 +55,11 @@ void GameUI::update(GameScene* gameScene) {
 };
 
 void GameUI::draw() const {
-	if (!state) {
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		//ChangeFont("");
-
-		SetFontSize(40);
-		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("MISSION（仮）") / 2, 320, 0xffffff, "MISSION（仮）");
-
-		SetFontSize(24);
-		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("すべてのモンスターを倒してください") / 2, 370, 0xffffff, "すべてのモンスターを倒してください");
+	if (state) {
+		drawHUD();
 	}
 	else {
-		drawHUD();
+		drawBanner();
 	};
 };
 
@@ -297,4 +287,26 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+};
+
+void GameUI::drawBanner() const {
+	std::string title, subTitle;
+
+	auto it = banner.find("title");
+	if (it != banner.end()) title = it->second;
+
+	it = banner.find("subTitle");
+	if (it != banner.end()) subTitle = it->second;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+	DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	//ChangeFont("");
+
+	SetFontSize(40);
+	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(title.c_str()) / 2, 320, 0xffffff, title.c_str());
+
+	SetFontSize(24);
+	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
 };

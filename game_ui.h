@@ -4,6 +4,11 @@
 //////////////////////////////////////////////////
 #pragma once
 
+enum GameUIState {
+	banner,
+	playerUI
+};
+
 class GameUI {
 private:
 	int state, frameCounter;
@@ -18,7 +23,9 @@ private:
 
 	std::map<std::string, double> hud;
 
-	std::map<std::string, double> pauseMenu;
+	std::map<std::string, std::string> banner;
+
+	//std::map<std::string, double> pauseMenu;
 
 	std::map<std::string, int> img;
 
@@ -40,6 +47,9 @@ public:
 
 	// ヘッドアップディスプレイ
 	void drawHUD() const;
+
+	// バナー表示
+	void drawBanner() const;
 
 	//////////////////////////////////////////////////
 
@@ -84,6 +94,15 @@ public:
 	void setEnemy(int Current, int Max) {
 		enemy["current"] = Current;
 		enemy["max"]     = Max;
+	};
+
+	void setBanner(std::string Title, std::string SubTitle) {
+		banner["title"]    = Title;
+		banner["subTitle"] = SubTitle;
+	};
+
+	void setState(int State) {
+		state = State;
 	};
 
 	//////////////////////////////////////////////////
