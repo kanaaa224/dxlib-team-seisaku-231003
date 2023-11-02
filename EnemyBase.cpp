@@ -94,14 +94,9 @@ float EnemyBase::GetDamage()
 	return damage;
 }
 
-float EnemyBase::GetVec_X() 
+Vector EnemyBase::GetEnemyVector() 
 {
-	return vector.x;
-}
-
-float EnemyBase::GetVec_Y()
-{
-	return vector.y;
+	return vector;
 }
 
 //-----------------------------------------------//
@@ -181,14 +176,6 @@ void EnemyBase::SetHit1stFrameFlg(bool flg)
 
 void EnemyBase::SetHitFrameCnt(int i) {
 	hitFrameCounter = i;
-}
-
-void EnemyBase::SetHitVec_X(float vx) {
-	hitvx = vx;
-}
-
-void EnemyBase::SetHitVec_Y(float vy) {
-	hitvy = vy;
 }
 
 void EnemyBase::SetPlayer_Location(Location PL) {

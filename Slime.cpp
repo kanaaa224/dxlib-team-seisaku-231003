@@ -134,28 +134,20 @@ void Slime::Draw(int arrayNum)
 void Slime::X()
 {
 	if (hitFlg == HIT) {
-		//ここに敵同士の当たり判定の処理を書く
-		//vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
-		//vector.x = HitMoveCale_X(vector.x, hitvx);
-		//hitFlg = NO_COLLISION;
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 	}
 	else if (hitFlg == NO_COLLISION) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 	}
 }
 
 void Slime::Y()
 {
 	if (hitFlg == HIT) {
-		//ここに敵同士の当たり判定の処理を書く
-		//vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
-		//vector.y = HitMoveCale_Y(vector.y, hitvy);
-		//hitFlg = NO_COLLISION;
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 	}
 	else if (hitFlg == NO_COLLISION) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y));
+		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 	}
 }
 
