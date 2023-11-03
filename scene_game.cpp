@@ -234,7 +234,10 @@ void GameScene::HitCheck()
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						
+						slime[i]->SetHitLocation_X(slime[j]->GetLX());
+						slime[i]->SetHitLocation_Y(slime[j]->GetLY());
+						slime[j]->SetHitLocation_X(slime[i]->GetLX());
+						slime[j]->SetHitLocation_Y(slime[i]->GetLY());
 					}
 					//else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
 					//	if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない

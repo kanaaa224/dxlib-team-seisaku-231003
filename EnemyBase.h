@@ -9,6 +9,9 @@ class EnemyBase :public SphereCollider
 private:
 
 protected:
+	float hitLX=0;
+	float hitLY=0;
+
 	int img;			//画像格納用変数
 	float hp;			//敵のHP
 	float damage;			//プレイヤーに与えるダメージ
@@ -53,7 +56,9 @@ public:
 	bool GetHit1stFrameFlg();
 	int GetHitFrameCnt();
 	float GetDamage();
-	Vector GetEnemyVector();
+
+	float GetLX();
+	float GetLY();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
@@ -65,6 +70,8 @@ public:
 	void SetHit1stFrameFlg(bool flg);
 	void SetHitFrameCnt(int i);
 	void SetPlayer_Location(Location PL);
+	void SetHitLocation_X(float lx);
+	void SetHitLocation_Y(float ly);
 
 	//動けるかどうか判定する
 	bool IsMoveLimit(Stage stage);
