@@ -1,6 +1,7 @@
 ﻿#include "EnemyBase.h"
 #include "Common.h"
 #include <math.h>
+#include <cmath>
 #include"Stage.h"
 
 EnemyBase::EnemyBase()
@@ -47,6 +48,28 @@ float EnemyBase::HitMoveCale_Y(float myvy, float hitvy)
 {
 	float r = (myvy + hitvy) / 2;
 	return r;
+}
+
+int EnemyBase::checkPlayerProximity(float pLocation_x, float pLocation_y, float eLocation_x, float eLocation_y)
+{
+	float calcAns = sqrt(pow(eLocation_x - pLocation_x, 2) + pow(eLocation_y - pLocation_y, 2));
+	calcAns = fabs(calcAns);//絶対値に変更
+
+	//１フレーム前の値を更新
+	previousFrameValue = currentFrameValue;
+
+	//現在の値を設定
+	currentFrameValue = calcAns;
+
+	if (previousFrameValue < currentFrameValue) {
+		return DISTANT;//遠ざかっている
+	}
+	else if (previousFrameValue > currentFrameValue) {
+		return APPROACH;//近づいている
+	}
+	else if (previousFrameValue == currentFrameValue) {
+		return SAME;//同じ
+	}
 }
 
 //----------------------Inc----------------------//

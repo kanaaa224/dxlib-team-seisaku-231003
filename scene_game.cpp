@@ -83,8 +83,10 @@ Scene* GameScene::update() {
 		weapon_level_up->update(Weapon, restor_cursor_position);
 		return this;
 	}
-
+	
 	//敵//
+	HitCheck();
+
 	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
 		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 		tmpSlimeNum++;
@@ -101,7 +103,7 @@ Scene* GameScene::update() {
 		}
 	}
 
-	HitCheck();
+	
 
 	//武器と敵の当たり判定
 	if (stage == 1) {

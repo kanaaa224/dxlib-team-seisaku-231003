@@ -144,8 +144,15 @@ void Slime::Draw(int arrayNum)
 void Slime::X()
 {
 	if (hitFlg == HIT) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.x = hitVX;
+		if (checkPlayerProximity(dL.x, dL.y, location.x, location.y) == DISTANT) {//遠ざかっている
+			vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		}
+		else if (checkPlayerProximity(dL.x, dL.y, location.x, location.y) == APPROACH) {//近づいている
+			vector.x = hitVX;
+		}
+		else if (checkPlayerProximity(dL.x, dL.y, location.x, location.y) == SAME) {//同じ
+			vector.x = hitVX;
+		}		
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -155,9 +162,15 @@ void Slime::X()
 void Slime::Y()
 {
 	if (hitFlg == HIT) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.y = hitVY;
-		hitFlg = NO_COLLISION;
+		if (checkPlayerProximity(dL.x, dL.y, location.x, location.y) == DISTANT) {//遠ざかっている
+			vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		}
+		else if (checkPlayerProximity(dL.x, dL.y, location.x, location.y) == APPROACH) {//近づいている
+			vector.y = hitVY;
+		}
+		else if (checkPlayerProximity(dL.x, dL.y, location.x, location.y) == SAME) {//同じ
+			vector.y = hitVY;
+		}
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;

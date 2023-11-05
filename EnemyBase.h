@@ -24,6 +24,9 @@ protected:
 
 	int weaponDamage;   //武器のダメージを格納する変数
 
+	float previousFrameValue;//1フレーム前のプレイヤーとの距離
+	float currentFrameValue;//現在のフレームでのプレイヤーとの距離
+
 	//FrameCnt変数
 	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
 	int redFrameCounter = 0;//画像を赤くする時間をCnt
@@ -46,6 +49,8 @@ public:
 
 	float HitMoveCale_X(float myvx,float hitvx);
 	float HitMoveCale_Y(float myvy,float hitvy);
+
+	int checkPlayerProximity(float pLocation_x, float pLocation_y, float eLocation_x, float eLocation_y);
 
 	//Inc
 	void hitFrameCntInc();
