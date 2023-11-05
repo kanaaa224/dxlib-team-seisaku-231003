@@ -11,6 +11,7 @@ GameScene::GameScene() {
 	player = new Player;
 	backimg = new Stage;
 	Weapon = new weapon;
+	secondweapon = new second_weapon;
 	gameUI = new GameUI;
 
 	
@@ -136,6 +137,7 @@ Scene* GameScene::update() {
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
+	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
 	gameUI->update(this);
 
 
@@ -210,6 +212,7 @@ void GameScene::draw() const {
 
 	backimg->draw();
 	Weapon->Draw();
+	secondweapon->Draw();
 	player->draw();
 
 	//敵//

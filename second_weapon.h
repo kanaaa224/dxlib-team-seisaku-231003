@@ -1,43 +1,17 @@
 #pragma once
+#include "weapon.h"
 
-#define d_r(_d) _d * (M_PI / 180)
-#define r_d(_r) _r * (180 / M_PI)
+#define SPEAR_MAX_MOVE 180.0f
 
-#define INIT_COOLTIME_SWORD  120
-#define INIT_COOLTIME_DAGGER  60
-#define INIT_COOLTIME_GREATSWORD  210
-
-#define INIT_ROTATION_SWORD  60.0f
-#define INIT_ROTATION_DAGGER  60.0f
-#define INIT_ROTATION_GREATSWORD  90.0f
-
-#define INIT_DAMAGE_SWORD  7
-#define INIT_DAMAGE_DAGGER  4
-#define INIT_DAMAGE_GREATSWORD  25
-
-struct Vector
+enum second_weapon_type
 {
-	float x;
-	float y;
-	float length;
+	spear,
+	frail,
+	book,
 };
 
-enum weapontype
+class second_weapon
 {
-	sword,
-	dagger,
-	greatSword,
-	none = 99
-};
-
-struct Location
-{
-	float x;
-	float y;
-};
-
-
-class weapon {
 private:
 	int weaponType;
 	int weaponLevel;
@@ -68,10 +42,15 @@ private:
 
 
 	float tmp, tmp1;
+
+
+	float spear_move_cnt;
+	Vector spear_move;
+
 public:
-	weapon();
-	weapon(int type);
-	~weapon();
+	second_weapon();
+	second_weapon(int type);
+	~second_weapon();
 
 	void Update(float cursorX, float cursorY, Location playerLocation);
 	void Draw() const;

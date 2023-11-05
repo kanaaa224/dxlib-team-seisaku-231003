@@ -120,6 +120,9 @@
     <ClInclude Include="scene_levelup.h">
       <Filter>シーン</Filter>
     </ClInclude>
+    <ClInclude Include="second_weapon.h">
+      <Filter>weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="scene_levelup.cpp">
       <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="second_weapon.cpp">
+      <Filter>weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
