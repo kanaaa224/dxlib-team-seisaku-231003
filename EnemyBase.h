@@ -9,18 +9,20 @@ class EnemyBase :public SphereCollider
 private:
 
 protected:
+	float hitLX = 0;//当たった相手のX座標
+	float hitLY = 0;//当たった相手のY座標
+	float hitVX = 0;//当たった相手のXベクトル
+	float hitVY = 0;//当たった相手のYベクトル
+
 	int img;			//画像格納用変数
 	float hp;			//敵のHP
-	float damage;			//プレイヤーに与えるダメージ
+	float damage;		//プレイヤーに与えるダメージ
 	int respawnPosition;//リスポーンする場所
 	int respawnTime;	//リスポーンまでの時間を格納する
 	int respawnTimeCnt;	//リスポーンまでのカウント変数
 	int alphaNum;		//透過率を制御する
 
 	int weaponDamage;   //武器のダメージを格納する変数
-
-	float hitvx;
-	float hitvy;
 
 	//FrameCnt変数
 	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
@@ -55,24 +57,24 @@ public:
 	bool GetHitWeaponFlg();
 	bool GetHit1stFrameFlg();
 	int GetHitFrameCnt();
-	float GetVec_X();
-	float GetVec_Y();
 	float GetDamage();
+
+	float GetLX();
+	float GetLY();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
-	int SetGetRand(int min, int max);
-	void SetHitFlg(int hit);
-	void SetWeaponDamage(int d);
+	int SetGetRand(int min, int max);//最小値と最大値の間のランダムな数字を返す
+	void SetHitFlg(int hit);//変数HitFlgに値をセットする
+	void SetWeaponDamage(int d);//武器からのダメージをセットする
 	void SetHitHP(int d);//武器からのダメージを受けた時の処理
-	void SetHitWeaponFlg();
+	void SetHitWeaponFlg();//武器との当たり判定用フラグ変数をセットする
 	void SetHit1stFrameFlg(bool flg);
 	void SetHitFrameCnt(int i);
-
-	void SetHitVec_X(float vx);
-	void SetHitVec_Y(float vy);
-
 	void SetPlayer_Location(Location PL);
+
+	void SetHitLocation_X(float lx);
+	void SetHitLocation_Y(float ly);
 
 	//動けるかどうか判定する
 	bool IsMoveLimit(Stage stage);

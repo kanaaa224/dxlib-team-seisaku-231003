@@ -123,26 +123,26 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	DrawFormatString(0, 480, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
+	/*DrawFormatString(0, 480, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 500, GetColor(255, 0, 0), "MoveY %0.1f", MoveY);
 	DrawFormatString(0, 520, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Provisional_LStickX);
-	DrawFormatString(0, 540, GetColor(255, 0, 0), "MoveX %0.1f", MoveX);
+	DrawFormatString(0, 540, GetColor(255, 0, 0), "MoveX %0.1f", MoveX);*/
 
 	//右スティック
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", Provisional_RStickY);
-	DrawFormatString(0, 360, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", Provisional_RStickX);
+	/*DrawFormatString(0, 340, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", Provisional_RStickY);
+	DrawFormatString(0, 360, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", Provisional_RStickX);*/
 
 	//Aボタン
-	DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
-	DrawFormatString(0, 400, GetColor(255, 0, 0), "加算値　回避　: %f", Additional_Value3);
+	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
+	DrawFormatString(0, 400, GetColor(255, 0, 0), "加算値　回避　: %f", Additional_Value3);*/
 
-	DrawFormatString(0, 420, GetColor(255, 0, 0), "A_value  %d", A_value);
+	/*DrawFormatString(0, 420, GetColor(255, 0, 0), "A_value  %d", A_value);
 	DrawFormatString(0, 440, GetColor(255, 0, 0), "CoolTime %d", CoolTime);
-	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);
+	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);*/
 
 	//　中心線
-	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	/*DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);*/
 
 	//照準の画像　描画
 	DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);

@@ -62,4 +62,7 @@ private:
 	};
 
 	void HitCheck();
+
+	//プレイヤーと敵の当たり判定
+	void HitEnemy(EnemyBase* enemy);
 };

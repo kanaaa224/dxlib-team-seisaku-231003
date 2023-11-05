@@ -2,9 +2,10 @@
 
 #include"inputCtrl.h"
 
-#define MAX_LEVEL		8			// レベルの最大値
-#define MAX_WEAPON		2			// 所持できる武器の最大数
-#define NONE_WEAPON		99			// 武器無し
+//#define MAX_LEVEL				8			// レベルの最大値
+#define MAX_LEVEL_HIERARCHY		4			// レベル階層の最大値
+#define MAX_WEAPON				2			// 所持できる武器の最大数
+#define NONE_WEAPON				99			// 武器無し
 
 class weapon;
 
@@ -26,6 +27,9 @@ private:
 	int cursor_y;					// カーソルY座標
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
+
+	int cursor_pos;					// レベルアップ時カーソル表示位置
+	int weapon1_level_hierarchy;	// レベルの階層
 
 	// 武器1
 	int weapon1_type;				// 武器1の種類

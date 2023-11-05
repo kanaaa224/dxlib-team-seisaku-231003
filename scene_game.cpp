@@ -176,12 +176,30 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(1500, 2000, 75);
+	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
 
 	int c = 0;
 	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 		if (slime[i] != nullptr) c++;
 	};
 	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
+	//////////////////////////////////////////////////
+	if (c <= 0) {
+		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
+		if (gameUI->getState() == 2) {
+			gameUI->init();
+			gameUI->setState(banner);
+		};
+		if (gameUI->getState() == 1) return new Map;
+	};
+	if (player->GetPlayer_HP() <= 0) {
+		gameUI->setBanner("失敗、、", "体力が尽きました、、");
+		if (gameUI->getState() == 2) {
+			gameUI->init();
+			gameUI->setState(banner);
+		};
+		if (gameUI->getState() == 1) return new GameOverScene;
+	};
 	//////////////////////////////////////////////////
 
 	return this;
@@ -217,9 +235,6 @@ void GameScene::draw() const {
 	{
 		weapon_level_up->draw();
 	}
-
-
-	DrawFormatString(player->GetLocation().x - 12, player->GetLocation().y - 27, 0xffffff, "%f", player->GetPlayer_HP());
 };
 
 void GameScene::HitCheck()
@@ -227,28 +242,17 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
-			{
-				if (player->CheckCollision(*(slime[i]), player) == HIT)
-				{
-					player->SetPlayer_HP(slime[i]->GetDamage());
-					player->SetIsHit(true);
-				}
-			}
-			//else
-			//{
-			//	is_hit = false;
-			//}
+			HitEnemy(slime[i]);
 			for (int j = 0; j < MAX_SLIME_NUM; j++) {
 				if (slime[j] != nullptr && i != j) {
 					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						slime[i]->SetHitVec_X(slime[j]->GetVec_X());
-						slime[i]->SetHitVec_Y(slime[j]->GetVec_Y());
-						slime[j]->SetHitVec_X(slime[i]->GetVec_X());
-						slime[j]->SetHitVec_Y(slime[i]->GetVec_Y());
+						slime[i]->SetHitLocation_X(slime[j]->GetLX());
+						slime[i]->SetHitLocation_Y(slime[j]->GetLY());
+						slime[j]->SetHitLocation_X(slime[i]->GetLX());
+						slime[j]->SetHitLocation_Y(slime[i]->GetLY());
 					}
 					//else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
 					//	if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない
@@ -258,6 +262,18 @@ void GameScene::HitCheck()
 					//}
 				}
 			}
+		}
+	}
+}
+
+void GameScene::HitEnemy(EnemyBase* enemy)
+{
+	if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
+	{
+		if (player->CheckCollision(*(enemy), player) == HIT)
+		{
+			player->SetPlayer_HP(enemy->GetDamage());
+			player->SetIsHit(true);
 		}
 	}
 }

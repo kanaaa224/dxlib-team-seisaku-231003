@@ -42,7 +42,7 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 	}
 
 	//左スティックを右に
-	if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
+	if ((InputCtrl::GetStickRatio(L).x > 0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) && interval >= 15)
 	{
 		cursor_num++;
 		interval = 0;
@@ -65,7 +65,7 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 	}
 
 	//左スティックを左に
-	if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
+	if ((InputCtrl::GetStickRatio(L).x < -0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)) && interval >= 15)
 	{
 		cursor_num--;
 		interval = 0;
@@ -151,6 +151,11 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 			{
 				is_selecting = false;
 			}
+		}
+
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			is_selecting = false;
 		}
 	}
 }
