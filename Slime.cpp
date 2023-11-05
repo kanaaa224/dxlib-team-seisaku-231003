@@ -20,6 +20,9 @@ Slime::Slime(int arrayNum)
 	
 
 	respawnTimeCnt = 0;
+	if (arrayNum <= 2) {
+		arrayNum = 0;
+	}
 	respawnTime = arrayNum * 60;
 
 	tmpVX = 0;
@@ -136,8 +139,8 @@ void Slime::X()
 {
 	if (hitFlg == HIT) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.x = vector.x * -1;
-		hitFlg = NO_COLLISION;
+		//vector.x = vector.x * -1;
+		//hitFlg = NO_COLLISION;
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -148,8 +151,8 @@ void Slime::Y()
 {
 	if (hitFlg == HIT) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.y = vector.y * -1;
-		hitFlg = NO_COLLISION;
+		//vector.y = vector.y * -1;
+		//hitFlg = NO_COLLISION;
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
