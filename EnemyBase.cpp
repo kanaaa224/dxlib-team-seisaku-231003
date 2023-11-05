@@ -102,6 +102,14 @@ float EnemyBase::GetLY() {
 	return location.y;
 }
 
+float EnemyBase::GetVX() {
+	return vector.x;
+}
+
+float EnemyBase::GetVY() {
+	return vector.y;
+}
+
 //-----------------------------------------------//
 //----------------------set----------------------//
 
@@ -192,6 +200,14 @@ void EnemyBase::SetHitLocation_X(float lx) {
 
 void EnemyBase::SetHitLocation_Y(float ly) {
 	hitLY = ly;
+}
+
+void EnemyBase::SetHitVector_X(float vx) {
+	hitVX = vx;
+}
+
+void EnemyBase::SetHitVector_Y(float vy) {
+	hitVY = vy;
 }
 
 //-----------------------------------------------//

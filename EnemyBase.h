@@ -61,6 +61,8 @@ public:
 
 	float GetLX();
 	float GetLY();
+	float GetVX();
+	float GetVY();
 
 	//Set関数
 	void SetRespawnPoint();//リスポーン位置を設定する
@@ -75,6 +77,8 @@ public:
 
 	void SetHitLocation_X(float lx);
 	void SetHitLocation_Y(float ly);
+	void SetHitVector_X(float vx);
+	void SetHitVector_Y(float vy);
 
 	//動けるかどうか判定する
 	bool IsMoveLimit(Stage stage);

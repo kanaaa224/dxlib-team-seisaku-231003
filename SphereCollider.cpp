@@ -27,7 +27,9 @@ int SphereCollider::CheckCollision(SphereCollider sphereCollider,Player* player)
     if (c <= radius + sphereCollider.radius) {
         return HIT;
     }
-    return NO_COLLISION;
+    else {
+        return NO_COLLISION;
+    }
 }
 
 void SphereCollider::SetPlayerAmountOfTravel_X(float x)
