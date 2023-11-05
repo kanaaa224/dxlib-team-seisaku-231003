@@ -210,8 +210,8 @@ void weapon::Draw() const
 
 	//kk
 	if (isAttacking) {
-		DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
+		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 	
 
