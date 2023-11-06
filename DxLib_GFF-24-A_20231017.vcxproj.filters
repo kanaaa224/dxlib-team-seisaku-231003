@@ -120,6 +120,9 @@
     <ClInclude Include="scene_levelup.h">
       <Filter>シーン</Filter>
     </ClInclude>
+    <ClInclude Include="scene_rest.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -195,6 +198,9 @@
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="scene_levelup.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_rest.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
   </ItemGroup>
