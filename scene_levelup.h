@@ -6,6 +6,8 @@
 #define MAX_LEVEL_HIERARCHY		4			// レベル階層の最大値
 #define MAX_WEAPON				2			// 所持できる武器の最大数
 #define NONE_WEAPON				99			// 武器無し
+#define CURSOR_LEFT				-85			// レベル選択時のカーソル位置
+#define CURSOR_RIGHT			85			// レベル選択時のカーソル位置
 
 class weapon;
 
@@ -31,10 +33,12 @@ private:
 	bool weapon_selection;			// 武器の選択
 
 	int img_x;						// 画像のX座標
-	int weapon1_img_x;				// 武器1画像のX座標（仮）
-	int weapon2_img_x;				// 武器2画像のX座標（仮）
+	int img_y;						// 画像のY座標
 
 	int cursor_pos;					// レベルアップ時カーソル表示位置
+
+	int weapon1_cursor_pos;			// 武器1のレベルアップ時カーソル表示位置
+	int weapon2_cursor_pos;			// 武器2のレベルアップ時カーソル表示位置
 	int weapon1_level_hierarchy;	// 武器1のレベルの階層
 	int weapon2_level_hierarchy;	// 武器2のレベルの階層
 
