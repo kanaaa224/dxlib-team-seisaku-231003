@@ -8,7 +8,7 @@ EnemyBase::EnemyBase()
 {
 	hitFlg = NO_COLLISION;
 	respawnFlg = false;
-	radius = 20;
+	radius = ENEMY_RADIUS;
 	alphaNum = MAX_ALPHA;
 }
 
@@ -38,15 +38,15 @@ float EnemyBase::Normalization_Y(float location_x, float location_y)
 	return r;
 }
 
-float EnemyBase::HitMoveCale_X(float myvx, float hitvx) 
+float EnemyBase::HitMoveCale_X(float mylx, float hitlx)
 {
-	float r = (myvx + hitvx) / 2;
+	float r = (mylx + hitlx) / 2;
 	return r;
 }
 
-float EnemyBase::HitMoveCale_Y(float myvy, float hitvy) 
+float EnemyBase::HitMoveCale_Y(float myly, float hitly) 
 {
-	float r = (myvy + hitvy) / 2;
+	float r = (myly + hitly) / 2;
 	return r;
 }
 
@@ -68,6 +68,28 @@ int EnemyBase::checkPlayerProximity(float pLocation_x, float pLocation_y, float 
 		return APPROACH;//近づいている
 	}
 	else if (previousFrameValue == currentFrameValue) {
+		return SAME;//同じ
+	}
+}
+
+int EnemyBase::checkHitEnemyProximity(Location location, float hlx, float hly) 
+{
+	float calcAns = sqrt(pow(hlx - location.x, 2) + pow(hly - location.y, 2));
+	calcAns = fabs(calcAns);//絶対値に変更
+
+	//１フレーム前の値を更新
+	previousFrameValue = currentFrameValue;
+
+	//現在の値を設定
+	currentFrameValue = calcAns;
+
+	if (previousFrameValue + ENEMY_RADIUS < currentFrameValue + ENEMY_RADIUS) {
+		return DISTANT;//遠ざかっている
+	}
+	else if (previousFrameValue + ENEMY_RADIUS > currentFrameValue + ENEMY_RADIUS) {
+		return APPROACH;//近づいている
+	}
+	else if (previousFrameValue + ENEMY_RADIUS == currentFrameValue + ENEMY_RADIUS) {
 		return SAME;//同じ
 	}
 }

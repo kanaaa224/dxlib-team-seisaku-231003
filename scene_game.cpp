@@ -262,10 +262,10 @@ void GameScene::HitCheck()
 						slime[j]->SetHitVector_X(slime[i]->GetVX());
 						slime[j]->SetHitVector_Y(slime[i]->GetVY());
 					}
-					else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
-						if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない
-							if (!slime[i]->GetHitFlg()) slime[i]->SetHitFlg(NO_COLLISION);
-							if (!slime[j]->GetHitFlg()) slime[j]->SetHitFlg(NO_COLLISION);
+					
+					if (slime[i]->GetHitFlg() == HIT) {
+						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
+							slime[i]->SetHitFlg(NO_COLLISION);
 						}
 					}
 				}

@@ -31,12 +31,15 @@
 #define APPROACH 1//近づいている
 #define SAME     2//同じ
 
+#define ENEMY_RADIUS 20//敵の半径
+
+#define DEBUG_NUM 10
 //スライム
 #define SLIME_HP_MAX 20.0f	//HP
-#define SLIME_ATTAK_DAMAGE 5//ダメージ
+#define SLIME_ATTAK_DAMAGE 0//ダメージ
 #define MAX_SLIME_NUM 10000	//スライムの最大数
 
-#define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
+#define SLIME_1_STAGE_NUM DEBUG_NUM //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
 #define SLIME_3_STAGE_NUM 20 //３ステージ目のスライムの数
 #define SLIME_4_STAGE_NUM 25 //４ステージ目のスライムの数
