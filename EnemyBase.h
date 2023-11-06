@@ -39,6 +39,8 @@ protected:
 	bool respawnFlg;	//リスポーンしているか
 	bool hitWeaponFlg;  //武器とあたったか
 	bool hit1stFrameFlg = false;//武器と当たった最初のフレームか
+
+	bool flg = false;
 public:
 	EnemyBase();
 

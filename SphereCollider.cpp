@@ -32,6 +32,11 @@ int SphereCollider::CheckCollision(SphereCollider sphereCollider,Player* player)
     }
 }
 
+int SphereCollider::CheckAfterMoveCollision(SphereCollider sphereCollider, Player* player)
+{
+    return 0;
+}
+
 void SphereCollider::SetPlayerAmountOfTravel_X(float x)
 {
     diff.x = x;
