@@ -2,12 +2,20 @@
 #include "weapon.h"
 
 #define SPEAR_MAX_MOVE 180.0f
+#define MAX_BULLETS_NUM 100
 
 enum second_weapon_type
 {
 	spear,
 	frail,
 	book,
+};
+
+struct Bullet
+{
+	Vector v;
+	Location l;
+	bool flg;
 };
 
 class second_weapon
@@ -47,6 +55,9 @@ private:
 	float spear_move_cnt;
 	Vector spear_move;
 
+	Vector book_move;
+	Bullet bullets[MAX_BULLETS_NUM];
+
 public:
 	second_weapon();
 	second_weapon(int type);
@@ -61,6 +72,10 @@ public:
 	void LevelState();
 
 	bool WeaponCollision(Location enemyLocation, float radius);
+
+
+	void SpawnBookBullets();
+	void MoveBookBullet();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {

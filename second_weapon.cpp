@@ -8,7 +8,7 @@
 
 second_weapon::second_weapon()
 {
-	weaponType = 0;
+	weaponType = 2;
 	baseVec = { 80,0,80 };
 	relativeRot = 0.0f;		//武器によって変える
 	maxRot = 90.0f;
@@ -16,6 +16,8 @@ second_weapon::second_weapon()
 	isAttacking = false;
 	weaponLevel = 0;
 	levelUpFlg = false;
+
+	LevelState();
 
 	tmp = 0;
 
@@ -27,6 +29,14 @@ second_weapon::second_weapon()
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
+
+	book_move = { 0,0,0 };
+	for (int i = 0; i < MAX_BULLETS_NUM; i++)
+	{
+		bullets[i].v = { 0,0,0 };
+		bullets[i].l = { 0,0 };
+		bullets[i].flg = false;
+	}
 }
 
 second_weapon::second_weapon(int type)
@@ -131,6 +141,9 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 				break;
 
 			case book:
+				isAttacking = false;
+				SpawnBookBullets();
+
 				break;
 
 			default:
@@ -138,6 +151,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			}
 			
 
+		}
+
+		if (weaponType == book) {
+			MoveBookBullet();
 		}
 
 	}
@@ -214,7 +231,12 @@ void second_weapon::Draw() const
 		}
 	}
 
-
+	for (int i = 0; i < MAX_BULLETS_NUM; i++)
+	{
+		if (bullets[i].flg == true) {
+			DrawCircle(bullets[i].l.x, bullets[i].l.y, 3, 0xffff00, TRUE);
+		}
+	}
 
 
 	//debug
@@ -560,10 +582,49 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 	Location weaponCollisionLocation;
 
 	if (isAttacking) {
+		switch (weaponType)
+		{
+		case spear:
+			for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+				weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
+				weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			//kk
 
-		for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
-			weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
-			weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			//kk
+				float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+				float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+				float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+				if (tmp_length < radius + 10) {
+					return true;
+				}
+			}
+			break;
+		case frail:
+
+			break;
+		case book:
+			for (int i = 0; i < MAX_BULLETS_NUM; i++){
+				if (bullets[i].flg) {
+					weaponCollisionLocation = bullets[i].l;
+
+					float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + 10) {
+						return true;
+					}
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		
+	}
+
+	for (int i = 0; i < MAX_BULLETS_NUM; i++) {
+		if (bullets[i].flg) {
+			weaponCollisionLocation = bullets[i].l;
 
 			float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
 			float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
@@ -574,6 +635,36 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			}
 		}
 	}
+	
 
 	return false;
+}
+
+void second_weapon::SpawnBookBullets()
+{
+	for (int i = 0; i < MAX_BULLETS_NUM; i++)
+	{
+		if (!bullets[i].flg) {
+			bullets[i].flg = true;
+			bullets[i].v = unitVec;
+			bullets[i].l = location;
+			break;
+		}
+	}
+}
+
+void second_weapon::MoveBookBullet()
+{
+	for (int i = 0; i < MAX_BULLETS_NUM; i++)
+	{
+		if (bullets[i].flg) {
+			bullets[i].l.x += bullets[i].v.x * 10;
+			bullets[i].l.y += bullets[i].v.y * 10;
+
+			if (bullets[i].l.x < 0 || bullets[i].l.x > 1280 ||
+				bullets[i].l.y < 0 || bullets[i].l.y > 720) {
+				bullets[i].flg = false;
+			}
+		}
+	}
 }
