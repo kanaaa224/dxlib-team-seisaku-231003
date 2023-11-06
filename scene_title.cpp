@@ -19,15 +19,15 @@ Scene*Title::update()
 	if ((g_MenuNumber % 10) >= 8)g_MenuNumber -= 8;
 
 
-	if (((InputCtrl::GetStickState(L).y < 0.4f) && (InputCtrl::GetStickRatio(L).y > -0.4f))) Ctrl = true;
-	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 0.8f) && Ctrl)){
+	if (((InputCtrl::GetStickState(L).y < 0.5f) && (InputCtrl::GetStickRatio(L).y > -0.5f))) Ctrl = true;
+	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 1.0f) && Ctrl)){
 		if (g_MenuNumber < 10) g_MenuNumber += 200;
-		else g_MenuNumber -= 60;
+		else g_MenuNumber -= 50;
 			Ctrl = false;
 	}
-	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickRatio(L).y <= -0.8f) && Ctrl))){
+	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickRatio(L).y <= -1.0f) && Ctrl))){
 		if (g_MenuNumber >= 200) g_MenuNumber -= 200;
-		else g_MenuNumber += 60;
+		else g_MenuNumber += 50;
 			Ctrl = false;
 	}
 	else if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
@@ -55,11 +55,12 @@ void Title::draw() const
 	DrawGraph(0, 0, TitleImage, TRUE);
 	SetFontSize(100);
 	DrawString(400, 150, "ƒ^ƒCƒgƒ‹–¼", 0x000000);
-	SetFontSize(75);
-	DrawString(550, 300, "Start", 0x000000);
+	SetFontSize(55);
+	DrawString(550, 320, "Start", 0x000000);
 	DrawString(550, 370, "Help", 0x000000);
-	DrawString(550, 440, "Credit", 0x000000);
-	DrawString(550, 510, "End", 0x000000);
+	DrawString(550, 420, "Ranking", 0x000000);
+	DrawString(550, 470, "Credit", 0x000000);
+	DrawString(550, 520, "End", 0x000000);
 
 	DrawGraph(470, 290 + g_MenuNumber, cursor, TRUE);
 
