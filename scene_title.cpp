@@ -22,12 +22,12 @@ Scene*Title::update()
 	if (((InputCtrl::GetStickState(L).y < 0.5f) && (InputCtrl::GetStickRatio(L).y > -0.5f))) Ctrl = true;
 	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 1.0f) && Ctrl)){
 		if (g_MenuNumber < 10) g_MenuNumber += 200;
-		else g_MenuNumber -= 60;
+		else g_MenuNumber -= 50;
 			Ctrl = false;
 	}
 	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickRatio(L).y <= -1.0f) && Ctrl))){
 		if (g_MenuNumber >= 200) g_MenuNumber -= 200;
-		else g_MenuNumber += 60;
+		else g_MenuNumber += 50;
 			Ctrl = false;
 	}
 	//Aボタンでメニュー決定・画面遷移
