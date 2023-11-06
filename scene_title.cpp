@@ -58,9 +58,8 @@ void Title::draw() const
 	SetFontSize(55);
 	DrawString(550, 320, "Start", 0x000000);
 	DrawString(550, 370, "Help", 0x000000);
-	DrawString(550, 420, "Ranking", 0x000000);
-	DrawString(550, 470, "Credit", 0x000000);
-	DrawString(550, 520, "End", 0x000000);
+	DrawString(550, 420, "Credit", 0x000000);
+	DrawString(550, 470, "End", 0x000000);
 
 	DrawGraph(470, 290 + g_MenuNumber, cursor, TRUE);
 
