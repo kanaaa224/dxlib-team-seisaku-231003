@@ -2,10 +2,10 @@
 #include"SphereCollider.h"
 #include "Stage.h"
 
-#define MOVE_RIGHT 0.1
-#define MOVE_LEFT -0.1
-#define MOVE_UP 0.1
-#define MOVE_DOWN -0.1
+#define MOVE_RIGHT 0.2
+#define MOVE_LEFT -0.2
+#define MOVE_UP 0.2
+#define MOVE_DOWN -0.2
 
 #define Speed 1.5f
 #define Upper_Limit 13.0f
