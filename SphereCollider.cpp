@@ -13,10 +13,10 @@ SphereCollider::SphereCollider()
     diff.y = 0;
 }
 
-int SphereCollider::CheckCollision(SphereCollider sphereCollider)
+int SphereCollider::CheckCollision(SphereCollider sphereCollider,Player* player)
 {
-    SetPlayerAmountOfTravel_X(Player::MovingX);
-    SetPlayerAmountOfTravel_Y(Player::MovingY);
+    SetPlayerAmountOfTravel_X(player->Player_MoveX());
+    SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
     //三平方の定理を使う
     float a = (location.x + diff.x) - (sphereCollider.location.x + sphereCollider.diff.x);
@@ -25,9 +25,11 @@ int SphereCollider::CheckCollision(SphereCollider sphereCollider)
 
     //それぞれの半径の合計と2点間の距離を比べる
     if (c <= radius + sphereCollider.radius) {
-        return COLLISION;
+        return HIT;
     }
-    return NO_COLLISION;
+    else {
+        return NO_COLLISION;
+    }
 }
 
 void SphereCollider::SetPlayerAmountOfTravel_X(float x)

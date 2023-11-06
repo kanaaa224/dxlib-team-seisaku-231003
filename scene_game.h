@@ -12,6 +12,7 @@
 #include "Common.h"
 #include"scene_weapon.h"
 #include "scene_gameclear.h"
+#include "scene_levelup.h"
 
 class GameScene : public Scene {
 private:
@@ -32,14 +33,20 @@ private:
 
 	//シーン
 	Weapon_Selection* weapon_selection;
+	WeaponLevelUp* weapon_level_up;
 
 	//////////
 
 	int stage = 1;//ステージ
+	bool hitFlg = false;
+	int hitFrameCounter = 0;
 
 	bool is_weapon_selct;
 
-public:
+	bool open_level_up;				// レベルアップ画面が開いているか
+	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
+
+	public:
 	GameScene();
 
 	~GameScene();
@@ -53,4 +60,9 @@ public:
 	int getState() {
 		return state;
 	};
+
+	void HitCheck();
+
+	//プレイヤーと敵の当たり判定
+	void HitEnemy(EnemyBase* enemy);
 };

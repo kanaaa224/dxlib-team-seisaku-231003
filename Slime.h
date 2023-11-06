@@ -1,6 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include "EnemyBase.h"
 #include "Player.h"
+#include "weapon.h"
+
+class Stage;
 
 class Slime :public EnemyBase
 {
@@ -9,20 +12,24 @@ private:
 	float tmpVX;
 	float tmpVY;
 
+	int EF_hitHp;
+
+	bool is_area;
+
 public:
-	Slime();
+	Slime(int arrayNum, int SlimeMaxNum);
 
-	void Update(Player* player);
-	void Draw();
+	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
+	void Draw(int arrayNum);
 
-	//ˆÚ“®ˆ—
+	//ç§»å‹•å‡¦ç†
 	void X();
 	void Y();
 
-	//Œ»İ‚ÌƒXƒe[ƒW‚Å‚ÌoŒ»‚·‚é”‚ğ•Ô‚·
+	//ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã§ã®å‡ºç¾ã™ã‚‹æ•°ã‚’è¿”ã™
 	int GetStageNum();
 
-	//ƒXƒ‰ƒCƒ€‚Ìƒ_ƒ[ƒWæ“¾
-	int GetSlimeDamage();
+	//ã‚¹ãƒ©ã‚¤ãƒ ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å–å¾—
+	float GetSlimeDamage();
 };
 

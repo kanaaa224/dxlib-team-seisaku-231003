@@ -53,6 +53,7 @@
     <ClInclude Include="scene_gameclear.h" />
     <ClInclude Include="scene_gameover.h" />
     <ClInclude Include="scene_help.h" />
+    <ClInclude Include="scene_levelup.h" />
     <ClInclude Include="scene_result.h" />
     <ClInclude Include="scene_title.h" />
     <ClInclude Include="Slime.h" />
@@ -79,6 +80,7 @@
     <ClCompile Include="scene_gameclear.cpp" />
     <ClCompile Include="scene_gameover.cpp" />
     <ClCompile Include="scene_help.cpp" />
+    <ClCompile Include="scene_levelup.cpp" />
     <ClCompile Include="scene_result.cpp" />
     <ClCompile Include="scene_title.cpp" />
     <ClCompile Include="Slime.cpp" />

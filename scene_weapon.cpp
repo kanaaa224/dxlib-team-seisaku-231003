@@ -42,7 +42,7 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 	}
 
 	//左スティックを右に
-	if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
+	if ((InputCtrl::GetStickRatio(L).x > 0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) && interval >= 15)
 	{
 		cursor_num++;
 		interval = 0;
@@ -65,7 +65,7 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 	}
 
 	//左スティックを左に
-	if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
+	if ((InputCtrl::GetStickRatio(L).x < -0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)) && interval >= 15)
 	{
 		cursor_num--;
 		interval = 0;
@@ -134,6 +134,8 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 			is_selecting = true;
 			//カーソルを「はい」の位置にする
 			cursor_num = 0;
+			//武器選択画面はなし
+			is_weapon_select = true;
 		}
 	}
 	//武器を選択したなら
@@ -152,6 +154,11 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 				is_selecting = false;
 			}
 		}
+
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			is_selecting = false;
+		}
 	}
 }
 
@@ -164,6 +171,11 @@ void Weapon_Selection::draw() const
 		{
 			SetFontSize(32);
 			DrawString(430, 10, "最初の武器を選んでください\n",0xffffff);
+
+			DrawString(350, 450, "短剣", 0xffffff);
+			DrawString(650, 450, "片手剣", 0xffffff);
+			DrawString(950, 450, "大剣", 0xffffff);
+
 			SetFontSize(16);
 
 			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
@@ -175,6 +187,11 @@ void Weapon_Selection::draw() const
 		{
 			SetFontSize(32);
 			DrawString(430, 10, "２つ目の武器を選んでください\n", 0xffffff);
+
+			DrawString(350, 450, "短剣", 0xffffff);
+			DrawString(650, 450, "片手剣", 0xffffff);
+			DrawString(950, 450, "大剣", 0xffffff);
+
 			SetFontSize(16);
 
 			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
@@ -188,21 +205,26 @@ void Weapon_Selection::draw() const
 	{		
 		SetFontSize(32);
 		DrawString(430, 10, "この武器を選びますか？\n", 0xffffff);
-		SetFontSize(16);
 
 		if (was_selected != true)
 		{
 			if (select_num == 0)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
+				DrawString(350, 450, "短剣", 0xffffff);
+				DrawString(500, 200, "敵に与えるダメージが低い\n", 0xffffff);
+				DrawString(500, 250, "剣を振るのが速い\n", 0xffffff);
+				DrawString(500, 300, "クールタイムが短い\n", 0xffffff);
 			}
 			else if (select_num == 1)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "片手剣", 0xffffff);
 			}
 			else
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, great_sword_image, TRUE);
+				DrawString(350, 450, "大剣", 0xffffff);
 			}
 		}
 		else
@@ -210,14 +232,17 @@ void Weapon_Selection::draw() const
 			if (select_num == 0)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "短剣", 0xffffff);
 			}
 			else if (select_num == 1)
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "短剣", 0xffffff);
 			}
 			else
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, sword_image, TRUE);
+				DrawString(350, 450, "短剣", 0xffffff);
 			}
 		}
 

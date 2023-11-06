@@ -137,7 +137,7 @@ void DebugScene::draw() const {
 	};
 
 	y += 30;
-	DrawFormatString(x, y, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+	DrawFormatString(x, y, 0xffffff, "カーソル位置: X %d - Y %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 
 	x -= 20;
 
@@ -180,7 +180,10 @@ void DebugScene::draw() const {
 	x -= 20;
 
 	y += 30;
-	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: %.1f - %.1f", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
+	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き割合: X %.5f - Y %.5f", InputCtrl::GetStickRatio(L).x, InputCtrl::GetStickRatio(L).y);
+
+	y += 30;
+	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き: X %.1f - Y %.1f", InputCtrl::GetStickState(L).x, InputCtrl::GetStickState(L).y);
 
 	x -= 20;
 
@@ -196,5 +199,11 @@ void DebugScene::draw() const {
 	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
 
 	y += 50;
-	DrawFormatString(x, y, 0xffffff, "Mキー でマップへ");
+	DrawFormatString(x, y, 0xffffff, "Startでマップへ");
+
+	//////////////////////////////////////////////////
+
+	x = 640;
+	y = 50;
+	//if(InputCtrl::GetStickRatio(L).x != 0.0f) DrawFormatString(x, y, 0xffffff, "左スティックX: 傾き～");
 };

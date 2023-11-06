@@ -1,7 +1,8 @@
 #pragma once
-#define INIT_COOLTIME_SWORD  150
+
+#define INIT_COOLTIME_SWORD  120
 #define INIT_COOLTIME_DAGGER  60
-#define INIT_COOLTIME_GREATSWORD  300
+#define INIT_COOLTIME_GREATSWORD  210
 
 #define INIT_ROTATION_SWORD  60.0f
 #define INIT_ROTATION_DAGGER  60.0f
@@ -26,7 +27,12 @@ enum weapontype
 	none = 99
 };
 
-struct Location;
+struct Location
+{
+	float x;
+	float y;
+};
+
 
 class weapon {
 private:
@@ -34,6 +40,7 @@ private:
 	int weaponLevel;
 	bool levelUpFlg;
 
+	Location location;
 
 	Vector weaponVec;
 	Vector baseVec;
@@ -63,7 +70,7 @@ public:
 	weapon(int type);
 	~weapon();
 
-	void Update(float cursorX, float cursorY);
+	void Update(float cursorX, float cursorY, Location playerLocation);
 	void Draw() const;
 
 	void SetWeaponType(int type);
@@ -73,8 +80,13 @@ public:
 
 	bool WeaponCollision(Location enemyLocation, float radius);
 
-
-
+	//武器レベルをセット
+	void SetWeaponLevel(int num) {
+		weaponLevel = num;
+		LevelState();
+	}
+	//武器レベルを取得
+	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetDamage() { return damage; }

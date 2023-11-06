@@ -1,7 +1,7 @@
 #pragma once
 
-#define STAGEIMG_X 640.0f
-#define STAGEIMG_Y 369.5f
+#define STAGEIMG_X 640.0f*2
+#define STAGEIMG_Y 369.5f*2
 
 struct StageArray {
 	float x;
@@ -29,10 +29,13 @@ public:
 	Stage();
 	~Stage();
 
-	void update();
+	void update(float moveX, float moveY);
 
 	//•`‰æˆ—
 	void draw() const;
 
-
+	StageArray GetStageArray(int arrayNum)
+	{
+		return StageArrayImg[arrayNum];
+	}
 };
