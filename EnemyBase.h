@@ -9,6 +9,8 @@ class EnemyBase :public SphereCollider
 private:
 
 protected:
+	float swapVector;
+
 	float hitLX = 0;//当たった相手のX座標
 	float hitLY = 0;//当たった相手のY座標
 	float hitVX = 0;//当たった相手のXベクトル
@@ -24,6 +26,9 @@ protected:
 
 	int weaponDamage;   //武器のダメージを格納する変数
 
+	float previousFrameValue;//1フレーム前のプレイヤーとの距離
+	float currentFrameValue;//現在のフレームでのプレイヤーとの距離
+
 	//FrameCnt変数
 	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
 	int redFrameCounter = 0;//画像を赤くする時間をCnt
@@ -34,6 +39,8 @@ protected:
 	bool respawnFlg;	//リスポーンしているか
 	bool hitWeaponFlg;  //武器とあたったか
 	bool hit1stFrameFlg = false;//武器と当たった最初のフレームか
+
+	bool flg = false;
 public:
 	EnemyBase();
 
@@ -44,8 +51,14 @@ public:
 	float Normalization_X(float location_x, float location_y);//X座標上でのプレイヤーまでの距離を正規化
 	float Normalization_Y(float location_x, float location_y);//Y座標上でのプレイヤーまでの距離を正規化
 
-	float HitMoveCale_X(float myvx,float hitvx);
-	float HitMoveCale_Y(float myvy,float hitvy);
+	float HitMoveCale_X(float mylx,float hitlx);
+	float HitMoveCale_Y(float myly,float hitly);
+
+	//プレイヤーとの距離を遠ざかっているのか近づいているのか同じなのかを返してくれる
+	int checkPlayerProximity(float pLocation_x, float pLocation_y, float eLocation_x, float eLocation_y);
+
+	//敵同士の距離
+	int checkHitEnemyProximity(Location location, float hlx, float hly);
 
 	//Inc
 	void hitFrameCntInc();

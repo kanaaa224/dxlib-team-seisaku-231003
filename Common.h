@@ -26,13 +26,20 @@
 #define MAX_ALPHA 255		//透過の最大値
 #define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
 #define KNCKBACK 15			//ノックバック
-#define ENEMY_SPEED 1.0f//敵の移動速度
+#define ENEMY_SPEED 2.0f	//敵の移動速度
+#define DISTANT  0//遠ざかっている
+#define APPROACH 1//近づいている
+#define SAME     2//同じ
+
+#define ENEMY_RADIUS 20//敵の半径
+
+#define DEBUG_NUM 300
 //スライム
 #define SLIME_HP_MAX 20.0f	//HP
-#define SLIME_ATTAK_DAMAGE 5//ダメージ
+#define SLIME_ATTAK_DAMAGE 1.0f//ダメージ
 #define MAX_SLIME_NUM 10000	//スライムの最大数
 
-#define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
+#define SLIME_1_STAGE_NUM DEBUG_NUM //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
 #define SLIME_3_STAGE_NUM 20 //３ステージ目のスライムの数
 #define SLIME_4_STAGE_NUM 25 //４ステージ目のスライムの数

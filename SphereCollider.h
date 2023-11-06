@@ -44,6 +44,9 @@ public:
 	//当たり判定処理
 	int CheckCollision(SphereCollider sphereCollider, Player* player);
 
+	//
+	int CheckAfterMoveCollision(SphereCollider sphereCollider, Player* player);
+
 	//プレイヤーの移動量を加算
 	void SetPlayerAmountOfTravel_X(float x);
 	void SetPlayerAmountOfTravel_Y(float y);
