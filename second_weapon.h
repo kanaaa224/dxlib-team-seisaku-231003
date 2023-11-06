@@ -59,7 +59,9 @@ private:
 	Vector frailVec;
 	Location frailLcation;
 	Location frailLcationCursor;
-
+	float frailLength;
+	float frailLengthCursor;
+	bool isFrailAttacking;
 
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];

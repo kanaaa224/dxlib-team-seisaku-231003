@@ -31,6 +31,7 @@ second_weapon::second_weapon()
 	spear_move = { 0,0,0 };
 
 	frailRadius = 30.0f;
+	isFrailAttacking = false;
 
 	book_move = { 0,0,0 };
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
@@ -140,10 +141,16 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 				break;
 
 			case frail:
+				isAttacking = false;
+				isFrailAttacking = true;
+
+				frailLcation = location;
+
 				collisionX = cursorX;
 				collisionY = cursorY;
 
 				frailLcationCursor = { cursorX,cursorY };
+				
 				break;
 
 			case book:
@@ -161,6 +168,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 		if (weaponType == book) {
 			MoveBookBullet();
+		}
+
+		if (isFrailAttacking && FrailAnim()) {
+			isFrailAttacking = false;
 		}
 
 	}
@@ -244,17 +255,18 @@ void second_weapon::Draw() const
 		}
 	}
 
+	DrawCircle(frailLcation.x, frailLcation.y , frailRadius, 0xff0000, FALSE);
 
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
+	DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
 	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
-	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);*/
+	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
+	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
 	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
 	//DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
@@ -267,7 +279,7 @@ void second_weapon::Draw() const
 	}
 
 	DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-	DrawCircle(collisionX, collisionY, frailRadius, 0xff0000, FALSE);
+	
 	DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
 
 	//DrawCircle(640, 360, 3, 0xff0000, TRUE);
@@ -607,8 +619,8 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			}
 			break;
 		case frail:
-			weaponCollisionLocation.x = collisionX;
-			weaponCollisionLocation.y = collisionY;
+			weaponCollisionLocation.x = frailLcation.x;
+			weaponCollisionLocation.y = frailLcation.y;
 
 			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
 			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
@@ -624,6 +636,19 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			break;
 		}
 		
+	}
+
+	if (isFrailAttacking) {
+		weaponCollisionLocation.x = frailLcation.x;
+		weaponCollisionLocation.y = frailLcation.y;
+
+		tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+		tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+		tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+		if (tmp_length < radius + frailRadius) {
+			return true;
+		}
 	}
 
 	for (int i = 0; i < MAX_BULLETS_NUM; i++) {
@@ -676,7 +701,18 @@ void second_weapon::MoveBookBullet()
 bool second_weapon::FrailAnim()
 {
 
+	frailVec.x = unitVec.x * 10;
+	frailVec.y = unitVec.y * 10;
+	frailVec.length = sqrtf(frailVec.x * frailVec.x + frailVec.y * frailVec.y);
 
+	frailLcation.x += frailVec.x;
+	frailLcation.y += frailVec.y;
+	frailLength = sqrtf((frailLcation.x - location.x) * (frailLcation.x - location.x) + (frailLcation.y - location.y) * (frailLcation.y - location.y));
+	frailLengthCursor = sqrtf((frailLcationCursor.x - location.x) * (frailLcationCursor.x - location.x) + (frailLcationCursor.y - location.y) * (frailLcationCursor.y - location.y));
+
+	if ((int)frailLength > (int)frailLengthCursor) {
+		return true;
+	}
 
 	return false;
 }
