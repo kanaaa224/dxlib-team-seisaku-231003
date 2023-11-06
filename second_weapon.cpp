@@ -8,7 +8,7 @@
 
 second_weapon::second_weapon()
 {
-	weaponType = 2;
+	weaponType = 1;
 	baseVec = { 80,0,80 };
 	relativeRot = 0.0f;		//武器によって変える
 	maxRot = 90.0f;
@@ -29,6 +29,8 @@ second_weapon::second_weapon()
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
+
+	frailRadius = 30.0f;
 
 	book_move = { 0,0,0 };
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
@@ -138,6 +140,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 				break;
 
 			case frail:
+				collisionX = cursorX;
+				collisionY = cursorY;
+
+				frailLcationCursor = { cursorX,cursorY };
 				break;
 
 			case book:
@@ -261,6 +267,7 @@ void second_weapon::Draw() const
 	}
 
 	DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+	DrawCircle(collisionX, collisionY, frailRadius, 0xff0000, FALSE);
 	DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
 
 	//DrawCircle(640, 360, 3, 0xff0000, TRUE);
@@ -580,6 +587,7 @@ void second_weapon::LevelState()
 bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 {
 	Location weaponCollisionLocation;
+	float tmp_x, tmp_y, tmp_length;
 
 	if (isAttacking) {
 		switch (weaponType)
@@ -589,9 +597,9 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 				weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
 				weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			//kk
 
-				float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-				float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-				float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+				tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+				tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+				tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
 
 				if (tmp_length < radius + 10) {
 					return true;
@@ -599,23 +607,19 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			}
 			break;
 		case frail:
+			weaponCollisionLocation.x = collisionX;
+			weaponCollisionLocation.y = collisionY;
 
-			break;
-		case book:
-			for (int i = 0; i < MAX_BULLETS_NUM; i++){
-				if (bullets[i].flg) {
-					weaponCollisionLocation = bullets[i].l;
+			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
 
-					float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-					float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-					float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
-
-					if (tmp_length < radius + 10) {
-						return true;
-					}
-				}
+			if (tmp_length < radius + frailRadius) {
+				return true;
 			}
 			break;
+		case book:
+			//下に記載
 		default:
 			break;
 		}
@@ -626,9 +630,9 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 		if (bullets[i].flg) {
 			weaponCollisionLocation = bullets[i].l;
 
-			float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-			float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-			float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
 
 			if (tmp_length < radius + 10) {
 				return true;
@@ -667,4 +671,12 @@ void second_weapon::MoveBookBullet()
 			}
 		}
 	}
+}
+
+bool second_weapon::FrailAnim()
+{
+
+
+
+	return false;
 }

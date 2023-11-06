@@ -55,8 +55,16 @@ private:
 	float spear_move_cnt;
 	Vector spear_move;
 
+	float frailRadius;
+	Vector frailVec;
+	Location frailLcation;
+	Location frailLcationCursor;
+
+
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
+
+
 
 public:
 	second_weapon();
@@ -76,6 +84,9 @@ public:
 
 	void SpawnBookBullets();
 	void MoveBookBullet();
+
+
+	bool FrailAnim();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
