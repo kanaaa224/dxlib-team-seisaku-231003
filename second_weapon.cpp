@@ -10,7 +10,7 @@ second_weapon::second_weapon()
 {
 	weaponType = 0;
 	baseVec = { 80,0,80 };
-	relativeRot = 90.0f;		//•Ší‚É‚æ‚Á‚Ä•Ï‚¦‚é
+	relativeRot = 0.0f;		//•Ší‚É‚æ‚Á‚Ä•Ï‚¦‚é
 	maxRot = 90.0f;
 	coolTime = 20;
 	isAttacking = false;
