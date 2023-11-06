@@ -41,10 +41,9 @@ void Rest::update(Player* player, bool& flg)
 
 void Rest::draw() const
 {
-	DrawGraph(650, 450, bonfire_image, FALSE);
-
-	DrawGraph(700, 600, cursor_image, FALSE);
-	SetFontSize(32);
-	DrawString(750, 600, "‹xŒe‚·‚é", 0xffffff);
+	DrawRotaGraph(640, 400, .7f, 0, bonfire_image, TRUE);
+	DrawRotaGraph(480, 630, .5f, 1.6f, cursor_image, TRUE);
+	SetFontSize(48);
+	DrawString(570, 600, "‹xŒe‚·‚é", 0xffffff);
 	SetFontSize(16);
 }
