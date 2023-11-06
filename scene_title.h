@@ -8,21 +8,16 @@ private:
 
 	//‰æ‘œ‚Ì“Ç•Ï”
 	int TitleImage;
-	int EnemyImage0;
-	int EnemyImage1;
-	int EnemyImage2;
-	int EnemyImage3;
-	int EnemyImage4;
 
 	int g_MenuNumber;
-	int g_MenuY;
-	int interval;
 	short PadStick;
 	int cursor;
+	int frameCounter;
+
+	bool Ctrl;
 
 public:
 	Title();
-	~Title();
 	Scene* update() override;
 	void draw() const override;
 
