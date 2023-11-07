@@ -10,6 +10,7 @@
 #define CURSOR_RIGHT			85			// レベル選択時のカーソル位置
 
 class weapon;
+class second_weapon;
 
 class WeaponLevelUp
 {
@@ -25,6 +26,10 @@ private:
 	int img_sword;					// 片手剣
 	int img_dagger;					// 短剣
 	int img_great_sword;			// 大剣
+	int img_spear;					// 槍
+	int img_frail;					// フレイア
+	int img_book;					// 本
+
 
 	int interval;					// インターバル
 	int cursor_x;					// カーソルX座標
@@ -61,7 +66,7 @@ public:
 	~WeaponLevelUp();
 
 	// 更新
-	void update(weapon* weapon, bool& restor_cursor_position);
+	void update(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
 
 	// 描画
 	void draw()const;

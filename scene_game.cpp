@@ -77,7 +77,7 @@ Scene* GameScene::update() {
 	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
 	if (open_level_up)
 	{
-		weapon_level_up->update(Weapon, restor_cursor_position);
+		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
 		return this;
 	}
 	
