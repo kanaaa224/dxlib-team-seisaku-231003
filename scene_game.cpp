@@ -84,10 +84,12 @@ Scene* GameScene::update() {
 		weapon_level_up->update(Weapon, restor_cursor_position);
 		return this;
 	}
-
+	
 	//敵//
+	HitCheck();
+
 	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum);
+		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 		tmpSlimeNum++;
 	}
 
@@ -102,7 +104,7 @@ Scene* GameScene::update() {
 		}
 	}
 
-	HitCheck();
+	
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -259,17 +261,23 @@ void GameScene::HitCheck()
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
+						//
 						slime[i]->SetHitLocation_X(slime[j]->GetLX());
 						slime[i]->SetHitLocation_Y(slime[j]->GetLY());
+						slime[i]->SetHitVector_X(slime[j]->GetVX());
+						slime[i]->SetHitVector_Y(slime[j]->GetVY());
+						//
 						slime[j]->SetHitLocation_X(slime[i]->GetLX());
 						slime[j]->SetHitLocation_Y(slime[i]->GetLY());
+						slime[j]->SetHitVector_X(slime[i]->GetVX());
+						slime[j]->SetHitVector_Y(slime[i]->GetVY());
 					}
-					//else if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {//当たってない
-					//	if (slime[j]->CheckCollision(static_cast<SphereCollider>(*slime[i]), player) == NO_COLLISION) {//当たってない
-					//		if (!slime[i]->GetHitFlg()) slime[i]->SetHitFlg(NO_COLLISION);
-					//		if (!slime[j]->GetHitFlg()) slime[j]->SetHitFlg(NO_COLLISION);
-					//	}
-					//}
+					
+					if (slime[i]->GetHitFlg() == HIT) {
+						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
+							slime[i]->SetHitFlg(NO_COLLISION);
+						}
+					}
 				}
 			}
 		}

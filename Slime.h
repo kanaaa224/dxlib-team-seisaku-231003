@@ -17,7 +17,7 @@ private:
 	bool is_area;
 
 public:
-	Slime(int arrayNum);
+	Slime(int arrayNum, int SlimeMaxNum);
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum);

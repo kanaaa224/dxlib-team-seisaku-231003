@@ -6,7 +6,7 @@
 
 #define DEBUG
 
-Slime::Slime(int arrayNum)
+Slime::Slime(int arrayNum, int SlimeMaxNum)
 {
 	//画像読込
 	img = LoadGraph("resources/images/slime_cat.png");
@@ -20,10 +20,12 @@ Slime::Slime(int arrayNum)
 	
 
 	respawnTimeCnt = 0;
-	if (arrayNum <= 2) {
-		arrayNum = 0;
+	int tmp = SlimeMaxNum / 2;
+	int tmpArray = arrayNum;
+	if (tmpArray >= tmp) {
+		tmpArray = 0;
 	}
-	respawnTime = arrayNum * 60;
+	respawnTime = tmpArray * 60;
 
 	tmpVX = 0;
 	tmpVY = 0;
@@ -49,7 +51,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		{
 			//is_area = true;	
 			//移動処理//
-			if (hitWeaponFlg == false) {
+			/*if (hitWeaponFlg == false) {
 				X();
 				location.x += vector.x - diff.x;
 				Y();
@@ -61,7 +63,11 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 				vector.y = -vector.y * KNCKBACK;
 				location.y += vector.y - diff.y;
 				hitWeaponFlg = false;
-			}
+			}*/
+			X();
+			location.x += vector.x - diff.x;
+			Y();
+			location.y += vector.y - diff.y;
 		}
 		else
 		{
@@ -124,12 +130,17 @@ void Slime::Draw(int arrayNum)
 				DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "sizeRate:%.2f", sizeRate);
 			}
 		}
+
 		if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESSED) {//ステータス表示
 			DrawFormatString((int)location.x, (int)location.y, C_RED, "array:%d", arrayNum);
 			DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%.2f, VY:%.2f", vector.x, vector.y);
 			DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%.2f, dy:%.2f", diff.x, diff.y);
 			DrawFormatString((int)location.x, (int)location.y + 45, C_RED, "HP:%d", hp);
 			DrawFormatString((int)location.x, (int)location.y + 60, C_RED, "HitFlg:%d", hitFlg);
+		}
+
+		if (hitFlg == TRUE) {
+			DrawCircle((int)location.x, (int)location.y, 20, C_RED, FALSE, 2);
 		}
 #endif // DEBUG
 	}
@@ -138,9 +149,7 @@ void Slime::Draw(int arrayNum)
 void Slime::X()
 {
 	if (hitFlg == HIT) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		//vector.x = vector.x * -1;
-		//hitFlg = NO_COLLISION;
+		
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -150,9 +159,7 @@ void Slime::X()
 void Slime::Y()
 {
 	if (hitFlg == HIT) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		//vector.y = vector.y * -1;
-		//hitFlg = NO_COLLISION;
+
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
