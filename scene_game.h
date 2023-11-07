@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "Stage.h"
 #include "weapon.h"
+#include "second_weapon.h"
 #include "Player.h"
 #include "Slime.h"
 #include "Common.h"
@@ -21,6 +22,7 @@ private:
 	Player* player;
 	Stage* backimg;
 	weapon* Weapon;
+	second_weapon* secondweapon;
 	GameUI* gameUI;
 
 	//////////////////////////////////////////////////

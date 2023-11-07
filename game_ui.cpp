@@ -6,7 +6,12 @@
 
 GameUI::GameUI() {
 	if ((img["btnA"] = LoadGraph("resources/images/button_a.png")) == -1) throw;
+	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
 	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
+
+	if ((img["weaponSword"]       = LoadGraph("resources/images/sword_longsword_brown.png")) == -1) throw;
+	if ((img["weaponDagger"]      = LoadGraph("resources/images/sword_shortsword_brown.png")) == -1) throw;
+	if ((img["weaponGreatSword"]  = LoadGraph("resources/images/tsurugi_bronze_blue.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -20,6 +25,12 @@ GameUI::GameUI() {
 
 GameUI::~GameUI() {
 	DeleteGraph(img["btnA"]);
+	DeleteGraph(img["btnB"]);
+	DeleteGraph(img["btnX"]);
+
+	DeleteGraph(img["weaponSword"]);
+	DeleteGraph(img["weaponDagger"]);
+	DeleteGraph(img["weaponGreatSword"]);
 
 	//////////////////////////////////////////////////
 
@@ -67,11 +78,8 @@ void GameUI::drawHUD() const {
 	double opacity      = 0.0f;
 	double unvisibility = 0.0f;
 
-	auto msd = hud.find("opacity");
-	if (msd != hud.end()) opacity = msd->second;
-
-	msd = hud.find("unvisibility");
-	if (msd != hud.end()) unvisibility = msd->second;
+	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
+	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
 
 	//////////////////////////////////////////////////
 
@@ -124,16 +132,14 @@ void GameUI::drawHUD() const {
 	// 経験値
 	//////////////////////////////////////////////////
 
+	SetFontSize(16);
+	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT); // Algerian
+
 	int current = 0, max = 0, ratio = 0;
 
-	auto it = exp.find("current");
-	if (it != exp.end()) current = it->second;
-
-	it = exp.find("max");
-	if (it != exp.end()) max = it->second;
-
-	it = exp.find("ratio");
-	if (it != exp.end()) ratio = it->second;
+	if (exp.find("current") != exp.end()) current = exp.at("current");
+	if (exp.find("max") != exp.end()) max = exp.at("max");
+	if (exp.find("ratio") != exp.end()) ratio = exp.at("ratio");
 
 	int lx = rootRX - 400;
 	int ly = rootRY + 70;
@@ -153,9 +159,6 @@ void GameUI::drawHUD() const {
 
 	DrawBox(lx, ly, rx, ry, GetColor(57, 165, 229), true);
 
-	SetFontSize(16);
-	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT); // Algerian
-
 	str = "EXP: " + std::to_string(current) + "/" + std::to_string(max);
 	DrawFormatString((rootRX - 395)/* - GetDrawFormatStringWidth(str.c_str()) / 2*/, rootRY + 60, 0xffffff, str.c_str());
 
@@ -164,18 +167,16 @@ void GameUI::drawHUD() const {
 	// HP
 	//////////////////////////////////////////////////
 
+	//SetFontSize(16);
+	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
+
 	current = 0;
 	max     = 0;
 	ratio   = 0;
 
-	it = hp.find("current");
-	if (it != hp.end()) current = it->second;
-
-	it = hp.find("max");
-	if (it != hp.end()) max = it->second;
-
-	it = hp.find("ratio");
-	if (it != hp.end()) ratio = it->second;
+	if (hp.find("current") != hp.end()) current = hp.at("current");
+	if (hp.find("max") != hp.end()) max = hp.at("max");
+	if (hp.find("ratio") != hp.end()) ratio = hp.at("ratio");
 
 	lx = rootLX + 40;
 	ly = rootLY + 40;
@@ -199,9 +200,6 @@ void GameUI::drawHUD() const {
 
 	DrawBox(lx, ly, rx, ry, color, true);
 
-	//SetFontSize(16);
-	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
-
 	str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
 	DrawFormatString(rootLX + 45, rootLY + 30, 0xffffff, str.c_str());
 
@@ -210,12 +208,12 @@ void GameUI::drawHUD() const {
 	// スコア
 	//////////////////////////////////////////////////
 
+	//SetFontSize(16);
+	//ChangeFont("");
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawBox(rootLX + 40, rootLY + 80, rootLX + 260, rootLY + 110, GetColor(0, 0, 0), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	//SetFontSize(16);
-	//ChangeFont("");
 
 	str = "SCORE: " + std::to_string(score);
 	DrawFormatString(rootLX + 50, rootLY + 88, 0xffffff, str.c_str());
@@ -237,17 +235,14 @@ void GameUI::drawHUD() const {
 	// 残りの敵
 	//////////////////////////////////////////////////
 
+	SetFontSize(20);
+	//ChangeFont("");
+
 	current = 0;
 	max     = 0;
 
-	it = enemy.find("current");
-	if (it != enemy.end()) current = it->second;
-
-	it = enemy.find("max");
-	if (it != enemy.end()) max = it->second;
-
-	SetFontSize(20);
-	//ChangeFont("");
+	if (enemy.find("current") != enemy.end()) current = enemy.at("current");
+	if (enemy.find("max") != enemy.end()) max = enemy.at("max");
 
 	str = "残りの敵: " + std::to_string(current) + "/" + std::to_string(max) + " 体";
 	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 80), 0xffffff, str.c_str());
@@ -259,13 +254,11 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(18);
 
-	int img_btnA = 0, img_btnX = 0;
+	int img_btnA = 0, img_btnB = 0, img_btnX = 0;
 
-	it = img.find("btnA");
-	if (it != img.end()) img_btnA = it->second;
-
-	it = img.find("btnX");
-	if (it != img.end()) img_btnX = it->second;
+	if (img.find("btnA") != img.end()) img_btnA = img.at("btnA");
+	if (img.find("btnB") != img.end()) img_btnB = img.at("btnB");
+	if (img.find("btnX") != img.end()) img_btnX = img.at("btnX");
 
 	lx = rootLX + 50;
 	ly = rootLY + (SCREEN_HEIGHT - 200);
@@ -279,9 +272,104 @@ void GameUI::drawHUD() const {
 	ly = rootLY + (SCREEN_HEIGHT - 240);
 	ry = ly + 30;
 
+	DrawExtendGraph(lx, ly, rx, ry, img_btnB, TRUE);
+
+	DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）");
+
+	ly = rootLY + (SCREEN_HEIGHT - 280);
+	ry = ly + 30;
+
 	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
 
 	DrawFormatString(lx + 40, ly + 5, 0xffffff, "回避");
+
+	//////////////////////////////////////////////////
+	// 武器
+	//////////////////////////////////////////////////
+
+	SetFontSize(16);
+
+	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0;
+
+	if (img.find("weaponSword") != img.end()) img_weaponSword = img.at("weaponSword");
+	if (img.find("weaponDagger") != img.end()) img_weaponDagger = img.at("weaponDagger");
+	if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
+
+	int weaponA[3], weaponB[3];
+
+	if (weapon.find("A") != weapon.end()) {
+		const std::map<std::string, int>& weaponStats = weapon.at("A");
+		if (weaponStats.find("type") != weaponStats.end()) weaponA[0] = weaponStats.at("type");
+		if (weaponStats.find("level") != weaponStats.end()) weaponA[1] = weaponStats.at("level");
+		if (weaponStats.find("selected") != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
+	};
+	if (weapon.find("B") != weapon.end()) {
+		const std::map<std::string, int>& weaponStats = weapon.at("B");
+		if (weaponStats.find("type") != weaponStats.end()) weaponB[0] = weaponStats.at("type");
+		if (weaponStats.find("level") != weaponStats.end()) weaponB[1] = weaponStats.at("level");
+		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
+	};
+
+	int x = rootRX - 80,
+		y = rootRY + (SCREEN_HEIGHT - 80);
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	if (weaponB[0] != 99) {
+		str = "Lv. " + std::to_string(weaponB[1]);
+		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
+
+		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
+
+		switch (weaponB[0]) {
+		case sword: // 片手剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
+			break;
+
+		case dagger: // 短剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
+			break;
+
+		case greatSword: // 大剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
+			break;
+
+		default:
+			break;
+		};
+	};
+
+	x -= 120;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	if (weaponA[0] != 99) {
+		str = "Lv. " + std::to_string(weaponA[1]);
+		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
+
+		if(weaponA[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
+
+		switch (weaponA[0]) {
+		case sword: // 片手剣
+			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponSword, TRUE);
+			break;
+
+		case dagger: // 短剣
+			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponDagger, TRUE);
+			break;
+
+		case greatSword: // 大剣
+			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponGreatSword, TRUE);
+			break;
+
+		default:
+			break;
+		};
+	};
 
 
 	//////////////////////////////////////////////////
@@ -309,4 +397,52 @@ void GameUI::drawBanner() const {
 
 	SetFontSize(24);
 	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
+};
+
+void GameUI::drawEnemyHP() const {
+	double opacity = 0.0f;
+	double unvisibility = 0.0f;
+
+	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
+	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
+
+	//////////////////////////////////////////////////
+
+	SetFontSize(16);
+
+	std::string name, current, max, ratio = "0";
+
+	if (enemyHP.find("name") != enemyHP.end()) name = enemyHP.at("name");
+	if (enemyHP.find("current") != enemyHP.end()) current = enemyHP.at("current");
+	if (enemyHP.find("max") != enemyHP.end()) max = enemyHP.at("max");
+	if (enemyHP.find("ratio") != enemyHP.end()) ratio = enemyHP.at("ratio");
+
+	int lx = (SCREEN_WIDTH / 2) - 200;
+	int ly = 120;
+	int rx = (SCREEN_WIDTH / 2) + 200;
+	int ry = 140;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	int x = lx + ((rx - lx) / 2),
+		y = ly - 20;
+
+	std::string str = name + ": " + current + "/" + max;
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y, 0xffffff, str.c_str());
+
+	lx = lx + 5;
+	ly = ly + 5;
+	rx = rx - 5;
+	ry = ry - 5;
+
+	rx = lx + static_cast<int>((rx - lx) * (std::stoi(ratio) / 100.0f));
+
+	DrawBox(lx, ly, rx, ry, GetColor(255, 0, 0), true);
+
+
+	//////////////////////////////////////////////////
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 };

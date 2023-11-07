@@ -7,8 +7,7 @@
 //#include "SphereCollider.h"
 
 
-#define d_r(_d) _d * (M_PI / 180)
-#define r_d(_r) _r * (180 / M_PI)
+
 
 
 weapon::weapon()
@@ -210,8 +209,8 @@ void weapon::Draw() const
 
 	//kk
 	if (isAttacking) {
-		DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
+		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 	
 

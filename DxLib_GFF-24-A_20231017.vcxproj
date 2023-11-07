@@ -57,6 +57,7 @@
     <ClInclude Include="scene_rest.h" />
     <ClInclude Include="scene_result.h" />
     <ClInclude Include="scene_title.h" />
+    <ClInclude Include="second_weapon.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -85,6 +86,7 @@
     <ClCompile Include="scene_rest.cpp" />
     <ClCompile Include="scene_result.cpp" />
     <ClCompile Include="scene_title.cpp" />
+    <ClCompile Include="second_weapon.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
