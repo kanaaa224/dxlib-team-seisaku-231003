@@ -215,7 +215,7 @@ Scene* GameScene::update() {
 		if (gameUI->getState() == 1) return new GameOverScene;
 	};
 	//////////////////////////////////////////////////
-	gameUI->setEnemyHP("魔王 猫スライム", c, SLIME_1_STAGE_NUM, c * 10);
+	gameUI->setEnemyHP("魔王 猫スライム", c, SLIME_1_STAGE_NUM, c * 10); // 怪奇現象発生中
 	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 	//////////////////////////////////////////////////
