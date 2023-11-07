@@ -6,6 +6,7 @@
 
 GameUI::GameUI() {
 	if ((img["btnA"] = LoadGraph("resources/images/button_a.png")) == -1) throw;
+	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
 	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
 
 	if ((img["weaponSword"]       = LoadGraph("resources/images/sword_longsword_brown.png")) == -1) throw;
@@ -24,6 +25,7 @@ GameUI::GameUI() {
 
 GameUI::~GameUI() {
 	DeleteGraph(img["btnA"]);
+	DeleteGraph(img["btnB"]);
 	DeleteGraph(img["btnX"]);
 
 	DeleteGraph(img["weaponSword"]);
@@ -252,9 +254,10 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(18);
 
-	int img_btnA = 0, img_btnX = 0;
+	int img_btnA = 0, img_btnB = 0, img_btnX = 0;
 
 	if (img.find("btnA") != img.end()) img_btnA = img.at("btnA");
+	if (img.find("btnB") != img.end()) img_btnB = img.at("btnB");
 	if (img.find("btnX") != img.end()) img_btnX = img.at("btnX");
 
 	lx = rootLX + 50;
@@ -267,6 +270,13 @@ void GameUI::drawHUD() const {
 	DrawFormatString(lx + 40, ly + 5 , 0xffffff, "レベルアップメニュー");
 
 	ly = rootLY + (SCREEN_HEIGHT - 240);
+	ry = ly + 30;
+
+	DrawExtendGraph(lx, ly, rx, ry, img_btnB, TRUE);
+
+	DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）");
+
+	ly = rootLY + (SCREEN_HEIGHT - 280);
 	ry = ly + 30;
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
