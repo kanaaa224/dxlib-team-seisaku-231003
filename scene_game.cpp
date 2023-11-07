@@ -261,23 +261,26 @@ void GameScene::HitCheck()
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						//
-						slime[i]->SetHitLocation_X(slime[j]->GetLX());
-						slime[i]->SetHitLocation_Y(slime[j]->GetLY());
-						slime[i]->SetHitVector_X(slime[j]->GetVX());
-						slime[i]->SetHitVector_Y(slime[j]->GetVY());
-						//
-						slime[j]->SetHitLocation_X(slime[i]->GetLX());
-						slime[j]->SetHitLocation_Y(slime[i]->GetLY());
-						slime[j]->SetHitVector_X(slime[i]->GetVX());
-						slime[j]->SetHitVector_Y(slime[i]->GetVY());
+						////
+						//slime[i]->SetHitLocation_X(slime[j]->GetLX());
+						//slime[i]->SetHitLocation_Y(slime[j]->GetLY());
+						//slime[i]->SetHitVector_X(slime[j]->GetVX());
+						//slime[i]->SetHitVector_Y(slime[j]->GetVY());
+						////
+						//slime[j]->SetHitLocation_X(slime[i]->GetLX());
+						//slime[j]->SetHitLocation_Y(slime[i]->GetLY());
+						//slime[j]->SetHitVector_X(slime[i]->GetVX());
+						//slime[j]->SetHitVector_Y(slime[i]->GetVY());
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
+						slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
 					}
-					
-					if (slime[i]->GetHitFlg() == HIT) {
+
+					/*if (slime[i]->GetHitFlg() == HIT) {
 						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
 							slime[i]->SetHitFlg(NO_COLLISION);
 						}
-					}
+					}*/
 				}
 			}
 		}
