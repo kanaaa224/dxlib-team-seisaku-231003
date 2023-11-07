@@ -207,7 +207,7 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
-	printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 10.0f);
+	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 	
 
 	return this;
