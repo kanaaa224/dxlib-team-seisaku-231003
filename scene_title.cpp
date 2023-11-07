@@ -31,7 +31,7 @@ Scene*Title::update()
 			Ctrl = false;
 	}
 	//Aボタンでメニュー決定・画面遷移
-	else if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (g_MenuNumber == 0) {
 			return new GameScene;
