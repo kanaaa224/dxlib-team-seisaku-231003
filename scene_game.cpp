@@ -184,7 +184,8 @@ Scene* GameScene::update() {
 		if (slime[i] != nullptr) c++;
 	};
 	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
-	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), true }, { greatSword, 5, false });
+	if(state) gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), true }, { greatSword, 5, false });
+	else      gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { greatSword, 5, true });
 	//////////////////////////////////////////////////
 	if (c <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -204,10 +205,14 @@ Scene* GameScene::update() {
 	};
 	//////////////////////////////////////////////////
 	gameUI->setEnemyHP("魔王 猫スライム", c, SLIME_1_STAGE_NUM, c * 10);
-	//////////////////////////////////////////////////
-
 	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
+	//////////////////////////////////////////////////
+	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
+		if (state) state = 0;
+		else state++;
+	};
+	//////////////////////////////////////////////////
 	
 
 	return this;
