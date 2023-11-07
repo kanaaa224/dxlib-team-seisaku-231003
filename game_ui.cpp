@@ -445,3 +445,62 @@ void GameUI::drawEnemyHP() const {
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 };
+
+void GameUI::setScore(int Score) {
+	score = Score;
+};
+
+void GameUI::setLevel(int Level) {
+	level = Level;
+};
+
+void GameUI::setFloor(int Floor) {
+	floor = Floor;
+};
+
+void GameUI::setEXP(int Current, int Max, int Ratio) {
+	exp["current"] = Current;
+	exp["max"]     = Max;
+	if (Ratio >= 0 && Ratio <= 100) exp["ratio"] = Ratio;
+};
+
+void GameUI::setHP(int Current, int Max, int Ratio) {
+	hp["current"] = Current;
+	hp["max"]     = Max;
+	if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
+};
+
+void GameUI::setWeapon(std::vector<int> WeaponA, std::vector<int> WeaponB) {
+	weapon["A"]["type"]     = WeaponA[0];
+	weapon["A"]["level"]    = WeaponA[1];
+	weapon["A"]["selected"] = WeaponA[2];
+
+	weapon["B"]["type"]     = WeaponB[0];
+	weapon["B"]["level"]    = WeaponB[1];
+	weapon["B"]["selected"] = WeaponB[2];
+};
+
+void GameUI::setEnemy(int Current, int Max) {
+	enemy["current"] = Current;
+	enemy["max"] = Max;
+};
+
+void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
+	enemyHP["name"]    = Name;
+	enemyHP["current"] = std::to_string(Current);
+	enemyHP["max"]     = std::to_string(Max);
+	if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
+};
+
+void GameUI::setBanner(std::string Title, std::string SubTitle) {
+	banner["title"]    = Title;
+	banner["subTitle"] = SubTitle;
+};
+
+void GameUI::setState(int State) {
+	state = State;
+};
+
+int GameUI::getState() {
+	return state;
+};
