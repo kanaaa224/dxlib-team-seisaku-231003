@@ -19,11 +19,13 @@ private:
 	std::map<std::string, int> hp;
 	std::map<std::string, int> enemy;
 
-	//std::vector<std::string, int> weapon;
+	std::map<std::string, std::map<std::string, int>> weapon;
 
 	std::map<std::string, double> hud;
 
 	std::map<std::string, std::string> banner;
+
+	std::map<std::string, std::string> enemyHP;
 
 	//std::map<std::string, double> pauseMenu;
 
@@ -50,6 +52,9 @@ public:
 
 	// バナー表示
 	void drawBanner() const;
+
+	// 敵の体力
+	void drawEnemyHP() const;
 
 	//////////////////////////////////////////////////
 
@@ -94,6 +99,23 @@ public:
 	void setEnemy(int Current, int Max) {
 		enemy["current"] = Current;
 		enemy["max"]     = Max;
+	};
+
+	void setWeapon(std::vector<int> WeaponA, std::vector<int> WeaponB) {
+		weapon["A"]["type"]     = WeaponA[0];
+		weapon["A"]["level"]    = WeaponA[1];
+		weapon["A"]["selected"] = WeaponA[2];
+
+		weapon["B"]["type"]     = WeaponB[0];
+		weapon["B"]["level"]    = WeaponB[1];
+		weapon["B"]["selected"] = WeaponB[2];
+	};
+
+	void setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
+		enemyHP["name"]    = Name;
+		enemyHP["current"] = std::to_string(Current);
+		enemyHP["max"]     = std::to_string(Max);
+		if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
 	};
 
 	void setBanner(std::string Title, std::string SubTitle) {
