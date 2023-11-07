@@ -398,9 +398,9 @@ void GameUI::drawEnemyHP() const {
 
 	//////////////////////////////////////////////////
 
-	SetFontSize(24);
+	SetFontSize(16);
 
-	std::string name, current, max, ratio;
+	std::string name, current, max, ratio = "0";
 
 	if (enemyHP.find("name") != enemyHP.end()) name = enemyHP.at("name");
 	if (enemyHP.find("current") != enemyHP.end()) current = enemyHP.at("current");
@@ -416,14 +416,20 @@ void GameUI::drawEnemyHP() const {
 	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	int x = lx + ((rx - lx) / 2),
+		y = ly - 20;
+
+	std::string str = name + ": " + current + "/" + max;
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y, 0xffffff, str.c_str());
+
 	lx = lx + 5;
 	ly = ly + 5;
 	rx = rx - 5;
 	ry = ry - 5;
 
-	//rx = lx + static_cast<int>((rx - lx) * (std::stoi(ratio) / 100.0f));
+	rx = lx + static_cast<int>((rx - lx) * (std::stoi(ratio) / 100.0f));
 
-	DrawBox(lx, ly, rx, ry, GetColor(255, 255, 255), true);
+	DrawBox(lx, ly, rx, ry, GetColor(255, 0, 0), true);
 
 
 	//////////////////////////////////////////////////

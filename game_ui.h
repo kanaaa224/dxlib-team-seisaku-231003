@@ -113,9 +113,9 @@ public:
 
 	void setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
 		enemyHP["name"]    = Name;
-		enemyHP["current"] = Current;
-		enemyHP["max"]     = Max;
-		if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = Ratio;
+		enemyHP["current"] = std::to_string(Current);
+		enemyHP["max"]     = std::to_string(Max);
+		if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
 	};
 
 	void setBanner(std::string Title, std::string SubTitle) {
