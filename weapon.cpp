@@ -62,7 +62,6 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
 	float y = InputCtrl::GetMouseCursor().y - 360;*/
 
-
 	float x = cursorX - location.x; //kk
 	float y = cursorY - location.y;	//kk
 	float length = sqrt((x) * (x) + (y) * (y));
@@ -89,9 +88,17 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 		//攻撃中
 		if (isAttacking) {
 
-			if (relativeRot < - maxRot) {
-				relativeRot = maxRot;
-				isAttacking = false;
+			if (weaponLevel == 7 && weaponType == greatSword) {
+				if (relativeRot < 0) {
+					relativeRot = maxRot;
+					isAttacking = false;
+				}
+			}
+			else {
+				if (relativeRot < -maxRot) {
+					relativeRot = maxRot;
+					isAttacking = false;
+				}
 			}
 			rot = -1 * (weaponAngle - (d_r(relativeRot)));
 
@@ -120,7 +127,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	
 
 	//レベルアップデバッグ
-	/*if (levelUpFlg) {
+	if (levelUpFlg) {
 		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 			levelUpFlg = false;
 		}
@@ -166,7 +173,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	}
 	else if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 		levelUpFlg = true;
-	}*/
+	}
 }
 
 void weapon::Draw() const
@@ -196,12 +203,12 @@ void weapon::Draw() const
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
+	DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
 	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);*/
+	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
 	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
 	//DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
@@ -219,13 +226,13 @@ void weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	/*if (levelUpFlg) {
+	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
-	}*/
+	}
 
 
 	
@@ -487,7 +494,7 @@ void weapon::LevelState()
 		}
 
 		break;
-	case 7:
+	case 7:		//最終強化１
 		switch (weaponType)
 		{
 		case sword:
@@ -504,9 +511,9 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
-		case greatSword:
+		case greatSword: //回転攻撃
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = 360.0f;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.4f;
 			damage = INIT_DAMAGE_GREATSWORD;
 			break;

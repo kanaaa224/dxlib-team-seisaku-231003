@@ -146,7 +146,8 @@ Scene* GameScene::update() {
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
-	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
+	Vector tmpV = { player->Player_MoveX(),player->Player_MoveY(),0 };
+	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV);
 	gameUI->update(this);
 
 

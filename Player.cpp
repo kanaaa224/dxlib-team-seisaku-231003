@@ -395,12 +395,12 @@ void Player::Player_Camera()
 
 int Player::Player_AimingX() {
 
-	return AimingX;
+	return AimingX - 25;
 }
 
 int Player::Player_AimingY() {
 
-	return AimingY;
+	return AimingY - 25;
 }
 
 float Player::Player_MoveX() {
