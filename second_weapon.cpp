@@ -23,9 +23,9 @@ second_weapon::second_weapon()
 
 	location = { 640.360 };
 
-	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
-	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
-	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	spear_img = LoadGraph("resources/images/spear.png");
+	frail_img = LoadGraph("resources/images/sword_shortsword_brown.png");
+	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
@@ -127,17 +127,19 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			switch (weaponType)
 			{
 			case spear:
-				if (++spear_move_cnt > SPEAR_MAX_MOVE) {
+				/*if (++spear_move_cnt > SPEAR_MAX_MOVE) {
 					isAttacking = false;
 					spear_move = { 0,0,0 };
 					spear_move_cnt = 0;
 					
 				}
-				spear_move.x += unitVec.x;
-				spear_move.y += unitVec.y;
+				spear_move.x += unitVec.x * 3;
+				spear_move.y += unitVec.y * 3;
 
 				collisionX += spear_move.x;
-				collisionY += spear_move.y;
+				collisionY += spear_move.y;*/
+
+				SpearAnim();
 				break;
 
 			case frail:
@@ -235,13 +237,13 @@ void second_weapon::Draw() const
 		switch (weaponType)
 		{
 		case spear:
-			DrawRotaGraph2(location.x, location.y, 0, 500, 0.16, rot + (M_PI / 4), sword_img, TRUE, TRUE);
+			DrawRotaGraph2(spearlocation.x, spearlocation.y, 325, 0, 0.25, rot + (M_PI / 3), spear_img, TRUE);
 			break;
 		case frail:
-			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 			break;
 		case book:
-			DrawRotaGraph2(location.x, location.y, 0, 500, 0.2, rot + (M_PI / 4), greatsword_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 0, 500, 0.2, rot + (M_PI / 4), book_img, TRUE, TRUE);
 			break;
 		default:
 			break;
@@ -251,22 +253,25 @@ void second_weapon::Draw() const
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
 		if (bullets[i].flg == true) {
-			DrawCircle(bullets[i].l.x, bullets[i].l.y, 3, 0xffff00, TRUE);
+			DrawCircle(bullets[i].l.x, bullets[i].l.y, 10, 0xffff00, TRUE);
 		}
 	}
 
-	DrawCircle(frailLcation.x, frailLcation.y , frailRadius, 0xff0000, FALSE);
+	DrawCircle(frailLcation.x, frailLcation.y , frailRadius, 0x000000, TRUE);
+
+	DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
+	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);
 
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
+	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
 	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
-	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);
+	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
 	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
 	//DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
@@ -278,9 +283,9 @@ void second_weapon::Draw() const
 		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 
-	DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+	/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
 	
-	DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
+	DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 
 	//DrawCircle(640, 360, 3, 0xff0000, TRUE);
 	/*if (tmp == 0) {
@@ -361,23 +366,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -387,23 +392,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.9f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.9f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.9f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.9f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.9f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -413,23 +418,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.8f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -439,23 +444,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -465,23 +470,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -491,23 +496,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.6f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.6f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.6f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -517,23 +522,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.5f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.5f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.5f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.5f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -543,23 +548,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.4f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.4f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.4f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -569,23 +574,23 @@ void second_weapon::LevelState()
 		{
 		case spear:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.3f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.3f;
+			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.1f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.1f;
+			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.3f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.3f;
+			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
 
@@ -600,12 +605,13 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 {
 	Location weaponCollisionLocation;
 	float tmp_x, tmp_y, tmp_length;
-
+	float spearlen;
 	if (isAttacking) {
 		switch (weaponType)
 		{
 		case spear:
-			for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+			spearlen = sqrtf((spearlocation.x - location.x) * (spearlocation.x - location.x) + (spearlocation.y - location.y) * (spearlocation.y - location.y));
+			for (int i = 0; i < (spearlen / 10) + 1; i++) {
 				weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
 				weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			//kk
 
@@ -665,6 +671,26 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 		}
 	}
 	
+
+	return false;
+}
+
+bool second_weapon::SpearAnim()
+{
+	if (++spear_move_cnt > SPEAR_MAX_MOVE) {
+		isAttacking = false;
+		spear_move = { 0,0,0 };
+		spear_move_cnt = 0;
+
+	}
+
+	spearlocation = location;
+
+	spear_move.x += unitVec.x * 3;
+	spear_move.y += unitVec.y * 3;
+
+	spearlocation.x += spear_move.x;
+	spearlocation.y += spear_move.y;
 
 	return false;
 }

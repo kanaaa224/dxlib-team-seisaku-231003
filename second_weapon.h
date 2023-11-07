@@ -1,7 +1,24 @@
 #pragma once
 #include "weapon.h"
 
-#define SPEAR_MAX_MOVE 180.0f
+#define INIT_COOLTIME_SPEAR  80
+#define INIT_COOLTIME_FRAIL  120
+#define INIT_COOLTIME_BOOK  60
+
+#define INIT_ROTATION_SPEAR  60.0f
+#define INIT_ROTATION_FRAIL  60.0f
+#define INIT_ROTATION_BOOK  90.0f
+
+#define INIT_DAMAGE_SPEAR 10
+#define INIT_DAMAGE_FRAIL 10
+#define INIT_DAMAGE_BOOK  5
+
+
+
+
+
+
+#define SPEAR_MAX_MOVE 45.0f
 #define MAX_BULLETS_NUM 100
 
 enum second_weapon_type
@@ -44,9 +61,9 @@ private:
 	bool isAttacking;	//çUåÇíÜÇ©Ç«Ç§Ç©
 	int damage;
 
-	int sword_img;
-	int dagger_img;
-	int greatsword_img;
+	int spear_img;
+	int frail_img;
+	int book_img;
 
 
 	float tmp, tmp1;
@@ -54,6 +71,7 @@ private:
 
 	float spear_move_cnt;
 	Vector spear_move;
+	Location spearlocation;
 
 	float frailRadius;
 	Vector frailVec;
@@ -83,6 +101,8 @@ public:
 
 	bool WeaponCollision(Location enemyLocation, float radius);
 
+
+	bool SpearAnim();
 
 	void SpawnBookBullets();
 	void MoveBookBullet();
