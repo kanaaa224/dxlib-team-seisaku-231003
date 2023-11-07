@@ -9,9 +9,9 @@ GameUI::GameUI() {
 	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
 	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
 
-	if ((img["weaponSword"]       = LoadGraph("resources/images/sword_longsword_brown.png")) == -1) throw;
-	if ((img["weaponDagger"]      = LoadGraph("resources/images/sword_shortsword_brown.png")) == -1) throw;
-	if ((img["weaponGreatSword"]  = LoadGraph("resources/images/tsurugi_bronze_blue.png")) == -1) throw;
+	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))  == -1) throw;
+	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png")) == -1) throw;
+	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))    == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -53,32 +53,32 @@ void GameUI::update(GameScene* gameScene) {
 			if (frameCounter % ((int)FPSCtrl::Get() * 3) == 0) state = 1;
 		}
 		else if (state == 1) {
-			if (hud["opacity"] < 1.0f) hud["opacity"] += 0.04f;
-			if (hud["unvisibility"] >= 0.0f) hud["unvisibility"] -= 0.05f;
+			for (int i = 0; i < 450; i++) {
+				if (hud["opacity"] < 1.0f)       hud["opacity"]      += ((60.0f / FPSCtrl::Get()) * 0.0001f);
+				if (hud["unvisibility"] >= 0.0f) hud["unvisibility"] -= ((60.0f / FPSCtrl::Get()) * 0.0001f);
+			};
 
 			if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) state = 2;
+		}
+		else if (state == 2) {
+			hud["opacity"] = 1.0f;
+			hud["unvisibility"] = 0.0f;
 		};
 	};
 
-	// 仮
-	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init();
-	//score = gameScene->getScore();
+	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
 };
 
 void GameUI::draw() const {
-	if (state) {
-		drawHUD();
-	}
-	else {
-		drawBanner();
-	};
+	if (state) drawHUD();
+	else       drawBanner();
 };
 
 void GameUI::drawHUD() const {
 	double opacity      = 0.0f;
 	double unvisibility = 0.0f;
 
-	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
+	if (hud.find("opacity")      != hud.end()) opacity      = hud.at("opacity");
 	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
 
 	//////////////////////////////////////////////////
@@ -138,8 +138,8 @@ void GameUI::drawHUD() const {
 	int current = 0, max = 0, ratio = 0;
 
 	if (exp.find("current") != exp.end()) current = exp.at("current");
-	if (exp.find("max") != exp.end()) max = exp.at("max");
-	if (exp.find("ratio") != exp.end()) ratio = exp.at("ratio");
+	if (exp.find("max")     != exp.end()) max     = exp.at("max");
+	if (exp.find("ratio")   != exp.end()) ratio   = exp.at("ratio");
 
 	int lx = rootRX - 400;
 	int ly = rootRY + 70;
@@ -175,8 +175,8 @@ void GameUI::drawHUD() const {
 	ratio   = 0;
 
 	if (hp.find("current") != hp.end()) current = hp.at("current");
-	if (hp.find("max") != hp.end()) max = hp.at("max");
-	if (hp.find("ratio") != hp.end()) ratio = hp.at("ratio");
+	if (hp.find("max")     != hp.end()) max     = hp.at("max");
+	if (hp.find("ratio")   != hp.end()) ratio   = hp.at("ratio");
 
 	lx = rootLX + 40;
 	ly = rootLY + 40;
@@ -195,7 +195,7 @@ void GameUI::drawHUD() const {
 	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
 	color = GetColor(128, 207, 27);
-	if(ratio <= 15) color = GetColor(255, 0, 0);
+	if(ratio <= 15)       color = GetColor(255, 0, 0);
 	else if (ratio <= 30) color = GetColor(255, 140, 76);
 
 	DrawBox(lx, ly, rx, ry, color, true);
@@ -242,7 +242,7 @@ void GameUI::drawHUD() const {
 	max     = 0;
 
 	if (enemy.find("current") != enemy.end()) current = enemy.at("current");
-	if (enemy.find("max") != enemy.end()) max = enemy.at("max");
+	if (enemy.find("max")     != enemy.end()) max     = enemy.at("max");
 
 	str = "残りの敵: " + std::to_string(current) + "/" + std::to_string(max) + " 体";
 	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 80), 0xffffff, str.c_str());
@@ -291,22 +291,24 @@ void GameUI::drawHUD() const {
 
 	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0;
 
-	if (img.find("weaponSword") != img.end()) img_weaponSword = img.at("weaponSword");
-	if (img.find("weaponDagger") != img.end()) img_weaponDagger = img.at("weaponDagger");
+	if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
+	if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
 	if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
 
 	int weaponA[3], weaponB[3];
 
 	if (weapon.find("A") != weapon.end()) {
 		const std::map<std::string, int>& weaponStats = weapon.at("A");
-		if (weaponStats.find("type") != weaponStats.end()) weaponA[0] = weaponStats.at("type");
-		if (weaponStats.find("level") != weaponStats.end()) weaponA[1] = weaponStats.at("level");
+
+		if (weaponStats.find("type")     != weaponStats.end()) weaponA[0] = weaponStats.at("type");
+		if (weaponStats.find("level")    != weaponStats.end()) weaponA[1] = weaponStats.at("level");
 		if (weaponStats.find("selected") != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
 	};
 	if (weapon.find("B") != weapon.end()) {
 		const std::map<std::string, int>& weaponStats = weapon.at("B");
-		if (weaponStats.find("type") != weaponStats.end()) weaponB[0] = weaponStats.at("type");
-		if (weaponStats.find("level") != weaponStats.end()) weaponB[1] = weaponStats.at("level");
+
+		if (weaponStats.find("type")     != weaponStats.end()) weaponB[0] = weaponStats.at("type");
+		if (weaponStats.find("level")    != weaponStats.end()) weaponB[1] = weaponStats.at("level");
 		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
 	};
 
@@ -380,11 +382,8 @@ void GameUI::drawHUD() const {
 void GameUI::drawBanner() const {
 	std::string title, subTitle;
 
-	auto it = banner.find("title");
-	if (it != banner.end()) title = it->second;
-
-	it = banner.find("subTitle");
-	if (it != banner.end()) subTitle = it->second;
+	if (banner.find("title")    != banner.end()) title    = banner.at("title");
+	if (banner.find("subTitle") != banner.end()) subTitle = banner.at("subTitle");
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 	DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
@@ -403,7 +402,7 @@ void GameUI::drawEnemyHP() const {
 	double opacity = 0.0f;
 	double unvisibility = 0.0f;
 
-	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
+	if (hud.find("opacity")      != hud.end()) opacity      = hud.at("opacity");
 	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
 
 	//////////////////////////////////////////////////
@@ -412,10 +411,10 @@ void GameUI::drawEnemyHP() const {
 
 	std::string name, current, max, ratio = "0";
 
-	if (enemyHP.find("name") != enemyHP.end()) name = enemyHP.at("name");
+	if (enemyHP.find("name")    != enemyHP.end()) name    = enemyHP.at("name");
 	if (enemyHP.find("current") != enemyHP.end()) current = enemyHP.at("current");
-	if (enemyHP.find("max") != enemyHP.end()) max = enemyHP.at("max");
-	if (enemyHP.find("ratio") != enemyHP.end()) ratio = enemyHP.at("ratio");
+	if (enemyHP.find("max")     != enemyHP.end()) max     = enemyHP.at("max");
+	if (enemyHP.find("ratio")   != enemyHP.end()) ratio   = enemyHP.at("ratio");
 
 	int lx = (SCREEN_WIDTH / 2) - 200;
 	int ly = 120;
@@ -445,4 +444,63 @@ void GameUI::drawEnemyHP() const {
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+};
+
+void GameUI::setScore(int Score) {
+	score = Score;
+};
+
+void GameUI::setLevel(int Level) {
+	level = Level;
+};
+
+void GameUI::setFloor(int Floor) {
+	floor = Floor;
+};
+
+void GameUI::setEXP(int Current, int Max, int Ratio) {
+	exp["current"] = Current;
+	exp["max"]     = Max;
+	if (Ratio >= 0 && Ratio <= 100) exp["ratio"] = Ratio;
+};
+
+void GameUI::setHP(int Current, int Max, int Ratio) {
+	hp["current"] = Current;
+	hp["max"]     = Max;
+	if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
+};
+
+void GameUI::setWeapon(std::vector<int> WeaponA, std::vector<int> WeaponB) {
+	weapon["A"]["type"]     = WeaponA[0];
+	weapon["A"]["level"]    = WeaponA[1];
+	weapon["A"]["selected"] = WeaponA[2];
+
+	weapon["B"]["type"]     = WeaponB[0];
+	weapon["B"]["level"]    = WeaponB[1];
+	weapon["B"]["selected"] = WeaponB[2];
+};
+
+void GameUI::setEnemy(int Current, int Max) {
+	enemy["current"] = Current;
+	enemy["max"] = Max;
+};
+
+void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
+	enemyHP["name"]    = Name;
+	enemyHP["current"] = std::to_string(Current);
+	enemyHP["max"]     = std::to_string(Max);
+	if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
+};
+
+void GameUI::setBanner(std::string Title, std::string SubTitle) {
+	banner["title"]    = Title;
+	banner["subTitle"] = SubTitle;
+};
+
+void GameUI::setState(int State) {
+	state = State;
+};
+
+int GameUI::getState() {
+	return state;
 };
