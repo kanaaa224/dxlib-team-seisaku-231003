@@ -173,18 +173,20 @@ Scene* GameScene::update() {
 
 	//////////////////////////////////////////////////
 	// GameUI 仮
+	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
+
 	gameUI->setScore(432);
 	gameUI->setLevel(7);
 	gameUI->setFloor(-2);
 	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(1500, 2000, 75);
-	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
 
 	int c = 0;
 	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 		if (slime[i] != nullptr) c++;
 	};
 	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), true }, { greatSword, 5, false });
 	//////////////////////////////////////////////////
 	if (c <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -203,6 +205,12 @@ Scene* GameScene::update() {
 		if (gameUI->getState() == 1) return new GameOverScene;
 	};
 	//////////////////////////////////////////////////
+	gameUI->setEnemyHP("魔王 猫スライム", c, SLIME_1_STAGE_NUM, c * 10);
+	//////////////////////////////////////////////////
+
+	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
+	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
+	
 
 	return this;
 };
@@ -230,6 +238,7 @@ void GameScene::draw() const {
 	}
 	else {
 		gameUI->draw();
+		gameUI->drawEnemyHP();
 	};
 
 	// 武器のレベルアップ画面描画
