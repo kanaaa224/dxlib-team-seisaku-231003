@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "Stage.h"
 #include "weapon.h"
+#include "second_weapon.h"
 #include "Player.h"
 #include "Slime.h"
 #include "Common.h"
@@ -18,14 +19,17 @@ class GameScene : public Scene {
 private:
 	int state, frameCounter;
 
+	//////////////////////////////////////////////////
+
 	Player* player;
 	Stage* backimg;
 	weapon* Weapon;
+	second_weapon* secondweapon;
 	GameUI* gameUI;
 
 	//////////////////////////////////////////////////
 
-	int img_background; // 仮
+	int exp, level; // 仮
 
 	//敵//
 	Slime* slime[MAX_SLIME_NUM];
@@ -46,7 +50,7 @@ private:
 	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
 
-	public:
+public:
 	GameScene();
 
 	~GameScene();

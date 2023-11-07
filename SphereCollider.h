@@ -28,6 +28,12 @@ struct DiffLocation
 	float y;
 };
 
+struct CaleVector
+{
+	float x;
+	float y;
+};
+
 class SphereCollider
 {
 protected:
@@ -36,6 +42,7 @@ protected:
 	Vector vector;		//移動量
 	float radius;		//半径
 	DiffLocation dL;
+	CaleVector caleVector;
 
 public:
 	//
@@ -45,7 +52,7 @@ public:
 	int CheckCollision(SphereCollider sphereCollider, Player* player);
 
 	//
-	int CheckAfterMoveCollision(SphereCollider sphereCollider, Player* player);
+	void HitVectorCale(SphereCollider sphereCollider, Player* player);
 
 	//プレイヤーの移動量を加算
 	void SetPlayerAmountOfTravel_X(float x);

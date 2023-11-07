@@ -8,11 +8,15 @@ GameScene::GameScene() {
 	state = 0;
 	frameCounter = 0;
 
+	//////////////////////////////////////////////////
+
 	player = new Player;
 	backimg = new Stage;
 	Weapon = new weapon;
+	secondweapon = new second_weapon;
 	gameUI = new GameUI;
 
+	//////////////////////////////////////////////////
 	
 	//
 	weapon_selection = new Weapon_Selection();
@@ -27,25 +31,18 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-	//img_background = LoadGraph("./resources/images/background.png"); // 仮
+	exp = level = 0; // 仮
 };
 
 GameScene::~GameScene() {
-
 	delete player;
 	delete backimg;
 	delete Weapon;
 	delete gameUI;
 	delete weapon_level_up;
-
-	//////////////////////////////////////////////////
-
-	//DeleteGraph(img_background); // 仮
 };
 
 Scene* GameScene::update() {
-	
-
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
 	//武器選択画面
@@ -116,6 +113,13 @@ Scene* GameScene::update() {
 						slime[i]->SetHit1stFrameFlg(true);
 					}
 				}
+				if (secondweapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+					if (slime[i]->GetHitFrameCnt() == 0) {
+						slime[i]->SetHitWeaponFlg();
+						slime[i]->SetHitHP(Weapon->GetDamage());
+						slime[i]->SetHit1stFrameFlg(true);
+					}
+				}
 			}
 		}
 	}
@@ -138,6 +142,7 @@ Scene* GameScene::update() {
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
+	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
 	gameUI->update(this);
 
 
@@ -171,22 +176,38 @@ Scene* GameScene::update() {
 	}*/
 	frameCounter++;
 
+
+
+
+
+
 	//////////////////////////////////////////////////
 	// GameUI 仮
-	gameUI->setScore(432);
-	gameUI->setLevel(7);
-	gameUI->setFloor(-2);
-	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
-	gameUI->setEXP(1500, 2000, 75);
 	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
 
-	int c = 0;
+	int enemies = 0;
 	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-		if (slime[i] != nullptr) c++;
+		if (slime[i] != nullptr) enemies++;
 	};
-	gameUI->setEnemy(c, SLIME_1_STAGE_NUM);
+
+	if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
+	if (exp > 2000) {
+		exp = 0;
+		level++;
+	};
+
+	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
+	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
+	gameUI->setEXP(exp, 2000, (exp / 20));
+	gameUI->setLevel(level);
+
+	gameUI->setFloor(-2);
+	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
+
+	if(state) gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), true }, { greatSword, 5, false });
+	else      gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { greatSword, 5, true });
 	//////////////////////////////////////////////////
-	if (c <= 0) {
+	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
 		if (gameUI->getState() == 2) {
 			gameUI->init();
@@ -203,6 +224,16 @@ Scene* GameScene::update() {
 		if (gameUI->getState() == 1) return new GameOverScene;
 	};
 	//////////////////////////////////////////////////
+	gameUI->setEnemyHP("魔王 猫スライム", enemies, SLIME_1_STAGE_NUM, enemies * 10); // 怪奇現象発生中
+	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
+	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
+	//////////////////////////////////////////////////
+	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
+		if (state) state = 0;
+		else state++;
+	};
+	//////////////////////////////////////////////////
+	
 
 	return this;
 };
@@ -212,6 +243,7 @@ void GameScene::draw() const {
 
 	backimg->draw();
 	Weapon->Draw();
+	secondweapon->Draw();
 	player->draw();
 
 	//敵//
@@ -230,6 +262,7 @@ void GameScene::draw() const {
 	}
 	else {
 		gameUI->draw();
+		gameUI->drawEnemyHP();
 	};
 
 	// 武器のレベルアップ画面描画
@@ -251,23 +284,26 @@ void GameScene::HitCheck()
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						//
-						slime[i]->SetHitLocation_X(slime[j]->GetLX());
-						slime[i]->SetHitLocation_Y(slime[j]->GetLY());
-						slime[i]->SetHitVector_X(slime[j]->GetVX());
-						slime[i]->SetHitVector_Y(slime[j]->GetVY());
-						//
-						slime[j]->SetHitLocation_X(slime[i]->GetLX());
-						slime[j]->SetHitLocation_Y(slime[i]->GetLY());
-						slime[j]->SetHitVector_X(slime[i]->GetVX());
-						slime[j]->SetHitVector_Y(slime[i]->GetVY());
+						////
+						//slime[i]->SetHitLocation_X(slime[j]->GetLX());
+						//slime[i]->SetHitLocation_Y(slime[j]->GetLY());
+						//slime[i]->SetHitVector_X(slime[j]->GetVX());
+						//slime[i]->SetHitVector_Y(slime[j]->GetVY());
+						////
+						//slime[j]->SetHitLocation_X(slime[i]->GetLX());
+						//slime[j]->SetHitLocation_Y(slime[i]->GetLY());
+						//slime[j]->SetHitVector_X(slime[i]->GetVX());
+						//slime[j]->SetHitVector_Y(slime[i]->GetVY());
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
+						slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
 					}
-					
-					if (slime[i]->GetHitFlg() == HIT) {
+
+					/*if (slime[i]->GetHitFlg() == HIT) {
 						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
 							slime[i]->SetHitFlg(NO_COLLISION);
 						}
-					}
+					}*/
 				}
 			}
 		}

@@ -138,6 +138,7 @@ void Slime::Draw(int arrayNum)
 			DrawFormatString((int)location.x, (int)location.y + 45, C_RED, "HP:%d", hp);
 			DrawFormatString((int)location.x, (int)location.y + 60, C_RED, "HitFlg:%d", hitFlg);
 		}
+		DrawFormatString((int)location.x - 10, (int)location.y - 10, C_RED, "%d", arrayNum);
 
 		if (hitFlg == TRUE) {
 			DrawCircle((int)location.x, (int)location.y, 20, C_RED, FALSE, 2);
@@ -149,7 +150,8 @@ void Slime::Draw(int arrayNum)
 void Slime::X()
 {
 	if (hitFlg == HIT) {
-		
+		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		vector.x = vector.x + caleVector.x;
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -159,7 +161,9 @@ void Slime::X()
 void Slime::Y()
 {
 	if (hitFlg == HIT) {
-
+		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		vector.y = vector.y + caleVector.y;
+		hitFlg = NO_COLLISION;
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
