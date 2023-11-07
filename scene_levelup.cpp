@@ -72,6 +72,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	if (restor_cursor_position == true)
 	{
 		weapon_selection = false;
+		cursor_x = 580;
 		weapon_number = 1;
 		restor_cursor_position = false;
 		// 現在の武器レベルのセット
@@ -430,7 +431,7 @@ void WeaponLevelUp::draw() const
 
 				// 武器2
 				// レベル選択の円を描画
-				DrawCircle(cursor_x + weapon2_cursor_pos, cursor_y + (90 * (weapon2_level_hierarchy + 1)), 20, 0xb00000, FALSE);
+				DrawCircle(cursor_x + weapon2_cursor_pos, cursor_y + 50 + (90 * (weapon2_level_hierarchy + 1)), 20, 0xb00000, FALSE);
 				DrawRotaGraph(cursor_x + weapon2_cursor_pos, cursor_y + (90 * (weapon2_level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
 			}
 		}
