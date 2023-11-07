@@ -16,19 +16,22 @@ Map::Map() {
 
 	// ‹xŒe1(st3-6)(1-2)
 	RandNum[0] = GetRand(1) + 1;
-	for (int i = 0; i < RandNum[0]; i++) {
+	for (int i = 0; i < RandNum[0];) {
 		int r = GetRand(3) + 3;
 		if (MapData[r] == 0) {
 			MapData[r] = 2;
-		}else continue;
+			i++;
+		}
+		else continue;
 	}
 	// ‹xŒe2(st8-18)(2-3)
 	RandNum[1] = GetRand(1) + 2;
-	for (int i = 0; i < RandNum[1]; i++) {
+	for (int i = 0; i < RandNum[1];) {
 		int r = GetRand(11) + 8;
 		// –¢•ÏX(0‚È‚ç)•ÏX
 		if (MapData[r] == 0) {
 			MapData[r] = 2;
+			i++;
 		}
 		else continue;
 	}
@@ -37,10 +40,11 @@ Map::Map() {
 
 	// ’b–è‰®(st14-18)(1)
 	RandNum[2] = 1;
-	for (int i = 0; i < RandNum[2]; i++) {
+	for (int i = 0; i < RandNum[2];) {
 		int r = GetRand(5) + 14;
 		if (MapData[r] == 0) {
 			MapData[r] = 3;
+			i++;
 		}
 		else continue;
 	}

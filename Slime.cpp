@@ -130,12 +130,17 @@ void Slime::Draw(int arrayNum)
 				DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "sizeRate:%.2f", sizeRate);
 			}
 		}
+
 		if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESSED) {//ステータス表示
 			DrawFormatString((int)location.x, (int)location.y, C_RED, "array:%d", arrayNum);
 			DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%.2f, VY:%.2f", vector.x, vector.y);
 			DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%.2f, dy:%.2f", diff.x, diff.y);
 			DrawFormatString((int)location.x, (int)location.y + 45, C_RED, "HP:%d", hp);
 			DrawFormatString((int)location.x, (int)location.y + 60, C_RED, "HitFlg:%d", hitFlg);
+		}
+
+		if (hitFlg == TRUE) {
+			DrawCircle((int)location.x, (int)location.y, 20, C_RED, FALSE, 2);
 		}
 #endif // DEBUG
 	}
@@ -144,8 +149,7 @@ void Slime::Draw(int arrayNum)
 void Slime::X()
 {
 	if (hitFlg == HIT) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.x = hitVX;
+		
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -155,9 +159,7 @@ void Slime::X()
 void Slime::Y()
 {
 	if (hitFlg == HIT) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.y = hitVY;
-		hitFlg = NO_COLLISION;
+
 	}
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
