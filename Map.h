@@ -1,6 +1,7 @@
 #pragma once
 #include"DxLib.h"
 #include"scene.h"
+#include"scene_rest.h"
 
 #define DATA_MAX 21
 
@@ -29,9 +30,14 @@ private:
 		{16},{17,18},{19},{19},{20},
 	};
 
+	Rest* rest;
+
 	int cursor_pos;    // カーソル位置
 	int move_cool;     // カーソル移動クールタイム
 	bool cursor_move;  // カーソル移動によるカメラ移動をするか(スクロール移動すると解除)
+
+	bool is_rest;		//休憩ステージのフラグ
+	bool is_show_rest;	//休憩ステージを映す？
 
 	// 画像
 	int battle_img = 0;

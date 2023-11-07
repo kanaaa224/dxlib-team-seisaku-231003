@@ -40,7 +40,7 @@ Player::Player() {
 	MovingX = 0.0;
 	MovingY = 0.0;
 
-	Player_HP = 100.0f;
+	Player_HP = MAX_HP;
 
 	fps = 0;
 	CoolTime_fps = 0;
@@ -436,6 +436,10 @@ bool Player::GetPlayer_Avoidance() {
 void Player::SetPlayer_HP(float value) {
 
 	Player_HP = Player_HP - value;
+	if (Player_HP > MAX_HP)
+	{
+		Player_HP = MAX_HP;
+	}
 }
 
 Location Player::Player_Location()

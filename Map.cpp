@@ -60,12 +60,16 @@ Map::Map() {
 		icon_loc[i][1] = icon_loc_def[i][1];
 	}
 
+	rest = new Rest();
+
 	// アイコン移動初期化処理
 	icon_vec = 0;
 	cursor_pos = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
 
+	is_rest = false;
+	is_show_rest = false;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -76,7 +80,7 @@ Map::Map() {
 	if (map_cursor == 0) map_cursor = (LoadGraph("resources/images/map_cursor.png"));
 }
 Map::~Map() {
-
+	delete rest;
 }
 
 Scene* Map::update() {
@@ -159,7 +163,21 @@ Scene* Map::update() {
 			return new DebugScene;
 			break;
 		case 2:
-			return new DebugScene;
+			if (is_rest != true)
+			{
+				//現状意味がない、ゲームメイン時に変更
+				Player* player = new Player();
+				rest->update(player,is_rest);
+				is_show_rest = true;
+				if (is_rest)
+				{
+					delete player;
+					player = nullptr;
+				}
+				return this;
+			}
+			is_show_rest = false;
+			is_rest = false;		//今は何度でも
 			break;
 		case 3:
 			return new DebugScene;
@@ -181,46 +199,53 @@ Scene* Map::update() {
 };
 
 void Map::draw() const {
-
-	for (int i = 0; i < DATA_MAX; i++)
+	if (is_show_rest)
 	{
-		// デバック表示
-		DrawFormatString(10, 30, 0xffff00, "内部データ");
-		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
-		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
-		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
-
-		// ステージ間のライン
-		for (int j = 0; next_stage[i][j] != 0 && j <= 2; j++)
-		{
-			int next_loc = next_stage[i][j];
-
-			DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
-				icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
-		}
-
-		// アイコン表示
-		switch (MapData[i]) {
-		case 0:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
-			break;
-		case 1:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
-			break;
-		case 2:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
-			break;
-		case 3:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
-			break;
-		case 4:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
-			break;
-		default:
-			break;
-		}
-		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+		rest->draw();
 	}
-	// カーソル表示
-	DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
+	else
+	{
+		for (int i = 0; i < DATA_MAX; i++)
+		{
+			// デバック表示
+			DrawFormatString(10, 30, 0xffff00, "内部データ");
+			DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
+			DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
+			DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
+
+			// ステージ間のライン
+			for (int j = 0; next_stage[i][j] != 0 && j <= 2; j++)
+			{
+				int next_loc = next_stage[i][j];
+
+				DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
+					icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
+			}
+
+			// アイコン表示
+			switch (MapData[i]) {
+			case 0:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
+				break;
+			case 1:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
+				break;
+			case 2:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
+				break;
+			case 3:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
+				break;
+			case 4:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
+				break;
+			default:
+				break;
+			}
+			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+		}
+		// カーソル表示
+		DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
+
+	}
 }

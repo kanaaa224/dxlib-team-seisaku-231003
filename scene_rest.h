@@ -11,6 +11,9 @@ private:
 
 	int cursor_image;
 	int bonfire_image;
+	int button_image;
+
+	bool is_select;
 
 public:
 	//コンストラクタ

@@ -13,6 +13,7 @@ Weapon_Selection::Weapon_Selection()
 	sword_image = LoadGraph("resources/images/sword_longsword_brown.png");
 	great_sword_image = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
+	button_image = LoadGraph("resources/images/button_a.png");
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
 
 	is_selecting = false;
@@ -164,6 +165,10 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 
 void Weapon_Selection::draw() const
 {
+
+	DrawGraph(1150, 650, button_image, TRUE);
+	DrawString(1194, 662, "Œˆ’è\n", 0xffffff);
+
 	//•Ší‚ğ‘I‘ğ‚µ‚Ä‚¢‚È‚¢‚È‚ç
 	if (is_selecting != true)
 	{		

@@ -11,6 +11,8 @@
 #define Upper_Limit 13.0f
 #define Initial_Value 0.0f
 
+#define MAX_HP 100.f
+
 class Player :public SphereCollider
 {
 private:

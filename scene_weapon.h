@@ -21,6 +21,7 @@ private:
 	//int frail_image;			//フレイルの画像
 	//int magic_book;				//魔導書の画像
 
+	int button_image;			//ボタンの画像
 	int cursor_image;			//カーソル画像
 
 	bool is_selecting;			//武器を選択している？
