@@ -1,8 +1,8 @@
 #include"scene_weapon.h"
 #include"inputCtrl.h"
-#include"weapon.h"
+#include"second_weapon.h"
 
-Weapon_Selection::Weapon_Selection()
+Weapon_Selection::Weapon_Selection(const bool selected)
 {
 	interval = 0;
 	cursor_num = 0;
@@ -17,7 +17,7 @@ Weapon_Selection::Weapon_Selection()
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
 
 	is_selecting = false;
-	was_selected = false;
+	was_selected = selected;
 }
 
 Weapon_Selection::~Weapon_Selection()
@@ -25,7 +25,7 @@ Weapon_Selection::~Weapon_Selection()
 
 }
 
-void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
+void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bool& is_weapon_select)
 {
 	//１５ｆのインターバルを設ける
 	if (interval < INTERVAL)
@@ -117,17 +117,17 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 			{
 				if (cursor_num == 0)
 				{
-					//_weapon->SetWeaponType();
+					_second_weapon->SetWeaponType(spear);
 					select_num = 0;
 				}
 				else if (cursor_num == 1)
 				{
-					//_weapon->SetWeaponType();
+					_second_weapon->SetWeaponType(frail);
 					select_num = 1;
 				}
 				else
 				{
-					//_weapon->SetWeaponType();
+					_second_weapon->SetWeaponType(book);
 					select_num = 2;
 				}
 			}

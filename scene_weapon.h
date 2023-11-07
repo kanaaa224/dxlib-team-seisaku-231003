@@ -2,6 +2,7 @@
 #include"scene.h"
 
 class weapon;
+class second_weapon;
 
 #define INTERVAL 15
 #define SELECT_WEAPON 3
@@ -29,13 +30,13 @@ private:
 
 public:
 	//コンストラクタ
-	Weapon_Selection();
+	Weapon_Selection(const bool selected);
 
 	//デストラクタ
 	~Weapon_Selection();
 
 	//描画に関すること以外の更新を実装する
-	virtual void update(weapon* _weapon, bool &is_weapon_select);
+	virtual void update(weapon* _weapon, second_weapon* _second_weapon, bool& is_weapon_select);
 
 	//描画に関することの更新を実装する
 	virtual void draw()const;

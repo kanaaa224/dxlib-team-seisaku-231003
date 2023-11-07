@@ -16,10 +16,11 @@ GameScene::GameScene() {
 
 	
 	//
-	weapon_selection = new Weapon_Selection();
+	weapon_selection = new Weapon_Selection(weapon_selected);
 	weapon_level_up = new WeaponLevelUp;
 
-	is_weapon_selct = false;
+	is_weapon_select = false;
+	weapon_selected = false;
 
 	// レベルアップ画面用
 	open_level_up = false;
@@ -50,13 +51,14 @@ Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
 	//武器選択画面
-	if (is_weapon_selct != true)
+	if (is_weapon_select != true)
 	{
-		weapon_selection->update(Weapon, is_weapon_selct);
-		if (is_weapon_selct == true)
+		weapon_selection->update(Weapon, secondweapon,is_weapon_select);
+		if (is_weapon_select == true)
 		{
 			delete weapon_selection;
 			weapon_selection = nullptr;
+			weapon_selected = true;
 		}
 		return this;
 	}
@@ -247,7 +249,7 @@ void GameScene::draw() const {
 	}
 	////////////
 
-	if (is_weapon_selct != true)
+	if (is_weapon_select != true)
 	{
 		weapon_selection->draw();
 	}
