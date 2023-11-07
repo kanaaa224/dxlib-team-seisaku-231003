@@ -15,9 +15,10 @@ class WeaponLevelUp
 {
 private:
 	// 画像読込用変数
-	int img_tree_diagram;			// 樹形図
+	//int img_tree_diagram;			// 樹形図
 	int img_cursor;					// カーソル
-	int img_choose;					// レベル分岐点（仮）
+	int img_branch_point;			// レベル分岐点
+	int img_chooce;					// レベル選択位置
 	//int img_background;			// 背景
 
 	// 武器画像読込用変数
@@ -34,6 +35,11 @@ private:
 
 	int img_x;						// 画像のX座標
 	int img_y;						// 画像のY座標
+	int img_branch_point_x;
+	int img_branch_point_y;
+	int branch_point_x[2][5];			// 選択した分岐点の座標を格納
+	int branch_point_y[2][5];			// 選択した分岐点の座標を格納
+	bool is_chooce[2][5];				// どのレベル階層まで選択したか
 
 	int cursor_pos;					// レベルアップ時カーソル表示位置
 
