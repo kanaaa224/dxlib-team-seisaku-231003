@@ -181,7 +181,7 @@ void Player::Player_Move() {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
-	else if (Provisional_LStickX == 0) {
+	else {
 		MoveX = 0;
 	}
 
@@ -197,7 +197,7 @@ void Player::Player_Move() {
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
 	}
-	else if (Provisional_LStickY == 0) {
+	else {
 		MoveY = 0;
 	}
 }

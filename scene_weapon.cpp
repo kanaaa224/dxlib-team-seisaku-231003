@@ -134,6 +134,8 @@ void Weapon_Selection::update(weapon* _weapon, bool &is_weapon_select)
 			is_selecting = true;
 			//カーソルを「はい」の位置にする
 			cursor_num = 0;
+			//武器選択画面はなし
+			is_weapon_select = true;
 		}
 	}
 	//武器を選択したなら
@@ -210,6 +212,9 @@ void Weapon_Selection::draw() const
 			{
 				DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
 				DrawString(350, 450, "短剣", 0xffffff);
+				DrawString(500, 200, "敵に与えるダメージが低い\n", 0xffffff);
+				DrawString(500, 250, "剣を振るのが速い\n", 0xffffff);
+				DrawString(500, 300, "クールタイムが短い\n", 0xffffff);
 			}
 			else if (select_num == 1)
 			{

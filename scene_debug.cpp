@@ -3,6 +3,7 @@
 // 作成：島袋
 //////////////////////////////////////////////////
 #include "main.h"
+#include <math.h>
 
 DebugScene::DebugScene() {
 	state = 0;
@@ -31,6 +32,16 @@ Scene* DebugScene::update() {
 
 		 if (InputCtrl::GetKeyState(KEY_INPUT_M) == PRESS) return new Map();
 		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new Map();
+
+		 float v = InputCtrl::GetStickRatio(L).x;
+		 float h = InputCtrl::GetStickRatio(L).y;
+		 angle = atan2(v, h);
+
+		 if (InputCtrl::GetStickRatio(L).x >= 0.2 || InputCtrl::GetStickRatio(L).x <= -0.2
+			 || InputCtrl::GetStickRatio(L).y >= 0.2 || InputCtrl::GetStickRatio(L).y <= -0.2) {
+
+			 rd = angle + float(-M_PI / 2);
+		 }
 
 	return this;
 };
@@ -206,4 +217,10 @@ void DebugScene::draw() const {
 	x = 640;
 	y = 50;
 	//if(InputCtrl::GetStickRatio(L).x != 0.0f) DrawFormatString(x, y, 0xffffff, "左スティックX: 傾き～");
+
+	int r = 100;
+	DrawCircle(800, 600, 5, 0xffffff, 1);
+	DrawCircle(800 + 100 * InputCtrl::GetStickRatio(L).x, 600 + -100 * InputCtrl::GetStickRatio(L).y, 5, 0xff0000, 0);
+	DrawCircle(800 + r * cosf(rd), 600 + r * sinf(rd), 5, 0x00ff00, 1);
+	DrawFormatString(700, 700, 0xffffff, "%.5f", angle);
 };
