@@ -492,6 +492,17 @@ void GameUI::drawHP() const {
 	DrawFormatString(45, 30, 0xffffff, str.c_str());
 };
 
+void GameUI::drawPause() const {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 220);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	SetFontSize(16);
+
+	std::string str = "PAUSE（仮）";
+	DrawFormatString((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth(str.c_str()) / 2), SCREEN_HEIGHT / 2, 0xffffff, str.c_str());
+};
+
 void GameUI::setScore(int Score) {
 	score = Score;
 };
