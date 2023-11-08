@@ -195,7 +195,7 @@ void GameUI::drawHUD() const {
 	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
 	color = GetColor(128, 207, 27);
-	if(ratio <= 15)       color = GetColor(255, 0, 0);
+	if (ratio <= 15)      color = GetColor(255, 0, 0);
 	else if (ratio <= 30) color = GetColor(255, 140, 76);
 
 	DrawBox(lx, ly, rx, ry, color, true);
@@ -269,14 +269,14 @@ void GameUI::drawHUD() const {
 
 	DrawFormatString(lx + 40, ly + 5 , 0xffffff, "レベルアップメニュー");
 
-	ly = rootLY + (SCREEN_HEIGHT - 240);
+	/* ly -= 40;
 	ry = ly + 30;
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnB, TRUE);
 
-	DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）");
+	DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）"); */
 
-	ly = rootLY + (SCREEN_HEIGHT - 280);
+	ly -= 40;
 	ry = ly + 30;
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
@@ -444,6 +444,43 @@ void GameUI::drawEnemyHP() const {
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+};
+
+void GameUI::drawHP() const {
+	SetFontSize(16);
+
+	int current = 0;
+	int max = 0;
+	int ratio = 0;
+
+	if (hp.find("current") != hp.end()) current = hp.at("current");
+	if (hp.find("max")     != hp.end()) max     = hp.at("max");
+	if (hp.find("ratio")   != hp.end()) ratio   = hp.at("ratio");
+
+	int lx = 40;
+	int ly = 40;
+	int rx = 460;
+	int ry = 70;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	lx = lx + 5;
+	ly = ly + 5;
+	rx = rx - 5;
+	ry = ry - 5;
+
+	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
+
+	int color = GetColor(128, 207, 27);
+	if (ratio <= 15)      color = GetColor(255, 0, 0);
+	else if (ratio <= 30) color = GetColor(255, 140, 76);
+
+	DrawBox(lx, ly, rx, ry, color, true);
+
+	std::string str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
+	DrawFormatString(45, 30, 0xffffff, str.c_str());
 };
 
 void GameUI::setScore(int Score) {
