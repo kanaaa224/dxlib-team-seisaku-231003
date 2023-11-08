@@ -106,7 +106,7 @@ int Map::update(bool& flg) {
 	else { move_cool--; }*/
 
 	// カーソル移動でカーソルが画面内に収まるようにする
-	if (cursor_move == TRUE){
+	if (cursor_move == TRUE) {
 		if (icon_loc[cursor_pos][1] <= 50) {
 			icon_vec = 10;
 		}
@@ -115,7 +115,7 @@ int Map::update(bool& flg) {
 		}
 	}
 
-	
+
 	// スクロール(Rスティック)
 	if (InputCtrl::GetStickRatio(R).y >= 0.2 || InputCtrl::GetStickRatio(R).y <= -0.2)
 	{
@@ -184,18 +184,29 @@ int Map::update(bool& flg) {
 		return 6; //new DebugScene;
 	}
 
+	if (move_cool <= 0) {
+		if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
+			|| InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
 
-	float v = InputCtrl::GetStickRatio(L).x;
-	float h = InputCtrl::GetStickRatio(L).y;
-	if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
-		|| InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
-
-		angle = atan2(v, h) / M_PI * 180 + 180;
-		r = 0;
-		while (r < 400) {
-			r = r + 10;
+			float v = InputCtrl::GetStickRatio(L).x;
+			float h = InputCtrl::GetStickRatio(L).y;
+			angle = atan2(v, h) / M_PI * 180 + 180;
+			r = 0;
+			while (r < 400) {
+				r = r + 10;
+				(-sinf(angle / M_PI / 18) * 100 + 800, cosf(angle / M_PI / 18) * 100 + 600, 5, 0x00ff00, 1);
+			}
+			move_cool = 30;
 		}
 	}
+	else if(InputCtrl::GetStickRatio(L).x < 0.3 && InputCtrl::GetStickRatio(L).x > -0.3
+		&& InputCtrl::GetStickRatio(L).y < 0.3 && InputCtrl::GetStickRatio(L).y > -0.3){
+		move_cool = 0;
+	}
+	else {
+		move_cool--;
+	}
+
 
 	cursor_loc_x = icon_loc[cursor_pos][0];
 	cursor_loc_y = icon_loc[cursor_pos][1];
@@ -210,8 +221,7 @@ void Map::draw() const {
 		// デバック表示
 		DrawFormatString(10, 30, 0xffff00, "内部データ");
 		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
-		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
-		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
+		DrawFormatString(10, 700, 0xffffff, "Aボタンでカーソルのステージへ");
 
 		// ステージ間のライン
 		for (int j = 0; next_stage[i][j] != 0 && j <= 2; j++)

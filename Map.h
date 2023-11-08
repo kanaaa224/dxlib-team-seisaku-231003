@@ -1,10 +1,10 @@
 #pragma once
 #include"DxLib.h"
-#include"scene.h"
+#include"SphereCollider.h"
 
 #define DATA_MAX 21
 
-class Map
+class Map : SphereCollider
 {
 private:
 	int MapDeta[DATA_MAX];
