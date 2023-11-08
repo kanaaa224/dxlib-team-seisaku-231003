@@ -22,9 +22,6 @@ Slime::Slime(int arrayNum, int SlimeMaxNum)
 	respawnTimeCnt = 0;
 	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum);
 
-	tmpVX = 0;
-	tmpVY = 0;
-
 	is_area = false;
 
 

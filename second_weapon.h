@@ -14,11 +14,7 @@
 #define INIT_DAMAGE_BOOK  5
 
 
-
-
-
-
-#define SPEAR_MAX_MOVE 45.0f
+#define SPEAR_MAX_MOVE 35.0f
 #define MAX_BULLETS_NUM 100
 
 enum second_weapon_type
@@ -47,6 +43,7 @@ private:
 	Vector weaponVec;
 	Vector baseVec;
 	Vector unitVec;
+	Vector playerVector;
 
 	float collisionX, collisionY;	//âÒì]å„ÇÃç¿ïWÅAìñÇΩÇËîªíËÇ…égÇ§
 	Vector collisionVec;
@@ -80,6 +77,8 @@ private:
 	float frailLength;
 	float frailLengthCursor;
 	bool isFrailAttacking;
+	float frailRate;
+
 
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
@@ -91,7 +90,7 @@ public:
 	second_weapon(int type);
 	~second_weapon();
 
-	void Update(float cursorX, float cursorY, Location playerLocation);
+	void Update(float cursorX, float cursorY, Location playerLocation, Vector playerVec);
 	void Draw() const;
 
 	void SetWeaponType(int type);

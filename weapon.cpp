@@ -28,6 +28,15 @@ weapon::weapon()
 	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
 	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
 	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+
+	rotSpeed = 4.0f;
+	for (int i = 0; i < 10; i++)
+	{
+		swordSlash[i] = { {0,0},{0,0,0},false };
+	}
+	slash_img = LoadGraph("resources/images/nc284514.png");
+	slashFlg = false;
+
 }
 
 weapon::weapon(int type)
@@ -62,7 +71,6 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
 	float y = InputCtrl::GetMouseCursor().y - 360;*/
 
-
 	float x = cursorX - location.x; //kk
 	float y = cursorY - location.y;	//kk
 	float length = sqrt((x) * (x) + (y) * (y));
@@ -89,9 +97,19 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 		//攻撃中
 		if (isAttacking) {
 
-			if (relativeRot < - maxRot) {
-				relativeRot = maxRot;
-				isAttacking = false;
+			if (weaponLevel == 7 && weaponType == greatSword) {
+				if (relativeRot < 0) {
+					relativeRot = maxRot;
+					isAttacking = false;
+					slashFlg = false;
+				}
+			}
+			else {
+				if (relativeRot < -maxRot) {
+					relativeRot = maxRot;
+					isAttacking = false;
+					slashFlg = false;
+				}
 			}
 			rot = -1 * (weaponAngle - (d_r(relativeRot)));
 
@@ -105,7 +123,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 			collisionVec.length = sqrt((collisionVec.x) * (collisionVec.x) + (collisionVec.y) * (collisionVec.y));
 
 			//回転
-			relativeRot -= 4.0f;
+			relativeRot -= rotSpeed;
 
 
 			//単位ベクトル
@@ -113,14 +131,24 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 			unitVec.y = collisionVec.y / collisionVec.length;
 			unitVec.length = sqrt((unitVec.x) * (unitVec.x) + (unitVec.y) * (unitVec.y));
 			
-		}
 
+			//(仮)斬撃
+			if (weaponType == sword && weaponLevel == 7) {
+				if (relativeRot < 0 && !slashFlg) {
+					SpawnSwordSlash();
+					slashFlg = true;
+					slashRot = rot;
+				}
+			}
+		
+		}
+		SwordSlashAnim();
 	}
 
 	
 
 	//レベルアップデバッグ
-	/*if (levelUpFlg) {
+	if (levelUpFlg) {
 		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 			levelUpFlg = false;
 		}
@@ -166,7 +194,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 	}
 	else if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
 		levelUpFlg = true;
-	}*/
+	}
 }
 
 void weapon::Draw() const
@@ -189,22 +217,29 @@ void weapon::Draw() const
 		}
 	}
 
-
-
+	for (int i = 0; i < 10; i++){
+		if (swordSlash[i].flg) {
+			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
+			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
+			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
+		}
+	}
 
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
-	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
+	//DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType + 1);
+	//DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
-	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
+	//DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);*/
-	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
-	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
-	//DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
+	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);
+	/*DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
+	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
+	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);*/
+
+
 
 
 	//kk
@@ -224,8 +259,8 @@ void weapon::Draw() const
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
 	}
 	else {
-		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
-	}*/
+		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く(武器１)");
+	}
 
 
 	
@@ -336,21 +371,21 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 2.0f;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.9f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 1;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER + 2;
 			break;
 
 		case greatSword:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 3.0f;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.9f;
 			damage = INIT_DAMAGE_GREATSWORD;
 			break;
@@ -362,21 +397,21 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 3.0f;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 2;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
+			maxRot = INIT_ROTATION_DAGGER + 2.0f;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER + 3;
 			break;
 
 		case greatSword:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 5.0f;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD;
 			break;
@@ -388,22 +423,22 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 2.0f;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
+			damage = INIT_DAMAGE_SWORD + 3;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
+			damage = INIT_DAMAGE_DAGGER + 5;
 			break;
 
 		case greatSword:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
+			maxRot = INIT_ROTATION_SWORD + 5.0f;
+			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD;
 			break;
 		}
@@ -414,9 +449,9 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 5.0f;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 5;
 			break;
 
 		case dagger:
@@ -428,9 +463,9 @@ void weapon::LevelState()
 
 		case greatSword:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 7.0f;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			damage = INIT_DAMAGE_GREATSWORD + 5;
 			break;
 		}
 
@@ -440,9 +475,9 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
-			damage = INIT_DAMAGE_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 5.0f;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
+			damage = INIT_DAMAGE_SWORD + 5;
 			break;
 
 		case dagger:
@@ -456,7 +491,7 @@ void weapon::LevelState()
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.6f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			damage = INIT_DAMAGE_GREATSWORD + 5;
 			break;
 		}
 
@@ -467,8 +502,8 @@ void weapon::LevelState()
 		case sword:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.5f;
-			damage = INIT_DAMAGE_SWORD;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
+			damage = INIT_DAMAGE_SWORD + 6;
 			break;
 
 		case dagger:
@@ -482,12 +517,12 @@ void weapon::LevelState()
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.5f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			damage = INIT_DAMAGE_GREATSWORD + 10;
 			break;
 		}
 
 		break;
-	case 7:
+	case 7:		//最終強化１
 		switch (weaponType)
 		{
 		case sword:
@@ -504,11 +539,12 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
-		case greatSword:
+		case greatSword: //回転攻撃
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = 360.0f;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.4f;
 			damage = INIT_DAMAGE_GREATSWORD;
+			rotSpeed = 8.0f;
 			break;
 		}
 
@@ -565,8 +601,82 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 		}
 	}
 
+	
+
+	for (int i = 0; i < 10; i++){
+		if (swordSlash[i].flg) {
+			float tmpx = swordSlash[i].collsion1.x - swordSlash[i].collsion2.x;
+			float tmpy = swordSlash[i].collsion1.y - swordSlash[i].collsion2.y;
+			float slashLength = sqrtf(tmpx * tmpx + tmpy * tmpy);
+			Vector uv = { tmpx / slashLength ,tmpy / slashLength };
+			uv.length = sqrtf(uv.x * uv.x + uv.y * uv.y);
+
+			for (int j = 0; j < (slashLength / 10) + 1; j++){
+				weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (i * 10));
+				weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (i * 10));
+
+				float tmp_x2 = weaponCollisionLocation.x - enemyLocation.x;
+				float tmp_y2 = weaponCollisionLocation.y - enemyLocation.y;
+				float tmp_length2 = sqrt(tmp_x2 * tmp_x2 + tmp_y2 * tmp_y2);
+
+				if (tmp_length2 < radius + 100) {
+					return true;
+				}
+			}
+
+		}
+	}
+	
+
 	return false;
 }
+
+bool weapon::SpawnSwordSlash()
+{
+	for (int i = 0; i < 10; i++) {
+		if (!swordSlash[i].flg) {
+			swordSlash[i].flg = true;
+			swordSlash[i].v.x = unitVec.x * 10;
+			swordSlash[i].v.y = unitVec.y * 10;
+			swordSlash[i].l.x = collisionX;
+			swordSlash[i].l.y = collisionY;
+			return true;
+		}
+	}
+
+
+	return false;
+}
+
+void weapon::SwordSlashAnim()
+{
+	for (int i = 0; i < 10; i++){
+		if (swordSlash[i].flg) {
+			swordSlash[i].l.x += swordSlash[i].v.x;
+			swordSlash[i].l.y += swordSlash[i].v.y;
+		}
+
+		if (swordSlash[i].l.x < 0 || swordSlash[i].l.x > 1280 ||
+			swordSlash[i].l.y < 0 || swordSlash[i].l.y > 720) {
+			swordSlash[i].flg = false;
+		}
+
+		for (int i = 0; i < 10; i++) {
+			if (swordSlash[i].flg) {
+				swordSlash[i].collsion1.x = baseVec.x * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
+				swordSlash[i].collsion1.y = baseVec.x * sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
+
+				swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
+				swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;
+			}
+		}
+	}
+
+	
+}
+
+//collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk
+//collisionY = (baseVec.x * sin((rot)) + baseVec.y * cos((rot))) + location.y;	//kk
 
 //回転の公式
 //r: 角度(ラジアン)
