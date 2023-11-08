@@ -52,8 +52,8 @@ void SphereCollider::HitVectorCale(SphereCollider sphereCollider, Player* player
         float a = (location.x - sphereCollider.location.x) * -1;
         float b = (location.y - sphereCollider.location.y) * -1;
 
-        caleVector.x = (a * r) * 0.1f;
-        caleVector.y = (b * r) * 0.1f;
+        caleVector.x = ((a * r) * 0.1f);
+         caleVector.y = ((b * r) * 0.1f);
     }
 }
 
