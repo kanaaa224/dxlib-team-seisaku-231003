@@ -71,4 +71,7 @@ public:
 
 	// 描画
 	void draw()const;
+
+	// レベルアップ詳細のテキスト群
+	void DrawLevelUpDetails()const;
 };

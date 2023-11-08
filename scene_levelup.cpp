@@ -14,7 +14,7 @@ WeaponLevelUp::WeaponLevelUp()
 	img_dagger= LoadGraph("resources/images/sword_shortsword_brown.png");
 	img_great_sword = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	img_spear = LoadGraph("resources/images/spear.png");
-	img_frail = LoadGraph("resources/images/sword_shortsword_brown.png");
+	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
 	img_book = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
 	// 変数の初期化
@@ -185,7 +185,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 				// カーソル移動無し
 				weapon1_cursor_pos = 0;
 			}
-			else
+			else if (weapon1_level_hierarchy == 1 || weapon1_level_hierarchy == 4)
 			{
 				if (weapon1_cursor_pos == 0)
 				{
@@ -263,7 +263,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 				// カーソル移動無し
 				weapon2_cursor_pos = 0;
 			}
-			else/* if (weapon2_level_hierarchy == 1 || weapon2_level_hierarchy == 4)*/
+			else if (weapon2_level_hierarchy == 1 || weapon2_level_hierarchy == 4)
 			{
 				if (weapon2_cursor_pos == 0)
 				{
@@ -321,35 +321,21 @@ void WeaponLevelUp::draw() const
 	DrawFormatString(160, 70, 0x000000, "W2レベル階層 : %d", weapon2_level_hierarchy);
 
 	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
-
-	// レベルアップの詳細枠
-	DrawBox(190, 90, 420, 680, 0x000000, FALSE);
-	DrawFormatString(200, 140, 0x000000, "レベルアップ詳細");
-	DrawFormatString(200, 160, 0x000000, "例）");
-	DrawFormatString(200, 180, 0x000000, "ダメージ");
-	DrawFormatString(200, 200, 0x000000, "　15　→　20 (+5)");
-	DrawFormatString(200, 240, 0x000000, "攻撃速度");
-	DrawFormatString(200, 260, 0x000000, "　10　→　15 (+5)");
-	DrawFormatString(200, 320, 0x000000, "プレイヤーステータス");
-	DrawFormatString(200, 360, 0x000000, "体力");
-	DrawFormatString(200, 380, 0x000000, "　        30");
-	DrawFormatString(200, 400, 0x000000, "移動速度");
-	DrawFormatString(200, 420, 0x000000, "　        30");
+	
+	// レベルアップ詳細のテキスト群
+	DrawLevelUpDetails();
 
 	// 武器1の画像
 	switch (weapon1_type)
 	{
 		case sword:			// 片手剣
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_sword, TRUE);
-			DrawFormatString(200, 100, 0x000000, "片手剣");
 			break;
 		case dagger:		// 短剣
 			DrawRotaGraph(img_x, img_y, 0.18f, 0.0f, img_dagger, TRUE);
-			DrawFormatString(200, 100, 0x000000, "短剣");
 			break;
 		case greatSword:	// 大剣
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
-			DrawFormatString(200, 100, 0x000000, "大剣");
 			break;
 		default:
 			DrawFormatString(img_x, img_y, 0x000000, "none");
@@ -361,23 +347,17 @@ void WeaponLevelUp::draw() const
 	{
 		case 0:
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
-			DrawFormatString(img_x + 400, img_y - 60, 0x000000, "槍");
 			break;
 		case 1:
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
-			DrawFormatString(img_x + 400, img_y - 60, 0x000000, "フレイル");
 			break;
 		case 2:
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
-			DrawFormatString(img_x + 400, img_y - 60, 0x000000, "本");
 			break;
 		default:
 			DrawFormatString(img_x + 360, img_y, 0x000000, "none");
 			break;
 	}
-
-	// スキルツリー表示
-	//DrawRotaGraph(img_x + 380, img_y + 300, 1.0f, 0.0f, img_tree_diagram, TRUE);
 	
 	// スキルツリー分岐点
 	for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
@@ -463,6 +443,63 @@ void WeaponLevelUp::draw() const
 				DrawCircle(cursor_x + weapon2_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_level_hierarchy + 1)), 20, 0xb00000, FALSE);
 				DrawRotaGraph(cursor_x + weapon2_cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
 			}
+		}
+	}
+}
+
+// レベルアップ詳細のテキスト群
+void WeaponLevelUp::DrawLevelUpDetails() const
+{
+	// レベルアップの詳細枠
+	DrawBox(190, 90, 420, 680, 0x000000, FALSE);
+
+	// テキスト
+	DrawFormatString(200, 140, 0x000000, "レベルアップ詳細");
+	DrawFormatString(200, 160, 0x000000, "例）");
+	DrawFormatString(200, 180, 0x000000, "ダメージ");
+	DrawFormatString(200, 200, 0x000000, "　15　→　20 (+5)");
+	DrawFormatString(200, 240, 0x000000, "攻撃速度");
+	DrawFormatString(200, 260, 0x000000, "　10　→　15 (+5)");
+	DrawFormatString(200, 320, 0x000000, "プレイヤーステータス");
+	DrawFormatString(200, 360, 0x000000, "体力");
+	DrawFormatString(200, 380, 0x000000, "　        30");
+	DrawFormatString(200, 400, 0x000000, "移動速度");
+	DrawFormatString(200, 420, 0x000000, "　        30");
+
+	if (cursor_x == 580)
+	{
+		switch (weapon1_type)
+		{
+		case sword:			// 片手剣
+			DrawFormatString(200, 100, 0x000000, "片手剣");
+			break;
+		case dagger:		// 短剣
+			DrawFormatString(200, 100, 0x000000, "短剣");
+			break;
+		case greatSword:	// 大剣
+			DrawFormatString(200, 100, 0x000000, "大剣");
+			break;
+		default:
+			DrawFormatString(200, 100, 0x000000, "武器がありません");
+			break;
+		}
+	}
+	else
+	{
+		switch (weapon2_type)
+		{
+		case 0:
+			DrawFormatString(200, 100, 0x000000, "槍");
+			break;
+		case 1:
+			DrawFormatString(200, 100, 0x000000, "フレイル");
+			break;
+		case 2:
+			DrawFormatString(200, 100, 0x000000, "本");
+			break;
+		default:
+			DrawFormatString(200, 100, 0x000000, "武器がありません");
+			break;
 		}
 	}
 }
