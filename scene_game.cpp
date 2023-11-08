@@ -231,20 +231,20 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
-			//Init();
+			Init();
 			////GameScene();
-			//map->SetIsMapMode(true);
-			//if (map->GetIsMapMode())
-			//{
-			//	map->update();
-			//	//if (map->GetIsMapMode() != true)
-			//	//{
-			//	//	delete map;
-			//	//	map = nullptr;
-			//	//}
-			//	return this;
-			//}
-			return new Map;
+			map->SetIsMapMode(true);
+			if (map->GetIsMapMode())
+			{
+				map->update();
+				//if (map->GetIsMapMode() != true)
+				//{
+				//	delete map;
+				//	map = nullptr;
+				//}
+				return this;
+			}
+			//return new Map;
 		}
 	};
 	if (player->GetPlayer_HP() <= 0) {
