@@ -64,7 +64,7 @@ weapon::~weapon()
 {
 }
 
-void weapon::Update(float cursorX, float cursorY, Location playerLocation)
+void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)
 {
 	location = playerLocation;
 	//debug
