@@ -27,6 +27,7 @@
 #define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
 #define KNCKBACK 15.0f		//ノックバック
 #define ENEMY_SPEED 2.0f	//敵の移動速度
+#define RED_FRAME 45
 
 #define DISTANT  0			//遠ざかっている
 #define APPROACH 1			//近づいている
