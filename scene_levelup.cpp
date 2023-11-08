@@ -317,7 +317,7 @@ void WeaponLevelUp::draw() const
 	SetFontSize(20);
 	DrawFormatString(160, 10, 0x000000, "W1level(State) : %d", weapon1_level);
 	DrawFormatString(160, 30, 0x000000, "W1ƒŒƒxƒ‹ŠK‘w : %d", weapon1_level_hierarchy);
-	DrawFormatString(160, 50, 0x000000, "W2level (State?): %d", weapon2_level);
+	DrawFormatString(160, 50, 0x000000, "W2level (State): %d", weapon2_level);
 	DrawFormatString(160, 70, 0x000000, "W2ƒŒƒxƒ‹ŠK‘w : %d", weapon2_level_hierarchy);
 
 	DrawFormatString(1000, 20, 0x000000, "‰¼jPF%d", point);
