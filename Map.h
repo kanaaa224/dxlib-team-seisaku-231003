@@ -58,9 +58,9 @@ public:
 
 	~Map();
 
-	virtual Scene* update()override;
+	int update();
 
-	virtual void draw() const override;
+	void draw() const;
 
 	bool GetIsMapMode()
 	{
