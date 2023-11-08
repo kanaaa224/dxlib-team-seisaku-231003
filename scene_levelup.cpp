@@ -22,7 +22,7 @@ WeaponLevelUp::WeaponLevelUp()
 	cursor_x = 580;
 	cursor_y = 120;
 	level_cursor_pos = 85;
-	point = 10;
+	point = 7;
 	weapon_number = weapon1;
 	weapon_selection = false;
 
@@ -345,13 +345,13 @@ void WeaponLevelUp::draw() const
 	// 武器2の画像
 	switch (weapon2_type)
 	{
-		case 0:
+		case spear:			// 槍
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
 			break;
-		case 1:
+		case frail:			// フレイル
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
 			break;
-		case 2:
+		case book:			// 本
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
 			break;
 		default:
@@ -402,16 +402,6 @@ void WeaponLevelUp::draw() const
 		// 武器選択済み
 		if (weapon_number == weapon1)
 		{
-			if (weapon1_level_hierarchy == MAX_LEVEL_HIERARCHY)
-			{
-				//DrawFormatString(500, 650, 0xb00000, "最下層です");
-				DrawFormatString(500, 670, 0xb00000, "次は最終強化です");
-			}
-			else if (point <= 0)
-			{
-				DrawFormatString(170, 670, 0xb00000, "ポイントが足りません");
-			}
-
 			// 武器1
 			// レベル選択の円を描画
 			DrawCircle(cursor_x + weapon1_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon1_level_hierarchy + 1)), 20, 0xb00000, FALSE);
@@ -428,16 +418,6 @@ void WeaponLevelUp::draw() const
 			}
 			else
 			{
-				if (weapon2_level_hierarchy == MAX_LEVEL_HIERARCHY)
-				{
-					//DrawFormatString(250, 650, 0xb00000, "最下層です");
-					DrawFormatString(900, 670, 0xb00000, "次は最終強化です");
-				}
-				else if (point <= 0)
-				{
-					DrawFormatString(170, 670, 0xb00000, "ポイントが足りません");
-				}
-
 				// 武器2
 				// レベル選択の円を描画
 				DrawCircle(cursor_x + weapon2_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_level_hierarchy + 1)), 20, 0xb00000, FALSE);
@@ -454,18 +434,22 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	DrawBox(190, 90, 420, 680, 0x000000, FALSE);
 
 	// テキスト
-	DrawFormatString(200, 140, 0x000000, "レベルアップ詳細");
-	DrawFormatString(200, 160, 0x000000, "例）");
-	DrawFormatString(200, 180, 0x000000, "ダメージ");
-	DrawFormatString(200, 200, 0x000000, "　15　→　20 (+5)");
+	DrawFormatString(200, 160, 0x000000, "レベルアップ詳細");
+	DrawFormatString(200, 180, 0x000000, "例）");
+	DrawFormatString(200, 200, 0x000000, "ダメージ");
+	DrawFormatString(200, 220, 0x000000, "　15　→　20 (+5)");
 	DrawFormatString(200, 240, 0x000000, "攻撃速度");
-	DrawFormatString(200, 260, 0x000000, "　10　→　15 (+5)");
-	DrawFormatString(200, 320, 0x000000, "プレイヤーステータス");
+	DrawFormatString(200, 280, 0x000000, "　10　→　15 (+5)");
+	DrawFormatString(200, 340, 0x000000, "プレイヤーステータス");
 	DrawFormatString(200, 360, 0x000000, "体力");
 	DrawFormatString(200, 380, 0x000000, "　        30");
 	DrawFormatString(200, 400, 0x000000, "移動速度");
 	DrawFormatString(200, 420, 0x000000, "　        30");
 
+	// 詳細枠の調整
+	//DrawBox(190, 240, 420, 680, 0xff0000, FALSE);
+
+	// 武器名の表示
 	if (cursor_x == 580)
 	{
 		switch (weapon1_type)
@@ -502,4 +486,33 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			break;
 		}
 	}
+	
+	// 武器選択済み
+	if (weapon_selection == true)
+	{
+		if (weapon_number == weapon1)
+		{
+			if (weapon1_level_hierarchy == MAX_LEVEL_HIERARCHY)
+			{
+				DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
+			}
+			else if (point <= 0)
+			{
+				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
+			}
+		}
+		else
+		{
+			if (weapon2_level_hierarchy == MAX_LEVEL_HIERARCHY)
+			{
+				DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
+			}
+			else if (point <= 0)
+			{
+				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
+			}
+		}
+
+	}
+
 }

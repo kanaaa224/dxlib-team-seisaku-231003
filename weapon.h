@@ -89,7 +89,7 @@ public:
 	weapon(int type);
 	~weapon();
 
-	void Update(float cursorX, float cursorY, Location playerLocation);
+	void Update(float cursorX, float cursorY, Location playerLocation, Player* player);
 	void Draw() const;
 
 	void SetWeaponType(int type);
