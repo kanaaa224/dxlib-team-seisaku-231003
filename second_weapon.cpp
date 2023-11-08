@@ -257,8 +257,7 @@ void second_weapon::Draw() const
 		}
 	}
 
-	for (int i = 0; i < MAX_BULLETS_NUM; i++)
-	{
+	for (int i = 0; i < MAX_BULLETS_NUM; i++){
 		if (bullets[i].flg == true) {
 			DrawCircle(bullets[i].l.x, bullets[i].l.y, 10, 0xffff00, TRUE);
 		}
