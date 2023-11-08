@@ -47,8 +47,8 @@ private:
 	bool hitFlg = false;
 	int hitFrameCounter = 0;
 
-	bool is_weapon_selct;
-	bool is_map_mode;
+	bool is_weapon_select;
+	bool weapon_selected;
 
 	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
@@ -76,4 +76,7 @@ public:
 	//スライム
 	void slimeUpdate();
 	void slimeDraw() const;
+
+	void Init();
+
 };

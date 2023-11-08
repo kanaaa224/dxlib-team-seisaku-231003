@@ -20,11 +20,11 @@ GameScene::GameScene() {
 	//////////////////////////////////////////////////
 	
 	//
-	weapon_selection = new Weapon_Selection();
+	weapon_selection = new Weapon_Selection(weapon_selected);
 	weapon_level_up = new WeaponLevelUp;
 
-	is_weapon_selct = false;
-	is_map_mode = true;
+	is_weapon_select = false;
+	weapon_selected = false;
 
 	// レベルアップ画面用
 	open_level_up = false;
@@ -42,24 +42,32 @@ GameScene::~GameScene() {
 	delete Weapon;
 	delete gameUI;
 	delete weapon_level_up;
+	delete map;
 };
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
-	if (is_map_mode == true) {
-		map->update(is_map_mode);
+	if (map->GetIsMapMode())
+	{
+		map->update();
+		//if (map->GetIsMapMode() != true)
+		//{
+		//	delete map;
+		//	map = nullptr;
+		//}
 		return this;
 	}
 
 	//武器選択画面
-	if (is_weapon_selct != true)
+	if (is_weapon_select != true)
 	{
-		weapon_selection->update(Weapon, is_weapon_selct);
-		if (is_weapon_selct == true)
+		weapon_selection->update(Weapon, secondweapon,is_weapon_select);
+		if (is_weapon_select == true)
 		{
 			delete weapon_selection;
 			weapon_selection = nullptr;
+			weapon_selected = true;
 		}
 		return this;
 	}
@@ -211,7 +219,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { /*secondweapon->GetWeaponType()*/3, secondweapon->GetWeaponLevel(), false});
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false});
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -219,7 +227,22 @@ Scene* GameScene::update() {
 			gameUI->init();
 			gameUI->setState(banner);
 		};
-		if (gameUI->getState() == 1) is_map_mode = true;
+		if (gameUI->getState() == 1) {
+			Init();
+			////GameScene();
+			map->SetIsMapMode(true);
+			if (map->GetIsMapMode())
+			{
+				map->update();
+				//if (map->GetIsMapMode() != true)
+				//{
+				//	delete map;
+				//	map = nullptr;
+				//}
+				return this;
+			}
+			//return new Map;
+		}
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
@@ -248,7 +271,7 @@ void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
 	// 
-	if (is_map_mode == true)
+	if (map->GetIsMapMode())
 	{
 		map->draw();
 	}
@@ -263,16 +286,14 @@ void GameScene::draw() const {
 	slimeDraw();
 	////////////
 
-	if (is_weapon_selct != true)
-	{
-		weapon_selection->draw();
-	}
-	else {
-		gameUI->draw();
-		gameUI->drawEnemyHP();
-
-		//gameUI->drawHP();
-	};
+		if (is_weapon_select != true)
+		{
+			weapon_selection->draw();
+		}
+		else {
+			gameUI->draw();
+			gameUI->drawEnemyHP();
+		};
 
 		// 武器のレベルアップ画面描画
 		if (open_level_up)
@@ -330,6 +351,39 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 			player->SetIsHit(true);
 		}
 	}
+}
+
+void GameScene::Init()
+{
+	player = new Player;
+	backimg = new Stage;
+	Weapon = new weapon;
+	secondweapon = new second_weapon;
+	gameUI = new GameUI;
+	map = new Map;
+
+	weapon_selection = new Weapon_Selection(weapon_selected);
+	weapon_level_up = new WeaponLevelUp;
+
+
+	is_weapon_select = false;
+	weapon_selected = false;
+
+	// レベルアップ画面用
+	open_level_up = false;
+	restor_cursor_position = true;
+
+
+	exp = level = 0; // 仮
+
+	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
+		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
+		tmpSlimeNum++;
+	}
+
+	gameUI->init();
+	gameUI->setState(banner);
+
 }
 
 void GameScene::slimeUpdate()

@@ -67,24 +67,11 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		}		
 	}
 
-	if (hitWeaponFlg == true && hp > 0) {
-		hit1stFrameFlg = true;
-	}
-
 	//Cnt
 	if (respawnTimeCnt == respawnTime) {//設定された時間になったらrespawnFlgをtrue
 		respawnFlg = true;
 	}
 	respawnTimeCnt++;//リスポーンCnt
-
-	if (hit1stFrameFlg == true) {
-		redFrameCounter++;
-	}
-
-	if (redFrameCounter == RED_FRAME) {
-		redFrameCounter = 0;
-		hit1stFrameFlg = false;
-	}
 
 	//デバッグ（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
 #ifdef DEBUG
@@ -106,7 +93,7 @@ void Slime::Draw(int arrayNum)
 		{
 			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
 		}
-		if (hit1stFrameFlg == true) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
+		if (hitWeaponFlg == true && hp > 0) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
 			SetDrawBright(255, 0, 0);
 			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 			SetDrawBright(255, 255, 255);

@@ -36,7 +36,7 @@ GameUI::~GameUI() {
 	DeleteGraph(img["weaponGreatSword"]);
 	DeleteGraph(img["weaponSpear"]);
 	DeleteGraph(img["weaponFrail"]);
-	//DeleteGraph(img["weaponBook"]);
+	DeleteGraph(img["weaponBook"]);
 
 	//////////////////////////////////////////////////
 
@@ -295,12 +295,14 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(16);
 
-	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0, img_weaponFrail = 0;
+	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0, img_weaponSpear = 0, img_weaponFrail = 0, img_weaponBook = 0;
 
 	if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
 	if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
 	if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
+	if (img.find("weaponSpear")      != img.end()) img_weaponSpear      = img.at("weaponSpear");
 	if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
+	if (img.find("weaponBook")       != img.end()) img_weaponBook       = img.at("weaponBook");
 
 	int weaponA[3], weaponB[3];
 
@@ -333,20 +335,16 @@ void GameUI::drawHUD() const {
 		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponB[0]) {
-		case 0: // 片手剣
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
+		case 0: // 槍
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSpear, TRUE);
 			break;
 
-		case 1: // 短剣
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
-			break;
-
-		case 2: // 大剣
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
-			break;
-
-		case 3: // フレイル
+		case 1: // フレイル
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
+			break;
+
+		case 2: // 本
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponBook, TRUE);
 			break;
 
 		default:
@@ -377,10 +375,6 @@ void GameUI::drawHUD() const {
 
 		case 2: // 大剣
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
-			break;
-
-		case 3: // フレイル
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
 			break;
 
 		default:
