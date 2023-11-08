@@ -9,11 +9,6 @@ class Slime :public EnemyBase
 {
 private:
 
-	float tmpVX;
-	float tmpVY;
-
-	int EF_hitHp;
-
 	bool is_area;
 
 public:

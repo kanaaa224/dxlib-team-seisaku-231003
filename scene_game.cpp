@@ -83,24 +83,7 @@ Scene* GameScene::update() {
 	
 	//敵//
 	HitCheck();
-
-	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-		tmpSlimeNum++;
-	}
-
-	if (stage == 1) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player, Weapon,*(backimg));
-				if (slime[i]->GetHP() <= 0) {
-					slime[i] = nullptr;
-				}
-			}
-		}
-	}
-
-	
+	slimeUpdate();
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -247,13 +230,7 @@ void GameScene::draw() const {
 	player->draw();
 
 	//敵//
-	if (stage == 1) {
-		for (int i = 0; i < MAX_SLIME_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Draw(i);
-			}
-		}
-	}
+	slimeDraw();
 	////////////
 
 	if (is_weapon_selct != true)
@@ -318,6 +295,39 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 		{
 			player->SetPlayer_HP(enemy->GetDamage());
 			player->SetIsHit(true);
+		}
+	}
+}
+
+void GameScene::slimeUpdate()
+{
+	if (stage == 1) {
+		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
+			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
+			tmpSlimeNum++;
+		}
+
+		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+			if (slime[i] != nullptr) {
+				slime[i]->Update(i, player, Weapon, *(backimg));
+				if (slime[i]->GetHP() <= 0) {
+					slime[i] = nullptr;
+				}
+			}
+		}
+	}
+	else if (stage == 2) {
+
+	}
+}
+
+void GameScene::slimeDraw() const
+{
+	if (stage == 1) {
+		for (int i = 0; i < MAX_SLIME_NUM; i++) {
+			if (slime[i] != nullptr) {
+				slime[i]->Draw(i);
+			}
 		}
 	}
 }
