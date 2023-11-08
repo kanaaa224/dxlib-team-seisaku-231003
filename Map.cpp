@@ -5,21 +5,21 @@ Map::Map() {
 	// マップデータ初期化処理
 	for (int i = 0; i <= DATA_MAX; i++)
 	{
-		MapData[i] = 0;
+		MapDeta[i] = 0;
 	}
 
 
 	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
 
 	// ランダムイベント(st7固定)
-	MapData[7] = 1;
+	MapDeta[7] = 1;
 
 	// 休憩1(st3-6)(1-2)
 	RandNum[0] = GetRand(1) + 1;
 	for (int i = 0; i < RandNum[0];) {
 		int r = GetRand(3) + 3;
-		if (MapData[r] == 0) {
-			MapData[r] = 2;
+		if (MapDeta[r] == 0) {
+			MapDeta[r] = 2;
 			i++;
 		}
 		else continue;
@@ -29,28 +29,28 @@ Map::Map() {
 	for (int i = 0; i < RandNum[1];) {
 		int r = GetRand(11) + 8;
 		// 未変更(0なら)変更
-		if (MapData[r] == 0) {
-			MapData[r] = 2;
+		if (MapDeta[r] == 0) {
+			MapDeta[r] = 2;
 			i++;
 		}
 		else continue;
 	}
 	// 休憩3(st19固定)
-	MapData[19] = 2;
+	MapDeta[19] = 2;
 
 	// 鍛冶屋(st14-18)(1)
 	RandNum[2] = 1;
 	for (int i = 0; i < RandNum[2];) {
 		int r = GetRand(5) + 14;
-		if (MapData[r] == 0) {
-			MapData[r] = 3;
+		if (MapDeta[r] == 0) {
+			MapDeta[r] = 3;
 			i++;
 		}
 		else continue;
 	}
 
 	// ボス(st20固定)
-	MapData[20] = 4;
+	MapDeta[20] = 4;
 
 
 	// アイコン位置をデフォルトにセット
@@ -76,17 +76,22 @@ Map::Map() {
 	if (map_cursor == 0) map_cursor = (LoadGraph("resources/images/map_cursor.png"));
 }
 Map::~Map() {
-
+	DeleteGraph(battle_img);
+	DeleteGraph(event_img);
+	DeleteGraph(rest_img);
+	DeleteGraph(anvil_img);
+	DeleteGraph(boss_img);
+	DeleteGraph(map_cursor);
 }
 
-Scene* Map::update() {
+int Map::update(bool& flg) {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
 
 
 	// カーソル移動(Lスティック)
-	if (move_cool <= 0) {
+	/*if (move_cool <= 0) {
 		if (InputCtrl::GetStickRatio(L).y >= 0.3 && cursor_pos < DATA_MAX - 1) {
 			cursor_pos++;
 			move_cool = 15;
@@ -98,7 +103,7 @@ Scene* Map::update() {
 			cursor_move = TRUE;
 		}
 	}
-	else { move_cool--; }
+	else { move_cool--; }*/
 
 	// カーソル移動でカーソルが画面内に収まるようにする
 	if (cursor_move == TRUE){
@@ -150,22 +155,24 @@ Scene* Map::update() {
 
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		switch (MapData[cursor_pos])
+		flg = false;
+
+		switch (MapDeta[cursor_pos])
 		{
 		case 0:
-			return new GameScene;
+			return 1; //new GameScene;
 			break;
 		case 1:
-			return new DebugScene;
+			return 2; //new DebugScene;
 			break;
 		case 2:
-			return new DebugScene;
+			return 3; //new DebugScene;
 			break;
 		case 3:
-			return new DebugScene;
+			return 4; //new DebugScene;
 			break;
 		case 4:
-			return new DebugScene;
+			return 5; //new DebugScene;
 			break;
 		default:
 			break;
@@ -174,10 +181,26 @@ Scene* Map::update() {
 
 	// BでDebugScene
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-		return new DebugScene;
+		return 6; //new DebugScene;
 	}
 
-	return this;
+
+	float v = InputCtrl::GetStickRatio(L).x;
+	float h = InputCtrl::GetStickRatio(L).y;
+	if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
+		|| InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
+
+		angle = atan2(v, h) / M_PI * 180 + 180;
+		r = 0;
+		while (r < 400) {
+			r = r + 10;
+		}
+	}
+
+	cursor_loc_x = icon_loc[cursor_pos][0];
+	cursor_loc_y = icon_loc[cursor_pos][1];
+
+	return 0;
 };
 
 void Map::draw() const {
@@ -186,7 +209,7 @@ void Map::draw() const {
 	{
 		// デバック表示
 		DrawFormatString(10, 30, 0xffff00, "内部データ");
-		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
+		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
 		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
 
@@ -200,7 +223,7 @@ void Map::draw() const {
 		}
 
 		// アイコン表示
-		switch (MapData[i]) {
+		switch (MapDeta[i]) {
 		case 0:
 			DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
 			break;
@@ -223,4 +246,7 @@ void Map::draw() const {
 	}
 	// カーソル表示
 	DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
+	for (int i = -2; i <= 2; i++) {
+		DrawLine(cursor_loc_x + 25, cursor_loc_y + 25, -sinf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_x + 25, cosf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_y + 25, 0x00ffff);
+	}
 }

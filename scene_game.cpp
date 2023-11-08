@@ -15,6 +15,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
+	map = new Map;
 
 	//////////////////////////////////////////////////
 	
@@ -23,6 +24,7 @@ GameScene::GameScene() {
 	weapon_level_up = new WeaponLevelUp;
 
 	is_weapon_selct = false;
+	is_map_mode = true;
 
 	// レベルアップ画面用
 	open_level_up = false;
@@ -44,6 +46,11 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+
+	if (is_map_mode == true) {
+		map->update(is_map_mode);
+		return this;
+	}
 
 	//武器選択画面
 	if (is_weapon_selct != true)
@@ -125,7 +132,8 @@ Scene* GameScene::update() {
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
-	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location());
+	Vector tmpV = { player->Player_MoveX(),player->Player_MoveY(),0 };
+	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV);
 	gameUI->update(this);
 
 
@@ -173,10 +181,12 @@ Scene* GameScene::update() {
 		if (slime[i] != nullptr) enemies++;
 	};
 
-	if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
-	if (exp > 2000) {
-		exp = 0;
-		level++;
+	if ((int)FPSCtrl::Get()) {
+		if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
+		if (exp > 2000) {
+			exp = 0;
+			level++;
+		};
 	};
 
 	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
@@ -187,8 +197,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	if(state) gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), true }, { greatSword, 5, false });
-	else      gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { greatSword, 5, true });
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false });
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -196,7 +205,7 @@ Scene* GameScene::update() {
 			gameUI->init();
 			gameUI->setState(banner);
 		};
-		if (gameUI->getState() == 1) return new Map;
+		if (gameUI->getState() == 1) is_map_mode = true;
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
@@ -224,10 +233,16 @@ Scene* GameScene::update() {
 void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
-	backimg->draw();
-	Weapon->Draw();
-	secondweapon->Draw();
-	player->draw();
+	// 
+	if (is_map_mode == true)
+	{
+		map->draw();
+	}
+	else
+	{
+		backimg->draw();
+		Weapon->Draw();
+		player->draw();
 
 	//敵//
 	slimeDraw();
@@ -240,12 +255,15 @@ void GameScene::draw() const {
 	else {
 		gameUI->draw();
 		gameUI->drawEnemyHP();
+
+		//gameUI->drawHP();
 	};
 
-	// 武器のレベルアップ画面描画
-	if (open_level_up)
-	{
-		weapon_level_up->draw();
+		// 武器のレベルアップ画面描画
+		if (open_level_up)
+		{
+			weapon_level_up->draw();
+		}
 	}
 };
 

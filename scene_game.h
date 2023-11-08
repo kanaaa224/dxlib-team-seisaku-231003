@@ -8,6 +8,7 @@
 #include "Stage.h"
 #include "weapon.h"
 #include "second_weapon.h"
+#include "Map.h"
 #include "Player.h"
 #include "Slime.h"
 #include "Common.h"
@@ -26,6 +27,7 @@ private:
 	weapon* Weapon;
 	second_weapon* secondweapon;
 	GameUI* gameUI;
+	Map* map;
 
 	//////////////////////////////////////////////////
 
@@ -46,6 +48,7 @@ private:
 	int hitFrameCounter = 0;
 
 	bool is_weapon_selct;
+	bool is_map_mode;
 
 	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
