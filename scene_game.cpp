@@ -210,7 +210,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { /*secondweapon->GetWeaponType()*/3, secondweapon->GetWeaponLevel(), false});
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false});
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -218,7 +218,7 @@ Scene* GameScene::update() {
 			gameUI->init();
 			gameUI->setState(banner);
 		};
-		if (gameUI->getState() == 1) is_map_mode = true;
+		if (gameUI->getState() == 1) return new GameScene;//is_map_mode = true;
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
