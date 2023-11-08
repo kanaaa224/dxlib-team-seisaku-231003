@@ -18,16 +18,11 @@ private:
 	std::map<std::string, int> exp;
 	std::map<std::string, int> hp;
 	std::map<std::string, int> enemy;
-
+	std::map<std::string, std::string> enemyHP;
 	std::map<std::string, std::map<std::string, int>> weapon;
 
 	std::map<std::string, double> hud;
-
 	std::map<std::string, std::string> banner;
-
-	std::map<std::string, std::string> enemyHP;
-
-	//std::map<std::string, double> pauseMenu;
 
 	std::map<std::string, int> img;
 

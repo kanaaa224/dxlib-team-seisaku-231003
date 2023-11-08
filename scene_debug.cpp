@@ -7,6 +7,8 @@
 
 DebugScene::DebugScene() {
 	state = 0;
+	angle = 0;
+	r = 0;
 };
 
 DebugScene::~DebugScene() {};
@@ -30,18 +32,24 @@ Scene* DebugScene::update() {
 
 		 if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
 
-		 if (InputCtrl::GetKeyState(KEY_INPUT_M) == PRESS) return new Map();
-		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new Map();
+		 //if (InputCtrl::GetKeyState(KEY_INPUT_M) == PRESS) return new Map();
+		 //if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new Map();
 
 		 float v = InputCtrl::GetStickRatio(L).x;
 		 float h = InputCtrl::GetStickRatio(L).y;
-		 angle = atan2(v, h);
+		 
 
-		 if (InputCtrl::GetStickRatio(L).x >= 0.2 || InputCtrl::GetStickRatio(L).x <= -0.2
-			 || InputCtrl::GetStickRatio(L).y >= 0.2 || InputCtrl::GetStickRatio(L).y <= -0.2) {
 
-			 rd = angle + float(-M_PI / 2);
+		 if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
+			 || InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
+
+			 angle = atan2(v, h) / M_PI * 180 + 180;
+			 r = 0;
+			 while (r < 150) {
+				 r = r + 10;
+			 }
 		 }
+		 
 
 	return this;
 };
@@ -218,9 +226,11 @@ void DebugScene::draw() const {
 	y = 50;
 	//if(InputCtrl::GetStickRatio(L).x != 0.0f) DrawFormatString(x, y, 0xffffff, "左スティックX: 傾き～");
 
-	int r = 100;
 	DrawCircle(800, 600, 5, 0xffffff, 1);
 	DrawCircle(800 + 100 * InputCtrl::GetStickRatio(L).x, 600 + -100 * InputCtrl::GetStickRatio(L).y, 5, 0xff0000, 0);
-	DrawCircle(800 + r * cosf(rd), 600 + r * sinf(rd), 5, 0x00ff00, 1);
-	DrawFormatString(700, 700, 0xffffff, "%.5f", angle);
+	DrawCircle(-sinf(angle / M_PI / 18) * 100 + 800, cosf(angle / M_PI / 18) * 100 + 600, 5, 0x00ff00, 1);
+	for (int i = -2; i <= 2; i++){
+		DrawLine(800, 600, -sinf((angle + 5 * i) / M_PI / 18) * r + 800, cosf((angle + 5 * i) / M_PI / 18) * r + 600, 0x00ffff);
+	}
+	DrawFormatString(700, 680, 0xffffff, "%.3f", angle);
 };

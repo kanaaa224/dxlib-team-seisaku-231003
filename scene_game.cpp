@@ -15,6 +15,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
+	map = new Map;
 
 	//////////////////////////////////////////////////
 	
@@ -24,6 +25,7 @@ GameScene::GameScene() {
 
 	is_weapon_select = false;
 	weapon_selected = false;
+	is_map_mode = true;
 
 	// レベルアップ画面用
 	open_level_up = false;
@@ -45,6 +47,11 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+
+	if (is_map_mode == true) {
+		map->update(is_map_mode);
+		return this;
+	}
 
 	//武器選択画面
 	if (is_weapon_select != true)
@@ -192,10 +199,12 @@ Scene* GameScene::update() {
 		if (slime[i] != nullptr) enemies++;
 	};
 
-	if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
-	if (exp > 2000) {
-		exp = 0;
-		level++;
+	if ((int)FPSCtrl::Get()) {
+		if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
+		if (exp > 2000) {
+			exp = 0;
+			level++;
+		};
 	};
 
 	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
@@ -215,7 +224,7 @@ Scene* GameScene::update() {
 			gameUI->init();
 			gameUI->setState(banner);
 		};
-		if (gameUI->getState() == 1) return new Map;
+		if (gameUI->getState() == 1) is_map_mode = true;
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
@@ -243,20 +252,27 @@ Scene* GameScene::update() {
 void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
-	backimg->draw();
-	Weapon->Draw();
-	secondweapon->Draw();
-	player->draw();
+	// 
+	if (is_map_mode == true)
+	{
+		map->draw();
+	}
+	else
+	{
+		backimg->draw();
+		Weapon->Draw();
+		player->draw();
 
-	//敵//
-	if (stage == 1) {
-		for (int i = 0; i < MAX_SLIME_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Draw(i);
+		//敵//
+		if (stage == 1) {
+			for (int i = 0; i < MAX_SLIME_NUM; i++) {
+				if (slime[i] != nullptr) {
+					slime[i]->Draw(i);
+				}
 			}
 		}
-	}
-	////////////
+
+		////////////
 
 	if (is_weapon_select != true)
 	{
@@ -267,10 +283,11 @@ void GameScene::draw() const {
 		gameUI->drawEnemyHP();
 	};
 
-	// 武器のレベルアップ画面描画
-	if (open_level_up)
-	{
-		weapon_level_up->draw();
+		// 武器のレベルアップ画面描画
+		if (open_level_up)
+		{
+			weapon_level_up->draw();
+		}
 	}
 };
 

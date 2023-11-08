@@ -5,10 +5,10 @@
 
 #define DATA_MAX 21
 
-class Map : public Scene
+class Map
 {
 private:
-	int MapData[DATA_MAX];
+	int MapDeta[DATA_MAX];
 	int RandNum[3];
 
 	// アイコン座標(初期)
@@ -33,8 +33,12 @@ private:
 	Rest* rest;
 
 	int cursor_pos;    // カーソル位置
+	int cursor_loc_x, cursor_loc_y;
 	int move_cool;     // カーソル移動クールタイム
 	bool cursor_move;  // カーソル移動によるカメラ移動をするか(スクロール移動すると解除)
+	int angle;
+	int r;
+
 
 	bool is_rest;		//休憩ステージのフラグ
 	bool is_show_rest;	//休憩ステージを映す？
@@ -51,7 +55,7 @@ public:
 
 	~Map();
 
-	virtual Scene* update() override;
+	int update(bool& flg);
 
-	virtual void draw() const override;
+	void draw() const;
 };
