@@ -190,10 +190,12 @@ Scene* GameScene::update() {
 		if (slime[i] != nullptr) enemies++;
 	};
 
-	if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
-	if (exp > 2000) {
-		exp = 0;
-		level++;
+	if ((int)FPSCtrl::Get()) {
+		if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
+		if (exp > 2000) {
+			exp = 0;
+			level++;
+		};
 	};
 
 	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
