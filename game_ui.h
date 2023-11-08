@@ -19,11 +19,13 @@ private:
 	std::map<std::string, int> hp;
 	std::map<std::string, int> enemy;
 
-	//std::vector<std::string, int> weapon;
+	std::map<std::string, std::map<std::string, int>> weapon;
 
 	std::map<std::string, double> hud;
 
 	std::map<std::string, std::string> banner;
+
+	std::map<std::string, std::string> enemyHP;
 
 	//std::map<std::string, double> pauseMenu;
 
@@ -51,6 +53,9 @@ public:
 	// バナー表示
 	void drawBanner() const;
 
+	// 敵の体力
+	void drawEnemyHP() const;
+
 	//////////////////////////////////////////////////
 
 	// ゲームスタート
@@ -67,47 +72,38 @@ public:
 
 	//////////////////////////////////////////////////
 
-	void setScore(int Score) {
-		score = Score;
-	};
+	// プレイヤーのスコアを設定
+	void setScore(int);
 
-	void setLevel(int Level) {
-		level = Level;
-	};
+	// プレイヤーのレベルを設定
+	void setLevel(int);
 
-	void setFloor(int Floor) {
-		floor = Floor;
-	};
+	// 何階にいるか（ステージ）の設定
+	void setFloor(int);
 
-	void setEXP(int Current, int Max, int Ratio) {
-		exp["current"] = Current;
-		exp["max"]     = Max;
-		if (Ratio >= 0 && Ratio <= 100) exp["ratio"] = Ratio;
-	};
+	// 経験値の現在値、最大値、割合（0-100）を設定
+	void setEXP(int, int, int);
 
-	void setHP(int Current, int Max, int Ratio) {
-		hp["current"] = Current;
-		hp["max"]     = Max;
-		if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
-	};
+	// プレイヤーHPの現在値、最大値、割合（0-100）を設定
+	void setHP(int, int, int);
 
-	void setEnemy(int Current, int Max) {
-		enemy["current"] = Current;
-		enemy["max"]     = Max;
-	};
+	// 所持している武器を設定（それぞれの武器の種類、レベル）
+	void setWeapon(std::vector<int>, std::vector<int>);
 
-	void setBanner(std::string Title, std::string SubTitle) {
-		banner["title"]    = Title;
-		banner["subTitle"] = SubTitle;
-	};
+	// 敵の今いる数、全ての数を設定
+	void setEnemy(int, int);
 
-	void setState(int State) {
-		state = State;
-	};
+	// 「drawEnemyHP」で表示用の敵情報を設定（名前、体力）
+	void setEnemyHP(std::string, int, int, int);
+
+	// stateが「banner」の時に表示するテキストを設定
+	void setBanner(std::string, std::string);
+
+	// stateを設定
+	void setState(int);
 
 	//////////////////////////////////////////////////
 
-	int getState() {
-		return state;
-	};
+	// stateを取得
+	int getState();
 };

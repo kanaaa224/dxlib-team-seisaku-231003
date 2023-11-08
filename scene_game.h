@@ -19,6 +19,8 @@ class GameScene : public Scene {
 private:
 	int state, frameCounter;
 
+	//////////////////////////////////////////////////
+
 	Player* player;
 	Stage* backimg;
 	weapon* Weapon;
@@ -27,7 +29,7 @@ private:
 
 	//////////////////////////////////////////////////
 
-	int img_background; // 仮
+	int exp, level; // 仮
 
 	//敵//
 	Slime* slime[MAX_SLIME_NUM];
@@ -48,7 +50,7 @@ private:
 	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
 
-	public:
+public:
 	GameScene();
 
 	~GameScene();
