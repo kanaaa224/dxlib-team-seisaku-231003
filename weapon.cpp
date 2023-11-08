@@ -133,10 +133,12 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation)
 			
 
 			//(‰¼)ŽaŒ‚
-			if (relativeRot < 0 && !slashFlg) {
-				SpawnSwordSlash();
-				slashFlg = true;
-				slashRot = rot;
+			if (weaponType == sword && weaponLevel == 7) {
+				if (relativeRot < 0 && !slashFlg) {
+					SpawnSwordSlash();
+					slashFlg = true;
+					slashRot = rot;
+				}
 			}
 		
 		}
@@ -217,8 +219,8 @@ void weapon::Draw() const
 
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
-			DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
-			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);
+			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
+			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
 		}
 	}
