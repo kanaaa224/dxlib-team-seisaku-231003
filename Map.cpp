@@ -1,7 +1,7 @@
 #include "main.h"
 #include "map.h"
 
-Map::Map() {
+Map::Map(GameScene* gamemain) {
 	// マップデータ初期化処理
 	for (int i = 0; i <= DATA_MAX; i++)
 	{
@@ -68,6 +68,8 @@ Map::Map() {
 	move_cool = 0;
 	cursor_move = FALSE;
 
+	//map_flg = gamemain->GetIsMapMode();
+
 	is_rest = false;
 	is_show_rest = false;
 
@@ -89,7 +91,7 @@ Map::~Map() {
 	delete rest;
 }
 
-int Map::update(bool& flg) {
+Scene* Map::update() {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -160,15 +162,15 @@ int Map::update(bool& flg) {
 
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		flg = false;
+		//map_flg = false;
 
 		switch (MapDeta[cursor_pos])
 		{
 		case 0:
-			return 1; //new GameScene;
+			return new GameScene;
 			break;
 		case 1:
-			return 2; //new DebugScene;
+			return new DebugScene;
 			break;
 		case 2:
 			if (is_rest != true)
@@ -182,16 +184,15 @@ int Map::update(bool& flg) {
 					delete player;
 					player = nullptr;
 				}
-				return this;
 			}
 			is_show_rest = false;
 			is_rest = false;		//今は何度でも
 			break;
 		case 3:
-			return 4; //new DebugScene;
+			return new DebugScene;
 			break;
 		case 4:
-			return 5; //new DebugScene;
+			return new DebugScene;
 			break;
 		default:
 			break;
@@ -200,7 +201,7 @@ int Map::update(bool& flg) {
 
 	// BでDebugScene
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-		return 6; //new DebugScene;
+		return new DebugScene;
 	}
 
 
@@ -219,7 +220,7 @@ int Map::update(bool& flg) {
 	cursor_loc_x = icon_loc[cursor_pos][0];
 	cursor_loc_y = icon_loc[cursor_pos][1];
 
-	return 0;
+	return this;
 };
 
 void Map::draw() const {
@@ -233,7 +234,7 @@ void Map::draw() const {
 		{
 			// デバック表示
 			DrawFormatString(10, 30, 0xffff00, "内部データ");
-			DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
+			DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
 			DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 			DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
 
@@ -247,7 +248,7 @@ void Map::draw() const {
 			}
 
 			// アイコン表示
-			switch (MapData[i]) {
+			switch (MapDeta[i]) {
 			case 0:
 				DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
 				break;
@@ -272,6 +273,6 @@ void Map::draw() const {
 		DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
 		for (int i = -2; i <= 2; i++) {
 			DrawLine(cursor_loc_x + 25, cursor_loc_y + 25, -sinf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_x + 25, cosf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_y + 25, 0x00ffff);
-
+		}
 	}
 }

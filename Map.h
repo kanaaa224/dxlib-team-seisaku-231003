@@ -3,9 +3,11 @@
 #include"scene.h"
 #include"scene_rest.h"
 
+class GameScene;
+
 #define DATA_MAX 21
 
-class Map
+class Map :public Scene
 {
 private:
 	int MapDeta[DATA_MAX];
@@ -39,6 +41,7 @@ private:
 	int angle;
 	int r;
 
+	//bool& map_flg;
 
 	bool is_rest;		//休憩ステージのフラグ
 	bool is_show_rest;	//休憩ステージを映す？
@@ -51,11 +54,11 @@ private:
 	int boss_img = 0;
 	int map_cursor = 0;
 public:
-	Map();
+	Map(GameScene*gamemain);
 
 	~Map();
 
-	int update(bool& flg);
+	virtual Scene* update()override;
 
-	void draw() const;
+	virtual void draw() const override;
 };

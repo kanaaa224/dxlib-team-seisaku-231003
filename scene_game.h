@@ -47,7 +47,7 @@ private:
 	bool hitFlg = false;
 	int hitFrameCounter = 0;
 
-	bool is_weapon_selct;
+	bool is_weapon_select;
 	bool is_map_mode;
 	bool weapon_selected;
 
@@ -73,4 +73,9 @@ public:
 
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
+
+	bool GetIsMapMode()
+	{
+		return &is_map_mode;
+	}
 };

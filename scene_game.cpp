@@ -15,7 +15,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
-	map = new Map;
+	map = new Map(this);
 
 	//////////////////////////////////////////////////
 	
@@ -43,14 +43,15 @@ GameScene::~GameScene() {
 	delete Weapon;
 	delete gameUI;
 	delete weapon_level_up;
+	delete map;
 };
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
 	if (is_map_mode == true) {
-		map->update(is_map_mode);
-		return this;
+		//map->update();
+		//return this;
 	}
 
 	//武器選択画面
@@ -224,7 +225,9 @@ Scene* GameScene::update() {
 			gameUI->init();
 			gameUI->setState(banner);
 		};
-		if (gameUI->getState() == 1) is_map_mode = true;
+		if (gameUI->getState() == 1) {
+			return new Map(this);
+		}
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
@@ -253,7 +256,7 @@ void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
 	// 
-	if (is_map_mode == true)
+	if (is_map_mode == false)
 	{
 		map->draw();
 	}
@@ -274,14 +277,14 @@ void GameScene::draw() const {
 
 		////////////
 
-	if (is_weapon_select != true)
-	{
-		weapon_selection->draw();
-	}
-	else {
-		gameUI->draw();
-		gameUI->drawEnemyHP();
-	};
+		if (is_weapon_select != true)
+		{
+			weapon_selection->draw();
+		}
+		else {
+			gameUI->draw();
+			gameUI->drawEnemyHP();
+		};
 
 		// 武器のレベルアップ画面描画
 		if (open_level_up)
