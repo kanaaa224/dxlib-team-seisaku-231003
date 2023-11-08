@@ -36,6 +36,15 @@ struct Location
 	float y;
 };
 
+struct SwordSlash
+{
+	Location l;
+	Vector v;
+	bool flg;
+	Location collsion1;
+	Location collsion2;
+};
+
 
 class weapon {
 private:
@@ -56,6 +65,7 @@ private:
 	float relativeRot;		//プレイヤーのベクトルを中心とした回転
 	float maxRot;			//最大どれくらい回転するか
 	float weaponAngle;
+	float rotSpeed;
 
 	int coolTime;	//クールタイムを計算する変数
 	int maxCoolTime;  //クールタイムの値
@@ -66,6 +76,12 @@ private:
 	int dagger_img;
 	int greatsword_img;
 
+	//飛ぶ斬撃
+	SwordSlash swordSlash[10];
+	int slash_img;
+	int slashFlg;
+	float slashRot;
+	Location sl[100];
 
 	float tmp, tmp1;
 public:
@@ -82,6 +98,9 @@ public:
 	void LevelState();
 
 	bool WeaponCollision(Location enemyLocation, float radius);
+
+	bool SpawnSwordSlash();
+	void SwordSlashAnim();	//最終強化１の斬撃を飛ばす
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
