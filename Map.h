@@ -41,7 +41,7 @@ private:
 	int angle;
 	int r;
 
-	//bool& map_flg;
+	bool is_map_mode;
 
 	bool is_rest;		//休憩ステージのフラグ
 	bool is_show_rest;	//休憩ステージを映す？
@@ -54,11 +54,22 @@ private:
 	int boss_img = 0;
 	int map_cursor = 0;
 public:
-	Map(GameScene*gamemain);
+	Map();
 
 	~Map();
 
 	virtual Scene* update()override;
 
 	virtual void draw() const override;
+
+	bool GetIsMapMode()
+	{
+		return is_map_mode;
+	}
+
+	void SetIsMapMode(const bool flg)
+	{
+		is_map_mode = flg;
+	}
+
 };

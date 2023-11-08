@@ -48,7 +48,6 @@ private:
 	int hitFrameCounter = 0;
 
 	bool is_weapon_select;
-	bool is_map_mode;
 	bool weapon_selected;
 
 	bool open_level_up;				// レベルアップ画面が開いているか
@@ -74,8 +73,6 @@ public:
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
 
-	bool GetIsMapMode()
-	{
-		return &is_map_mode;
-	}
+	void Init();
+
 };
