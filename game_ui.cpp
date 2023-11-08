@@ -217,12 +217,12 @@ void GameUI::drawHUD() const {
 	//SetFontSize(16);
 	//ChangeFont("");
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	/* SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawBox(rootLX + 40, rootLY + 80, rootLX + 260, rootLY + 110, GetColor(0, 0, 0), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	str = "SCORE: " + std::to_string(score);
-	DrawFormatString(rootLX + 50, rootLY + 88, 0xffffff, str.c_str());
+	DrawFormatString(rootLX + 50, rootLY + 88, 0xffffff, str.c_str()); */
 
 
 	//////////////////////////////////////////////////

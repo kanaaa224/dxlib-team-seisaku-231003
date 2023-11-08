@@ -189,7 +189,7 @@ Scene* GameScene::update() {
 		};
 	};
 
-	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
+	//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
 	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(exp, 2000, (exp / 20));
 	gameUI->setLevel(level);
