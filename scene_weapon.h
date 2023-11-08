@@ -18,9 +18,9 @@ private:
 	int dagger_image;			//短剣の画像
 	int sword_image;			//片手剣の画像
 	int great_sword_image;		//大剣の画像
-	//int spear_image;			//槍の画像
-	//int frail_image;			//フレイルの画像
-	//int magic_book;				//魔導書の画像
+	int spear_image;			//槍の画像
+	int frail_image;			//フレイルの画像
+	int book_image;				//魔導書の画像
 
 	int button_image;			//ボタンの画像
 	int cursor_image;			//カーソル画像

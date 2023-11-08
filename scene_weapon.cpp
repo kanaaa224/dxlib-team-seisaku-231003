@@ -13,6 +13,10 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 	sword_image = LoadGraph("resources/images/sword_longsword_brown.png");
 	great_sword_image = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
+	spear_image = LoadGraph("resources/images/spear.png");
+	frail_image = LoadGraph("resources/images/Frailt_dottoy.png");
+	book_image = LoadGraph("resources/images/game_ken.png");
+
 	button_image = LoadGraph("resources/images/button_a.png");
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
 
@@ -193,15 +197,15 @@ void Weapon_Selection::draw() const
 			SetFontSize(32);
 			DrawString(430, 10, "‚Q‚Â–Ú‚Ì•Ší‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢\n", 0xffffff);
 
-			DrawString(350, 450, "’ZŒ•", 0xffffff);
-			DrawString(650, 450, "•ĞèŒ•", 0xffffff);
-			DrawString(950, 450, "‘åŒ•", 0xffffff);
+			DrawString(350, 450, "‘„", 0xffffff);
+			DrawString(600, 450, "ƒtƒŒƒCƒ‹", 0xffffff);
+			DrawString(950, 450, "–‚“±‘", 0xffffff);
 
 			SetFontSize(16);
 
-			DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
-			DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
-			DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
+			DrawRotaGraph(380, 300, .45f, .0625f, spear_image, TRUE);
+			DrawRotaGraph(740, 330, .45f, .2925f, frail_image, TRUE);
+			DrawRotaGraph(950, 300, .45f, .0625f, book_image, TRUE);
 		}
 		DrawRotaGraph(400 + cursor_x, 600, .5f, 0, cursor_image, TRUE);
 	}
