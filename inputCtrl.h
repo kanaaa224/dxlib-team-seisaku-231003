@@ -107,8 +107,8 @@ public:
 			stickRatio.x = padRStick.x / STICK_MAX;
 			stickRatio.y = padRStick.y / STICK_MAX;
 		};
-		stickRatio.x = round(stickRatio.x * 10.0f) / 10.0f;
-		stickRatio.y = round(stickRatio.y * 10.0f) / 10.0f;
+		stickRatio.x = round(stickRatio.x * 100.0f) / 100.0f;
+		stickRatio.y = round(stickRatio.y * 100.0f) / 100.0f;
 		return stickRatio;
 	};
 
