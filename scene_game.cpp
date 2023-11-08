@@ -90,24 +90,7 @@ Scene* GameScene::update() {
 	
 	//敵//
 	HitCheck();
-
-	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-		tmpSlimeNum++;
-	}
-
-	if (stage == 1) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player, Weapon,*(backimg));
-				if (slime[i]->GetHP() <= 0) {
-					slime[i] = nullptr;
-				}
-			}
-		}
-	}
-
-	
+	slimeUpdate();
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -143,6 +126,19 @@ Scene* GameScene::update() {
 			Weapon->SetWeaponType(greatSword);
 		}
 	}
+
+	if (!secondweapon->GetLevelUpFlg()) {
+		if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
+			secondweapon->SetWeaponType(spear);
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
+			secondweapon->SetWeaponType(frail);
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
+			secondweapon->SetWeaponType(book);
+		}
+	}
+
 	////////////
 	player->SetLeftTop(backimg->GetStageArray(0));
 	player->SetRightBottom(backimg->GetStageArray(3));
@@ -206,7 +202,7 @@ Scene* GameScene::update() {
 		};
 	};
 
-	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
+	//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
 	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(exp, 2000, (exp / 20));
 	gameUI->setLevel(level);
@@ -214,8 +210,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	if(state) gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), true }, { greatSword, 5, false });
-	else      gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { greatSword, 5, true });
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { /*secondweapon->GetWeaponType()*/3, secondweapon->GetWeaponLevel(), false});
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -260,18 +255,12 @@ void GameScene::draw() const {
 	{
 		backimg->draw();
 		Weapon->Draw();
+		secondweapon->Draw();
 		player->draw();
 
-		//敵//
-		if (stage == 1) {
-			for (int i = 0; i < MAX_SLIME_NUM; i++) {
-				if (slime[i] != nullptr) {
-					slime[i]->Draw(i);
-				}
-			}
-		}
-
-		////////////
+	//敵//
+	slimeDraw();
+	////////////
 
 	if (is_weapon_selct != true)
 	{
@@ -280,6 +269,8 @@ void GameScene::draw() const {
 	else {
 		gameUI->draw();
 		gameUI->drawEnemyHP();
+
+		//gameUI->drawHP();
 	};
 
 		// 武器のレベルアップ画面描画
@@ -336,6 +327,39 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 		{
 			player->SetPlayer_HP(enemy->GetDamage());
 			player->SetIsHit(true);
+		}
+	}
+}
+
+void GameScene::slimeUpdate()
+{
+	if (stage == 1) {
+		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
+			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
+			tmpSlimeNum++;
+		}
+
+		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+			if (slime[i] != nullptr) {
+				slime[i]->Update(i, player, Weapon, *(backimg));
+				if (slime[i]->GetHP() <= 0) {
+					slime[i] = nullptr;
+				}
+			}
+		}
+	}
+	else if (stage == 2) {
+
+	}
+}
+
+void GameScene::slimeDraw() const
+{
+	if (stage == 1) {
+		for (int i = 0; i < MAX_SLIME_NUM; i++) {
+			if (slime[i] != nullptr) {
+				slime[i]->Draw(i);
+			}
 		}
 	}
 }

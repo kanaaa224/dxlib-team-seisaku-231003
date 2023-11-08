@@ -259,8 +259,8 @@ void weapon::Draw() const
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
 	}
 	else {
-		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
-	}*/
+		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く(武器１)");
+	}
 
 
 	

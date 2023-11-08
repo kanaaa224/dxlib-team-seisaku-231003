@@ -14,7 +14,7 @@
 #define INIT_DAMAGE_BOOK  5
 
 
-#define SPEAR_MAX_MOVE 45.0f
+#define SPEAR_MAX_MOVE 35.0f
 #define MAX_BULLETS_NUM 100
 
 enum second_weapon_type
