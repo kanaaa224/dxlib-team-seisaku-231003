@@ -126,6 +126,19 @@ Scene* GameScene::update() {
 			Weapon->SetWeaponType(greatSword);
 		}
 	}
+
+	if (!secondweapon->GetLevelUpFlg()) {
+		if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
+			secondweapon->SetWeaponType(spear);
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
+			secondweapon->SetWeaponType(frail);
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
+			secondweapon->SetWeaponType(book);
+		}
+	}
+
 	////////////
 	player->SetLeftTop(backimg->GetStageArray(0));
 	player->SetRightBottom(backimg->GetStageArray(3));
@@ -189,7 +202,7 @@ Scene* GameScene::update() {
 		};
 	};
 
-	gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
+	//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
 	gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	gameUI->setEXP(exp, 2000, (exp / 20));
 	gameUI->setLevel(level);
@@ -242,6 +255,7 @@ void GameScene::draw() const {
 	{
 		backimg->draw();
 		Weapon->Draw();
+		secondweapon->Draw();
 		player->draw();
 
 	//敵//
