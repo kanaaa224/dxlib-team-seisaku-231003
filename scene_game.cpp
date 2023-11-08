@@ -99,6 +99,7 @@ Scene* GameScene::update() {
 	//敵//
 	HitCheck();
 	slimeUpdate();
+	
 
 	//武器と敵の当たり判定
 	if (stage == 1) {

@@ -589,7 +589,7 @@ void weapon::LevelState()
 
 bool weapon::WeaponCollision(Location enemyLocation, float radius)
 {
-	Location weaponCollisionLocation;
+	Location weaponCollisionLocation = { 0,0 };
 
 	if (isAttacking) {
 
@@ -609,27 +609,29 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 
 	
 
-	for (int i = 0; i < 10; i++){
-		if (swordSlash[i].flg) {
-			float tmpx = swordSlash[i].collsion1.x - swordSlash[i].collsion2.x;
-			float tmpy = swordSlash[i].collsion1.y - swordSlash[i].collsion2.y;
-			float slashLength = sqrtf(tmpx * tmpx + tmpy * tmpy);
-			Vector uv = { tmpx / slashLength ,tmpy / slashLength };
-			uv.length = sqrtf(uv.x * uv.x + uv.y * uv.y);
+	if (weaponLevel == 7 && weaponType == sword) {
+		for (int i = 0; i < 10; i++) {
+			if (swordSlash[i].flg) {
+				float tmpx = swordSlash[i].collsion1.x - swordSlash[i].collsion2.x;
+				float tmpy = swordSlash[i].collsion1.y - swordSlash[i].collsion2.y;
+				float slashLength = sqrtf(tmpx * tmpx + tmpy * tmpy);
+				Vector uv = { tmpx / slashLength ,tmpy / slashLength };
+				uv.length = sqrtf(uv.x * uv.x + uv.y * uv.y);
 
-			for (int j = 0; j < (slashLength / 10) + 1; j++){
-				weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (i * 10));
-				weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (i * 10));
+				for (int j = 0; j < (slashLength / 10) + 1; j++) {
+					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (i * 10));
+					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (i * 10));
 
-				float tmp_x2 = weaponCollisionLocation.x - enemyLocation.x;
-				float tmp_y2 = weaponCollisionLocation.y - enemyLocation.y;
-				float tmp_length2 = sqrt(tmp_x2 * tmp_x2 + tmp_y2 * tmp_y2);
+					float tmp_x2 = weaponCollisionLocation.x - enemyLocation.x;
+					float tmp_y2 = weaponCollisionLocation.y - enemyLocation.y;
+					float tmp_length2 = sqrt(tmp_x2 * tmp_x2 + tmp_y2 * tmp_y2);
 
-				if (tmp_length2 < radius + 100) {
-					return true;
+					if (tmp_length2 < radius + 100) {
+						return true;
+					}
 				}
-			}
 
+			}
 		}
 	}
 	
