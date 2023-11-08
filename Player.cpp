@@ -52,6 +52,8 @@ Player::Player() {
 	CoolTime_fps = 0;
 	Second = 0;
 
+	hitEnemystate = 0;
+
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
