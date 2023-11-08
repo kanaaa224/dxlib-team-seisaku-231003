@@ -21,10 +21,6 @@ Player::Player() {
 	AimingX = 300.0;
 	AimingY = 300.0;
 	centerAngle = 15;
-	Length = 200.0;
-	radius = 0;
-	addX = 0;
-	addY = 0;
 	Aiming_RadiusX = 100.0;
 	Aiming_RadiusY = 100.0;
 
@@ -220,26 +216,6 @@ void Player::Player_Move() {
 
 void Player::Player_Aim() {
 
-	// 中心座標に角度と長さを使用した円の位置を加算する
-	// 度数法の角度を弧度法に変換
-	//radius = centerAngle * 3.14f / 180.0f;
-	//// 三角関数を使用し、円の位置を割り出す。
-	//addX = cos(radius) * Length;
-	//addY = sin(radius) * Length;
-	//// 結果ででた位置を中心位置に加算し、それを描画位置とする
-	//AimingX = location.x + addX + 25;
-	//AimingY = location.y + addY + 25;
-
-	//if (centerAngle > 360.0f) {
-	//	centerAngle = 0;
-	//}
-	//else if (centerAngle < -360.0f) {
-	//	centerAngle = 0;
-	//}
-
-	// 角度を変える
-	//centerAngle += 10.0f;
-
 		// 50 は 半径
 	X = location.x + Aiming_RadiusX * cosf(rd);
 	Y = location.y + Aiming_RadiusY * sinf(rd);
@@ -247,27 +223,13 @@ void Player::Player_Aim() {
 	//照準　右スティック
 	//横
 	if (Provisional_RStickX > MOVE_RIGHT) {
-		/*if (centerAngle < 0.0 && centerAngle > -180.0) {
-
-			centerAngle = centerAngle - 1.0f * Provisional_RStickX;
-		}
-		else if (centerAngle < 0.0 && centerAngle > 180.0) {
-
-			centerAngle = centerAngle - 1.0f * Provisional_RStickX;
-		}*/
+		
 		rd = Angle + float(-M_PI / 2);
 
 		//AimingX = AimingX + Additional_Value * Provisional_RStickX;
 	}
 	else if (Provisional_RStickX < MOVE_LEFT) {
-		/*if (centerAngle < -180.0 && centerAngle > -360.0) {
-
-			centerAngle = centerAngle - 1.0f * Provisional_RStickX;
-		}
-		else if (centerAngle < 0.0 && centerAngle > 360.0) {
-
-			centerAngle = centerAngle - 1.0f * Provisional_RStickX;
-		}*/
+		
 		rd = Angle + float(-M_PI / 2);
 
 		//AimingX = AimingX + Additional_Value * Provisional_RStickX;
@@ -275,27 +237,13 @@ void Player::Player_Aim() {
 
 	//縦
 	if (Provisional_RStickY > MOVE_UP) {
-		/*if (centerAngle < -90.0 && centerAngle > -270.0) {
-
-			centerAngle = centerAngle + 1.0f * Provisional_RStickY;
-		}
-		else if (centerAngle < 90.0 && centerAngle > 270.0) {
-
-			centerAngle = centerAngle - 1.0f * Provisional_RStickX;
-		}*/
+		
 		rd = Angle + float(-M_PI / 2);
 
 		//AimingY = AimingY - Additional_Value * Provisional_RStickY;
 	}
 	else if (Provisional_RStickY < MOVE_DOWN) {
-		/*if (centerAngle < -270.0 && centerAngle > 0) {
 
-			centerAngle = centerAngle - 1.0f * Provisional_RStickY;
-		}
-		else if (centerAngle < 270.0 && centerAngle > 0) {
-
-			centerAngle = centerAngle - 1.0f * Provisional_RStickX;
-		}*/
 		rd = Angle + float(-M_PI / 2);
 
 		//AimingY = AimingY - Additional_Value * Provisional_RStickY;
@@ -304,7 +252,7 @@ void Player::Player_Aim() {
 
 void Player::Player_Avoidance() {
 
-	//移動　左スティック
+	//回避　Aボタン
 	//横
 	if (Provisional_LStickX > MOVE_RIGHT) {
 		Additional_Value3 = Additional_Value3 + Speed;
@@ -479,12 +427,19 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
+void Player::Player_Speed(float value) {
+
+	Additional_Value2 = value;
+}
+
+// 照準の半径を返す
 void  Player::Player_Radius(float value) {
 
 	Aiming_RadiusX = Aiming_RadiusX + value;
 	Aiming_RadiusY = Aiming_RadiusY + value;
 }
 
+// 回避のクールタイムの時間を返す
 void Player::Avoidance_limit(int value) {
 
 	Cool_Limit = Cool_Limit - value;

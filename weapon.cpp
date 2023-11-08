@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
+#include "Player.h"
 //#include "SphereCollider.h"
 
 
@@ -231,10 +232,10 @@ void weapon::Draw() const
 
 	//DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType + 1);
 	//DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
-	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
+	DrawFormatString(0, 120, 0xffffff, "クールタイム　%d", maxCoolTime);
 	//DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
-	DrawFormatString(0, 120, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 150, 0xffffff, "ダメージ %d", damage);
+	DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
+	DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	/*DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
 	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);*/
@@ -353,41 +354,42 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER; //プレイヤーの移動速度を上げれるようにする
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD;
+			maxCoolTime = INIT_COOLTIME_GREATSWORD; //クールダウンは一撃が重い分　激重にしたい
 			damage = INIT_DAMAGE_GREATSWORD;
 			break;
 		}
 
 		break;
-	case 1:
+	case 1://少しだけ全てのステータスを上げる
 		switch (weaponType)
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD + 2.0f;
+			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.9f;
-			damage = INIT_DAMAGE_SWORD + 1;
+			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f;
-			damage = INIT_DAMAGE_DAGGER + 2;
+			damage = INIT_DAMAGE_DAGGER;
+			
 			break;
 
 		case greatSword:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD + 3.0f;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.9f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 10 = 70度
+			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
+			damage = INIT_DAMAGE_GREATSWORD + 25; // 序盤のステージは一回で敵を倒したい
 			break;
 		}
 
@@ -397,23 +399,24 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD + 3.0f;
+			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
-			damage = INIT_DAMAGE_SWORD + 2;
+			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER + 2.0f;
+			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER + 3;
+			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
+			//大剣　ダメージを多く上げる
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD + 5.0f;
+			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 10 = 70度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			damage = INIT_DAMAGE_GREATSWORD + 10; // 35
 			break;
 		}
 
@@ -423,23 +426,24 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD + 2.0f;
+			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
-			damage = INIT_DAMAGE_SWORD + 3;
+			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER + 5;
+			damage = INIT_DAMAGE_DAGGER;
 			break;
 
 		case greatSword:
+			//大剣　攻撃範囲を上げる
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD + 5.0f;
+			maxRot = INIT_ROTATION_SWORD + 10.0f; // 60 + 20 = 80度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
-			damage = INIT_DAMAGE_GREATSWORD;
+			damage = INIT_DAMAGE_GREATSWORD + 5; // 30
 			break;
 		}
 
@@ -449,9 +453,9 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD + 5.0f;
+			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD + 5;
+			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
@@ -462,10 +466,11 @@ void weapon::LevelState()
 			break;
 
 		case greatSword:
+			//大剣　ダメージを多く上げる
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD + 7.0f;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
-			damage = INIT_DAMAGE_GREATSWORD + 5;
+			maxRot = INIT_ROTATION_SWORD + 10.0f; // 60 + 20 = 80
+			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
+			damage = INIT_DAMAGE_GREATSWORD + 25; // 45
 			break;
 		}
 
@@ -475,9 +480,9 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD + 5.0f;
+			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD + 5;
+			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
@@ -488,10 +493,11 @@ void weapon::LevelState()
 			break;
 
 		case greatSword:
+			//大剣　攻撃範囲を上げる
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.6f;
-			damage = INIT_DAMAGE_GREATSWORD + 5;
+			maxRot = INIT_ROTATION_SWORD + 20.0f; // 60 + 40 = 100
+			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
+			damage = INIT_DAMAGE_GREATSWORD + 10; // 35
 			break;
 		}
 
@@ -503,7 +509,7 @@ void weapon::LevelState()
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
-			damage = INIT_DAMAGE_SWORD + 6;
+			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
@@ -515,9 +521,9 @@ void weapon::LevelState()
 
 		case greatSword:
 			baseVec = { 120,0,120 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.5f;
-			damage = INIT_DAMAGE_GREATSWORD + 10;
+			maxRot = INIT_ROTATION_SWORD + 30.0f; // 60 + 60 = 120度
+			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
+			damage = INIT_DAMAGE_GREATSWORD + 20; // 45
 			break;
 		}
 
