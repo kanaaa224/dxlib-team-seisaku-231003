@@ -60,12 +60,18 @@ Map::Map() {
 		icon_loc[i][1] = icon_loc_def[i][1];
 	}
 
+	rest = new Rest();
+
 	// アイコン移動初期化処理
 	icon_vec = 0;
 	cursor_pos = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
 
+	is_map_mode = true;
+
+	is_rest = false;
+	is_show_rest = false;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -82,9 +88,10 @@ Map::~Map() {
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
 	DeleteGraph(map_cursor);
+	delete rest;
 }
 
-int Map::update(bool& flg) {
+int Map::update() {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -106,7 +113,7 @@ int Map::update(bool& flg) {
 	else { move_cool--; }*/
 
 	// カーソル移動でカーソルが画面内に収まるようにする
-	if (cursor_move == TRUE){
+	if (cursor_move == TRUE) {
 		if (icon_loc[cursor_pos][1] <= 50) {
 			icon_vec = 10;
 		}
@@ -115,7 +122,7 @@ int Map::update(bool& flg) {
 		}
 	}
 
-	
+
 	// スクロール(Rスティック)
 	if (InputCtrl::GetStickRatio(R).y >= 0.2 || InputCtrl::GetStickRatio(R).y <= -0.2)
 	{
@@ -155,7 +162,7 @@ int Map::update(bool& flg) {
 
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		flg = false;
+		is_map_mode = false;
 
 		switch (MapDeta[cursor_pos])
 		{
@@ -166,13 +173,26 @@ int Map::update(bool& flg) {
 			return 2; //new DebugScene;
 			break;
 		case 2:
-			return 3; //new DebugScene;
+			if (is_rest != true)
+			{
+				//現状意味がない、ゲームメイン時に変更
+				Player* player = new Player();
+				rest->update(player,is_rest);
+				is_show_rest = true;
+				if (is_rest)
+				{
+					delete player;
+					player = nullptr;
+				}
+			}
+			is_show_rest = false;
+			is_rest = false;		//今は何度でも
 			break;
 		case 3:
-			return 4; //new DebugScene;
+			return 3; //new DebugScene;
 			break;
 		case 4:
-			return 5; //new DebugScene;
+			return 4; //new DebugScene;
 			break;
 		default:
 			break;
@@ -181,21 +201,32 @@ int Map::update(bool& flg) {
 
 	// BでDebugScene
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-		return 6; //new DebugScene;
+		return 5; // new DebugScene;
 	}
 
+	if (move_cool <= 0) {
+		if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
+			|| InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
 
-	float v = InputCtrl::GetStickRatio(L).x;
-	float h = InputCtrl::GetStickRatio(L).y;
-	if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
-		|| InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
-
-		angle = atan2(v, h) / M_PI * 180 + 180;
-		r = 0;
-		while (r < 400) {
-			r = r + 10;
+			float v = InputCtrl::GetStickRatio(L).x;
+			float h = InputCtrl::GetStickRatio(L).y;
+			angle = atan2(v, h) / M_PI * 180 + 180;
+			r = 0;
+			while (r < 400) {
+				r = r + 10;
+				(-sinf(angle / M_PI / 18) * 100 + 800, cosf(angle / M_PI / 18) * 100 + 600, 5, 0x00ff00, 1);
+			}
+			move_cool = 30;
 		}
 	}
+	else if(InputCtrl::GetStickRatio(L).x < 0.3 && InputCtrl::GetStickRatio(L).x > -0.3
+		&& InputCtrl::GetStickRatio(L).y < 0.3 && InputCtrl::GetStickRatio(L).y > -0.3){
+		move_cool = 0;
+	}
+	else {
+		move_cool--;
+	}
+
 
 	cursor_loc_x = icon_loc[cursor_pos][0];
 	cursor_loc_y = icon_loc[cursor_pos][1];
@@ -204,49 +235,54 @@ int Map::update(bool& flg) {
 };
 
 void Map::draw() const {
-
-	for (int i = 0; i < DATA_MAX; i++)
+	if (is_show_rest)
 	{
-		// デバック表示
-		DrawFormatString(10, 30, 0xffff00, "内部データ");
-		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
-		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
-		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugSceneへ");
-
-		// ステージ間のライン
-		for (int j = 0; next_stage[i][j] != 0 && j <= 2; j++)
-		{
-			int next_loc = next_stage[i][j];
-
-			DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
-				icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
-		}
-
-		// アイコン表示
-		switch (MapDeta[i]) {
-		case 0:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
-			break;
-		case 1:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
-			break;
-		case 2:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
-			break;
-		case 3:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
-			break;
-		case 4:
-			DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
-			break;
-		default:
-			break;
-		}
-		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+		rest->draw();
 	}
-	// カーソル表示
-	DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
-	for (int i = -2; i <= 2; i++) {
-		DrawLine(cursor_loc_x + 25, cursor_loc_y + 25, -sinf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_x + 25, cosf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_y + 25, 0x00ffff);
+	else
+	{
+		for (int i = 0; i < DATA_MAX; i++)
+		{
+			// デバック表示
+			DrawFormatString(10, 30, 0xffff00, "内部データ");
+			DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
+			DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
+
+			// ステージ間のライン
+			for (int j = 0; next_stage[i][j] != 0 && j <= 2; j++)
+			{
+				int next_loc = next_stage[i][j];
+
+				DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
+					icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
+			}
+
+			// アイコン表示
+			switch (MapDeta[i]) {
+			case 0:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
+				break;
+			case 1:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
+				break;
+			case 2:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
+				break;
+			case 3:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
+				break;
+			case 4:
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
+				break;
+			default:
+				break;
+			}
+			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+		}
+		// カーソル表示
+		DrawGraph(icon_loc[cursor_pos][0], icon_loc[cursor_pos][1], map_cursor, TRUE);
+		for (int i = -2; i <= 2; i++) {
+			DrawLine(cursor_loc_x + 25, cursor_loc_y + 25, -sinf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_x + 25, cosf((angle + 5 * i) / M_PI / 18) * r + cursor_loc_y + 25, 0x00ffff);
+		}
 	}
 }

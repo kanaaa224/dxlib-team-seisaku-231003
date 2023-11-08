@@ -42,12 +42,8 @@ Scene* DebugScene::update() {
 
 		 if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
 			 || InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
-
+			 
 			 angle = atan2(v, h) / M_PI * 180 + 180;
-			 r = 0;
-			 while (r < 150) {
-				 r = r + 10;
-			 }
 		 }
 		 
 
@@ -217,9 +213,6 @@ void DebugScene::draw() const {
 	y += 50;
 	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
 
-	y += 50;
-	DrawFormatString(x, y, 0xffffff, "Startでマップへ");
-
 	//////////////////////////////////////////////////
 
 	x = 640;
@@ -229,8 +222,5 @@ void DebugScene::draw() const {
 	DrawCircle(800, 600, 5, 0xffffff, 1);
 	DrawCircle(800 + 100 * InputCtrl::GetStickRatio(L).x, 600 + -100 * InputCtrl::GetStickRatio(L).y, 5, 0xff0000, 0);
 	DrawCircle(-sinf(angle / M_PI / 18) * 100 + 800, cosf(angle / M_PI / 18) * 100 + 600, 5, 0x00ff00, 1);
-	for (int i = -2; i <= 2; i++){
-		DrawLine(800, 600, -sinf((angle + 5 * i) / M_PI / 18) * r + 800, cosf((angle + 5 * i) / M_PI / 18) * r + 600, 0x00ffff);
-	}
-	DrawFormatString(700, 680, 0xffffff, "%.3f", angle);
+	DrawFormatString(700, 700, 0xffffff, "%.3f", angle);
 };

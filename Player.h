@@ -11,6 +11,8 @@
 #define Upper_Limit 13.0f
 #define Initial_Value 0.0f
 
+#define MAX_HP 100.f
+
 class Player :public SphereCollider
 {
 private:
@@ -33,12 +35,6 @@ private:
 
 	//仮 円運動
 	float centerAngle;
-	float Length;
-	float radius;
-	float addX;
-	float addY;
-	float degree = 0.0f;
-
 	float Angle;
 	float rd;
 	
@@ -112,6 +108,8 @@ public:
 
 	//回避のクールダウン時間
 	void Avoidance_limit(int value);
+
+	void Player_Speed(float value);
 
 	//プレイヤーの移動量 X Y を返す
 	float Player_MoveX();

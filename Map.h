@@ -1,10 +1,13 @@
 #pragma once
 #include"DxLib.h"
-#include"scene.h"
+#include"SphereCollider.h"
+#include"scene_rest.h"
+
+class GameScene;
 
 #define DATA_MAX 21
 
-class Map
+class Map : SphereCollider
 {
 private:
 	int MapDeta[DATA_MAX];
@@ -29,6 +32,8 @@ private:
 		{16},{17,18},{19},{19},{20},
 	};
 
+	Rest* rest;
+
 	int cursor_pos;    // カーソル位置
 	int cursor_loc_x, cursor_loc_y;
 	int move_cool;     // カーソル移動クールタイム
@@ -36,6 +41,10 @@ private:
 	int angle;
 	int r;
 
+	bool is_map_mode;
+
+	bool is_rest;		//休憩ステージのフラグ
+	bool is_show_rest;	//休憩ステージを映す？
 
 	// 画像
 	int battle_img = 0;
@@ -49,7 +58,18 @@ public:
 
 	~Map();
 
-	int update(bool& flg);
+	int update();
 
 	void draw() const;
+
+	bool GetIsMapMode()
+	{
+		return is_map_mode;
+	}
+
+	void SetIsMapMode(const bool flg)
+	{
+		is_map_mode = flg;
+	}
+
 };

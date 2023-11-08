@@ -1,4 +1,5 @@
 #pragma once
+class Player;
 
 #define d_r(_d) _d * (M_PI / 180)
 #define r_d(_r) _r * (180 / M_PI)
@@ -89,7 +90,7 @@ public:
 	weapon(int type);
 	~weapon();
 
-	void Update(float cursorX, float cursorY, Location playerLocation);
+	void Update(float cursorX, float cursorY, Location playerLocation, Player* player);
 	void Draw() const;
 
 	void SetWeaponType(int type);
