@@ -214,7 +214,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false });
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { /*secondweapon->GetWeaponType()*/3, secondweapon->GetWeaponLevel(), false});
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");

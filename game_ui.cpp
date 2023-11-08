@@ -12,6 +12,9 @@ GameUI::GameUI() {
 	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))  == -1) throw;
 	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png")) == -1) throw;
 	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))    == -1) throw;
+	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                  == -1) throw;
+	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))          == -1) throw;
+	//if ((img["weaponBook"]       = LoadGraph("resources/images/.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -31,6 +34,9 @@ GameUI::~GameUI() {
 	DeleteGraph(img["weaponSword"]);
 	DeleteGraph(img["weaponDagger"]);
 	DeleteGraph(img["weaponGreatSword"]);
+	DeleteGraph(img["weaponSpear"]);
+	DeleteGraph(img["weaponFrail"]);
+	//DeleteGraph(img["weaponBook"]);
 
 	//////////////////////////////////////////////////
 
@@ -289,11 +295,12 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(16);
 
-	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0;
+	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0, img_weaponFrail = 0;
 
 	if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
 	if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
 	if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
+	if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
 
 	int weaponA[3], weaponB[3];
 
@@ -326,16 +333,20 @@ void GameUI::drawHUD() const {
 		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponB[0]) {
-		case sword: // 片手剣
+		case 0: // 片手剣
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
 			break;
 
-		case dagger: // 短剣
+		case 1: // 短剣
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
 			break;
 
-		case greatSword: // 大剣
+		case 2: // 大剣
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
+			break;
+
+		case 3: // フレイル
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
 			break;
 
 		default:
@@ -356,16 +367,20 @@ void GameUI::drawHUD() const {
 		if(weaponA[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponA[0]) {
-		case sword: // 片手剣
-			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponSword, TRUE);
+		case 0: // 片手剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
 			break;
 
-		case dagger: // 短剣
-			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponDagger, TRUE);
+		case 1: // 短剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
 			break;
 
-		case greatSword: // 大剣
-			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponGreatSword, TRUE);
+		case 2: // 大剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
+			break;
+
+		case 3: // フレイル
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
 			break;
 
 		default:
