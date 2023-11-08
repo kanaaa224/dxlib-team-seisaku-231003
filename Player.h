@@ -28,7 +28,16 @@ private:
 	//照準
 	float AimingX;
 	float AimingY;
+	float X = 0.0;
+	float Y = 0.0;
+	float Aiming_RadiusX;
+	float Aiming_RadiusY;
 
+	//仮 円運動
+	float centerAngle;
+	float Angle;
+	float rd;
+	
 	//左スティック
 	float Provisional_LStickX;
 	float Provisional_LStickY;
@@ -42,6 +51,7 @@ private:
 	bool A_value;
 	bool CoolTime;
 	bool Avoidance_Flg;
+	int Cool_Limit;
 
 	//　加算値
 	float Additional_Value;
@@ -92,6 +102,14 @@ public:
 	//照準の関数 X Y を戻り値で返す
 	int Player_AimingX();
 	int Player_AimingY();
+
+	//照準の半径を返す
+	void Player_Radius(float value);
+
+	//回避のクールダウン時間
+	void Avoidance_limit(int value);
+
+	void Player_Speed(float value);
 
 	//プレイヤーの移動量 X Y を返す
 	float Player_MoveX();

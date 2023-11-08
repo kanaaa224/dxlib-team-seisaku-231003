@@ -73,6 +73,10 @@ public:
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
 
+	//スライム
+	void slimeUpdate();
+	void slimeDraw() const;
+
 	void Init();
 
 };

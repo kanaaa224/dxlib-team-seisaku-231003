@@ -22,9 +22,6 @@ Slime::Slime(int arrayNum, int SlimeMaxNum)
 	respawnTimeCnt = 0;
 	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum);
 
-	tmpVX = 0;
-	tmpVY = 0;
-
 	is_area = false;
 
 
@@ -97,11 +94,9 @@ void Slime::Draw(int arrayNum)
 			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
 		}
 		if (hitWeaponFlg == true && hp > 0) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
-
 			SetDrawBright(255, 0, 0);
 			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 			SetDrawBright(255, 255, 255);
-
 		}
 		else if (hp <= 0) {//HP1が０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);

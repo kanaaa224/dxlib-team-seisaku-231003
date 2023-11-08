@@ -51,6 +51,9 @@ public:
 	// 敵の体力
 	void drawEnemyHP() const;
 
+	// HP表示
+	void drawHP() const;
+
 	//////////////////////////////////////////////////
 
 	// ゲームスタート

@@ -9,7 +9,6 @@ class EnemyBase :public SphereCollider
 private:
 
 protected:
-	float swapVector;
 
 	float hitLX = 0;//当たった相手のX座標
 	float hitLY = 0;//当たった相手のY座標

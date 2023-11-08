@@ -8,7 +8,7 @@
 
 second_weapon::second_weapon()
 {
-	weaponType = 1;
+	weaponType = spear;
 	baseVec = { 80,0,80 };
 	relativeRot = 0.0f;		//武器によって変える
 	maxRot = 90.0f;
@@ -31,6 +31,7 @@ second_weapon::second_weapon()
 	spear_move = { 0,0,0 };
 
 	frailRadius = 30.0f;
+	frailRate = 1.0f;
 	isFrailAttacking = false;
 
 	book_move = { 0,0,0 };
@@ -66,9 +67,10 @@ second_weapon::~second_weapon()
 {
 }
 
-void second_weapon::Update(float cursorX, float cursorY, Location playerLocation)
+void second_weapon::Update(float cursorX, float cursorY, Location playerLocation, Vector playerVec)
 {
 	location = playerLocation;
+	playerVector = playerVec;
 	//debug
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
@@ -175,14 +177,19 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 		if (isFrailAttacking && FrailAnim()) {
 			isFrailAttacking = false;
 		}
+		else if (!isFrailAttacking) {
+			frailLcation.x += -1 * playerVector.x;
+			frailLcation.y += -1 * playerVector.y;
+			frailRadius = 30;
+		}
 
 	}
 
 
 
 	//レベルアップデバッグ
-	/*if (levelUpFlg) {
-		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
+	if (levelUpFlg) {
+		if (InputCtrl::GetKeyState(KEY_INPUT_K) == PRESS) {
 			levelUpFlg = false;
 		}
 
@@ -225,9 +232,9 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 		}
 
 	}
-	else if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
+	else if (InputCtrl::GetKeyState(KEY_INPUT_K) == PRESS) {
 		levelUpFlg = true;
-	}*/
+	}
 }
 
 void second_weapon::Draw() const
@@ -237,7 +244,7 @@ void second_weapon::Draw() const
 		switch (weaponType)
 		{
 		case spear:
-			DrawRotaGraph2(spearlocation.x, spearlocation.y, 325, 0, 0.25, rot + (M_PI / 3), spear_img, TRUE);
+			DrawRotaGraph2(spearlocation.x, spearlocation.y, 475, 40, 0.25, rot + (M_PI / 4), spear_img, TRUE);
 			break;
 		case frail:
 			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
@@ -256,11 +263,13 @@ void second_weapon::Draw() const
 			DrawCircle(bullets[i].l.x, bullets[i].l.y, 10, 0xffff00, TRUE);
 		}
 	}
+	if (weaponType == frail) {
+		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+	}
 
-	DrawCircle(frailLcation.x, frailLcation.y , frailRadius, 0x000000, TRUE);
-
-	DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
-	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);
+	//spear
+	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
+	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
 
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
@@ -274,7 +283,7 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
 	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
-	//DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);
+	DrawFormatString(0, 240, 0xffffff, "rate % f", frailRate);
 
 
 	//kk
@@ -292,13 +301,13 @@ void second_weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	/*if (levelUpFlg) {
+	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
 	}
 	else {
-		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く");
-	}*/
+		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
+	}
 
 
 
@@ -644,7 +653,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 		
 	}
 
-	if (isFrailAttacking) {
+	if (isFrailAttacking && frailRate <= 1.0f) {
 		weaponCollisionLocation.x = frailLcation.x;
 		weaponCollisionLocation.y = frailLcation.y;
 
@@ -686,8 +695,8 @@ bool second_weapon::SpearAnim()
 
 	spearlocation = location;
 
-	spear_move.x += unitVec.x * 3;
-	spear_move.y += unitVec.y * 3;
+	spear_move.x += unitVec.x * 5;
+	spear_move.y += unitVec.y * 5;
 
 	spearlocation.x += spear_move.x;
 	spearlocation.y += spear_move.y;
@@ -713,8 +722,8 @@ void second_weapon::MoveBookBullet()
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
 		if (bullets[i].flg) {
-			bullets[i].l.x += bullets[i].v.x * 10;
-			bullets[i].l.y += bullets[i].v.y * 10;
+			bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
+			bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
 
 			if (bullets[i].l.x < 0 || bullets[i].l.x > 1280 ||
 				bullets[i].l.y < 0 || bullets[i].l.y > 720) {
@@ -731,12 +740,23 @@ bool second_weapon::FrailAnim()
 	frailVec.y = unitVec.y * 10;
 	frailVec.length = sqrtf(frailVec.x * frailVec.x + frailVec.y * frailVec.y);
 
-	frailLcation.x += frailVec.x;
-	frailLcation.y += frailVec.y;
+	frailLcation.x += frailVec.x + playerVector.x * -1;
+	frailLcation.y += frailVec.y + playerVector.y * -1;
 	frailLength = sqrtf((frailLcation.x - location.x) * (frailLcation.x - location.x) + (frailLcation.y - location.y) * (frailLcation.y - location.y));
 	frailLengthCursor = sqrtf((frailLcationCursor.x - location.x) * (frailLcationCursor.x - location.x) + (frailLcationCursor.y - location.y) * (frailLcationCursor.y - location.y));
 
+	if ((int)frailLength  < (int)frailLengthCursor / 2) {
+		frailRate += 0.1f;
+	}
+	else if ((int)frailLength > (int)frailLengthCursor / 2) {
+		frailRate -= 0.1f;
+	}
+
+	frailRadius = 30 * (1.0f * frailRate);
+
+
 	if ((int)frailLength > (int)frailLengthCursor) {
+		frailRate = 1.0f;
 		return true;
 	}
 

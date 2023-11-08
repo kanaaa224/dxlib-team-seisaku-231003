@@ -12,6 +12,9 @@ GameUI::GameUI() {
 	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))  == -1) throw;
 	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png")) == -1) throw;
 	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))    == -1) throw;
+	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                  == -1) throw;
+	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))          == -1) throw;
+	//if ((img["weaponBook"]       = LoadGraph("resources/images/.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -31,6 +34,9 @@ GameUI::~GameUI() {
 	DeleteGraph(img["weaponSword"]);
 	DeleteGraph(img["weaponDagger"]);
 	DeleteGraph(img["weaponGreatSword"]);
+	DeleteGraph(img["weaponSpear"]);
+	DeleteGraph(img["weaponFrail"]);
+	DeleteGraph(img["weaponBook"]);
 
 	//////////////////////////////////////////////////
 
@@ -195,7 +201,7 @@ void GameUI::drawHUD() const {
 	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
 	color = GetColor(128, 207, 27);
-	if(ratio <= 15)       color = GetColor(255, 0, 0);
+	if (ratio <= 15)      color = GetColor(255, 0, 0);
 	else if (ratio <= 30) color = GetColor(255, 140, 76);
 
 	DrawBox(lx, ly, rx, ry, color, true);
@@ -211,12 +217,12 @@ void GameUI::drawHUD() const {
 	//SetFontSize(16);
 	//ChangeFont("");
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	/* SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawBox(rootLX + 40, rootLY + 80, rootLX + 260, rootLY + 110, GetColor(0, 0, 0), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	str = "SCORE: " + std::to_string(score);
-	DrawFormatString(rootLX + 50, rootLY + 88, 0xffffff, str.c_str());
+	DrawFormatString(rootLX + 50, rootLY + 88, 0xffffff, str.c_str()); */
 
 
 	//////////////////////////////////////////////////
@@ -269,14 +275,14 @@ void GameUI::drawHUD() const {
 
 	DrawFormatString(lx + 40, ly + 5 , 0xffffff, "レベルアップメニュー");
 
-	ly = rootLY + (SCREEN_HEIGHT - 240);
+	/* ly -= 40;
 	ry = ly + 30;
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnB, TRUE);
 
-	DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）");
+	DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）"); */
 
-	ly = rootLY + (SCREEN_HEIGHT - 280);
+	ly -= 40;
 	ry = ly + 30;
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
@@ -289,11 +295,14 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(16);
 
-	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0;
+	int img_weaponSword = 0, img_weaponDagger = 0, img_weaponGreatSword = 0, img_weaponSpear = 0, img_weaponFrail = 0, img_weaponBook = 0;
 
 	if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
 	if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
 	if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
+	if (img.find("weaponSpear")      != img.end()) img_weaponSpear      = img.at("weaponSpear");
+	if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
+	if (img.find("weaponBook")       != img.end()) img_weaponBook       = img.at("weaponBook");
 
 	int weaponA[3], weaponB[3];
 
@@ -326,16 +335,16 @@ void GameUI::drawHUD() const {
 		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponB[0]) {
-		case sword: // 片手剣
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
+		case 0: // 槍
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSpear, TRUE);
 			break;
 
-		case dagger: // 短剣
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
+		case 1: // フレイル
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
 			break;
 
-		case greatSword: // 大剣
-			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
+		case 2: // 本
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponBook, TRUE);
 			break;
 
 		default:
@@ -356,16 +365,16 @@ void GameUI::drawHUD() const {
 		if(weaponA[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponA[0]) {
-		case sword: // 片手剣
-			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponSword, TRUE);
+		case 0: // 片手剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
 			break;
 
-		case dagger: // 短剣
-			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponDagger, TRUE);
+		case 1: // 短剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
 			break;
 
-		case greatSword: // 大剣
-			DrawExtendGraph(x -= 20, y -= 20, x + 50, y + 50, img_weaponGreatSword, TRUE);
+		case 2: // 大剣
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
 			break;
 
 		default:
@@ -444,6 +453,43 @@ void GameUI::drawEnemyHP() const {
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+};
+
+void GameUI::drawHP() const {
+	SetFontSize(16);
+
+	int current = 0;
+	int max = 0;
+	int ratio = 0;
+
+	if (hp.find("current") != hp.end()) current = hp.at("current");
+	if (hp.find("max")     != hp.end()) max     = hp.at("max");
+	if (hp.find("ratio")   != hp.end()) ratio   = hp.at("ratio");
+
+	int lx = 40;
+	int ly = 40;
+	int rx = 460;
+	int ry = 70;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	lx = lx + 5;
+	ly = ly + 5;
+	rx = rx - 5;
+	ry = ry - 5;
+
+	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
+
+	int color = GetColor(128, 207, 27);
+	if (ratio <= 15)      color = GetColor(255, 0, 0);
+	else if (ratio <= 30) color = GetColor(255, 140, 76);
+
+	DrawBox(lx, ly, rx, ry, color, true);
+
+	std::string str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
+	DrawFormatString(45, 30, 0xffffff, str.c_str());
 };
 
 void GameUI::setScore(int Score) {
