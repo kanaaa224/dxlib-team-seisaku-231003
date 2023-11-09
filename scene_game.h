@@ -48,6 +48,7 @@ private:
 	int hitFrameCounter = 0;
 
 	bool is_weapon_select;
+	bool is_map_mode;
 	bool weapon_selected;
 
 	bool open_level_up;				// レベルアップ画面が開いているか
@@ -73,10 +74,17 @@ public:
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
 
+<<<<<<< HEAD
 	//スライム
 	void slimeUpdate();
 	void slimeDraw() const;
 
 	void Init();
 
+=======
+	bool GetIsMapMode()
+	{
+		return &is_map_mode;
+	}
+>>>>>>> parent of 5ada5a5 (不必要なものを消した)
 };

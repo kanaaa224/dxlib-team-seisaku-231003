@@ -1,7 +1,7 @@
 #include "main.h"
 #include "map.h"
 
-Map::Map() {
+Map::Map(GameScene* gamemain) {
 	// マップデータ初期化処理
 	for (int i = 0; i <= DATA_MAX; i++)
 	{
@@ -68,7 +68,7 @@ Map::Map() {
 	move_cool = 0;
 	cursor_move = FALSE;
 
-	is_map_mode = true;
+	//map_flg = gamemain->GetIsMapMode();
 
 	is_rest = false;
 	is_show_rest = false;
@@ -162,7 +162,7 @@ int Map::update() {
 
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		is_map_mode = false;
+		//map_flg = false;
 
 		switch (MapDeta[cursor_pos])
 		{

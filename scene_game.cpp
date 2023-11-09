@@ -15,7 +15,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
-	map = new Map;
+	map = new Map(this);
 
 	//////////////////////////////////////////////////
 	
@@ -25,6 +25,7 @@ GameScene::GameScene() {
 
 	is_weapon_select = false;
 	weapon_selected = false;
+	is_map_mode = true;
 
 	// レベルアップ画面用
 	open_level_up = false;
@@ -48,15 +49,9 @@ GameScene::~GameScene() {
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
-	if (map->GetIsMapMode())
-	{
-		map->update();
-		//if (map->GetIsMapMode() != true)
-		//{
-		//	delete map;
-		//	map = nullptr;
-		//}
-		return this;
+	if (is_map_mode == true) {
+		//map->update();
+		//return this;
 	}
 
 	//武器選択画面
@@ -228,6 +223,7 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
+<<<<<<< HEAD
 			Init();
 			////GameScene();
 			map->SetIsMapMode(true);
@@ -242,6 +238,9 @@ Scene* GameScene::update() {
 				return this;
 			}
 			//return new Map;
+=======
+			return new Map(this);
+>>>>>>> parent of 5ada5a5 (不必要なものを消した)
 		}
 	};
 	if (player->GetPlayer_HP() <= 0) {
@@ -271,7 +270,7 @@ void GameScene::draw() const {
 	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
 
 	// 
-	if (map->GetIsMapMode())
+	if (is_map_mode == false)
 	{
 		map->draw();
 	}
@@ -352,6 +351,7 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 		}
 	}
 }
+<<<<<<< HEAD
 
 void GameScene::Init()
 {
@@ -418,3 +418,5 @@ void GameScene::slimeDraw() const
 		}
 	}
 }
+=======
+>>>>>>> parent of 5ada5a5 (不必要なものを消した)
