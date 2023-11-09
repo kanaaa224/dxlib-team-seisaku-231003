@@ -15,12 +15,28 @@ EnemyBase::EnemyBase()
 float EnemyBase::PlayerLoad_X(float location_x)
 {
 	float r = dL.x - location_x;
+	if (dL.x > location_x)
+	{
+		r -= (radius + 5);
+	}
+	else
+	{
+		r += (radius + 5);
+	}
 	return r;
 }
 
 float EnemyBase::PlayerLoad_Y(float location_y)
 {
 	float r = dL.y - location_y;
+	if (dL.y > location_y)
+	{
+		r -= (radius + 5);
+	}
+	else
+	{
+		r += (radius + 5);
+	}
 	return r;
 }
 

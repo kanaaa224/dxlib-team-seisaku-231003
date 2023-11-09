@@ -46,6 +46,7 @@
     <ClInclude Include="inputCtrl.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="scene_blacksmith.h" />
     <ClInclude Include="scene_credit.h" />
     <ClInclude Include="scene_debug.h" />
     <ClInclude Include="scene_end.h" />
@@ -75,6 +76,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="scene_blacksmith.cpp" />
     <ClCompile Include="scene_credit.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_end.cpp" />

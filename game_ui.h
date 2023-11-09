@@ -54,6 +54,9 @@ public:
 	// HP表示
 	void drawHP() const;
 
+	// ポーズ画面
+	void drawPause() const;
+
 	//////////////////////////////////////////////////
 
 	// ゲームスタート

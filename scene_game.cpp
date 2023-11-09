@@ -5,7 +5,7 @@
 #include "main.h"
 
 GameScene::GameScene() {
-	state = 0;
+	state = 1;
 	frameCounter = 0;
 
 	//////////////////////////////////////////////////
@@ -15,7 +15,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
-	map = new Map;
+	map = new Map(this);
 
 	//////////////////////////////////////////////////
 	
@@ -25,6 +25,7 @@ GameScene::GameScene() {
 
 	is_weapon_select = false;
 	weapon_selected = false;
+	is_map_mode = true;
 
 	// レベルアップ画面用
 	open_level_up = false;
@@ -48,15 +49,25 @@ GameScene::~GameScene() {
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
+<<<<<<< HEAD
+	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
+		if (state) state = 0;
+		else state++;
+	};
+
+	if (!state) return this; // Pause
+
+	//////////////////////////////////////////////////
+
 	if (map->GetIsMapMode())
 	{
 		map->update();
-		//if (map->GetIsMapMode() != true)
-		//{
-		//	delete map;
-		//	map = nullptr;
-		//}
 		return this;
+=======
+	if (is_map_mode == true) {
+		//map->update();
+		//return this;
+>>>>>>> taiki
 	}
 
 	//武器選択画面
@@ -95,7 +106,7 @@ Scene* GameScene::update() {
 		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
 		return this;
 	}
-	
+
 	//敵//
 	HitCheck();
 	slimeUpdate();
@@ -219,7 +230,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false});
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false });
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -228,21 +239,19 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
+<<<<<<< HEAD
 			Init();
 			////GameScene();
 			map->SetIsMapMode(true);
-			if (map->GetIsMapMode())
-			{
-				map->update();
-				//if (map->GetIsMapMode() != true)
-				//{
-				//	delete map;
-				//	map = nullptr;
-				//}
-				return this;
-			}
 			//return new Map;
+<<<<<<< HEAD
+		};
+=======
+=======
+			return new Map(this);
+>>>>>>> parent of 5ada5a5 (不必要なものを消した)
 		}
+>>>>>>> taiki
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
@@ -257,21 +266,14 @@ Scene* GameScene::update() {
 	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 	//////////////////////////////////////////////////
-	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-		if (state) state = 0;
-		else state++;
-	};
-	//////////////////////////////////////////////////
-	
+
 
 	return this;
 };
 
 void GameScene::draw() const {
-	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
-
 	// 
-	if (map->GetIsMapMode())
+	if (is_map_mode == false)
 	{
 		map->draw();
 	}
@@ -282,9 +284,9 @@ void GameScene::draw() const {
 		secondweapon->Draw();
 		player->draw();
 
-	//敵//
-	slimeDraw();
-	////////////
+		//敵//
+		slimeDraw();
+		////////////
 
 		if (is_weapon_select != true)
 		{
@@ -293,6 +295,8 @@ void GameScene::draw() const {
 		else {
 			gameUI->draw();
 			gameUI->drawEnemyHP();
+
+			//gameUI->drawHP();
 		};
 
 		// 武器のレベルアップ画面描画
@@ -301,6 +305,8 @@ void GameScene::draw() const {
 			weapon_level_up->draw();
 		}
 	}
+
+	if (!state) gameUI->drawPause();
 };
 
 void GameScene::HitCheck()
@@ -352,6 +358,7 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 		}
 	}
 }
+<<<<<<< HEAD
 
 void GameScene::Init()
 {
@@ -418,3 +425,5 @@ void GameScene::slimeDraw() const
 		}
 	}
 }
+=======
+>>>>>>> parent of 5ada5a5 (不必要なものを消した)

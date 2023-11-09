@@ -41,7 +41,7 @@ private:
 	int angle;
 	int r;
 
-	bool is_map_mode;
+	//bool& map_flg;
 
 	bool is_rest;		//‹xŒeƒXƒe[ƒW‚Ìƒtƒ‰ƒO
 	bool is_show_rest;	//‹xŒeƒXƒe[ƒW‚ğ‰f‚·H
@@ -54,13 +54,18 @@ private:
 	int boss_img = 0;
 	int map_cursor = 0;
 public:
-	Map();
+	Map(GameScene*gamemain);
 
 	~Map();
 
 	virtual Scene* update()override;
 
+<<<<<<< HEAD
 	virtual void draw() const override;
+=======
+<<<<<<< HEAD
+	void draw() const;
+>>>>>>> taiki
 
 	bool GetIsMapMode()
 	{
@@ -72,4 +77,7 @@ public:
 		is_map_mode = flg;
 	}
 
+=======
+	virtual void draw() const override;
+>>>>>>> parent of 5ada5a5 (ä¸å¿…è¦ãªã‚‚ã®ã‚’æ¶ˆã—ãŸ)
 };

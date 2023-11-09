@@ -138,7 +138,6 @@ public:
 		is_hit = flg;
 	}
 
-
 	Location Player_Location();
 
 	//ステージの左上と右下を取得
