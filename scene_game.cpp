@@ -51,11 +51,6 @@ Scene* GameScene::update() {
 	if (map->GetIsMapMode())
 	{
 		map->update();
-		//if (map->GetIsMapMode() != true)
-		//{
-		//	delete map;
-		//	map = nullptr;
-		//}
 		return this;
 	}
 
@@ -230,16 +225,6 @@ Scene* GameScene::update() {
 			Init();
 			////GameScene();
 			map->SetIsMapMode(true);
-			if (map->GetIsMapMode())
-			{
-				map->update();
-				//if (map->GetIsMapMode() != true)
-				//{
-				//	delete map;
-				//	map = nullptr;
-				//}
-				return this;
-			}
 			//return new Map;
 		}
 	};
@@ -350,24 +335,24 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 			player->SetIsHit(true);
 			if (player->GetLocation().x - player->GetEnemyRadius() > enemy->GetEnemyLocation().x)
 			{
-				player->SetHitEenemyState(LeftHit);
+				player->SetHitEnemyState(LeftHit);
 			}
 			else if (player->GetLocation().x + player->GetEnemyRadius() < enemy->GetLocation().x)
 			{
-				player->SetHitEenemyState(RightHit);
+				player->SetHitEnemyState(RightHit);
 			}
 			else if (player->GetLocation().y - player->GetEnemyRadius() > enemy->GetLocation().y)
 			{
-				player->SetHitEenemyState(TopHit);
+				player->SetHitEnemyState(TopHit);
 			}
 			else if (player->GetLocation().y + player->GetEnemyRadius() < enemy->GetLocation().y)
 			{
-				player->SetHitEenemyState(BottomHit);
+				player->SetHitEnemyState(BottomHit);
 			}
 		}
 		else
 		{
-			player->SetHitEenemyState(NoHit);
+			player->SetHitEnemyState(NoHit);
 		}
 	}
 }

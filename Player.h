@@ -81,7 +81,7 @@ private:
 	int CoolTime_fps;
 	int Second;
 
-	int hitEnemystate;		//どこにあたったか　0:No Hit 1:Top 2:Right 3:Bottom 4:Left
+	int hitEnemyState;		//どこにあたったか　0:No Hit 1:Top 2:Right 3:Bottom 4:Left
 
 	//カメラ用
 	StageArray lefttop;
@@ -149,9 +149,14 @@ public:
 		is_hit = flg;
 	}
 
-	void SetHitEenemyState(const int value)
+	int GetHitEnemyState()
 	{
-		hitEnemystate = value;
+		return hitEnemyState;
+	}
+
+	void SetHitEnemyState(const int value)
+	{
+		hitEnemyState = value;
 	}
 
 

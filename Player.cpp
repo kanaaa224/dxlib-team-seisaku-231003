@@ -52,7 +52,7 @@ Player::Player() {
 	CoolTime_fps = 0;
 	Second = 0;
 
-	hitEnemystate = 0;
+	hitEnemyState = 0;
 
 	A_value = false;
 	CoolTime = false;
@@ -187,11 +187,11 @@ void Player::Player_Move() {
 
 	//移動　左スティック
 	//横
-	if (Provisional_LStickX > MOVE_RIGHT) {
+	if (Provisional_LStickX > MOVE_RIGHT && hitEnemyState != RightHit) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
-	else if (Provisional_LStickX < MOVE_LEFT) {
+	else if (Provisional_LStickX < MOVE_LEFT && hitEnemyState != LeftHit) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
@@ -200,13 +200,13 @@ void Player::Player_Move() {
 	}
 
 	//縦
-	if (Provisional_LStickY < MOVE_DOWN) {
+	if (Provisional_LStickY < MOVE_DOWN && hitEnemyState != BottomHit) {
 
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
 
 	}
-	else if (Provisional_LStickY > MOVE_UP) {
+	else if (Provisional_LStickY > MOVE_UP && hitEnemyState != TopHit) {
 
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;

@@ -49,7 +49,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 				Y();
 				location.y += vector.y - diff.y;
 			}
-			else if (hitWeaponFlg == true) {
+			else if (hitWeaponFlg == true || player->GetIsHit()==true) {
 				vector.x = -vector.x * KNCKBACK;
 				location.x += vector.x - diff.x;
 				vector.y = -vector.y * KNCKBACK;
