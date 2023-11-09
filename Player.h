@@ -13,15 +13,6 @@
 
 #define MAX_HP 100.f
 
-enum HitEnemyState
-{
-	NoHit = 0,
-	TopHit = 1,
-	RightHit = 2,
-	BottomHit = 3,
-	LeftHit = 4
-};
-
 class Player :public SphereCollider
 {
 private:
@@ -80,8 +71,6 @@ private:
 	int fps;
 	int CoolTime_fps;
 	int Second;
-
-	int hitEnemyState;		//Ç«Ç±Ç…Ç†ÇΩÇ¡ÇΩÇ©Å@0:No Hit 1:Top 2:Right 3:Bottom 4:Left
 
 	//ÉJÉÅÉâóp
 	StageArray lefttop;
@@ -148,17 +137,6 @@ public:
 	{
 		is_hit = flg;
 	}
-
-	int GetHitEnemyState()
-	{
-		return hitEnemyState;
-	}
-
-	void SetHitEnemyState(const int value)
-	{
-		hitEnemyState = value;
-	}
-
 
 	Location Player_Location();
 

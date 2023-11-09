@@ -52,8 +52,6 @@ Player::Player() {
 	CoolTime_fps = 0;
 	Second = 0;
 
-	hitEnemyState = 0;
-
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
@@ -181,8 +179,6 @@ void Player::draw()const {
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
 	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
-	DrawFormatString(200, 200, GetColor(255, 0, 0), "hitEnemyState:%d", hitEnemyState);
-
 }
 
 void Player::Player_Move() {
