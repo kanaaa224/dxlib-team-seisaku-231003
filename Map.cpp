@@ -91,7 +91,7 @@ Map::~Map() {
 	delete rest;
 }
 
-int Map::update() {
+Scene* Map::update() {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -167,10 +167,10 @@ int Map::update() {
 		switch (MapDeta[cursor_pos])
 		{
 		case 0:
-			return 1; //new GameScene;
+			return new GameScene;
 			break;
 		case 1:
-			return 2; //new DebugScene;
+			return new DebugScene;
 			break;
 		case 2:
 			if (is_rest != true)
@@ -189,10 +189,10 @@ int Map::update() {
 			is_rest = false;		//今は何度でも
 			break;
 		case 3:
-			return 3; //new DebugScene;
+			return new DebugScene;
 			break;
 		case 4:
-			return 4; //new DebugScene;
+			return new DebugScene;
 			break;
 		default:
 			break;
@@ -201,7 +201,7 @@ int Map::update() {
 
 	// BでDebugScene
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-		return 5; // new DebugScene;
+		return new DebugScene;
 	}
 
 	if (move_cool <= 0) {
@@ -231,7 +231,7 @@ int Map::update() {
 	cursor_loc_x = icon_loc[cursor_pos][0];
 	cursor_loc_y = icon_loc[cursor_pos][1];
 
-	return 0;
+	return this;
 };
 
 void Map::draw() const {
