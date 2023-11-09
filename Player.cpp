@@ -181,17 +181,19 @@ void Player::draw()const {
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
 	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
+	DrawFormatString(200, 200, GetColor(255, 0, 0), "hitEnemyState:%d", hitEnemyState);
+
 }
 
 void Player::Player_Move() {
 
 	//移動　左スティック
 	//横
-	if (Provisional_LStickX > MOVE_RIGHT && hitEnemyState != RightHit) {
+	if (Provisional_LStickX > MOVE_RIGHT) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
-	else if (Provisional_LStickX < MOVE_LEFT && hitEnemyState != LeftHit) {
+	else if (Provisional_LStickX < MOVE_LEFT) {
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 	}
@@ -200,13 +202,13 @@ void Player::Player_Move() {
 	}
 
 	//縦
-	if (Provisional_LStickY < MOVE_DOWN && hitEnemyState != BottomHit) {
+	if (Provisional_LStickY < MOVE_DOWN) {
 
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;
 
 	}
-	else if (Provisional_LStickY > MOVE_UP && hitEnemyState != TopHit) {
+	else if (Provisional_LStickY > MOVE_UP) {
 
 		MoveY = -1 * Additional_Value2 * Provisional_LStickY;
 		MovingY = MovingY - MoveY;

@@ -333,19 +333,19 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 		{
 			player->SetPlayer_HP(enemy->GetDamage());
 			player->SetIsHit(true);
-			if (player->GetLocation().x - player->GetEnemyRadius() > enemy->GetEnemyLocation().x)
+			if (player->GetLocation().x > enemy->GetEnemyLocation().x)
 			{
 				player->SetHitEnemyState(LeftHit);
 			}
-			else if (player->GetLocation().x + player->GetEnemyRadius() < enemy->GetLocation().x)
+			if (player->GetLocation().x < enemy->GetLocation().x)
 			{
 				player->SetHitEnemyState(RightHit);
 			}
-			else if (player->GetLocation().y - player->GetEnemyRadius() > enemy->GetLocation().y)
+			if (player->GetLocation().y > enemy->GetLocation().y)
 			{
 				player->SetHitEnemyState(TopHit);
 			}
-			else if (player->GetLocation().y + player->GetEnemyRadius() < enemy->GetLocation().y)
+			if (player->GetLocation().y < enemy->GetLocation().y)
 			{
 				player->SetHitEnemyState(BottomHit);
 			}
