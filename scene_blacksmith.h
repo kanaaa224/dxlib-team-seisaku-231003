@@ -1,15 +1,10 @@
 #pragma once
 
-#include"inputCtrl.h"
-
-//#define MAX_LEVEL					8		// レベルの最大値
-#define MAX_LEVEL_HIERARCHY			4		// レベル階層の最大値
-#define LEVEL_HIERARCHY_HEIGHT		90		// 1階層の高さ
-
 class weapon;
 class second_weapon;
+class WeaponLevelUp;
 
-class WeaponLevelUp
+class Blacksmith
 {
 private:
 	enum WeaponNum
@@ -63,36 +58,17 @@ private:
 	int weapon2_level_hierarchy;	// 武器2のレベルの階層
 
 public:
-	WeaponLevelUp();
-	~WeaponLevelUp();
+	Blacksmith();
+	~Blacksmith();
 
 	// 更新
-	void update(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
+	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* levelup);
 
 	// 描画
 	void draw()const;
 
-private:
 	// レベルアップ詳細のテキスト群
 	void DrawLevelUpDetails()const;
 
-public:
-	/***********************
-	**	Set関数、Get関数
-	***********************/
-
-	// 鍛冶で返却されたポイントの設定
-	void SetLevelUpPoint(int return_point)
-	{
-		point = return_point;
-	}
-
-	// 現在所持しているポイントの取得
-	int GetLevelUpPoint() { return point; }
-
-	// 武器1の現在のレベルの取得
-	int GetWeapon1LevelHierarchy() { return weapon1_level_hierarchy; }
-
-	// 武器2の現在のレベルの取得
-	int GetWeapon2LevelHierarchy() { return weapon2_level_hierarchy; }
 };
+

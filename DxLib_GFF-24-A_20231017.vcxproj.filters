@@ -126,6 +126,9 @@
     <ClInclude Include="scene_rest.h">
       <Filter>シーン</Filter>
     </ClInclude>
+    <ClInclude Include="scene_blacksmith.h">
+      <Filter>シーン</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -207,6 +210,9 @@
       <Filter>weapon</Filter>
     </ClCompile>
     <ClCompile Include="scene_rest.cpp">
+      <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_blacksmith.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
   </ItemGroup>

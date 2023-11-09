@@ -1,13 +1,13 @@
 #pragma once
 #include"DxLib.h"
-#include"scene.h"
+#include"SphereCollider.h"
 #include"scene_rest.h"
 
 class GameScene;
 
 #define DATA_MAX 21
 
-class Map :public Scene
+class Map : SphereCollider
 {
 private:
 	int MapDeta[DATA_MAX];
@@ -58,9 +58,9 @@ public:
 
 	~Map();
 
-	virtual Scene* update()override;
+	int update();
 
-	virtual void draw() const override;
+	void draw() const;
 
 	bool GetIsMapMode()
 	{

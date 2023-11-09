@@ -2,7 +2,7 @@
 #include "inputCtrl.h"
 
 Scene* kitamura_test::update()
-{
+{/*
     if (!wp.GetLevelUpFlg()) {
         if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
             wp.SetWeaponType(sword);
@@ -15,12 +15,12 @@ Scene* kitamura_test::update()
         }
     }
     wp.Update(p.Player_AimingX(), p.Player_AimingY(),p.Player_Location());
-    p.update();
+    p.update();*/
     return this;
 }
 
 void kitamura_test::draw() const
 {
-    p.draw();
-    wp.Draw();
+  /*  p.draw();
+    wp.Draw();*/
 }
