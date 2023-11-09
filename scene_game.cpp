@@ -5,7 +5,7 @@
 #include "main.h"
 
 GameScene::GameScene() {
-	state = 0;
+	state = 1;
 	frameCounter = 0;
 
 	//////////////////////////////////////////////////
@@ -48,6 +48,17 @@ GameScene::~GameScene() {
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
+	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
+		if (state) state = 0;
+		else state++;
+	};
+
+	if (!state) return this; // Pause
+
+	//////////////////////////////////////////////////
+
+	if (is_map_mode == true) {
+		map->update(is_map_mode);
 	if (map->GetIsMapMode())
 	{
 		map->update();
@@ -95,7 +106,7 @@ Scene* GameScene::update() {
 		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
 		return this;
 	}
-	
+
 	//敵//
 	HitCheck();
 	slimeUpdate();
@@ -219,7 +230,7 @@ Scene* GameScene::update() {
 	gameUI->setFloor(-2);
 	gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
 
-	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false});
+	gameUI->setWeapon({ Weapon->GetWeaponType(), Weapon->GetWeaponLevel(), false }, { secondweapon->GetWeaponType(), secondweapon->GetWeaponLevel(), false });
 	//////////////////////////////////////////////////
 	if (enemies <= 0) {
 		gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -257,19 +268,12 @@ Scene* GameScene::update() {
 	//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 	//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 	//////////////////////////////////////////////////
-	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-		if (state) state = 0;
-		else state++;
-	};
-	//////////////////////////////////////////////////
-	
+
 
 	return this;
 };
 
 void GameScene::draw() const {
-	//DrawExtendGraph(0, 0, 1280, 720, img_background, TRUE); // 仮
-
 	// 
 	if (map->GetIsMapMode())
 	{
@@ -282,9 +286,9 @@ void GameScene::draw() const {
 		secondweapon->Draw();
 		player->draw();
 
-	//敵//
-	slimeDraw();
-	////////////
+		//敵//
+		slimeDraw();
+		////////////
 
 		if (is_weapon_select != true)
 		{
@@ -301,6 +305,8 @@ void GameScene::draw() const {
 			weapon_level_up->draw();
 		}
 	}
+
+	if (!state) gameUI->drawPause();
 };
 
 void GameScene::HitCheck()
