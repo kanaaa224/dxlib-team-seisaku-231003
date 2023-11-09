@@ -57,8 +57,6 @@ Scene* GameScene::update() {
 
 	//////////////////////////////////////////////////
 
-	if (is_map_mode == true) {
-		map->update(is_map_mode);
 	if (map->GetIsMapMode())
 	{
 		map->update();
@@ -253,7 +251,7 @@ Scene* GameScene::update() {
 				return this;
 			}
 			//return new Map;
-		}
+		};
 	};
 	if (player->GetPlayer_HP() <= 0) {
 		gameUI->setBanner("失敗、、", "体力が尽きました、、");
@@ -297,6 +295,8 @@ void GameScene::draw() const {
 		else {
 			gameUI->draw();
 			gameUI->drawEnemyHP();
+
+			//gameUI->drawHP();
 		};
 
 		// 武器のレベルアップ画面描画
