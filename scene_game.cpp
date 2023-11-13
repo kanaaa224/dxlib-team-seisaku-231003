@@ -126,6 +126,25 @@ Scene* GameScene::update() {
 				}
 			}
 		}
+
+		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				if (Weapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+				if (secondweapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+			}
+		}
 	}
 
 	//武器のレベルアップ（デバッグ用）
