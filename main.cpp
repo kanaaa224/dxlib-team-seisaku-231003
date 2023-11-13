@@ -10,33 +10,29 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	if (DxLib_Init() == -1) return -1;             // DxLib の初期化処理
 	SetDrawScreen(DX_SCREEN_BACK);                 // 描画先画面を裏にする（ダブルバッファリング）
 
-	// シーンマネージャーオブジェクトを作成し、シーンを割り当て
 	SceneManager* sceneMng = new SceneManager((Scene*) new DebugScene());
 
-	// FPSコントローラーを設定
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
 	FPSCtrl::SetUpdateInterval(1000);
 
-	// ゲームループし、シーンマネジャーでシーンの更新
+	// ゲームループ＆シーンの更新
 	while ((ProcessMessage() == 0) && (sceneMng->update() != nullptr)) {
 		ClearDrawScreen();
 
-		// コントローラーとキーボード入力の更新
 		InputCtrl::Update();
 
-		// FPSコントローラーで固定
 		FPSCtrl::Limit();
 		FPSCtrl::Update();
 
-		// 強制終了
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_BACK)) break;
-
-		// シーンマネジャーでシーンの描画開始
 		sceneMng->draw();
 
+		//////////////////////////////////////////////////
 		// 仮
 		SetFontSize(16);
 		DrawFormatString(10, 10, 0xffffff, "FPS: %0.0f", FPSCtrl::Get());
+
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_BACK)) break; // 強制終了
+		//////////////////////////////////////////////////
 		
 		ScreenFlip();
     };
