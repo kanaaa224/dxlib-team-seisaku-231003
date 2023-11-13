@@ -346,43 +346,6 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 	}
 }
 
-void GameScene::Init()
-{
-	player = new Player;
-	backimg = new Stage;
-	Weapon = new weapon;
-	secondweapon = new second_weapon;
-	gameUI = new GameUI;
-	map = new Map;
-
-	weapon_selection = new Weapon_Selection(weapon_selected);
-	weapon_level_up = new WeaponLevelUp;
-
-
-	is_weapon_select = false;
-	weapon_selected = false;
-
-	// レベルアップ画面用
-	open_level_up = false;
-	restor_cursor_position = true;
-
-
-	exp = level = 0; // 仮
-
-	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-		tmpSlimeNum++;
-	}
-	if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
-		slime[tmpSkeletonNum] = new Slime(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
-		tmpSkeletonNum++;
-	}
-
-	gameUI->init();
-	gameUI->setState(banner);
-
-}
-
 //----------スライム----------//
 void GameScene::SlimeUpdate()
 {
