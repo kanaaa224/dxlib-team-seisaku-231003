@@ -154,6 +154,8 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 				collisionY = cursorY;
 
 				frailLcationCursor = { cursorX,cursorY };
+
+				level7FrailRot = rot;
 				
 				break;
 
@@ -180,6 +182,12 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 		else if (!isFrailAttacking) {
 			frailLcation.x += -1 * playerVector.x;
 			frailLcation.y += -1 * playerVector.y;
+			if (weaponLevel == 7) {
+				frailLocation1.x += -1 * playerVector.x;
+				frailLocation1.y += -1 * playerVector.y;
+				frailLocation2.x += -1 * playerVector.x;
+				frailLocation2.y += -1 * playerVector.y;
+			}
 			frailRadius = 30;
 		}
 
@@ -281,10 +289,11 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
-	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
+	DrawFormatString(0, 180, 0xffffff, "フレイルX %f", frailLocation1.x);
+	DrawFormatString(0, 210, 0xffffff, "フレイルY %f", frailLocation1.y);
 	DrawFormatString(0, 240, 0xffffff, "rate % f", frailRate);
-
+	DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
+	DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);
 
 	//kk
 	if (isAttacking) {
@@ -654,15 +663,63 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 	}
 
 	if (isFrailAttacking && frailRate <= 1.0f) {
-		weaponCollisionLocation.x = frailLcation.x;
-		weaponCollisionLocation.y = frailLcation.y;
+		if (weaponLevel == 7) {
+			for (int i = 0; i < 3; i++)
+			{
+				switch (i)
+				{
+				case 0:
+					weaponCollisionLocation.x = frailLcation.x;
+					weaponCollisionLocation.y = frailLcation.y;
 
-		tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-		tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-		tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+					tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
 
-		if (tmp_length < radius + frailRadius) {
-			return true;
+					if (tmp_length < radius + frailRadius) {
+						return true;
+					}
+					break;
+				case 1:
+					weaponCollisionLocation.x = frailLocation1.x;
+					weaponCollisionLocation.y = frailLocation1.y;
+
+					tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + frailRadius) {
+						return true;
+					}
+					break;
+				case 2:
+					weaponCollisionLocation.x = frailLocation2.x;
+					weaponCollisionLocation.y = frailLocation2.y;
+
+					tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + frailRadius) {
+						return true;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		else {
+			weaponCollisionLocation.x = frailLcation.x;
+			weaponCollisionLocation.y = frailLcation.y;
+
+			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (tmp_length < radius + frailRadius) {
+				return true;
+			}
 		}
 	}
 
@@ -735,6 +792,9 @@ void second_weapon::MoveBookBullet()
 
 bool second_weapon::FrailAnim()
 {
+	if (weaponLevel == 7) {
+		ThreeFrailAnim();
+	}
 
 	frailVec.x = unitVec.x * 10;
 	frailVec.y = unitVec.y * 10;
@@ -765,5 +825,18 @@ bool second_weapon::FrailAnim()
 
 bool second_weapon::ThreeFrailAnim()
 {
+	/*swordSlash[i].collsion1.x = baseVec.x * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
+	swordSlash[i].collsion1.y = baseVec.x * sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
+
+	swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
+	swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;*/
+
+
+	frailLocation1.x = 70 * cos(d_r(90.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation1.y = 70 * sin(d_r(90.0f) + level7FrailRot) + 0 * cos(d_r(90.0f) + level7FrailRot) + frailLcation.y;
+
+	frailLocation2.x = 70 * cos(d_r(270.0f) + level7FrailRot) - 0 * sin(d_r(270.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation2.y = 70 * sin(d_r(270.0f) + level7FrailRot) + 0 * cos(d_r(270.0f) + level7FrailRot) + frailLcation.y;
+
 	return false;
 }
