@@ -56,6 +56,9 @@ Blacksmith::Blacksmith()
 	weapon2_cursor_pos = 0;
 	weapon2_level_hierarchy = 0;
 
+	action_selection = false;
+	action_number = levelup;
+	restor_cursor_position = true;
 }
 
 Blacksmith::~Blacksmith()
@@ -64,7 +67,7 @@ Blacksmith::~Blacksmith()
 }
 
 // 更新
-void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* levelup)
+void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup)
 {
 	// カーソルの位置を元に戻す
 	//if (restor_cursor_position == true)
@@ -88,232 +91,74 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		interval++;
 	}
 
-	// 武器の選択
-	if (weapon_selection == false)
+	// 行動選択
+	if (action_selection == false)
 	{
-		// 武器を2種類持っていたら武器選択ができる
-		if (weapon2_type != none)
+		if (InputCtrl::GetStickRatio(L).y > 0.8 && interval >= 15)
 		{
-			if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
-			{
-				//左スティックを右に
-				interval = 0;
-				cursor_x = 960;
-				weapon_number++;
+			//左スティックを右に
+			interval = 0;
+			cursor_x = 960;
+			action_number++;
 
-				if (weapon_number > weapon2)
-				{
-					cursor_x = 580;
-					weapon_number = weapon1;
-				}
-			}
-			else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
+			if (action_number > reset_level)
 			{
-				//左スティックを左に
-				interval = 0;
 				cursor_x = 580;
-				weapon_number--;
+				action_number = levelup;
+			}
+		}
+		else if (InputCtrl::GetStickRatio(L).y < -0.8 && interval >= 15)
+		{
+			//左スティックを左に
+			interval = 0;
+			cursor_x = 580;
+			action_number--;
 
-				if (weapon_number < 0)
-				{
-					cursor_x = 960;
-					weapon_number = 1;
-				}
+			if (action_number < levelup)
+			{
+				cursor_x = 960;
+				action_number = reset_level;
 			}
 		}
 
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			weapon_selection = true;
+			action_selection = true;
 		}
 	}
 	else
 	{
-		// 武器1のレベルアップ
-		if (weapon_number == weapon1)
+		if (action_number == levelup)
 		{
-			if (weapon1_level_hierarchy != MAX_LEVEL_HIERARCHY && InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && point > 0)
-			{
-				point--;
+			// 最終強化 or レベルアップ
+			// 実験的に（のちに動作確認！）
+			weapon_levelup->update(weapon, second_weapon, restor_cursor_position);
 
-				// 選択した分岐点の画像用パラメータの更新
-				is_chooce[0][weapon1_level_hierarchy] = true;
-				branch_point_x[0][weapon1_level_hierarchy] += weapon1_cursor_pos;
-				branch_point_y[0][weapon1_level_hierarchy] += LEVEL_HIERARCHY_HEIGHT * weapon1_level_hierarchy;
-
-				// レベルアップ
-				switch (weapon1_level_hierarchy)
-				{
-				case 0:
-					weapon1_level++;
-					break;
-				case 1:
-				case 4:
-					if (weapon1_cursor_pos == -level_cursor_pos)
-					{
-						// 樹形図の左を選択
-						weapon1_level++;
-					}
-					else
-					{
-						// 樹形図の右を選択
-						weapon1_level += 2;
-					}
-					break;
-				case 2:
-					weapon1_level += 2;
-					break;
-				case 3:
-					weapon1_level = 6;
-				default:
-					break;
-				}
-
-				weapon1_level_hierarchy++;
-				// レベル階層の制御
-				if (weapon1_level_hierarchy > MAX_LEVEL_HIERARCHY)
-				{
-					weapon1_level_hierarchy = MAX_LEVEL_HIERARCHY;
-				}
-
-				// 武器にレベルのセット
-				weapon->SetWeaponLevel(weapon1_level);
-			}
-
-			// 武器1のレベルカーソル移動
-			if (weapon1_level_hierarchy == 0 || weapon1_level_hierarchy == 3)
-			{
-				// カーソル移動無し
-				weapon1_cursor_pos = 0;
-			}
-			else if (weapon1_level_hierarchy == 1 || weapon1_level_hierarchy == 4)
-			{
-				if (weapon1_cursor_pos == 0)
-				{
-					// レベルの選択ができるときカーソル初期位置は左
-					weapon1_cursor_pos = -level_cursor_pos;
-				}
-
-				// レベルの選択
-				if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
-				{
-					//左スティックを右に
-					weapon1_cursor_pos = level_cursor_pos;
-				}
-				else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
-				{
-					//左スティックを左に
-					weapon1_cursor_pos = -level_cursor_pos;
-				}
-			}
 		}
 		else
 		{
-			// レベルアップ
-			if (weapon2_level_hierarchy != MAX_LEVEL_HIERARCHY && InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && point > 0)
-			{
-				point--;
-
-				// 選択した分岐点の画像用パラメータの更新
-				is_chooce[1][weapon2_level_hierarchy] = true;
-				branch_point_x[1][weapon2_level_hierarchy] += 380 + weapon2_cursor_pos;
-				branch_point_y[1][weapon2_level_hierarchy] += LEVEL_HIERARCHY_HEIGHT * weapon2_level_hierarchy;
-
-				// レベルアップ
-				switch (weapon2_level_hierarchy)
-				{
-				case 0:
-					weapon2_level++;
-					break;
-				case 1:
-				case 4:
-					if (weapon2_cursor_pos == -level_cursor_pos)
-					{
-						// 樹形図の左を選択
-						weapon2_level++;
-					}
-					else
-					{
-						// 樹形図の右を選択
-						weapon2_level += 2;
-					}
-					break;
-				case 2:
-					weapon2_level += 2;
-					break;
-				case 3:
-					weapon2_level = 6;
-				default:
-					break;
-				}
-
-				weapon2_level_hierarchy++;
-				// レベル階層の制御
-				if (weapon2_level_hierarchy > MAX_LEVEL_HIERARCHY)
-				{
-					weapon2_level_hierarchy = MAX_LEVEL_HIERARCHY;
-				}
-
-				// 武器にレベルのセット
-				second_weapon->SetWeaponLevel(weapon2_level);
-			}
-
-			// 武器2のレベルカーソル移動
-			if (weapon2_level_hierarchy == 0 || weapon2_level_hierarchy == 3)
-			{
-				// カーソル移動無し
-				weapon2_cursor_pos = 0;
-			}
-			else if (weapon2_level_hierarchy == 1 || weapon2_level_hierarchy == 4)
-			{
-				if (weapon2_cursor_pos == 0)
-				{
-					// レベルの選択ができるときカーソル初期位置は左
-					weapon2_cursor_pos = -level_cursor_pos;
-				}
-
-				// レベルの選択
-				if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
-				{
-					//左スティックを右に
-					weapon2_cursor_pos = level_cursor_pos;
-				}
-				else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
-				{
-					//左スティックを左に
-					weapon2_cursor_pos = -level_cursor_pos;
-				}
-			}
+			// レベルの振り直し、ポイントの返却
 		}
 
-		// Bボタンで選択武器のキャンセル
+		// Bボタンでキャンセル
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 		{
-			// レベルカーソルの位置直し
-			if (weapon1_level_hierarchy == 1 || weapon1_level_hierarchy == MAX_LEVEL_HIERARCHY)
-			{
-				weapon1_cursor_pos = -level_cursor_pos;
-			}
-
-			if (weapon2_level_hierarchy == 1 || weapon2_level_hierarchy == MAX_LEVEL_HIERARCHY)
-			{
-				weapon2_cursor_pos = -level_cursor_pos;
-			}
-
-			weapon_selection = false;
+			action_selection = false;
 		}
+
 	}
+
 }
 
 // 描画
-void Blacksmith::draw() const
+void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 {
 	// 背景
-	DrawBox(160, 10, 1120, 710, 0xa0a0a0, TRUE);
+	DrawBox(0, 0, 1280, 720, 0xb0c4de, TRUE);
 
 	SetFontSize(30);
-	DrawFormatString(560, 10, 0x000000, "レベルアップ");
+	DrawFormatString(560, 10, 0x000000, "鍛冶");
 
 	// テスト表示
 	SetFontSize(20);
@@ -324,197 +169,25 @@ void Blacksmith::draw() const
 
 	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
 
-	// レベルアップ詳細のテキスト群
-	DrawLevelUpDetails();
-
-	// 武器1の画像
-	switch (weapon1_type)
+	if (action_selection == false)
 	{
-	case sword:			// 片手剣
-		DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_sword, TRUE);
-		break;
-	case dagger:		// 短剣
-		DrawRotaGraph(img_x, img_y, 0.18f, 0.0f, img_dagger, TRUE);
-		break;
-	case greatSword:	// 大剣
-		DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
-		break;
-	default:
-		DrawFormatString(img_x, img_y, 0x000000, "none");
-		break;
-	}
+		// 行動選択時の画像、テキストの表示
+		SetFontSize(25);
+		DrawFormatString(160, 300, 0x000000, "レベルアップ");
+		DrawFormatString(760, 300, 0x000000, "レベルの振り直し");
 
-	// 武器2の画像
-	switch (weapon2_type)
-	{
-	case spear:			// 槍
-		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
-		break;
-	case frail:			// フレイル
-		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
-		break;
-	case book:			// 本
-		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
-		break;
-	default:
-		DrawFormatString(img_x + 360, img_y, 0x000000, "none");
-		break;
-	}
-
-	// スキルツリー分岐点
-	for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
-	{
-		for (int j = 0; j < 2; j++)
-		{
-			// レベル階層によって分岐
-			if (i == 0 || i == 3)
-			{
-				DrawRotaGraph(img_branch_point_x + 380 * j, img_branch_point_y + LEVEL_HIERARCHY_HEIGHT * i, 0.08f, 0.0f, img_branch_point, TRUE);
-			}
-			else
-			{
-				DrawRotaGraph(img_branch_point_x + level_cursor_pos + 380 * j, img_branch_point_y + LEVEL_HIERARCHY_HEIGHT * i, 0.08f, 0.0f, img_branch_point, TRUE);
-				DrawRotaGraph(img_branch_point_x - level_cursor_pos + 380 * j, img_branch_point_y + LEVEL_HIERARCHY_HEIGHT * i, 0.08f, 0.0f, img_branch_point, TRUE);
-			}
-		}
-	}
-
-	// 選択したレベル
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j <= MAX_LEVEL_HIERARCHY; j++)
-		{
-			if (is_chooce[i][j] == true)
-			{
-				DrawRotaGraph(branch_point_x[i][j], branch_point_y[i][j], 0.1f, 0.0f, img_chooce, TRUE);
-			}
-		}
-	}
-
-	// 武器選択用の円を描画
-	//DrawCircle(cursor_x , cursor_y, 20, 0x000000, FALSE);
-
-	// 武器選択カーソル
-	if (weapon_selection == false)
-	{
-		DrawRotaGraph(cursor_x, cursor_y - 50, 0.08f, 0.0f, img_cursor, TRUE);
 	}
 	else
 	{
-		// 武器選択済み
-		if (weapon_number == weapon1)
+		if (action_number == levelup)
 		{
-			// 武器1
-			// レベル選択の円を描画
-			DrawCircle(cursor_x + weapon1_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon1_level_hierarchy + 1)), 20, 0xb00000, FALSE);
-			// カーソル表示
-			DrawRotaGraph(cursor_x + weapon1_cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon1_level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
-			// 丸画像表示
-			//DrawRotaGraph(cursor_x + weapon1_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon1_level_hierarchy + 1)), 0.1f, 0.0f, img_chooce, TRUE);
+			// 最終強化 or レベルアップ時の画像、テキストの表示
+			// 実験的に（のちに動作確認！）
+			weapon_levelup->draw();
 		}
 		else
 		{
-			if (weapon2_type == none)
-			{
-				DrawFormatString(600, 50, 0x000000, "武器がありません");
-			}
-			else
-			{
-				// 武器2
-				// レベル選択の円を描画
-				DrawCircle(cursor_x + weapon2_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_level_hierarchy + 1)), 20, 0xb00000, FALSE);
-				DrawRotaGraph(cursor_x + weapon2_cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
-			}
+			// レベルの振り直し時の画像、テキストの表示
 		}
 	}
-}
-
-// レベルアップ詳細のテキスト群
-void Blacksmith::DrawLevelUpDetails() const
-{
-	// レベルアップの詳細枠
-	DrawBox(190, 90, 420, 680, 0x000000, FALSE);
-
-	// テキスト
-	DrawFormatString(200, 160, 0x000000, "レベルアップ詳細");
-	DrawFormatString(200, 180, 0x000000, "例）");
-	DrawFormatString(200, 200, 0x000000, "ダメージ");
-	DrawFormatString(200, 220, 0x000000, "　15　→　20 (+5)");
-	DrawFormatString(200, 240, 0x000000, "攻撃速度");
-	DrawFormatString(200, 280, 0x000000, "　10　→　15 (+5)");
-	DrawFormatString(200, 340, 0x000000, "プレイヤーステータス");
-	DrawFormatString(200, 360, 0x000000, "体力");
-	DrawFormatString(200, 380, 0x000000, "　        30");
-	DrawFormatString(200, 400, 0x000000, "移動速度");
-	DrawFormatString(200, 420, 0x000000, "　        30");
-
-	// 詳細枠の調整
-	//DrawBox(190, 240, 420, 680, 0xff0000, FALSE);
-
-	// 武器名の表示
-	if (cursor_x == 580)
-	{
-		switch (weapon1_type)
-		{
-		case sword:			// 片手剣
-			DrawFormatString(200, 100, 0x000000, "片手剣");
-			break;
-		case dagger:		// 短剣
-			DrawFormatString(200, 100, 0x000000, "短剣");
-			break;
-		case greatSword:	// 大剣
-			DrawFormatString(200, 100, 0x000000, "大剣");
-			break;
-		default:
-			DrawFormatString(200, 100, 0x000000, "武器がありません");
-			break;
-		}
-	}
-	else
-	{
-		switch (weapon2_type)
-		{
-		case 0:
-			DrawFormatString(200, 100, 0x000000, "槍");
-			break;
-		case 1:
-			DrawFormatString(200, 100, 0x000000, "フレイル");
-			break;
-		case 2:
-			DrawFormatString(200, 100, 0x000000, "本");
-			break;
-		default:
-			DrawFormatString(200, 100, 0x000000, "武器がありません");
-			break;
-		}
-	}
-
-	// 武器選択済み
-	if (weapon_selection == true)
-	{
-		if (weapon_number == weapon1)
-		{
-			if (weapon1_level_hierarchy == MAX_LEVEL_HIERARCHY)
-			{
-				DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
-			}
-			else if (point <= 0)
-			{
-				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
-			}
-		}
-		else
-		{
-			if (weapon2_level_hierarchy == MAX_LEVEL_HIERARCHY)
-			{
-				DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
-			}
-			else if (point <= 0)
-			{
-				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
-			}
-		}
-
-	}
-
 }
