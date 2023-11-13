@@ -16,6 +16,7 @@
 #include"scene_weapon.h"
 #include "scene_gameclear.h"
 #include "scene_levelup.h"
+#include "scene_blacksmith.h"
 
 class GameScene : public Scene {
 private:
@@ -43,6 +44,7 @@ private:
 	//シーン
 	Weapon_Selection* weapon_selection;
 	WeaponLevelUp* weapon_level_up;
+	Blacksmith* blacksmith;
 
 	//////////
 

@@ -40,6 +40,7 @@ private:
 	int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
+	bool is_blacksmith;				// 鍛冶で呼び出されているか
 
 	// 画像パラメータ
 	int img_x;						// 画像のX座標
@@ -95,4 +96,10 @@ public:
 
 	// 武器2の現在のレベルの取得
 	int GetWeapon2LevelHierarchy() { return weapon2_level_hierarchy; }
+
+	// 鍛冶で使うやつ
+	void SetIsBlacksmith(bool set_bool)
+	{
+		is_blacksmith = set_bool;
+	}
 };

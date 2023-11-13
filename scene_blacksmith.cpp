@@ -69,6 +69,8 @@ Blacksmith::~Blacksmith()
 // 更新
 void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup)
 {
+	weapon_levelup->SetIsBlacksmith(true);
+
 	// カーソルの位置を元に戻す
 	//if (restor_cursor_position == true)
 	//{
@@ -94,7 +96,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 	// 行動選択
 	if (action_selection == false)
 	{
-		if (InputCtrl::GetStickRatio(L).y > 0.8 && interval >= 15)
+		if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
 		{
 			//左スティックを右に
 			interval = 0;
@@ -107,7 +109,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				action_number = levelup;
 			}
 		}
-		else if (InputCtrl::GetStickRatio(L).y < -0.8 && interval >= 15)
+		else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
 		{
 			//左スティックを左に
 			interval = 0;
@@ -132,7 +134,6 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		if (action_number == levelup)
 		{
 			// 最終強化 or レベルアップ
-			// 実験的に（のちに動作確認！）
 			weapon_levelup->update(weapon, second_weapon, restor_cursor_position);
 
 		}
@@ -162,12 +163,13 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 
 	// テスト表示
 	SetFontSize(20);
-	DrawFormatString(160, 10, 0x000000, "W1level(State) : %d", weapon1_level);
-	DrawFormatString(160, 30, 0x000000, "W1レベル階層 : %d", weapon1_level_hierarchy);
-	DrawFormatString(160, 50, 0x000000, "W2level (State): %d", weapon2_level);
-	DrawFormatString(160, 70, 0x000000, "W2レベル階層 : %d", weapon2_level_hierarchy);
+	//DrawFormatString(160, 10, 0x000000, "W1level(State) : %d", weapon1_level);
+	//DrawFormatString(160, 30, 0x000000, "W1レベル階層 : %d", weapon1_level_hierarchy);
+	//DrawFormatString(160, 50, 0x000000, "W2level (State): %d", weapon2_level);
+	//DrawFormatString(160, 70, 0x000000, "W2レベル階層 : %d", weapon2_level_hierarchy);
 
-	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
+	//DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
+	DrawFormatString(1000, 20, 0x000000, "action_number：%d", action_number);
 
 	if (action_selection == false)
 	{
@@ -182,7 +184,6 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 		if (action_number == levelup)
 		{
 			// 最終強化 or レベルアップ時の画像、テキストの表示
-			// 実験的に（のちに動作確認！）
 			weapon_levelup->draw();
 		}
 		else
