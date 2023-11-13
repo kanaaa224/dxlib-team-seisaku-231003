@@ -50,38 +50,6 @@ Stage::~Stage() {
 
 void Stage::update(float moveX, float moveY) {
 
-	//‰¡
-	//if (Provisional_RStickX > MOVE_RIGHT) {
-
-	//	//StageX = StageX + Xspeed;
-	//	for (int i = 0; i < 4; i++) {
-	//		StageArrayImg[i].x = StageArrayImg[i].x - Xspeed;
-	//	}
-	//}
-	//else if (Provisional_RStickX < MOVE_LEFT) {
-
-	//	//StageX = StageX - Xspeed;
-	//	for (int i = 0; i < 4; i++) {
-	//		StageArrayImg[i].x = StageArrayImg[i].x + Xspeed;
-	//	}
-	//}
-
-	////c
-	//if (Provisional_RStickY > MOVE_UP) {
-
-	//	//StageY = StageY - Yspeed;
-	//	for (int i = 0; i < 4; i++) {
-	//		StageArrayImg[i].y = StageArrayImg[i].y + Yspeed;
-	//	}
-	//}
-	//else if (Provisional_RStickY < MOVE_DOWN) {
-
-	//	//StageY = StageY + Yspeed;
-	//	for (int i = 0; i < 4; i++) {
-	//		StageArrayImg[i].y = StageArrayImg[i].y - Yspeed;
-	//	}
-	//}
-
 	for (int i = 0; i < 4; i++) {
 		StageArrayImg[i].x -= moveX;
 		StageArrayImg[i].y -= moveY;
@@ -117,6 +85,7 @@ void Stage::draw()const {
 
 	//¶ã
 	DrawGraph(StageArrayImg[0].x /*+ STAGEIMG_X*/, StageArrayImg[0].y /*+ STAGEIMG_Y*/, StageArrayImg[0].img, TRUE);
+	//DrawRotaGraph(StageArrayImg[0].x, StageArrayImg[0].y, 0.1f, 1, StageArrayImg[0].img, TRUE);
 
 	//‰Eã
 	DrawGraph(StageArrayImg[1].x, StageArrayImg[1].y /*+ STAGEIMG_Y*/, StageArrayImg[1].img, TRUE);

@@ -8,7 +8,7 @@
 #define MOVE_DOWN -0.2
 
 #define Speed 1.5f
-#define Upper_Limit 13.0f
+#define Upper_Limit 20.0f
 #define Initial_Value 0.0f
 
 #define MAX_HP 100.f
