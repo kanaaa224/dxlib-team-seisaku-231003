@@ -56,7 +56,7 @@
 #define MAX_SKELETON_NUM 30			//スケルトンの最大数
 
 #define SKELETON_1_STAGE_NUM 3  //１ステージ目のスケルトンの数
-#define SKELETON_2_STAGE_NUM 3  //２ステージ目のスケルトンの数
+#define SKELETON_2_STAGE_NUM 0  //２ステージ目のスケルトンの数
 #define SKELETON_3_STAGE_NUM 0  //３ステージ目のスケルトンの数
 #define SKELETON_4_STAGE_NUM 0  //４ステージ目のスケルトンの数
 #define SKELETON_5_STAGE_NUM 3  //５ステージ目のスケルトンの数
