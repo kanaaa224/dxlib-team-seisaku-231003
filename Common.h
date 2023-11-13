@@ -26,7 +26,7 @@
 #define MAX_ALPHA 255		//透過の最大値
 #define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
 #define KNCKBACK 15.0f		//ノックバック
-#define ENEMY_SPEED 2.0f	//敵の移動速度
+#define ENEMY_SPEED 1.8f	//敵の移動速度
 #define RED_FRAME 15		//ダメージを受けた時の赤く表示するフレーム数
 
 #define DISTANT  0			//遠ざかっている
@@ -56,7 +56,7 @@
 #define MAX_SKELETON_NUM 30			//スケルトンの最大数
 
 #define SKELETON_1_STAGE_NUM 3  //１ステージ目のスケルトンの数
-#define SKELETON_2_STAGE_NUM 3  //２ステージ目のスケルトンの数
+#define SKELETON_2_STAGE_NUM 0  //２ステージ目のスケルトンの数
 #define SKELETON_3_STAGE_NUM 0  //３ステージ目のスケルトンの数
 #define SKELETON_4_STAGE_NUM 0  //４ステージ目のスケルトンの数
 #define SKELETON_5_STAGE_NUM 3  //５ステージ目のスケルトンの数

@@ -108,6 +108,7 @@ public:
 
 
 	bool FrailAnim();
+	bool ThreeFrailAnim();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {

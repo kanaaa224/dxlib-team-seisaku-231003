@@ -102,7 +102,7 @@ Scene* GameScene::update() {
 
 	//敵//
 	HitCheck();
-	//SlimeUpdate();
+	SlimeUpdate();
 	SkeletonUpdate();
 	
 
@@ -122,6 +122,25 @@ Scene* GameScene::update() {
 						slime[i]->SetHitWeaponFlg();
 						slime[i]->SetHitHP(Weapon->GetDamage());
 						slime[i]->SetHit1stFrameFlg(true);
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				if (Weapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+				if (secondweapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
 					}
 				}
 			}
@@ -233,7 +252,6 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
-			Init();
 			////GameScene();
 			map->SetIsMapMode(true);
 			//return new Map;
@@ -271,7 +289,7 @@ void GameScene::draw() const {
 		player->draw();
 
 		//敵//
-		//SlimeDraw();
+		SlimeDraw();
 		SkeletonDraw();
 		////////////
 
@@ -308,26 +326,44 @@ void GameScene::HitCheck()
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						////
-						//slime[i]->SetHitLocation_X(slime[j]->GetLX());
-						//slime[i]->SetHitLocation_Y(slime[j]->GetLY());
-						//slime[i]->SetHitVector_X(slime[j]->GetVX());
-						//slime[i]->SetHitVector_Y(slime[j]->GetVY());
-						////
-						//slime[j]->SetHitLocation_X(slime[i]->GetLX());
-						//slime[j]->SetHitLocation_Y(slime[i]->GetLY());
-						//slime[j]->SetHitVector_X(slime[i]->GetVX());
-						//slime[j]->SetHitVector_Y(slime[i]->GetVY());
-
 						slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
 						slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
 					}
+				}
+			}
+		}
+	}
 
-					/*if (slime[i]->GetHitFlg() == HIT) {
-						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
-							slime[i]->SetHitFlg(NO_COLLISION);
-						}
-					}*/
+	//スケルトンの当たり判定
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			HitEnemy(skeleton[i]);
+			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+				if (skeleton[j] != nullptr && i != j) {
+					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+						skeleton[i]->SetHitFlg(HIT);
+						skeleton[j]->SetHitFlg(HIT);
+
+						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//スライムとスケルトンの当たり判定
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+				if (skeleton[j] != nullptr) {
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+						slime[i]->SetHitFlg(HIT);
+						skeleton[j]->SetHitFlg(HIT);
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+					}
 				}
 			}
 		}
@@ -344,43 +380,6 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 			player->SetIsHit(true);
 		}
 	}
-}
-
-void GameScene::Init()
-{
-	player = new Player;
-	backimg = new Stage;
-	Weapon = new weapon;
-	secondweapon = new second_weapon;
-	gameUI = new GameUI;
-	map = new Map;
-
-	weapon_selection = new Weapon_Selection(weapon_selected);
-	weapon_level_up = new WeaponLevelUp;
-
-
-	is_weapon_select = false;
-	weapon_selected = false;
-
-	// レベルアップ画面用
-	open_level_up = false;
-	restor_cursor_position = true;
-
-
-	exp = level = 0; // 仮
-
-	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-		tmpSlimeNum++;
-	}
-	if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
-		slime[tmpSkeletonNum] = new Slime(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
-		tmpSkeletonNum++;
-	}
-
-	gameUI->init();
-	gameUI->setState(banner);
-
 }
 
 //----------スライム----------//

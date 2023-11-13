@@ -634,7 +634,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			}
 			break;
 		case frail:
-			weaponCollisionLocation.x = frailLcation.x;
+			/*weaponCollisionLocation.x = frailLcation.x;
 			weaponCollisionLocation.y = frailLcation.y;
 
 			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
@@ -643,7 +643,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 
 			if (tmp_length < radius + frailRadius) {
 				return true;
-			}
+			}*/
 			break;
 		case book:
 			//‰º‚É‹LÚ
@@ -760,5 +760,10 @@ bool second_weapon::FrailAnim()
 		return true;
 	}
 
+	return false;
+}
+
+bool second_weapon::ThreeFrailAnim()
+{
 	return false;
 }
