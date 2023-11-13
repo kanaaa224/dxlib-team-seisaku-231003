@@ -102,7 +102,8 @@ Scene* GameScene::update() {
 
 	//敵//
 	HitCheck();
-	slimeUpdate();
+	//SlimeUpdate();
+	SkeletonUpdate();
 	
 
 	//武器と敵の当たり判定
@@ -270,7 +271,8 @@ void GameScene::draw() const {
 		player->draw();
 
 		//敵//
-		slimeDraw();
+		//SlimeDraw();
+		SkeletonDraw();
 		////////////
 
 		if (is_weapon_select != true)
@@ -371,20 +373,24 @@ void GameScene::Init()
 		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 		tmpSlimeNum++;
 	}
+	if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
+		slime[tmpSkeletonNum] = new Slime(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
+		tmpSkeletonNum++;
+	}
 
 	gameUI->init();
 	gameUI->setState(banner);
 
 }
 
-void GameScene::slimeUpdate()
+//----------スライム----------//
+void GameScene::SlimeUpdate()
 {
 	if (stage == 1) {
 		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
 			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 			tmpSlimeNum++;
 		}
-
 		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 			if (slime[i] != nullptr) {
 				slime[i]->Update(i, player, Weapon, *(backimg));
@@ -399,12 +405,42 @@ void GameScene::slimeUpdate()
 	}
 }
 
-void GameScene::slimeDraw() const
+void GameScene::SlimeDraw() const
 {
 	if (stage == 1) {
 		for (int i = 0; i < MAX_SLIME_NUM; i++) {
 			if (slime[i] != nullptr) {
 				slime[i]->Draw(i);
+			}
+		}
+	}
+}
+
+//----------スケルトン----------//
+void GameScene::SkeletonUpdate()
+{
+	if (stage == 1) {
+		if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
+			skeleton[tmpSkeletonNum] = new Skeleton(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
+			tmpSkeletonNum++;
+		}
+		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				skeleton[i]->Update(i, player, Weapon, *(backimg));
+				if (skeleton[i]->GetHP() <= 0) {
+					skeleton[i] = nullptr;
+				}
+			}
+		}
+	}
+}
+
+void GameScene::SkeletonDraw() const
+{
+	if (stage == 1) {
+		for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				skeleton[i]->Draw(i);
 			}
 		}
 	}

@@ -37,6 +37,12 @@
     <Filter Include="Enemy">
       <UniqueIdentifier>{398ca3f0-f89d-4600-bab8-dcf41ef29e5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enemy\Small Fry">
+      <UniqueIdentifier>{e85633fe-19ac-4f47-8826-730274231778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy\Common">
+      <UniqueIdentifier>{40a5f877-8f13-4096-8ac2-57636cd3510f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -72,12 +78,6 @@
     <ClInclude Include="Stage.h">
       <Filter>ステージ</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>プレイヤー</Filter>
     </ClInclude>
@@ -111,12 +111,6 @@
     <ClInclude Include="scene_title.h">
       <Filter>シーン</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBase.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Slime.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="scene_levelup.h">
       <Filter>シーン</Filter>
     </ClInclude>
@@ -128,6 +122,21 @@
     </ClInclude>
     <ClInclude Include="scene_blacksmith.h">
       <Filter>シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Enemy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Enemy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Enemy\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +169,6 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ステージ</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>プレイヤー</Filter>
@@ -197,12 +203,6 @@
     <ClCompile Include="scene_title.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Slime.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="scene_levelup.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
@@ -214,6 +214,18 @@
     </ClCompile>
     <ClCompile Include="scene_blacksmith.cpp">
       <Filter>シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Enemy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Enemy\Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

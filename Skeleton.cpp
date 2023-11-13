@@ -1,4 +1,4 @@
-﻿#include "Slime.h"
+﻿#include "Skeleton.h"
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
@@ -6,30 +6,26 @@
 
 #define DEBUG
 
-Slime::Slime(int arrayNum, int SlimeMaxNum)
+Skeleton::Skeleton(int arrayNum, int SkeletonMaxNum)
 {
 	//画像読込
-	img = LoadGraph("resources/images/slime_cat.png");
+	img = LoadGraph("resources/images/gorira_Skeleton.png");
 	//変数の初期化
-	hp = SLIME_HP_MAX;
-	damage = SLIME_ATTAK_DAMAGE;
+	hp = SKELETON_HP_MAX;
+	damage = SKELETON_ATTAK_DAMAGE;
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
-	
 
 	respawnTimeCnt = 0;
-	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum);
-
-	is_area = false;
-
+	respawnTime = SetRespawnTime(arrayNum, SkeletonMaxNum);
 
 	//リスポーンポイント決め
 	SetRespawnPoint();
 }
 
-void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
+void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 {
 	if (respawnFlg == true && hp > 0) {
 		//プレイヤーの移動量をdiffにセット
@@ -68,7 +64,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		else
 		{
 			is_area = false;
-		}		
+		}
 	}
 
 	//Cnt
@@ -77,7 +73,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	}
 	respawnTimeCnt++;//リスポーンCnt
 
-	
+
 	if (redFrameCounter == RED_FRAME) {
 		redDrawFlg = false;
 	}
@@ -95,17 +91,17 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		hitWeaponFlg = false;
 	}
 #endif // DEBUG
-	
+
 }
 
-void Slime::Draw(int arrayNum)
+void Skeleton::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
 		if (is_area)
 		{
 			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
 		}
-		
+
 		if (hp <= 0) {//HPが０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
 			alphaNum -= 5;
@@ -126,7 +122,7 @@ void Slime::Draw(int arrayNum)
 #ifdef DEBUG
 		float hpRate = hp / SLIME_HP_MAX;
 		float sizeRate = -20.0f + 40.0f * hpRate;
-		
+
 		if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {//HP表示
 			if (hp > 0) {
 				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + 20, (int)location.y - 25, C_BLACK, TRUE);
@@ -152,7 +148,7 @@ void Slime::Draw(int arrayNum)
 	}
 }
 
-void Slime::X()
+void Skeleton::X()
 {
 	if (hitFlg == HIT) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -163,7 +159,7 @@ void Slime::X()
 	}
 }
 
-void Slime::Y()
+void Skeleton::Y()
 {
 	if (hitFlg == HIT) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -175,13 +171,13 @@ void Slime::Y()
 	}
 }
 
-int Slime::GetStageNum()
+int Skeleton::GetStageNum()
 {
 	int r = SLIME_1_STAGE_NUM;
 	return r;
 }
 
-float Slime::GetSlimeDamage()
+float Skeleton::GetSkeletonDamage()
 {
 	return damage;
 }

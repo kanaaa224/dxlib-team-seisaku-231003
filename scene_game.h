@@ -11,6 +11,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Slime.h"
+#include "Skeleton.h"
 #include "Common.h"
 #include"scene_weapon.h"
 #include "scene_gameclear.h"
@@ -36,6 +37,8 @@ private:
 	//敵//
 	Slime* slime[MAX_SLIME_NUM];
 	int tmpSlimeNum = 0;
+	Skeleton* skeleton[MAX_SKELETON_NUM];
+	int tmpSkeletonNum = 0;
 
 	//シーン
 	Weapon_Selection* weapon_selection;
@@ -74,8 +77,11 @@ public:
 	void HitEnemy(EnemyBase* enemy);
 
 	//スライム
-	void slimeUpdate();
-	void slimeDraw() const;
+	void SlimeUpdate();
+	void SlimeDraw() const;
+	//
+	void SkeletonUpdate();
+	void SkeletonDraw() const;
 
 	void Init();
 

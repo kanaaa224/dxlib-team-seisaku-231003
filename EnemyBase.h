@@ -33,11 +33,12 @@ protected:
 	int redFrameCounter = 0;//画像を赤くする時間をCnt
 
 	//Flg変数
-	bool playerHitFlg;	//プレイヤーに当たったらTRUEを返す
-	int hitFlg;			//何かに当たったら（全ての敵、プレイヤー、）
-	bool respawnFlg;	//リスポーンしているか
-	bool hitWeaponFlg;  //武器とあたったか
+	bool playerHitFlg;			//プレイヤーに当たったらTRUEを返す
+	int hitFlg;					//何かに当たったら（全ての敵、プレイヤー、）
+	bool respawnFlg;			//リスポーンしているか
+	bool hitWeaponFlg;			//武器とあたったか
 	bool hit1stFrameFlg = false;//武器と当たった最初のフレームか
+	bool redDrawFlg = false;	//ダメージを受けた時の赤く表示する
 
 	bool flg = false;
 public:
