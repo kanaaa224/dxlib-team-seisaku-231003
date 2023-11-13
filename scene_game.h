@@ -83,6 +83,4 @@ public:
 	void SkeletonUpdate();
 	void SkeletonDraw() const;
 
-	void Init();
-
 };

@@ -126,6 +126,25 @@ Scene* GameScene::update() {
 				}
 			}
 		}
+
+		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				if (Weapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+				if (secondweapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+			}
+		}
 	}
 
 	//武器のレベルアップ（デバッグ用）
@@ -233,7 +252,6 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
-			Init();
 			////GameScene();
 			map->SetIsMapMode(true);
 			//return new Map;
@@ -362,43 +380,6 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 			player->SetIsHit(true);
 		}
 	}
-}
-
-void GameScene::Init()
-{
-	player = new Player;
-	backimg = new Stage;
-	Weapon = new weapon;
-	secondweapon = new second_weapon;
-	gameUI = new GameUI;
-	map = new Map;
-
-	weapon_selection = new Weapon_Selection(weapon_selected);
-	weapon_level_up = new WeaponLevelUp;
-
-
-	is_weapon_select = false;
-	weapon_selected = false;
-
-	// レベルアップ画面用
-	open_level_up = false;
-	restor_cursor_position = true;
-
-
-	exp = level = 0; // 仮
-
-	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-		tmpSlimeNum++;
-	}
-	if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
-		slime[tmpSkeletonNum] = new Slime(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
-		tmpSkeletonNum++;
-	}
-
-	gameUI->init();
-	gameUI->setState(banner);
-
 }
 
 //----------スライム----------//
