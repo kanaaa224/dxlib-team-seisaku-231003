@@ -78,6 +78,12 @@ private:
 	float frailLengthCursor;
 	bool isFrailAttacking;
 	float frailRate;
+	//‹­‰»Œã‚Ì‘‚¦‚½ƒtƒŒƒCƒ‹‚Ì“–‚½‚è”»’è
+	Location frailLocation1;
+	Vector frailVec1;
+	Location frailLocation2;
+	Vector frailVec2;
+	float level7FrailRot;
 
 
 	Vector book_move;
