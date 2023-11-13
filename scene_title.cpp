@@ -14,11 +14,11 @@ Title::Title()
 //更新
 Scene*Title::update()
 {
-	//十字キー下ボタンでカーソルを下に
+	//スティックの制限
 	if (frameCounter++ % 40 == 0);
 	if ((g_MenuNumber % 10) >= 8)g_MenuNumber -= 8;
 
-
+	//タイトルカーソルの移動量
 	if (((InputCtrl::GetStickState(L).y < 0.5f) && (InputCtrl::GetStickRatio(L).y > -0.5f))) Ctrl = true;
 	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 1.0f) && Ctrl)){
 		if (g_MenuNumber < 10) g_MenuNumber += 200;
@@ -30,7 +30,8 @@ Scene*Title::update()
 		else g_MenuNumber += 50;
 			Ctrl = false;
 	}
-	else if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+	//Aボタンでメニュー決定・画面遷移
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (g_MenuNumber == 0) {
 			return new GameScene;
@@ -52,15 +53,19 @@ Scene*Title::update()
 //描画
 void Title::draw() const
 {
+	//タイトル背景の描画
 	DrawGraph(0, 0, TitleImage, TRUE);
+	//タイトル名の表示
 	SetFontSize(100);
 	DrawString(400, 150, "タイトル名", 0x000000);
+	//タイトルメニューの表示
 	SetFontSize(55);
 	DrawString(550, 320, "Start", 0x000000);
 	DrawString(550, 370, "Help", 0x000000);
 	DrawString(550, 420, "Credit", 0x000000);
 	DrawString(550, 470, "End", 0x000000);
 
+	//タイトルカーソルの描画
 	DrawGraph(470, 290 + g_MenuNumber, cursor, TRUE);
 
 }
