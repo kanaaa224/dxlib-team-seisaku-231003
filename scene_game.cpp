@@ -233,7 +233,6 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
-			Init();
 			////GameScene();
 			map->SetIsMapMode(true);
 			//return new Map;
