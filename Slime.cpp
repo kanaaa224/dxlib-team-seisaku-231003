@@ -101,10 +101,6 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
-		if (is_area)
-		{
-			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
-		}
 		
 		if (hp <= 0) {//HPが０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);

@@ -102,7 +102,7 @@ Scene* GameScene::update() {
 
 	//敵//
 	HitCheck();
-	//SlimeUpdate();
+	SlimeUpdate();
 	SkeletonUpdate();
 	
 
@@ -271,7 +271,7 @@ void GameScene::draw() const {
 		player->draw();
 
 		//敵//
-		//SlimeDraw();
+		SlimeDraw();
 		SkeletonDraw();
 		////////////
 
@@ -328,6 +328,23 @@ void GameScene::HitCheck()
 
 						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
 						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//スライムとスケルトンの当たり判定
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+				if (skeleton[j] != nullptr) {
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+						slime[i]->SetHitFlg(HIT);
+						skeleton[j]->SetHitFlg(HIT);
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
 					}
 				}
 			}
