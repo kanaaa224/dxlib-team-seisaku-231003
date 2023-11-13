@@ -326,26 +326,27 @@ void GameScene::HitCheck()
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						////
-						//slime[i]->SetHitLocation_X(slime[j]->GetLX());
-						//slime[i]->SetHitLocation_Y(slime[j]->GetLY());
-						//slime[i]->SetHitVector_X(slime[j]->GetVX());
-						//slime[i]->SetHitVector_Y(slime[j]->GetVY());
-						////
-						//slime[j]->SetHitLocation_X(slime[i]->GetLX());
-						//slime[j]->SetHitLocation_Y(slime[i]->GetLY());
-						//slime[j]->SetHitVector_X(slime[i]->GetVX());
-						//slime[j]->SetHitVector_Y(slime[i]->GetVY());
-
 						slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
 						slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
 					}
+				}
+			}
+		}
+	}
 
-					/*if (slime[i]->GetHitFlg() == HIT) {
-						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
-							slime[i]->SetHitFlg(NO_COLLISION);
-						}
-					}*/
+	//スケルトンの当たり判定
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			HitEnemy(skeleton[i]);
+			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+				if (skeleton[j] != nullptr && i != j) {
+					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+						skeleton[i]->SetHitFlg(HIT);
+						skeleton[j]->SetHitFlg(HIT);
+
+						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
 				}
 			}
 		}
