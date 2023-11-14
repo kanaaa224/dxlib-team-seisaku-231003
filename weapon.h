@@ -77,6 +77,10 @@ private:
 	int dagger_img;
 	int greatsword_img;
 
+	//仮　プレイヤーのステータス
+	float P_speed;
+	int   P_cooltime;
+
 	//飛ぶ斬撃
 	SwordSlash swordSlash[10];
 	int slash_img;

@@ -4,6 +4,10 @@
 float Player::MovingX;
 float Player::MovingY;
 float Player::Additional_Value2;
+float Player::Aiming_RadiusX;
+float Player::Aiming_RadiusY;
+int   Player::Cool_Limit;
+int   Player::Hit_cooltime;
 
 Player::Player() {
 
@@ -62,6 +66,8 @@ Player::Player() {
 
 	camera_flg_top_bottom = false;
 	camera_flg_left_right = false;
+
+	Hit_cooltime = 30;
 }
 
 Player::~Player() {
@@ -77,7 +83,8 @@ void Player::update() {
 	
 	if (is_hit)
 	{
-		if (fps % 30 == 0)
+		// 0.5•b‚ÌŠÔA–³“G
+		if (fps % Hit_cooltime == 0)
 		{
 			is_hit = false;
 		}
@@ -427,6 +434,13 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
+int Player::Player_invincible(int value) {
+
+	Hit_cooltime = value;
+
+	return Hit_cooltime;
+}
+
 float Player::Player_Speed(float value) {
 
 	Additional_Value2 =  value;
@@ -435,16 +449,26 @@ float Player::Player_Speed(float value) {
 }
 
 // Æ€‚Ì”¼Œa‚ğ•Ô‚·
-void  Player::Player_Radius(float value) {
+float  Player::Player_RadiusX(float value) {
 
 	Aiming_RadiusX = Aiming_RadiusX + value;
+
+	return Aiming_RadiusX;
+}
+
+float  Player::Player_RadiusY(float value) {
+
 	Aiming_RadiusY = Aiming_RadiusY + value;
+
+	return Aiming_RadiusY;
 }
 
 // ‰ñ”ğ‚ÌƒN[ƒ‹ƒ^ƒCƒ€‚ÌŠÔ‚ğ•Ô‚·
-void Player::Avoidance_limit(int value) {
+int Player::Avoidance_limit(int value) {
 
 	Cool_Limit = Cool_Limit - value;
+
+	return Cool_Limit;
 }
 
 float Player::Player_MoveX() {

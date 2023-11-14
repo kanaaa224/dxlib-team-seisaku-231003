@@ -21,6 +21,9 @@ weapon::weapon()
 	isAttacking = false;
 	weaponLevel = 0;
 	levelUpFlg = false;
+	
+	P_speed = 0.0;
+	P_cooltime = 0;
 
 	tmp = 0;
 
@@ -347,14 +350,14 @@ void weapon::LevelState()
 		case sword:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD;
+			maxCoolTime = INIT_COOLTIME_SWORD; //バランスらしい
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER; //プレイヤーの移動速度を上げれるようにする
+			maxCoolTime = INIT_COOLTIME_DAGGER; //プレイヤーの移動速度、回避の速度等を上げれるようにする
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
@@ -380,8 +383,8 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
+			damage = INIT_DAMAGE_DAGGER + 1;
 			
 			break;
 
@@ -405,10 +408,12 @@ void weapon::LevelState()
 			break;
 
 		case dagger:
+			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_speed = Player::Player_Speed(3.0);
 			break;
 
 		case greatSword:
@@ -432,10 +437,12 @@ void weapon::LevelState()
 			break;
 
 		case dagger:
+			//短剣　ダメージよりも振る速度を上げる　無敵時間を増やす
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_cooltime = Player::Player_invincible(60);
 			break;
 
 		case greatSword:
@@ -459,6 +466,7 @@ void weapon::LevelState()
 			break;
 
 		case dagger:
+			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
@@ -486,6 +494,7 @@ void weapon::LevelState()
 			break;
 
 		case dagger:
+			//短剣　ダメージよりも振る速度を上げる　無敵時間を増やす
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
@@ -514,6 +523,7 @@ void weapon::LevelState()
 
 		case dagger:
 			baseVec = { 70,0,70 };
+			// 内容は、4 5 の時よりかは低いが最終強化するとあほみたいに強くなる
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;

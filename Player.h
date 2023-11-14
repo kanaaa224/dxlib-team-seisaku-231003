@@ -8,7 +8,7 @@
 #define MOVE_DOWN -0.2
 
 #define Speed 1.5f
-#define Upper_Limit 20.0f
+#define Upper_Limit 13.0f
 #define Initial_Value 0.0f
 
 #define MAX_HP 100.f
@@ -30,8 +30,6 @@ private:
 	float AimingY;
 	float X = 0.0;
 	float Y = 0.0;
-	float Aiming_RadiusX;
-	float Aiming_RadiusY;
 
 	//仮 円運動
 	float Angle;
@@ -50,7 +48,6 @@ private:
 	bool A_value;
 	bool CoolTime;
 	bool Avoidance_Flg;
-	int Cool_Limit;
 
 	//　加算値
 	float Additional_Value;
@@ -82,6 +79,12 @@ public:
 	static float MovingX;
 	static float MovingY;
 	static float Additional_Value2;
+	static float Aiming_RadiusX;
+	static float Aiming_RadiusY;
+	static int   Cool_Limit;
+
+	//ヒットクールダウン
+	static int Hit_cooltime;
 
 	Player();
 	~Player();
@@ -101,11 +104,15 @@ public:
 	int Player_AimingX();
 	int Player_AimingY();
 
+	//プレイヤーのヒットクールタイム
+	static int Player_invincible(int value);
+
 	//照準の半径を返す
-	void Player_Radius(float value);
+	static float Player_RadiusX(float value);
+	static float Player_RadiusY(float value);
 
 	//回避のクールダウン時間
-	void Avoidance_limit(int value);
+	static int Avoidance_limit(int value);
 
 	static float Player_Speed(float value);
 
