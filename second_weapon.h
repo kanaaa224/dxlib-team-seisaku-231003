@@ -17,7 +17,7 @@
 
 
 #define SPEAR_MAX_MOVE 35.0f
-#define MAX_BULLETS_NUM 100
+#define MAX_BULLETS_NUM 512
 
 #define FRAIL_RADIUS 30
 #define FRAIL_RADIUS_LEVEL8 45
@@ -34,6 +34,10 @@ struct Bullet
 	Vector v;
 	Location l;
 	bool flg;
+	//level8用
+	float rot;				//回転
+	float relativeRot;		//プレイヤーのベクトルを中心とした回転
+	float distance;
 };
 
 class second_weapon
@@ -96,6 +100,7 @@ private:
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
 	bool barrierFlg;
+	
 
 
 
@@ -117,7 +122,7 @@ public:
 
 	bool SpearAnim();
 
-	void SpawnBookBullets();
+	void SpawnBookBullets(int num);
 	void MoveBookBullet();
 
 
