@@ -10,6 +10,7 @@ map_temp::map_temp() {
 
 
 	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
+	// 生成内容(ステージ範囲)(ステージ数) 
 
 	// ランダムイベント(st7固定)
 	MapDeta[7] = 1;
@@ -18,6 +19,7 @@ map_temp::map_temp() {
 	RandNum[0] = GetRand(1) + 1;
 	for (int i = 0; i < RandNum[0];) {
 		int r = GetRand(3) + 3;
+		// 未変更(0なら)変更
 		if (MapDeta[r] == 0) {
 			MapDeta[r] = 2;
 			i++;
@@ -42,6 +44,7 @@ map_temp::map_temp() {
 	RandNum[2] = 1;
 	for (int i = 0; i < RandNum[2];) {
 		int r = GetRand(5) + 14;
+		// 未変更(0なら)変更
 		if (MapDeta[r] == 0) {
 			MapDeta[r] = 3;
 			i++;
@@ -59,8 +62,9 @@ map_temp::map_temp() {
 		icon_loc[i][1] = icon_loc_def[i][1];
 	}
 
-	// アイコン移動初期化処理
+	// 移動量初期化処理
 	icon_vec = 0;
+	total_vec = 0;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -118,6 +122,13 @@ Scene* map_temp::update() {
 	{
 		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
 	}
+	// 総合移動量加算
+	total_vec = total_vec + icon_vec;
+
+	// BでDebugScene
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
+		return new DebugScene;
+	}
 
 	return this;
 };
@@ -129,6 +140,7 @@ void map_temp::draw() const {
 		// デバック表示
 		DrawFormatString(10, 30, 0xffff00, "内部データ");
 		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
+		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugScene");
 
 		// ステージ間のライン
 		for (int j = 0; next_stage[i][j] > 0 && j <= 2; j++)
@@ -160,6 +172,13 @@ void map_temp::draw() const {
 			break;
 		}
 		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+		DrawFormatString(icon_loc[i][0] - 45, icon_loc[i][1] + 50, 0x007000, "(x:%d , y:%d)", icon_loc_def[i][0], icon_loc_def[i][1]);
 	}
 
+	// 罫線描画(100毎)
+	for (int i = -20; i <= 20; i++)
+	{
+		DrawLine(-2000, 100 * i + total_vec, 2000, 100 * i + total_vec, 0xffffff); // x座標
+		DrawLine(100 * i, -2000 + total_vec, 100 * i, 2000 + total_vec, 0xffffff); // y座標
+	}
 }

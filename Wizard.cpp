@@ -133,24 +133,36 @@ void Wizard::Draw(int arrayNum)
 
 void Wizard::X()
 {
-	if (hitFlg == HIT) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.x = vector.x + caleVector.x;
+	if (PlayerLoad(location, true) <= STOP_SHOOTING_DISTANCE) {
+		vector.x = vector.x * 0.87;
 	}
-	else if (hitFlg == NO_COLLISION) {
-		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+	else if (PlayerLoad(location, true) >= STOP_SHOOTING_DISTANCE) {
+		if (hitFlg == HIT) {
+			vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+			vector.x = vector.x + caleVector.x;
+		}
+		else if (hitFlg == NO_COLLISION) {
+			vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		}
 	}
 }
 
 void Wizard::Y()
 {
-	if (hitFlg == HIT) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
-		vector.y = vector.y + caleVector.y;
-		hitFlg = NO_COLLISION;
+	if (PlayerLoad(location, true) <= STOP_SHOOTING_DISTANCE) {
+		vector.y = vector.y * 0.87;
+		stopFlg = true;
 	}
-	else if (hitFlg == NO_COLLISION) {
-		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+	else if (PlayerLoad(location, true) >= STOP_SHOOTING_DISTANCE) {
+		if (hitFlg == HIT) {
+			vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+			vector.y = vector.y + caleVector.y;
+			hitFlg = NO_COLLISION;
+		}
+		else if (hitFlg == NO_COLLISION) {
+			vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		}
+		stopFlg = false;
 	}
 }
 
