@@ -1,5 +1,5 @@
 #include"scene_rest.h"
-#include"inputCtrl.h"
+#include"main.h"
 #include"Player.h"
 
 Rest::Rest()
@@ -69,8 +69,11 @@ void Rest::draw() const
 	}
 	else
 	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawBox(0, (SCREEN_WIDTH / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, 0x000000, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		SetFontSize(48);
-		DrawString(570, 600, "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
+		DrawString((SCREEN_WIDTH / 2) - 48 * 5, (SCREEN_HEIGHT / 2), "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
 		SetFontSize(16);
 	}
 }
