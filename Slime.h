@@ -21,9 +21,6 @@ public:
 	void X();
 	void Y();
 
-	//現在のステージでの出現する数を返す
-	int GetStageNum();
-
 	//スライムのダメージ取得
 	float GetSlimeDamage();
 };

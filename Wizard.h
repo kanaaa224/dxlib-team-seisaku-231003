@@ -1,27 +1,23 @@
-ï»¿#pragma once
+#pragma once
 #include "EnemyBase.h"
 #include "Player.h"
 #include "weapon.h"
 
-class Stage;
-
-class Skeleton :public EnemyBase
+class Wizard :public EnemyBase
 {
 private:
 
-	bool is_area;
-
 public:
-	Skeleton(int arrayNum,int SkeletonMaxNum);
+	Wizard(int arrayNum, int WizardMaxNum);
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum);
 
-	//ç§»å‹•å‡¦ç†
+	//ˆÚ“®ˆ—
 	void X();
 	void Y();
 
-	//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å–å¾—
-	float GetSkeletonDamage();
+	//ƒXƒ‰ƒCƒ€‚Ìƒ_ƒ[ƒWæ“¾
+	float GetWizardDamage();
 };
 
