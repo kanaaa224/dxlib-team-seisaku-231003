@@ -13,6 +13,12 @@ private:
 		weapon2
 	};
 
+	enum ActionNum
+	{
+		levelup,
+		reset_level
+	};
+
 	// 画像読込用変数
 	//int img_tree_diagram;			// 樹形図
 	int img_cursor;					// カーソル
@@ -57,18 +63,17 @@ private:
 	int weapon2_cursor_pos;			// 武器2のレベルアップ時カーソル表示位置
 	int weapon2_level_hierarchy;	// 武器2のレベルの階層
 
+	bool action_selection;			// 行動の選択
+	int action_number;
+	bool restor_cursor_position;
+
 public:
 	Blacksmith();
 	~Blacksmith();
 
 	// 更新
-	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* levelup);
+	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup);
 
 	// 描画
-	void draw()const;
-
-	// レベルアップ詳細のテキスト群
-	void DrawLevelUpDetails()const;
-
+	void draw(WeaponLevelUp* weapon_levelup)const;
 };
-

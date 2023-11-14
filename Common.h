@@ -70,7 +70,7 @@
 #define WIZARD_ATTAK_DAMAGE 0.0f	//ダメージ
 #define MAX_WIZARD_NUM 10			//魔法使いの最大数
 
-#define STOP_SHOOTING_DISTANCE 330 //プレイヤーとの距離がこの値になったら立ち止まる
+#define STOP_SHOOTING_DISTANCE 400 //プレイヤーとの距離がこの値になったら立ち止まる
 
 #define WIZARD_1_STAGE_NUM 3 //１ステージ目の魔法使いの数←仮で数が入っている
 #define WIZARD_2_STAGE_NUM 0 //２ステージ目の魔法使いの数

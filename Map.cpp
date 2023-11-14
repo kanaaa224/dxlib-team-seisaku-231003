@@ -157,11 +157,6 @@ int Map::update() {
 		}
 	}
 
-	// B‚ÅDebugScene
-	//if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
-	//	return 5; // new DebugScene;
-	//}
-
 	return 0;
 };
 

@@ -412,8 +412,8 @@ void weapon::LevelState()
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER;
-			P_speed = Player::Player_Speed(3.0);
+			damage = INIT_DAMAGE_DAGGER + 2;
+			P_speed = Player::Player_Speed(2.5);
 			break;
 
 		case greatSword:
@@ -437,12 +437,12 @@ void weapon::LevelState()
 			break;
 
 		case dagger:
-			//短剣　ダメージよりも振る速度を上げる　無敵時間を増やす
+			//短剣　ダメージよりも振る速度を上げる　回避の速度を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = Player::Player_invincible(60);
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
+			damage = INIT_DAMAGE_DAGGER + 1;
+			P_cooltime = Player::Player_Upperlimit(3.5f);
 			break;
 
 		case greatSword:
@@ -471,6 +471,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_speed = Player::Player_Speed(3.0);
 			break;
 
 		case greatSword:
@@ -494,11 +495,12 @@ void weapon::LevelState()
 			break;
 
 		case dagger:
-			//短剣　ダメージよりも振る速度を上げる　無敵時間を増やす
+			//短剣　ダメージよりも振る速度を上げる　回避のクールタイムを短くする
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_cooltime = Player::Avoidance_limit(1);
 			break;
 
 		case greatSword:
@@ -524,9 +526,11 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 70,0,70 };
 			// 内容は、4 5 の時よりかは低いが最終強化するとあほみたいに強くなる
-			maxRot = INIT_ROTATION_DAGGER;
+			maxRot = INIT_ROTATION_DAGGER + 5.0f; // 60 + 10 = 70
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER + 3;
+			P_cooltime = Player::Avoidance_limit(1);
+			P_speed = Player::Player_Speed(3.0);
 			break;
 
 		case greatSword:

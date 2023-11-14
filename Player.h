@@ -8,7 +8,7 @@
 #define MOVE_DOWN -0.2
 
 #define Speed 1.5f
-#define Upper_Limit 13.0f
+#define Upper_Limit 20.0f
 #define Initial_Value 0.0f
 
 #define MAX_HP 100.f
@@ -82,6 +82,7 @@ public:
 	static float Aiming_RadiusX;
 	static float Aiming_RadiusY;
 	static int   Cool_Limit;
+	static float Upper_speed;
 
 	//ヒットクールダウン
 	static int Hit_cooltime;
@@ -110,6 +111,9 @@ public:
 	//照準の半径を返す
 	static float Player_RadiusX(float value);
 	static float Player_RadiusY(float value);
+
+	//回避の移動スピード
+	static float Player_Upperlimit(float value);
 
 	//回避のクールダウン時間
 	static int Avoidance_limit(int value);

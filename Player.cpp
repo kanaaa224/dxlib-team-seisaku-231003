@@ -8,6 +8,7 @@ float Player::Aiming_RadiusX;
 float Player::Aiming_RadiusY;
 int   Player::Cool_Limit;
 int   Player::Hit_cooltime;
+float Player::Upper_speed;
 
 Player::Player() {
 
@@ -60,7 +61,7 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
-	Cool_Limit = 0;
+	Cool_Limit = 2;
 
 	is_hit = false;
 
@@ -68,6 +69,7 @@ Player::Player() {
 	camera_flg_left_right = false;
 
 	Hit_cooltime = 30;
+	Upper_speed = 1.5f;
 }
 
 Player::~Player() {
@@ -262,7 +264,7 @@ void Player::Player_Avoidance() {
 	//回避　Aボタン
 	//横
 	if (Provisional_LStickX > MOVE_RIGHT) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_left_right) {
 			location.x += Additional_Value3 * Provisional_LStickX;
 		}
@@ -277,7 +279,7 @@ void Player::Player_Avoidance() {
 		}
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_left_right) {
 			location.x += Additional_Value3 * Provisional_LStickX;
 		}
@@ -434,6 +436,13 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
+float Player::Player_Upperlimit(float value) {
+
+	Upper_speed = value;
+
+	return Upper_speed;
+}
+
 int Player::Player_invincible(int value) {
 
 	Hit_cooltime = value;
@@ -466,7 +475,7 @@ float  Player::Player_RadiusY(float value) {
 // 回避のクールタイムの時間を返す
 int Player::Avoidance_limit(int value) {
 
-	Cool_Limit = Cool_Limit - value;
+	Cool_Limit =  value;
 
 	return Cool_Limit;
 }
