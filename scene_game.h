@@ -52,7 +52,7 @@ private:
 	//シーン
 	Weapon_Selection* weapon_selection;
 	WeaponLevelUp* weapon_level_up;
-	Blacksmith* blacksmith;
+	//Blacksmith* blacksmith;
 
 	//////////
 
