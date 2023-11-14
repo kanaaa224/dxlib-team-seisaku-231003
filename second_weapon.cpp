@@ -305,15 +305,15 @@ void second_weapon::Draw() const
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
-	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
+	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);*/
+	/*DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	DrawFormatString(0, 180, 0xffffff, "フレイルX %f", frailLocation1.x);
-	DrawFormatString(0, 210, 0xffffff, "フレイルY %f", frailLocation1.y);
-	DrawFormatString(0, 240, 0xffffff, " %d", level7FrailFlg);
+	//DrawFormatString(0, 180, 0xffffff, "フレイルX %f", frailLocation1.x);
+	//DrawFormatString(0, 210, 0xffffff, "フレイルY %f", frailLocation1.y);
+	//DrawFormatString(0, 240, 0xffffff, " %d", level7FrailFlg);
 	
 
 	//kk

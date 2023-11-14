@@ -120,7 +120,7 @@ Scene* GameScene::update() {
 				if (secondweapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 					if (slime[i]->GetHitFrameCnt() == 0) {
 						slime[i]->SetHitWeaponFlg();
-						slime[i]->SetHitHP(Weapon->GetDamage());
+						slime[i]->SetHitHP(secondweapon->GetDamage());
 						slime[i]->SetHit1stFrameFlg(true);
 					}
 				}
