@@ -9,8 +9,6 @@ class Slime :public EnemyBase
 {
 private:
 
-	bool is_area;
-
 public:
 	Slime(int arrayNum, int SlimeMaxNum);
 

@@ -106,7 +106,7 @@ Scene* GameScene::update() {
 	HitCheck();
 	SlimeUpdate();
 	SkeletonUpdate();
-	
+	WizardUpdate();
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -190,35 +190,9 @@ Scene* GameScene::update() {
 		return new GameOverScene;
 	}
 	
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			if (slime[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
-				slime[i]->SetHit1stFrameFlg(false);
-				slime[i]->SetHitFrameCnt(0);
-			}
-		}
-	}
-	/*if (hitFrameCounter >= DAMAGE_STOP_FRAME) {
-		hitFlg = false;
-		hitFrameCounter = 0;
-	}*/
+	EnemyInc();//敵のダメージストップ関係
 
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			if (slime[i]->GetHit1stFrameFlg() == true) {
-				slime[i]->hitFrameCntInc();
-			}
-		}
-	}
-	/*if (hitFlg == true) {
-		hitFrameCounter++;
-	}*/
 	frameCounter++;
-
-
-
-
-
 
 	//////////////////////////////////////////////////
 	// GameUI 仮
@@ -294,6 +268,7 @@ void GameScene::draw() const {
 		//敵//
 		SlimeDraw();
 		SkeletonDraw();
+		WizardDraw();
 		////////////
 
 		if (is_weapon_select != true)
@@ -322,7 +297,7 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			HitEnemy(slime[i]);
+			HitEnemy(slime[i]);//プレイヤーとの当たり判定
 			for (int j = 0; j < MAX_SLIME_NUM; j++) {
 				if (slime[j] != nullptr && i != j) {
 					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
@@ -340,7 +315,7 @@ void GameScene::HitCheck()
 	//スケルトンの当たり判定
 	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
 		if (skeleton[i] != nullptr) {
-			HitEnemy(skeleton[i]);
+			HitEnemy(skeleton[i]);//プレイヤーとの当たり判定
 			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
 				if (skeleton[j] != nullptr && i != j) {
 					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
@@ -349,6 +324,24 @@ void GameScene::HitCheck()
 
 						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
 						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//魔法使いの当たり判定
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			HitEnemy(wizard[i]);//プレイヤーとの当たり判定
+			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+				if (wizard[j] != nullptr && i != j) {
+					if (wizard[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+						wizard[i]->SetHitFlg(HIT);
+						wizard[j]->SetHitFlg(HIT);
+
+						wizard[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*wizard[i]), player);
 					}
 				}
 			}
@@ -371,6 +364,40 @@ void GameScene::HitCheck()
 			}
 		}
 	}
+
+	//スライムと魔法使いの当たり判定
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+				if (wizard[j] != nullptr) {
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+						slime[i]->SetHitFlg(HIT);
+						wizard[j]->SetHitFlg(HIT);
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//魔法使いとスケルトンの当たり判定
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+				if (wizard[j] != nullptr) {
+					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+						skeleton[i]->SetHitFlg(HIT);
+						wizard[j]->SetHitFlg(HIT);
+
+						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
+				}
+			}
+		}
+	}
 }
 
 void GameScene::HitEnemy(EnemyBase* enemy)
@@ -381,6 +408,64 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 		{
 			player->SetPlayer_HP(enemy->GetDamage());
 			player->SetIsHit(true);
+		}
+	}
+}
+
+//----------敵----------//
+void GameScene::EnemyInc()
+{
+	//スライム
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				slime[i]->SetHit1stFrameFlg(false);
+				slime[i]->SetHitFrameCnt(0);
+			}
+		}
+	}
+
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHit1stFrameFlg() == true) {
+				slime[i]->hitFrameCntInc();
+			}
+		}
+	}
+
+	//スケルトン
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			if (skeleton[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				skeleton[i]->SetHit1stFrameFlg(false);
+				skeleton[i]->SetHitFrameCnt(0);
+			}
+		}
+	}
+
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			if (skeleton[i]->GetHit1stFrameFlg() == true) {
+				skeleton[i]->hitFrameCntInc();
+			}
+		}
+	}
+
+	//魔法使い
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			if (wizard[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				wizard[i]->SetHit1stFrameFlg(false);
+				wizard[i]->SetHitFrameCnt(0);
+			}
+		}
+	}
+
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			if (wizard[i]->GetHit1stFrameFlg() == true) {
+				wizard[i]->hitFrameCntInc();
+			}
 		}
 	}
 }
@@ -443,6 +528,36 @@ void GameScene::SkeletonDraw() const
 		for (int i = 0; i < MAX_SKELETON_NUM; i++) {
 			if (skeleton[i] != nullptr) {
 				skeleton[i]->Draw(i);
+			}
+		}
+	}
+}
+
+//----------魔法使い----------//
+void GameScene::WizardUpdate()
+{
+	if (stage == 1) {
+		if (tmpWizardNum < WIZARD_1_STAGE_NUM) {
+			wizard[tmpWizardNum] = new Wizard(tmpWizardNum, WIZARD_1_STAGE_NUM);
+			tmpWizardNum++;
+		}
+		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+			if (wizard[i] != nullptr) {
+				wizard[i]->Update(i, player, Weapon, *(backimg));
+				if (wizard[i]->GetHP() <= 0) {
+					wizard[i] = nullptr;
+				}
+			}
+		}
+	}
+}
+
+void GameScene::WizardDraw() const
+{
+	if (stage == 1) {
+		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+			if (wizard[i] != nullptr) {
+				wizard[i]->Draw(i);
 			}
 		}
 	}
