@@ -14,7 +14,7 @@ GameUI::GameUI() {
 	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))    == -1) throw;
 	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                  == -1) throw;
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))          == -1) throw;
-	//if ((img["weaponBook"]       = LoadGraph("resources/images/.png")) == -1) throw;
+	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
