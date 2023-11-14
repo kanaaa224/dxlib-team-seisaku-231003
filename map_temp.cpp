@@ -187,7 +187,7 @@ Scene* map_temp::update() {
 	}
 	if (InputCtrl::GetKeyState(KEY_INPUT_RIGHT) == PRESS) {
 		icon_loc[change_icon][0] = icon_loc[change_icon][0] + 10;
-		icon_loc_change[change_icon][1] = icon_loc_change[change_icon][1] + 10;
+		icon_loc_change[change_icon][0] = icon_loc_change[change_icon][0] + 10;
 	}
 
 	// B‚ÅDebugScene
