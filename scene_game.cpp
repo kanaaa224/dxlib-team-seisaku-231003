@@ -101,8 +101,8 @@ Scene* GameScene::update() {
 	// 武器のレベルアップ画面を表示しているときは以下の処理をしない
 	if (open_level_up)
 	{
-		//weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
-		blacksmith->update(Weapon, secondweapon, weapon_level_up);
+		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
+		//blacksmith->update(Weapon, secondweapon, weapon_level_up);
 		return this;
 	}
 
@@ -307,8 +307,8 @@ void GameScene::draw() const {
 		// 武器のレベルアップ画面描画
 		if (open_level_up)
 		{
-			//weapon_level_up->draw();
-			blacksmith->draw(weapon_level_up);
+			weapon_level_up->draw();
+			//blacksmith->draw(weapon_level_up);
 		}
 	}
 

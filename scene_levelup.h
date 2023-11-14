@@ -26,6 +26,7 @@ private:
 	int img_spear;					// 槍
 	int img_frail;					// フレイア
 	int img_book;					// 本
+	int img_question_mark;			// はてなマーク（武器無しの場合）
 
 	// 武器の情報
 	struct weapon_information
@@ -100,4 +101,8 @@ public:
 	{
 		is_blacksmith = set_bool;
 	}
+
+	// レベル階層の取得
+	int GetWeapon1LevelHierarchy() { return weapon1_info.level_hierarchy; }
+	int GetWeapon2LevelHierarchy() { return weapon2_info.level_hierarchy; }
 };

@@ -17,6 +17,7 @@ WeaponLevelUp::WeaponLevelUp()
 	img_spear = LoadGraph("resources/images/spear.png");
 	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
 	img_book = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
 	// 構造体初期化
 	weapon1_info = { 0, none, 0, 0, 0 };
@@ -84,9 +85,9 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	if (weapon_selection == false)
 	{
 		// 武器を2種類持っていたら武器選択ができる
-		if (weapon2_info.type != none)
+		/*if (weapon2_info.type != none)
 		{
-			if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
+		*/	if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
 			{
 				//左スティックを右に
 				interval = 0;
@@ -112,11 +113,15 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 					weapon_number = weapon2_info.num;
 				}
 			}
-		}
+		//}
 
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
+			if (cursor_x = 960 && weapon2_info.type == none)
+			{
+
+			}
 			weapon_selection = true;
 		}
 	}
@@ -197,7 +202,8 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
 			break;
 		default:
-			DrawFormatString(img_x, img_y, 0x000000, "none");
+			DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			//DrawFormatString(img_x, img_y, 0x000000, "none");
 			break;
 	}
 
@@ -214,7 +220,8 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
 			break;
 		default:
-			DrawFormatString(img_x + 360, img_y, 0x000000, "none");
+			DrawRotaGraph(img_x + 380, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			//DrawFormatString(img_x + 360, img_y, 0x000000, "none");
 			break;
 	}
 	
@@ -274,21 +281,14 @@ void WeaponLevelUp::draw() const
 		}
 		else
 		{
-			if (weapon2_info.type == none)
+			// 武器2
+			if (weapon2_info.level_hierarchy <= MAX_LEVEL_HIERARCHY)
 			{
-				DrawFormatString(600, 50, 0x000000, "武器がありません");
-			}
-			else
-			{
-				// 武器2
-				if (weapon2_info.level_hierarchy <= MAX_LEVEL_HIERARCHY)
-				{
-					// カーソル表示
-					DrawRotaGraph(cursor_x + weapon2_info.cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
+				// カーソル表示
+				DrawRotaGraph(cursor_x + weapon2_info.cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
 
-					// レベル選択の円を描画
-					//DrawCircle(cursor_x + weapon2_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
-				}
+				// レベル選択の円を描画
+				//DrawCircle(cursor_x + weapon2_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
 			}
 		}
 	}

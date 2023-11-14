@@ -10,10 +10,9 @@ Blacksmith::Blacksmith()
 	//img_tree_diagram = LoadGraph("resources/images/levelup.png");
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	//img_branch_point = LoadGraph("resources/images/branch_point.png");
-	//img_chooce = LoadGraph("resources/images/levelup_choose.png");
+	img_chooce = LoadGraph("resources/images/levelup_choose.png");
 	img_hammer = LoadGraph("resources/images/hammer.png");
 	img_spark = LoadGraph("resources/images/spark.png");
-	img_question_mark = LoadGraph("resources/images/mark_question.png");
 	img_exclamation_mark = LoadGraph("resources/images/mark_exclamation_white.png");
 	img_arrow = LoadGraph("resources/images/arrow.png");
 
@@ -180,6 +179,26 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 		DrawFormatString(160, 300, 0x000000, "レベルアップ");
 		DrawFormatString(760, 300, 0x000000, "レベルの振り直し");
 
+		// 画像の表示
+		if (action_number == reset_level)
+		{
+			DrawRotaGraph(img_x, img_y - 50, 0.08f, 0.0f, img_hammer, TRUE);
+			DrawRotaGraph(img_x, img_y - 50, 0.08f, 0.0f, img_spark, TRUE);
+		}
+		else
+		{
+			DrawRotaGraph(img_x, img_y - 50, 0.08f, 0.0f, img_sword, TRUE);
+			DrawRotaGraph(img_x, img_y - 50, 0.08f, 0.0f, img_arrow, TRUE);
+			DrawRotaGraph(img_x, img_y - 50, 0.08f, 0.0f, img_chooce, TRUE);
+		}
+
+		// 最終強化できる場合
+		if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
+		{
+			// ビックリマーク
+			DrawRotaGraph(img_x, img_y - 50, 0.08f, 0.0f, img_exclamation_mark, TRUE);
+
+		}
 	
 	}
 	else

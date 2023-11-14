@@ -17,12 +17,11 @@ private:
 	//int img_tree_diagram;			// 樹形図
 	int img_cursor;					// カーソル
 	//int img_branch_point;			// レベル分岐点
-	//int img_chooce;					// レベル選択位置
+	int img_chooce;					// レベル選択位置
 	//int img_background;			// 背景
 
 	int img_hammer;					// ハンマー
 	int img_spark;					// 火花
-	int img_question_mark;			// はてなマーク
 	int img_exclamation_mark;		// ビックリマーク
 	int img_arrow;					// 矢印
 
