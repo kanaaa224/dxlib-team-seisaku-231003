@@ -22,7 +22,7 @@ GameScene::GameScene() {
 	//
 	weapon_selection = new Weapon_Selection(weapon_selected);
 	weapon_level_up = new WeaponLevelUp;
-	blacksmith = new Blacksmith;
+	//blacksmith = new Blacksmith;
 
 	is_weapon_select = false;
 	weapon_selected = false;
@@ -44,7 +44,7 @@ GameScene::~GameScene() {
 	delete gameUI;
 	delete weapon_level_up;
 	delete map;
-	delete blacksmith;
+	//delete blacksmith;
 };
 
 Scene* GameScene::update() {
