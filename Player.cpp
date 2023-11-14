@@ -3,6 +3,7 @@
 
 float Player::MovingX;
 float Player::MovingY;
+float Player::Additional_Value2;
 
 Player::Player() {
 
@@ -16,13 +17,13 @@ Player::Player() {
 	location.x = PlayerX;
 	location.y = PlayerY;
 
+	//当たり判定のもの
 	radius = 20;
 
 	AimingX = 300.0;
 	AimingY = 300.0;
-	centerAngle = 15;
-	Aiming_RadiusX = 100.0;
-	Aiming_RadiusY = 100.0;
+	Aiming_RadiusX = 200.0;
+	Aiming_RadiusY = 200.0;
 
 	Angle = 0.0;
 	rd = 0.0;
@@ -137,7 +138,6 @@ void Player::draw()const {
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", AimingY);
 	//DrawFormatString(0, 320, GetColor(255, 0, 0), "AimingY %0.1f", AimingY);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", AimingX);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "centerAngle %0.1f", centerAngle);
 
 	//右スティック
 	DrawFormatString(0, 360, GetColor(255, 0, 0), "PlayerX:縦軸値 %0.1f", location.x);
@@ -427,9 +427,11 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
-void Player::Player_Speed(float value) {
+float Player::Player_Speed(float value) {
 
-	Additional_Value2 = value;
+	Additional_Value2 =  value;
+
+	return Additional_Value2;
 }
 
 // 照準の半径を返す

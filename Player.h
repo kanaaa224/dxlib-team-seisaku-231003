@@ -34,7 +34,6 @@ private:
 	float Aiming_RadiusY;
 
 	//仮 円運動
-	float centerAngle;
 	float Angle;
 	float rd;
 	
@@ -55,9 +54,7 @@ private:
 
 	//　加算値
 	float Additional_Value;
-	float Additional_Value2;
 	float Additional_Value3;
-
 	float Avoidance;
 
 	//移動量
@@ -84,6 +81,7 @@ public:
 
 	static float MovingX;
 	static float MovingY;
+	static float Additional_Value2;
 
 	Player();
 	~Player();
@@ -109,7 +107,7 @@ public:
 	//回避のクールダウン時間
 	void Avoidance_limit(int value);
 
-	void Player_Speed(float value);
+	static float Player_Speed(float value);
 
 	//プレイヤーの移動量 X Y を返す
 	float Player_MoveX();
