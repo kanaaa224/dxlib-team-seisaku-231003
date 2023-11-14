@@ -9,11 +9,11 @@ GameUI::GameUI() {
 	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
 	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
 
-	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))  == -1) throw;
-	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png")) == -1) throw;
-	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))    == -1) throw;
-	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                  == -1) throw;
-	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))          == -1) throw;
+	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))      == -1) throw;
+	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png"))     == -1) throw;
+	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))        == -1) throw;
+	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                      == -1) throw;
+	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))              == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
@@ -46,6 +46,10 @@ GameUI::~GameUI() {
 void GameUI::init() {
 	state = 0;
 	frameCounter = 1;
+
+	notice["opacity"] = std::to_string(0.0);
+	notice["state"]   = std::to_string(0);
+	notice["frame"]   = std::to_string(0);
 };
 
 void GameUI::update(GameScene* gameScene) {
@@ -72,14 +76,42 @@ void GameUI::update(GameScene* gameScene) {
 		};
 	};
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
+	if (std::stoi(notice["state"])) {
+		notice["frame"] = std::to_string(std::stoi(notice["frame"]) + 1);
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESS) notification("", "", "");
+		if (std::stoi(notice["state"]) == 1) {
+			if (std::stod(notice["opacity"]) < 1.0f) notice["opacity"] = std::to_string(std::stod(notice["opacity"]) + ((60.0f / FPSCtrl::Get()) * 0.1f));
+
+			if (std::stoi(notice["frame"]) % ((int)FPSCtrl::Get() * 4) == 0) {
+				notice["state"] = std::to_string(2);
+			};
+		}
+		else if (std::stoi(notice["state"]) == 2) {
+			if (std::stod(notice["opacity"]) > 0.0f) notice["opacity"] = std::to_string(std::stod(notice["opacity"]) - ((60.0f / FPSCtrl::Get()) * 0.1f));
+
+			if (std::stoi(notice["frame"]) % ((int)FPSCtrl::Get() * 2) == 0) {
+				notice["opacity"] = std::to_string(0.0);
+				notice["state"]   = std::to_string(0);
+				notice["frame"]   = std::to_string(0);
+			};
+		};
+	};
+
+	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
+	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 仮
 };
 
 void GameUI::draw() const {
-	if (state) drawHUD();
-	else       drawBanner();
+	if (state) {
+		drawHUD();
+	}
+	else {
+		drawBanner();
+	};
+
+	std::string notice_state = std::to_string(0);
+	if (notice.find("state") != notice.end()) notice_state = notice.at("state");
+	if (std::stoi(notice_state)) drawNotice();
 };
 
 void GameUI::drawHUD() const {
@@ -290,6 +322,7 @@ void GameUI::drawHUD() const {
 	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
 
 	DrawFormatString(lx + 40, ly + 5, 0xffffff, "回避");
+
 
 	//////////////////////////////////////////////////
 	// 武器
@@ -518,13 +551,14 @@ void GameUI::drawNotice() const {
 	if (img.find(button) != img.end()) img_btn = img.at(button);
 
 	int lx = (SCREEN_WIDTH / 2) - 150;
-	int ly = SCREEN_HEIGHT - 100 + (100 * std::stod(opacity));
+	int ly = SCREEN_HEIGHT - 100 + (100 - (100 * std::stod(opacity)));
 	int rx = lx + 300;
 	int ry = ly + 60;
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180 * std::stod(opacity));
 	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * std::stod(opacity));
 
 	SetFontSize(18);
 	DrawFormatString(lx + 10, ly + 10, 0xffffff, title.c_str());
@@ -533,6 +567,18 @@ void GameUI::drawNotice() const {
 	DrawFormatString(lx + 15, ly + 35, 0xffffff, message.c_str());
 
 	DrawExtendGraph(rx - (ry - ly), ly + 10, rx - 10, ry - 10, img_btn, TRUE);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+};
+
+void GameUI::notification(std::string Title, std::string Message, std::string Button) {
+	if (!std::stoi(notice["state"])) {
+		notice["title"]   = Title;
+		notice["message"] = Message;
+		notice["button"]  = Button;
+
+		notice["state"] = std::to_string(1);
+	};
 };
 
 void GameUI::setScore(int Score) {
