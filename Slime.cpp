@@ -124,11 +124,6 @@ void Slime::Draw(int arrayNum)
 			DrawFormatString((int)location.x, (int)location.y + 45, C_RED, "HP:%d", hp);
 			DrawFormatString((int)location.x, (int)location.y + 60, C_RED, "HitFlg:%d", hitFlg);
 		}
-		DrawFormatString((int)location.x - 10, (int)location.y - 10, C_RED, "%d", arrayNum);
-
-		if (hitFlg == TRUE) {
-			DrawCircle((int)location.x, (int)location.y, 20, C_RED, FALSE, 2);
-		}
 #endif // DEBUG
 	}
 }
