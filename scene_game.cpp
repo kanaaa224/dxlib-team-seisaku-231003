@@ -15,7 +15,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
-	map = new Map;
+	map = new Map(gameUI);
 
 	//////////////////////////////////////////////////
 	
@@ -49,7 +49,6 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
-
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
 		if (state) state = 0;
 		else state++;
