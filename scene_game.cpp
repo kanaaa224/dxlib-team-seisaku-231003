@@ -23,6 +23,7 @@ GameScene::GameScene() {
 	//
 	weapon_selection = new Weapon_Selection(weapon_selected);
 	weapon_level_up = new WeaponLevelUp;
+	//blacksmith = new Blacksmith;
 
 	is_weapon_select = false;
 	weapon_selected = false;
@@ -46,6 +47,7 @@ GameScene::~GameScene() {
 	delete gameUI;
 	delete weapon_level_up;
 	delete map;
+	//delete blacksmith;
 };
 
 Scene* GameScene::update() {
@@ -99,6 +101,7 @@ Scene* GameScene::update() {
 	if (open_level_up)
 	{
 		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
+		//blacksmith->update(Weapon, secondweapon, weapon_level_up);
 		return this;
 	}
 
@@ -304,6 +307,7 @@ void GameScene::draw() const {
 		if (open_level_up)
 		{
 			weapon_level_up->draw();
+			//blacksmith->draw(weapon_level_up);
 		}
 	}
 
