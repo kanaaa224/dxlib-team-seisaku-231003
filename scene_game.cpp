@@ -7,6 +7,7 @@
 GameScene::GameScene() {
 	state = 1;
 	frameCounter = 0;
+	bookFlg = false;
 
 	//////////////////////////////////////////////////
 
@@ -118,7 +119,13 @@ Scene* GameScene::update() {
 				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 					if (slime[i]->GetHitFrameCnt() == 0) {
 						slime[i]->SetHitWeaponFlg();
-						slime[i]->SetHitHP(Weapon->GetDamage());
+						//ダメージアップ
+						if (secondweapon->GetWeaponType() == book && secondweapon->GetWeaponLevel() == 7) {
+							slime[i]->SetHitHP(Weapon->GetDamage() * 2);
+						}
+						else {
+							slime[i]->SetHitHP(Weapon->GetDamage());
+						}
 						slime[i]->SetHit1stFrameFlg(true);
 					}
 				}
@@ -150,6 +157,18 @@ Scene* GameScene::update() {
 				}
 			}
 		}
+	}
+
+	//バリア
+	if (secondweapon->GetWeaponType() == book && secondweapon->GetWeaponLevel() == 7 && secondweapon->GetCoolTime() == 0) {
+		Weapon->SetCoolTime(0.1f, true);
+		secondweapon->SetBarrierFlg(true);
+		bookFlg = true;
+	}
+	else if (secondweapon->GetCoolTime() < INIT_COOLTIME_BOOK_LEVEL7 * 0.5f && bookFlg == true) {
+		Weapon->SetCoolTime(1.0f, false);
+		secondweapon->SetBarrierFlg(false);
+		bookFlg = false;
 	}
 
 	//武器のレベルアップ（デバッグ用）
@@ -410,8 +429,12 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 	{
 		if (player->CheckCollision(*(enemy), player) == HIT)
 		{
-			player->SetPlayer_HP(enemy->GetDamage());
-			player->SetIsHit(true);
+			//バリア
+			if (!secondweapon->GetBarrierFlg()) {
+				player->SetPlayer_HP(enemy->GetDamage());
+				player->SetIsHit(true);
+			}
+			
 		}
 	}
 }
