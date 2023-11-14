@@ -502,7 +502,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 100, 0x000000, "‘åŒ•");
 			break;
 		default:
-			DrawFormatString(200, 100, 0x000000, "•Ší‚ª‚ ‚è‚Ü‚¹‚ñ");
+			DrawFormatString(200, 100, 0xb00000, "•Ší‚ª‚ ‚è‚Ü‚¹‚ñ");
 			break;
 		}
 	}
@@ -520,7 +520,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 100, 0x000000, "–{");
 			break;
 		default:
-			DrawFormatString(200, 100, 0x000000, "•Ší‚ª‚ ‚è‚Ü‚¹‚ñ");
+			DrawFormatString(200, 100, 0xb00000, "•Ší‚ª‚ ‚è‚Ü‚¹‚ñ");
 			break;
 		}
 	}
