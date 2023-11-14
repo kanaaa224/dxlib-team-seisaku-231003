@@ -27,6 +27,7 @@ private:
 	Stage* backimg;
 	weapon* Weapon;
 	second_weapon* secondweapon;
+	bool bookFlg;
 	GameUI* gameUI;
 	Map* map;
 
