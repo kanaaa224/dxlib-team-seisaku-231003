@@ -8,7 +8,7 @@
 
 second_weapon::second_weapon()
 {
-	weaponType = spear;
+	weaponType = none;
 	baseVec = { 80,0,80 };
 	relativeRot = 0.0f;		//武器によって変える
 	maxRot = 90.0f;
@@ -43,6 +43,7 @@ second_weapon::second_weapon()
 		bullets[i].l = { 0,0 };
 		bullets[i].flg = false;
 	}
+	barrierFlg = false;
 }
 
 second_weapon::second_weapon(int type)
@@ -96,7 +97,7 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 	//武器所有中なら
 	if (weaponType != none) {
 		//クールタイム中
-		if (!(isAttacking) && --coolTime <= 0) {
+		if (!(isAttacking) && --coolTime < 0) {
 			isAttacking = true;
 			coolTime = maxCoolTime;
 		}
@@ -297,6 +298,9 @@ void second_weapon::Draw() const
 		}
 	}
 
+	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
+		DrawCircle(location.x, location.y, 25, 0x00ff00, FALSE);
+	}
 	//spear
 	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
 	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
@@ -333,7 +337,7 @@ void second_weapon::Draw() const
 
 	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
-		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
+		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Kキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
@@ -602,7 +606,7 @@ void second_weapon::LevelState()
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.4f;
+			maxCoolTime = INIT_COOLTIME_BOOK_LEVEL7;
 			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
