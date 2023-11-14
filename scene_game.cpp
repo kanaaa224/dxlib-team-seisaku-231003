@@ -34,6 +34,8 @@ GameScene::GameScene() {
 	//////////////////////////////////////////////////
 
 	exp = level = 0; // 仮
+
+	map->ResetStage();
 };
 
 GameScene::~GameScene() {
@@ -253,6 +255,7 @@ Scene* GameScene::update() {
 		};
 		if (gameUI->getState() == 1) {
 			////GameScene();
+			map->ClearStage();
 			map->SetIsMapMode(true);
 			//return new Map;
 		};
