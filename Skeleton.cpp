@@ -168,12 +168,6 @@ void Skeleton::Y()
 	}
 }
 
-int Skeleton::GetStageNum()
-{
-	int r = SLIME_1_STAGE_NUM;
-	return r;
-}
-
 float Skeleton::GetSkeletonDamage()
 {
 	return damage;
