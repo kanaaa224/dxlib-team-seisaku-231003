@@ -9,7 +9,7 @@
 Skeleton::Skeleton(int arrayNum, int SkeletonMaxNum)
 {
 	//画像読込
-	img = LoadGraph("resources/images/gorira_Skeleton.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/gorira_Skeleton.png");
 	//変数の初期化
 	hp = SKELETON_HP_MAX;
 	damage = SKELETON_ATTAK_DAMAGE;
@@ -76,6 +76,7 @@ void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 
 	if (redFrameCounter == RED_FRAME) {
 		redDrawFlg = false;
+		redFrameCounter = 0;
 	}
 	if (redDrawFlg == true) {
 		redFrameCounter++;
