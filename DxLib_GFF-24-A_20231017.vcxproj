@@ -66,6 +66,7 @@
     <ClInclude Include="scene_weapon.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="scene_load.h" />
+    <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyBase.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="scene_weapon.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="scene_load.cpp" />
+    <ClCompile Include="Wizard.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

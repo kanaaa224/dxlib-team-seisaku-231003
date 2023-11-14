@@ -9,7 +9,7 @@
 Slime::Slime(int arrayNum, int SlimeMaxNum)
 {
 	//画像読込
-	img = LoadGraph("resources/images/slime_cat.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/slime_cat.png");
 	//変数の初期化
 	hp = SLIME_HP_MAX;
 	damage = SLIME_ATTAK_DAMAGE;
@@ -80,6 +80,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	
 	if (redFrameCounter == RED_FRAME) {
 		redDrawFlg = false;
+		redFrameCounter = 0;
 	}
 	if (redDrawFlg == true) {
 		redFrameCounter++;
@@ -101,10 +102,6 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
-		if (is_area)
-		{
-			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
-		}
 		
 		if (hp <= 0) {//HPが０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
@@ -173,12 +170,6 @@ void Slime::Y()
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 	}
-}
-
-int Slime::GetStageNum()
-{
-	int r = SLIME_1_STAGE_NUM;
-	return r;
 }
 
 float Slime::GetSlimeDamage()

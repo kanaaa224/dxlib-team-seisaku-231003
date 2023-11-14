@@ -138,6 +138,9 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>Enemy\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Wizard.h">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Enemy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Wizard.cpp">
+      <Filter>Enemy\Small Fry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

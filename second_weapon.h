@@ -78,6 +78,12 @@ private:
 	float frailLengthCursor;
 	bool isFrailAttacking;
 	float frailRate;
+	//強化後の増えたフレイルの当たり判定
+	Location frailLocation1;
+	Vector frailVec1;
+	Location frailLocation2;
+	Vector frailVec2;
+	float level7FrailRot;
 
 
 	Vector book_move;
@@ -108,6 +114,7 @@ public:
 
 
 	bool FrailAnim();
+	bool ThreeFrailAnim();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {

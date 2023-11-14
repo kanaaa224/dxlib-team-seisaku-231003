@@ -21,9 +21,6 @@ public:
 	void X();
 	void Y();
 
-	//現在のステージでの出現する
-	int GetStageNum();
-
 	//スケルトンのダメージ取得
 	float GetSkeletonDamage();
 };
