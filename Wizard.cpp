@@ -1,4 +1,4 @@
-﻿#include "Skeleton.h"
+﻿#include "Wizard.h"
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
@@ -6,26 +6,26 @@
 
 #define DEBUG
 
-Skeleton::Skeleton(int arrayNum, int SkeletonMaxNum)
+Wizard::Wizard(int arrayNum, int WizardMaxNum)
 {
 	//画像読込
-	img = LoadGraph("resources/images/enemy_tmp_images/gorira_Skeleton.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/wizard_sato.png");
 	//変数の初期化
-	hp = SKELETON_HP_MAX;
-	damage = SKELETON_ATTAK_DAMAGE;
+	hp = WIZARD_HP_MAX;
+	damage = WIZARD_ATTAK_DAMAGE;
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
 
 	respawnTimeCnt = 0;
-	respawnTime = SetRespawnTime(arrayNum, SkeletonMaxNum);
+	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum);
 
 	//リスポーンポイント決め
 	SetRespawnPoint();
 }
 
-void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
+void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 {
 	if (respawnFlg == true && hp > 0) {
 		//プレイヤーの移動量をdiffにセット
@@ -33,7 +33,7 @@ void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 		//プレイヤーの座標をdiffLocationにセット
 		SetPlayer_Location(player->GetLocation());
-
+	
 		//移動処理//
 		if (hitWeaponFlg == false) {
 			X();
@@ -79,10 +79,9 @@ void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		hitWeaponFlg = false;
 	}
 #endif // DEBUG
-
 }
 
-void Skeleton::Draw(int arrayNum)
+void Wizard::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
 
@@ -132,7 +131,7 @@ void Skeleton::Draw(int arrayNum)
 	}
 }
 
-void Skeleton::X()
+void Wizard::X()
 {
 	if (hitFlg == HIT) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -143,7 +142,7 @@ void Skeleton::X()
 	}
 }
 
-void Skeleton::Y()
+void Wizard::Y()
 {
 	if (hitFlg == HIT) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
@@ -155,7 +154,8 @@ void Skeleton::Y()
 	}
 }
 
-float Skeleton::GetSkeletonDamage()
+float Wizard::GetWizardDamage()
 {
 	return damage;
 }
+

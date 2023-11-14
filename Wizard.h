@@ -3,14 +3,12 @@
 #include "Player.h"
 #include "weapon.h"
 
-class Stage;
-
-class Skeleton :public EnemyBase
+class Wizard :public EnemyBase
 {
 private:
 
 public:
-	Skeleton(int arrayNum,int SkeletonMaxNum);
+	Wizard(int arrayNum, int WizardMaxNum);
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum);
@@ -19,7 +17,7 @@ public:
 	void X();
 	void Y();
 
-	//スケルトンのダメージ取得
-	float GetSkeletonDamage();
+	//スライムのダメージ取得
+	float GetWizardDamage();
 };
 
