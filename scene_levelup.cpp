@@ -118,11 +118,12 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			if (cursor_x = 960 && weapon2_info.type == none)
+			// 武器2がnoneだったら武器2の選択決定は不可
+			// それ以外の場合は選択決定可能
+			if (cursor_x == 580 || weapon2_info.type != none)
 			{
-
+				weapon_selection = true;
 			}
-			weapon_selection = true;
 		}
 	}
 	else
