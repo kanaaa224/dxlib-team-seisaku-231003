@@ -19,9 +19,12 @@ private:
 	{850, 130}, {760, 40}, {380, -80}, {860, -110}, {640, -200},
 	{640, -300},
 	};
-	int icon_loc[DATA_MAX][2];  // アイコン座標
-	int icon_vec;               // アイコン移動量
-	int total_vec;              // 総合移動量
+	int icon_loc[DATA_MAX][2];         // アイコン座標
+	int icon_loc_change[DATA_MAX][2];
+	int icon_vec;                      // アイコン移動量
+	int total_vec;                     // 総合移動量
+	int change_icon;                   // 移動させるアイコン
+	int change_icon_tab;               // 移動させるアイコン(十の位)
 
 	// 次に行けるステージ(最後は1番最初の選択ステージ)
 	const int next_stage[DATA_MAX][3]{
