@@ -70,6 +70,9 @@ public:
 	void draw()const;
 
 private:
+	// 初期化処理
+	void Init(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
+
 	// レベルアップ処理
 	void LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info);
 

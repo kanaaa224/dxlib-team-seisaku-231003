@@ -62,17 +62,8 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	// カーソルの位置を元に戻す
 	if (restor_cursor_position == true)
 	{
-		weapon_selection = false;
-		cursor_x = 580;
-		weapon_number = weapon1_info.num;
-		restor_cursor_position = false;
-		// 現在の武器レベルのセット
-		weapon1_info.level = weapon->GetWeaponLevel();
-		weapon2_info.level = second_weapon->GetWeaponLevel();
-
-		// 武器の種類のセット
-		weapon1_info.type = weapon->GetWeaponType();
-		weapon2_info.type = second_weapon->GetWeaponType();
+		// 初期化
+		Init(weapon, second_weapon, restor_cursor_position);
 	}
 
 	// 15fのインターバル
@@ -85,10 +76,10 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	if (weapon_selection == false)
 	{
 		// 武器を2種類持っていたら武器選択ができる
-		/*if (weapon2_info.type != none)
-		{
-		*/	if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
-			{
+		//if (weapon2_info.type != none)
+		//{
+			if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
+				{
 				//左スティックを右に
 				interval = 0;
 				cursor_x = 960;
@@ -180,10 +171,12 @@ void WeaponLevelUp::draw() const
 
 	// テスト表示
 	SetFontSize(20);
-	DrawFormatString(160, 10, 0x000000, "W1level(State) : %d", weapon1_info.level);
-	DrawFormatString(160, 30, 0x000000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
-	DrawFormatString(160, 50, 0x000000, "W2level (State): %d", weapon2_info.level);
-	DrawFormatString(160, 70, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
+	//DrawFormatString(160, 10, 0x000000, "W1level(State) : %d", weapon1_info.level);
+	//DrawFormatString(160, 30, 0x000000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
+	//DrawFormatString(160, 50, 0x000000, "W2level (State): %d", weapon2_info.level);
+	//DrawFormatString(160, 70, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
+	DrawFormatString(160, 50, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
+	DrawFormatString(160, 70, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
 
 	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
 	
@@ -296,6 +289,38 @@ void WeaponLevelUp::draw() const
 
 }
 
+// 初期化処理
+void WeaponLevelUp::Init(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position)
+{
+	// 武器選択時変数
+	weapon_selection = false;
+	cursor_x = 580;
+	weapon_number = weapon1_info.num;
+
+	// レベルアップカーソルの初期化
+	if (weapon1_info.level_hierarchy == 1 || weapon1_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
+	{
+		// カーソル位置は左
+		weapon1_info.cursor_pos = -level_cursor_pos;
+	}
+	else if (weapon2_info.level_hierarchy == 1 || weapon2_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
+	{		
+		// カーソル位置は左
+		weapon2_info.cursor_pos = -level_cursor_pos;
+	}
+
+	// 現在の武器レベルのセット
+	weapon1_info.level = weapon->GetWeaponLevel();
+	weapon2_info.level = second_weapon->GetWeaponLevel();
+
+	// 武器の種類のセット
+	weapon1_info.type = weapon->GetWeaponType();
+	weapon2_info.type = second_weapon->GetWeaponType();
+
+	// 初期化完了
+	restor_cursor_position = false;
+}
+
 // レベルアップ処理
 void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info)
 {
@@ -343,16 +368,15 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, weapon
 				// 画像用パラメータxの更新
 				branch_point_x[info->num][info->level_hierarchy] += info->cursor_pos;
 
-				// 武器にレベルのセット
+				// 武器1にレベルのセット
 				weapon->SetWeaponLevel(info->level);
-
 			}
 			else
 			{
 				// 画像用パラメータxの更新
 				branch_point_x[info->num][info->level_hierarchy] += 380 + info->cursor_pos;
 
-				// 武器にレベルのセット
+				// 武器2にレベルのセット
 				second_weapon->SetWeaponLevel(info->level);
 			}
 
@@ -393,16 +417,15 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, weapon
 				// 画像用パラメータxの更新
 				branch_point_x[info->num][info->level_hierarchy] += info->cursor_pos;
 
-				// 武器にレベルのセット
+				// 武器1にレベルのセット
 				weapon->SetWeaponLevel(info->level);
-
 			}
 			else
 			{
 				// 画像用パラメータxの更新
 				branch_point_x[info->num][info->level_hierarchy] += 380 + info->cursor_pos;
 
-				// 武器にレベルのセット
+				// 武器2にレベルのセット
 				second_weapon->SetWeaponLevel(info->level);
 			}
 
@@ -431,7 +454,7 @@ void WeaponLevelUp::LevelUpCursorMove(weapon_information* info)
 		// カーソル移動無し
 		info->cursor_pos = 0;
 	}
-	else if (info->level_hierarchy == 1 || info->level_hierarchy == 4)
+	else if (info->level_hierarchy == 1 || info->level_hierarchy == MAX_LEVEL_HIERARCHY)
 	{
 		if (info->cursor_pos == 0)
 		{
