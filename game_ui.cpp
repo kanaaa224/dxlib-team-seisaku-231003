@@ -73,6 +73,8 @@ void GameUI::update(GameScene* gameScene) {
 	};
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
+
+	if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESS) notification("", "", "");
 };
 
 void GameUI::draw() const {
@@ -459,8 +461,8 @@ void GameUI::drawHP() const {
 	SetFontSize(16);
 
 	int current = 0;
-	int max = 0;
-	int ratio = 0;
+	int max     = 0;
+	int ratio   = 0;
 
 	if (hp.find("current") != hp.end()) current = hp.at("current");
 	if (hp.find("max")     != hp.end()) max     = hp.at("max");
@@ -493,14 +495,44 @@ void GameUI::drawHP() const {
 };
 
 void GameUI::drawPause() const {
+	SetFontSize(16);
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 220);
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	SetFontSize(16);
-
 	std::string str = "PAUSE（仮）";
 	DrawFormatString((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth(str.c_str()) / 2), SCREEN_HEIGHT / 2, 0xffffff, str.c_str());
+};
+
+void GameUI::drawNotice() const {
+	std::string title, message, button, opacity = std::to_string(0);
+
+	if (notice.find("title")   != notice.end()) title   = notice.at("title");
+	if (notice.find("message") != notice.end()) message = notice.at("message");
+	if (notice.find("button")  != notice.end()) button  = notice.at("button");
+	if (notice.find("opacity") != notice.end()) opacity = notice.at("opacity");
+
+	int img_btn = 0;
+
+	if (img.find(button) != img.end()) img_btn = img.at(button);
+
+	int lx = (SCREEN_WIDTH / 2) - 150;
+	int ly = SCREEN_HEIGHT - 100 + (100 * std::stod(opacity));
+	int rx = lx + 300;
+	int ry = ly + 60;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	SetFontSize(18);
+	DrawFormatString(lx + 10, ly + 10, 0xffffff, title.c_str());
+
+	SetFontSize(14);
+	DrawFormatString(lx + 15, ly + 35, 0xffffff, message.c_str());
+
+	DrawExtendGraph(rx - (ry - ly), ly + 10, rx - 10, ry - 10, img_btn, TRUE);
 };
 
 void GameUI::setScore(int Score) {
@@ -539,7 +571,7 @@ void GameUI::setWeapon(std::vector<int> WeaponA, std::vector<int> WeaponB) {
 
 void GameUI::setEnemy(int Current, int Max) {
 	enemy["current"] = Current;
-	enemy["max"] = Max;
+	enemy["max"]     = Max;
 };
 
 void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
