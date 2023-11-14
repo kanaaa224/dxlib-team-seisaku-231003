@@ -35,6 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="game_ui.h" />
@@ -70,6 +71,7 @@
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="fpsCtrl.cpp" />
     <ClCompile Include="game_ui.cpp" />

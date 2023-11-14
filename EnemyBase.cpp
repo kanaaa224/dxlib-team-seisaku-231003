@@ -40,6 +40,20 @@ float EnemyBase::PlayerLoad_Y(float location_y)
 	return r;
 }
 
+float EnemyBase::PlayerLoad(Location location, bool absFlg)
+{
+	float x = dL.x - location.x;
+	float y = dL.y - location.y;
+	float r = sqrt(pow(x, 2) + pow(y, 2));
+
+	//absFlgがtrueなら絶対値で返す
+	if (absFlg == true) {
+		r = abs(r);
+	}
+	
+	return r;
+}
+
 float EnemyBase::Normalization_X(float location_x, float location_y)
 {
 	float a = sqrt(location_x * location_x + location_y * location_y);
