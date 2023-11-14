@@ -12,12 +12,6 @@ class second_weapon;
 class WeaponLevelUp
 {
 private:
-	enum WeaponNum
-	{
-		weapon1,
-		weapon2
-	};
-
 	// 画像読込用変数
 	//int img_tree_diagram;			// 樹形図
 	int img_cursor;					// カーソル
@@ -32,6 +26,19 @@ private:
 	int img_spear;					// 槍
 	int img_frail;					// フレイア
 	int img_book;					// 本
+
+	// 武器の情報
+	struct weapon_information
+	{
+		int num;
+		int type;					// 武器の種類
+		int level;					// 武器のレベル
+		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
+		int level_hierarchy;		// 武器のレベルの階層
+	};
+
+	weapon_information weapon1_info;		// 武器1
+	weapon_information weapon2_info;		// 武器2
 
 	int interval;					// インターバル
 	int cursor_x;					// カーソルX座標
@@ -51,18 +58,6 @@ private:
 	int branch_point_y[2][5];		// 選択した分岐点のY座標を格納
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
 
-	// 武器1
-	int weapon1_type;				// 武器1の種類
-	int weapon1_level;				// 武器1のレベル
-	int weapon1_cursor_pos;			// 武器1のレベルアップ時カーソル表示位置
-	int weapon1_level_hierarchy;	// 武器1のレベルの階層
-
-	// 武器2
-	int weapon2_type;				// 武器2の種類
-	int weapon2_level;				// 武器2のレベル
-	int weapon2_cursor_pos;			// 武器2のレベルアップ時カーソル表示位置
-	int weapon2_level_hierarchy;	// 武器2のレベルの階層
-
 public:
 	WeaponLevelUp();
 	~WeaponLevelUp();
@@ -74,6 +69,15 @@ public:
 	void draw()const;
 
 private:
+	// レベルアップ処理
+	void LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info);
+
+	// レベルアップのカーソル移動
+	void LevelUpCursorMove(weapon_information* info);
+
+	// レベルアップカーソルの位置を戻す
+	void ReturnLevelUpCursorPos(weapon_information* info);
+
 	// レベルアップ詳細のテキスト群
 	void DrawLevelUpDetails()const;
 
@@ -90,12 +94,6 @@ public:
 
 	// 現在所持しているポイントの取得
 	int GetLevelUpPoint() { return point; }
-
-	// 武器1の現在のレベルの取得
-	int GetWeapon1LevelHierarchy() { return weapon1_level_hierarchy; }
-
-	// 武器2の現在のレベルの取得
-	int GetWeapon2LevelHierarchy() { return weapon2_level_hierarchy; }
 
 	// 鍛冶で使うやつ
 	void SetIsBlacksmith(bool set_bool)
