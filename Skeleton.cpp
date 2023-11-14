@@ -34,36 +34,23 @@ void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		//プレイヤーの座標をdiffLocationにセット
 		SetPlayer_Location(player->GetLocation());
 
-
-		if (IsMoveLimit(stage))
-		{
-			//is_area = true;	
-			//移動処理//
-			if (hitWeaponFlg == false) {
-				X();
-				location.x += vector.x - diff.x;
-				Y();
-				location.y += vector.y - diff.y;
-			}
-			else if (hitWeaponFlg == true) {
-				vector.x = -vector.x * KNCKBACK;
-				location.x += vector.x - diff.x;
-				vector.y = -vector.y * KNCKBACK;
-				location.y += vector.y - diff.y;
-				//武器からの攻撃とHPが０以上なら赤く表示する
-				if (hitWeaponFlg == true && hp > 0) {
-					redDrawFlg = true;
-				}
-				hitWeaponFlg = false;
-			}
-			/*X();
+		//移動処理//
+		if (hitWeaponFlg == false) {
+			X();
 			location.x += vector.x - diff.x;
 			Y();
-			location.y += vector.y - diff.y;*/
+			location.y += vector.y - diff.y;
 		}
-		else
-		{
-			is_area = false;
+		else if (hitWeaponFlg == true) {
+			vector.x = -vector.x * KNCKBACK;
+			location.x += vector.x - diff.x;
+			vector.y = -vector.y * KNCKBACK;
+			location.y += vector.y - diff.y;
+			//武器からの攻撃とHPが０以上なら赤く表示する
+			if (hitWeaponFlg == true && hp > 0) {
+				redDrawFlg = true;
+			}
+			hitWeaponFlg = false;
 		}
 	}
 
