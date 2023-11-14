@@ -80,6 +80,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	
 	if (redFrameCounter == RED_FRAME) {
 		redDrawFlg = false;
+		redFrameCounter = 0;
 	}
 	if (redDrawFlg == true) {
 		redFrameCounter++;
