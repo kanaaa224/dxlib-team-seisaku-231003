@@ -1,6 +1,6 @@
 #include"scene_weapon.h"
-#include"inputCtrl.h"
 #include"second_weapon.h"
+#include"main.h"
 
 Weapon_Selection::Weapon_Selection(const bool selected)
 {
@@ -176,6 +176,9 @@ void Weapon_Selection::draw() const
 	//ïêäÌÇëIëÇµÇƒÇ¢Ç»Ç¢Ç»ÇÁ
 	if (is_selecting != true)
 	{		
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		if (was_selected != true)
 		{
 			SetFontSize(32);
