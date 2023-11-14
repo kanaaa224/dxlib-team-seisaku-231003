@@ -71,10 +71,10 @@ int Map::update() {
 
 	// カーソル移動でカーソルが画面内に収まるようにする
 	if (cursor_move == TRUE) {
-		if (icon_loc[cursor_pos][1] <= 50) {
+		if (icon_loc[cursor_loc][1] <= 50) {
 			icon_vec = 10;
 		}
-		else if (icon_loc[cursor_pos][1] >= SCREEN_HEIGHT - 100) {
+		else if (icon_loc[cursor_loc][1] >= SCREEN_HEIGHT - 100) {
 			icon_vec = -10;
 		}
 	}
