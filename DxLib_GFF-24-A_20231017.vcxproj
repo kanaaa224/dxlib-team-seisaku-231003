@@ -40,6 +40,7 @@
     <ClInclude Include="game_ui.h" />
     <ClInclude Include="kitamura_test.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="map_temp.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="fpsCtrl.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="kitamura_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="map_temp.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scene_blacksmith.cpp" />

@@ -1,13 +1,12 @@
 #pragma once
 #include"DxLib.h"
-#include"SphereCollider.h"
 #include"scene_rest.h"
 
 class GameScene;
 
 #define DATA_MAX 21
 
-class Map : SphereCollider
+class Map
 {
 private:
 	int MapDeta[DATA_MAX];
@@ -72,6 +71,7 @@ public:
 	}
 
 	void ClearStage() {
+		cursor_pos = 0;
 		cursor_loc = next_stage[now_stage][0];
 	}
 
