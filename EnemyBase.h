@@ -18,6 +18,7 @@ protected:
 	int img;			//画像格納用変数
 	float hp;			//敵のHP
 	float damage;		//プレイヤーに与えるダメージ
+	int exp;			//倒された時のEXPの値(使うか未定)
 	int respawnPosition;//リスポーンする場所
 	int respawnTime;	//リスポーンまでの時間を格納する
 	int respawnTimeCnt;	//リスポーンまでのカウント変数
