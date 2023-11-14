@@ -17,6 +17,9 @@
 #define SPEAR_MAX_MOVE 35.0f
 #define MAX_BULLETS_NUM 100
 
+#define FRAIL_RADIUS 30
+#define FRAIL_RADIUS_LEVEL8 45
+
 enum second_weapon_type
 {
 	spear,
@@ -71,6 +74,7 @@ private:
 	Location spearlocation;
 
 	float frailRadius;
+	float frailRadiusBase;
 	Vector frailVec;
 	Location frailLcation;
 	Location frailLcationCursor;
@@ -84,7 +88,8 @@ private:
 	Location frailLocation2;
 	Vector frailVec2;
 	float level7FrailRot;
-
+	bool level7FrailFlg;
+	float level8FrailRadius;
 
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
