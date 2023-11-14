@@ -9,6 +9,7 @@ WeaponLevelUp::WeaponLevelUp()
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	img_branch_point = LoadGraph("resources/images/branch_point.png");
 	img_chooce = LoadGraph("resources/images/levelup_choose.png");
+
 	// 武器画像
 	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
 	img_dagger= LoadGraph("resources/images/sword_shortsword_brown.png");
@@ -16,6 +17,7 @@ WeaponLevelUp::WeaponLevelUp()
 	img_spear = LoadGraph("resources/images/spear.png");
 	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
 	img_book = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
 	// 構造体初期化
 	weapon1_info = { 0, none, 0, 0, 0 };
@@ -83,9 +85,9 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	if (weapon_selection == false)
 	{
 		// 武器を2種類持っていたら武器選択ができる
-		if (weapon2_info.type != none)
+		/*if (weapon2_info.type != none)
 		{
-			if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
+		*/	if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
 			{
 				//左スティックを右に
 				interval = 0;
@@ -111,12 +113,17 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 					weapon_number = weapon2_info.num;
 				}
 			}
-		}
+		//}
 
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			weapon_selection = true;
+			// 武器2がnoneだったら武器2の選択決定は不可
+			// それ以外の場合は選択決定可能
+			if (cursor_x == 580 || weapon2_info.type != none)
+			{
+				weapon_selection = true;
+			}
 		}
 	}
 	else
@@ -131,7 +138,6 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 
 			// カーソル移動
 			LevelUpCursorMove(&weapon1_info);
-
 		}
 		else
 		{
@@ -139,12 +145,10 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 			{
 				// 武器2のレベルアップ
 				LevelUp(weapon, second_weapon, &weapon2_info);
-
 			}
 
 			// カーソル移動
 			LevelUpCursorMove(&weapon2_info);
-
 		}
 
 		// Bボタンで選択武器のキャンセル
@@ -199,7 +203,8 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
 			break;
 		default:
-			DrawFormatString(img_x, img_y, 0x000000, "none");
+			DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			//DrawFormatString(img_x, img_y, 0x000000, "none");
 			break;
 	}
 
@@ -216,11 +221,12 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
 			break;
 		default:
-			DrawFormatString(img_x + 360, img_y, 0x000000, "none");
+			DrawRotaGraph(img_x + 380, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			//DrawFormatString(img_x + 360, img_y, 0x000000, "none");
 			break;
 	}
 	
-	// スキルツリー分岐点
+	// スキルツリー分岐点画像の表示
 	for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
 	{
 		for (int j = 0; j < 2; j++)
@@ -238,7 +244,7 @@ void WeaponLevelUp::draw() const
 		}
 	}
 
-	// 選択したレベル
+	// 選択したレベルに画像の表示
 	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j <= MAX_LEVEL_HIERARCHY; j++)
@@ -266,32 +272,28 @@ void WeaponLevelUp::draw() const
 			// 武器1
 			if(weapon1_info.level_hierarchy <= MAX_LEVEL_HIERARCHY)
 			{
-				// レベル選択の円を描画
-				DrawCircle(cursor_x + weapon1_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon1_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
 				// カーソル表示
 				DrawRotaGraph(cursor_x + weapon1_info.cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon1_info.level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
+				// レベル選択の円を描画
+				//DrawCircle(cursor_x + weapon1_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon1_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
 				// 丸画像表示
 				//DrawRotaGraph(cursor_x + weapon1_cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon1_level_hierarchy + 1)), 0.1f, 0.0f, img_chooce, TRUE);
 			}
 		}
 		else
 		{
-			if (weapon2_info.type == none)
+			// 武器2
+			if (weapon2_info.level_hierarchy <= MAX_LEVEL_HIERARCHY)
 			{
-				DrawFormatString(600, 50, 0x000000, "武器がありません");
-			}
-			else
-			{
-				// 武器2
-				if (weapon2_info.level_hierarchy <= MAX_LEVEL_HIERARCHY)
-				{
-					// レベル選択の円を描画
-					DrawCircle(cursor_x + weapon2_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
-					DrawRotaGraph(cursor_x + weapon2_info.cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
-				}
+				// カーソル表示
+				DrawRotaGraph(cursor_x + weapon2_info.cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
+
+				// レベル選択の円を描画
+				//DrawCircle(cursor_x + weapon2_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
 			}
 		}
 	}
+
 }
 
 // レベルアップ処理
