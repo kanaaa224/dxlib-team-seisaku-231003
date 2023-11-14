@@ -5,6 +5,8 @@
 #define INIT_COOLTIME_FRAIL  120
 #define INIT_COOLTIME_BOOK  60
 
+#define INIT_COOLTIME_BOOK_LEVEL7 300
+
 #define INIT_ROTATION_SPEAR  60.0f
 #define INIT_ROTATION_FRAIL  60.0f
 #define INIT_ROTATION_BOOK  90.0f
@@ -93,6 +95,7 @@ private:
 
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
+	bool barrierFlg;
 
 
 
@@ -126,11 +129,17 @@ public:
 		weaponLevel = num;
 		LevelState();
 	}
+
+	void SetBarrierFlg(bool f) {
+		barrierFlg = f;
+	}
 	//•ŠíƒŒƒxƒ‹‚ğæ“¾
 	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
+	int GetCoolTime() { return coolTime; }
+	bool GetBarrierFlg() { return barrierFlg; }
 };
 
