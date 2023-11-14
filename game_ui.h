@@ -76,12 +76,7 @@ public:
 	//void gameOver();
 
 	// 通知表示
-	void notification(std::string, std::string, std::string) {
-		notice["title"] = "レベルアップ可能！";
-		notice["message"] = "Xボタンで確認";
-		notice["opacity"] = std::to_string(0.0);
-		notice["button"] = "btnA";
-	};
+	void notification(std::string, std::string, std::string);
 
 	//////////////////////////////////////////////////
 
