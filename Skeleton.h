@@ -9,8 +9,6 @@ class Skeleton :public EnemyBase
 {
 private:
 
-	bool is_area;
-
 public:
 	Skeleton(int arrayNum,int SkeletonMaxNum);
 

@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Slime.h"
 #include "Skeleton.h"
+#include "Wizard.h"
 #include "Common.h"
 #include"scene_weapon.h"
 #include "scene_gameclear.h"
@@ -27,6 +28,7 @@ private:
 	Stage* backimg;
 	weapon* Weapon;
 	second_weapon* secondweapon;
+	bool bookFlg;
 	GameUI* gameUI;
 	Map* map;
 
@@ -35,10 +37,16 @@ private:
 	int exp, level; // 仮
 
 	//敵//
+	//スライム
 	Slime* slime[MAX_SLIME_NUM];
 	int tmpSlimeNum = 0;
+	//スケルトン
 	Skeleton* skeleton[MAX_SKELETON_NUM];
 	int tmpSkeletonNum = 0;
+	//魔法使い
+	Wizard* wizard[MAX_WIZARD_NUM];
+	int tmpWizardNum = 0;
+
 
 	//シーン
 	Weapon_Selection* weapon_selection;
@@ -76,11 +84,15 @@ public:
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
 
+	//敵
+	void EnemyInc();
 	//スライム
 	void SlimeUpdate();
 	void SlimeDraw() const;
-	//
+	//スケルトン
 	void SkeletonUpdate();
 	void SkeletonDraw() const;
-
+	//魔法使い
+	void WizardUpdate();
+	void WizardDraw() const;
 };

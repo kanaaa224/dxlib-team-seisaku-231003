@@ -5,6 +5,8 @@
 #define INIT_COOLTIME_FRAIL  120
 #define INIT_COOLTIME_BOOK  60
 
+#define INIT_COOLTIME_BOOK_LEVEL7 300
+
 #define INIT_ROTATION_SPEAR  60.0f
 #define INIT_ROTATION_FRAIL  60.0f
 #define INIT_ROTATION_BOOK  90.0f
@@ -16,6 +18,9 @@
 
 #define SPEAR_MAX_MOVE 35.0f
 #define MAX_BULLETS_NUM 100
+
+#define FRAIL_RADIUS 30
+#define FRAIL_RADIUS_LEVEL8 45
 
 enum second_weapon_type
 {
@@ -71,6 +76,7 @@ private:
 	Location spearlocation;
 
 	float frailRadius;
+	float frailRadiusBase;
 	Vector frailVec;
 	Location frailLcation;
 	Location frailLcationCursor;
@@ -84,10 +90,12 @@ private:
 	Location frailLocation2;
 	Vector frailVec2;
 	float level7FrailRot;
-
+	bool level7FrailFlg;
+	float level8FrailRadius;
 
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
+	bool barrierFlg;
 
 
 
@@ -121,11 +129,17 @@ public:
 		weaponLevel = num;
 		LevelState();
 	}
+
+	void SetBarrierFlg(bool f) {
+		barrierFlg = f;
+	}
 	//ïêäÌÉåÉxÉãÇéÊìæ
 	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
+	int GetCoolTime() { return coolTime; }
+	bool GetBarrierFlg() { return barrierFlg; }
 };
 

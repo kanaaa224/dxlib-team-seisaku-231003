@@ -70,6 +70,7 @@ private:
 
 	int coolTime;	//クールタイムを計算する変数
 	int maxCoolTime;  //クールタイムの値
+	int maxCoolTimeTmp;  //クールタイムの値
 	bool isAttacking;	//攻撃中かどうか
 	int damage;
 
@@ -111,6 +112,18 @@ public:
 	void SetWeaponLevel(int num) {
 		weaponLevel = num;
 		LevelState();
+	}
+	void SetCoolTime(float num, bool flg) {
+		if (flg) {
+			maxCoolTimeTmp = maxCoolTime;
+			maxCoolTime = (int)maxCoolTime * num;
+			coolTime = maxCoolTime;
+		}
+		else
+		{
+			maxCoolTime = maxCoolTimeTmp;
+			LevelState();
+		}
 	}
 	//武器レベルを取得
 	int GetWeaponLevel() { return weaponLevel; }
