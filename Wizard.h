@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "EnemyBase.h"
 #include "Player.h"
 #include "weapon.h"
@@ -13,11 +13,11 @@ public:
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum);
 
-	//ˆÚ“®ˆ—
+	//ç§»å‹•å‡¦ç†
 	void X();
 	void Y();
 
-	//ƒXƒ‰ƒCƒ€‚Ìƒ_ƒ[ƒWæ“¾
+	//ã‚¹ãƒ©ã‚¤ãƒ ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å–å¾—
 	float GetWizardDamage();
 };
 
