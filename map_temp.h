@@ -20,9 +20,11 @@ private:
 	{640, -300},
 	};
 	int icon_loc[DATA_MAX][2];         // アイコン座標
-	int icon_loc_change[DATA_MAX][2];
 	int icon_vec;                      // アイコン移動量
 	int total_vec;                     // 総合移動量
+
+	// テンプレート調整用変数
+	int icon_loc_change[DATA_MAX][2];  // 変更後デフォルトアイコン座標
 	int change_icon;                   // 移動させるアイコン
 	int change_icon_tab;               // 移動させるアイコン(十の位)
 

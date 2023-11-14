@@ -132,6 +132,8 @@ Scene* map_temp::update() {
 	// 総合移動量加算
 	total_vec = total_vec + icon_vec;
 
+
+	// 変更するアイコンの指定
 	if (InputCtrl::GetKeyState(KEY_INPUT_0) == PRESS) {
 		change_icon = change_icon_tab * 10 + 0;
 	}
@@ -173,6 +175,7 @@ Scene* map_temp::update() {
 		}
 	}
 
+	// 矢印キーで調整
 	if (InputCtrl::GetKeyState(KEY_INPUT_UP) == PRESS) {
 		icon_loc[change_icon][1] = icon_loc[change_icon][1] - 10;
 		icon_loc_change[change_icon][1] = icon_loc_change[change_icon][1] - 10;
@@ -239,11 +242,13 @@ void map_temp::draw() const {
 		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		DrawFormatString(icon_loc[i][0] - 45, icon_loc[i][1] + 50, 0x007000, "(x:%d , y:%d)", icon_loc_change[i][0], icon_loc_change[i][1]);
 	}
-	DrawFormatString(0, 480, 0x00ff00, "(x:%d , y:%d)", icon_loc_change[change_icon][0], icon_loc_change[change_icon][1]);
+
+	// アイコン調整(表示)
+	DrawFormatString(10, 430, 0x00ff00, "(x:%d , y:%d)", icon_loc_change[change_icon][0], icon_loc_change[change_icon][1]);
 	SetFontSize(16);
-	DrawFormatString(0, 370, 0xffffff, "TAB:%d0～%d9", change_icon_tab, change_icon_tab);
+	DrawFormatString(0, 320, 0xffffff, "TABで変更:%d0～%d9", change_icon_tab, change_icon_tab);
 	SetFontSize(64);
-	DrawFormatString(20, 400, 0xffffff, "%d", change_icon);
+	DrawFormatString(40, 350, 0xffffff, "%02d", change_icon);
 
 	// 罫線描画(100毎)
 	//for (int i = -20; i <= 20; i++)
