@@ -89,6 +89,7 @@ private:
 	//仮　プレイヤーのステータス
 	float P_speed;
 	int   P_cooltime;
+	float P_limit;
 
 	//飛ぶ斬撃
 	SwordSlash swordSlash[10];
