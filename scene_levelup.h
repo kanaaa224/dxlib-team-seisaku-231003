@@ -131,6 +131,8 @@ public:
 	{
 		for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
 		{
+			branch_point_x[0][i] = cursor_x;
+			branch_point_y[0][i] = img_branch_point_y;
 			is_chooce[0][i] = false;
 		}
 	}
@@ -139,6 +141,8 @@ public:
 	{
 		for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
 		{
+			branch_point_x[1][i] = cursor_x;
+			branch_point_y[1][i] = img_branch_point_y;
 			is_chooce[1][i] = false;
 		}
 	}

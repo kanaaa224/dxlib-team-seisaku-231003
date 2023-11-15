@@ -191,18 +191,16 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				// Aボタンで決定
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
-					//if (cursor_x == 580 || weapon2_info.type != none)
-					//{
-					//}
 					weapon_selection = true;
 					text_display = true;
 				}
 
-				// Bボタンで選択行動キャンセル
+				// Bボタンで行動選択に戻る
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 				{
-					action_selection == false;
+					action_selection = false;
 				}
+
 
 			}
 			else
@@ -286,7 +284,6 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 					weapon_selection = false;
 					text_display = false;
 				}
-
 			}
 
 		}
@@ -332,7 +329,9 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 
 	//DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
 	DrawFormatString(0, 0, 0x000000, "action_number：%d", action_number);
-	DrawFormatString(0, 0, 0x000000, "GetWeaponSelection：%d", weapon_levelup->GetIsCloseLevelUp());
+	DrawFormatString(0, 20, 0x000000, "GetWeaponSelection：%d", weapon_levelup->GetIsCloseLevelUp());
+	DrawFormatString(0, 40, 0x000000, "action_selection：%d", action_selection);
+	DrawFormatString(0, 60, 0x000000, "weapon_selection：%d", weapon_selection);
 
 	if (action_selection == false)
 	{
@@ -398,7 +397,7 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 				DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
 				break;
 			default:
-				DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+				//DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
 				//DrawFormatString(img_x, img_y, 0x000000, "none");
 				break;
 			}
