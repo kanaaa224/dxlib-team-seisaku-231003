@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="インプットコントローラー">
-      <UniqueIdentifier>{252f5919-6a13-4329-b82c-4cd78c0a2e23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="シーンマネージャー">
-      <UniqueIdentifier>{d8ba978c-ce72-4977-9d4c-0dff73ba36d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FPSコントローラー">
-      <UniqueIdentifier>{69edd831-a027-44c8-98b4-4260c6bd045c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="シーン">
       <UniqueIdentifier>{221a9e51-73d2-4d22-a306-7e6760297c76}</UniqueIdentifier>
     </Filter>
@@ -22,43 +13,67 @@
     <Filter Include="ゲーム処理\ゲームUI / プレイヤーUI">
       <UniqueIdentifier>{7a2d1699-2d3b-421b-9774-2d99ec39e015}</UniqueIdentifier>
     </Filter>
-    <Filter Include="weapon">
-      <UniqueIdentifier>{b6f9855e-5c43-4fec-80a0-add291ac6a53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ステージ">
-      <UniqueIdentifier>{a0003b8f-e6a4-41fd-9fff-4fc9c0429512}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="プレイヤー">
-      <UniqueIdentifier>{c6e4017d-34bc-4052-9cea-cc5bf98c8a0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="マップ">
-      <UniqueIdentifier>{fe436a94-e38e-43fd-a920-ed4a64308cf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enemy">
+    <Filter Include="ゲーム処理\Enemy">
       <UniqueIdentifier>{398ca3f0-f89d-4600-bab8-dcf41ef29e5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemy\Small Fry">
+    <Filter Include="ゲーム処理\Enemy\Small Fry">
       <UniqueIdentifier>{e85633fe-19ac-4f47-8826-730274231778}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemy\Common">
+    <Filter Include="ゲーム処理\Enemy\Common">
       <UniqueIdentifier>{40a5f877-8f13-4096-8ac2-57636cd3510f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ゲームメイン内シーン">
+      <UniqueIdentifier>{a6cb6df8-7a0f-4de1-82e1-14705f888e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ゲームメイン内シーン\マップ">
+      <UniqueIdentifier>{fe436a94-e38e-43fd-a920-ed4a64308cf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ゲームメイン内シーン\鍛冶屋">
+      <UniqueIdentifier>{2994ce9a-b168-4d35-b09d-a4997e63d5ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ゲームメイン内シーン\武器選択">
+      <UniqueIdentifier>{13062ecb-62b0-45d3-b5ef-dad9cd8b28e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ステージ">
+      <UniqueIdentifier>{a0003b8f-e6a4-41fd-9fff-4fc9c0429512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\プレイヤー">
+      <UniqueIdentifier>{c6e4017d-34bc-4052-9cea-cc5bf98c8a0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ゲームメイン内シーン\休憩">
+      <UniqueIdentifier>{d208c978-eaba-4f75-88ed-38fd225e36c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\ゲームメイン内シーン\武器強化">
+      <UniqueIdentifier>{8d31cc9b-9136-4f0c-838b-76b011ba8007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シーン\デバッグ">
+      <UniqueIdentifier>{d7bb737e-3285-4017-be38-1f1816d41fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\weapon">
+      <UniqueIdentifier>{b6f9855e-5c43-4fec-80a0-add291ac6a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="メイン\インプットコントローラー">
+      <UniqueIdentifier>{252f5919-6a13-4329-b82c-4cd78c0a2e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="メイン\FPSコントローラー">
+      <UniqueIdentifier>{69edd831-a027-44c8-98b4-4260c6bd045c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="メイン\シーンマネージャー">
+      <UniqueIdentifier>{d8ba978c-ce72-4977-9d4c-0dff73ba36d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
-      <Filter>シーンマネージャー</Filter>
+      <Filter>メイン\シーンマネージャー</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
-      <Filter>シーンマネージャー</Filter>
+      <Filter>メイン\シーンマネージャー</Filter>
     </ClInclude>
     <ClInclude Include="inputCtrl.h">
-      <Filter>インプットコントローラー</Filter>
+      <Filter>メイン\インプットコントローラー</Filter>
     </ClInclude>
     <ClInclude Include="fpsCtrl.h">
-      <Filter>FPSコントローラー</Filter>
-    </ClInclude>
-    <ClInclude Include="scene_debug.h">
-      <Filter>シーン</Filter>
+      <Filter>メイン\FPSコントローラー</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>メイン</Filter>
@@ -69,22 +84,16 @@
     <ClInclude Include="game_ui.h">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClInclude>
-    <ClInclude Include="kitamura_test.h">
-      <Filter>シーン</Filter>
-    </ClInclude>
     <ClInclude Include="weapon.h">
-      <Filter>weapon</Filter>
+      <Filter>ゲーム処理\weapon</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>ステージ</Filter>
+      <Filter>ゲーム処理\ステージ</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>プレイヤー</Filter>
+      <Filter>ゲーム処理\プレイヤー</Filter>
     </ClInclude>
     <ClInclude Include="scene_load.h">
-      <Filter>シーン</Filter>
-    </ClInclude>
-    <ClInclude Include="scene_weapon.h">
       <Filter>シーン</Filter>
     </ClInclude>
     <ClInclude Include="scene_gameclear.h">
@@ -97,7 +106,7 @@
       <Filter>シーン</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
-      <Filter>マップ</Filter>
+      <Filter>ゲーム処理\ゲームメイン内シーン\マップ</Filter>
     </ClInclude>
     <ClInclude Include="scene_credit.h">
       <Filter>シーン</Filter>
@@ -111,52 +120,61 @@
     <ClInclude Include="scene_title.h">
       <Filter>シーン</Filter>
     </ClInclude>
-    <ClInclude Include="scene_levelup.h">
-      <Filter>シーン</Filter>
-    </ClInclude>
     <ClInclude Include="second_weapon.h">
-      <Filter>weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="scene_rest.h">
-      <Filter>シーン</Filter>
-    </ClInclude>
-    <ClInclude Include="scene_blacksmith.h">
-      <Filter>シーン</Filter>
+      <Filter>ゲーム処理\weapon</Filter>
     </ClInclude>
     <ClInclude Include="Slime.h">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
-      <Filter>Enemy\Common</Filter>
+      <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>Enemy\Common</Filter>
+      <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
-      <Filter>Enemy\Common</Filter>
+      <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClInclude>
     <ClInclude Include="Wizard.h">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_blacksmith.h">
+      <Filter>ゲーム処理\ゲームメイン内シーン\鍛冶屋</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_weapon.h">
+      <Filter>ゲーム処理\ゲームメイン内シーン\武器選択</Filter>
+    </ClInclude>
+    <ClInclude Include="map_temp.h">
+      <Filter>ゲーム処理\ゲームメイン内シーン\マップ</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_levelup.h">
+      <Filter>ゲーム処理\ゲームメイン内シーン\武器強化</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_rest.h">
+      <Filter>ゲーム処理\ゲームメイン内シーン\休憩</Filter>
+    </ClInclude>
+    <ClInclude Include="kitamura_test.h">
+      <Filter>シーン\デバッグ</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_debug.h">
+      <Filter>シーン\デバッグ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="scene_debug.cpp">
-      <Filter>シーン</Filter>
-    </ClCompile>
     <ClCompile Include="sceneManager.cpp">
-      <Filter>シーンマネージャー</Filter>
+      <Filter>メイン\シーンマネージャー</Filter>
     </ClCompile>
     <ClCompile Include="inputCtrl.cpp">
-      <Filter>インプットコントローラー</Filter>
+      <Filter>メイン\インプットコントローラー</Filter>
     </ClCompile>
     <ClCompile Include="fpsCtrl.cpp">
-      <Filter>FPSコントローラー</Filter>
+      <Filter>メイン\FPSコントローラー</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>メイン</Filter>
@@ -167,20 +185,14 @@
     <ClCompile Include="game_ui.cpp">
       <Filter>ゲーム処理\ゲームUI / プレイヤーUI</Filter>
     </ClCompile>
-    <ClCompile Include="kitamura_test.cpp">
-      <Filter>シーン</Filter>
-    </ClCompile>
     <ClCompile Include="weapon.cpp">
-      <Filter>weapon</Filter>
+      <Filter>ゲーム処理\weapon</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>ステージ</Filter>
+      <Filter>ゲーム処理\ステージ</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>プレイヤー</Filter>
-    </ClCompile>
-    <ClCompile Include="scene_weapon.cpp">
-      <Filter>シーン</Filter>
+      <Filter>ゲーム処理\プレイヤー</Filter>
     </ClCompile>
     <ClCompile Include="scene_load.cpp">
       <Filter>シーン</Filter>
@@ -195,7 +207,7 @@
       <Filter>シーン</Filter>
     </ClCompile>
     <ClCompile Include="map.cpp">
-      <Filter>マップ</Filter>
+      <Filter>ゲーム処理\ゲームメイン内シーン\マップ</Filter>
     </ClCompile>
     <ClCompile Include="scene_credit.cpp">
       <Filter>シーン</Filter>
@@ -209,35 +221,47 @@
     <ClCompile Include="scene_title.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
-    <ClCompile Include="scene_levelup.cpp">
-      <Filter>シーン</Filter>
-    </ClCompile>
     <ClCompile Include="second_weapon.cpp">
-      <Filter>weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="scene_rest.cpp">
-      <Filter>シーン</Filter>
-    </ClCompile>
-    <ClCompile Include="scene_blacksmith.cpp">
-      <Filter>シーン</Filter>
+      <Filter>ゲーム処理\weapon</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClCompile>
     <ClCompile Include="Slime.cpp">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>Enemy\Common</Filter>
+      <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
-      <Filter>Enemy\Common</Filter>
+      <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClCompile>
     <ClCompile Include="Wizard.cpp">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_blacksmith.cpp">
+      <Filter>ゲーム処理\ゲームメイン内シーン\鍛冶屋</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_weapon.cpp">
+      <Filter>ゲーム処理\ゲームメイン内シーン\武器選択</Filter>
+    </ClCompile>
+    <ClCompile Include="map_temp.cpp">
+      <Filter>ゲーム処理\ゲームメイン内シーン\マップ</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_levelup.cpp">
+      <Filter>ゲーム処理\ゲームメイン内シーン\武器強化</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_rest.cpp">
+      <Filter>ゲーム処理\ゲームメイン内シーン\休憩</Filter>
+    </ClCompile>
+    <ClCompile Include="kitamura_test.cpp">
+      <Filter>シーン\デバッグ</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_debug.cpp">
+      <Filter>シーン\デバッグ</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
