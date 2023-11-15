@@ -20,7 +20,7 @@ private:
 	int	StageImg3;
 	int	StageImg4;
 
-	StageArray StageArrayImg[4];
+	StageArray StageArrayImg[9];
 
 	float Xspeed;
 	float Yspeed;

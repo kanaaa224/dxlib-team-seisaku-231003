@@ -53,7 +53,7 @@ private:
 	int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
-	bool is_blacksmith;				// 鍛冶で呼び出されているか
+	bool is_blacksmith;				// 鍛冶で呼び出されているか（レベルアップ画面に渡すもの）
 
 	// 画像パラメータ
 	int img_x;						// 画像のX座標
@@ -67,6 +67,10 @@ private:
 	bool action_selection;			// 行動の選択
 	int action_number;
 	bool restore_cursor_position;
+	
+	// キャンセルボタン強行突破用
+	bool is_cancel;					// Bボタンを押してキャンセルしたか
+	int count;
 
 public:
 	Blacksmith();
