@@ -171,7 +171,17 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 			case book:
 				isAttacking = false;
-				SpawnBookBullets();
+				if (weaponLevel != 7) {
+					if (weaponLevel == 8) {
+						for (int i = 0; i < 6; i++){
+							SpawnBookBullets(i);
+						}
+					}
+					else {
+						SpawnBookBullets(0);
+					}
+					
+				}
 
 				break;
 
@@ -632,7 +642,7 @@ void second_weapon::LevelState()
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.3f;
+			maxCoolTime = INIT_COOLTIME_BOOK * 1.5f;
 			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
@@ -794,7 +804,7 @@ bool second_weapon::SpearAnim()
 	return false;
 }
 
-void second_weapon::SpawnBookBullets()
+void second_weapon::SpawnBookBullets(int num)
 {
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
@@ -802,6 +812,9 @@ void second_weapon::SpawnBookBullets()
 			bullets[i].flg = true;
 			bullets[i].v = unitVec;
 			bullets[i].l = location;
+			bullets[i].rot = 60 * num;
+			bullets[i].relativeRot = 0;
+			bullets[i].distance = 5 * num;
 			break;
 		}
 	}
@@ -809,11 +822,29 @@ void second_weapon::SpawnBookBullets()
 
 void second_weapon::MoveBookBullet()
 {
+	int cnt = 0;
+
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
 		if (bullets[i].flg) {
-			bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
-			bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
+			if (weaponLevel == 8) {
+				bullets[i].rot += 4.0f;
+				if (bullets[i].rot > 360.0f) {
+					bullets[i].rot = bullets[i].rot - 360.0f;
+				}
+				bullets[i].distance += 1.0f;
+				bullets[i].l.x = bullets[i].distance * cos(d_r(bullets[i].rot)) - 0 * sin(d_r(bullets[i].rot)) + location.x + playerVector.x * -1;
+				bullets[i].l.y = bullets[i].distance * sin(d_r(bullets[i].rot)) + 0 * cos(d_r(bullets[i].rot)) + location.y + playerVector.y * -1;
+
+			}
+			else {
+				bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
+				bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
+			}
+
+			if (bullets[i].distance > 300) {
+				bullets[i].flg = false;
+			}
 
 			if (bullets[i].l.x < 0 || bullets[i].l.x > 1280 ||
 				bullets[i].l.y < 0 || bullets[i].l.y > 720) {

@@ -72,6 +72,10 @@ public:
 		is_map_mode = flg;
 	}
 
+	int NowStage() {
+		return now_stage;
+	}
+
 	void ClearStage() {
 		cursor_pos = 0;
 		cursor_loc = next_stage[now_stage][0];

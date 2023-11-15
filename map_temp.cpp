@@ -1,3 +1,5 @@
+
+
 #include "main.h"
 #include "map_temp.h"
 
@@ -60,11 +62,15 @@ map_temp::map_temp() {
 	{
 		icon_loc[i][0] = icon_loc_def[i][0];
 		icon_loc[i][1] = icon_loc_def[i][1];
+		icon_loc_change[i][0] = icon_loc_def[i][0];
+		icon_loc_change[i][1] = icon_loc_def[i][1];
 	}
 
 	// 移動量初期化処理
 	icon_vec = 0;
 	total_vec = 0;
+	change_icon = 0;
+	change_icon_tab = 0;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -122,8 +128,70 @@ Scene* map_temp::update() {
 	{
 		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
 	}
+
 	// 総合移動量加算
 	total_vec = total_vec + icon_vec;
+
+
+	// 変更するアイコンの指定
+	if (InputCtrl::GetKeyState(KEY_INPUT_0) == PRESS) {
+		change_icon = change_icon_tab * 10 + 0;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
+		change_icon = change_icon_tab * 10 + 1;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
+		change_icon = change_icon_tab * 10 + 2;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
+		change_icon = change_icon_tab * 10 + 3;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
+		change_icon = change_icon_tab * 10 + 4;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
+		change_icon = change_icon_tab * 10 + 5;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
+		change_icon = change_icon_tab * 10 + 6;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_7) == PRESS) {
+		change_icon = change_icon_tab * 10 + 7;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_8) == PRESS) {
+		change_icon = change_icon_tab * 10 + 8;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_9) == PRESS) {
+		change_icon = change_icon_tab * 10 + 9;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_TAB) == PRESS) {
+		if (DATA_MAX - 1 > (change_icon_tab + 1) * 10) {
+			change_icon_tab++;
+			change_icon = 10 + change_icon;
+		}
+		else {
+			change_icon_tab = 0;
+			change_icon = change_icon % 10;
+		}
+	}
+
+	// 矢印キーで調整
+	if (InputCtrl::GetKeyState(KEY_INPUT_UP) == PRESS) {
+		icon_loc[change_icon][1] = icon_loc[change_icon][1] - 10;
+		icon_loc_change[change_icon][1] = icon_loc_change[change_icon][1] - 10;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) {
+		icon_loc[change_icon][1] = icon_loc[change_icon][1] + 10;
+		icon_loc_change[change_icon][1] = icon_loc_change[change_icon][1] + 10;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_LEFT) == PRESS) {
+		icon_loc[change_icon][0] = icon_loc[change_icon][0] - 10;
+		icon_loc_change[change_icon][0] = icon_loc_change[change_icon][0] - 10;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_RIGHT) == PRESS) {
+		icon_loc[change_icon][0] = icon_loc[change_icon][0] + 10;
+		icon_loc_change[change_icon][0] = icon_loc_change[change_icon][0] + 10;
+	}
 
 	// BでDebugScene
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
@@ -172,13 +240,20 @@ void map_temp::draw() const {
 			break;
 		}
 		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
-		DrawFormatString(icon_loc[i][0] - 45, icon_loc[i][1] + 50, 0x007000, "(x:%d , y:%d)", icon_loc_def[i][0], icon_loc_def[i][1]);
+		DrawFormatString(icon_loc[i][0] - 45, icon_loc[i][1] + 50, 0x007000, "(x:%d , y:%d)", icon_loc_change[i][0], icon_loc_change[i][1]);
 	}
 
+	// アイコン調整(表示)
+	DrawFormatString(10, 430, 0x00ff00, "(x:%d , y:%d)", icon_loc_change[change_icon][0], icon_loc_change[change_icon][1]);
+	SetFontSize(16);
+	DrawFormatString(0, 320, 0xffffff, "TABで変更:%d0～%d9", change_icon_tab, change_icon_tab);
+	SetFontSize(64);
+	DrawFormatString(40, 350, 0xffffff, "%02d", change_icon);
+
 	// 罫線描画(100毎)
-	for (int i = -20; i <= 20; i++)
-	{
-		DrawLine(-2000, 100 * i + total_vec, 2000, 100 * i + total_vec, 0xffffff); // x座標
-		DrawLine(100 * i, -2000 + total_vec, 100 * i, 2000 + total_vec, 0xffffff); // y座標
-	}
+	//for (int i = -20; i <= 20; i++)
+	//{
+	//	DrawLine(-2000, 100 * i + total_vec, 2000, 100 * i + total_vec, 0xffffff); // x座標
+	//	DrawLine(100 * i, -2000 + total_vec, 100 * i, 2000 + total_vec, 0xffffff); // y座標
+	//}
 }
