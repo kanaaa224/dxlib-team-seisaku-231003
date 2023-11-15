@@ -1,6 +1,5 @@
-#include "scene_levelup.h"
-#include "weapon.h"
-#include "second_weapon.h"
+//#include "weaponLevelup.h"
+#include "main.h"
 
 WeaponLevelUp::WeaponLevelUp()
 {

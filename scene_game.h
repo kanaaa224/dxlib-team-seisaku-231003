@@ -6,6 +6,20 @@
 
 #include "scene.h"
 
+enum GameSceneMode {
+	main,          // 戦闘
+	map,           // マップ
+	weaponSelect,  // 武器選択
+	weaponLevelup, // 武器強化
+	blacksmith,    // 鍛冶屋
+	rest           // 休憩
+};
+
+enum GameSceneState {
+	pause, // ポーズは mode がどの状態でも発動
+	play
+};
+
 class GameScene : public Scene {
 private:
 	int state, frameCounter;
@@ -41,6 +55,8 @@ private:
 	Blacksmith* blacksmith;
 
 	//////////////////////////////////////////////////
+
+	int mode;
 
 	int exp, level; // 仮
 

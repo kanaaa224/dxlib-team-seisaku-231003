@@ -1,6 +1,6 @@
 #pragma once
-#include"DxLib.h"
-#include"scene_rest.h"
+
+#include "rest.h"
 
 class GameScene;
 class GameUI;

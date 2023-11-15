@@ -35,7 +35,6 @@ GameScene::GameScene() {
 	// 鍛冶テスト用
 	open_blacksmith = false;
 
-
 	//////////////////////////////////////////////////
 
 	exp = level = 0; // 仮
@@ -76,11 +75,11 @@ Scene* GameScene::update() {
 	//武器選択画面
 	if (is_weapon_select != true)
 	{
-		weapon_selection->update(weaponA, weaponB,is_weapon_select);
+		weaponSelect->update(weaponA, weaponB,is_weapon_select);
 		if (is_weapon_select == true)
 		{
-			delete weapon_selection;
-			weapon_selection = nullptr;
+			delete weaponSelect;
+			weaponSelect = nullptr;
 			weapon_selected = true;
 		}
 		return this;
@@ -95,7 +94,7 @@ Scene* GameScene::update() {
 		{
 			// 非表示
 			open_blacksmith = false;
-			weapon_level_up->SetIsBlacksmith(false);
+			weaponLevelup->SetIsBlacksmith(false);
 		}
 		else
 		{
@@ -107,7 +106,7 @@ Scene* GameScene::update() {
 	// 鍛冶ステージを表示しているときは以下の処理をしない
 	if (open_blacksmith)
 	{
-		blacksmith->update(Weapon, secondweapon, weapon_level_up);
+		blacksmith->update(weaponA, weaponB, weaponLevelup);
 		return this;
 	}
 	//////////////////////////////////////////////////
@@ -133,7 +132,7 @@ Scene* GameScene::update() {
 	if (open_level_up) {
 		weaponLevelup->update(weaponA, weaponB, restor_cursor_position);
 		// 鍛冶ステージテスト用
-		//blacksmith->update(weaponA, weaponB, weapon_level_up);
+		//blacksmith->update(weaponA, weaponB, weaponLevelup);
 		return this;
 	}
 
@@ -334,7 +333,7 @@ void GameScene::draw() const {
 
 		if (is_weapon_select != true)
 		{
-			weapon_selection->draw();
+			weaponSelect->draw();
 		}
 		else {
 			gameUI->draw();
@@ -346,14 +345,14 @@ void GameScene::draw() const {
 		// 武器のレベルアップ画面描画
 		if (open_level_up)
 		{
-			weapon_level_up->draw();
+			weaponLevelup->draw();
 		}
 
 		//////////////////////////////////////////////////
 		// 鍛冶ステージテスト用
 		if (open_blacksmith)
 		{
-			blacksmith->draw(weapon_level_up);
+			blacksmith->draw(weaponLevelup);
 		}
 		//////////////////////////////////////////////////
 	}

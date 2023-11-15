@@ -1,5 +1,5 @@
+//#include "map.h"
 #include "main.h"
-#include "map.h"
 
 Map::Map(GameUI* ui) {
 
@@ -119,7 +119,7 @@ int Map::update() {
 	}
 
 	// Aボタンでカーソルのステージに遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 		is_map_mode = false;
 		now_stage = cursor_loc;
 
