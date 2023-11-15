@@ -97,4 +97,7 @@ public:
 	//魔法使い
 	void WizardUpdate();
 	void WizardDraw() const;
+	//弾
+	void BulletUpdate();
+	void BulletDraw() const;
 };
