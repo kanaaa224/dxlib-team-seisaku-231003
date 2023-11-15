@@ -32,6 +32,9 @@ GameScene::GameScene() {
 	open_level_up = false;
 	restor_cursor_position = true;
 
+	// 鍛冶テスト用
+	open_blacksmith = false;
+
 
 	//////////////////////////////////////////////////
 
@@ -81,6 +84,31 @@ Scene* GameScene::update() {
 		return this;
 	}
 
+	//////////////////////////////////////////////////
+	// 鍛冶ステージテスト用
+	// Bキーで表示
+	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS)
+	{
+		if (open_blacksmith)
+		{
+			// 非表示
+			open_blacksmith = false;
+		}
+		else
+		{
+			// 表示
+			open_blacksmith = true;
+		}
+	}
+
+	// 鍛冶ステージを表示しているときは以下の処理をしない
+	if (open_blacksmith)
+	{
+		blacksmith->update(Weapon, secondweapon, weapon_level_up);
+		return this;
+	}
+	//////////////////////////////////////////////////
+
 	// 武器のレベルアップ画面
 	// Xボタンで表示と非表示を切り替え
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
@@ -102,10 +130,9 @@ Scene* GameScene::update() {
 	if (open_level_up)
 	{
 		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
-		// 鍛冶ステージテスト用
-		//blacksmith->update(Weapon, secondweapon, weapon_level_up);
 		return this;
 	}
+
 
 	//敵//
 	HitCheck();
@@ -309,9 +336,15 @@ void GameScene::draw() const {
 		if (open_level_up)
 		{
 			weapon_level_up->draw();
-			// 鍛冶ステージテスト用
-			//blacksmith->draw(weapon_level_up);
 		}
+
+		//////////////////////////////////////////////////
+		// 鍛冶ステージテスト用
+		if (open_blacksmith)
+		{
+			blacksmith->draw(weapon_level_up);
+		}
+		//////////////////////////////////////////////////
 	}
 
 	if (!state) gameUI->drawPause();

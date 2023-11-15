@@ -31,7 +31,9 @@ WeaponLevelUp::WeaponLevelUp()
 	point = 7;
 	weapon_number = weapon1_info.num;
 	weapon_selection = false;
+
 	is_blacksmith = false;
+	is_close_level_up = false;
 
 	// 画像パラメータ
 	img_x = 580;
@@ -75,6 +77,9 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	// 武器の選択
 	if (weapon_selection == false)
 	{
+		// 鍛冶ステージで使用
+		is_close_level_up = true;
+
 		// 武器を2種類持っていたら武器選択ができる
 		//if (weapon2_info.type != none)
 		//{
@@ -119,6 +124,9 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 	}
 	else
 	{
+		// 鍛冶ステージで使用
+		is_close_level_up = false;
+
 		if (weapon_number == weapon1_info.num)
 		{
 			if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
