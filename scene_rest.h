@@ -1,10 +1,13 @@
 #pragma once
 
 class Player;
+class GameUI;
 
 class Rest
 {
 private:
+	GameUI* ui;
+
 	int interval;
 	int cursor_num;
 
@@ -17,7 +20,7 @@ private:
 
 public:
 	//コンストラクタ
-	Rest();
+	Rest(GameUI* ui);
 	//デストラクタ
 	~Rest();
 

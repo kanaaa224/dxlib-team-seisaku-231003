@@ -3,6 +3,7 @@
 #include"scene_rest.h"
 
 class GameScene;
+class GameUI;
 
 #define DATA_MAX 21
 
@@ -34,6 +35,7 @@ private:
 	int stage_log[10]{0};
 
 	Rest* rest;
+	GameUI* ui;
 
 	int cursor_pos;    // カーソル位置
 	int cursor_loc;
@@ -54,7 +56,7 @@ private:
 	int boss_img = 0;
 	int map_cursor = 0;
 public:
-	Map();
+	Map(GameUI* ui);
 
 	~Map();
 
