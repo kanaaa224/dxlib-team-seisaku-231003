@@ -1,17 +1,11 @@
 #pragma once
-
 #include "scene.h"
-
-class Credit : public Scene
+class DrawHelp : public Scene
 {
 private:
-	int CreditImage;
-	int g_WaitTime;
-	int g_PosY;
-
+	int HelpImage2;
 public:
-	Credit();
-	~Credit();
+	DrawHelp();
 	Scene* update()override;
 	void draw()const override;
 };

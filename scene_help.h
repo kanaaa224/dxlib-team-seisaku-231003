@@ -6,9 +6,6 @@ class Help :  public Scene
 {
 private:
 	int HelpImage1;
-	int HelpImage2;
-	int Helpflg;
-
 
 public:
 	Help();

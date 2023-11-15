@@ -138,6 +138,8 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>Enemy\Common</Filter>
     </ClInclude>
+    <ClInclude Include="C.h" />
+    <ClInclude Include="DrawHelp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -227,5 +229,7 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Enemy\Common</Filter>
     </ClCompile>
+    <ClCompile Include="C.cpp" />
+    <ClCompile Include="DrawHelp.cpp" />
   </ItemGroup>
 </Project>
