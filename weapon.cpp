@@ -24,6 +24,7 @@ weapon::weapon()
 	
 	P_speed = 0.0;
 	P_cooltime = 0;
+	P_limit = 0.0;
 
 	tmp = 0;
 
@@ -144,9 +145,16 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 					slashRot = rot;
 				}
 			}
+			//(仮)投げナイフ
+			if (weaponType == dagger && weaponLevel == 8) {
+				for (int i = 0; i < 5; i++){
+					SpawnThrowDagger(i);
+				}
+			}
 		
 		}
 		SwordSlashAnim();
+		ThrowDaggerAnim();
 	}
 
 	
@@ -226,6 +234,12 @@ void weapon::Draw() const
 			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
+		}
+	}
+
+	for (int i = 0; i < 10; i++){
+		if (throwDagger[i].flg) {
+			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
 		}
 	}
 
@@ -350,7 +364,7 @@ void weapon::LevelState()
 		case sword:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD; //バランスらしい
+			maxCoolTime = INIT_COOLTIME_SWORD; //片手剣は、大剣　短剣の強化内容を全て取り入れる
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
@@ -376,7 +390,7 @@ void weapon::LevelState()
 		case sword:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.9f;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f; // クールタイムを微量ながら上げる
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
@@ -401,10 +415,12 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　攻撃範囲を上げる　移動速度を上げる
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
+			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 20 = 80
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
+			P_speed = Player::Player_Speed(2.1);
 			break;
 
 		case dagger:
@@ -430,10 +446,12 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　回避のスピードを上げる　ダメージを上げる
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
-			damage = INIT_DAMAGE_SWORD;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
+			damage = INIT_DAMAGE_SWORD + 1;
+			P_limit = Player::Player_Upperlimit(2.0f);
 			break;
 
 		case dagger:
@@ -442,7 +460,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER + 1;
-			P_cooltime = Player::Player_Upperlimit(3.5f);
+			P_limit = Player::Player_Upperlimit(2.5f);
 			break;
 
 		case greatSword:
@@ -459,10 +477,12 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　攻撃範囲を上げる　移動速度を上げる
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 15; // 60 + 30 = 90 
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
+			P_speed = Player::Player_Speed(2.5f);
 			break;
 
 		case dagger:
@@ -471,7 +491,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_speed = Player::Player_Speed(3.0);
+			P_speed = Player::Player_Speed(3.0f);
 			break;
 
 		case greatSword:
@@ -488,10 +508,13 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　回避のスピードを上げる　ダメージを上げる
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 5; // 60 + 10 = 70
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 1;
+			P_limit = Player::Player_Upperlimit(2.3f);
+			P_cooltime = Player::Avoidance_limit(0);
 			break;
 
 		case dagger:
@@ -500,7 +523,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = Player::Avoidance_limit(1);
+			P_cooltime = Player::Avoidance_limit(0);
 			break;
 
 		case greatSword:
@@ -518,9 +541,12 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 10; // 60 + 20 = 90
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 2;
+			P_limit = Player::Player_Upperlimit(2.1f);
+			P_cooltime = Player::Avoidance_limit(1);
+			P_speed = Player::Player_Speed(2.2f);
 			break;
 
 		case dagger:
@@ -695,6 +721,33 @@ void weapon::SwordSlashAnim()
 	}
 
 	
+}
+
+bool weapon::SpawnThrowDagger(int num)
+{
+	for (int i = 0; i < 10; i++) {
+		if (!throwDagger[i].flg) {
+			throwDagger[i].flg = true;
+			throwDagger[i].rot = num - 20;
+			throwDagger[i].v.x = 10 * cos(d_r(throwDagger[i].rot) + rot);
+			throwDagger[i].v.y = 10 * sin(d_r(throwDagger[i].rot) + rot);
+			throwDagger[i].l.x = location.x;
+			throwDagger[i].l.y = location.y;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void weapon::ThrowDaggerAnim()
+{
+	for (int i = 0; i < 10; i++) {
+		if (throwDagger[i].flg) {
+			throwDagger[i].l.x += throwDagger[i].v.x;
+			throwDagger[i].l.y += throwDagger[i].v.y;
+		}
+	}
 }
 
 //collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk

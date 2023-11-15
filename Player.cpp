@@ -300,7 +300,7 @@ void Player::Player_Avoidance() {
 
 	//èc â∫ï˚å¸
 	if (Provisional_LStickY < MOVE_DOWN) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3 * Provisional_LStickY;
 		}
@@ -315,7 +315,7 @@ void Player::Player_Avoidance() {
 	}
 	//ècÅ@è„ï˚å¸
 	else if (Provisional_LStickY > MOVE_UP) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3 * Provisional_LStickY;
 		}

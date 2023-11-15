@@ -1,9 +1,12 @@
 #include"scene_rest.h"
-#include"inputCtrl.h"
+#include"main.h"
 #include"Player.h"
+#include"game_ui.h"
 
-Rest::Rest()
+Rest::Rest(GameUI* ui)
 {
+	this->ui = ui;
+
 	interval = 0;
 	cursor_num = 0;
 
@@ -22,6 +25,8 @@ Rest::~Rest()
 
 void Rest::update(Player* player, bool& flg)
 {
+	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
+
 	if (interval < 60)
 	{
 		interval++;
@@ -56,6 +61,8 @@ void Rest::update(Player* player, bool& flg)
 
 void Rest::draw() const
 {
+	ui->drawHP();
+
 	DrawRotaGraph(640, 300, .7f, 0, bonfire_image, TRUE);
 	DrawRotaGraph(480, 630, .5f, 1.6f, cursor_image, TRUE);
 	DrawGraph(1150, 650, button_image, TRUE);
@@ -69,8 +76,11 @@ void Rest::draw() const
 	}
 	else
 	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawBox(0, (SCREEN_WIDTH / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, 0x000000, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		SetFontSize(48);
-		DrawString(570, 600, "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
+		DrawString((SCREEN_WIDTH / 2) - 48 * 5, (SCREEN_HEIGHT / 2), "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
 		SetFontSize(16);
 	}
 }

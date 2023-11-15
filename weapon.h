@@ -46,6 +46,14 @@ struct SwordSlash
 	Location collsion2;
 };
 
+struct ThrowDagger
+{
+	Location l;
+	Vector v;
+	bool flg;
+	float rot;
+};
+
 
 class weapon {
 private:
@@ -81,6 +89,7 @@ private:
 	//仮　プレイヤーのステータス
 	float P_speed;
 	int   P_cooltime;
+	float P_limit;
 
 	//飛ぶ斬撃
 	SwordSlash swordSlash[10];
@@ -88,6 +97,9 @@ private:
 	int slashFlg;
 	float slashRot;
 	Location sl[100];
+
+	//投げナイフ
+	ThrowDagger throwDagger[10];
 
 	float tmp, tmp1;
 public:
@@ -107,6 +119,9 @@ public:
 
 	bool SpawnSwordSlash();
 	void SwordSlashAnim();	//最終強化１の斬撃を飛ばす
+
+	bool SpawnThrowDagger(int num);
+	void ThrowDaggerAnim();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
