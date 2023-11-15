@@ -146,15 +146,23 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 					action_selection = false;
 				}
 			}
-
-
 		}
 		else if (action_number == reset_level)
 		{
 			// レベルの振り直し、ポイントの返却
+			// 現在所持している武器のパラメータを変数に格納
+			// 武器選択（カーソル移動）
+			// Aボタンで決定→確認文言を表示したいためフラグを立てる
+			// ①yesを選択（Aボタン）
+			// ・ポイントの返却
+			// ・選択した武器のレベル階層を0に
+			// ・（選択した武器のレベルを0に）
+			// ・level_up の bool is_chose[i][5] を全て false に（選択した分岐点の画像を非表示）
+			// ②noを選択（Aボタン or Bボタン）
+			// ・確認文言を非表示（フラグ管理）にし、武器選択に戻す（カーソル移動）
+			// Bボタンで行動選択に戻る
+			// 
 		}
-
-
 
 		//if (is_cancel == false)
 		//{
@@ -245,6 +253,9 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 			// レベルの振り直し時の画像、テキストの表示
 			DrawFormatString(500, 100, 0x000000, "レベルの振り直し");
 
+			// 武器画像
+			// カーソル
+			// 確認文言
 		}
 	}
 
