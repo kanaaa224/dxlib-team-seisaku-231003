@@ -93,6 +93,7 @@ Scene* GameScene::update() {
 		{
 			// 非表示
 			open_blacksmith = false;
+			weapon_level_up->SetIsBlacksmith(false);
 		}
 		else
 		{

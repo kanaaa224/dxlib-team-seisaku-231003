@@ -137,11 +137,6 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			weapon_levelup->SetIsBlacksmith(true);
 			weapon_levelup->update(weapon, second_weapon, restore_cursor_position);
 
-			if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
-			{
-				weapon_levelup->SetIsBlacksmith(false);
-			}
-
 			// レベルアップ画面で武器の選択をしていた場合
 			if (weapon_levelup->GetIsCloseLevelUp() == true)
 			{				
