@@ -96,7 +96,7 @@ public:
 	// 鍛冶で返却されたポイントの設定
 	void SetLevelUpPoint(int return_point)
 	{
-		point = return_point;
+		point += return_point;
 	}
 
 	// 現在所持しているポイントの取得
@@ -116,4 +116,31 @@ public:
 	// レベル階層の取得
 	int GetWeapon1LevelHierarchy() { return weapon1_info.level_hierarchy; }
 	int GetWeapon2LevelHierarchy() { return weapon2_info.level_hierarchy; }
+
+	void SetWeapon1LevelHierarchy()
+	{
+		weapon1_info.level_hierarchy = 0;
+	}
+
+	void SetWeapon2LevelHierarchy()
+	{
+		weapon2_info.level_hierarchy = 0;
+	}
+
+	void SetWeapon1LevelDisplay()
+	{
+		for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
+		{
+			is_chooce[0][i] = false;
+		}
+	}
+
+	void SetWeapon2LevelDisplay()
+	{
+		for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
+		{
+			is_chooce[1][i] = false;
+		}
+	}
+
 };
