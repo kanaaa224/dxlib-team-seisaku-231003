@@ -121,6 +121,7 @@ void Player::update() {
 	}
 	
 	if (CoolTime == true) {
+		Avoidance_Flg = false;
 		Player_CoolTime();
 	}
 
@@ -344,7 +345,7 @@ void Player::Player_CoolTime() {
 		if (Second > Cool_Limit) {
 			A_value = false;
 			CoolTime = false;
-			Avoidance_Flg = false;
+			
 			Additional_Value3 = 0.0f;
 			Second = 0;
 		}

@@ -16,6 +16,9 @@ class Player;
 #define INIT_DAMAGE_DAGGER  4
 #define INIT_DAMAGE_GREATSWORD  25
 
+#define AVOIDANCE_DAMAGE_RADIUS 100
+#define MAX_THROW_DAGGER 64
+
 struct Vector
 {
 	float x;
@@ -51,7 +54,9 @@ struct ThrowDagger
 	Location l;
 	Vector v;
 	bool flg;
+	float relativeRot;
 	float rot;
+	Vector unit;
 };
 
 
@@ -62,6 +67,7 @@ private:
 	bool levelUpFlg;
 
 	Location location;
+	Vector playerVector;
 
 	Vector weaponVec;
 	Vector baseVec;
@@ -98,7 +104,9 @@ private:
 	Location sl[100];
 
 	//投げナイフ
-	ThrowDagger throwDagger[10];
+	ThrowDagger throwDagger[MAX_THROW_DAGGER];
+	//回避中のダメージ
+	bool avoidanceDamageFlg;
 
 	float tmp, tmp1;
 public:

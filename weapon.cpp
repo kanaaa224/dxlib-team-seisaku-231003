@@ -38,9 +38,14 @@ weapon::weapon()
 	{
 		swordSlash[i] = { {0,0},{0,0,0},false };
 	}
+	for (int i = 0; i < 10; i++)
+	{
+		throwDagger[i] = { {0,0},{0,0,0},false };
+	}
 	slash_img = LoadGraph("resources/images/nc284514.png");
 	slashFlg = false;
 
+	avoidanceDamageFlg = false;
 }
 
 weapon::weapon(int type)
@@ -70,6 +75,7 @@ weapon::~weapon()
 void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)
 {
 	location = playerLocation;
+	playerVector = { player->Player_MoveX(),player->Player_MoveY() };
 	//debug
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
@@ -146,12 +152,30 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			}
 			//(仮)投げナイフ
 			if (weaponType == dagger && weaponLevel == 8) {
-				for (int i = 0; i < 5; i++){
-					SpawnThrowDagger(i);
+				if (relativeRot < 0 && !slashFlg) {
+					for (int i = 0; i < 5; i++) {
+						SpawnThrowDagger(i);
+					}
+					slashFlg = true;
+					slashRot = rot;
 				}
 			}
 		
 		}
+
+		//回避中にダメージ
+		if (weaponType == dagger && weaponLevel == 7) {
+			if (player->GetPlayer_Avoidance()) {
+				avoidanceDamageFlg = true;
+			}
+			else {
+				avoidanceDamageFlg = false;
+			}
+		}
+
+
+
+
 		SwordSlashAnim();
 		ThrowDaggerAnim();
 	}
@@ -210,7 +234,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 void weapon::Draw() const
 {
-	//武器描画	//kk
+	//武器描画	
 	if (isAttacking) {
 		switch (weaponType)
 		{
@@ -227,7 +251,7 @@ void weapon::Draw() const
 			break;
 		}
 	}
-
+	//斬撃
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
 			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
@@ -235,11 +259,20 @@ void weapon::Draw() const
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
 		}
 	}
-
-	for (int i = 0; i < 10; i++){
+	//投げナイフ
+	for (int i = 0; i < MAX_THROW_DAGGER; i++){
 		if (throwDagger[i].flg) {
-			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, -50, 550, 0.1, throwDagger[i].rot + (M_PI / 4), dagger_img, TRUE, TRUE);
 		}
+	}
+
+	//回避中のダメージ
+	if (avoidanceDamageFlg) {
+		int randx = rand() % 200 - 100;
+		int randy = rand() % 200 - 100;
+		int randrot = rand() % 360;
+		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), slash_img, TRUE);
+		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
 	//debug
@@ -569,7 +602,8 @@ void weapon::LevelState()
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER * 1000;
+			P_cooltime = Player::Avoidance_limit(0);
 			break;
 
 		case greatSword: //回転攻撃
@@ -595,7 +629,7 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.1f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
@@ -635,7 +669,7 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 	}
 
 	
-
+	//飛ぶ斬撃
 	if (weaponLevel == 7 && weaponType == sword) {
 		for (int i = 0; i < 10; i++) {
 			if (swordSlash[i].flg) {
@@ -662,7 +696,36 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 		}
 	}
 	
+	//投げナイフ
+	if (weaponLevel == 8 && weaponType == dagger) {
+		for (int i = 0; i < MAX_THROW_DAGGER; i++){
+			if (throwDagger[i].flg) {
+				for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+					weaponCollisionLocation.x = throwDagger[i].l.x + throwDagger[i].unit.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
+					weaponCollisionLocation.y = throwDagger[i].l.y + throwDagger[i].unit.y * (i * 10);			//kk
 
+					float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + 30) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+
+	//回避中のダメージ
+	if (weaponLevel == 7 && weaponType == dagger) {
+		float tmp_x = location.x - enemyLocation.x;
+		float tmp_y = location.y - enemyLocation.y;
+		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+		if (tmp_length < radius + AVOIDANCE_DAMAGE_RADIUS) {
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -712,14 +775,19 @@ void weapon::SwordSlashAnim()
 
 bool weapon::SpawnThrowDagger(int num)
 {
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < MAX_THROW_DAGGER; i++) {
 		if (!throwDagger[i].flg) {
 			throwDagger[i].flg = true;
-			throwDagger[i].rot = num - 20;
-			throwDagger[i].v.x = 10 * cos(d_r(throwDagger[i].rot) + rot);
-			throwDagger[i].v.y = 10 * sin(d_r(throwDagger[i].rot) + rot);
+			throwDagger[i].relativeRot = (num * 20) - 40;
+			throwDagger[i].rot = rot;
+			throwDagger[i].v.x = 8 * cos(d_r(throwDagger[i].relativeRot) + rot);
+			throwDagger[i].v.y = 8 * sin(d_r(throwDagger[i].relativeRot) + rot);
+			throwDagger[i].v.length = sqrtf(throwDagger[i].v.x * throwDagger[i].v.x + throwDagger[i].v.y * throwDagger[i].v.y);
 			throwDagger[i].l.x = location.x;
 			throwDagger[i].l.y = location.y;
+
+			throwDagger[i].unit.x = throwDagger[i].v.x / throwDagger[i].v.length;
+			throwDagger[i].unit.y = throwDagger[i].v.y / throwDagger[i].v.length;
 			return true;
 		}
 	}
@@ -729,10 +797,15 @@ bool weapon::SpawnThrowDagger(int num)
 
 void weapon::ThrowDaggerAnim()
 {
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < MAX_THROW_DAGGER; i++) {
 		if (throwDagger[i].flg) {
 			throwDagger[i].l.x += throwDagger[i].v.x;
 			throwDagger[i].l.y += throwDagger[i].v.y;
+
+			if (throwDagger[i].l.x < 0 || throwDagger[i].l.x > 1280 ||
+				throwDagger[i].l.y < 0 || throwDagger[i].l.y > 720) {
+				throwDagger[i].flg = false;
+			}
 		}
 	}
 }

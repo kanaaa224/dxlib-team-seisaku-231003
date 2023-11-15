@@ -199,7 +199,7 @@ Scene* GameScene::update() {
 
 	////////////
 	player->SetLeftTop(backimg->GetStageArray(0));
-	player->SetRightBottom(backimg->GetStageArray(3));
+	player->SetRightBottom(backimg->GetStageArray(8));
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location(),player);
