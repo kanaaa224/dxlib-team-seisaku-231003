@@ -54,6 +54,8 @@ private:
 	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
 
+	bool open_blacksmith;			// 鍛冶テスト用
+
 public:
 	GameScene();
 

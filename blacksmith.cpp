@@ -57,6 +57,10 @@ Blacksmith::Blacksmith()
 	action_selection = false;
 	action_number = levelup;
 	restore_cursor_position = true;
+
+	is_cancel = false;
+	count = 0;
+
 }
 
 Blacksmith::~Blacksmith()
@@ -133,17 +137,44 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			weapon_levelup->SetIsBlacksmith(true);
 			weapon_levelup->update(weapon, second_weapon, restore_cursor_position);
 
+			// レベルアップ画面で武器の選択をしていた場合
+			if (weapon_levelup->GetIsCloseLevelUp() == true)
+			{				
+				// Bボタンで行動選択に戻る
+				if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+				{
+					action_selection = false;
+				}
+			}
+
+
 		}
-		else
+		else if (action_number == reset_level)
 		{
 			// レベルの振り直し、ポイントの返却
 		}
 
-		// Bボタンでキャンセル
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
-		{
-			action_selection = false;
-		}
+
+
+		//if (is_cancel == false)
+		//{
+		//	// Bボタンでキャンセル
+		//	if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		//	{
+		//		is_cancel = true;
+		//	}
+		//}
+		//else
+		////if (is_cancel == true)
+		//{
+		//	count++;
+		//	if (count >= 10)
+		//	{
+		//		action_selection = false;
+		//		is_cancel = false;
+		//		count = 0;
+		//	}
+		//}
 
 	}
 
@@ -166,6 +197,7 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 
 	//DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
 	DrawFormatString(0, 0, 0x000000, "action_number：%d", action_number);
+	DrawFormatString(0, 0, 0x000000, "GetWeaponSelection：%d", weapon_levelup->GetIsCloseLevelUp());
 
 	if (action_selection == false)
 	{

@@ -48,7 +48,10 @@ private:
 	int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
+
+	// 鍛冶とのやり取り
 	bool is_blacksmith;				// 鍛冶で呼び出されているか
+	bool is_close_level_up;			// 鍛冶でレベルアップ画面を閉じても良いか
 
 	// 画像パラメータ
 	int img_x;						// 画像のX座標
@@ -103,6 +106,11 @@ public:
 	void SetIsBlacksmith(bool set_bool)
 	{
 		is_blacksmith = set_bool;
+	}
+
+	bool GetIsCloseLevelUp()const
+	{ 
+		return is_close_level_up;
 	}
 
 	// レベル階層の取得
