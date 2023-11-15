@@ -46,7 +46,12 @@ class GameScene;
 //#include "game_main.h"
 
 // ゲームメインシーン内のシーン（シーンを継承していない）
-#include "map.h"
+#include "game_scene-main.h"
+#include "game_scene-map.h"
+#include "game_scene-weapon.h"
+#include "game_scene-levelup.h"
+#include "game_scene-blacksmith.h"
+#include "game_scene-rest.h"
 
 // シーン
 #include "scene_title.h"
