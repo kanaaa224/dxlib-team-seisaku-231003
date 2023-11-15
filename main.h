@@ -36,22 +36,22 @@ using std::to_string;
 
 // ゲームメイン処理系
 class GameScene;
-//#include "game_collider.h"
-//#include "game_characterBase.h"
-//#include "game_bullet.h"
-//#include "game_bulletSpawner.h"
-//#include "game_nwaySpawner.h"
-//#include "game_player.h"
 #include "game_ui.h"
-//#include "game_main.h"
+#include "Player.h"
+#include "weapon.h"
+#include "second_weapon.h"
+#include "Stage.h"
+#include "Slime.h"
+#include "Skeleton.h"
+#include "Wizard.h"
+#include "Common.h"
 
 // ゲームメインシーン内のシーン（シーンを継承していない）
-#include "game_scene-main.h"
-#include "game_scene-map.h"
-#include "game_scene-weapon.h"
-#include "game_scene-levelup.h"
-#include "game_scene-blacksmith.h"
-#include "game_scene-rest.h"
+#include "map.h"
+#include "weaponSelect.h"
+#include "weaponLevelup.h"
+#include "blacksmith.h"
+#include "rest.h"
 
 // シーン
 #include "scene_title.h"

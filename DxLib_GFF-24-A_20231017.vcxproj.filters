@@ -61,9 +61,6 @@
     <Filter Include="ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器強化">
       <UniqueIdentifier>{8d31cc9b-9136-4f0c-838b-76b011ba8007}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ゲーム処理\ゲームメイン内シーン（シーン未継承）\戦闘">
-      <UniqueIdentifier>{bd178aab-4730-447d-9ff1-57f85f3b572b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -108,7 +105,7 @@
     <ClInclude Include="scene_result.h">
       <Filter>シーン</Filter>
     </ClInclude>
-    <ClInclude Include="game_scene-map.h">
+    <ClInclude Include="map.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\マップ</Filter>
     </ClInclude>
     <ClInclude Include="scene_credit.h">
@@ -147,19 +144,19 @@
     <ClInclude Include="Bullet.h">
       <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClInclude>
-    <ClInclude Include="game_scene-blacksmith.h">
+    <ClInclude Include="blacksmith.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\鍛冶屋</Filter>
     </ClInclude>
-    <ClInclude Include="game_scene-weapon.h">
+    <ClInclude Include="weaponSelect.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器選択</Filter>
     </ClInclude>
     <ClInclude Include="map_temp.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\マップ</Filter>
     </ClInclude>
-    <ClInclude Include="game_scene-levelup.h">
+    <ClInclude Include="weaponLevelup.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器強化</Filter>
     </ClInclude>
-    <ClInclude Include="game_scene-rest.h">
+    <ClInclude Include="rest.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\休憩</Filter>
     </ClInclude>
     <ClInclude Include="kitamura_test.h">
@@ -167,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="scene_debug.h">
       <Filter>シーン\デバッグ</Filter>
-    </ClInclude>
-    <ClInclude Include="game_scene-main.h">
-      <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\戦闘</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,7 +206,7 @@
     <ClCompile Include="scene_result.cpp">
       <Filter>シーン</Filter>
     </ClCompile>
-    <ClCompile Include="game_scene-map.cpp">
+    <ClCompile Include="map.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\マップ</Filter>
     </ClCompile>
     <ClCompile Include="scene_credit.cpp">
@@ -248,19 +242,19 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>ゲーム処理\Enemy\Small Fry</Filter>
     </ClCompile>
-    <ClCompile Include="game_scene-blacksmith.cpp">
+    <ClCompile Include="blacksmith.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\鍛冶屋</Filter>
     </ClCompile>
-    <ClCompile Include="game_scene-weapon.cpp">
+    <ClCompile Include="weaponSelect.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器選択</Filter>
     </ClCompile>
     <ClCompile Include="map_temp.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\マップ</Filter>
     </ClCompile>
-    <ClCompile Include="game_scene-levelup.cpp">
+    <ClCompile Include="weaponLevelup.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器強化</Filter>
     </ClCompile>
-    <ClCompile Include="game_scene-rest.cpp">
+    <ClCompile Include="rest.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\休憩</Filter>
     </ClCompile>
     <ClCompile Include="kitamura_test.cpp">
@@ -268,9 +262,6 @@
     </ClCompile>
     <ClCompile Include="scene_debug.cpp">
       <Filter>シーン\デバッグ</Filter>
-    </ClCompile>
-    <ClCompile Include="game_scene-main.cpp">
-      <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\戦闘</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

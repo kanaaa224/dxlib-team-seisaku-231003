@@ -5,19 +5,6 @@
 #pragma once
 
 #include "scene.h"
-#include "Stage.h"
-#include "weapon.h"
-#include "second_weapon.h"
-#include "Map.h"
-#include "Player.h"
-#include "Slime.h"
-#include "Skeleton.h"
-#include "Wizard.h"
-#include "Common.h"
-#include "scene_weapon.h"
-#include "scene_gameclear.h"
-#include "scene_levelup.h"
-#include "scene_blacksmith.h"
 
 class GameScene : public Scene {
 private:
@@ -26,16 +13,12 @@ private:
 	//////////////////////////////////////////////////
 
 	Player* player;
-	Stage* backimg;
-	weapon* Weapon;
-	second_weapon* secondweapon;
-	bool bookFlg;
-	GameUI* gameUI;
-	Map* map;
 
-	//////////////////////////////////////////////////
+	weapon* weaponA;
+	second_weapon* weaponB;
+	bool bookFlg = false;
 
-	int exp, level; // 仮
+	Stage* stage;
 
 	//敵//
 	//スライム
@@ -48,17 +31,22 @@ private:
 	Wizard* wizard[MAX_WIZARD_NUM];
 	int tmpWizardNum = 0;
 
+	GameUI* gameUI;
 
-	//シーン
-	Weapon_Selection* weapon_selection;
-	WeaponLevelUp* weapon_level_up;
+	//////////////////////////////////////////////////
+
+	Map* map;
+	Weapon_Selection* weaponSelect;
+	WeaponLevelUp* weaponLevelup;
 	Blacksmith* blacksmith;
 
-	//////////
+	//////////////////////////////////////////////////
 
-	int stage = 1;//ステージ
-	bool hitFlg = false;
-	int hitFrameCounter = 0;
+	int exp, level; // 仮
+
+	int nowStage = 1;//ステージ
+	//bool hitFlg = false;
+	//int hitFrameCounter = 0;
 
 	bool is_weapon_select;
 	bool weapon_selected;
@@ -77,14 +65,12 @@ public:
 
 	//////////////////////////////////////////////////
 
-	int getState() {
-		return state;
-	};
-
 	void HitCheck();
 
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
+
+	//////////////////////////////////////////////////
 
 	//敵
 	void EnemyInc();
