@@ -1,7 +1,7 @@
 #include "main.h"
 #include "map.h"
 
-Map::Map() {
+Map::Map(GameUI* ui) {
 
 	// アイコン位置をデフォルトにセット
 	for (int i = 0; i < DATA_MAX; i++)
@@ -10,7 +10,8 @@ Map::Map() {
 		icon_loc[i][1] = icon_loc_def[i][1];
 	}
 
-	rest = new Rest();
+	this->ui = ui;
+	rest = new Rest(ui);
 
 	// アイコン移動初期化処理
 	icon_vec = 0;

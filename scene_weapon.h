@@ -14,6 +14,7 @@ private:
 	int cursor_num;				//カーソル番号
 	int select_num;				//選択した番号
 	int cursor_x;				//カーソルｘの座標
+	int image_shift;			//画像調整用
 
 	int dagger_image;			//短剣の画像
 	int sword_image;			//片手剣の画像
