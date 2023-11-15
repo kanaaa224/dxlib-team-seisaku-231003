@@ -111,6 +111,13 @@ Scene* GameScene::update() {
 	SlimeUpdate();
 	SkeletonUpdate();
 	WizardUpdate();
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			if (wizard[i]->GetCreateBulletFlg() == true) {
+				//ここに弾の生成処理を書く
+			}
+		}
+	}
 
 	//武器と敵の当たり判定
 	if (stage == 1) {

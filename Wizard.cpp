@@ -17,6 +17,7 @@ Wizard::Wizard(int arrayNum, int WizardMaxNum)
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
+	reroadTime = BULLET_REROAD_TIME;
 
 	respawnTimeCnt = 0;
 	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum);
@@ -54,6 +55,13 @@ void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		}
 	}
 
+	if (reroadCnt == 1) {
+		createBulletFlg = true;
+	}
+	else if(reroadCnt != 1){
+		createBulletFlg = false;
+	}
+
 	//Cnt
 	if (respawnTimeCnt == respawnTime) {//設定された時間になったらrespawnFlgをtrue
 		respawnFlg = true;
@@ -67,6 +75,17 @@ void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	}
 	if (redDrawFlg == true) {
 		redFrameCounter++;
+	}
+
+	if (stopFlg == true) {
+		shootFlg = true;
+	}
+	if (reroadCnt == reroadTime) {
+		shootFlg = false;
+		reroadCnt = 0;
+	}
+	if (shootFlg == true) {
+		reroadCnt++;
 	}
 
 	//デバッグ（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
@@ -164,5 +183,15 @@ void Wizard::Y()
 float Wizard::GetWizardDamage()
 {
 	return damage;
+}
+
+bool Wizard::GetStopFlg()
+{
+	return stopFlg;
+}
+
+bool Wizard::GetCreateBulletFlg()
+{
+	return createBulletFlg;
 }
 

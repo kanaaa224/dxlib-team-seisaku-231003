@@ -81,3 +81,10 @@
 #define WIZARD_7_STAGE_NUM 3 //７ステージ目の魔法使いの数
 #define WIZARD_8_STAGE_NUM 4 //８ステージ目の魔法使いの数
 #define WIZARD_9_STAGE_NUM 5 //９ステージ目の魔法使いの数
+
+//弾
+#define BULLET_ATTAK_DAMAGE 45.0f	//ダメージ
+#define MAX_BULLET_NUM 100			//弾の最大数
+#define BULLET_SPEED   3.0f			//弾の速度
+#define BULLET_RADIUS  10			//弾の半径
+#define BULLET_REROAD_TIME 60 * 4   //弾のリロード時間
