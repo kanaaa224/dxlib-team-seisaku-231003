@@ -8,28 +8,20 @@ Title::Title()
 	/*interval = 0.7f; */
 	cursor = LoadGraph("resources/images/cursor.png");
 	//state = 10;
-	Ctrl = false;
 }
 
 //更新
 Scene*Title::update()
 {
-	//スティックの制限
-	if (frameCounter++ % 40 == 0);
-	if ((g_MenuNumber % 10) >= 8)g_MenuNumber -= 8;
-
-	//タイトルカーソルの移動量
-	if (((InputCtrl::GetStickState(L).y < 0.5f) && (InputCtrl::GetStickRatio(L).y > -0.5f))) Ctrl = true;
-	if ((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS) || ((InputCtrl::GetStickRatio(L).y >= 1.0f) && Ctrl)){
-		if (g_MenuNumber < 10) g_MenuNumber += 200;
-		else g_MenuNumber -= 50;
-			Ctrl = false;
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) {
+		if (++g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	else if((InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) || (((InputCtrl::GetStickRatio(L).y <= -1.0f) && Ctrl))){
-		if (g_MenuNumber >= 200) g_MenuNumber -= 200;
-		else g_MenuNumber += 50;
-			Ctrl = false;
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
+	{
+		if (--g_MenuNumber < 0)g_MenuNumber = 3;
 	}
+	g_MenuY = g_MenuNumber * 52;
+	
 	//Aボタンでメニュー決定・画面遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
@@ -66,6 +58,6 @@ void Title::draw() const
 	DrawString(550, 470, "End", 0x000000);
 
 	//タイトルカーソルの描画
-	DrawGraph(470, 290 + g_MenuNumber, cursor, TRUE);
+	DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
 
 }

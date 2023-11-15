@@ -5,6 +5,7 @@
 class Credit : public Scene
 {
 private:
+	int CreditImage;
 
 public:
 	Credit();
