@@ -599,21 +599,21 @@ void second_weapon::LevelState()
 	case 7:
 		switch (weaponType)
 		{
-		case spear:
+		case spear://ロイヤルランス
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
-		case frail:
+		case frail://三つ首
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
-		case book:
+		case book://賢者の加護
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK_LEVEL7;
@@ -632,14 +632,14 @@ void second_weapon::LevelState()
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
-		case frail:
+		case frail://アースクラッシャー
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.3f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
-		case book:
+		case book://エンチャントバレット
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 1.5f;

@@ -144,9 +144,16 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 					slashRot = rot;
 				}
 			}
+			//(‰¼)“Š‚°ƒiƒCƒt
+			if (weaponType == dagger && weaponLevel == 8) {
+				for (int i = 0; i < 5; i++){
+					SpawnThrowDagger(i);
+				}
+			}
 		
 		}
 		SwordSlashAnim();
+		ThrowDaggerAnim();
 	}
 
 	
@@ -226,6 +233,12 @@ void weapon::Draw() const
 			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
+		}
+	}
+
+	for (int i = 0; i < 10; i++){
+		if (throwDagger[i].flg) {
+			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
 		}
 	}
 
@@ -695,6 +708,33 @@ void weapon::SwordSlashAnim()
 	}
 
 	
+}
+
+bool weapon::SpawnThrowDagger(int num)
+{
+	for (int i = 0; i < 10; i++) {
+		if (!throwDagger[i].flg) {
+			throwDagger[i].flg = true;
+			throwDagger[i].rot = num - 20;
+			throwDagger[i].v.x = 10 * cos(d_r(throwDagger[i].rot) + rot);
+			throwDagger[i].v.y = 10 * sin(d_r(throwDagger[i].rot) + rot);
+			throwDagger[i].l.x = location.x;
+			throwDagger[i].l.y = location.y;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void weapon::ThrowDaggerAnim()
+{
+	for (int i = 0; i < 10; i++) {
+		if (throwDagger[i].flg) {
+			throwDagger[i].l.x += throwDagger[i].v.x;
+			throwDagger[i].l.y += throwDagger[i].v.y;
+		}
+	}
 }
 
 //collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk
