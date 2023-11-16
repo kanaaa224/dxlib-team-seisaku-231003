@@ -14,6 +14,7 @@ GameScene::GameScene() {
 	player = new Player;
 	backimg = new Stage;
 	Weapon = new weapon;
+	swordHitFlg = false;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
 	map = new Map(gameUI);
@@ -165,6 +166,11 @@ Scene* GameScene::update() {
 							slime[i]->SetHitHP(Weapon->GetDamage());
 						}
 						slime[i]->SetHit1stFrameFlg(true);
+						if (Weapon->GetIsAttacking() && !swordHitFlg) {
+							swordHitFlg = true;
+							Weapon->SetHitCnt(true);
+							Weapon->SwordLevel8(player);
+						}
 					}
 				}
 				if (secondweapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -184,6 +190,12 @@ Scene* GameScene::update() {
 						skeleton[i]->SetHitWeaponFlg();
 						skeleton[i]->SetHitHP(Weapon->GetDamage());
 						skeleton[i]->SetHit1stFrameFlg(true);
+
+						if (Weapon->GetIsAttacking() && !swordHitFlg) {
+							swordHitFlg = true;
+							Weapon->SetHitCnt(true);
+							Weapon->SwordLevel8(player);
+						}
 					}
 				}
 				if (secondweapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
@@ -196,7 +208,12 @@ Scene* GameScene::update() {
 			}
 		}
 	}
-
+	if (!Weapon->GetIsAttacking() && Weapon->GetOldIsAttacking()) {
+		if (!swordHitFlg) {
+			Weapon->SetHitCnt(false);
+		}
+		swordHitFlg = false;
+	}
 	//バリア
 	if (secondweapon->GetWeaponType() == book && secondweapon->GetWeaponLevel() == 7 && secondweapon->GetCoolTime() == 0) {
 		Weapon->SetCoolTime(0.1f, true);
@@ -241,7 +258,7 @@ Scene* GameScene::update() {
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location(),player);
 	Vector tmpV = { player->Player_MoveX(),player->Player_MoveY(),0 };
-	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV);
+	secondweapon->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV, player);
 	gameUI->update(this);
 
 

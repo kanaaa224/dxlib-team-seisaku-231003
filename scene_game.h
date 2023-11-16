@@ -29,6 +29,7 @@ private:
 	Player* player;
 	Stage* backimg;
 	weapon* Weapon;
+	bool swordHitFlg; //魔剣の連続ヒットカウント用
 	second_weapon* secondweapon;
 	bool bookFlg;
 	GameUI* gameUI;
