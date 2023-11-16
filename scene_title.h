@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scene.h"
+#define TITLEINTERVAL 15
 
 class Title :public Scene
 {
@@ -12,6 +13,8 @@ private:
 	int g_MenuNumber;
 	int cursor;
 	int g_MenuY;
+	int TitleInterval;
+
 public:
 	Title();
 	Scene* update() override;

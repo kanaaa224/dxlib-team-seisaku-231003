@@ -25,4 +25,5 @@ void Credit::draw()const
 	DrawExtendGraph(0, 0,1280,720, CreditImage, TRUE);
 	SetFontSize(40);
 	DrawString(100, 350+g_PosY, "pngtree", 0x000000);
+	DrawString(100, 390+g_PosY, "グラフィックデザイン科の方々", 0x000000);
 }

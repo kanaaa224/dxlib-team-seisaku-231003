@@ -5,7 +5,7 @@ Title::Title()
 {
 	TitleImage = LoadGraph("resources/images/Title.png");
 	g_MenuNumber = 0;
-	/*interval = 0.7f; */
+	TitleInterval = 0;
 	cursor = LoadGraph("resources/images/cursor.png");
 	//state = 10;
 }
@@ -13,12 +13,20 @@ Title::Title()
 //XV
 Scene*Title::update()
 {
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS) {
-		if (++g_MenuNumber > 3)g_MenuNumber = 0;
-	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS)
+	if (TitleInterval < TITLEINTERVAL)
 	{
-		if (--g_MenuNumber < 0)g_MenuNumber = 3;
+		TitleInterval++;
+	}
+
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15)
+	{
+		TitleInterval = 0;
+		if (--g_MenuNumber > 3)g_MenuNumber = 0;
+	}
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15)
+	{
+		TitleInterval = 0;
+		if (++g_MenuNumber < 0)g_MenuNumber = 3;
 	}
 	g_MenuY = g_MenuNumber * 52;
 	
