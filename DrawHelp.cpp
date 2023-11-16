@@ -5,6 +5,7 @@
 DrawHelp::DrawHelp()
 {
 	HelpImage2 = LoadGraph("resources/images/Help2.png");
+	g_WaitTime = 0;
 }
 
 Scene* DrawHelp::update()
