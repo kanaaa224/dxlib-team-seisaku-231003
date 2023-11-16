@@ -31,9 +31,9 @@ private:
 
 	Player* player;
 
+	bool swordHitFlg; //魔剣の連続ヒットカウント用
 	weapon* weaponA;
 	second_weapon* weaponB;
-	bool swordHitFlg; //魔剣の連続ヒットカウント用
 	bool bookFlg = false;
 
 	Stage* stage;
