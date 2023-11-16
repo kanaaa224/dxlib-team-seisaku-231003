@@ -44,7 +44,7 @@ Map::~Map() {
 	delete rest;
 }
 
-int Map::update() {
+int Map::update(int& mode, bool& weapon_selected) {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -120,7 +120,11 @@ int Map::update() {
 
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
-		is_map_mode = false;
+
+		if(weapon_selected) mode = GameSceneMode::main;
+		else mode = GameSceneMode::weaponSelect;
+
+		//is_map_mode = false;
 		now_stage = cursor_loc;
 
 		switch (MapDeta[cursor_pos])

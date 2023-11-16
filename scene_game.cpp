@@ -5,7 +5,7 @@
 #include "main.h"
 
 GameScene::GameScene() {
-	mode         = GameSceneMode::weaponSelect;
+	mode         = GameSceneMode::map;
 	state        = play;
 	frameCounter = 0;
 
@@ -15,7 +15,7 @@ GameScene::GameScene() {
 	stage   = new Stage;
 	weaponA = new weapon;
 	weaponB = new second_weapon;
-	gameUI  = new GameUI;	
+	gameUI  = new GameUI;
 
 	//////////////////////////////////////////////////
 
@@ -41,6 +41,8 @@ GameScene::GameScene() {
 	exp = level = 0; // 仮
 
 	map->ResetStage();
+
+	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
 };
 
 GameScene::~GameScene() {
@@ -69,6 +71,14 @@ Scene* GameScene::update() {
 
 	//////////////////////////////////////////////////
 
+	if (mode >= GameSceneMode::main && gameUI->getState() == 2) {
+		// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
+		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
+			if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponLevelup;
+		};
+	};
+
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
@@ -81,13 +91,9 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::main) {
-		if (gameUI->getState() == 2) {
+		gameUI->update(this);
 
-			// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
-			if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
-				if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
-				else mode = GameSceneMode::weaponLevelup;
-			};
+		if (gameUI->getState() >= 1) {
 
 			//敵//
 			HitCheck();
@@ -198,64 +204,51 @@ Scene* GameScene::update() {
 
 			EnemyInc();//敵のダメージストップ関係
 
-			frameCounter++;
-		};
+			//////////////////////////////////////////////////
+			// GameUI 仮
+			//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
+			gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
+			gameUI->setEXP(exp, 2000, (exp / 20));
+			gameUI->setLevel(level);
 
-		//////////////////////////////////////////////////
-		// GameUI 仮
-		gameUI->update(this);
+			gameUI->setFloor(-2);
+			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
 
-		gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
+			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
+			//////////////////////////////////////////////////
+			if (getEnemiesNum(0) <= 0 && frameCounter) {
+				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
+				if (gameUI->getState() == 2) {
+					gameUI->init();
+					gameUI->setState(banner);
+				};
+				if (gameUI->getState() == 1) {
+					//GameScene();
+					map->ClearStage();
+					map->SetIsMapMode(true);
+					//return new Map;
 
-		int enemies = 0;
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) enemies++;
-		};
+					init();
 
-		if ((int)FPSCtrl::Get()) {
-			if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) exp += 200;
-			if (exp > 2000) {
-				exp = 0;
-				level++;
+					mode = GameSceneMode::map;
+				};
 			};
+			if (player->GetPlayer_HP() <= 0) {
+				gameUI->setBanner("失敗、、", "体力が尽きました、、");
+				if (gameUI->getState() == 2) {
+					gameUI->init();
+					gameUI->setState(banner);
+				};
+				if (gameUI->getState() == 1) return new GameOverScene;
+			};
+			//////////////////////////////////////////////////
+			gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
+			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
+			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
+			//////////////////////////////////////////////////
 		};
 
-		//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
-		gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
-		gameUI->setEXP(exp, 2000, (exp / 20));
-		gameUI->setLevel(level);
-
-		gameUI->setFloor(-2);
-		gameUI->setEnemy(enemies, SLIME_1_STAGE_NUM);
-
-		gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
-		//////////////////////////////////////////////////
-		if (enemies <= 0 && frameCounter) {
-			gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
-			if (gameUI->getState() == 2) {
-				gameUI->init();
-				gameUI->setState(banner);
-			};
-			if (gameUI->getState() == 1) {
-				////GameScene();
-				map->ClearStage();
-				map->SetIsMapMode(true);
-				//return new Map;
-			};
-		};
-		if (player->GetPlayer_HP() <= 0) {
-			gameUI->setBanner("失敗、、", "体力が尽きました、、");
-			if (gameUI->getState() == 2) {
-				gameUI->init();
-				gameUI->setState(banner);
-			};
-			if (gameUI->getState() == 1) return new GameOverScene;
-		};
-		//////////////////////////////////////////////////
-		gameUI->setEnemyHP("魔王 猫スライム", enemies, SLIME_1_STAGE_NUM, enemies * 10); // 怪奇現象発生中
-		//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
-		//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
-		//////////////////////////////////////////////////
+		frameCounter++;
 	};
 
 	if (mode == GameSceneMode::weaponSelect) {
@@ -279,7 +272,7 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::map) {
-		map->update();
+		map->update(mode, weapon_selected);
 		return this;
 	};
 
@@ -330,6 +323,42 @@ void GameScene::draw() const {
 	//////////////////////////////////////////////////
 
 	if (state == pause) gameUI->drawPause();
+};
+
+void GameScene::init() {
+	delete player;
+	player = new Player();
+
+	delete stage;
+	stage = new Stage();
+
+	tmpSlimeNum = 0;
+	tmpSkeletonNum = 0;
+	tmpWizardNum = 0;
+
+	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
+};
+
+int GameScene::getEnemiesNum(int type) {
+	int enemies = 0;
+
+	if (type == 0) {
+		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+			if (slime[i] != nullptr) enemies++;
+		};
+
+		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+			if (skeleton[i] != nullptr) enemies++;
+		};
+	};
+
+	if (type == 1) {
+		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+			if (slime[i] != nullptr) enemies++;
+		};
+	};
+
+	return enemies;
 };
 
 
@@ -537,17 +566,26 @@ void GameScene::SlimeUpdate()
 		}
 	}
 	else if (nowStage == 2) {
-
+		if (tmpSlimeNum < SLIME_2_STAGE_NUM) {
+			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_2_STAGE_NUM);
+			tmpSlimeNum++;
+		}
+		for (int i = 0; i < SLIME_2_STAGE_NUM; i++) {
+			if (slime[i] != nullptr) {
+				slime[i]->Update(i, player, weaponA, *(stage));
+				if (slime[i]->GetHP() <= 0) {
+					slime[i] = nullptr;
+				}
+			}
+		}
 	}
 }
 
 void GameScene::SlimeDraw() const
 {
-	if (nowStage == 1) {
-		for (int i = 0; i < MAX_SLIME_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Draw(i);
-			}
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			slime[i]->Draw(i);
 		}
 	}
 }

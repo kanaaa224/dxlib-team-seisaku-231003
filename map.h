@@ -60,7 +60,7 @@ public:
 
 	~Map();
 
-	int update();
+	int update(int&, bool&);
 
 	void draw() const;
 
