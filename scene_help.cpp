@@ -28,7 +28,4 @@ void Help::draw()const
 		DrawGraph(0, 0, HelpImage1, TRUE);
 		SetFontSize(40);
 		DrawString(1000, 670, "Aƒ{ƒ^ƒ“:ŽŸ‚Ö", 0xff0000);
-	
-		
-	
 }
