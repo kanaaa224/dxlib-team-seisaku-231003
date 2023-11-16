@@ -332,6 +332,7 @@ void GameScene::init() {
 	tmpSlimeNum = 0;
 	tmpSkeletonNum = 0;
 	tmpWizardNum = 0;
+	tmpBulletNum = 0;
 
 	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
 	gameUI->init();
