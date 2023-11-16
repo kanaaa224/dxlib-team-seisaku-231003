@@ -174,5 +174,7 @@ public:
 	int GetWeaponType() { return weaponType; }
 	bool GetIsAttacking() { return isAttacking; }
 	bool GetOldIsAttacking() { return oldIsAttacking; }
+
+	void InitWeapon();
 };
 
