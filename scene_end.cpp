@@ -3,6 +3,7 @@
 End::End()
 {
 	g_WaitTime = 0;
+	EndImage = LoadGraph("resources/images/background.png");
 }
 
 End::~End()
@@ -21,7 +22,7 @@ Scene* End::update()
 
 void End::draw()const
 {
-	DrawBox(0, 0, 1280, 720, 0xffffff, TRUE);
+	DrawExtendGraph(0, 0, 1280, 720, EndImage, TRUE);
 	SetFontSize(100);
 	DrawString(100, 300, "Thank you", 0x000000);
 }

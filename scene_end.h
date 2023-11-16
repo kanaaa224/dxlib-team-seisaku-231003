@@ -7,6 +7,7 @@ class End :public Scene
 private:
 	int g_WaitTime;
 	int g_PosY;
+	int EndImage;
 
 public:
 	End();
