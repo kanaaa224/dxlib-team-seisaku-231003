@@ -328,7 +328,7 @@ void GameScene::draw() const {
 	if (mode == GameSceneMode::map) map->draw();
 
 	if (mode == GameSceneMode::blacksmith) blacksmith->draw(weaponLevelup);
-	if (mode == GameSceneMode::main) 	DrawFormatString(0, 100, 0xffffff, "キーボードBで鍛冶画面");
+	if (mode == GameSceneMode::main) 	DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面");
 
 
 	//////////////////////////////////////////////////
