@@ -108,7 +108,7 @@ Scene* GameScene::update() {
 			}
 
 			//武器と敵の当たり判定
-			if (nowStage == 1) {
+			if (true/*nowStage == 1*/) {
 				for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 					if (slime[i] != nullptr) {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -342,10 +342,22 @@ void GameScene::init() {
 	stage = new Stage();
 
 	weaponA->InitWeapon();
-
+	
+	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+		slime[i] = nullptr;
+	};
 	tmpSlimeNum = 0;
+	for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+		skeleton[i] = nullptr;
+	};
 	tmpSkeletonNum = 0;
+	for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+		wizard[i] = nullptr;
+	};
 	tmpWizardNum = 0;
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		enemyBullet[i] = nullptr;
+	};
 	tmpBulletNum = 0;
 
 	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
@@ -565,7 +577,7 @@ void GameScene::EnemyInc()
 //----------スライム----------//
 void GameScene::SlimeUpdate()
 {
-	if (nowStage == 1) {
+	if (true/*nowStage == 1*/) {
 		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
 			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 			tmpSlimeNum++;
@@ -607,7 +619,7 @@ void GameScene::SlimeDraw() const
 //----------スケルトン----------//
 void GameScene::SkeletonUpdate()
 {
-	if (nowStage == 1) {
+	if (true/*nowStage == 1*/) {
 		if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
 			skeleton[tmpSkeletonNum] = new Skeleton(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
 			tmpSkeletonNum++;
@@ -625,11 +637,9 @@ void GameScene::SkeletonUpdate()
 
 void GameScene::SkeletonDraw() const
 {
-	if (nowStage == 1) {
-		for (int i = 0; i < MAX_SKELETON_NUM; i++) {
-			if (skeleton[i] != nullptr) {
-				skeleton[i]->Draw(i);
-			}
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			skeleton[i]->Draw(i);
 		}
 	}
 }
@@ -637,7 +647,7 @@ void GameScene::SkeletonDraw() const
 //----------魔法使い----------//
 void GameScene::WizardUpdate()
 {
-	if (nowStage == 1) {
+	if (true/*nowStage == 1*/) {
 		if (tmpWizardNum < WIZARD_1_STAGE_NUM) {
 			wizard[tmpWizardNum] = new Wizard(tmpWizardNum, WIZARD_1_STAGE_NUM);
 			tmpWizardNum++;
@@ -655,11 +665,9 @@ void GameScene::WizardUpdate()
 
 void GameScene::WizardDraw() const
 {
-	if (nowStage == 1) {
-		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
-			if (wizard[i] != nullptr) {
-				wizard[i]->Draw(i);
-			}
+	for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			wizard[i]->Draw(i);
 		}
 	}
 }
