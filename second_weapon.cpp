@@ -24,7 +24,7 @@ second_weapon::second_weapon()
 	location = { 640.360 };
 
 	spear_img = LoadGraph("resources/images/spear.png");
-	frail_img = LoadGraph("resources/images/sword_shortsword_brown.png");
+	frail_img = LoadGraph("resources/images/chain_iron ball.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
 	spear_move_cnt = 0.0f;
@@ -299,6 +299,7 @@ void second_weapon::Draw() const
 	}
 	if (weaponType == frail) {
 		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		//DrawRotaGraph2(frailLcation.x, frailLcation.x, 550 / 2, 450 / 2, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
 			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);

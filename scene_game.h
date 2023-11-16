@@ -13,6 +13,7 @@
 #include "Slime.h"
 #include "Skeleton.h"
 #include "Wizard.h"
+#include "EnemyBullet.h"
 #include "Common.h"
 #include"scene_weapon.h"
 #include "scene_gameclear.h"
@@ -47,7 +48,9 @@ private:
 	//魔法使い
 	Wizard* wizard[MAX_WIZARD_NUM];
 	int tmpWizardNum = 0;
-
+	//弾
+	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
+	int tmpBulletNum = 0;
 
 	//シーン
 	Weapon_Selection* weapon_selection;
@@ -100,6 +103,6 @@ public:
 	void WizardUpdate();
 	void WizardDraw() const;
 	//弾
-	void BulletUpdate();
-	void BulletDraw() const;
+	void EnemyBulletUpdate(Location location);
+	void EnemyBulletDraw() const;
 };
