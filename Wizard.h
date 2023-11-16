@@ -15,7 +15,7 @@ public:
 	Wizard(int arrayNum, int WizardMaxNum);
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
-	void Draw(int arrayNum);
+	void Draw(int arrayNum) const;
 
 	//移動処理
 	void X();

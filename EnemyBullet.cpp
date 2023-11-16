@@ -1,46 +1,40 @@
 #include "EnemyBullet.h"
+#include "Player.h"
 
 EnemyBullet::EnemyBullet(Location spawnLocation)
 {
 	//変数の初期化
 	img = LoadGraph("resources/images/enemy_tmp_images/kintama.png");
-	spwLocation.x = spawnLocation.x;
-	spwLocation.y = spawnLocation.y;
-	speed = BULLET_SPEED;
-	//vector = CaleVector(spwLocation);
-	location.x = spwLocation.x;
-	location.y = spwLocation.y;
+	location.x = spawnLocation.x;
+	location.y = spawnLocation.y;
 	vector.x = 0;
 	vector.y = 0;
 	radius = BULLET_RADIUS;
 	damage = BULLET_ATTAK_DAMAGE;
-	lifeTimeCnt = 0;
+	speed = BULLET_SPEED;
+	lifeTimeCnt = BULLET_LIFE_TIME;
 	
 }
 
-void EnemyBullet::Update()
+void EnemyBullet::Update(Player* player)
 {
+	//プレイヤーの移動量をdiffにセット
+	SetPlayerAmountOfTravel_X(player->Player_MoveX());
+	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
+	//プレイヤーの座標をdiffLocationにセット
+	SetPlayer_Location(player->GetLocation());
+
+	vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
 	location.x = location.x + vector.x;
+	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
 	location.y = location.y + vector.y;
 
-	lifeTimeCnt++;
+	lifeTimeCnt--;
 }
 
-void EnemyBullet::Draw()
+void EnemyBullet::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-}
-
-Vector EnemyBullet::CaleVector(Location location)
-{
-	Vector r;
-	Location tmp;
-	tmp.x = dL.x - location.x;
-	tmp.y = dL.y - location.y;
-	r.x = sqrt(pow(tmp.x, 2) + pow(tmp.y, 2));
-	r.y = r.x;
-
-	return r;
 }
 
 int EnemyBullet::GetDamage()

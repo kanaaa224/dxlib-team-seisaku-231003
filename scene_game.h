@@ -23,15 +23,17 @@ enum GameSceneState {
 
 class GameScene : public Scene {
 private:
+	int issei;
+
 	int mode, state, frameCounter;
 
 	//////////////////////////////////////////////////
 
 	Player* player;
 
+	bool swordHitFlg; //魔剣の連続ヒットカウント用
 	weapon* weaponA;
 	second_weapon* weaponB;
-	bool swordHitFlg; //魔剣の連続ヒットカウント用
 	bool bookFlg = false;
 
 	Stage* stage;
@@ -61,7 +63,7 @@ private:
 
 	//////////////////////////////////////////////////
 
-	int exp, level; // 仮
+	int hp, exp, level; // 仮
 
 	int nowStage = 1;//ステージ
 	//bool hitFlg = false;

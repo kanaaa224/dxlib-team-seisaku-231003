@@ -17,7 +17,7 @@ Wizard::Wizard(int arrayNum, int WizardMaxNum)
 	location.y = 0;
 	vector.x = 0;
 	vector.y = 0;
-	reroadTime = BULLET_REROAD_TIME;
+	reroadTime = BULLET_LIFE_TIME;
 
 	respawnTimeCnt = 0;
 	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum);
@@ -62,6 +62,10 @@ void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		createBulletFlg = false;
 	}
 
+	if (hp <= 0) {
+		alphaNum -= 5;
+	}
+
 	//Cnt
 	if (respawnTimeCnt == respawnTime) {//設定された時間になったらrespawnFlgをtrue
 		respawnFlg = true;
@@ -100,13 +104,12 @@ void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 #endif // DEBUG
 }
 
-void Wizard::Draw(int arrayNum)
+void Wizard::Draw(int arrayNum) const
 {
 	if (respawnFlg == true) {
 
 		if (hp <= 0) {//HPが０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
-			alphaNum -= 5;
 			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 		}

@@ -96,16 +96,6 @@ Scene* GameScene::update() {
 			SlimeUpdate();
 			SkeletonUpdate();
 			WizardUpdate();
-			for (int i = 0; i < MAX_WIZARD_NUM; i++) {
-				if (wizard[i] != nullptr) {
-					if (wizard[i]->GetShootFlg() == true) {
-						//ここに弾の生成処理を書く
-						if (wizard[i]->GetCreateBulletFlg() == true) {
-							EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
-						}
-					}
-				}
-			}
 
 			//武器と敵の当たり判定
 			if (true/*nowStage == 1*/) {
@@ -126,6 +116,7 @@ Scene* GameScene::update() {
 									swordHitFlg = true;
 									weaponA->SetHitCnt(true);
 									weaponA->SwordLevel8(player);
+									weaponA->SwordLevel8Heel(player);
 								}
 							}
 						}
@@ -150,6 +141,7 @@ Scene* GameScene::update() {
 									swordHitFlg = true;
 									weaponA->SetHitCnt(true);
 									weaponA->SwordLevel8(player);
+									weaponA->SwordLevel8Heel(player);
 								}
 							}
 						}
@@ -162,6 +154,13 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+			}
+
+			if (!weaponA->GetIsAttacking() && weaponA->GetOldIsAttacking()) {
+				if (!swordHitFlg) {
+					weaponA->SetHitCnt(false);
+				}
+				swordHitFlg = false;
 			}
 
 			//バリア
@@ -219,7 +218,7 @@ Scene* GameScene::update() {
 			gameUI->setEXP(exp, 2000, (exp / 20));
 			gameUI->setLevel(level);
 
-			gameUI->setFloor(-2);
+			gameUI->setFloor(nowStage);
 			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
@@ -250,7 +249,7 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == 1) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
-			gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
+			if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			//////////////////////////////////////////////////
@@ -307,6 +306,7 @@ void GameScene::draw() const {
 		SkeletonDraw();
 		WizardDraw();
 		EnemyBulletDraw();
+		DrawFormatString(10, 100, C_RED, "%d", issei);
 
 		//////////////////////////////////////////////////
 
@@ -375,6 +375,10 @@ int GameScene::getEnemiesNum(int type) {
 
 		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
 			if (skeleton[i] != nullptr) enemies++;
+		};
+
+		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+			if (wizard[i] != nullptr) enemies++;
 		};
 	};
 
@@ -655,6 +659,15 @@ void GameScene::WizardUpdate()
 		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
 			if (wizard[i] != nullptr) {
 				wizard[i]->Update(i, player, weaponA, *(stage));
+
+				if (wizard[i]->GetShootFlg() == true) {
+					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					/*if (wizard[i]->GetCreateBulletFlg() == true) {
+						
+						
+					}*/
+				}
+
 				if (wizard[i]->GetHP() <= 0) {
 					wizard[i] = nullptr;
 				}
@@ -682,10 +695,9 @@ void GameScene::EnemyBulletUpdate(Location location)
 
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[i] != nullptr) {
-			enemyBullet[i]->Update();
-			if (enemyBullet[i]->GetlifeTimeCnt() >= 2) {
+			enemyBullet[i]->Update(player);
+			if (enemyBullet[i]->GetlifeTimeCnt() <= 0) {
 				enemyBullet[i] = nullptr;
-				
 			}
 		}
 	}
