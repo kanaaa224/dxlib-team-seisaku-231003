@@ -23,6 +23,8 @@ enum GameSceneState {
 
 class GameScene : public Scene {
 private:
+	int issei;
+
 	int mode, state, frameCounter;
 
 	//////////////////////////////////////////////////
