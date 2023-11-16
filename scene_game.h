@@ -5,38 +5,36 @@
 #pragma once
 
 #include "scene.h"
-#include "Stage.h"
-#include "weapon.h"
-#include "second_weapon.h"
-#include "Map.h"
-#include "Player.h"
-#include "Slime.h"
-#include "Skeleton.h"
-#include "Wizard.h"
-#include "EnemyBullet.h"
-#include "Common.h"
-#include"scene_weapon.h"
-#include "scene_gameclear.h"
-#include "scene_levelup.h"
-#include "scene_blacksmith.h"
+
+enum GameSceneMode {
+	map,          // マップ
+	blacksmith,   // 鍛冶屋
+	rest,         // 休憩
+	main,         // 戦闘
+	weaponSelect, // 武器選択
+	weaponLevelup // 武器強化
+};
+
+enum GameSceneState {
+	pause,
+	play,
+	end
+};
 
 class GameScene : public Scene {
 private:
-	int state, frameCounter;
+	int mode, state, frameCounter;
 
 	//////////////////////////////////////////////////
 
 	Player* player;
-	Stage* backimg;
-	weapon* Weapon;
-	second_weapon* secondweapon;
-	bool bookFlg;
-	GameUI* gameUI;
-	Map* map;
 
-	//////////////////////////////////////////////////
+	weapon* weaponA;
+	second_weapon* weaponB;
+	bool swordHitFlg; //魔剣の連続ヒットカウント用
+	bool bookFlg = false;
 
-	int exp, level; // 仮
+	Stage* stage;
 
 	//敵//
 	//スライム
@@ -52,24 +50,25 @@ private:
 	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
 	int tmpBulletNum = 0;
 
-	//シーン
-	Weapon_Selection* weapon_selection;
-	WeaponLevelUp* weapon_level_up;
+	GameUI* gameUI;
+
+	//////////////////////////////////////////////////
+
+	Map* map;
+	Weapon_Selection* weaponSelect;
+	WeaponLevelUp* weaponLevelup;
 	Blacksmith* blacksmith;
 
-	//////////
+	//////////////////////////////////////////////////
 
-	int stage = 1;//ステージ
-	bool hitFlg = false;
-	int hitFrameCounter = 0;
+	int exp, level; // 仮
 
-	bool is_weapon_select;
+	int nowStage = 1;//ステージ
+	//bool hitFlg = false;
+	//int hitFrameCounter = 0;
+
 	bool weapon_selected;
-
-	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
-
-	bool open_blacksmith;			// 鍛冶テスト用
 
 public:
 	GameScene();
@@ -82,14 +81,20 @@ public:
 
 	//////////////////////////////////////////////////
 
-	int getState() {
-		return state;
-	};
+	// 初期化
+	void init();
+
+	// 敵の数
+	int getEnemiesNum(int);
+
+	//////////////////////////////////////////////////
 
 	void HitCheck();
 
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
+
+	//////////////////////////////////////////////////
 
 	//敵
 	void EnemyInc();

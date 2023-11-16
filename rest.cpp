@@ -1,7 +1,8 @@
-#include"scene_rest.h"
-#include"main.h"
-#include"Player.h"
-#include"game_ui.h"
+//#include "rest.h"
+#include "main.h"
+
+//#include"Player.h"
+//#include"game_ui.h"
 
 Rest::Rest(GameUI* ui)
 {

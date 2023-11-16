@@ -10,12 +10,8 @@ private:
 	int TitleImage;
 
 	int g_MenuNumber;
-	short PadStick;
 	int cursor;
-	int frameCounter;
-
-	bool Ctrl;
-
+	int g_MenuY;
 public:
 	Title();
 	Scene* update() override;

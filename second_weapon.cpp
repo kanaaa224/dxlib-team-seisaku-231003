@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
+#include "Player.h"
 
 
 second_weapon::second_weapon()
@@ -70,7 +71,7 @@ second_weapon::~second_weapon()
 {
 }
 
-void second_weapon::Update(float cursorX, float cursorY, Location playerLocation, Vector playerVec)
+void second_weapon::Update(float cursorX, float cursorY, Location playerLocation, Vector playerVec, Player* player)
 {
 	location = playerLocation;
 	playerVector = playerVec;

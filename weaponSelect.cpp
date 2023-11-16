@@ -1,6 +1,5 @@
-#include"scene_weapon.h"
-#include"second_weapon.h"
-#include"main.h"
+//#include "weaponSelect.h"
+#include "main.h"
 
 Weapon_Selection::Weapon_Selection(const bool selected)
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include"DxLib.h"
-#include"scene_rest.h"
+
+#include "rest.h"
 
 class GameScene;
 class GameUI;
@@ -110,7 +110,7 @@ public:
 
 	~Map();
 
-	int update();
+	int update(int&, bool&);
 
 	void draw() const;
 
