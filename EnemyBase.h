@@ -18,6 +18,8 @@ protected:
 	int img;			//画像格納用変数
 	float hp;			//敵のHP
 	float damage;		//プレイヤーに与えるダメージ
+	float speed;		//移動速度
+	int exp;			//倒された時のEXPの値(使うか未定)
 	int respawnPosition;//リスポーンする場所
 	int respawnTime;	//リスポーンまでの時間を格納する
 	int respawnTimeCnt;	//リスポーンまでのカウント変数
@@ -39,6 +41,7 @@ protected:
 	bool hitWeaponFlg;			//武器とあたったか
 	bool hit1stFrameFlg = false;//武器と当たった最初のフレームか
 	bool redDrawFlg = false;	//ダメージを受けた時の赤く表示する
+	bool stopFlg = false;		//立ち止まっているか
 
 	bool flg = false;
 public:
@@ -47,6 +50,8 @@ public:
 	//プレイヤーまでの距離を求める
 	float PlayerLoad_X(float location_x);//X座標上でのプレイヤーまでの距離
 	float PlayerLoad_Y(float location_y);//Y座標上でのプレイヤーまでの距離
+	//プレイヤーまでの直線距離
+	float PlayerLoad(Location location, bool absFlg);
 	//正規化
 	float Normalization_X(float location_x, float location_y);//X座標上でのプレイヤーまでの距離を正規化
 	float Normalization_Y(float location_x, float location_y);//Y座標上でのプレイヤーまでの距離を正規化

@@ -12,10 +12,13 @@
 #include "Player.h"
 #include "Slime.h"
 #include "Skeleton.h"
+#include "Wizard.h"
+#include "EnemyBullet.h"
 #include "Common.h"
 #include"scene_weapon.h"
 #include "scene_gameclear.h"
 #include "scene_levelup.h"
+#include "scene_blacksmith.h"
 
 class GameScene : public Scene {
 private:
@@ -27,6 +30,7 @@ private:
 	Stage* backimg;
 	weapon* Weapon;
 	second_weapon* secondweapon;
+	bool bookFlg;
 	GameUI* gameUI;
 	Map* map;
 
@@ -35,14 +39,23 @@ private:
 	int exp, level; // 仮
 
 	//敵//
+	//スライム
 	Slime* slime[MAX_SLIME_NUM];
 	int tmpSlimeNum = 0;
+	//スケルトン
 	Skeleton* skeleton[MAX_SKELETON_NUM];
 	int tmpSkeletonNum = 0;
+	//魔法使い
+	Wizard* wizard[MAX_WIZARD_NUM];
+	int tmpWizardNum = 0;
+	//弾
+	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
+	int tmpBulletNum = 0;
 
 	//シーン
 	Weapon_Selection* weapon_selection;
 	WeaponLevelUp* weapon_level_up;
+	Blacksmith* blacksmith;
 
 	//////////
 
@@ -55,6 +68,8 @@ private:
 
 	bool open_level_up;				// レベルアップ画面が開いているか
 	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
+
+	bool open_blacksmith;			// 鍛冶テスト用
 
 public:
 	GameScene();
@@ -76,13 +91,18 @@ public:
 	//プレイヤーと敵の当たり判定
 	void HitEnemy(EnemyBase* enemy);
 
+	//敵
+	void EnemyInc();
 	//スライム
 	void SlimeUpdate();
 	void SlimeDraw() const;
-	//
+	//スケルトン
 	void SkeletonUpdate();
 	void SkeletonDraw() const;
-
-	void Init();
-
+	//魔法使い
+	void WizardUpdate();
+	void WizardDraw() const;
+	//弾
+	void EnemyBulletUpdate(Location location);
+	void EnemyBulletDraw() const;
 };

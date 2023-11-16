@@ -1,20 +1,20 @@
 #pragma once
 #include"DxLib.h"
-#include"SphereCollider.h"
 #include"scene_rest.h"
 
 class GameScene;
+class GameUI;
 
 #define DATA_MAX 21
 
-class Map : SphereCollider
+class Map
 {
 private:
 	int MapDeta[DATA_MAX];
 	int RandNum[3];
 
 	// アイコン座標(初期)
-	int icon_loc_def[21][2] = {
+	const int icon_loc_def[21][2] = {
 	{360, 590}, {630, 610}, {920, 580}, {390, 470}, {570, 510},
 	{730, 480}, {910, 470}, {640, 370}, {440, 270}, {580, 220},
 	{800, 290}, {340, 180}, {710, 160}, {960, 210}, {460, 80},
@@ -25,21 +25,23 @@ private:
 	int icon_vec;         // アイコン移動量
 
 	// 次に行けるステージ
-	int next_stage[21][3]{
-		{3,4},{4},{5,6},{7},{7},
-		{7},{7},{8,9,10},{11,14},{12,14},
-		{12,13},{14},{16},{15},{17,18},
-		{16},{17,18},{19},{19},{20},
+	const int next_stage[21][3]{
+		{3,4,-1},{4,-1},{5,6,-1},{7,-1},
+		{7,-1},{7,-1},{7,-1},{8,9,10},{11,14,-1},
+		{12,14,-1},{12,13,-1},{14,-1},{16,-1},{15,-1},
+		{17,18,-1},{16,-1},{17,18,-1},{19,-1},{19,-1},
+		{20,-1},{0,1,2}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 	};
+	int stage_log[10]{0};
 
 	Rest* rest;
+	GameUI* ui;
 
 	int cursor_pos;    // カーソル位置
-	int cursor_loc_x, cursor_loc_y;
+	int cursor_loc;
 	int move_cool;     // カーソル移動クールタイム
 	bool cursor_move;  // カーソル移動によるカメラ移動をするか(スクロール移動すると解除)
-	int angle;
-	int r;
+	int now_stage;
 
 	bool is_map_mode;
 
@@ -54,7 +56,7 @@ private:
 	int boss_img = 0;
 	int map_cursor = 0;
 public:
-	Map();
+	Map(GameUI* ui);
 
 	~Map();
 
@@ -62,14 +64,22 @@ public:
 
 	void draw() const;
 
-	bool GetIsMapMode()
-	{
+	bool GetIsMapMode() {
 		return is_map_mode;
 	}
 
-	void SetIsMapMode(const bool flg)
-	{
+	void SetIsMapMode(const bool flg) {
 		is_map_mode = flg;
 	}
 
+	int NowStage() {
+		return now_stage;
+	}
+
+	void ClearStage() {
+		cursor_pos = 0;
+		cursor_loc = next_stage[now_stage][0];
+	}
+
+	void ResetStage();
 };

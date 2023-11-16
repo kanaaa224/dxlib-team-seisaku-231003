@@ -1,6 +1,6 @@
 #include"scene_weapon.h"
-#include"inputCtrl.h"
 #include"second_weapon.h"
+#include"main.h"
 
 Weapon_Selection::Weapon_Selection(const bool selected)
 {
@@ -8,6 +8,7 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 	cursor_num = 0;
 	select_num = 0;
 	cursor_x = 0;
+	image_shift = 0;
 
 	dagger_image = LoadGraph("resources/images/sword_shortsword_brown.png");
 	sword_image = LoadGraph("resources/images/sword_longsword_brown.png");
@@ -15,7 +16,7 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 
 	spear_image = LoadGraph("resources/images/spear.png");
 	frail_image = LoadGraph("resources/images/Frailt_dottoy.png");
-	book_image = LoadGraph("resources/images/game_ken.png");
+	book_image = LoadGraph("resources/images/book_madousyo_necronomicon.png");
 
 	button_image = LoadGraph("resources/images/button_a.png");
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
@@ -40,6 +41,11 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 	if (is_selecting != true)
 	{
 		cursor_x = cursor_num * 300;
+		image_shift = cursor_num * 50;
+		if (cursor_num == 1)
+		{
+			image_shift -= 30;
+		}
 	}
 	else
 	{
@@ -176,14 +182,17 @@ void Weapon_Selection::draw() const
 	//武器を選択していないなら
 	if (is_selecting != true)
 	{		
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		if (was_selected != true)
 		{
 			SetFontSize(32);
 			DrawString(430, 10, "最初の武器を選んでください\n",0xffffff);
 
-			DrawString(350, 450, "短剣", 0xffffff);
-			DrawString(650, 450, "片手剣", 0xffffff);
-			DrawString(950, 450, "大剣", 0xffffff);
+			DrawString(330, 450, "短剣", 0xffffff);
+			DrawString(600, 450, "片手剣", 0xffffff);
+			DrawString(930, 450, "大剣", 0xffffff);
 
 			SetFontSize(16);
 
@@ -191,23 +200,25 @@ void Weapon_Selection::draw() const
 			DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
 			DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
 
+			DrawRotaGraph(380 + cursor_x, 600, .5f, 0, cursor_image, TRUE);
 		}
 		else
 		{
 			SetFontSize(32);
 			DrawString(430, 10, "２つ目の武器を選んでください\n", 0xffffff);
 
-			DrawString(350, 450, "槍", 0xffffff);
-			DrawString(600, 450, "フレイル", 0xffffff);
-			DrawString(950, 450, "魔導書", 0xffffff);
+			DrawString(320, 450, "槍", 0xffffff);
+			DrawString(580, 450, "フレイル", 0xffffff);
+			DrawString(980, 450, "魔導書", 0xffffff);
 
 			SetFontSize(16);
 
-			DrawRotaGraph(380, 300, .45f, .0625f, spear_image, TRUE);
-			DrawRotaGraph(740, 330, .45f, .2925f, frail_image, TRUE);
-			DrawRotaGraph(950, 300, .45f, .0625f, book_image, TRUE);
+			DrawRotaGraph(330, 300, .45f, .0625f, spear_image, TRUE);
+			DrawRotaGraph(690, 330, .45f, .2925f, frail_image, TRUE);
+			DrawRotaGraph(1030, 300, .45f, 0.f, book_image, TRUE);
+
+			DrawRotaGraph(350 + cursor_x + image_shift, 600, .5f, 0, cursor_image, TRUE);
 		}
-		DrawRotaGraph(400 + cursor_x, 600, .5f, 0, cursor_image, TRUE);
 	}
 	//武器を選択したなら
 	else

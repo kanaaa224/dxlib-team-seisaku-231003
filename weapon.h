@@ -16,6 +16,9 @@ class Player;
 #define INIT_DAMAGE_DAGGER  4
 #define INIT_DAMAGE_GREATSWORD  25
 
+#define AVOIDANCE_DAMAGE_RADIUS 100
+#define MAX_THROW_DAGGER 64
+
 struct Vector
 {
 	float x;
@@ -46,6 +49,16 @@ struct SwordSlash
 	Location collsion2;
 };
 
+struct ThrowDagger
+{
+	Location l;
+	Vector v;
+	bool flg;
+	float relativeRot;
+	float rot;
+	Vector unit;
+};
+
 
 class weapon {
 private:
@@ -54,6 +67,7 @@ private:
 	bool levelUpFlg;
 
 	Location location;
+	Vector playerVector;
 
 	Vector weaponVec;
 	Vector baseVec;
@@ -70,6 +84,7 @@ private:
 
 	int coolTime;	//クールタイムを計算する変数
 	int maxCoolTime;  //クールタイムの値
+	int maxCoolTimeTmp;  //クールタイムの値
 	bool isAttacking;	//攻撃中かどうか
 	int damage;
 
@@ -77,12 +92,22 @@ private:
 	int dagger_img;
 	int greatsword_img;
 
+	//仮　プレイヤーのステータス
+	float P_speed;
+	int   P_cooltime;
+	float P_limit;
+
 	//飛ぶ斬撃
 	SwordSlash swordSlash[10];
 	int slash_img;
 	int slashFlg;
 	float slashRot;
 	Location sl[100];
+
+	//投げナイフ
+	ThrowDagger throwDagger[MAX_THROW_DAGGER];
+	//回避中のダメージ
+	bool avoidanceDamageFlg;
 
 	float tmp, tmp1;
 public:
@@ -103,10 +128,25 @@ public:
 	bool SpawnSwordSlash();
 	void SwordSlashAnim();	//最終強化１の斬撃を飛ばす
 
+	bool SpawnThrowDagger(int num);
+	void ThrowDaggerAnim();
+
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
 		weaponLevel = num;
 		LevelState();
+	}
+	void SetCoolTime(float num, bool flg) {
+		if (flg) {
+			maxCoolTimeTmp = maxCoolTime;
+			maxCoolTime = (int)maxCoolTime * num;
+			coolTime = maxCoolTime;
+		}
+		else
+		{
+			maxCoolTime = maxCoolTimeTmp;
+			LevelState();
+		}
 	}
 	//武器レベルを取得
 	int GetWeaponLevel() { return weaponLevel; }

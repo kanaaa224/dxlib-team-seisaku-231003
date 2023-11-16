@@ -7,6 +7,7 @@
 GameScene::GameScene() {
 	state = 1;
 	frameCounter = 0;
+	bookFlg = false;
 
 	//////////////////////////////////////////////////
 
@@ -15,13 +16,14 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
-	map = new Map;
+	map = new Map(gameUI);
 
 	//////////////////////////////////////////////////
 	
 	//
 	weapon_selection = new Weapon_Selection(weapon_selected);
 	weapon_level_up = new WeaponLevelUp;
+	blacksmith = new Blacksmith;
 
 	is_weapon_select = false;
 	weapon_selected = false;
@@ -30,10 +32,15 @@ GameScene::GameScene() {
 	open_level_up = false;
 	restor_cursor_position = true;
 
+	// 鍛冶テスト用
+	open_blacksmith = false;
+
 
 	//////////////////////////////////////////////////
 
 	exp = level = 0; // 仮
+
+	map->ResetStage();
 };
 
 GameScene::~GameScene() {
@@ -43,11 +50,11 @@ GameScene::~GameScene() {
 	delete gameUI;
 	delete weapon_level_up;
 	delete map;
+	delete blacksmith;
 };
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
-
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
 		if (state) state = 0;
 		else state++;
@@ -76,6 +83,32 @@ Scene* GameScene::update() {
 		return this;
 	}
 
+	//////////////////////////////////////////////////
+	// 鍛冶ステージテスト用
+	// Bキーで表示
+	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS)
+	{
+		if (open_blacksmith)
+		{
+			// 非表示
+			open_blacksmith = false;
+			weapon_level_up->SetIsBlacksmith(false);
+		}
+		else
+		{
+			// 表示
+			open_blacksmith = true;
+		}
+	}
+
+	// 鍛冶ステージを表示しているときは以下の処理をしない
+	if (open_blacksmith)
+	{
+		blacksmith->update(Weapon, secondweapon, weapon_level_up);
+		return this;
+	}
+	//////////////////////////////////////////////////
+
 	// 武器のレベルアップ画面
 	// Xボタンで表示と非表示を切り替え
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
@@ -100,11 +133,22 @@ Scene* GameScene::update() {
 		return this;
 	}
 
+
 	//敵//
 	HitCheck();
-	//SlimeUpdate();
+	SlimeUpdate();
 	SkeletonUpdate();
-	
+	WizardUpdate();
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			if (wizard[i]->GetShootFlg() == true) {
+				//ここに弾の生成処理を書く
+				if (wizard[i]->GetCreateBulletFlg() == true) {
+					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+				}
+			}
+		}
+	}
 
 	//武器と敵の当たり判定
 	if (stage == 1) {
@@ -113,19 +157,56 @@ Scene* GameScene::update() {
 				if (Weapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 					if (slime[i]->GetHitFrameCnt() == 0) {
 						slime[i]->SetHitWeaponFlg();
-						slime[i]->SetHitHP(Weapon->GetDamage());
+						//ダメージアップ
+						if (secondweapon->GetWeaponType() == book && secondweapon->GetWeaponLevel() == 7) {
+							slime[i]->SetHitHP(Weapon->GetDamage() * 2);
+						}
+						else {
+							slime[i]->SetHitHP(Weapon->GetDamage());
+						}
 						slime[i]->SetHit1stFrameFlg(true);
 					}
 				}
 				if (secondweapon->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 					if (slime[i]->GetHitFrameCnt() == 0) {
 						slime[i]->SetHitWeaponFlg();
-						slime[i]->SetHitHP(Weapon->GetDamage());
+						slime[i]->SetHitHP(secondweapon->GetDamage());
 						slime[i]->SetHit1stFrameFlg(true);
 					}
 				}
 			}
 		}
+
+		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				if (Weapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+				if (secondweapon->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+					if (skeleton[i]->GetHitFrameCnt() == 0) {
+						skeleton[i]->SetHitWeaponFlg();
+						skeleton[i]->SetHitHP(Weapon->GetDamage());
+						skeleton[i]->SetHit1stFrameFlg(true);
+					}
+				}
+			}
+		}
+	}
+
+	//バリア
+	if (secondweapon->GetWeaponType() == book && secondweapon->GetWeaponLevel() == 7 && secondweapon->GetCoolTime() == 0) {
+		Weapon->SetCoolTime(0.1f, true);
+		secondweapon->SetBarrierFlg(true);
+		bookFlg = true;
+	}
+	else if (secondweapon->GetCoolTime() < INIT_COOLTIME_BOOK_LEVEL7 * 0.5f && bookFlg == true) {
+		Weapon->SetCoolTime(1.0f, false);
+		secondweapon->SetBarrierFlg(false);
+		bookFlg = false;
 	}
 
 	//武器のレベルアップ（デバッグ用）
@@ -155,7 +236,7 @@ Scene* GameScene::update() {
 
 	////////////
 	player->SetLeftTop(backimg->GetStageArray(0));
-	player->SetRightBottom(backimg->GetStageArray(3));
+	player->SetRightBottom(backimg->GetStageArray(8));
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location(),player);
@@ -169,35 +250,9 @@ Scene* GameScene::update() {
 		return new GameOverScene;
 	}
 	
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			if (slime[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
-				slime[i]->SetHit1stFrameFlg(false);
-				slime[i]->SetHitFrameCnt(0);
-			}
-		}
-	}
-	/*if (hitFrameCounter >= DAMAGE_STOP_FRAME) {
-		hitFlg = false;
-		hitFrameCounter = 0;
-	}*/
+	EnemyInc();//敵のダメージストップ関係
 
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			if (slime[i]->GetHit1stFrameFlg() == true) {
-				slime[i]->hitFrameCntInc();
-			}
-		}
-	}
-	/*if (hitFlg == true) {
-		hitFrameCounter++;
-	}*/
 	frameCounter++;
-
-
-
-
-
 
 	//////////////////////////////////////////////////
 	// GameUI 仮
@@ -233,8 +288,8 @@ Scene* GameScene::update() {
 			gameUI->setState(banner);
 		};
 		if (gameUI->getState() == 1) {
-			Init();
 			////GameScene();
+			map->ClearStage();
 			map->SetIsMapMode(true);
 			//return new Map;
 		};
@@ -271,8 +326,10 @@ void GameScene::draw() const {
 		player->draw();
 
 		//敵//
-		//SlimeDraw();
+		SlimeDraw();
 		SkeletonDraw();
+		WizardDraw();
+		EnemyBulletDraw();
 		////////////
 
 		if (is_weapon_select != true)
@@ -291,6 +348,14 @@ void GameScene::draw() const {
 		{
 			weapon_level_up->draw();
 		}
+
+		//////////////////////////////////////////////////
+		// 鍛冶ステージテスト用
+		if (open_blacksmith)
+		{
+			blacksmith->draw(weapon_level_up);
+		}
+		//////////////////////////////////////////////////
 	}
 
 	if (!state) gameUI->drawPause();
@@ -301,33 +366,103 @@ void GameScene::HitCheck()
 	//スライムの当たり判定
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		if (slime[i] != nullptr) {
-			HitEnemy(slime[i]);
+			HitEnemy(slime[i]);//プレイヤーとの当たり判定
 			for (int j = 0; j < MAX_SLIME_NUM; j++) {
 				if (slime[j] != nullptr && i != j) {
 					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
 						slime[i]->SetHitFlg(HIT);
 						slime[j]->SetHitFlg(HIT);
 
-						////
-						//slime[i]->SetHitLocation_X(slime[j]->GetLX());
-						//slime[i]->SetHitLocation_Y(slime[j]->GetLY());
-						//slime[i]->SetHitVector_X(slime[j]->GetVX());
-						//slime[i]->SetHitVector_Y(slime[j]->GetVY());
-						////
-						//slime[j]->SetHitLocation_X(slime[i]->GetLX());
-						//slime[j]->SetHitLocation_Y(slime[i]->GetLY());
-						//slime[j]->SetHitVector_X(slime[i]->GetVX());
-						//slime[j]->SetHitVector_Y(slime[i]->GetVY());
-
 						slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
 						slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
 					}
+				}
+			}
+		}
+	}
 
-					/*if (slime[i]->GetHitFlg() == HIT) {
-						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == NO_COLLISION) {
-							slime[i]->SetHitFlg(NO_COLLISION);
-						}
-					}*/
+	//スケルトンの当たり判定
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			HitEnemy(skeleton[i]);//プレイヤーとの当たり判定
+			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+				if (skeleton[j] != nullptr && i != j) {
+					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+						skeleton[i]->SetHitFlg(HIT);
+						skeleton[j]->SetHitFlg(HIT);
+
+						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//魔法使いの当たり判定
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			HitEnemy(wizard[i]);//プレイヤーとの当たり判定
+			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+				if (wizard[j] != nullptr && i != j) {
+					if (wizard[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+						wizard[i]->SetHitFlg(HIT);
+						wizard[j]->SetHitFlg(HIT);
+
+						wizard[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*wizard[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//スライムとスケルトンの当たり判定
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+				if (skeleton[j] != nullptr) {
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+						slime[i]->SetHitFlg(HIT);
+						skeleton[j]->SetHitFlg(HIT);
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//スライムと魔法使いの当たり判定
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+				if (wizard[j] != nullptr) {
+					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+						slime[i]->SetHitFlg(HIT);
+						wizard[j]->SetHitFlg(HIT);
+
+						slime[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+					}
+				}
+			}
+		}
+	}
+
+	//魔法使いとスケルトンの当たり判定
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+				if (wizard[j] != nullptr) {
+					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+						skeleton[i]->SetHitFlg(HIT);
+						wizard[j]->SetHitFlg(HIT);
+
+						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+					}
 				}
 			}
 		}
@@ -340,47 +475,72 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 	{
 		if (player->CheckCollision(*(enemy), player) == HIT)
 		{
-			player->SetPlayer_HP(enemy->GetDamage());
-			player->SetIsHit(true);
+			//バリア
+			if (!secondweapon->GetBarrierFlg()) {
+				player->SetPlayer_HP(enemy->GetDamage());
+				player->SetIsHit(true);
+			}
+			
 		}
 	}
 }
 
-void GameScene::Init()
+//----------敵----------//
+void GameScene::EnemyInc()
 {
-	player = new Player;
-	backimg = new Stage;
-	Weapon = new weapon;
-	secondweapon = new second_weapon;
-	gameUI = new GameUI;
-	map = new Map;
-
-	weapon_selection = new Weapon_Selection(weapon_selected);
-	weapon_level_up = new WeaponLevelUp;
-
-
-	is_weapon_select = false;
-	weapon_selected = false;
-
-	// レベルアップ画面用
-	open_level_up = false;
-	restor_cursor_position = true;
-
-
-	exp = level = 0; // 仮
-
-	if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-		tmpSlimeNum++;
-	}
-	if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
-		slime[tmpSkeletonNum] = new Slime(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
-		tmpSkeletonNum++;
+	//スライム
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				slime[i]->SetHit1stFrameFlg(false);
+				slime[i]->SetHitFrameCnt(0);
+			}
+		}
 	}
 
-	gameUI->init();
-	gameUI->setState(banner);
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) {
+			if (slime[i]->GetHit1stFrameFlg() == true) {
+				slime[i]->hitFrameCntInc();
+			}
+		}
+	}
 
+	//スケルトン
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			if (skeleton[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				skeleton[i]->SetHit1stFrameFlg(false);
+				skeleton[i]->SetHitFrameCnt(0);
+			}
+		}
+	}
+
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) {
+			if (skeleton[i]->GetHit1stFrameFlg() == true) {
+				skeleton[i]->hitFrameCntInc();
+			}
+		}
+	}
+
+	//魔法使い
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			if (wizard[i]->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+				wizard[i]->SetHit1stFrameFlg(false);
+				wizard[i]->SetHitFrameCnt(0);
+			}
+		}
+	}
+
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) {
+			if (wizard[i]->GetHit1stFrameFlg() == true) {
+				wizard[i]->hitFrameCntInc();
+			}
+		}
+	}
 }
 
 //----------スライム----------//
@@ -442,6 +602,64 @@ void GameScene::SkeletonDraw() const
 			if (skeleton[i] != nullptr) {
 				skeleton[i]->Draw(i);
 			}
+		}
+	}
+}
+
+//----------魔法使い----------//
+void GameScene::WizardUpdate()
+{
+	if (stage == 1) {
+		if (tmpWizardNum < WIZARD_1_STAGE_NUM) {
+			wizard[tmpWizardNum] = new Wizard(tmpWizardNum, WIZARD_1_STAGE_NUM);
+			tmpWizardNum++;
+		}
+		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+			if (wizard[i] != nullptr) {
+				wizard[i]->Update(i, player, Weapon, *(backimg));
+				if (wizard[i]->GetHP() <= 0) {
+					wizard[i] = nullptr;
+				}
+			}
+		}
+	}
+}
+
+void GameScene::WizardDraw() const
+{
+	if (stage == 1) {
+		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+			if (wizard[i] != nullptr) {
+				wizard[i]->Draw(i);
+			}
+		}
+	}
+}
+
+//----------弾----------//
+void GameScene::EnemyBulletUpdate(Location location)
+{
+	if (tmpBulletNum < MAX_BULLET_NUM) {
+		enemyBullet[tmpBulletNum] = new EnemyBullet(location);
+		tmpBulletNum++;
+	}
+
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[i] != nullptr) {
+			enemyBullet[i]->Update();
+			if (enemyBullet[i]->GetlifeTimeCnt() >= 2) {
+				enemyBullet[i] = nullptr;
+				
+			}
+		}
+	}
+}
+
+void GameScene::EnemyBulletDraw() const
+{
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[i] != nullptr) {
+			enemyBullet[i]->Draw();
 		}
 	}
 }

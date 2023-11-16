@@ -138,8 +138,13 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>Enemy\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C.h" />
-    <ClInclude Include="DrawHelp.h" />
+    <ClInclude Include="Wizard.h">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClInclude>
+    <ClInclude Include="map_temp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -229,7 +234,12 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Enemy\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C.cpp" />
-    <ClCompile Include="DrawHelp.cpp" />
+    <ClCompile Include="Wizard.cpp">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Enemy\Small Fry</Filter>
+    </ClCompile>
+    <ClCompile Include="map_temp.cpp" />
   </ItemGroup>
 </Project>

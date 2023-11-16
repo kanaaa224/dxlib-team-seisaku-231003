@@ -21,6 +21,10 @@ weapon::weapon()
 	isAttacking = false;
 	weaponLevel = 0;
 	levelUpFlg = false;
+	
+	P_speed = 0.0;
+	P_cooltime = 0;
+	P_limit = 0.0;
 
 	tmp = 0;
 
@@ -35,9 +39,14 @@ weapon::weapon()
 	{
 		swordSlash[i] = { {0,0},{0,0,0},false };
 	}
+	for (int i = 0; i < 10; i++)
+	{
+		throwDagger[i] = { {0,0},{0,0,0},false };
+	}
 	slash_img = LoadGraph("resources/images/nc284514.png");
 	slashFlg = false;
 
+	avoidanceDamageFlg = false;
 }
 
 weapon::weapon(int type)
@@ -67,6 +76,7 @@ weapon::~weapon()
 void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)
 {
 	location = playerLocation;
+	playerVector = { player->Player_MoveX(),player->Player_MoveY() };
 	//debug
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
@@ -141,9 +151,34 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 					slashRot = rot;
 				}
 			}
+			//(仮)投げナイフ
+			if (weaponType == dagger && weaponLevel == 8) {
+				if (relativeRot < 0 && !slashFlg) {
+					for (int i = 0; i < 5; i++) {
+						SpawnThrowDagger(i);
+					}
+					slashFlg = true;
+					slashRot = rot;
+				}
+			}
 		
 		}
+
+		//回避中にダメージ
+		if (weaponType == dagger && weaponLevel == 7) {
+			if (player->GetPlayer_Avoidance()) {
+				avoidanceDamageFlg = true;
+			}
+			else {
+				avoidanceDamageFlg = false;
+			}
+		}
+
+
+
+
 		SwordSlashAnim();
+		ThrowDaggerAnim();
 	}
 
 	
@@ -200,7 +235,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 void weapon::Draw() const
 {
-	//武器描画	//kk
+	//武器描画	
 	if (isAttacking) {
 		switch (weaponType)
 		{
@@ -217,13 +252,28 @@ void weapon::Draw() const
 			break;
 		}
 	}
-
+	//斬撃
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
 			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
 		}
+	}
+	//投げナイフ
+	for (int i = 0; i < MAX_THROW_DAGGER; i++){
+		if (throwDagger[i].flg) {
+			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, -50, 550, 0.1, throwDagger[i].rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+		}
+	}
+
+	//回避中のダメージ
+	if (avoidanceDamageFlg) {
+		int randx = rand() % 200 - 100;
+		int randy = rand() % 200 - 100;
+		int randrot = rand() % 360;
+		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), slash_img, TRUE);
+		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
 	//debug
@@ -233,9 +283,9 @@ void weapon::Draw() const
 	//DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType + 1);
 	//DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 120, 0xffffff, "クールタイム　%d", maxCoolTime);
-	//DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
-	DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
+	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
+	/*DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
+	DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);*/
 	/*DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
 	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);*/
@@ -347,14 +397,14 @@ void weapon::LevelState()
 		case sword:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD;
+			maxCoolTime = INIT_COOLTIME_SWORD; //片手剣は、大剣　短剣の強化内容を全て取り入れる
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER; //プレイヤーの移動速度を上げれるようにする
+			maxCoolTime = INIT_COOLTIME_DAGGER; //プレイヤーの移動速度、回避の速度等を上げれるようにする
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
@@ -373,15 +423,15 @@ void weapon::LevelState()
 		case sword:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.9f;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f; // クールタイムを微量ながら上げる
 			damage = INIT_DAMAGE_SWORD;
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
+			damage = INIT_DAMAGE_DAGGER + 1;
 			
 			break;
 
@@ -398,17 +448,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　攻撃範囲を上げる　移動速度を上げる
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
+			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 20 = 80
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
+			P_speed = Player::Player_Speed(2.1);
 			break;
 
 		case dagger:
+			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER + 2;
+			P_speed = Player::Player_Speed(2.5);
 			break;
 
 		case greatSword:
@@ -425,17 +479,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　回避のスピードを上げる　ダメージを上げる
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f;
-			damage = INIT_DAMAGE_SWORD;
+			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
+			damage = INIT_DAMAGE_SWORD + 1;
+			P_limit = Player::Player_Upperlimit(2.0f);
 			break;
 
 		case dagger:
+			//短剣　ダメージよりも振る速度を上げる　回避の速度を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
+			damage = INIT_DAMAGE_DAGGER + 1;
+			P_limit = Player::Player_Upperlimit(2.5f);
 			break;
 
 		case greatSword:
@@ -452,17 +510,21 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　攻撃範囲を上げる　移動速度を上げる
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 15; // 60 + 30 = 90 
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
+			P_speed = Player::Player_Speed(2.5f);
 			break;
 
 		case dagger:
+			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_speed = Player::Player_Speed(3.0f);
 			break;
 
 		case greatSword:
@@ -479,17 +541,22 @@ void weapon::LevelState()
 		switch (weaponType)
 		{
 		case sword:
+			//片手剣　回避のスピードを上げる　ダメージを上げる
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 5; // 60 + 10 = 70
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 1;
+			P_limit = Player::Player_Upperlimit(2.3f);
+			P_cooltime = Player::Avoidance_limit(0);
 			break;
 
 		case dagger:
+			//短剣　ダメージよりも振る速度を上げる　回避のクールタイムを短くする
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_cooltime = Player::Avoidance_limit(0);
 			break;
 
 		case greatSword:
@@ -507,16 +574,22 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD;
+			maxRot = INIT_ROTATION_SWORD + 10; // 60 + 20 = 90
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
-			damage = INIT_DAMAGE_SWORD;
+			damage = INIT_DAMAGE_SWORD + 2;
+			P_limit = Player::Player_Upperlimit(2.1f);
+			P_cooltime = Player::Avoidance_limit(1);
+			P_speed = Player::Player_Speed(2.2f);
 			break;
 
 		case dagger:
 			baseVec = { 70,0,70 };
-			maxRot = INIT_ROTATION_DAGGER;
+			// 内容は、4 5 の時よりかは低いが最終強化するとあほみたいに強くなる
+			maxRot = INIT_ROTATION_DAGGER + 5.0f; // 60 + 10 = 70
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER + 3;
+			P_cooltime = Player::Avoidance_limit(1);
+			P_speed = Player::Player_Speed(3.0);
 			break;
 
 		case greatSword:
@@ -542,7 +615,8 @@ void weapon::LevelState()
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
-			damage = INIT_DAMAGE_DAGGER;
+			damage = INIT_DAMAGE_DAGGER * 1000;
+			P_cooltime = Player::Avoidance_limit(0);
 			break;
 
 		case greatSword: //回転攻撃
@@ -568,7 +642,7 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.1f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER;
 			break;
 
@@ -608,7 +682,7 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 	}
 
 	
-
+	//飛ぶ斬撃
 	if (weaponLevel == 7 && weaponType == sword) {
 		for (int i = 0; i < 10; i++) {
 			if (swordSlash[i].flg) {
@@ -635,7 +709,36 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 		}
 	}
 	
+	//投げナイフ
+	if (weaponLevel == 8 && weaponType == dagger) {
+		for (int i = 0; i < MAX_THROW_DAGGER; i++){
+			if (throwDagger[i].flg) {
+				for (int i = 0; i < (baseVec.length / 10) + 1; i++) {
+					weaponCollisionLocation.x = throwDagger[i].l.x + throwDagger[i].unit.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
+					weaponCollisionLocation.y = throwDagger[i].l.y + throwDagger[i].unit.y * (i * 10);			//kk
 
+					float tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					float tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + 30) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+
+	//回避中のダメージ
+	if (weaponLevel == 7 && weaponType == dagger) {
+		float tmp_x = location.x - enemyLocation.x;
+		float tmp_y = location.y - enemyLocation.y;
+		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+		if (tmp_length < radius + AVOIDANCE_DAMAGE_RADIUS) {
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -681,6 +784,43 @@ void weapon::SwordSlashAnim()
 	}
 
 	
+}
+
+bool weapon::SpawnThrowDagger(int num)
+{
+	for (int i = 0; i < MAX_THROW_DAGGER; i++) {
+		if (!throwDagger[i].flg) {
+			throwDagger[i].flg = true;
+			throwDagger[i].relativeRot = (num * 20) - 40;
+			throwDagger[i].rot = rot;
+			throwDagger[i].v.x = 8 * cos(d_r(throwDagger[i].relativeRot) + rot);
+			throwDagger[i].v.y = 8 * sin(d_r(throwDagger[i].relativeRot) + rot);
+			throwDagger[i].v.length = sqrtf(throwDagger[i].v.x * throwDagger[i].v.x + throwDagger[i].v.y * throwDagger[i].v.y);
+			throwDagger[i].l.x = location.x;
+			throwDagger[i].l.y = location.y;
+
+			throwDagger[i].unit.x = throwDagger[i].v.x / throwDagger[i].v.length;
+			throwDagger[i].unit.y = throwDagger[i].v.y / throwDagger[i].v.length;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void weapon::ThrowDaggerAnim()
+{
+	for (int i = 0; i < MAX_THROW_DAGGER; i++) {
+		if (throwDagger[i].flg) {
+			throwDagger[i].l.x += throwDagger[i].v.x;
+			throwDagger[i].l.y += throwDagger[i].v.y;
+
+			if (throwDagger[i].l.x < 0 || throwDagger[i].l.x > 1280 ||
+				throwDagger[i].l.y < 0 || throwDagger[i].l.y > 720) {
+				throwDagger[i].flg = false;
+			}
+		}
+	}
 }
 
 //collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk

@@ -5,6 +5,8 @@
 #define INIT_COOLTIME_FRAIL  120
 #define INIT_COOLTIME_BOOK  60
 
+#define INIT_COOLTIME_BOOK_LEVEL7 300
+
 #define INIT_ROTATION_SPEAR  60.0f
 #define INIT_ROTATION_FRAIL  60.0f
 #define INIT_ROTATION_BOOK  90.0f
@@ -15,7 +17,10 @@
 
 
 #define SPEAR_MAX_MOVE 35.0f
-#define MAX_BULLETS_NUM 100
+#define MAX_BULLETS_NUM 512
+
+#define FRAIL_RADIUS 30
+#define FRAIL_RADIUS_LEVEL8 45
 
 enum second_weapon_type
 {
@@ -29,6 +34,10 @@ struct Bullet
 	Vector v;
 	Location l;
 	bool flg;
+	//level8用
+	float rot;				//回転
+	float relativeRot;		//プレイヤーのベクトルを中心とした回転
+	float distance;
 };
 
 class second_weapon
@@ -71,6 +80,7 @@ private:
 	Location spearlocation;
 
 	float frailRadius;
+	float frailRadiusBase;
 	Vector frailVec;
 	Location frailLcation;
 	Location frailLcationCursor;
@@ -78,10 +88,19 @@ private:
 	float frailLengthCursor;
 	bool isFrailAttacking;
 	float frailRate;
-
+	//強化後の増えたフレイルの当たり判定
+	Location frailLocation1;
+	Vector frailVec1;
+	Location frailLocation2;
+	Vector frailVec2;
+	float level7FrailRot;
+	bool level7FrailFlg;
+	float level8FrailRadius;
 
 	Vector book_move;
 	Bullet bullets[MAX_BULLETS_NUM];
+	bool barrierFlg;
+	
 
 
 
@@ -103,16 +122,22 @@ public:
 
 	bool SpearAnim();
 
-	void SpawnBookBullets();
+	void SpawnBookBullets(int num);
 	void MoveBookBullet();
 
 
 	bool FrailAnim();
+	bool ThreeFrailAnim();
+
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
 		weaponLevel = num;
 		LevelState();
+	}
+
+	void SetBarrierFlg(bool f) {
+		barrierFlg = f;
 	}
 	//武器レベルを取得
 	int GetWeaponLevel() { return weaponLevel; }
@@ -120,5 +145,7 @@ public:
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
+	int GetCoolTime() { return coolTime; }
+	bool GetBarrierFlg() { return barrierFlg; }
 };
 

@@ -9,8 +9,6 @@ class Skeleton :public EnemyBase
 {
 private:
 
-	bool is_area;
-
 public:
 	Skeleton(int arrayNum,int SkeletonMaxNum);
 
@@ -20,9 +18,6 @@ public:
 	//移動処理
 	void X();
 	void Y();
-
-	//現在のステージでの出現する
-	int GetStageNum();
 
 	//スケルトンのダメージ取得
 	float GetSkeletonDamage();

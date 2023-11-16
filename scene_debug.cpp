@@ -32,8 +32,7 @@ Scene* DebugScene::update() {
 
 		 if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
 
-		 //if (InputCtrl::GetKeyState(KEY_INPUT_M) == PRESS) return new Map();
-		 //if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new Map();
+		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new map_temp();
 
 		 float v = InputCtrl::GetStickRatio(L).x;
 		 float h = InputCtrl::GetStickRatio(L).y;
@@ -212,6 +211,9 @@ void DebugScene::draw() const {
 
 	y += 50;
 	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
+
+	y += 50;
+	DrawFormatString(x, y, 0xffffff, "STARTでマップテンプレート");
 
 	//////////////////////////////////////////////////
 

@@ -23,6 +23,7 @@ private:
 
 	std::map<std::string, double> hud;
 	std::map<std::string, std::string> banner;
+	std::map<std::string, std::string> notice;
 
 	std::map<std::string, int> img;
 
@@ -57,6 +58,9 @@ public:
 	// ポーズ画面
 	void drawPause() const;
 
+	// 通知表示
+	void drawNotice() const;
+
 	//////////////////////////////////////////////////
 
 	// ゲームスタート
@@ -70,6 +74,9 @@ public:
 
 	// ゲームクリアアニメーション
 	//void gameOver();
+
+	// 通知表示
+	void notification(std::string, std::string, std::string);
 
 	//////////////////////////////////////////////////
 
@@ -94,16 +101,16 @@ public:
 	// 敵の今いる数、全ての数を設定
 	void setEnemy(int, int);
 
-	// 「drawEnemyHP」で表示用の敵情報を設定（名前、体力）
+	// 「drawEnemyHP()」で表示用の敵情報を設定（名前、体力）
 	void setEnemyHP(std::string, int, int, int);
 
 	// stateが「banner」の時に表示するテキストを設定
 	void setBanner(std::string, std::string);
 
+	//////////////////////////////////////////////////
+
 	// stateを設定
 	void setState(int);
-
-	//////////////////////////////////////////////////
 
 	// stateを取得
 	int getState();

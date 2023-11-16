@@ -8,7 +8,7 @@
 
 second_weapon::second_weapon()
 {
-	weaponType = spear;
+	weaponType = none;
 	baseVec = { 80,0,80 };
 	relativeRot = 0.0f;		//武器によって変える
 	maxRot = 90.0f;
@@ -24,7 +24,7 @@ second_weapon::second_weapon()
 	location = { 640.360 };
 
 	spear_img = LoadGraph("resources/images/spear.png");
-	frail_img = LoadGraph("resources/images/sword_shortsword_brown.png");
+	frail_img = LoadGraph("resources/images/chain_iron ball.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
 	spear_move_cnt = 0.0f;
@@ -33,6 +33,8 @@ second_weapon::second_weapon()
 	frailRadius = 30.0f;
 	frailRate = 1.0f;
 	isFrailAttacking = false;
+	level7FrailFlg = false;
+	level8FrailRadius = 100.0f;
 
 	book_move = { 0,0,0 };
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
@@ -41,6 +43,7 @@ second_weapon::second_weapon()
 		bullets[i].l = { 0,0 };
 		bullets[i].flg = false;
 	}
+	barrierFlg = false;
 }
 
 second_weapon::second_weapon(int type)
@@ -94,7 +97,7 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 	//武器所有中なら
 	if (weaponType != none) {
 		//クールタイム中
-		if (!(isAttacking) && --coolTime <= 0) {
+		if (!(isAttacking) && --coolTime < 0) {
 			isAttacking = true;
 			coolTime = maxCoolTime;
 		}
@@ -154,12 +157,31 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 				collisionY = cursorY;
 
 				frailLcationCursor = { cursorX,cursorY };
+
+				level7FrailRot = rot;
 				
+				if (weaponLevel == 7) {
+					level7FrailFlg = true;
+				}
+				else {
+					level7FrailFlg = false;
+				}
+
 				break;
 
 			case book:
 				isAttacking = false;
-				SpawnBookBullets();
+				if (weaponLevel != 7) {
+					if (weaponLevel == 8) {
+						for (int i = 0; i < 6; i++){
+							SpawnBookBullets(i);
+						}
+					}
+					else {
+						SpawnBookBullets(0);
+					}
+					
+				}
 
 				break;
 
@@ -180,7 +202,19 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 		else if (!isFrailAttacking) {
 			frailLcation.x += -1 * playerVector.x;
 			frailLcation.y += -1 * playerVector.y;
-			frailRadius = 30;
+			if (weaponLevel == 7) {
+				frailLocation1.x += -1 * playerVector.x;
+				frailLocation1.y += -1 * playerVector.y;
+				frailLocation2.x += -1 * playerVector.x;
+				frailLocation2.y += -1 * playerVector.y;
+			}
+
+			if (weaponLevel == 8) {
+				frailRadius = FRAIL_RADIUS_LEVEL8;
+			}
+			else {
+				frailRadius = FRAIL_RADIUS;
+			}
 		}
 
 	}
@@ -265,8 +299,19 @@ void second_weapon::Draw() const
 	}
 	if (weaponType == frail) {
 		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		//DrawRotaGraph2(frailLcation.x, frailLcation.x, 550 / 2, 450 / 2, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+		if (level7FrailFlg) {
+			DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
+			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);
+		}
+		if (weaponLevel == 8) {
+			DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
+		}
 	}
 
+	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
+		DrawCircle(location.x, location.y, 25, 0x00ff00, FALSE);
+	}
 	//spear
 	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
 	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
@@ -275,16 +320,16 @@ void second_weapon::Draw() const
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
 
-	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);
-	DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
+	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);*/
+	/*DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", unitVec.x);
-	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", unitVec.y);
-	DrawFormatString(0, 240, 0xffffff, "rate % f", frailRate);
-
+	//DrawFormatString(0, 180, 0xffffff, "フレイルX %f", frailLocation1.x);
+	//DrawFormatString(0, 210, 0xffffff, "フレイルY %f", frailLocation1.y);
+	//DrawFormatString(0, 240, 0xffffff, " %d", level7FrailFlg);
+	
 
 	//kk
 	if (isAttacking) {
@@ -303,7 +348,7 @@ void second_weapon::Draw() const
 
 	if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
-		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
+		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Kキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
@@ -555,24 +600,24 @@ void second_weapon::LevelState()
 	case 7:
 		switch (weaponType)
 		{
-		case spear:
+		case spear://ロイヤルランス
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
-		case frail:
+		case frail://三つ首
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
-		case book:
+		case book://賢者の加護
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.4f;
+			maxCoolTime = INIT_COOLTIME_BOOK_LEVEL7;
 			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
@@ -588,17 +633,17 @@ void second_weapon::LevelState()
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
-		case frail:
+		case frail://アースクラッシャー
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.1f;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.3f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
-		case book:
+		case book://エンチャントバレット
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.3f;
+			maxCoolTime = INIT_COOLTIME_BOOK * 1.5f;
 			damage = INIT_DAMAGE_BOOK;
 			break;
 		}
@@ -634,7 +679,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			}
 			break;
 		case frail:
-			weaponCollisionLocation.x = frailLcation.x;
+			/*weaponCollisionLocation.x = frailLcation.x;
 			weaponCollisionLocation.y = frailLcation.y;
 
 			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
@@ -643,7 +688,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 
 			if (tmp_length < radius + frailRadius) {
 				return true;
-			}
+			}*/
 			break;
 		case book:
 			//下に記載
@@ -653,16 +698,72 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 		
 	}
 
+	//フレイル
 	if (isFrailAttacking && frailRate <= 1.0f) {
-		weaponCollisionLocation.x = frailLcation.x;
-		weaponCollisionLocation.y = frailLcation.y;
+		if (weaponLevel == 7) {
+			for (int i = 0; i < 3; i++)
+			{
+				switch (i)
+				{
+				case 0:
+					weaponCollisionLocation.x = frailLcation.x;
+					weaponCollisionLocation.y = frailLcation.y;
 
-		tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-		tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-		tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+					tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
 
-		if (tmp_length < radius + frailRadius) {
-			return true;
+					if (tmp_length < radius + frailRadius) {
+						return true;
+					}
+					break;
+				case 1:
+					weaponCollisionLocation.x = frailLocation1.x;
+					weaponCollisionLocation.y = frailLocation1.y;
+
+					tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + frailRadius) {
+						return true;
+					}
+					break;
+				case 2:
+					weaponCollisionLocation.x = frailLocation2.x;
+					weaponCollisionLocation.y = frailLocation2.y;
+
+					tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+					tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+					tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+					if (tmp_length < radius + frailRadius) {
+						return true;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		else {
+			weaponCollisionLocation.x = frailLcation.x;
+			weaponCollisionLocation.y = frailLcation.y;
+
+			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (weaponLevel == 8) {
+				if (tmp_length < radius + frailRadius + level8FrailRadius) {
+					return true;
+				}
+			}
+			else {
+				if (tmp_length < radius + frailRadius) {
+					return true;
+				}
+			}
 		}
 	}
 
@@ -704,7 +805,7 @@ bool second_weapon::SpearAnim()
 	return false;
 }
 
-void second_weapon::SpawnBookBullets()
+void second_weapon::SpawnBookBullets(int num)
 {
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
@@ -712,6 +813,9 @@ void second_weapon::SpawnBookBullets()
 			bullets[i].flg = true;
 			bullets[i].v = unitVec;
 			bullets[i].l = location;
+			bullets[i].rot = 60 * num;
+			bullets[i].relativeRot = 0;
+			bullets[i].distance = 5 * num;
 			break;
 		}
 	}
@@ -719,11 +823,29 @@ void second_weapon::SpawnBookBullets()
 
 void second_weapon::MoveBookBullet()
 {
+	int cnt = 0;
+
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
 		if (bullets[i].flg) {
-			bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
-			bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
+			if (weaponLevel == 8) {
+				bullets[i].rot += 4.0f;
+				if (bullets[i].rot > 360.0f) {
+					bullets[i].rot = bullets[i].rot - 360.0f;
+				}
+				bullets[i].distance += 1.0f;
+				bullets[i].l.x = bullets[i].distance * cos(d_r(bullets[i].rot)) - 0 * sin(d_r(bullets[i].rot)) + location.x + playerVector.x * -1;
+				bullets[i].l.y = bullets[i].distance * sin(d_r(bullets[i].rot)) + 0 * cos(d_r(bullets[i].rot)) + location.y + playerVector.y * -1;
+
+			}
+			else {
+				bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
+				bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
+			}
+
+			if (bullets[i].distance > 300) {
+				bullets[i].flg = false;
+			}
 
 			if (bullets[i].l.x < 0 || bullets[i].l.x > 1280 ||
 				bullets[i].l.y < 0 || bullets[i].l.y > 720) {
@@ -735,6 +857,9 @@ void second_weapon::MoveBookBullet()
 
 bool second_weapon::FrailAnim()
 {
+	if (weaponLevel == 7) {
+		ThreeFrailAnim();
+	}
 
 	frailVec.x = unitVec.x * 10;
 	frailVec.y = unitVec.y * 10;
@@ -752,13 +877,36 @@ bool second_weapon::FrailAnim()
 		frailRate -= 0.1f;
 	}
 
-	frailRadius = 30 * (1.0f * frailRate);
+	if (weaponLevel == 8) {
+		frailRadius = FRAIL_RADIUS_LEVEL8 * (1.0f * frailRate);
+	}
+	else {
+		frailRadius = FRAIL_RADIUS * (1.0f * frailRate);
+	}
 
 
 	if ((int)frailLength > (int)frailLengthCursor) {
 		frailRate = 1.0f;
 		return true;
 	}
+
+	return false;
+}
+
+bool second_weapon::ThreeFrailAnim()
+{
+	/*swordSlash[i].collsion1.x = baseVec.x * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
+	swordSlash[i].collsion1.y = baseVec.x * sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
+
+	swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
+	swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;*/
+
+
+	frailLocation1.x = 70 * cos(d_r(90.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation1.y = 70 * sin(d_r(90.0f) + level7FrailRot) + 0 * cos(d_r(90.0f) + level7FrailRot) + frailLcation.y;
+
+	frailLocation2.x = 70 * cos(d_r(270.0f) + level7FrailRot) - 0 * sin(d_r(270.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation2.y = 70 * sin(d_r(270.0f) + level7FrailRot) + 0 * cos(d_r(270.0f) + level7FrailRot) + frailLcation.y;
 
 	return false;
 }

@@ -13,6 +13,14 @@ int FPSCtrl::lastUpdate = 0;
 float FPSCtrl::count = 0.0f;
 float FPSCtrl::fps   = 0.0f;
 
+void FPSCtrl::SetLimitRate(float refreshRate) {
+    frameTime = (int)(1000.0f / refreshRate); // 1フレームの時間の計算
+};
+
+void FPSCtrl::SetUpdateInterval(int updateInterval) {
+    updateTime = updateInterval;
+};
+
 void FPSCtrl::Limit() {
     nowTime = GetNowCount();
     waitTime = frameTime - (nowTime - lastTime);
@@ -28,4 +36,8 @@ void FPSCtrl::Update() {
         lastUpdate = time;
         count = 0.0f;
     };
+};
+
+float FPSCtrl::Get() {
+    return fps;
 };

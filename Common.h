@@ -36,9 +36,9 @@
 #define ENEMY_RADIUS 20//敵の半径
 
 //スライム
-#define SLIME_HP_MAX 20.0f		//HP
-#define SLIME_ATTAK_DAMAGE 12.0f//ダメージ
-#define MAX_SLIME_NUM 100		//スライムの最大数
+#define SLIME_HP_MAX 20.0f			//HP
+#define SLIME_ATTAK_DAMAGE 12.0f	//ダメージ
+#define MAX_SLIME_NUM 100			//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
@@ -52,11 +52,11 @@
 
 //スケルトン
 #define SKELETON_HP_MAX 40.0f		//HP
-#define SKELETON_ATTAK_DAMAGE 16.0f	//ダメージ
+#define SKELETON_ATTAK_DAMAGE 18.0f	//ダメージ
 #define MAX_SKELETON_NUM 30			//スケルトンの最大数
 
-#define SKELETON_1_STAGE_NUM 3  //１ステージ目のスケルトンの数
-#define SKELETON_2_STAGE_NUM 3  //２ステージ目のスケルトンの数
+#define SKELETON_1_STAGE_NUM 3  //１ステージ目のスケルトンの数←仮で数が入っている
+#define SKELETON_2_STAGE_NUM 0  //２ステージ目のスケルトンの数
 #define SKELETON_3_STAGE_NUM 0  //３ステージ目のスケルトンの数
 #define SKELETON_4_STAGE_NUM 0  //４ステージ目のスケルトンの数
 #define SKELETON_5_STAGE_NUM 3  //５ステージ目のスケルトンの数
@@ -64,3 +64,27 @@
 #define SKELETON_7_STAGE_NUM 9  //７ステージ目のスケルトンの数
 #define SKELETON_8_STAGE_NUM 12 //８ステージ目のスケルトンの数
 #define SKELETON_9_STAGE_NUM 15 //９ステージ目のスケルトンの数
+
+//魔法使い
+#define WIZARD_HP_MAX 15.0f			//HP
+#define WIZARD_ATTAK_DAMAGE 0.0f	//ダメージ
+#define MAX_WIZARD_NUM 10			//魔法使いの最大数
+
+#define STOP_SHOOTING_DISTANCE 400 //プレイヤーとの距離がこの値になったら立ち止まる
+
+#define WIZARD_1_STAGE_NUM 3 //１ステージ目の魔法使いの数←仮で数が入っている
+#define WIZARD_2_STAGE_NUM 0 //２ステージ目の魔法使いの数
+#define WIZARD_3_STAGE_NUM 0 //３ステージ目の魔法使いの数
+#define WIZARD_4_STAGE_NUM 0 //４ステージ目の魔法使いの数
+#define WIZARD_5_STAGE_NUM 0 //５ステージ目の魔法使いの数
+#define WIZARD_6_STAGE_NUM 2 //６ステージ目の魔法使いの数
+#define WIZARD_7_STAGE_NUM 3 //７ステージ目の魔法使いの数
+#define WIZARD_8_STAGE_NUM 4 //８ステージ目の魔法使いの数
+#define WIZARD_9_STAGE_NUM 5 //９ステージ目の魔法使いの数
+
+//弾
+#define BULLET_ATTAK_DAMAGE 45.0f	//ダメージ
+#define MAX_BULLET_NUM 100			//弾の最大数
+#define BULLET_SPEED   3.0f			//弾の速度
+#define BULLET_RADIUS  10			//弾の半径
+#define BULLET_REROAD_TIME 60 * 4   //弾のリロード時間

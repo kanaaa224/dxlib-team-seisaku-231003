@@ -9,8 +9,6 @@ class Slime :public EnemyBase
 {
 private:
 
-	bool is_area;
-
 public:
 	Slime(int arrayNum, int SlimeMaxNum);
 
@@ -20,9 +18,6 @@ public:
 	//移動処理
 	void X();
 	void Y();
-
-	//現在のステージでの出現する数を返す
-	int GetStageNum();
 
 	//スライムのダメージ取得
 	float GetSlimeDamage();

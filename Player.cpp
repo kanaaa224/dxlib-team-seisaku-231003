@@ -3,6 +3,12 @@
 
 float Player::MovingX;
 float Player::MovingY;
+float Player::Additional_Value2;
+float Player::Aiming_RadiusX;
+float Player::Aiming_RadiusY;
+int   Player::Cool_Limit;
+int   Player::Hit_cooltime;
+float Player::Upper_speed;
 
 Player::Player() {
 
@@ -16,13 +22,13 @@ Player::Player() {
 	location.x = PlayerX;
 	location.y = PlayerY;
 
+	//当たり判定のもの
 	radius = 20;
 
 	AimingX = 300.0;
 	AimingY = 300.0;
-	centerAngle = 15;
-	Aiming_RadiusX = 100.0;
-	Aiming_RadiusY = 100.0;
+	Aiming_RadiusX = 200.0;
+	Aiming_RadiusY = 200.0;
 
 	Angle = 0.0;
 	rd = 0.0;
@@ -55,12 +61,15 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
-	Cool_Limit = 0;
+	Cool_Limit = 2;
 
 	is_hit = false;
 
 	camera_flg_top_bottom = false;
 	camera_flg_left_right = false;
+
+	Hit_cooltime = 30;
+	Upper_speed = 1.5f;
 }
 
 Player::~Player() {
@@ -76,7 +85,8 @@ void Player::update() {
 	
 	if (is_hit)
 	{
-		if (fps % 30 == 0)
+		// 0.5秒の間、無敵
+		if (fps % Hit_cooltime == 0)
 		{
 			is_hit = false;
 		}
@@ -111,6 +121,7 @@ void Player::update() {
 	}
 	
 	if (CoolTime == true) {
+		Avoidance_Flg = false;
 		Player_CoolTime();
 	}
 
@@ -137,7 +148,6 @@ void Player::draw()const {
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", AimingY);
 	//DrawFormatString(0, 320, GetColor(255, 0, 0), "AimingY %0.1f", AimingY);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", AimingX);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "centerAngle %0.1f", centerAngle);
 
 	//右スティック
 	DrawFormatString(0, 360, GetColor(255, 0, 0), "PlayerX:縦軸値 %0.1f", location.x);
@@ -255,7 +265,7 @@ void Player::Player_Avoidance() {
 	//回避　Aボタン
 	//横
 	if (Provisional_LStickX > MOVE_RIGHT) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_left_right) {
 			location.x += Additional_Value3 * Provisional_LStickX;
 		}
@@ -270,7 +280,7 @@ void Player::Player_Avoidance() {
 		}
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_left_right) {
 			location.x += Additional_Value3 * Provisional_LStickX;
 		}
@@ -291,7 +301,7 @@ void Player::Player_Avoidance() {
 
 	//縦 下方向
 	if (Provisional_LStickY < MOVE_DOWN) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3 * Provisional_LStickY;
 		}
@@ -306,7 +316,7 @@ void Player::Player_Avoidance() {
 	}
 	//縦　上方向
 	else if (Provisional_LStickY > MOVE_UP) {
-		Additional_Value3 = Additional_Value3 + Speed;
+		Additional_Value3 = Additional_Value3 + Upper_speed;
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3 * Provisional_LStickY;
 		}
@@ -335,7 +345,7 @@ void Player::Player_CoolTime() {
 		if (Second > Cool_Limit) {
 			A_value = false;
 			CoolTime = false;
-			Avoidance_Flg = false;
+			
 			Additional_Value3 = 0.0f;
 			Second = 0;
 		}
@@ -427,22 +437,48 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
-void Player::Player_Speed(float value) {
+float Player::Player_Upperlimit(float value) {
 
-	Additional_Value2 = value;
+	Upper_speed = value;
+
+	return Upper_speed;
+}
+
+int Player::Player_invincible(int value) {
+
+	Hit_cooltime = value;
+
+	return Hit_cooltime;
+}
+
+float Player::Player_Speed(float value) {
+
+	Additional_Value2 =  value;
+
+	return Additional_Value2;
 }
 
 // 照準の半径を返す
-void  Player::Player_Radius(float value) {
+float  Player::Player_RadiusX(float value) {
 
 	Aiming_RadiusX = Aiming_RadiusX + value;
+
+	return Aiming_RadiusX;
+}
+
+float  Player::Player_RadiusY(float value) {
+
 	Aiming_RadiusY = Aiming_RadiusY + value;
+
+	return Aiming_RadiusY;
 }
 
 // 回避のクールタイムの時間を返す
-void Player::Avoidance_limit(int value) {
+int Player::Avoidance_limit(int value) {
 
-	Cool_Limit = Cool_Limit - value;
+	Cool_Limit =  value;
+
+	return Cool_Limit;
 }
 
 float Player::Player_MoveX() {

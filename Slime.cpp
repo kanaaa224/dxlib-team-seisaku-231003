@@ -9,7 +9,7 @@
 Slime::Slime(int arrayNum, int SlimeMaxNum)
 {
 	//画像読込
-	img = LoadGraph("resources/images/slime_cat.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/slime_cat.png");
 	//変数の初期化
 	hp = SLIME_HP_MAX;
 	damage = SLIME_ATTAK_DAMAGE;
@@ -21,9 +21,6 @@ Slime::Slime(int arrayNum, int SlimeMaxNum)
 
 	respawnTimeCnt = 0;
 	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum);
-
-	is_area = false;
-
 
 	//リスポーンポイント決め
 	SetRespawnPoint();
@@ -38,37 +35,24 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		//プレイヤーの座標をdiffLocationにセット
 		SetPlayer_Location(player->GetLocation());
 
-
-		if (IsMoveLimit(stage))
-		{
-			//is_area = true;	
-			//移動処理//
-			if (hitWeaponFlg == false) {
-				X();
-				location.x += vector.x - diff.x;
-				Y();
-				location.y += vector.y - diff.y;
-			}
-			else if (hitWeaponFlg == true) {
-				vector.x = -vector.x * KNCKBACK;
-				location.x += vector.x - diff.x;
-				vector.y = -vector.y * KNCKBACK;
-				location.y += vector.y - diff.y;
-				//武器からの攻撃とHPが０以上なら赤く表示する
-				if (hitWeaponFlg == true && hp > 0) {
-					redDrawFlg = true;
-				}
-				hitWeaponFlg = false;
-			}
-			/*X();
+		//移動処理//
+		if (hitWeaponFlg == false) {
+			X();
 			location.x += vector.x - diff.x;
 			Y();
-			location.y += vector.y - diff.y;*/
+			location.y += vector.y - diff.y;
 		}
-		else
-		{
-			is_area = false;
-		}		
+		else if (hitWeaponFlg == true) {
+			vector.x = -vector.x * KNCKBACK;
+			location.x += vector.x - diff.x;
+			vector.y = -vector.y * KNCKBACK;
+			location.y += vector.y - diff.y;
+			//武器からの攻撃とHPが０以上なら赤く表示する
+			if (hitWeaponFlg == true && hp > 0) {
+				redDrawFlg = true;
+			}
+			hitWeaponFlg = false;
+		}
 	}
 
 	//Cnt
@@ -80,6 +64,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	
 	if (redFrameCounter == RED_FRAME) {
 		redDrawFlg = false;
+		redFrameCounter = 0;
 	}
 	if (redDrawFlg == true) {
 		redFrameCounter++;
@@ -101,10 +86,6 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 void Slime::Draw(int arrayNum)
 {
 	if (respawnFlg == true) {
-		if (is_area)
-		{
-			DrawString(location.x, location.y - 30, "In Area", 0xffffff);
-		}
 		
 		if (hp <= 0) {//HPが０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
@@ -143,11 +124,6 @@ void Slime::Draw(int arrayNum)
 			DrawFormatString((int)location.x, (int)location.y + 45, C_RED, "HP:%d", hp);
 			DrawFormatString((int)location.x, (int)location.y + 60, C_RED, "HitFlg:%d", hitFlg);
 		}
-		DrawFormatString((int)location.x - 10, (int)location.y - 10, C_RED, "%d", arrayNum);
-
-		if (hitFlg == TRUE) {
-			DrawCircle((int)location.x, (int)location.y, 20, C_RED, FALSE, 2);
-		}
 #endif // DEBUG
 	}
 }
@@ -173,12 +149,6 @@ void Slime::Y()
 	else if (hitFlg == NO_COLLISION) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 	}
-}
-
-int Slime::GetStageNum()
-{
-	int r = SLIME_1_STAGE_NUM;
-	return r;
 }
 
 float Slime::GetSlimeDamage()
