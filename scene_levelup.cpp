@@ -88,26 +88,29 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 				//左スティックを右に
 				interval = 0;
 				cursor_x = 960;
-				weapon_number++;
+				weapon_number = weapon2_info.num;
+				//weapon_number++;
 
-				if (weapon_number > weapon2_info.num)
-				{
-					cursor_x = 580;
-					weapon_number = weapon1_info.num;
-				}
+				//if (weapon_number > weapon2_info.num)
+				//{
+				//	cursor_x = 580;
+				//	weapon_number = weapon1_info.num;
+				//}
 			}
 			else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
 			{
 				//左スティックを左に
 				interval = 0;
 				cursor_x = 580;
-				weapon_number--;
+				weapon_number = weapon1_info.num;
 
-				if (weapon_number < weapon1_info.num)
-				{
-					cursor_x = 960;
-					weapon_number = weapon2_info.num;
-				}
+				//weapon_number--;
+
+				//if (weapon_number < weapon1_info.num)
+				//{
+				//	cursor_x = 960;
+				//	weapon_number = weapon2_info.num;
+				//}
 			}
 		//}
 
@@ -185,6 +188,7 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(160, 70, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
 	DrawFormatString(160, 50, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
 	DrawFormatString(160, 70, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
+	//DrawFormatString(160, 30, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
 
 	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
 	
@@ -449,6 +453,8 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, weapon
 			//	second_weapon->SetWeaponLevel(info->level);
 			//}
 
+			info->cursor_pos = 0;
+
 		}
 	}
 }
@@ -584,4 +590,32 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 
 	}
 
+}
+
+// 武器1のレベルリセット処理
+void WeaponLevelUp::Weapon1LevelInit()
+{
+	weapon1_info.level_hierarchy = 0;
+	weapon1_info.cursor_pos = 0;
+
+	for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
+	{
+		branch_point_x[0][i] = cursor_x;
+		branch_point_y[0][i] = img_branch_point_y;
+		is_chooce[0][i] = false;
+	}
+}
+
+// 武器2のレベルリセット処理
+void WeaponLevelUp::Weapon2LevelInit()
+{
+	weapon2_info.level_hierarchy = 0;
+	weapon2_info.cursor_pos = 0;
+
+	for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
+	{
+		branch_point_x[1][i] = cursor_x;
+		branch_point_y[1][i] = img_branch_point_y;
+		is_chooce[1][i] = false;
+	}
 }

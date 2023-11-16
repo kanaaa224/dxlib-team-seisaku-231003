@@ -51,7 +51,7 @@ private:
 	int cursor_x;					// カーソルX座標
 	int cursor_y;					// カーソルY座標
 	int level_cursor_pos;			// レベルアップ時カーソル表示位置
-	int point;						// レベルアップ用ポイント
+	//int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
 	bool is_blacksmith;				// 鍛冶で呼び出されているか（レベルアップ画面に渡すもの）
