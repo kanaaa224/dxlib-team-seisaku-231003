@@ -98,7 +98,7 @@ Scene* map_temp::update() {
 	if (InputCtrl::GetStickRatio(L).y >= 0.2 || InputCtrl::GetStickRatio(L).y <= -0.2)
 	{
 		// ãƒXƒNƒ[ƒ‹
-		if (icon_loc[20][1] < 50) {
+		if (icon_loc[DETA_MAX_T-1][1] < 50) {
 			if (InputCtrl::GetStickRatio(L).y >= 0.2 && InputCtrl::GetStickRatio(L).y < 0.5) {
 				icon_vec = 1;
 			}
