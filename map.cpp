@@ -4,7 +4,7 @@
 Map::Map(GameUI* ui) {
 
 	// アイコン位置をデフォルトにセット
-	for (int i = 0; i < DETA_MAX; i++)
+	for (int i = 0; i < DATA_MAX; i++)
 	{
 		icon_loc[i][0] = icon_loc_def[i][0];
 		icon_loc[i][1] = icon_loc_def[i][1];
@@ -19,7 +19,7 @@ Map::Map(GameUI* ui) {
 	cursor_loc = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
-	now_stage = DETA_MAX - 1;
+	now_stage = DATA_MAX - 1;
 
 	is_map_mode = true;
 
@@ -107,7 +107,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 		icon_vec = 0;
 		cursor_move = FALSE;
 		// 上スクロール
-		if (icon_loc[DETA_MAX - 1][1] < 50) {
+		if (icon_loc[DATA_MAX - 1][1] < 50) {
 			if (InputCtrl::GetStickRatio(R).y >= 0.2 && InputCtrl::GetStickRatio(R).y < 0.5) {
 				icon_vec = 1;
 			}
@@ -133,7 +133,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 	}
 
 	// アイコン移動処理
-	for (int i = 0; i < DETA_MAX; i++)
+	for (int i = 0; i < DATA_MAX; i++)
 	{
 		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
 	}
@@ -193,7 +193,7 @@ void Map::draw() const {
 	else
 	{
 		int log_i = 0; // stage_log用変数
-		for (int i = 0; i < DETA_MAX; i++)
+		for (int i = 0; i < DATA_MAX; i++)
 		{
 			// デバック表示
 			DrawFormatString(10, 30, 0xffff00, "内部データ");
@@ -243,7 +243,7 @@ void Map::draw() const {
 void Map::ResetStage() {
 
 	// マップデータ初期化処理
-	for (int i = 0; i < DETA_MAX; i++)
+	for (int i = 0; i < DATA_MAX; i++)
 	{
 		MapDeta[i] = 0;
 		if (sizeof(stage_log) / sizeof(stage_log[0]) > i) {
