@@ -44,6 +44,7 @@ class GameScene;
 #include "Slime.h"
 #include "Skeleton.h"
 #include "Wizard.h"
+#include "EnemyBullet.h"
 #include "Common.h"
 
 // ゲームメインシーン内のシーン（シーンを継承していない）
