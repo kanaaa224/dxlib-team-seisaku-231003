@@ -48,7 +48,10 @@ private:
 	int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
+
+	// 鍛冶とのやり取り
 	bool is_blacksmith;				// 鍛冶で呼び出されているか
+	bool is_close_level_up;			// 鍛冶でレベルアップ画面を閉じても良いか
 
 	// 画像パラメータ
 	int img_x;						// 画像のX座標
@@ -93,7 +96,7 @@ public:
 	// 鍛冶で返却されたポイントの設定
 	void SetLevelUpPoint(int return_point)
 	{
-		point = return_point;
+		point += return_point;
 	}
 
 	// 現在所持しているポイントの取得
@@ -105,7 +108,43 @@ public:
 		is_blacksmith = set_bool;
 	}
 
+	bool GetIsCloseLevelUp()const
+	{ 
+		return is_close_level_up;
+	}
+
 	// レベル階層の取得
 	int GetWeapon1LevelHierarchy() { return weapon1_info.level_hierarchy; }
 	int GetWeapon2LevelHierarchy() { return weapon2_info.level_hierarchy; }
+
+	void SetWeapon1LevelHierarchy()
+	{
+		weapon1_info.level_hierarchy = 0;
+	}
+
+	void SetWeapon2LevelHierarchy()
+	{
+		weapon2_info.level_hierarchy = 0;
+	}
+
+	void SetWeapon1LevelDisplay()
+	{
+		for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
+		{
+			branch_point_x[0][i] = cursor_x;
+			branch_point_y[0][i] = img_branch_point_y;
+			is_chooce[0][i] = false;
+		}
+	}
+
+	void SetWeapon2LevelDisplay()
+	{
+		for (int i = 0; i <= MAX_LEVEL_HIERARCHY; i++)
+		{
+			branch_point_x[1][i] = cursor_x;
+			branch_point_y[1][i] = img_branch_point_y;
+			is_chooce[1][i] = false;
+		}
+	}
+
 };

@@ -16,6 +16,9 @@ class Player;
 #define INIT_DAMAGE_DAGGER  4
 #define INIT_DAMAGE_GREATSWORD  25
 
+#define AVOIDANCE_DAMAGE_RADIUS 100
+#define MAX_THROW_DAGGER 64
+
 struct Vector
 {
 	float x;
@@ -46,6 +49,16 @@ struct SwordSlash
 	Location collsion2;
 };
 
+struct ThrowDagger
+{
+	Location l;
+	Vector v;
+	bool flg;
+	float relativeRot;
+	float rot;
+	Vector unit;
+};
+
 
 class weapon {
 private:
@@ -54,6 +67,7 @@ private:
 	bool levelUpFlg;
 
 	Location location;
+	Vector playerVector;
 
 	Vector weaponVec;
 	Vector baseVec;
@@ -81,6 +95,7 @@ private:
 	//仮　プレイヤーのステータス
 	float P_speed;
 	int   P_cooltime;
+	float P_limit;
 
 	//飛ぶ斬撃
 	SwordSlash swordSlash[10];
@@ -88,6 +103,11 @@ private:
 	int slashFlg;
 	float slashRot;
 	Location sl[100];
+
+	//投げナイフ
+	ThrowDagger throwDagger[MAX_THROW_DAGGER];
+	//回避中のダメージ
+	bool avoidanceDamageFlg;
 
 	float tmp, tmp1;
 public:
@@ -107,6 +127,9 @@ public:
 
 	bool SpawnSwordSlash();
 	void SwordSlashAnim();	//最終強化１の斬撃を飛ばす
+
+	bool SpawnThrowDagger(int num);
+	void ThrowDaggerAnim();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {

@@ -24,7 +24,7 @@ second_weapon::second_weapon()
 	location = { 640.360 };
 
 	spear_img = LoadGraph("resources/images/spear.png");
-	frail_img = LoadGraph("resources/images/sword_shortsword_brown.png");
+	frail_img = LoadGraph("resources/images/chain_iron ball.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
 	spear_move_cnt = 0.0f;
@@ -299,6 +299,7 @@ void second_weapon::Draw() const
 	}
 	if (weaponType == frail) {
 		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		//DrawRotaGraph2(frailLcation.x, frailLcation.x, 550 / 2, 450 / 2, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
 			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);
@@ -599,21 +600,21 @@ void second_weapon::LevelState()
 	case 7:
 		switch (weaponType)
 		{
-		case spear:
+		case spear://ロイヤルランス
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
-		case frail:
+		case frail://三つ首
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
-		case book:
+		case book://賢者の加護
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK_LEVEL7;
@@ -632,14 +633,14 @@ void second_weapon::LevelState()
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
-		case frail:
+		case frail://アースクラッシャー
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.3f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
-		case book:
+		case book://エンチャントバレット
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 1.5f;

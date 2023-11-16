@@ -24,6 +24,7 @@ private:
 	int img_spark;					// 火花
 	int img_exclamation_mark;		// ビックリマーク
 	int img_arrow;					// 矢印
+	int img_question_mark;			// はてなマーク（武器無しの場合）
 
 	// 武器画像読込用変数
 	int img_sword;					// 片手剣
@@ -53,7 +54,7 @@ private:
 	int point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
-	bool is_blacksmith;				// 鍛冶で呼び出されているか
+	bool is_blacksmith;				// 鍛冶で呼び出されているか（レベルアップ画面に渡すもの）
 
 	// 画像パラメータ
 	int img_x;						// 画像のX座標
@@ -67,6 +68,8 @@ private:
 	bool action_selection;			// 行動の選択
 	int action_number;
 	bool restore_cursor_position;
+	bool text_display;				// 確認文言の表示
+	bool is_yes;					// レベルリセットに同意したか
 
 public:
 	Blacksmith();
@@ -77,4 +80,8 @@ public:
 
 	// 描画
 	void draw(WeaponLevelUp* weapon_levelup)const;
+
+private:
+	// 初期設定
+	void Init(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup);
 };

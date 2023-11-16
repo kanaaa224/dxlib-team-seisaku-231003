@@ -16,7 +16,7 @@ GameScene::GameScene() {
 	Weapon = new weapon;
 	secondweapon = new second_weapon;
 	gameUI = new GameUI;
-	map = new Map;
+	map = new Map(gameUI);
 
 	//////////////////////////////////////////////////
 	
@@ -31,6 +31,9 @@ GameScene::GameScene() {
 	// レベルアップ画面用
 	open_level_up = false;
 	restor_cursor_position = true;
+
+	// 鍛冶テスト用
+	open_blacksmith = false;
 
 
 	//////////////////////////////////////////////////
@@ -52,7 +55,6 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
-
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
 		if (state) state = 0;
 		else state++;
@@ -81,6 +83,32 @@ Scene* GameScene::update() {
 		return this;
 	}
 
+	//////////////////////////////////////////////////
+	// 鍛冶ステージテスト用
+	// Bキーで表示
+	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS)
+	{
+		if (open_blacksmith)
+		{
+			// 非表示
+			open_blacksmith = false;
+			weapon_level_up->SetIsBlacksmith(false);
+		}
+		else
+		{
+			// 表示
+			open_blacksmith = true;
+		}
+	}
+
+	// 鍛冶ステージを表示しているときは以下の処理をしない
+	if (open_blacksmith)
+	{
+		blacksmith->update(Weapon, secondweapon, weapon_level_up);
+		return this;
+	}
+	//////////////////////////////////////////////////
+
 	// 武器のレベルアップ画面
 	// Xボタンで表示と非表示を切り替え
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
@@ -102,10 +130,9 @@ Scene* GameScene::update() {
 	if (open_level_up)
 	{
 		weapon_level_up->update(Weapon, secondweapon, restor_cursor_position);
-		// 鍛冶ステージテスト用
-		//blacksmith->update(Weapon, secondweapon, weapon_level_up);
 		return this;
 	}
+
 
 	//敵//
 	HitCheck();
@@ -209,7 +236,7 @@ Scene* GameScene::update() {
 
 	////////////
 	player->SetLeftTop(backimg->GetStageArray(0));
-	player->SetRightBottom(backimg->GetStageArray(3));
+	player->SetRightBottom(backimg->GetStageArray(8));
 	backimg->update(player->Player_MoveX(), player->Player_MoveY());
 	player->update();
 	Weapon->Update(player->Player_AimingX(), player->Player_AimingY(),player->Player_Location(),player);
@@ -320,9 +347,15 @@ void GameScene::draw() const {
 		if (open_level_up)
 		{
 			weapon_level_up->draw();
-			// 鍛冶ステージテスト用
-			//blacksmith->draw(weapon_level_up);
 		}
+
+		//////////////////////////////////////////////////
+		// 鍛冶ステージテスト用
+		if (open_blacksmith)
+		{
+			blacksmith->draw(weapon_level_up);
+		}
+		//////////////////////////////////////////////////
 	}
 
 	if (!state) gameUI->drawPause();
