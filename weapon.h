@@ -86,6 +86,7 @@ private:
 	int maxCoolTime;  //クールタイムの値
 	int maxCoolTimeTmp;  //クールタイムの値
 	bool isAttacking;	//攻撃中かどうか
+	bool oldIsAttacking;	//攻撃中かどうか
 	int damage;
 
 	int sword_img;
@@ -103,6 +104,11 @@ private:
 	int slashFlg;
 	float slashRot;
 	Location sl[100];
+
+	//魔剣
+	int hitCnt;
+	int fpsCnt;
+	float heelAmount;
 
 	//投げナイフ
 	ThrowDagger throwDagger[MAX_THROW_DAGGER];
@@ -128,6 +134,9 @@ public:
 	bool SpawnSwordSlash();
 	void SwordSlashAnim();	//最終強化１の斬撃を飛ばす
 
+	void SwordLevel8(Player* player);
+
+
 	bool SpawnThrowDagger(int num);
 	void ThrowDaggerAnim();
 
@@ -148,11 +157,22 @@ public:
 			LevelState();
 		}
 	}
+
+	void SetHitCnt(bool flg) {
+		if (flg) {
+			hitCnt++;
+		}
+		else {
+			hitCnt = 0;
+		}
+	}
 	//武器レベルを取得
 	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
+	bool GetIsAttacking() { return isAttacking; }
+	bool GetOldIsAttacking() { return oldIsAttacking; }
 };
 

@@ -29,6 +29,7 @@ GameScene::GameScene() {
 	weapon_selected = false;
 
 	// レベルアップ画面用
+	open_level_up = false;
 	restor_cursor_position = true;
 
 	//////////////////////////////////////////////////
