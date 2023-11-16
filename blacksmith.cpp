@@ -471,7 +471,6 @@ void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, Weapon
 			// •Ší2
 			second_weapon->SetWeaponLevel(0);
 			weapon_levelup->Weapon2LevelInit();
-
 		}
 
 		// ƒ|ƒCƒ“ƒg‚Ì•Ô‹p
