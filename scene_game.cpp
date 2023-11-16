@@ -37,7 +37,7 @@ GameScene::GameScene() {
 
 	map->ResetStage();
 
-	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
+	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
 };
 
 GameScene::~GameScene() {
@@ -225,7 +225,7 @@ Scene* GameScene::update() {
 					//return new Map;
 
 					init();
-
+					nowStage++;
 					mode = GameSceneMode::map;
 				};
 			};
@@ -333,7 +333,9 @@ void GameScene::init() {
 	tmpSkeletonNum = 0;
 	tmpWizardNum = 0;
 
-	gameUI->setBanner("ミッション（仮）", "全てのモンスターを倒してください");
+	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+	gameUI->init();
+	gameUI->setState(banner);
 };
 
 int GameScene::getEnemiesNum(int type) {
