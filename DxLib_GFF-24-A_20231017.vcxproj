@@ -35,6 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawHelp.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EnemyBase.h" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="fpsCtrl.cpp" />
