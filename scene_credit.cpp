@@ -2,7 +2,8 @@
 
 Credit::Credit()
 {
-
+	CreditImage = LoadGraph("resources/images/background.png");
+	g_WaitTime = 0;
 }
 
 Credit::~Credit()
@@ -12,9 +13,8 @@ Credit::~Credit()
 
 Scene* Credit::update()
 {
-	InputCtrl::Update();
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
-	{
+	if (++g_WaitTime < 1500)g_PosY = 600 - g_WaitTime;
+	if (++g_WaitTime > 900) {
 		return new Title;
 	}
 	return this;
@@ -22,8 +22,7 @@ Scene* Credit::update()
 
 void Credit::draw()const
 {
-	DrawBox(0, 0, 1280, 720, 0xffffff, TRUE);
-	SetFontSize(50);
-	DrawString(300, 350, "Credit", 0x000000);
-	DrawString(300, 500, "Xボタン：タイトルへ", 0x000000);
+	DrawExtendGraph(0, 0,1280,720, CreditImage, TRUE);
+	SetFontSize(40);
+	DrawString(100, 350+g_PosY, "pngtree", 0x000000);
 }
