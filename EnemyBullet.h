@@ -1,24 +1,19 @@
 #pragma once
-#include "SphereCollider.h"
+#include "EnemyBase.h"
 #include "Common.h"
 #include <math.h>
 
-class EnemyBullet :public SphereCollider
+class EnemyBullet :public EnemyBase
 {
 private:
-	int img;
-	float damage;
-	float speed;
 
 	int lifeTimeCnt = 0;
 
-	Location spwLocation;
 public:
 	EnemyBullet(Location spawnLocation);
-	void Update();
-	void Draw();
+	void Update(Player*player);
+	void Draw() const;
 
-	Vector CaleVector(Location location);
 	//get
 	int GetDamage();
 

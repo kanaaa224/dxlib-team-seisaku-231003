@@ -55,6 +55,10 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		}
 	}
 
+	if (hp <= 0) {
+		alphaNum -= 5;
+	}
+
 	//Cnt
 	if (respawnTimeCnt == respawnTime) {//設定された時間になったらrespawnFlgをtrue
 		respawnFlg = true;
@@ -83,13 +87,12 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	
 }
 
-void Slime::Draw(int arrayNum)
+void Slime::Draw(int arrayNum) const
 {
 	if (respawnFlg == true) {
 		
 		if (hp <= 0) {//HPが０の時
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
-			alphaNum -= 5;
 			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 		}

@@ -67,12 +67,12 @@
 
 //魔法使い
 #define WIZARD_HP_MAX 15.0f			//HP
-#define WIZARD_ATTAK_DAMAGE 0.0f	//ダメージ
+#define WIZARD_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_WIZARD_NUM 10			//魔法使いの最大数
 
 #define STOP_SHOOTING_DISTANCE 400 //プレイヤーとの距離がこの値になったら立ち止まる
 
-#define WIZARD_1_STAGE_NUM 3 //１ステージ目の魔法使いの数←仮で数が入っている
+#define WIZARD_1_STAGE_NUM 1 //１ステージ目の魔法使いの数←仮で数が入っている
 #define WIZARD_2_STAGE_NUM 0 //２ステージ目の魔法使いの数
 #define WIZARD_3_STAGE_NUM 0 //３ステージ目の魔法使いの数
 #define WIZARD_4_STAGE_NUM 0 //４ステージ目の魔法使いの数
@@ -87,4 +87,4 @@
 #define MAX_BULLET_NUM 100			//弾の最大数
 #define BULLET_SPEED   3.0f			//弾の速度
 #define BULLET_RADIUS  10			//弾の半径
-#define BULLET_REROAD_TIME 60 * 4   //弾のリロード時間
+#define BULLET_LIFE_TIME 120
