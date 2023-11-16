@@ -135,6 +135,7 @@ public:
 	void SwordSlashAnim();	//ÅI‹­‰»‚P‚ÌaŒ‚‚ğ”ò‚Î‚·
 
 	void SwordLevel8(Player* player);
+	void SwordLevel8Heel(Player* player);
 
 
 	bool SpawnThrowDagger(int num);

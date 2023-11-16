@@ -126,6 +126,7 @@ Scene* GameScene::update() {
 									swordHitFlg = true;
 									weaponA->SetHitCnt(true);
 									weaponA->SwordLevel8(player);
+									weaponA->SwordLevel8Heel(player);
 								}
 							}
 						}
@@ -150,6 +151,7 @@ Scene* GameScene::update() {
 									swordHitFlg = true;
 									weaponA->SetHitCnt(true);
 									weaponA->SwordLevel8(player);
+									weaponA->SwordLevel8Heel(player);
 								}
 							}
 						}
@@ -162,6 +164,13 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+			}
+
+			if (!weaponA->GetIsAttacking() && weaponA->GetOldIsAttacking()) {
+				if (!swordHitFlg) {
+					weaponA->SetHitCnt(false);
+				}
+				swordHitFlg = false;
 			}
 
 			//バリア

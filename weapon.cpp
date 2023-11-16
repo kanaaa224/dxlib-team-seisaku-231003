@@ -268,7 +268,7 @@ void weapon::Draw() const
 	//投げナイフ
 	for (int i = 0; i < MAX_THROW_DAGGER; i++){
 		if (throwDagger[i].flg) {
-			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, -50, 550, 0.1, throwDagger[i].rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, -50, 550, 0.1, throwDagger[i].rot + d_r(throwDagger[i].relativeRot) +(M_PI / 4), dagger_img, TRUE, TRUE);
 		}
 	}
 
@@ -793,45 +793,50 @@ void weapon::SwordSlashAnim()
 
 void weapon::SwordLevel8(Player* player)
 {
-	
+	if (weaponType == sword && weaponLevel == 8) {
 
-	if (isAttacking && !oldIsAttacking) {
-		if (player->GetPlayer_HP() > MAX_HP / 2) {
-			player->SetPlayer_HP(MAX_HP / 10);//ダメージを受ける
-		
-			damage = INIT_DAMAGE_SWORD * 2;
+		if (isAttacking && !oldIsAttacking) {
+			if (player->GetPlayer_HP() > MAX_HP / 2) {
+				player->SetPlayer_HP(MAX_HP / 10);//ダメージを受ける
+
+				damage = INIT_DAMAGE_SWORD * 2;
+			}
+		}
+
+		if (damage == INIT_DAMAGE_SWORD * 2) {
+			fpsCnt++;
+			if (fpsCnt > 120) {
+				damage = INIT_COOLTIME_SWORD;
+				fpsCnt = 0;
+			}
 		}
 	}
-	
-	if (damage == INIT_DAMAGE_SWORD * 2) {
-		fpsCnt++;
-		if (fpsCnt > 120) {
-			damage = INIT_COOLTIME_SWORD;
-			fpsCnt = 0;
+}
+
+void weapon::SwordLevel8Heel(Player* player)
+{
+	if (weaponType == sword && weaponLevel == 8) {
+		if (hitCnt > 15) {
+			heelAmount = 30;
+			player->SetPlayer_HP(-heelAmount);
+		}
+		else if (hitCnt > 12) {
+			heelAmount = 25;
+			player->SetPlayer_HP(-heelAmount);
+		}
+		else if (hitCnt > 9) {
+			heelAmount = 20;
+			player->SetPlayer_HP(-heelAmount);
+		}
+		else if (hitCnt > 6) {
+			heelAmount = 15;
+			player->SetPlayer_HP(-heelAmount);
+		}
+		else if (hitCnt > 3) {
+			heelAmount = 10;
+			player->SetPlayer_HP(-0.1);
 		}
 	}
-
-	if (hitCnt > 15) {
-		heelAmount = 30;
-		player->SetPlayer_HP(-heelAmount);
-	}
-	else if (hitCnt > 12) {
-		heelAmount = 25;
-		player->SetPlayer_HP(-heelAmount);
-	}
-	else if (hitCnt > 9) {
-		heelAmount = 20;
-		player->SetPlayer_HP(-heelAmount);
-	}
-	else if (hitCnt > 6) {
-		heelAmount = 15;
-		player->SetPlayer_HP(-heelAmount);
-	}
-	else if (hitCnt > 3) {
-		heelAmount = 10;
-		player->SetPlayer_HP(-heelAmount);
-	}
-
 }
 
 bool weapon::SpawnThrowDagger(int num)
