@@ -871,7 +871,28 @@ void weapon::ThrowDaggerAnim()
 	}
 }
 
+void weapon::InitWeapon()
+{
+	LevelState();
+	isAttacking = false;
+	oldIsAttacking = false;
 
+	for (int i = 0; i < 10; i++)
+	{
+		swordSlash[i] = { {0,0},{0,0,0},false };
+	}
+	hitCnt = 0;
+	fpsCnt = 0;
+	heelAmount = 10;
+	for (int i = 0; i < 10; i++)
+	{
+		throwDagger[i] = { {0,0},{0,0,0},false };
+	}
+
+	slashFlg = false;
+
+	avoidanceDamageFlg = false;
+}
 
 
 //collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk
