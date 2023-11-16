@@ -154,6 +154,36 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+
+				for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+					if (wizard[i] != nullptr) {
+						if (weaponA->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+							if (wizard[i]->GetHitFrameCnt() == 0) {
+								wizard[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								if (weaponB->GetWeaponType() == book && weaponB->GetWeaponLevel() == 7) {
+									wizard[i]->SetHitHP(weaponA->GetDamage() * 2);
+								}
+								else {
+									wizard[i]->SetHitHP(weaponA->GetDamage());
+								}
+								wizard[i]->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
+							}
+						}
+						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+							if (wizard[i]->GetHitFrameCnt() == 0) {
+								wizard[i]->SetHitWeaponFlg();
+								wizard[i]->SetHitHP(weaponB->GetDamage());
+								wizard[i]->SetHit1stFrameFlg(true);
+							}
+						}
+					}
+				}
 			}
 
 			if (!weaponA->GetIsAttacking() && weaponA->GetOldIsAttacking()) {
@@ -249,7 +279,7 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == 1) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
-			if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			//////////////////////////////////////////////////
@@ -305,8 +335,8 @@ void GameScene::draw() const {
 		SlimeDraw();
 		SkeletonDraw();
 		WizardDraw();
-		EnemyBulletDraw();
-		DrawFormatString(10, 100, C_RED, "%d", issei);
+		//EnemyBulletDraw();
+		//DrawFormatString(10, 100, C_RED, "%d", issei);
 
 		//////////////////////////////////////////////////
 
@@ -315,7 +345,7 @@ void GameScene::draw() const {
 		}
 		else {
 			gameUI->draw();
-			gameUI->drawEnemyHP();
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->drawEnemyHP();
 
 			//gameUI->drawHP(); // プレイヤーHP単体表示
 		};
@@ -663,7 +693,7 @@ void GameScene::WizardUpdate()
 				wizard[i]->Update(i, player, weaponA, *(stage));
 
 				if (wizard[i]->GetShootFlg() == true) {
-					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					//EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
 					/*if (wizard[i]->GetCreateBulletFlg() == true) {
 						
 						

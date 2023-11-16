@@ -19,7 +19,7 @@ Map::Map(GameUI* ui) {
 	cursor_loc = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
-	now_stage = 20;
+	now_stage = DATA_MAX - 1;
 
 	is_map_mode = true;
 
@@ -32,6 +32,7 @@ Map::Map(GameUI* ui) {
 	if (rest_img == 0) rest_img = (LoadGraph("resources/images/rest.png"));
 	if (anvil_img == 0) anvil_img = (LoadGraph("resources/images/anvil.png"));
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
+	if (icon_back_img == 0) icon_back_img = (LoadGraph("resources/images/icon_back.png"));
 	if (map_cursor == 0) map_cursor = (LoadGraph("resources/images/map_cursor.png"));
 }
 Map::~Map() {
@@ -52,16 +53,35 @@ int Map::update(int& mode, bool& weapon_selected) {
 
 	// カーソル移動(Lスティック)
 	if (move_cool <= 0) {
-		if (InputCtrl::GetStickRatio(L).x >= 0.3 && cursor_pos + 1 <= 2 && next_stage[now_stage][cursor_pos + 1] != -1) {
-			cursor_pos++;
-			cursor_loc = next_stage[now_stage][cursor_pos];
-			move_cool = 15;
+		if (InputCtrl::GetStickRatio(L).x >= 0.3) {
+			if (cursor_pos + 1 <= 2 && next_stage[now_stage][cursor_pos + 1] != -1) {
+				cursor_pos++;
+				cursor_loc = next_stage[now_stage][cursor_pos];
+				move_cool = 15;
+			}
+			else {
+				cursor_pos = 0;
+				cursor_loc = next_stage[now_stage][cursor_pos];
+				move_cool = 15;
+			}
 			cursor_move = TRUE;
 		}
-		else if (InputCtrl::GetStickRatio(L).x <= -0.3 && cursor_pos - 1 >= 0) {
-			cursor_pos--;
-			cursor_loc = next_stage[now_stage][cursor_pos];
-			move_cool = 15;
+		else if (InputCtrl::GetStickRatio(L).x <= -0.3) {
+			if (cursor_pos - 1 >= 0) {
+				cursor_pos--;
+				cursor_loc = next_stage[now_stage][cursor_pos];
+				move_cool = 15;
+			}
+			else {
+				for (int i = 2; i > 0; i--) {
+					if (next_stage[now_stage][i] != -1) {
+						cursor_pos = i;
+						cursor_loc = next_stage[now_stage][cursor_pos];
+						move_cool = 15;
+						break;
+					}
+				}
+			}
 			cursor_move = TRUE;
 		}
 	}
@@ -87,7 +107,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 		icon_vec = 0;
 		cursor_move = FALSE;
 		// 上スクロール
-		if (icon_loc[20][1] < 50) {
+		if (icon_loc[DATA_MAX - 1][1] < 50) {
 			if (InputCtrl::GetStickRatio(R).y >= 0.2 && InputCtrl::GetStickRatio(R).y < 0.5) {
 				icon_vec = 1;
 			}
@@ -99,7 +119,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 			}
 		}
 		// 下スクロール
-		if (icon_loc[0][1] > SCREEN_HEIGHT - 100) {
+		if (icon_loc[1][1] > SCREEN_HEIGHT - 100) {
 			if (InputCtrl::GetStickRatio(R).y <= -0.2 && InputCtrl::GetStickRatio(R).y > -0.5) {
 				icon_vec = -1;
 			}
@@ -172,6 +192,7 @@ void Map::draw() const {
 	}
 	else
 	{
+		int log_i = 0; // stage_log用変数
 		for (int i = 0; i < DATA_MAX; i++)
 		{
 			// デバック表示
@@ -180,14 +201,18 @@ void Map::draw() const {
 			DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 
 			// ステージ間のライン
-			for (int j = 0; next_stage[i][j] > 0 && j <= 2; j++)
-			{
+			for (int j = 0; next_stage[i][j] > 0 && j <= 2; j++) {
 				int next_loc = next_stage[i][j];
-
-				DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25, 
-					icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
+				if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
+					DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
+						icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xaa0000);
+					log_i++;
+				} else {
+					DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
+						icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
+				}
 			}
-
+			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
 			// アイコン表示
 			switch (MapDeta[i]) {
 			case 0:
@@ -211,38 +236,42 @@ void Map::draw() const {
 			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		}
 		// カーソル表示
-		DrawGraph(icon_loc[cursor_loc][0], icon_loc[cursor_loc][1], map_cursor, TRUE);
+		DrawGraph(icon_loc[cursor_loc][0] - 5, icon_loc[cursor_loc][1] - 5, map_cursor, TRUE);
 	}
 }
 
 void Map::ResetStage() {
 
 	// マップデータ初期化処理
-	for (int i = 0; i <= DATA_MAX; i++)
+	for (int i = 0; i < DATA_MAX; i++)
 	{
 		MapDeta[i] = 0;
+		if (sizeof(stage_log) / sizeof(stage_log[0]) > i) {
+			stage_log[i] = -1;
+		}
 	}
 
 
 	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
+	// 生成内容(ステージ範囲)(ステージ数) 
 
-	// ランダムイベント(st7固定)
-	MapDeta[7] = 1;
+	// ランダムイベント(st8固定)
+	MapDeta[8] = 1;
 
-	// 休憩1(st3-6)(1-2)
+	// 休憩1(st3-7)(1-2)
 	RandNum[0] = GetRand(1) + 1;
 	for (int i = 0; i < RandNum[0];) {
-		int r = GetRand(3) + 3;
+		int r = GetRand(4) + 3;
 		if (MapDeta[r] == 0) {
 			MapDeta[r] = 2;
 			i++;
 		}
 		else continue;
 	}
-	// 休憩2(st8-18)(2-3)
+	// 休憩2(st9-19)(2-3)
 	RandNum[1] = GetRand(1) + 2;
 	for (int i = 0; i < RandNum[1];) {
-		int r = GetRand(11) + 8;
+		int r = GetRand(11) + 9;
 		// 未変更(0なら)変更
 		if (MapDeta[r] == 0) {
 			MapDeta[r] = 2;
@@ -250,13 +279,13 @@ void Map::ResetStage() {
 		}
 		else continue;
 	}
-	// 休憩3(st19固定)
-	MapDeta[19] = 2;
+	// 休憩3(st20固定)
+	MapDeta[20] = 2;
 
-	// 鍛冶屋(st14-18)(1)
+	// 鍛冶屋(st16-19)(1)
 	RandNum[2] = 1;
 	for (int i = 0; i < RandNum[2];) {
-		int r = GetRand(5) + 14;
+		int r = GetRand(4) + 16;
 		if (MapDeta[r] == 0) {
 			MapDeta[r] = 3;
 			i++;
@@ -264,6 +293,6 @@ void Map::ResetStage() {
 		else continue;
 	}
 
-	// ボス(st20固定)
-	MapDeta[20] = 4;
+	// ボス(st21固定)
+	MapDeta[21] = 4;
 }
