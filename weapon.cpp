@@ -19,6 +19,7 @@ weapon::weapon()
 	maxRot = 90.0f;
 	coolTime = 20;
 	isAttacking = false;
+	oldIsAttacking = false;
 	weaponLevel = 0;
 	levelUpFlg = false;
 	
@@ -39,6 +40,9 @@ weapon::weapon()
 	{
 		swordSlash[i] = { {0,0},{0,0,0},false };
 	}
+	hitCnt = 0;
+	fpsCnt = 0;
+	heelAmount = 10;
 	for (int i = 0; i < 10; i++)
 	{
 		throwDagger[i] = { {0,0},{0,0,0},false };
@@ -77,6 +81,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 {
 	location = playerLocation;
 	playerVector = { player->Player_MoveX(),player->Player_MoveY() };
+	oldIsAttacking = isAttacking;
 	//debug
 	//x y length　にはプレイヤーとカーソルのベクトルを入れる
 	/*float x = InputCtrl::GetMouseCursor().x - 640;
@@ -181,7 +186,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 		ThrowDaggerAnim();
 	}
 
-	
+	SwordLevel8(player);
 
 	//レベルアップデバッグ
 	if (levelUpFlg) {
@@ -282,13 +287,13 @@ void weapon::Draw() const
 
 	//DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType + 1);
 	//DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
-	DrawFormatString(0, 120, 0xffffff, "クールタイム　%d", maxCoolTime);
-	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
-	/*DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
-	DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);*/
-	/*DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
+	/*DrawFormatString(0, 120, 0xffffff, "クールタイム　%d", maxCoolTime);
+	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);*/
+	DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
+	DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
+	DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
-	DrawFormatString(0, 240, 0xffffff, "単位ベクトル %f", unitVec.length);*/
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d",hitCnt );
 
 
 
@@ -786,6 +791,49 @@ void weapon::SwordSlashAnim()
 	
 }
 
+void weapon::SwordLevel8(Player* player)
+{
+	
+
+	if (isAttacking && !oldIsAttacking) {
+		if (player->GetPlayer_HP() > MAX_HP / 2) {
+			player->SetPlayer_HP(MAX_HP / 10);//ダメージを受ける
+		
+			damage = INIT_DAMAGE_SWORD * 2;
+		}
+	}
+	
+	if (damage == INIT_DAMAGE_SWORD * 2) {
+		fpsCnt++;
+		if (fpsCnt > 120) {
+			damage = INIT_COOLTIME_SWORD;
+			fpsCnt = 0;
+		}
+	}
+
+	if (hitCnt > 15) {
+		heelAmount = 30;
+		player->SetPlayer_HP(-heelAmount);
+	}
+	else if (hitCnt > 12) {
+		heelAmount = 25;
+		player->SetPlayer_HP(-heelAmount);
+	}
+	else if (hitCnt > 9) {
+		heelAmount = 20;
+		player->SetPlayer_HP(-heelAmount);
+	}
+	else if (hitCnt > 6) {
+		heelAmount = 15;
+		player->SetPlayer_HP(-heelAmount);
+	}
+	else if (hitCnt > 3) {
+		heelAmount = 10;
+		player->SetPlayer_HP(-heelAmount);
+	}
+
+}
+
 bool weapon::SpawnThrowDagger(int num)
 {
 	for (int i = 0; i < MAX_THROW_DAGGER; i++) {
@@ -822,6 +870,30 @@ void weapon::ThrowDaggerAnim()
 		}
 	}
 }
+
+void weapon::InitWeapon()
+{
+	LevelState();
+	isAttacking = false;
+	oldIsAttacking = false;
+
+	for (int i = 0; i < 10; i++)
+	{
+		swordSlash[i] = { {0,0},{0,0,0},false };
+	}
+	hitCnt = 0;
+	fpsCnt = 0;
+	heelAmount = 10;
+	for (int i = 0; i < 10; i++)
+	{
+		throwDagger[i] = { {0,0},{0,0,0},false };
+	}
+
+	slashFlg = false;
+
+	avoidanceDamageFlg = false;
+}
+
 
 //collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk
 //collisionY = (baseVec.x * sin((rot)) + baseVec.y * cos((rot))) + location.y;	//kk
