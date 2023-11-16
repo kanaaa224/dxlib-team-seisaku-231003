@@ -5,7 +5,7 @@
 
 map_temp::map_temp() {
 	// マップデータ初期化処理
-	for (int i = 0; i <= DETA_MAX_T; i++)
+	for (int i = 0; i <= DATA_MAX_T; i++)
 	{
 		MapDeta[i] = 0;
 	}
@@ -58,7 +58,7 @@ map_temp::map_temp() {
 	MapDeta[20] = 4;
 
 	// アイコン位置をデフォルトにセット
-	for (int i = 0; i < DETA_MAX_T; i++)
+	for (int i = 0; i < DATA_MAX_T; i++)
 	{
 		icon_loc[i][0] = icon_loc_def[i][0];
 		icon_loc[i][1] = icon_loc_def[i][1];
@@ -98,7 +98,7 @@ Scene* map_temp::update() {
 	if (InputCtrl::GetStickRatio(L).y >= 0.2 || InputCtrl::GetStickRatio(L).y <= -0.2)
 	{
 		// 上スクロール
-		if (icon_loc[20][1] < 50) {
+		if (icon_loc[DATA_MAX_T-1][1] < 50) {
 			if (InputCtrl::GetStickRatio(L).y >= 0.2 && InputCtrl::GetStickRatio(L).y < 0.5) {
 				icon_vec = 1;
 			}
@@ -124,7 +124,7 @@ Scene* map_temp::update() {
 	}
 
 	// アイコン移動処理
-	for (int i = 0; i < DETA_MAX_T; i++)
+	for (int i = 0; i < DATA_MAX_T; i++)
 	{
 		icon_loc[i][1] = icon_loc[i][1] + icon_vec;
 	}
@@ -165,7 +165,7 @@ Scene* map_temp::update() {
 		change_icon = change_icon_tab * 10 + 9;
 	}
 	if (InputCtrl::GetKeyState(KEY_INPUT_TAB) == PRESS) {
-		if (DETA_MAX_T - 1 > (change_icon_tab + 1) * 10) {
+		if (DATA_MAX_T - 1 > (change_icon_tab + 1) * 10) {
 			change_icon_tab++;
 			change_icon = 10 + change_icon;
 		}
@@ -203,7 +203,7 @@ Scene* map_temp::update() {
 
 void map_temp::draw() const {
 
-	for (int i = 0; i < DETA_MAX_T; i++)
+	for (int i = 0; i < DATA_MAX_T; i++)
 	{
 		// デバック表示
 		DrawFormatString(10, 30, 0xffff00, "内部データ");

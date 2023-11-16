@@ -5,27 +5,27 @@
 class GameScene;
 class GameUI;
 
-#define DETA_MAX 22
+#define DATA_MAX 22
 
 class Map
 {
 private:
-	int MapDeta[DETA_MAX];
+	int MapDeta[DATA_MAX];
 	int RandNum[3];
 
 	// アイコン座標(初期)
-	const int icon_loc_def[DETA_MAX][2] = {
+	const int icon_loc_def[DATA_MAX][2] = {
 	{360, 590}, {610, 620}, {920, 580}, {390, 470}, {520, 510},
 	{670, 530}, {790, 510}, {910, 470}, {640, 370}, {440, 270},
 	{580, 220}, {800, 290}, {340, 180}, {710, 160}, {910, 210},
 	{850, 130}, {460, 80}, {760, 40}, {380, -80}, {860, -110},
 	{640, -200}, {640, -300},
 	};
-	int icon_loc[DETA_MAX][2];  // アイコン座標
+	int icon_loc[DATA_MAX][2];  // アイコン座標
 	int icon_vec;         // アイコン移動量
 
 	// 次に行けるステージ
-	const int next_stage[DETA_MAX][3]{
+	const int next_stage[DATA_MAX][3]{
 		{3,4,-1},{4,5,-1},{6,7,-1},{8,-1,-1},{8,-1,-1},
 		{8,-1,-1}, {8,-1,-1},{8,-1,-1},{9,10,11},{12,16,-1},{13,16,-1},
 		{13,14,-1},{16,-1,-1},{17,-1,-1},{15,-1,-1},{17,-1,-1},
