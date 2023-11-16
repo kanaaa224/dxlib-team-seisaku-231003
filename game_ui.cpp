@@ -44,7 +44,7 @@ GameUI::~GameUI() {
 };
 
 void GameUI::init() {
-	state = 0;
+	state        = 0;
 	frameCounter = 1;
 
 	notice["opacity"] = std::to_string(0.0);

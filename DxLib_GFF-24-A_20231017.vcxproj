@@ -49,7 +49,7 @@
     <ClInclude Include="inputCtrl.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="sceneManager.h" />
-    <ClInclude Include="scene_blacksmith.h" />
+    <ClInclude Include="blacksmith.h" />
     <ClInclude Include="scene_credit.h" />
     <ClInclude Include="scene_debug.h" />
     <ClInclude Include="scene_end.h" />
@@ -57,8 +57,8 @@
     <ClInclude Include="scene_gameclear.h" />
     <ClInclude Include="scene_gameover.h" />
     <ClInclude Include="scene_help.h" />
-    <ClInclude Include="scene_levelup.h" />
-    <ClInclude Include="scene_rest.h" />
+    <ClInclude Include="weaponLevelup.h" />
+    <ClInclude Include="rest.h" />
     <ClInclude Include="scene_result.h" />
     <ClInclude Include="scene_title.h" />
     <ClInclude Include="second_weapon.h" />
@@ -66,7 +66,7 @@
     <ClInclude Include="Slime.h" />
     <ClInclude Include="weapon.h" />
     <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="scene_weapon.h" />
+    <ClInclude Include="weaponSelect.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="scene_load.h" />
     <ClInclude Include="Wizard.h" />
@@ -84,7 +84,7 @@
     <ClCompile Include="map_temp.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="sceneManager.cpp" />
-    <ClCompile Include="scene_blacksmith.cpp" />
+    <ClCompile Include="blacksmith.cpp" />
     <ClCompile Include="scene_credit.cpp" />
     <ClCompile Include="scene_debug.cpp" />
     <ClCompile Include="scene_end.cpp" />
@@ -92,8 +92,8 @@
     <ClCompile Include="scene_gameclear.cpp" />
     <ClCompile Include="scene_gameover.cpp" />
     <ClCompile Include="scene_help.cpp" />
-    <ClCompile Include="scene_levelup.cpp" />
-    <ClCompile Include="scene_rest.cpp" />
+    <ClCompile Include="weaponLevelup.cpp" />
+    <ClCompile Include="rest.cpp" />
     <ClCompile Include="scene_result.cpp" />
     <ClCompile Include="scene_title.cpp" />
     <ClCompile Include="second_weapon.cpp" />
@@ -101,7 +101,7 @@
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="scene_weapon.cpp" />
+    <ClCompile Include="weaponSelect.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="scene_load.cpp" />
     <ClCompile Include="Wizard.cpp" />
