@@ -26,10 +26,11 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
+	swordHitFlg = false;
+
 	weapon_selected = false;
 
 	// レベルアップ画面用
-	open_level_up = false;
 	restor_cursor_position = true;
 
 	//////////////////////////////////////////////////
@@ -121,6 +122,11 @@ Scene* GameScene::update() {
 									slime[i]->SetHitHP(weaponA->GetDamage());
 								}
 								slime[i]->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
 							}
 						}
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -140,6 +146,11 @@ Scene* GameScene::update() {
 								skeleton[i]->SetHitWeaponFlg();
 								skeleton[i]->SetHitHP(weaponA->GetDamage());
 								skeleton[i]->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
 							}
 						}
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
@@ -197,7 +208,7 @@ Scene* GameScene::update() {
 			player->update();
 			weaponA->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), player);
 			Vector tmpV = { player->Player_MoveX(),player->Player_MoveY(),0 };
-			weaponB->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV);
+			weaponB->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV, player);
 
 			EnemyInc();//敵のダメージストップ関係
 
@@ -329,6 +340,8 @@ void GameScene::init() {
 
 	delete stage;
 	stage = new Stage();
+
+	//weaponA->Init();
 
 	tmpSlimeNum = 0;
 	tmpSkeletonNum = 0;
