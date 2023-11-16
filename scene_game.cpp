@@ -108,7 +108,7 @@ Scene* GameScene::update() {
 			}
 
 			//武器と敵の当たり判定
-			if (true) {
+			if (nowStage == 1) {
 				for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 					if (slime[i] != nullptr) {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
