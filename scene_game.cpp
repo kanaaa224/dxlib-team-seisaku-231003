@@ -114,8 +114,11 @@ Scene* GameScene::update() {
 	WizardUpdate();
 	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
 		if (wizard[i] != nullptr) {
-			if (wizard[i]->GetCreateBulletFlg() == true) {
+			if (wizard[i]->GetShootFlg() == true) {
 				//ここに弾の生成処理を書く
+				if (wizard[i]->GetCreateBulletFlg() == true) {
+					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+				}
 			}
 		}
 	}
@@ -299,6 +302,7 @@ void GameScene::draw() const {
 		SlimeDraw();
 		SkeletonDraw();
 		WizardDraw();
+		EnemyBulletDraw();
 		////////////
 
 		if (is_weapon_select != true)
@@ -595,6 +599,34 @@ void GameScene::WizardDraw() const
 			if (wizard[i] != nullptr) {
 				wizard[i]->Draw(i);
 			}
+		}
+	}
+}
+
+//----------弾----------//
+void GameScene::EnemyBulletUpdate(Location location)
+{
+	if (tmpBulletNum < MAX_BULLET_NUM) {
+		enemyBullet[tmpBulletNum] = new EnemyBullet(location);
+		tmpBulletNum++;
+	}
+
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[i] != nullptr) {
+			enemyBullet[i]->Update();
+			if (enemyBullet[i]->GetlifeTimeCnt() >= 2) {
+				enemyBullet[i] = nullptr;
+				
+			}
+		}
+	}
+}
+
+void GameScene::EnemyBulletDraw() const
+{
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[i] != nullptr) {
+			enemyBullet[i]->Draw();
 		}
 	}
 }

@@ -141,9 +141,10 @@
     <ClInclude Include="Wizard.h">
       <Filter>Enemy\Small Fry</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="EnemyBullet.h">
       <Filter>Enemy\Small Fry</Filter>
     </ClInclude>
+    <ClInclude Include="map_temp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene_debug.cpp">
@@ -236,8 +237,9 @@
     <ClCompile Include="Wizard.cpp">
       <Filter>Enemy\Small Fry</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="EnemyBullet.cpp">
       <Filter>Enemy\Small Fry</Filter>
     </ClCompile>
+    <ClCompile Include="map_temp.cpp" />
   </ItemGroup>
 </Project>
