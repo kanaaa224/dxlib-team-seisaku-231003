@@ -61,7 +61,7 @@ private:
 
 	//////////////////////////////////////////////////
 
-	int exp, level; // 仮
+	int hp, exp, level; // 仮
 
 	int nowStage = 1;//ステージ
 	//bool hitFlg = false;

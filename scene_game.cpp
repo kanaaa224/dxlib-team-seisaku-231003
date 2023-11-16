@@ -219,7 +219,7 @@ Scene* GameScene::update() {
 			gameUI->setEXP(exp, 2000, (exp / 20));
 			gameUI->setLevel(level);
 
-			gameUI->setFloor(-2);
+			gameUI->setFloor(nowStage);
 			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
@@ -250,7 +250,7 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == 1) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
-			gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
+			if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			//////////////////////////////////////////////////
@@ -375,6 +375,10 @@ int GameScene::getEnemiesNum(int type) {
 
 		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
 			if (skeleton[i] != nullptr) enemies++;
+		};
+
+		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+			if (wizard[i] != nullptr) enemies++;
 		};
 	};
 
