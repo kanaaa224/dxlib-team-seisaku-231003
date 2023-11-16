@@ -195,3 +195,8 @@ bool Wizard::GetCreateBulletFlg()
 	return createBulletFlg;
 }
 
+bool Wizard::GetShootFlg() 
+{
+	return shootFlg;
+}
+

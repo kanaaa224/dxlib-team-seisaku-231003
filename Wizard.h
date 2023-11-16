@@ -26,7 +26,9 @@ public:
 
 	//移動の状態が立ち止まっているかどうかのFlgを返す
 	bool GetStopFlg();
-	//弾を発射したかどうかのFlgを返す
+	//弾を生成をしてもよいか
 	bool GetCreateBulletFlg();
+	//弾を発射中かどうか
+	bool GetShootFlg();
 };
 

@@ -1,6 +1,6 @@
-#include "scene_blacksmith.h"
+#include "blacksmith.h"
 
-#include "scene_levelup.h"
+#include "weaponLevelup.h"
 #include "weapon.h"
 #include "second_weapon.h"
 
