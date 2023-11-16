@@ -35,7 +35,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="DrawHelp.h" />
     <ClInclude Include="EnemyBase.h" />
@@ -70,7 +69,6 @@
     <ClInclude Include="scene_load.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C.cpp" />
     <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="fpsCtrl.cpp" />
