@@ -213,7 +213,7 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 	DrawBox(0, 0, 1280, 720, 0xb0c4de, TRUE);
 
 	SetFontSize(30);
-	DrawFormatString(560, 10, 0x000000, "鍛冶");
+	//DrawFormatString(560, 10, 0x000000, "鍛冶");
 
 	// テスト表示
 	SetFontSize(20);
@@ -237,37 +237,8 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 
 	if (action_selection == false)
 	{
-		// カーソル画像
-		DrawRotaGraph(cursor_x, cursor_y - 50, 0.08f, 0.0f, img_cursor, TRUE);
-
-		//DrawBox(100, 400, 200, 450, 0xff0000, TRUE);
-
-		// 行動選択時の画像、テキストの表示
-		SetFontSize(25);
-		DrawFormatString(160, 300, 0x000000, "レベルアップ");
-		DrawFormatString(760, 300, 0x000000, "レベルリセット");
-
-		// 画像の表示
-		if (action_number == levelup)
-		{
-			DrawRotaGraph(img_x, img_y , 0.08f, 0.0f, img_hammer, TRUE);
-			DrawRotaGraph(img_x, img_y + 50, 0.08f, 0.0f, img_spark, TRUE);
-		}
-		else
-		{
-			DrawRotaGraph(img_x, img_y , 0.08f, 0.0f, img_sword, TRUE);
-			DrawRotaGraph(img_x, img_y + 50, 0.08f, 0.0f, img_chooce, TRUE);
-			//DrawRotaGraph(img_x, img_y + 100, 0.08f, 0.0f, img_arrow, TRUE);
-		}
-
-		// 最終強化できる場合
-		if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
-		{
-			// ビックリマーク
-			DrawRotaGraph(img_x - 400, img_y + 140, 0.08f, 0.0f, img_exclamation_mark, TRUE);
-
-		}
-	
+		// 行動選択時の描画
+		FirstDraw(weapon_levelup);
 	}
 	else
 	{
@@ -279,116 +250,22 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 		}
 		else
 		{
-			// レベルの振り直し時の画像、テキストの表示
-			DrawFormatString(500, 100, 0x000000, "レベルリセット");
-
-			// 武器画像
-			// カーソル
-			// 確認文言
-
-				// 武器1の画像
-			switch (weapon1_info.type)
-			{
-			case sword:			// 片手剣
-				DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_sword, TRUE);
-				break;
-			case dagger:		// 短剣
-				DrawRotaGraph(img_x, img_y, 0.18f, 0.0f, img_dagger, TRUE);
-				break;
-			case greatSword:	// 大剣
-				DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
-				break;
-			default:
-				//DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
-				//DrawFormatString(img_x, img_y, 0x000000, "none");
-				break;
-			}
-
-			// 武器2の画像
-			switch (weapon2_info.type)
-			{
-			case spear:			// 槍
-				DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
-				break;
-			case frail:			// フレイル
-				DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
-				break;
-			case book:			// 本
-				DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
-				break;
-			default:
-				DrawRotaGraph(img_x + 380, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
-				//DrawFormatString(img_x + 360, img_y, 0x000000, "none");
-				break;
-			}
-
-
-			// 武器選択カーソル
-			if (weapon_selection == false)
-			{
-				DrawRotaGraph(cursor_x, cursor_y , 0.08f, 0.0f, img_cursor, TRUE);
-
-				// レベルアップをまだしていない場合
-				if (weapon_number == weapon1_info.num)
-				{
-					DrawFormatString(100, 280, 0xff0000, "weapon1");
-
-					if (weapon1_info.level_hierarchy == 0)
-					{
-						DrawFormatString(100, 300, 0xff0000, "武器のレベルが0です");
-						DrawFormatString(100, 320, 0xff0000, "リセット不可");
-					}
-				}
-				else if (weapon_number == weapon2_info.num)
-				{
-					DrawFormatString(100, 280, 0x0000ff, "weapon2");
-
-					if (weapon2_info.level_hierarchy == 0)
-					{
-					DrawFormatString(100, 300, 0x0000ff, "武器のレベルが0です");
-					DrawFormatString(100, 320, 0x0000ff, "リセット不可");
-					}
-				}
-			}
-			else
-			{
-				DrawRotaGraph(cursor_x, cursor_y, 0.08f, 0.0f, img_cursor, TRUE);
-				
-				if (text_display == true)
-				{
-					SetFontSize(20);
-					DrawFormatString(500, 300, 0x000000, "武器のレベルを0にする");
-					DrawFormatString(550, 450, 0x000000, "はい");
-					DrawFormatString(950, 450, 0x000000, "いいえ");
-
-					if (weapon_number == weapon1_info.num)
-					{
-						DrawFormatString(500, 280, 0xff0000, "weapon1");
-						DrawFormatString(500, 350, 0x000000, "返却ポイント：%d", weapon1_info.level_hierarchy - 1);
-					}
-					else
-					{
-						DrawFormatString(500, 280, 0x0000ff, "weapon2");
-						DrawFormatString(500, 350, 0x000000, "返却ポイント：%d", weapon2_info.level_hierarchy - 1);
-					}
-				}
-
-			}
-
+			// レベルリセット画面描画
+			DrawResetLevel(weapon_levelup);
 		}
 	}
 
 
 #ifdef _DEBUG	
-	//// ガイドライン
-	//// 縦
-	//DrawLine(1280 / 2, 0, 1280 / 2, 720, 0xffff00);
-	//DrawLine(1280 / 2 / 2, 0, 1280 / 2 / 2, 720, 0xff0000);
-	//DrawLine(1280 / 2 / 2 + 1280 / 2, 0, 1280 / 2 / 2 + 1280 / 2, 720, 0x0000ff);
-	//// 横
-	//DrawLine(0, 720 / 2, 1280, 720 / 2, 0xffff00);
-	//DrawLine(0, 720 / 2 / 2, 1280, 720 / 2 / 2, 0xff0000);
-	//DrawLine(0, 720 / 2 / 2 + 720 / 2, 1280, 720 / 2 / 2 + 720 / 2, 0x0000ff);
+	// ガイドライン
+	// 縦
+	DrawLine(1280 / 2, 0, 1280 / 2, 720, 0xffffaa);
+	DrawLine(1280 / 2 / 2, 0, 1280 / 2 / 2, 720, 0xffaaaa);
+	DrawLine(1280 / 2 / 2 + 1280 / 2, 0, 1280 / 2 / 2 + 1280 / 2, 720, 0xaaaaff);
+	// 横
+	DrawLine(0, 720 / 2, 1280, 720 / 2, 0xffffaa);
+	DrawLine(0, 720 / 2 / 2, 1280, 720 / 2 / 2, 0xffaaaa);
+	DrawLine(0, 720 / 2 / 2 + 720 / 2, 1280, 720 / 2 / 2 + 720 / 2, 0xaaaaff);
 
 #endif
 
@@ -508,4 +385,142 @@ void Blacksmith::ReturnWeaponSelection()
 	// 武器1の上にカーソル位置を戻す
 	cursor_x = 580;
 	cursor_y = 100;
+}
+
+// 行動選択時の描画
+void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
+{
+	// カーソル画像
+	DrawRotaGraph(cursor_x, cursor_y - 50, 0.08f, 0.0f, img_cursor, TRUE);
+
+	//DrawBox(100, 400, 200, 450, 0xff0000, TRUE);
+
+	// 行動選択時の画像、テキストの表示
+	SetFontSize(35);
+	DrawFormatString(160, 500, 0x000000, "レベルアップ");
+	DrawFormatString(760, 500, 0x000000, "レベルリセット");
+
+	// 画像の表示
+	DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_hammer, TRUE);
+	//DrawRotaGraph(img_x, img_y + 50, 0.08f, 0.0f, img_spark, TRUE);
+	//DrawRotaGraph(img_x, img_y, 0.08f, 0.0f, img_sword, TRUE);
+	//DrawRotaGraph(img_x, img_y + 50, 0.08f, 0.0f, img_chooce, TRUE);
+	//DrawRotaGraph(img_x, img_y + 100, 0.08f, 0.0f, img_arrow, TRUE);
+
+	// 最終強化できる場合
+	if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
+	{
+		// ビックリマーク
+		DrawRotaGraph(img_x - 400, img_y + 140, 0.08f, 0.0f, img_exclamation_mark, TRUE);
+	}
+}
+
+// レベルリセット画面描画
+void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
+{
+	DrawFormatString(500, 100, 0x000000, "レベルリセット");
+
+	// 武器の画像描画
+	DrawWeaponImages();
+
+	// 武器選択カーソル
+	if (weapon_selection == false)
+	{
+		DrawRotaGraph(cursor_x, cursor_y, 0.08f, 0.0f, img_cursor, TRUE);
+
+		// レベルアップ不可のテキスト
+		DrawResetLevelText();
+	}
+	else
+	{
+		DrawRotaGraph(cursor_x, cursor_y, 0.08f, 0.0f, img_cursor, TRUE);
+
+		// 確認文言描画
+		if (text_display == true)
+		{
+			SetFontSize(20);
+			DrawFormatString(500, 300, 0x000000, "武器のレベルを0にする");
+			DrawFormatString(550, 450, 0x000000, "はい");
+			DrawFormatString(950, 450, 0x000000, "いいえ");
+
+			if (weapon_number == weapon1_info.num)
+			{
+				DrawFormatString(500, 280, 0xff0000, "weapon1");
+				DrawFormatString(500, 350, 0x000000, "返却ポイント：%d", weapon1_info.level_hierarchy - 1);
+			}
+			else
+			{
+				DrawFormatString(500, 280, 0x0000ff, "weapon2");
+				DrawFormatString(500, 350, 0x000000, "返却ポイント：%d", weapon2_info.level_hierarchy - 1);
+			}
+		}
+
+	}
+}
+
+// 武器の画像描画
+void Blacksmith::DrawWeaponImages() const
+{
+	// 武器1の画像
+	switch (weapon1_info.type)
+	{
+	case sword:			// 片手剣
+		DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_sword, TRUE);
+		break;
+	case dagger:		// 短剣
+		DrawRotaGraph(img_x, img_y, 0.18f, 0.0f, img_dagger, TRUE);
+		break;
+	case greatSword:	// 大剣
+		DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
+		break;
+	default:
+		//DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+		//DrawFormatString(img_x, img_y, 0x000000, "none");
+		break;
+	}
+
+	// 武器2の画像
+	switch (weapon2_info.type)
+	{
+	case spear:			// 槍
+		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
+		break;
+	case frail:			// フレイル
+		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
+		break;
+	case book:			// 本
+		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
+		break;
+	default:
+		DrawRotaGraph(img_x + 380, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+		//DrawFormatString(img_x + 360, img_y, 0x000000, "none");
+		break;
+	}
+
+}
+
+// レベルリセット時のテキスト
+void Blacksmith::DrawResetLevelText() const
+{
+	// レベルアップをまだしていない場合
+	if (weapon_number == weapon1_info.num)
+	{
+		DrawFormatString(100, 280, 0xff0000, "weapon1");
+
+		if (weapon1_info.level_hierarchy == 0)
+		{
+			DrawFormatString(100, 300, 0xff0000, "武器のレベルが0です");
+			DrawFormatString(100, 320, 0xff0000, "リセット不可");
+		}
+	}
+	else
+	{
+		DrawFormatString(100, 280, 0x0000ff, "weapon2");
+
+		if (weapon2_info.level_hierarchy == 0)
+		{
+			DrawFormatString(100, 300, 0x0000ff, "武器のレベルが0です");
+			DrawFormatString(100, 320, 0x0000ff, "リセット不可");
+		}
+	}
 }

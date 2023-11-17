@@ -91,4 +91,16 @@ private:
 
 	// 武器の選択に戻るときの変数の初期化処理
 	void ReturnWeaponSelection();
+
+	// 行動選択時の描画
+	void FirstDraw(WeaponLevelUp* weapon_levelup)const;
+
+	// レベルリセット画面描画
+	void DrawResetLevel(WeaponLevelUp* weapon_levelup)const;
+
+	// 武器の画像描画
+	void DrawWeaponImages()const;
+
+	// レベルリセット時のテキスト
+	void DrawResetLevelText()const;
 };
