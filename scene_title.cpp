@@ -40,7 +40,7 @@ Scene*Title::update()
 	g_MenuY = g_MenuNumber * 52;
 	
 	//Aボタンでメニュー決定・画面遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
 		if (g_MenuNumber == 0) {
 			return new GameScene;
