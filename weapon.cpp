@@ -817,23 +817,23 @@ void weapon::SwordLevel8Heel(Player* player)
 {
 	if (weaponType == sword && weaponLevel == 8) {
 		if (hitCnt > 15) {
-			heelAmount = 5;
+			heelAmount = 6;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 12) {
-			heelAmount = 4;
+			heelAmount = 5;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 9) {
-			heelAmount = 3;
+			heelAmount = 4;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 6) {
-			heelAmount = 2;
+			heelAmount = 3;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 3) {
-			heelAmount = 1;
+			heelAmount = 2;
 			player->SetPlayer_HP(-0.1);
 		}
 	}
