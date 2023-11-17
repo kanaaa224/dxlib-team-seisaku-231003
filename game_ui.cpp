@@ -99,6 +99,7 @@ void GameUI::update(GameScene* gameScene) {
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
 	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 仮
+	if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESS) state = 1; // スキップ
 };
 
 void GameUI::draw() const {
@@ -435,6 +436,10 @@ void GameUI::drawBanner() const {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 	DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	int line = 5;
+	DrawBox(0, (SCREEN_HEIGHT / 3),         SCREEN_WIDTH, (SCREEN_HEIGHT / 3) + line, GetColor(255, 255, 255), true);
+	DrawBox(0, (SCREEN_HEIGHT / 3) * 2 - line, SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(255, 255, 255), true);
 
 	//ChangeFont("");
 
