@@ -2,6 +2,7 @@
 
 #include "scene.h"
 #define TITLEINTERVAL 15
+#define TITLECURSOR 4
 
 class Title :public Scene
 {

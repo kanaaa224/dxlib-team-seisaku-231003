@@ -21,12 +21,14 @@ Scene*Title::update()
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15)
 	{
 		TitleInterval = 0;
-		if (--g_MenuNumber > 3)g_MenuNumber = 0;
+		if (--g_MenuNumber > TITLECURSOR);
+		if (g_MenuNumber < 0) g_MenuNumber = 3;
 	}
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15)
 	{
 		TitleInterval = 0;
-		if (++g_MenuNumber < 0)g_MenuNumber = 3;
+		if (++g_MenuNumber < -TITLECURSOR);
+		if (g_MenuNumber > 3)g_MenuNumber = 0;
 	}
 	g_MenuY = g_MenuNumber * 52;
 	
