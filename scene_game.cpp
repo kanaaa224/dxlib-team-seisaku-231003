@@ -335,8 +335,8 @@ void GameScene::draw() const {
 		SlimeDraw();
 		SkeletonDraw();
 		WizardDraw();
-		EnemyBulletDraw();
-		DrawFormatString(10, 100, C_RED, "%d", issei);
+		//EnemyBulletDraw();
+		//DrawFormatString(10, 100, C_RED, "%d", issei);
 
 		//////////////////////////////////////////////////
 
@@ -693,7 +693,7 @@ void GameScene::WizardUpdate()
 				wizard[i]->Update(i, player, weaponA, *(stage));
 
 				if (wizard[i]->GetShootFlg() == true) {
-					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					//EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
 					/*if (wizard[i]->GetCreateBulletFlg() == true) {
 						
 						

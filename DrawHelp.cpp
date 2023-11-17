@@ -18,14 +18,6 @@ Scene* DrawHelp::update()
 	{
 		return new Title;
 	}
-	// •¶Žš‚Ì•\Ž¦(“_–Å)
-	if (++g_WaitTime < 30) {
-		SetFontSize(24);
-		DrawString(150, 450, "--  Press [SPACE] Key  --", 0xFF0000);
-	}
-	else if (g_WaitTime > 60) {
-		g_WaitTime = 0;
-	}
 	return this;
 }
 
