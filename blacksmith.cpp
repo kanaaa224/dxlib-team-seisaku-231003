@@ -14,6 +14,8 @@ Blacksmith::Blacksmith()
 	img_exclamation_mark = LoadGraph("resources/images/mark_exclamation_white.png");
 	img_arrow = LoadGraph("resources/images/arrow.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
+	// テスト用
+	img_background = LoadGraph("resources/images/revelreset.png");
 
 	// 武器画像
 	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
@@ -24,26 +26,23 @@ Blacksmith::Blacksmith()
 	img_book = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 
 	// 構造体初期化
-	weapon1_info = { 0, none, 0, 0, 0 };
-	weapon2_info = { 1, none, 0, 0, 0 };
+	weapon1_info = { 0, none, 0, 0, 0, false };
+	weapon2_info = { 1, none, 0, 0, 0, false };
 
 	// 変数の初期化
 	interval = 0;
 	cursor_x = 300;
 	cursor_y = 320;
 	weapon_number = weapon1_info.num;
-	weapon_selection = false;
 	is_blacksmith = false;
 
 	// 画像パラメータ
-	img_x = 580;
-	img_y = 140;
+	img_x = 365;
+	img_y = 350;
 
 	action_selection = false;
 	action_number = levelup;
 	restore_cursor_position = true;
-	text_display = false;
-	is_yes = false;
 	cursor_action = state_first;
 }
 
@@ -55,22 +54,6 @@ Blacksmith::~Blacksmith()
 // 更新
 void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup)
 {
-	// カーソルの位置を元に戻す
-	//if (restor_cursor_position == true)
-	//{
-	//	weapon_selection = false;
-	//	cursor_x = 580;
-	//	weapon_number = weapon1;
-	//	restor_cursor_position = false;
-	//	// 現在の武器レベルのセット
-	//	weapon1_level = weapon->GetWeaponLevel();
-	//	weapon2_level = second_weapon->GetWeaponLevel();
-
-	//	// 武器の種類のセット
-	//	weapon1_type = weapon->GetWeaponType();
-	//	weapon2_type = second_weapon->GetWeaponType();
-	//}
-
 	// 15fのインターバル
 	if (interval < 15)
 	{
@@ -92,8 +75,8 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			{
 				cursor_action = state_weapon;
 				// カーソル位置を武器1の上に変更
-				cursor_x = 580;
-				cursor_y = 100;
+				cursor_x = img_x;
+				cursor_y = 210;
 			}
 		}
 	}
@@ -128,79 +111,39 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			// 初期設定
 			Init(weapon, second_weapon, weapon_levelup);
 
-			// 武器の選択
-			if (weapon_selection == false)
+			// カーソル左右移動
+			CursorMove();
+
+			// 武器の決定
+			if (weapon_number == weapon1_info.num && weapon1_info.level != 0)
 			{
-				// カーソル左右移動
-				CursorMove();
+				weapon1_info.can_reset = true;
 
-				// 武器の決定
-				if (weapon_number == weapon1_info.num && weapon1_info.level != 0)
+				// 過去にレベルアップしたことがある場合選択できる
+				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
-					// 過去にレベルアップしたことがある場合選択できる
-					if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
-					{
-						cursor_action = state_reset;
-						weapon_selection = true;
-						text_display = true;
-						cursor_y = 420;
-						//cursor_x = 960;
-					}
-				}
-				else if (weapon2_info.num != none && weapon2_info.level_hierarchy != 0)
-				{
-					if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
-					{
-						cursor_action = state_reset;
-						weapon_selection = true;
-						text_display = true;
-						cursor_y = 420;
-					}
-				}
-
-				// Bボタンで行動選択に戻る
-				if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
-				{
-					cursor_action = state_first;
-					action_number = levelup;
-					weapon_number = weapon1_info.num;
-					cursor_x = 300;
-					cursor_y = 320;
-					action_selection = false;
+					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info);
 				}
 			}
-			else
+			else if (weapon2_info.num != none && weapon2_info.level_hierarchy != 0)
 			{
-				// レベルリセット
-				
-				// カーソル左右移動
-				CursorMove();
+				weapon2_info.can_reset = true;
 
-				if (weapon_number == weapon1_info.num)
+				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
-					// 武器1
-					// レベルのリセット
-					if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
-					{
-						ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info);
-					}
+					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon2_info);
 				}
-				else
-				{
-					// 武器2
-					// レベルリセット
-					if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
-					{
-						ResetLevel(weapon, second_weapon, weapon_levelup, &weapon2_info);
-					}
+			}
 
-				}
-
-				// Bボタンでレベルリセットキャンセル
-				if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
-				{
-					ReturnWeaponSelection();
-				}
+			// Bボタンで行動選択に戻る
+			if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+			{
+				cursor_action = state_first;
+				action_number = levelup;
+				weapon_number = weapon1_info.num;
+				cursor_x = 300;
+				cursor_y = 320;
+				action_selection = false;
 			}
 		}
 	}
@@ -212,7 +155,7 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 	// 背景
 	DrawBox(0, 0, 1280, 720, 0xb0c4de, TRUE);
 
-	SetFontSize(30);
+	//SetFontSize(30);
 	//DrawFormatString(560, 10, 0x000000, "鍛冶");
 
 	// テスト表示
@@ -234,6 +177,9 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 	DrawFormatString(0, 180, 0xb00000, "Bボタン：キャンセル・戻る");
 	DrawFormatString(0, 200, 0x000000, "weapon_number %d", weapon_number);
 	DrawFormatString(0, 220, 0x000000, "cursor_action %d", cursor_action);
+	//DrawFormatString(0, 240, 0x000000, "cursor_x %d", cursor_x);
+	//DrawFormatString(0, 260, 0x000000, "cursor_y %d", cursor_y);
+	DrawFormatString(0, 280, 0x000000, "action_number %d", action_number);
 
 	if (action_selection == false)
 	{
@@ -266,7 +212,8 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 	DrawLine(0, 720 / 2, 1280, 720 / 2, 0xffffaa);
 	DrawLine(0, 720 / 2 / 2, 1280, 720 / 2 / 2, 0xffaaaa);
 	DrawLine(0, 720 / 2 / 2 + 720 / 2, 1280, 720 / 2 / 2 + 720 / 2, 0xaaaaff);
-
+	
+	DrawFormatString(0, 0, 0x000000, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
 
 }
@@ -296,15 +243,10 @@ void Blacksmith::CursorMove()
 			cursor_x = 900;
 			action_number = reset_level;
 		}
-		else if (cursor_action == state_weapon)
-		{
-			cursor_x = 960;
-			weapon_number = weapon2_info.num;
-		}
 		else
 		{
-			cursor_x = 960;
-			is_yes = false;
+			cursor_x = img_x + 555;
+			weapon_number = weapon2_info.num;
 		}
 	}
 	else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
@@ -317,15 +259,10 @@ void Blacksmith::CursorMove()
 			cursor_x = 300;
 			action_number = levelup;
 		}
-		else if (cursor_action == state_weapon)
-		{
-			cursor_x = 580;
-			weapon_number = weapon1_info.num;
-		}
 		else
 		{
-			cursor_x = 580;
-			is_yes = true;
+			cursor_x = img_x;
+			weapon_number = weapon1_info.num;
 		}
 	}
 }
@@ -333,58 +270,35 @@ void Blacksmith::CursorMove()
 // レベルリセット
 void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, weapon_information* info)
 {
-	cursor_y = 450;
-	if (cursor_x == 580)
+	// レベルリセット
+	if (info->num == weapon1_info.num)
 	{
-		// レベルリセット
-		if (info->num == weapon1_info.num)
-		{
-			// 武器1
-			weapon->SetWeaponLevel(0);
-			weapon_levelup->Weapon1LevelInit();
-		}
-		else
-		{
-			// 武器2
-			second_weapon->SetWeaponLevel(0);
-			weapon_levelup->Weapon2LevelInit();
-		}
-
-		// ポイントの返却
-		if (info->level_hierarchy >= 3)
-		{
-			weapon_levelup->SetLevelUpPoint(3);
-		}
-		else
-		{
-			weapon_levelup->SetLevelUpPoint(info->level_hierarchy - 1);
-		}
-
-		ReturnWeaponSelection();
-
-		// 初期設定
-		Init(weapon, second_weapon, weapon_levelup);
+		// 武器1
+		weapon->SetWeaponLevel(0);
+		weapon_levelup->Weapon1LevelInit();
 	}
 	else
 	{
-		// キャンセル
-		ReturnWeaponSelection();
+		// 武器2
+		second_weapon->SetWeaponLevel(0);
+		weapon_levelup->Weapon2LevelInit();
 	}
 
-}
+	// ポイントの返却
+	if (info->level_hierarchy >= 3)
+	{
+		weapon_levelup->SetLevelUpPoint(3);
+	}
+	else
+	{
+		weapon_levelup->SetLevelUpPoint(info->level_hierarchy - 1);
+	}
 
-// 武器の選択に戻るときの変数の初期化処理
-void Blacksmith::ReturnWeaponSelection()
-{
-	// 武器選択に戻る
-	cursor_action = state_weapon;
-	weapon_number = weapon1_info.num;
-	weapon_selection = false;
-	text_display = false;
+	info->can_reset = false;
 
-	// 武器1の上にカーソル位置を戻す
-	cursor_x = 580;
-	cursor_y = 100;
+	// 初期設定
+	Init(weapon, second_weapon, weapon_levelup);
+
 }
 
 // 行動選択時の描画
@@ -393,69 +307,64 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 	// カーソル画像
 	DrawRotaGraph(cursor_x, cursor_y - 50, 0.08f, 0.0f, img_cursor, TRUE);
 
-	//DrawBox(100, 400, 200, 450, 0xff0000, TRUE);
+	DrawBox(160, 520, 520, 625, 0xff0000, TRUE);
+	DrawBox(755, 520, 1120, 625, 0xff0000, TRUE);
+
+	if (cursor_x == 900)
+	{
+		DrawBox(160, 520, 520, 625, 0xaa0000, TRUE);
+	}
+	else
+	{
+		DrawBox(755, 520, 1120, 625, 0xaa0000, TRUE);
+	}
 
 	// 行動選択時の画像、テキストの表示
-	SetFontSize(35);
-	DrawFormatString(160, 500, 0x000000, "レベルアップ");
-	DrawFormatString(760, 500, 0x000000, "レベルリセット");
+	SetFontSize(50);
+	DrawFormatString(210, 560, 0x000000, "レベルアップ");
+	DrawFormatString(830, 560, 0x000000, "レベルリセット");
 
 	// 画像の表示
-	DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_hammer, TRUE);
-	//DrawRotaGraph(img_x, img_y + 50, 0.08f, 0.0f, img_spark, TRUE);
-	//DrawRotaGraph(img_x, img_y, 0.08f, 0.0f, img_sword, TRUE);
-	//DrawRotaGraph(img_x, img_y + 50, 0.08f, 0.0f, img_chooce, TRUE);
-	//DrawRotaGraph(img_x, img_y + 100, 0.08f, 0.0f, img_arrow, TRUE);
+	DrawRotaGraph(440, 300, 0.4f, 0.0f, img_hammer, TRUE);
+	DrawRotaGraph(275, 390, 0.2f, 0.0f, img_spark, TRUE);
+	DrawRotaGraph(1020, 230, 0.2f, 0.0f, img_sword, TRUE);
+	DrawRotaGraph(950, 290, 0.2f, 0.0f, img_arrow, TRUE);
+	DrawRotaGraph(820, 350, 0.15f, 0.0f, img_chooce, TRUE);
+	DrawRotaGraph(830, 420, 0.15f, 0.0f, img_chooce, TRUE);
+	DrawRotaGraph(890, 375, 0.15f, 0.0f, img_chooce, TRUE);
+
+	DrawRotaGraph(195, 520, 0.1f, 0.0f, img_exclamation_mark, TRUE);
 
 	// 最終強化できる場合
 	if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
 	{
 		// ビックリマーク
-		DrawRotaGraph(img_x - 400, img_y + 140, 0.08f, 0.0f, img_exclamation_mark, TRUE);
+		//DrawRotaGraph(img_x - 400, img_y + 140, 0.08f, 0.0f, img_exclamation_mark, TRUE);
 	}
 }
 
 // レベルリセット画面描画
 void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 {
-	DrawFormatString(500, 100, 0x000000, "レベルリセット");
+	// テスト用
+	//DrawGraph(0, 0, img_background, TRUE);
+
+	DrawBox(280, 270, 460, 450, 0xffffbf, TRUE);
+	DrawBox(835, 270, 1015, 450, 0xffffbf, TRUE);
+
+	SetFontSize(35);
+	DrawFormatString(510, 45, 0x000000, "レベルリセット");
+	SetFontSize(20);
+	DrawFormatString(480, 100, 0xb00000, "武器のレベルが0になります");
 
 	// 武器の画像描画
 	DrawWeaponImages();
 
-	// 武器選択カーソル
-	if (weapon_selection == false)
-	{
-		DrawRotaGraph(cursor_x, cursor_y, 0.08f, 0.0f, img_cursor, TRUE);
+	// 武器の情報のテキスト
+	DrawResetLevelText();
 
-		// レベルアップ不可のテキスト
-		DrawResetLevelText();
-	}
-	else
-	{
-		DrawRotaGraph(cursor_x, cursor_y, 0.08f, 0.0f, img_cursor, TRUE);
-
-		// 確認文言描画
-		if (text_display == true)
-		{
-			SetFontSize(20);
-			DrawFormatString(500, 300, 0x000000, "武器のレベルを0にする");
-			DrawFormatString(550, 450, 0x000000, "はい");
-			DrawFormatString(950, 450, 0x000000, "いいえ");
-
-			if (weapon_number == weapon1_info.num)
-			{
-				DrawFormatString(500, 280, 0xff0000, "weapon1");
-				DrawFormatString(500, 350, 0x000000, "返却ポイント：%d", weapon1_info.level_hierarchy - 1);
-			}
-			else
-			{
-				DrawFormatString(500, 280, 0x0000ff, "weapon2");
-				DrawFormatString(500, 350, 0x000000, "返却ポイント：%d", weapon2_info.level_hierarchy - 1);
-			}
-		}
-
-	}
+	// カーソル画像
+	DrawRotaGraph(cursor_x, cursor_y, 0.13f, 0.0f, img_cursor, TRUE);
 }
 
 // 武器の画像描画
@@ -465,7 +374,8 @@ void Blacksmith::DrawWeaponImages() const
 	switch (weapon1_info.type)
 	{
 	case sword:			// 片手剣
-		DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_sword, TRUE);
+		DrawRotaGraph(img_x, img_y, 0.3f, 0.0f, img_sword, TRUE);
+		DrawFormatString(200, 540, 0x000000, "片手剣");
 		break;
 	case dagger:		// 短剣
 		DrawRotaGraph(img_x, img_y, 0.18f, 0.0f, img_dagger, TRUE);
@@ -483,44 +393,38 @@ void Blacksmith::DrawWeaponImages() const
 	switch (weapon2_info.type)
 	{
 	case spear:			// 槍
-		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
+		DrawRotaGraph(img_x + 555, img_y, 0.2f, 0.0f, img_spear, TRUE);
 		break;
 	case frail:			// フレイル
-		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
+		DrawRotaGraph(img_x + 555, img_y, 0.2f, 0.0f, img_frail, TRUE);
 		break;
 	case book:			// 本
-		DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
+		DrawRotaGraph(img_x + 555, img_y, 0.2f, 0.0f, img_book, TRUE);
 		break;
 	default:
-		DrawRotaGraph(img_x + 380, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+		DrawRotaGraph(img_x + 555, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
 		//DrawFormatString(img_x + 360, img_y, 0x000000, "none");
 		break;
 	}
 
 }
 
-// レベルリセット時のテキスト
+// 武器の情報のテキスト
 void Blacksmith::DrawResetLevelText() const
 {
-	// レベルアップをまだしていない場合
-	if (weapon_number == weapon1_info.num)
+	// 武器1
+	DrawFormatString(200, 560, 0x000000, "Lv. %d", weapon1_info.level_hierarchy);
+	DrawFormatString(200, 580, 0x000000, "返却ポイント： %d", weapon1_info.level_hierarchy);
+	if (weapon1_info.can_reset == false)
 	{
-		DrawFormatString(100, 280, 0xff0000, "weapon1");
-
-		if (weapon1_info.level_hierarchy == 0)
-		{
-			DrawFormatString(100, 300, 0xff0000, "武器のレベルが0です");
-			DrawFormatString(100, 320, 0xff0000, "リセット不可");
-		}
+		DrawFormatString(200, 600, 0xb00000, "レベルリセット不可");
 	}
-	else
-	{
-		DrawFormatString(100, 280, 0x0000ff, "weapon2");
 
-		if (weapon2_info.level_hierarchy == 0)
-		{
-			DrawFormatString(100, 300, 0x0000ff, "武器のレベルが0です");
-			DrawFormatString(100, 320, 0x0000ff, "リセット不可");
-		}
+	// 武器2
+	DrawFormatString(700, 560, 0x000000, "Lv. %d", weapon2_info.level_hierarchy);
+	DrawFormatString(700, 580, 0x000000, "返却ポイント： %d", weapon2_info.level_hierarchy);
+	if (weapon2_info.can_reset == false)
+	{
+		DrawFormatString(700, 600, 0xb00000, "レベルリセット不可");
 	}
 }
