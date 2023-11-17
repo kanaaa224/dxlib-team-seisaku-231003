@@ -46,7 +46,7 @@ private:
 		}
 	};
 
-	int icon_loc[21][2];  // アイコン座標
+	int icon_loc[DATA_MAX][2];  // アイコン座標
 	int icon_vec;         // アイコン移動量
 
 	// 次に行けるステージ
@@ -82,7 +82,7 @@ private:
 		}
 	};
 
-	int stage_log[10]{0};
+	int stage_log[10];
 
 	Rest* rest;
 	GameUI* ui;
