@@ -25,7 +25,7 @@
 // 
 #define MAX_ALPHA 255		//透過の最大値
 #define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
-#define KNCKBACK 15.0f		//ノックバック
+#define KNCKBACK 25.0f		//ノックバック
 #define ENEMY_SPEED 2.0f	//敵の移動速度
 #define RED_FRAME 15		//ダメージを受けた時の赤く表示するフレーム数
 
