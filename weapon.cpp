@@ -735,7 +735,7 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 	}
 
 	//‰ñ”ğ’†‚Ìƒ_ƒ[ƒW
-	if (weaponLevel == 7 && weaponType == dagger) {
+	if (weaponLevel == 7 && weaponType == dagger && avoidanceDamageFlg) {
 		float tmp_x = location.x - enemyLocation.x;
 		float tmp_y = location.y - enemyLocation.y;
 		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
