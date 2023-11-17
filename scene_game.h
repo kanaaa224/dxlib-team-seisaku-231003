@@ -23,7 +23,6 @@ enum GameSceneState {
 
 class GameScene : public Scene {
 private:
-	int issei;
 
 	int mode, state, frameCounter;
 
@@ -94,7 +93,7 @@ public:
 	void HitCheck();
 
 	//プレイヤーと敵の当たり判定
-	void HitEnemy(EnemyBase* enemy);
+	bool HitEnemy(EnemyBase* enemy);
 
 	//////////////////////////////////////////////////
 
