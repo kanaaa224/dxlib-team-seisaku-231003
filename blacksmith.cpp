@@ -404,7 +404,7 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 		// 行動選択時の画像、テキストの表示
 		SetFontSize(25);
 		DrawFormatString(160, 300, 0x000000, "レベルアップ");
-		DrawFormatString(760, 300, 0x000000, "レベルの振り直し");
+		DrawFormatString(760, 300, 0x000000, "レベルリセット");
 
 		// 画像の表示
 		if (action_number == levelup)

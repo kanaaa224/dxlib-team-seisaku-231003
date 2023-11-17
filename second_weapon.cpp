@@ -355,8 +355,6 @@ void second_weapon::Draw() const
 		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
 	}
 
-
-
 }
 
 void second_weapon::SetWeaponType(int type)
