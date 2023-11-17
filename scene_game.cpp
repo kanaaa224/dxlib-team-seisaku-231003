@@ -335,8 +335,8 @@ void GameScene::draw() const {
 		SlimeDraw();
 		SkeletonDraw();
 		WizardDraw();
-		//EnemyBulletDraw();
-		//DrawFormatString(10, 100, C_RED, "%d", issei);
+		EnemyBulletDraw();
+		DrawFormatString(0, 200, C_BLACK, "%d", tmpBulletNum);
 
 		//////////////////////////////////////////////////
 
@@ -534,9 +534,18 @@ void GameScene::HitCheck()
 			}
 		}
 	}
+
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[i] != nullptr) {
+			if (HitEnemy(enemyBullet[i]) == true) {
+				enemyBullet[i] = nullptr;
+				tmpBulletNum--;
+			}
+		}
+	}
 }
 
-void GameScene::HitEnemy(EnemyBase* enemy)
+bool GameScene::HitEnemy(EnemyBase* enemy)
 {
 	if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
 	{
@@ -547,9 +556,10 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 				player->SetPlayer_HP(enemy->GetDamage());
 				player->SetIsHit(true);
 			}
-			
+			return true;
 		}
 	}
+	return false;
 }
 
 //----------敵----------//
@@ -693,11 +703,13 @@ void GameScene::WizardUpdate()
 				wizard[i]->Update(i, player, weaponA, *(stage));
 
 				if (wizard[i]->GetShootFlg() == true) {
-					//EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
-					/*if (wizard[i]->GetCreateBulletFlg() == true) {
-						
-						
-					}*/
+					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
+						if (tmpBulletNum < MAX_BULLET_NUM) {
+							enemyBullet[tmpBulletNum] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
+						}
+						tmpBulletNum++;
+					}
 				}
 
 				if (wizard[i]->GetHP() <= 0) {
@@ -720,16 +732,12 @@ void GameScene::WizardDraw() const
 //----------弾----------//
 void GameScene::EnemyBulletUpdate(Location location)
 {
-	if (tmpBulletNum < MAX_BULLET_NUM) {
-		enemyBullet[tmpBulletNum] = new EnemyBullet(location);
-		tmpBulletNum++;
-	}
-
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[i] != nullptr) {
 			enemyBullet[i]->Update(player);
 			if (enemyBullet[i]->GetlifeTimeCnt() <= 0) {
 				enemyBullet[i] = nullptr;
+				tmpBulletNum--;
 			}
 		}
 	}
