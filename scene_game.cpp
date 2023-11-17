@@ -309,7 +309,7 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::map) {
-		map->update(mode, weapon_selected);
+		map->update(mode, weapon_selected, player);
 		return this;
 	};
 

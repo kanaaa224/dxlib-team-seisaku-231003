@@ -45,7 +45,7 @@ Map::~Map() {
 	delete rest;
 }
 
-int Map::update(int& mode, bool& weapon_selected) {
+int Map::update(int& mode, bool& weapon_selected, Player* player) {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -158,15 +158,8 @@ int Map::update(int& mode, bool& weapon_selected) {
 		case 2:
 			if (is_rest != true)
 			{
-				//現状意味がない、ゲームメイン時に変更
-				Player* player = new Player();
 				rest->update(player,is_rest);
 				is_show_rest = true;
-				if (is_rest)
-				{
-					delete player;
-					player = nullptr;
-				}
 			}
 			is_show_rest = false;
 			is_rest = false;		//今は何度でも

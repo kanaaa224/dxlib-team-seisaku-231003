@@ -111,7 +111,7 @@ public:
 
 	~Map();
 
-	int update(int&, bool&);
+	int update(int&, bool&, class Player* player);
 
 
 	void draw() const;
