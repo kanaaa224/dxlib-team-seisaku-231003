@@ -50,6 +50,8 @@ private:
 	//弾
 	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
 	int tmpBulletNum = 0;
+	//ミノタウロス
+	Minotaur* minotaur;
 
 	GameUI* gameUI;
 
@@ -111,4 +113,7 @@ public:
 	//弾
 	void EnemyBulletUpdate(Location location);
 	void EnemyBulletDraw() const;
+	//ミノタウロス
+	void MinotaurUpdate();
+	void MinotaurDraw() const;
 };
