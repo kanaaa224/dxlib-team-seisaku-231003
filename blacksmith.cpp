@@ -1,4 +1,5 @@
 #include "blacksmith.h"
+#define _USE_MATH_DEFINES
 
 #include "weaponLevelup.h"
 #include "weapon.h"
@@ -160,8 +161,8 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 	// 背景
 	DrawBox(0, 0, 1280, 720, 0xb0c4de, TRUE);
 
-	//SetFontSize(30);
-	//DrawFormatString(560, 10, 0x000000, "鍛冶");
+	SetFontSize(35);
+	DrawFormatString(600, 20, 0x000000, "鍛冶");
 
 	if (action_selection == false)
 	{
@@ -312,31 +313,31 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 	// カーソル画像
 	//DrawRotaGraph(cursor_x, cursor_y - 50, 0.08f, 0.0f, img_cursor, TRUE);
 
-	DrawBox(130, 490, 510, 590, 0xff0000, TRUE);
-	DrawBox(770, 490, 1150, 590, 0xff0000, TRUE);
+	DrawBox(170, 490, 550, 590, 0xff0000, TRUE);
+	DrawBox(730, 490, 1110, 590, 0xff0000, TRUE);
 
 	if (cursor_x == 900)
 	{
-		DrawBox(130, 490, 510, 590, 0xaa0000, TRUE);
+		DrawBox(170, 490, 550, 590, 0xaa0000, TRUE);
 	}
 	else
 	{
-		DrawBox(770, 490, 1150, 590, 0xaa0000, TRUE);
+		DrawBox(730, 490, 1110, 590, 0xaa0000, TRUE);
 	}
 
 	// 行動選択時の画像、テキストの表示
 	SetFontSize(50);
-	DrawFormatString(170, 520, 0x000000, "レベルアップ");
-	DrawFormatString(780, 520, 0x000000, "レベルリセット");
+	DrawFormatString(210, 520, 0x000000, "レベルアップ");
+	DrawFormatString(740, 520, 0x000000, "レベルリセット");
 
 	// 画像の表示
-	DrawRotaGraph(390, 280, 0.4f, 0.0f, img_hammer, TRUE);
-	DrawRotaGraph(230, 370, 0.2f, 0.0f, img_spark, TRUE);
-	DrawRotaGraph(1070, 210, 0.2f, 0.0f, img_sword, TRUE);
-	DrawRotaGraph(970, 270, 0.2f, 0.0f, img_arrow, TRUE);
-	DrawRotaGraph(820, 330, 0.15f, 0.0f, img_chooce, TRUE);
-	DrawRotaGraph(830, 400, 0.15f, 0.0f, img_chooce, TRUE);
-	DrawRotaGraph(890, 355, 0.15f, 0.0f, img_chooce, TRUE);
+	DrawRotaGraph(430, 280, 0.5f, 0.0f, img_hammer, TRUE);
+	DrawRotaGraph(250, 370, 0.2f, 0.0f, img_spark, TRUE);
+	DrawRotaGraph(1030, 210, 0.2f, 0.0f, img_sword, TRUE);
+	DrawRotaGraph(930, 270, 0.2f, M_PI / - 4.0f, img_arrow, TRUE);
+	DrawRotaGraph(780, 340, 0.15f, 0.0f, img_chooce, TRUE);
+	DrawRotaGraph(840, 355, 0.15f, 0.0f, img_chooce, TRUE);
+	DrawRotaGraph(800, 390, 0.15f, 0.0f, img_chooce, TRUE);
 
 	// 最終強化できる場合
 	if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
@@ -344,6 +345,10 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 		// ビックリマーク
 		DrawRotaGraph(130, 490, 0.1f, 0.0f, img_exclamation_mark, TRUE);
 	}
+
+	DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
+	SetFontSize(20);
+	DrawFormatString(1180, 675, 0x000000, "出る");
 }
 
 // レベルリセット画面描画
