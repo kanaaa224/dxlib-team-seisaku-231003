@@ -714,7 +714,7 @@ void GameScene::WizardUpdate()
 				wizard[i]->Update(i, player, weaponA, *(stage));
 
 				if (wizard[i]->GetShootFlg() == true) {
-					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					EnemyBulletUpdate();
 					if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
 						if (tmpBulletNum < MAX_BULLET_NUM) {
 							enemyBullet[tmpBulletNum] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
@@ -725,6 +725,7 @@ void GameScene::WizardUpdate()
 
 				if (wizard[i]->GetHP() <= 0) {
 					wizard[i] = nullptr;
+					tmpWizardNum--;
 				}
 			}
 		}
@@ -741,7 +742,7 @@ void GameScene::WizardDraw() const
 }
 
 //----------弾----------//
-void GameScene::EnemyBulletUpdate(Location location)
+void GameScene::EnemyBulletUpdate()
 {
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[i] != nullptr) {
@@ -765,7 +766,7 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update();
+	minotaur->Update(player);
 }
 
 void GameScene::MinotaurDraw() const

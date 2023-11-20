@@ -1,19 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include "EnemyBase.h"
 
 class Minotaur :public EnemyBase
 {
 private:
-	int tackleCoolTimeCnt;//ƒ^ƒbƒNƒ‹‚µ‚½Œã‚ÌƒN[ƒ‹ƒ^ƒCƒ€
-	int tacklePrepTimeCnt;//ƒ^ƒbƒNƒ‹€”õŠÔ
-	bool tackleFlg;//
+	//----------ã‚¿ãƒƒã‚¯ãƒ«----------//
+	int tackleCoolTimeCnt;//ã‚¿ãƒƒã‚¯ãƒ«ã—ãŸå¾Œã®ã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ 
+	int tacklePrepTimeCnt;//ã‚¿ãƒƒã‚¯ãƒ«æº–å‚™æ™‚é–“
+	bool tackleFlg;//ç¾åœ¨ãŒã‚¿ãƒƒã‚¯ãƒ«çŠ¶æ…‹ã‹ã©ã†ã‹
+
+	//è–„ã„èµ¤è‰²ã®çŸ©å½¢
+	float boxX_a;
+	float boxY_a;
+
+	//æ¿ƒã„èµ¤è‰²ã®çŸ©å½¢
+	int lineSize;
+
+	//----------å’†å“®----------//
 
 public:
 	Minotaur();
-	void Update();
+	void Update(Player* player);
 	void Draw() const;
 
-	void Tackle();//ƒ^ƒbƒNƒ‹‚ÌˆÚ“®—Ê‚ğŒvZ
-	void Roar();//™ôšK
+	//ã‚¿ãƒƒã‚¯ãƒ«
+	void TackleUpdate();
+	void TackleDraw() const;
+
+	//å’†å“®
+	void RoarUpdate();
+	void RoarDraw() const;
 };
 
