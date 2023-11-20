@@ -17,7 +17,7 @@ private:
 	{
 		state_first,
 		state_weapon,
-		state_reset
+		//state_reset
 	};
 
 	// 画像読込用変数
@@ -28,7 +28,8 @@ private:
 	int img_exclamation_mark;		// ビックリマーク
 	int img_arrow;					// 矢印
 	int img_question_mark;			// はてなマーク（武器無しの場合）
-	//int img_background;			// 背景
+	int img_button_b;				// Bボタン
+	int img_background;			// 背景
 
 	// 武器画像読込用変数
 	int img_sword;					// 片手剣
@@ -46,6 +47,7 @@ private:
 		int level;					// 武器のレベル
 		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
 		int level_hierarchy;		// 武器のレベルの階層
+		bool can_reset;				// レベルリセットできるか
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -55,7 +57,6 @@ private:
 	int cursor_x;					// カーソルX座標
 	int cursor_y;					// カーソルY座標
 	int weapon_number;				// 武器番号
-	bool weapon_selection;			// 武器の選択
 	bool is_blacksmith;				// 鍛冶で呼び出されているか（レベルアップ画面に渡すもの）
 
 	// 画像パラメータ
@@ -65,8 +66,6 @@ private:
 	bool action_selection;			// 行動の選択
 	int action_number;				// 選択した行動の番号格納用
 	bool restore_cursor_position;	// カーソル位置を戻すか
-	bool text_display;				// 確認文言の表示
-	bool is_yes;					// レベルリセットに同意したか
 	int cursor_action;				// 今の行動（カーソル移動で使用）
 
 public:
@@ -89,6 +88,15 @@ private:
 	// レベルリセット関数
 	void ResetLevel(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, weapon_information* info);
 
-	// 武器の選択に戻るときの変数の初期化処理
-	void ReturnWeaponSelection();
+	// 行動選択時の描画
+	void FirstDraw(WeaponLevelUp* weapon_levelup)const;
+
+	// レベルリセット画面描画
+	void DrawResetLevel(WeaponLevelUp* weapon_levelup)const;
+
+	// 武器の画像描画
+	void DrawWeaponImages()const;
+
+	// レベルリセット時のテキスト
+	void DrawResetLevelText()const;
 };

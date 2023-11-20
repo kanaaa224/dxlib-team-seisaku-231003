@@ -167,13 +167,16 @@ void WeaponLevelUp::draw() const
 
 	// ÉeÉXÉgï\é¶
 	SetFontSize(20);
-	//DrawFormatString(160, 10, 0x000000, "W1level(State) : %d", weapon1_info.level);
-	//DrawFormatString(160, 30, 0x000000, "W1ÉåÉxÉãäKëw : %d", weapon1_info.level_hierarchy);
-	//DrawFormatString(160, 50, 0x000000, "W2level (State): %d", weapon2_info.level);
-	//DrawFormatString(160, 70, 0x000000, "W2ÉåÉxÉãäKëw : %d", weapon2_info.level_hierarchy);
-	DrawFormatString(160, 50, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
-	DrawFormatString(160, 70, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
-	//DrawFormatString(160, 30, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
+	//DrawFormatString(0, 10, 0x000000, "W1level(State) : %d", weapon1_info.level);
+	//DrawFormatString(0, 30, 0x000000, "W1ÉåÉxÉãäKëw : %d", weapon1_info.level_hierarchy);
+	//DrawFormatString(0, 50, 0x000000, "W2level (State): %d", weapon2_info.level);
+	//DrawFormatString(0, 70, 0x000000, "W2ÉåÉxÉãäKëw : %d", weapon2_info.level_hierarchy);
+	//DrawFormatString(0, 90, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
+	//DrawFormatString(0, 110, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
+	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
+	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
+	DrawFormatString(0, 0, 0x000000, "branch_point_x[0][0] : %d", branch_point_x[0][0]);
+	DrawFormatString(0, 20, 0x000000, "cursor_x : %d", cursor_x);
 
 	DrawFormatString(1000, 20, 0x000000, "âºÅjPÅF%d", point);
 	
@@ -193,7 +196,7 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
 			break;
 		default:
-			//DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
 			//DrawFormatString(img_x, img_y, 0x000000, "none");
 			break;
 	}
@@ -283,7 +286,6 @@ void WeaponLevelUp::draw() const
 			}
 		}
 	}
-
 }
 
 // èâä˙âªèàóù
