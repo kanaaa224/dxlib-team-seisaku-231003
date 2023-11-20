@@ -124,12 +124,7 @@ Scene* GameScene::update() {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
 								//ダメージアップ
-								if (weaponB->GetWeaponType() == book && weaponB->GetWeaponLevel() == 7) {
-									slime[i]->SetHitHP(weaponA->GetDamage() * 2);
-								}
-								else {
-									slime[i]->SetHitHP(weaponA->GetDamage());
-								}
+								slime[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
 								slime[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -142,7 +137,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
-								slime[i]->SetHitHP(weaponB->GetDamage());
+								slime[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
 								slime[i]->SetHit1stFrameFlg(true);
 							}
 						}
@@ -154,7 +149,7 @@ Scene* GameScene::update() {
 						if (weaponA->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponA->GetDamage());
+								skeleton[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
 								skeleton[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -167,7 +162,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponA->GetDamage());
+								skeleton[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
 								skeleton[i]->SetHit1stFrameFlg(true);
 							}
 						}
@@ -180,12 +175,7 @@ Scene* GameScene::update() {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
 								//ダメージアップ
-								if (weaponB->GetWeaponType() == book && weaponB->GetWeaponLevel() == 7) {
-									wizard[i]->SetHitHP(weaponA->GetDamage() * 2);
-								}
-								else {
-									wizard[i]->SetHitHP(weaponA->GetDamage());
-								}
+								wizard[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
 								wizard[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -197,7 +187,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
-								wizard[i]->SetHitHP(weaponB->GetDamage());
+								wizard[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
 								wizard[i]->SetHit1stFrameFlg(true);
 							}
 						}
