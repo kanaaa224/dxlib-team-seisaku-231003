@@ -43,9 +43,11 @@ GameScene::GameScene() {
 
 	exp = level = 0; // 仮
 
+	currentStage = 1;
+
 	map->ResetStage();
 
-	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+	gameUI->setBanner("ステージ " + std::to_string(currentStage), "全てのモンスターを倒してください");
 };
 
 GameScene::~GameScene() {
@@ -109,7 +111,7 @@ Scene* GameScene::update() {
 
 
 			//武器と敵の当たり判定
-			if (true/*nowStage == 1*/) {
+			if (true/*currentStage == 1*/) {
 				for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 					if (slime[i] != nullptr) {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -259,7 +261,7 @@ Scene* GameScene::update() {
 			gameUI->setEXP(exp, 2000, (exp / 20));
 			gameUI->setLevel(level);
 
-			gameUI->setFloor(nowStage);
+			gameUI->setFloor(currentStage);
 			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
@@ -277,7 +279,7 @@ Scene* GameScene::update() {
 					//return new Map;
 
 					init();
-					nowStage++;
+					currentStage++;
 					mode = GameSceneMode::map;
 				};
 			};
@@ -403,7 +405,7 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+	gameUI->setBanner("ステージ " + std::to_string(currentStage), "全てのモンスターを倒してください");
 	gameUI->init();
 	gameUI->setState(banner);
 };
@@ -432,6 +434,15 @@ int GameScene::getEnemiesNum(int type) {
 	};
 
 	return enemies;
+};
+
+int GameScene::getEXP() {
+	getEnemiesNum(1);
+	return 0;
+};
+
+int GameScene::getLevel() {
+	return 0;
 };
 
 
@@ -634,7 +645,7 @@ void GameScene::EnemyInc()
 //----------スライム----------//
 void GameScene::SlimeUpdate()
 {
-	if (true/*nowStage == 1*/) {
+	if (true/*currentStage == 1*/) {
 		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
 			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 			tmpSlimeNum++;
@@ -648,7 +659,7 @@ void GameScene::SlimeUpdate()
 			}
 		}
 	}
-	else if (nowStage == 2) {
+	else if (currentStage == 2) {
 		if (tmpSlimeNum < SLIME_2_STAGE_NUM) {
 			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_2_STAGE_NUM);
 			tmpSlimeNum++;
