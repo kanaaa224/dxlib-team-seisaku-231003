@@ -95,7 +95,11 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				// Bボタンで行動選択に戻る
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 				{
+					// レベルアップ画面の変数初期化
+					// レベルアップ画面を閉じたときに初期化しないと画像の表示位置がおかしくなってしまう
 					//restore_cursor_position = true;
+					weapon_levelup->Init(weapon, second_weapon, restore_cursor_position);
+
 					action_selection = false;
 				}
 			}

@@ -82,7 +82,13 @@ Scene* GameScene::update() {
 		// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
 			if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
-			else mode = GameSceneMode::weaponLevelup;
+			else
+			{
+				mode = GameSceneMode::weaponLevelup;
+				//レベルアップ画面のカーソル位置初期化用フラグ
+				// レベルアップ画面を開くたびに初期化
+				restor_cursor_position = true;
+			}
 		};
 	};
 
