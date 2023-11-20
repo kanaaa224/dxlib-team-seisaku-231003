@@ -164,7 +164,9 @@ public:
 			hitCnt++;
 		}
 		else {
-			hitCnt = 0;
+			if (hitCnt > 0) {
+				hitCnt--;
+			}
 		}
 	}
 	//•ŠíƒŒƒxƒ‹‚ðŽæ“¾

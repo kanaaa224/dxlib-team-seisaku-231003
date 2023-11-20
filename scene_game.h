@@ -23,8 +23,6 @@ enum GameSceneState {
 
 class GameScene : public Scene {
 private:
-	int issei;
-
 	int mode, state, frameCounter;
 
 	//////////////////////////////////////////////////
@@ -51,26 +49,31 @@ private:
 	//弾
 	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
 	int tmpBulletNum = 0;
+	//ミノタウロス
+	Minotaur* minotaur;
 
 	GameUI* gameUI;
 
 	//////////////////////////////////////////////////
 
 	Map* map;
+
 	Weapon_Selection* weaponSelect;
+	bool weapon_selected;
+
 	WeaponLevelUp* weaponLevelup;
+	bool restor_cursor_position; // レベルアップ画面のカーソル位置を元に戻すか
+
 	Blacksmith* blacksmith;
 
 	//////////////////////////////////////////////////
 
-	int hp, exp, level; // 仮
+	int hp;    // プレイヤー体力
+	int exp;   // 経験値
+	int level; // レベル
+	int point; // ポイント（武器強化に使用）
 
-	int nowStage = 1;//ステージ
-	//bool hitFlg = false;
-	//int hitFrameCounter = 0;
-
-	bool weapon_selected;
-	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
+	int currentStage; // 現在のステージ
 
 public:
 	GameScene();
@@ -89,12 +92,18 @@ public:
 	// 敵の数
 	int getEnemiesNum(int);
 
+	// 累計経験値取得
+	int getEXP();
+
+	// レベル取得
+	int getLevel();
+
 	//////////////////////////////////////////////////
 
 	void HitCheck();
 
 	//プレイヤーと敵の当たり判定
-	void HitEnemy(EnemyBase* enemy);
+	bool HitEnemy(EnemyBase* enemy);
 
 	//////////////////////////////////////////////////
 
@@ -112,4 +121,7 @@ public:
 	//弾
 	void EnemyBulletUpdate(Location location);
 	void EnemyBulletDraw() const;
+	//ミノタウロス
+	void MinotaurUpdate();
+	void MinotaurDraw() const;
 };

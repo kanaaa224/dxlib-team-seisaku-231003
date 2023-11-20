@@ -13,7 +13,7 @@ Rest::Rest(GameUI* ui)
 
 
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
-	bonfire_image = LoadGraph("resources/images/bonfire.png");
+	bonfire_image = LoadGraph("resources/images/bonfirelit.png");
 	button_image = LoadGraph("resources/images/button_a.png");
 
 	is_select = false;
@@ -78,10 +78,10 @@ void Rest::draw() const
 	else
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
-		DrawBox(0, (SCREEN_WIDTH / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, 0x000000, TRUE);
+		DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, 0x000000, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		SetFontSize(48);
-		DrawString((SCREEN_WIDTH / 2) - 48 * 5, (SCREEN_HEIGHT / 2), "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
+		DrawString((SCREEN_WIDTH / 2) - 48 * 4.5, (SCREEN_HEIGHT / 2) - 24, "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
 		SetFontSize(16);
 	}
 }

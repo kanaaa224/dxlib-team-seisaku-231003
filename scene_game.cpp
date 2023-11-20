@@ -25,6 +25,12 @@ GameScene::GameScene() {
 	blacksmith    = new Blacksmith;
 
 	//////////////////////////////////////////////////
+	
+	minotaur = new Minotaur;
+
+	//////////////////////////////////////////////////
+
+
 
 	swordHitFlg = false;
 
@@ -37,9 +43,11 @@ GameScene::GameScene() {
 
 	exp = level = 0; // 仮
 
+	currentStage = 1;
+
 	map->ResetStage();
 
-	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+	gameUI->setBanner("ステージ " + std::to_string(currentStage), "全てのモンスターを倒してください");
 };
 
 GameScene::~GameScene() {
@@ -53,6 +61,8 @@ GameScene::~GameScene() {
 	delete weaponSelect;
 	delete weaponLevelup;
 	delete blacksmith;
+
+	delete minotaur;
 };
 
 Scene* GameScene::update() {
@@ -92,13 +102,16 @@ Scene* GameScene::update() {
 
 		if (gameUI->getState() >= 1) {
 
+			//敵
 			HitCheck();
 			SlimeUpdate();
 			SkeletonUpdate();
 			WizardUpdate();
+			MinotaurUpdate();
+
 
 			//武器と敵の当たり判定
-			if (true/*nowStage == 1*/) {
+			if (true/*currentStage == 1*/) {
 				for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
 					if (slime[i] != nullptr) {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -248,7 +261,7 @@ Scene* GameScene::update() {
 			gameUI->setEXP(exp, 2000, (exp / 20));
 			gameUI->setLevel(level);
 
-			gameUI->setFloor(nowStage);
+			gameUI->setFloor(currentStage);
 			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
@@ -266,7 +279,7 @@ Scene* GameScene::update() {
 					//return new Map;
 
 					init();
-					nowStage++;
+					currentStage++;
 					mode = GameSceneMode::map;
 				};
 			};
@@ -335,8 +348,8 @@ void GameScene::draw() const {
 		SlimeDraw();
 		SkeletonDraw();
 		WizardDraw();
-		//EnemyBulletDraw();
-		//DrawFormatString(10, 100, C_RED, "%d", issei);
+		EnemyBulletDraw();
+		MinotaurDraw();
 
 		//////////////////////////////////////////////////
 
@@ -392,7 +405,7 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+	gameUI->setBanner("ステージ " + std::to_string(currentStage), "全てのモンスターを倒してください");
 	gameUI->init();
 	gameUI->setState(banner);
 };
@@ -421,6 +434,15 @@ int GameScene::getEnemiesNum(int type) {
 	};
 
 	return enemies;
+};
+
+int GameScene::getEXP() {
+	getEnemiesNum(1);
+	return 0;
+};
+
+int GameScene::getLevel() {
+	return 0;
 };
 
 
@@ -534,9 +556,18 @@ void GameScene::HitCheck()
 			}
 		}
 	}
+
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[i] != nullptr) {
+			if (HitEnemy(enemyBullet[i]) == true) {
+				enemyBullet[i] = nullptr;
+				tmpBulletNum--;
+			}
+		}
+	}
 }
 
-void GameScene::HitEnemy(EnemyBase* enemy)
+bool GameScene::HitEnemy(EnemyBase* enemy)
 {
 	if (player->GetIsHit() != true && player->GetPlayer_Avoidance() != true)
 	{
@@ -547,9 +578,10 @@ void GameScene::HitEnemy(EnemyBase* enemy)
 				player->SetPlayer_HP(enemy->GetDamage());
 				player->SetIsHit(true);
 			}
-			
+			return true;
 		}
 	}
+	return false;
 }
 
 //----------敵----------//
@@ -613,7 +645,7 @@ void GameScene::EnemyInc()
 //----------スライム----------//
 void GameScene::SlimeUpdate()
 {
-	if (true/*nowStage == 1*/) {
+	if (true/*currentStage == 1*/) {
 		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
 			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
 			tmpSlimeNum++;
@@ -627,7 +659,7 @@ void GameScene::SlimeUpdate()
 			}
 		}
 	}
-	else if (nowStage == 2) {
+	else if (currentStage == 2) {
 		if (tmpSlimeNum < SLIME_2_STAGE_NUM) {
 			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_2_STAGE_NUM);
 			tmpSlimeNum++;
@@ -693,11 +725,13 @@ void GameScene::WizardUpdate()
 				wizard[i]->Update(i, player, weaponA, *(stage));
 
 				if (wizard[i]->GetShootFlg() == true) {
-					//EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
-					/*if (wizard[i]->GetCreateBulletFlg() == true) {
-						
-						
-					}*/
+					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
+						if (tmpBulletNum < MAX_BULLET_NUM) {
+							enemyBullet[tmpBulletNum] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
+						}
+						tmpBulletNum++;
+					}
 				}
 
 				if (wizard[i]->GetHP() <= 0) {
@@ -720,16 +754,12 @@ void GameScene::WizardDraw() const
 //----------弾----------//
 void GameScene::EnemyBulletUpdate(Location location)
 {
-	if (tmpBulletNum < MAX_BULLET_NUM) {
-		enemyBullet[tmpBulletNum] = new EnemyBullet(location);
-		tmpBulletNum++;
-	}
-
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[i] != nullptr) {
 			enemyBullet[i]->Update(player);
 			if (enemyBullet[i]->GetlifeTimeCnt() <= 0) {
 				enemyBullet[i] = nullptr;
+				tmpBulletNum--;
 			}
 		}
 	}
@@ -742,4 +772,14 @@ void GameScene::EnemyBulletDraw() const
 			enemyBullet[i]->Draw();
 		}
 	}
+}
+
+void GameScene::MinotaurUpdate()
+{
+	minotaur->Update();
+}
+
+void GameScene::MinotaurDraw() const
+{
+	minotaur->Draw();
 }

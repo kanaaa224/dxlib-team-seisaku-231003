@@ -88,13 +88,6 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 				interval = 0;
 				cursor_x = 960;
 				weapon_number = weapon2_info.num;
-				//weapon_number++;
-
-				//if (weapon_number > weapon2_info.num)
-				//{
-				//	cursor_x = 580;
-				//	weapon_number = weapon1_info.num;
-				//}
 			}
 			else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
 			{
@@ -103,13 +96,6 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& r
 				cursor_x = 580;
 				weapon_number = weapon1_info.num;
 
-				//weapon_number--;
-
-				//if (weapon_number < weapon1_info.num)
-				//{
-				//	cursor_x = 960;
-				//	weapon_number = weapon2_info.num;
-				//}
 			}
 		//}
 
@@ -207,7 +193,7 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
 			break;
 		default:
-			//DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
 			//DrawFormatString(img_x, img_y, 0x000000, "none");
 			break;
 	}
@@ -520,9 +506,6 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	DrawFormatString(200, 400, 0x000000, "移動速度");
 	DrawFormatString(200, 420, 0x000000, "　        30");
 
-	// 詳細枠の調整
-	//DrawBox(190, 240, 420, 680, 0xff0000, FALSE);
-
 	// 武器名の表示
 	if (cursor_x == 580)
 	{
@@ -546,14 +529,14 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	{
 		switch (weapon2_info.type)
 		{
-		case 0:
+		case spear:
 			DrawFormatString(200, 100, 0x000000, "槍");
 			break;
-		case 1:
+		case frail:
 			DrawFormatString(200, 100, 0x000000, "フレイル");
 			break;
-		case 2:
-			DrawFormatString(200, 100, 0x000000, "本");
+		case book:
+			DrawFormatString(200, 100, 0x000000, "魔導書");
 			break;
 		default:
 			DrawFormatString(200, 100, 0xb00000, "武器がありません");
@@ -569,6 +552,45 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			if (weapon1_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
 			{
 				DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
+
+				if (weapon1_info.cursor_pos == -level_cursor_pos)
+				{
+					// レベル7
+					switch (weapon1_info.type)
+					{
+					case sword:			// 片手剣
+						DrawFormatString(200, 500, 0x000000, "伝説の剣");
+						break;
+					case dagger:		// 短剣
+						DrawFormatString(200, 500, 0x000000, "アサシンダガ―");
+						break;
+					case greatSword:	// 大剣
+						DrawFormatString(200, 500, 0x000000, "旋風斬");
+						break;
+					default:
+						DrawFormatString(200, 500, 0xb00000, "武器がありません");
+						break;
+					}
+				}
+				else
+				{
+					// レベル8
+					switch (weapon1_info.type)
+					{
+					case sword:			// 片手剣
+						DrawFormatString(200, 500, 0x000000, "魔剣ブラッドファング");
+						break;
+					case dagger:		// 短剣
+						DrawFormatString(200, 500, 0x000000, "投げナイフ");
+						break;
+					case greatSword:	// 大剣
+						DrawFormatString(200, 500, 0x000000, "砂塵の太刀");
+						break;
+					default:
+						DrawFormatString(200, 500, 0xb00000, "武器がありません");
+						break;
+					}
+				}
 			}
 			else if (point <= 0)
 			{
@@ -580,6 +602,46 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			if (weapon2_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
 			{
 				DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
+
+				if (weapon2_info.cursor_pos == -level_cursor_pos)
+				{
+					// レベル7
+					switch (weapon2_info.type)
+					{
+					case spear:
+						DrawFormatString(200, 500, 0x000000, "ロイヤルランス");
+						break;
+					case frail:
+						DrawFormatString(200, 500, 0x000000, "三つ首の鎖");
+						break;
+					case book:
+						DrawFormatString(200, 500, 0x000000, "賢者の加護");
+						break;
+					default:
+						DrawFormatString(200, 500, 0xb00000, "武器がありません");
+						break;
+					}
+				}
+				else
+				{
+					// レベル8
+					switch (weapon2_info.type)
+					{
+					case spear:
+						DrawFormatString(200, 500, 0x000000, "グングニル");
+						break;
+					case frail:
+						DrawFormatString(200, 500, 0x000000, "アースクラッシャー");
+						break;
+					case book:
+						DrawFormatString(200, 500, 0x000000, "エンチャントバレット");
+						break;
+					default:
+						DrawFormatString(200, 500, 0xb00000, "武器がありません");
+						break;
+					}
+				}
+
 			}
 			else if (point <= 0)
 			{
