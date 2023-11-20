@@ -10,7 +10,7 @@ private:
 	int lifeTimeCnt = 0;
 
 public:
-	EnemyBullet(Location spawnLocation);
+	EnemyBullet(Location spawnLocation , Player* player);
 	void Update(Player*player);
 	void Draw() const;
 

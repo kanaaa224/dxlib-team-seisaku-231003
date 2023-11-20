@@ -23,7 +23,6 @@ enum GameSceneState {
 
 class GameScene : public Scene {
 private:
-	int issei;
 
 	int mode, state, frameCounter;
 
@@ -51,6 +50,8 @@ private:
 	//弾
 	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
 	int tmpBulletNum = 0;
+	//ミノタウロス
+	Minotaur* minotaur;
 
 	GameUI* gameUI;
 
@@ -94,7 +95,7 @@ public:
 	void HitCheck();
 
 	//プレイヤーと敵の当たり判定
-	void HitEnemy(EnemyBase* enemy);
+	bool HitEnemy(EnemyBase* enemy);
 
 	//////////////////////////////////////////////////
 
@@ -112,4 +113,7 @@ public:
 	//弾
 	void EnemyBulletUpdate(Location location);
 	void EnemyBulletDraw() const;
+	//ミノタウロス
+	void MinotaurUpdate();
+	void MinotaurDraw() const;
 };

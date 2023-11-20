@@ -901,11 +901,11 @@ bool second_weapon::ThreeFrailAnim()
 	swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;*/
 
 
-	frailLocation1.x = 70 * cos(d_r(90.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;
-	frailLocation1.y = 70 * sin(d_r(90.0f) + level7FrailRot) + 0 * cos(d_r(90.0f) + level7FrailRot) + frailLcation.y;
+	frailLocation1.x = 140 * cos(d_r(120.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation1.y = 140 * sin(d_r(120.0f) + level7FrailRot) + 0 * cos(d_r(90.0f) + level7FrailRot) + frailLcation.y;
 
-	frailLocation2.x = 70 * cos(d_r(270.0f) + level7FrailRot) - 0 * sin(d_r(270.0f) + level7FrailRot) + frailLcation.x;
-	frailLocation2.y = 70 * sin(d_r(270.0f) + level7FrailRot) + 0 * cos(d_r(270.0f) + level7FrailRot) + frailLcation.y;
+	frailLocation2.x = 140 * cos(d_r(240.0f) + level7FrailRot) - 0 * sin(d_r(270.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation2.y = 140 * sin(d_r(240.0f) + level7FrailRot) + 0 * cos(d_r(270.0f) + level7FrailRot) + frailLcation.y;
 
 	return false;
 }
