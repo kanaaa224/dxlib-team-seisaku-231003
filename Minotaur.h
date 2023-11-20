@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "EnemyBase.h"
+#define BOX_MAX_WIDTH  50  //タックル攻撃予測の矩形の最大の幅
+#define BOX_MAX_LENGTH 390 //タックル攻撃予測の矩形の最大の長さ
 
 class Minotaur :public EnemyBase
 {
@@ -15,6 +17,7 @@ private:
 
 	//濃い赤色の矩形
 	int lineSize;
+	int lineSizeChageCnt;
 
 	//----------咆哮----------//
 
