@@ -262,11 +262,11 @@ Scene* GameScene::update() {
 			gameUI->setLevel(level);
 
 			gameUI->setFloor(currentStage);
-			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
+			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
 			//////////////////////////////////////////////////
-			if (getEnemiesNum(0) <= 0 && frameCounter) {
+			if (getEnemyNum(0) <= 0 && frameCounter) {
 				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
 				if (gameUI->getState() == 2) {
 					gameUI->init();
@@ -292,7 +292,7 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == 1) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), getEnemyNum(0) / getEnemyMax(0)); // 怪奇現象発生中
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			//////////////////////////////////////////////////
@@ -410,39 +410,35 @@ void GameScene::init() {
 	gameUI->setState(banner);
 };
 
-int GameScene::getEnemiesNum(int type) {
-	int enemies = 0;
+int GameScene::getEnemyMax(int type) {
+	int slimeNum    = 0;
+	int skeletonNum = 0;
+	int wizardNum   = 0;
 
-	if (type == 0) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) enemies++;
-		};
+	switch (currentStage) {
+	case 1:
+		slimeNum    = SLIME_1_STAGE_NUM;
+		skeletonNum = SKELETON_1_STAGE_NUM;
+		wizardNum   = WIZARD_1_STAGE_NUM;
+		break;
 
-		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
-			if (skeleton[i] != nullptr) enemies++;
-		};
+		// 全ステージ分書かなくても済む方法考え中
 
-		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
-			if (wizard[i] != nullptr) enemies++;
-		};
+	default:
+		break;
 	};
 
-	if (type == 1) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) enemies++;
-		};
-	};
-
-	return enemies;
+	if (type == 0) return (slimeNum + skeletonNum + wizardNum);
+	if (type == 1) return slimeNum;
+	if (type == 2) return skeletonNum;
+	if (type == 3) return wizardNum;
 };
 
-int GameScene::getEXP() {
-	getEnemiesNum(1);
-	return 0;
-};
-
-int GameScene::getLevel() {
-	return 0;
+int GameScene::getEnemyNum(int type) { // 仮
+	if (type == 0) return (tmpSlimeNum + tmpSkeletonNum + tmpWizardNum);
+	if (type == 1) return tmpSlimeNum;
+	if (type == 2) return tmpSkeletonNum;
+	if (type == 3) return tmpWizardNum;
 };
 
 
