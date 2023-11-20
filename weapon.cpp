@@ -289,11 +289,11 @@ void weapon::Draw() const
 	//DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
 	/*DrawFormatString(0, 120, 0xffffff, "クールタイム　%d", maxCoolTime);
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);*/
-	/*DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
+	DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
 	DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
-	DrawFormatString(0, 240, 0xffffff, "rennzoku %d",hitCnt );*/
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d",hitCnt );
 
 
 
@@ -735,7 +735,7 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 	}
 
 	//回避中のダメージ
-	if (weaponLevel == 7 && weaponType == dagger) {
+	if (weaponLevel == 7 && weaponType == dagger && avoidanceDamageFlg) {
 		float tmp_x = location.x - enemyLocation.x;
 		float tmp_y = location.y - enemyLocation.y;
 		float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
@@ -797,7 +797,7 @@ void weapon::SwordLevel8(Player* player)
 
 		if (isAttacking && !oldIsAttacking) {
 			if (player->GetPlayer_HP() > MAX_HP / 2) {
-				player->SetPlayer_HP(MAX_HP / 10);//ダメージを受ける
+				player->SetPlayer_HP(MAX_HP / 100);//ダメージを受ける
 
 				damage = INIT_DAMAGE_SWORD * 2;
 			}
@@ -817,23 +817,23 @@ void weapon::SwordLevel8Heel(Player* player)
 {
 	if (weaponType == sword && weaponLevel == 8) {
 		if (hitCnt > 15) {
-			heelAmount = 30;
+			heelAmount = 6;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 12) {
-			heelAmount = 25;
+			heelAmount = 5;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 9) {
-			heelAmount = 20;
+			heelAmount = 4;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 6) {
-			heelAmount = 15;
+			heelAmount = 3;
 			player->SetPlayer_HP(-heelAmount);
 		}
 		else if (hitCnt > 3) {
-			heelAmount = 10;
+			heelAmount = 2;
 			player->SetPlayer_HP(-0.1);
 		}
 	}
