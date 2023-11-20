@@ -18,16 +18,16 @@
 #define L 0 // 左
 #define R 1 // 右
 
-// スティック 構造体
+// スティック入力 構造体
 struct PadStick {
-	float x = 0, // 横軸値
-		  y = 0; // 縦軸値
+	float x = 0; // 横軸値
+	float y = 0; // 縦軸値
 };
 
 // マウスカーソル 構造体
 struct MousePoint {
-	int x = 0, // 横軸値
-		y = 0; // 縦軸値
+	int x = 0; // 横軸値
+	int y = 0; // 縦軸値
 };
 
 // 入力コントローラー クラス（ゲームコントローラー / キーボード・マウス）
