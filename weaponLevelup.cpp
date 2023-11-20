@@ -193,7 +193,7 @@ void WeaponLevelUp::draw() const
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
 			break;
 		default:
-			//DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
+			DrawRotaGraph(img_x, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
 			//DrawFormatString(img_x, img_y, 0x000000, "none");
 			break;
 	}
