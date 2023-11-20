@@ -25,6 +25,12 @@ GameScene::GameScene() {
 	blacksmith    = new Blacksmith;
 
 	//////////////////////////////////////////////////
+	
+	minotaur = new Minotaur;
+
+	//////////////////////////////////////////////////
+
+
 
 	swordHitFlg = false;
 
@@ -53,6 +59,8 @@ GameScene::~GameScene() {
 	delete weaponSelect;
 	delete weaponLevelup;
 	delete blacksmith;
+
+	delete minotaur;
 };
 
 Scene* GameScene::update() {
@@ -92,10 +100,13 @@ Scene* GameScene::update() {
 
 		if (gameUI->getState() >= 1) {
 
+			//敵
 			HitCheck();
 			SlimeUpdate();
 			SkeletonUpdate();
 			WizardUpdate();
+			MinotaurUpdate();
+
 
 			//武器と敵の当たり判定
 			if (true/*nowStage == 1*/) {
@@ -336,7 +347,7 @@ void GameScene::draw() const {
 		SkeletonDraw();
 		WizardDraw();
 		EnemyBulletDraw();
-		DrawFormatString(0, 200, C_BLACK, "%d", tmpBulletNum);
+		MinotaurDraw();
 
 		//////////////////////////////////////////////////
 
@@ -750,4 +761,14 @@ void GameScene::EnemyBulletDraw() const
 			enemyBullet[i]->Draw();
 		}
 	}
+}
+
+void GameScene::MinotaurUpdate()
+{
+	minotaur->Update();
+}
+
+void GameScene::MinotaurDraw() const
+{
+	minotaur->Draw();
 }

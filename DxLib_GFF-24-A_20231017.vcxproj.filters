@@ -61,6 +61,9 @@
     <Filter Include="ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器強化">
       <UniqueIdentifier>{8d31cc9b-9136-4f0c-838b-76b011ba8007}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム処理\Enemy\Boss">
+      <UniqueIdentifier>{275dcab2-53f9-452d-824d-64022d250ce6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -165,6 +168,10 @@
     <ClInclude Include="scene_debug.h">
       <Filter>シーン\デバッグ</Filter>
     </ClInclude>
+    <ClInclude Include="DrawHelp.h" />
+    <ClInclude Include="Minotaur.h">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sceneManager.cpp">
@@ -262,6 +269,10 @@
     </ClCompile>
     <ClCompile Include="scene_debug.cpp">
       <Filter>シーン\デバッグ</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawHelp.cpp" />
+    <ClCompile Include="Minotaur.cpp">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
