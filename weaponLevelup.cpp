@@ -52,9 +52,9 @@ WeaponLevelUp::WeaponLevelUp()
 	w_p_avoidancecooltime = 0;
 	w_p_upperlimitlimit = 0;
 
-	p_speed = 0;
+	p_speed = 0.0f;
 	p_avoidancecooltime = 0;
-	p_upperlimitlimit = 0;
+	p_upperlimitlimit = 0.0f;
 }
 
 WeaponLevelUp::~WeaponLevelUp()
@@ -72,7 +72,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 
 	// weaponからのプレイヤー情報
 	p_speed = player->GetPlayer_Speed();
-	p_avoidancecooltime = player->GetPlayer_Avoidance();
+	p_avoidancecooltime = player->GetAvoidance_limit();
 	p_upperlimitlimit = player->GetPlayer_Upperlimit();
 
 	// カーソルの位置を元に戻す
@@ -183,9 +183,6 @@ void WeaponLevelUp::draw() const
 	SetFontSize(20);
 	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
 
-	//DrawFormatString(900, 40, 0x000000, "プレイヤーHP：%d", (int)player->GetPlayer_HP());
-	//DrawFormatString(900, 40, 0x000000, "プレイヤーHP：%d", weapon->);
-	
 	// レベルアップ詳細のテキスト群
 	//DrawLevelUpDetails();
 
@@ -314,9 +311,9 @@ void WeaponLevelUp::draw() const
 	DrawFormatString(160, 80, 0x000000, "w_p_upperlimitlimit : %d", w_p_upperlimitlimit);
 	
 	DrawFormatString(160, 120, 0x000000, "player.cppからの情報");
-	DrawFormatString(160, 140, 0x000000, "p_speed : %d", p_speed);
+	DrawFormatString(160, 140, 0x000000, "p_speed : %f", p_speed);
 	DrawFormatString(160, 160, 0x000000, "p_avoidancecooltime : %d", p_avoidancecooltime);
-	DrawFormatString(160, 180, 0x000000, "p_upperlimitlimit : %d", p_upperlimitlimit);
+	DrawFormatString(160, 180, 0x000000, "p_upperlimitlimit : %f", p_upperlimitlimit);
 #endif
 
 }

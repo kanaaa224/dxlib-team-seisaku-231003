@@ -66,12 +66,12 @@ private:
 	// プレイヤー情報格納用（weaponから）
 	int w_p_speed;					// 速度
 	int w_p_avoidancecooltime;		// 回避のクールタイム
-	int w_p_upperlimitlimit;		// 
-	// 
+	int w_p_upperlimitlimit;		// 回避速度
+
 	// プレイヤー情報格納用（playerから）
-	int p_speed;					// 速度
+	float p_speed;					// 速度
 	int p_avoidancecooltime;		// 回避のクールタイム
-	int p_upperlimitlimit;			// 
+	float p_upperlimitlimit;		// 回避速度
 
 public:
 	WeaponLevelUp();
