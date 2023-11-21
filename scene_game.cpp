@@ -41,7 +41,9 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-	exp = level = 0; // 仮
+	hp = 0;
+	exp = 0;
+	point = 0;
 
 	currentStage = 1;
 
@@ -260,8 +262,7 @@ Scene* GameScene::update() {
 			// GameUI 仮
 			gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
 			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
-			gameUI->setLevel(level);
-			//gameUI->setPoint(point);
+			gameUI->setPoint(point);
 
 			gameUI->setFloor(currentStage);
 			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));

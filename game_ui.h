@@ -14,7 +14,7 @@ class GameUI {
 private:
 	int state, frameCounter;
 
-	int score, level, floor;
+	int score, point, floor;
 
 	std::map<std::string, int> exp;
 	std::map<std::string, int> hp;
@@ -85,7 +85,10 @@ public:
 	void setScore(int);
 
 	// プレイヤーのレベルを設定
-	void setLevel(int);
+	//void setLevel(int);
+
+	// ポイントを設定
+	void setPoint(int);
 
 	// 何階にいるか（ステージ）の設定
 	void setFloor(int);

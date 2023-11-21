@@ -140,7 +140,7 @@ void GameUI::drawHUD() const {
 
 
 	//////////////////////////////////////////////////
-	// レベル
+	// ポイント
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
@@ -148,10 +148,10 @@ void GameUI::drawHUD() const {
 	if(opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int color = GetColor(255, 255, 255);
-	if (level < 10) {
+	if (point < 10) {
 		color = GetColor(255, 214, 0);
 	}
-	else if (level < 20) {
+	else if (point < 20) {
 		// 未完成
 	};
 
@@ -159,12 +159,12 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(50);
 	//ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
-	std::string str = std::to_string(level);
+	std::string str = std::to_string(point);
 	DrawFormatString(((rootRX - 60) - GetDrawFormatStringWidth(str.c_str()) / 2), rootRY + 35, 0xffffff, str.c_str());
 
-	SetFontSize(20);
+	//SetFontSize(20);
 	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
-	DrawFormatString(((rootRX - 90) - GetDrawFormatStringWidth("Lv.") / 2), rootRY + 70, 0xffffff, "Lv.");
+	//DrawFormatString(((rootRX - 90) - GetDrawFormatStringWidth("Lv.") / 2), rootRY + 70, 0xffffff, "Lv.");
 
 
 	//////////////////////////////////////////////////
@@ -609,8 +609,8 @@ void GameUI::setScore(int Score) {
 	score = Score;
 };
 
-void GameUI::setLevel(int Level) {
-	level = Level;
+void GameUI::setPoint(int Point) {
+	point = Point;
 };
 
 void GameUI::setFloor(int Floor) {

@@ -70,8 +70,10 @@ private:
 
 	int hp;    // プレイヤー体力
 	int exp;   // 経験値
-	int level; // レベル
+	//int level; // レベル
 	int point; // ポイント（武器強化に使用）
+
+	int score; // 累計スコア
 
 	int currentStage; // 現在のステージ
 
