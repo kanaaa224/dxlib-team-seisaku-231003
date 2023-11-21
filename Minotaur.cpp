@@ -66,10 +66,10 @@ void Minotaur::TackleUpdate()
 
 		//箱の長さを５０大きくする
 		if (boxY_a < 0) {
-			boxY_a -= 50;
+			boxY_a = -300;
 		}
 		else if (boxY_a > 0) {
-			boxY_a += 50;
+			boxY_a = +300;
 		}
 
 		//プレイヤーとの距離が箱の長さの最大を超えるなら
