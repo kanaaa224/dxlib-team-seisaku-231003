@@ -40,6 +40,7 @@ second_weapon::second_weapon()
 	level8FrailRadius = 100.0f;
 	frailDistance = 0.0f;
 
+	Bullet_speed = 10;
 
 	book_move = { 0,0,0 };
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
@@ -445,14 +446,15 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//ダメージとクールタイムのみ クールタイムだけ上昇
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.9f;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
-			//ダメージを少し上昇
+			//クールタイムを少し上昇
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
@@ -460,10 +462,12 @@ void second_weapon::LevelState()
 			break;
 
 		case book:
+			//ダメージとクールタイムと弾の発射速度のみ クールタイムだけ上昇
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.9f;
 			damage = INIT_DAMAGE_BOOK;
+			Bullet_speed;
 			break;
 		}
 
@@ -472,10 +476,11 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//クールタイムのみ　ダメージは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.6f;
+			damage = INIT_DAMAGE_SPEAR + 2;
 			break;
 
 		case frail:
@@ -488,10 +493,11 @@ void second_weapon::LevelState()
 			break;
 
 		case book:
+			//魔導書　クールタイムを上げる　ダメージは微量
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.8f;
-			damage = INIT_DAMAGE_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
+			damage = INIT_DAMAGE_BOOK + 2;
 			break;
 		}
 
@@ -500,10 +506,11 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//ダメージのみ　クールタイムは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
+			damage = INIT_DAMAGE_SPEAR + 5;
 			break;
 
 		case frail:
@@ -517,10 +524,12 @@ void second_weapon::LevelState()
 			break;
 
 		case book:
+			//魔導書　ダメージを上げる　弾のスピードを上げる
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.8f;
 			damage = INIT_DAMAGE_BOOK;
+			Bullet_speed = 15.0f;
 			break;
 		}
 
@@ -529,10 +538,11 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//クールタイムのみ　ダメージは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
+			damage = INIT_DAMAGE_SPEAR + 5;
 			break;
 
 		case frail:
@@ -547,8 +557,9 @@ void second_weapon::LevelState()
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
-			damage = INIT_DAMAGE_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.5f;
+			damage = INIT_DAMAGE_BOOK + 5;
+			Bullet_speed = 15;
 			break;
 		}
 
@@ -557,10 +568,11 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//ダメージのみ　クールタイムは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.6f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
+			damage = INIT_DAMAGE_SPEAR + 10;
 			break;
 
 		case frail:
@@ -576,8 +588,9 @@ void second_weapon::LevelState()
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
-			damage = INIT_DAMAGE_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
+			damage = INIT_DAMAGE_BOOK + 10;
+			Bullet_speed = 30.0f;
 			break;
 		}
 
@@ -589,8 +602,8 @@ void second_weapon::LevelState()
 		case spear:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.5f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
+			damage = INIT_DAMAGE_SPEAR + 10;
 			break;
 
 		case frail:
@@ -607,7 +620,8 @@ void second_weapon::LevelState()
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.5f;
-			damage = INIT_DAMAGE_BOOK;
+			damage = INIT_DAMAGE_BOOK + 10;
+			Bullet_speed = 30.0f;
 			break;
 		}
 
@@ -857,8 +871,8 @@ void second_weapon::MoveBookBullet()
 
 			}
 			else {
-				bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
-				bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
+				bullets[i].l.x += bullets[i].v.x * Bullet_speed + playerVector.x * -1;
+				bullets[i].l.y += bullets[i].v.y * Bullet_speed + playerVector.y * -1;
 			}
 
 			if (bullets[i].distance > 300) {
