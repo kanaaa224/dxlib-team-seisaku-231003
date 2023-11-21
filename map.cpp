@@ -3,13 +3,6 @@
 
 Map::Map() {
 
-	// アイコン位置をデフォルトにセット
-	for (int i = 0; i < DATA_MAX; i++)
-	{
-		icon_loc[i][0] = icon_loc_def[i][0];
-		icon_loc[i][1] = icon_loc_def[i][1];
-	}
-
 	// アイコン移動初期化処理
 	icon_vec = 0;
 	cursor_pos = 0;
@@ -32,7 +25,6 @@ Map::~Map() {
 	DeleteGraph(rest_img);
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
-	DeleteGraph(map_cursor);
 }
 
 int Map::update(int& mode, bool& weapon_selected) {
@@ -145,10 +137,10 @@ int Map::update(int& mode, bool& weapon_selected) {
 
 		now_stage = cursor_loc;
 
-		switch (MapDeta[now_stage])
+		switch (MapData[now_stage])
 		{
 		case 0:		//戦闘
-			if(weapon_selected) mode = GameSceneMode::main;
+			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
 			break;
 		case 1:		//イベント
@@ -166,9 +158,10 @@ int Map::update(int& mode, bool& weapon_selected) {
 			break;
 		default:
 			break;
-	}
+		}
 
-	return 0;
+		return 0;
+	}
 };
 
 void Map::draw() const {
@@ -177,7 +170,7 @@ void Map::draw() const {
 	{
 		// デバック表示
 		DrawFormatString(10, 30, 0xffff00, "内部データ");
-		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
+		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
 		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 
 			// ステージ間のライン
@@ -215,7 +208,7 @@ void Map::draw() const {
 			}
 			//アイコン番号表示(Debug)
 			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
-		}
+		
 		// カーソル表示(アイコンの円と被るように半径に-1)
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xff0000, 0, 3);
 	}

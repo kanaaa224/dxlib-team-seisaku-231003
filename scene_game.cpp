@@ -385,7 +385,7 @@ Scene* GameScene::update() {
 	if (mode == GameSceneMode::rest)
 	{
 		map->ClearStage();
-		rest->update(player, mode, nowStage);
+		rest->update(player, mode, currentStage);
 		return this;
 	}
 
