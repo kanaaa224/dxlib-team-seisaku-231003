@@ -34,6 +34,9 @@ weapon::weapon()
 	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
 	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
 	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	//attackbuf_img = LoadGraph("resources/images/baria_red.png");
+
+	attackbuf = 1.0f;
 
 	rotSpeed = 4.0f;
 	for (int i = 0; i < 10; i++)
@@ -281,6 +284,10 @@ void weapon::Draw() const
 		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
+	if (attackbuf == 2.0f) {
+		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
+	}
+
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
@@ -394,6 +401,8 @@ void weapon::LevelUpDebug(int num)
 
 void weapon::LevelState()
 {
+	attackbuf = 1.0f;
+
 	switch (weaponLevel)
 	{
 	case 0:
@@ -659,6 +668,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.3f;
 			damage = INIT_DAMAGE_SWORD;
+			attackbuf = 2.0f;
 			break;
 
 		case dagger:
@@ -816,11 +826,11 @@ void weapon::SwordLevel8(Player* player)
 			if (player->GetPlayer_HP() > MAX_HP / 2) {
 				player->SetPlayer_HP(MAX_HP / 100);//ƒ_ƒ[ƒW‚ðŽó‚¯‚é
 
-				damage = INIT_DAMAGE_SWORD * 2;
+				damage = INIT_DAMAGE_SWORD * attackbuf;
 			}
 		}
 
-		if (damage == INIT_DAMAGE_SWORD * 2) {
+		if (damage == INIT_DAMAGE_SWORD * attackbuf) {
 			fpsCnt++;
 			if (fpsCnt > 120) {
 				damage = INIT_COOLTIME_SWORD;

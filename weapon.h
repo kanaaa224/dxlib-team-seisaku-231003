@@ -92,6 +92,9 @@ private:
 	int sword_img;
 	int dagger_img;
 	int greatsword_img;
+	int attackbuf_img;
+
+	float attackbuf;
 
 	//仮　プレイヤーのステータス
 	float P_speed;
