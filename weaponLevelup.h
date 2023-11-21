@@ -6,8 +6,9 @@
 #define MAX_LEVEL_HIERARCHY			4		// レベル階層の最大値
 #define LEVEL_HIERARCHY_HEIGHT		90		// 1階層の高さ
 
-class weapon;
-class second_weapon;
+class weapon;								// 最初の武器
+class second_weapon;						// 二つ目の武器
+class Player;								// プレイヤー
 
 class WeaponLevelUp
 {
