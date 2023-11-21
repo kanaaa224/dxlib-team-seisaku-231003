@@ -32,4 +32,16 @@ void Credit::draw()const
 	SetFontSize(40);
 	DrawString(100, 350+g_PosY, "pngtree", 0x000000);
 	DrawString(100, 390+g_PosY, "グラフィックデザイン科の方々", 0x000000);
+	DrawString(100, 430+g_PosY, "チコデザ", 0x000000);
+	DrawString(100, 470+g_PosY, "ツカッテ", 0x000000);
+	DrawString(100, 510+g_PosY, "BOOTH", 0x000000);
+	DrawString(100, 550+g_PosY, "インディー8ビット", 0x000000);
+	DrawString(100, 590+g_PosY, "AKKODiS", 0x000000);
+	DrawString(100, 630+g_PosY, "romptnAI", 0x000000);
+	DrawString(100, 670+g_PosY, "ITOTM", 0x000000);
+	DrawString(100, 710+g_PosY, "くろくまそふと", 0x000000);
+	DrawString(100, 750+g_PosY, "note_lilish", 0x000000);
+	DrawString(100, 790+g_PosY, "A.I. Art Stock", 0x000000);
+	DrawString(100, 830+g_PosY, "ドッタウン", 0x000000);
+	DrawString(100, 870+g_PosY, "ピクセルアートタウン", 0x000000);
 }

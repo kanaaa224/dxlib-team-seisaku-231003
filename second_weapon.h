@@ -70,6 +70,8 @@ private:
 	int spear_img;
 	int frail_img;
 	int book_img;
+	int bullet_img;
+	int ironball_img;
 
 
 	float tmp, tmp1;
@@ -95,6 +97,7 @@ private:
 	Vector frailVec2;
 	float level7FrailRot;
 	bool level7FrailFlg;
+	float frailDistance;
 	float level8FrailRadius;
 
 	Vector book_move;
@@ -102,7 +105,7 @@ private:
 	bool barrierFlg;
 	
 
-
+	float attackBufRate;
 
 public:
 	second_weapon();
@@ -121,6 +124,8 @@ public:
 
 
 	bool SpearAnim();
+	bool SpearThunder();	//雷が降るまで、振り切ったタイミングでtrue
+	bool SpearThunderCollision();	//雷の当たり判定
 
 	void SpawnBookBullets(int num);
 	void MoveBookBullet();
@@ -129,6 +134,8 @@ public:
 	bool FrailAnim();
 	bool ThreeFrailAnim();
 
+	//引数でどこから呼び出されたか指定する(0,second_weapon.cpp 1,scene_game.cpp)
+	void InitWeapon(int type);
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
@@ -147,5 +154,7 @@ public:
 	int GetWeaponType() { return weaponType; }
 	int GetCoolTime() { return coolTime; }
 	bool GetBarrierFlg() { return barrierFlg; }
+
+	float GetAttackBufRate() { return attackBufRate; }
 };
 
