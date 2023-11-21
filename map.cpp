@@ -1,7 +1,7 @@
 //#include "map.h"
 #include "main.h"
 
-Map::Map(GameUI* ui) {
+Map::Map() {
 
 	// アイコン位置をデフォルトにセット
 	for (int i = 0; i < DATA_MAX; i++)
@@ -10,9 +10,6 @@ Map::Map(GameUI* ui) {
 		icon_loc[i][1] = icon_loc_def[i][1];
 	}
 
-	this->ui = ui;
-	rest = new Rest(ui);
-
 	// アイコン移動初期化処理
 	icon_vec = 0;
 	cursor_pos = 0;
@@ -20,11 +17,6 @@ Map::Map(GameUI* ui) {
 	move_cool = 0;
 	cursor_move = FALSE;
 	now_stage = DATA_MAX - 1;
-
-	is_map_mode = true;
-
-	is_rest = false;
-	is_show_rest = false;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -42,10 +34,9 @@ Map::~Map() {
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
 	DeleteGraph(map_cursor);
-	delete rest;
 }
 
-int Map::update(int& mode, bool& weapon_selected, Player* player) {
+int Map::update(int& mode, bool& weapon_selected) {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -141,96 +132,81 @@ int Map::update(int& mode, bool& weapon_selected, Player* player) {
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 
-		if(weapon_selected) mode = GameSceneMode::main;
-		else mode = GameSceneMode::weaponSelect;
-
-		//is_map_mode = false;
 		now_stage = cursor_loc;
 
-		switch (MapDeta[cursor_pos])
+		switch (MapDeta[now_stage])
 		{
 		case 0:
-			return 1; //new GameScene;
+			if(weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
 			break;
 		case 1:
-			return 2; //new DebugScene;
+			mode = GameSceneMode::weaponSelect;
 			break;
 		case 2:
-			if (is_rest != true)
-			{
-				rest->update(player,is_rest);
-				is_show_rest = true;
-			}
-			is_show_rest = false;
-			is_rest = false;		//今は何度でも
+			mode = GameSceneMode::rest;
 			break;
 		case 3:
-			return 3; //new DebugScene;
+			mode = GameSceneMode::main;
 			break;
 		case 4:
-			return 4; //new DebugScene;
+			if (weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
 			break;
 		default:
 			break;
-		}
+		}			
 	}
 
 	return 0;
 };
 
 void Map::draw() const {
-	if (is_show_rest)
+	int log_i = 0; // stage_log用変数
+	for (int i = 0; i < DATA_MAX; i++)
 	{
-		rest->draw();
-	}
-	else
-	{
-		int log_i = 0; // stage_log用変数
-		for (int i = 0; i < DATA_MAX; i++)
-		{
-			// デバック表示
-			DrawFormatString(10, 30, 0xffff00, "内部データ");
-			DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
-			DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
+		// デバック表示
+		DrawFormatString(10, 30, 0xffff00, "内部データ");
+		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
+		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 
-			// ステージ間のライン
-			for (int j = 0; next_stage[i][j] > 0 && j <= 2; j++) {
-				int next_loc = next_stage[i][j];
-				if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
-					DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
-						icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xaa0000);
-					log_i++;
-				} else {
-					DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
-						icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
-				}
+		// ステージ間のライン
+		for (int j = 0; next_stage[i][j] > 0 && j <= 2; j++) {
+			int next_loc = next_stage[i][j];
+			if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
+				DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
+					icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xaa0000);
+				log_i++;
+			} else {
+				DrawLine(icon_loc[i][0] + 25, icon_loc[i][1] + 25,
+					icon_loc[next_loc][0] + 25, icon_loc[next_loc][1] + 25, 0xffffff);
 			}
-			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
-			// アイコン表示
-			switch (MapDeta[i]) {
-			case 0:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
-				break;
-			case 1:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
-				break;
-			case 2:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
-				break;
-			case 3:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
-				break;
-			case 4:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
-				break;
-			default:
-				break;
-			}
-			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		}
-		// カーソル表示
-		DrawGraph(icon_loc[cursor_loc][0] - 5, icon_loc[cursor_loc][1] - 5, map_cursor, TRUE);
+		DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
+		// アイコン表示
+		switch (MapDeta[i]) {
+		case 0:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
+			break;
+		case 1:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
+			break;
+		case 2:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
+			break;
+		case 3:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
+			break;
+		case 4:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
+			break;
+		default:
+			break;
+		}
+		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 	}
+	// カーソル表示
+	DrawGraph(icon_loc[cursor_loc][0] - 5, icon_loc[cursor_loc][1] - 5, map_cursor, TRUE);
 }
 
 void Map::ResetStage() {

@@ -61,6 +61,7 @@ private:
 	Weapon_Selection* weaponSelect;
 	WeaponLevelUp* weaponLevelup;
 	Blacksmith* blacksmith;
+	Rest* rest;
 
 	//////////////////////////////////////////////////
 

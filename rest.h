@@ -17,6 +17,7 @@ private:
 	int button_image;
 
 	bool is_select;
+	bool is_ok;
 
 public:
 	//コンストラクタ
@@ -25,7 +26,7 @@ public:
 	~Rest();
 
 	//描画に関すること以外の更新を実装する
-	void update(Player* player, bool& flg);
+	void update(Player* player, int& mode, int& stage);
 
 	//描画に関することの更新を実装する
 	void draw()const;

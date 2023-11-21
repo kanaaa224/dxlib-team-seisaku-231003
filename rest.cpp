@@ -17,6 +17,7 @@ Rest::Rest(GameUI* ui)
 	button_image = LoadGraph("resources/images/button_a.png");
 
 	is_select = false;
+	is_ok = false;
 }
 
 Rest::~Rest()
@@ -24,37 +25,34 @@ Rest::~Rest()
 
 }
 
-void Rest::update(Player* player, bool& flg)
+void Rest::update(Player* player, int& mode, int& stage)
 {
 	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 
-	if (interval < 60)
-	{
-		interval++;
-	}
-	else
-	{
-		interval = 0;
-	}
 
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
 	{
 		if (cursor_num == 0)
 		{
-			if (interval > 1)
-			{
+			//if (interval > 1)
+			//{
 				player->SetPlayer_HP(-100);
 				is_select = true;
-
-			}
+			//}
 		}
 	}
 	
 	if (is_select)
 	{
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
+		if (interval < 60)
 		{
-			flg = true;
+			interval++;
+		}
+		else
+		{
+			is_ok = true;
+			stage++;
+			mode = GameSceneMode::map;
 		}
 	}
 
