@@ -10,6 +10,8 @@ Minotaur::Minotaur()
 	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
+	vector.x = 1;
+	vector.y = 1;
 	radius = 100;
 
 	tackleFlg = false;
@@ -23,6 +25,7 @@ Minotaur::Minotaur()
 	boxX_a = 0;
 	boxY_a = 0;
 
+	boxX_d = 0;
 	boxY_d = 0;
 
 	//
@@ -41,8 +44,21 @@ void Minotaur::Update(Player* player)
 	TackleUpdate();//タックル
 	
 	//移動
-	location.x = location.x - diff.x;
-	location.y = location.y - diff.y;
+	if (tackleFlg = false) {
+		location.x = location.x - diff.x;
+		location.y = location.y - diff.y;
+
+		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
+	}
+	else if (tackleFlg == true) {
+		location.x += vector.x - diff.x;
+		location.y += vector.y - diff.y;
+		if (location.y == tackleTmpL.y) {
+			doOneFlg = false;
+			tackleFlg = false;
+		}
+	}
 }
 
 void Minotaur::Draw() const
@@ -67,7 +83,7 @@ void Minotaur::Draw() const
 void Minotaur::TackleUpdate()
 {
 	pLength = PlayerLoad(location, false);
-	if (coolTimeFlg == false) {
+	if (coolTimeFlg == false && tackleFlg == false) {
 
 		boxX_a = location.x - dL.x;
 		boxY_a = location.y - dL.y;
@@ -77,11 +93,6 @@ void Minotaur::TackleUpdate()
 		boxX_a *= boxX_d;
 		boxY_d = fabsf(BOX_MAX_LENGTH / PlayerLoad(location, false));
 		boxY_a *= boxY_d;
-	}
-	
-	if (doOneFlg == false && coolTimeFlg == false) {//
-		
-		doOneFlg = true;
 	}
 	
 	//タックルのクールタイムを決める
@@ -98,7 +109,7 @@ void Minotaur::TackleUpdate()
 			lineSizeChageCnt++;
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
-			doOneFlg = false;
+			//doOneFlg = false;
 			lineSize = 0;
 			tackleFlg = true;
 		}
@@ -112,9 +123,16 @@ void Minotaur::TackleUpdate()
 	
 	//タックル開始直後
 	if (tackleFlg == true) {
-		location.x = location.x - boxX_a;
-		location.y = location.y - boxY_a;
-		tackleFlg = false;
+		//
+		if (doOneFlg == false && coolTimeFlg == false) {
+			tackleTmpL.x = location.x - boxX_a;
+			tackleTmpL.y = location.y - boxY_a;
+			doOneFlg = true;
+		}
+
+		/*location.x = location.x - boxX_a;
+		location.y = location.y - boxY_a;*/
+		
 		coolTimeFlg = true;
 	}
 

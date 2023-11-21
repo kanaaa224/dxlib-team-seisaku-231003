@@ -19,6 +19,8 @@ private:
 
 	int tackleCnt;//現在が何回目のタックルか？
 
+	Location tackleTmpL;
+
 	//薄い赤色の矩形
 	float boxX_a;
 	float boxY_a;
