@@ -41,8 +41,9 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-	hp = 0;
-	exp = 0;
+	hp    = 0;
+	exp   = 0;
+	level = 0;
 	point = 0;
 
 	currentStage = 0;
@@ -53,6 +54,7 @@ GameScene::GameScene() {
 
 	gameUI->setBanner(std::to_string(currentStage + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
 
+
 	// とりあえず
 	std::map<std::string, int> data;
 	data["slime"]    = 5;
@@ -60,7 +62,7 @@ GameScene::GameScene() {
 	data["wizard"]   = 2;
 	a.push_back(data);
 
-	for (int i = 1; i < 9; i++) {
+	for (int i = 1; i < 20; i++) {
 		data["slime"]    = a[i - 1]["slime"]    + 1;
 		data["skeleton"] = a[i - 1]["skeleton"] + 1;
 		data["wizard"]   = a[i - 1]["wizard"]   + 1;
@@ -68,6 +70,10 @@ GameScene::GameScene() {
 	};
 
 	enemySpawnData = a[currentStage];
+
+	for (int i = 1; i < 20; i++) {
+		expData.push_back(i * 100);
+	};
 };
 
 GameScene::~GameScene() {
@@ -273,8 +279,7 @@ Scene* GameScene::update() {
 			hp = player->GetPlayer_HP();
 			int maxHP = 100;
 
-			exp = 100;
-			int maxEXP = 2000;
+			int maxEXP = expData[level];
 
 			//////////////////////////////////////////////////
 			// GameUI 仮
@@ -318,6 +323,13 @@ Scene* GameScene::update() {
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			//////////////////////////////////////////////////
+
+			// 経験値、レベル、ポイント処理
+			if (exp >= expData[level]) {
+				exp = 0;
+				level++;
+				point++;
+			};
 		};
 
 		frameCounter++;
@@ -434,6 +446,8 @@ void GameScene::init() {
 	gameUI->setState(banner);
 
 	enemySpawnData = a[currentStage];
+
+	exp = 0;
 };
 
 int GameScene::getEnemyMax(int type) {
@@ -674,6 +688,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
+				exp += 20;
 			}
 		}
 	}
@@ -701,6 +716,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
+				exp += 30;
 			}
 		}
 	}
@@ -735,6 +751,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
+				exp += 40;
 			}
 		}
 	}
