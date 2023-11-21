@@ -366,10 +366,10 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	DrawFormatString(0, 180, 0xffffff, "フレイルX %d", thunder[0].fps);
+	/*DrawFormatString(0, 180, 0xffffff, "フレイルX %d", thunder[0].fps);
 	DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
 	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);
-	
+	*/
 
 	if (isAttacking) {
 		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
@@ -1038,6 +1038,9 @@ void second_weapon::InitWeapon(int type)
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
+	for (int i = 0; i < 64; i++){
+		thunder[i].flg = false;
+	}
 
 	frailRadius = 30.0f;
 	frailRate = 1.0f;
