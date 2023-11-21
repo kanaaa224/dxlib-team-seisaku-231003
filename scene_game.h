@@ -77,6 +77,11 @@ private:
 
 	int currentStage; // 現在のステージ
 
+
+	// 島袋 - 敵のスポーンデータ
+	std::map<std::string, int> enemySpawnData;
+	std::vector<std::map<std::string, int>> a;
+
 public:
 	GameScene();
 
