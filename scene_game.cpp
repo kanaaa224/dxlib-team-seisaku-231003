@@ -250,12 +250,18 @@ Scene* GameScene::update() {
 
 			EnemyInc();//敵のダメージストップ関係
 
+			hp = player->GetPlayer_HP();
+			int maxHP = 100;
+
+			exp = 100;
+			int maxEXP = 2000;
+
 			//////////////////////////////////////////////////
 			// GameUI 仮
-			//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
-			gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
-			gameUI->setEXP(exp, 2000, (exp / 20));
+			gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
+			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
 			gameUI->setLevel(level);
+			//gameUI->setPoint(point);
 
 			gameUI->setFloor(currentStage);
 			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
@@ -379,6 +385,8 @@ void GameScene::draw() const {
 void GameScene::init() {
 	delete player;
 	player = new Player();
+
+	player->SetPlayer_HP(hp);
 
 	delete stage;
 	stage = new Stage();
@@ -711,10 +719,6 @@ void GameScene::SkeletonDraw() const
 void GameScene::WizardUpdate()
 {
 	if (true/*nowStage == 1*/) {
-		if (tmpWizardNum < WIZARD_1_STAGE_NUM) {
-			wizard[tmpWizardNum] = new Wizard(tmpWizardNum, WIZARD_1_STAGE_NUM);
-			tmpWizardNum++;
-		}
 		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
 			if (wizard[i] != nullptr) {
 				wizard[i]->Update(i, player, weaponA, *(stage));
@@ -734,6 +738,10 @@ void GameScene::WizardUpdate()
 					tmpWizardNum--;
 				}
 			}
+		}
+		if (tmpWizardNum < WIZARD_1_STAGE_NUM) {
+			wizard[tmpWizardNum] = new Wizard(tmpWizardNum, WIZARD_1_STAGE_NUM);
+			tmpWizardNum++;
 		}
 	}
 }
