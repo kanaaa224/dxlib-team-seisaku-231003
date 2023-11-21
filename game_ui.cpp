@@ -372,21 +372,26 @@ void GameUI::drawHUD() const {
 		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponB[0]) {
-		case 0: // 槍
+		case 0:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSpear, TRUE);
+			str = "槍";
 			break;
 
-		case 1: // フレイル
+		case 1:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
+			str = "フレイル";
 			break;
 
-		case 2: // 本
+		case 2:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponBook, TRUE);
+			str = "本";
 			break;
 
 		default:
 			break;
 		};
+
+		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
 	};
 
 	x -= 120;
@@ -403,21 +408,26 @@ void GameUI::drawHUD() const {
 		if(weaponA[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponA[0]) {
-		case 0: // 片手剣
+		case 0:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
+			str = "片手剣";
 			break;
 
-		case 1: // 短剣
+		case 1:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
+			str = "短剣";
 			break;
 
-		case 2: // 大剣
+		case 2:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
+			str = "大剣";
 			break;
 
 		default:
 			break;
 		};
+
+		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
 	};
 
 
