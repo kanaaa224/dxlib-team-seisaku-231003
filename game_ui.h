@@ -5,8 +5,9 @@
 #pragma once
 
 enum GameUIState {
-	banner,
-	playerUI
+	banner,          // バナー表示状態
+	banner_playerUI, // バナーからプレイヤーUIへのフェードアニメーション中
+	playerUI         // プレイヤーUI表示状態
 };
 
 class GameUI {

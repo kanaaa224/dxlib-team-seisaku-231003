@@ -78,7 +78,7 @@ Scene* GameScene::update() {
 
 	//////////////////////////////////////////////////
 
-	if (mode >= GameSceneMode::main && gameUI->getState() == 2) {
+	if (mode >= GameSceneMode::main && gameUI->getState() == playerUI) {
 		// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
 			if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
@@ -106,7 +106,7 @@ Scene* GameScene::update() {
 	if (mode == GameSceneMode::main) {
 		gameUI->update(this);
 
-		if (gameUI->getState() >= 1) {
+		if (gameUI->getState() >= banner_playerUI) {
 
 			//敵
 			HitCheck();
@@ -264,28 +264,29 @@ Scene* GameScene::update() {
 			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
 				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
-				if (gameUI->getState() == 2) {
+				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
 				};
-				if (gameUI->getState() == 1) {
+				if (gameUI->getState() == banner_playerUI) {
 					//GameScene();
 					map->ClearStage();
 					map->SetIsMapMode(true);
 					//return new Map;
 
-					init();
 					currentStage++;
+					init();
+					
 					mode = GameSceneMode::map;
 				};
 			};
 			if (player->GetPlayer_HP() <= 0) {
 				gameUI->setBanner("失敗、、", "体力が尽きました、、");
-				if (gameUI->getState() == 2) {
+				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
 				};
-				if (gameUI->getState() == 1) return new GameOverScene;
+				if (gameUI->getState() == banner_playerUI) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
 			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), getEnemyNum(0) / getEnemyMax(0)); // 怪奇現象発生中
@@ -354,9 +355,9 @@ void GameScene::draw() const {
 		}
 		else {
 			gameUI->draw();
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->drawEnemyHP();
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->drawEnemyHP(); // 仮
 
-			//gameUI->drawHP(); // プレイヤーHP単体表示
+			//gameUI->drawHP(); // 休憩用 プレイヤーHP単体表示
 		};
 
 		if (mode == GameSceneMode::weaponLevelup) weaponLevelup->draw();
@@ -647,6 +648,7 @@ void GameScene::SlimeUpdate()
 				slime[i]->Update(i, player, weaponA, *(stage));
 				if (slime[i]->GetHP() <= 0) {
 					slime[i] = nullptr;
+					tmpSlimeNum--;
 				}
 			}
 		}
@@ -689,6 +691,7 @@ void GameScene::SkeletonUpdate()
 				skeleton[i]->Update(i, player, weaponA, *(stage));
 				if (skeleton[i]->GetHP() <= 0) {
 					skeleton[i] = nullptr;
+					tmpSkeletonNum--;
 				}
 			}
 		}
@@ -728,6 +731,7 @@ void GameScene::WizardUpdate()
 
 				if (wizard[i]->GetHP() <= 0) {
 					wizard[i] = nullptr;
+					tmpWizardNum--;
 				}
 			}
 		}
