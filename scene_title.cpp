@@ -65,8 +65,7 @@ void Title::draw() const
 	//タイトル背景の描画
 	DrawGraph(0, 0, TitleImage, TRUE);
 	//タイトル名の表示
-	SetFontSize(100);
-	DrawString(400, 150, "タイトル名", 0x000000);
+	
 	//タイトルメニューの表示
 	SetFontSize(55);
 	DrawString(550, 320, "Start", 0x000000);

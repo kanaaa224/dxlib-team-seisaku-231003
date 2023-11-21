@@ -33,7 +33,7 @@ Blacksmith::Blacksmith()
 
 	// 変数の初期化
 	interval = 0;
-	cursor_x = 300;
+	cursor_x = 140;
 	cursor_y = 320;
 	weapon_number = weapon1_info.num;
 	is_blacksmith = false;
@@ -159,10 +159,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 {
 	// 背景
-	DrawBox(0, 0, 1280, 720, 0xb0c4de, TRUE);
-
-	SetFontSize(35);
-	DrawFormatString(600, 20, 0x000000, "鍛冶");
+	DrawBox(0, 0, 1280, 720, 0x808080, TRUE);
 
 	if (action_selection == false)
 	{
@@ -246,7 +243,7 @@ void Blacksmith::CursorMove()
 
 		if (cursor_action == state_first)
 		{
-			cursor_x = 900;
+			cursor_x = 700;
 			action_number = reset_level;
 		}
 		else
@@ -262,7 +259,7 @@ void Blacksmith::CursorMove()
 
 		if (cursor_action == state_first)
 		{
-			cursor_x = 300;
+			cursor_x = 140;
 			action_number = levelup;
 		}
 		else
@@ -311,24 +308,25 @@ void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, Weapon
 void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 {
 	// カーソル画像
-	//DrawRotaGraph(cursor_x, cursor_y - 50, 0.08f, 0.0f, img_cursor, TRUE);
+	DrawRotaGraph(cursor_x , 550, 0.1f, M_PI / -2.0f, img_cursor, TRUE);
 
-	DrawBox(170, 490, 550, 590, 0xff0000, TRUE);
-	DrawBox(730, 490, 1110, 590, 0xff0000, TRUE);
+	DrawBox(170, 490, 550, 590, 0xaa0000, TRUE);
+	DrawBox(730, 490, 1110, 590, 0xaa0000, TRUE);
 
-	if (cursor_x == 900)
+	if (cursor_x == 700)
 	{
-		DrawBox(170, 490, 550, 590, 0xaa0000, TRUE);
+		DrawBox(170, 490, 550, 590, 0x800000, TRUE);
+		// 行動選択時の画像、テキストの表示
+		SetFontSize(50);
+		DrawFormatString(740, 520, 0x000000, "レベルリセット");
 	}
 	else
 	{
-		DrawBox(730, 490, 1110, 590, 0xaa0000, TRUE);
+		DrawBox(730, 490, 1110, 590, 0x800000, TRUE); 
+		// 行動選択時の画像、テキストの表示
+		SetFontSize(50);
+		DrawFormatString(210, 520, 0x000000, "レベルアップ");
 	}
-
-	// 行動選択時の画像、テキストの表示
-	SetFontSize(50);
-	DrawFormatString(210, 520, 0x000000, "レベルアップ");
-	DrawFormatString(740, 520, 0x000000, "レベルリセット");
 
 	// 画像の表示
 	DrawRotaGraph(430, 280, 0.5f, 0.0f, img_hammer, TRUE);
@@ -343,7 +341,7 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 	if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
 	{
 		// ビックリマーク
-		DrawRotaGraph(130, 490, 0.1f, 0.0f, img_exclamation_mark, TRUE);
+		DrawRotaGraph(170, 490, 0.2f, 0.0f, img_exclamation_mark, TRUE);
 	}
 
 	DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
@@ -357,8 +355,16 @@ void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 	// テスト用
 	//DrawGraph(0, 0, img_background, TRUE);
 
-	DrawBox(200, 200, 500, 500, 0xd3d3d3, FALSE);
-	DrawBox(770, 200, 1070, 500, 0xd3d3d3, FALSE);
+	DrawBox(200, 200, 500, 500, 0xd3d3d3, TRUE);
+	DrawBox(770, 200, 1070, 500, 0xd3d3d3, TRUE);
+	if (weapon_number == weapon1_info.num)
+	{
+		DrawBox(200, 200, 500, 500, 0x800000, TRUE);
+	}
+	else
+	{
+		DrawBox(770, 200, 1070, 500, 0x800000, TRUE);
+	}
 
 	SetFontSize(35);
 	DrawFormatString(510, 45, 0x000000, "レベルリセット");
@@ -387,19 +393,19 @@ void Blacksmith::DrawWeaponImages() const
 	{
 	case sword:			// 片手剣
 		DrawRotaGraph(img_x, img_y, 0.4f, 0.0f, img_sword, TRUE);
-		DrawFormatString(280, 540, 0x000000, "片手剣");
+		DrawFormatString(250, 530, 0x000000, "片手剣");
 		break;
 	case dagger:		// 短剣
 		DrawRotaGraph(img_x, img_y, 0.4f, 0.0f, img_dagger, TRUE);
-		DrawFormatString(280, 530, 0x000000, "短剣");
+		DrawFormatString(250, 530, 0x000000, "短剣");
 		break;
 	case greatSword:	// 大剣
 		DrawRotaGraph(img_x, img_y, 0.4f, 0.0f, img_great_sword, TRUE);
-		DrawFormatString(280, 540, 0x000000, "大剣");
+		DrawFormatString(250, 530, 0x000000, "大剣");
 		break;
 	default:
 		DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(280, 540, 0x000000, "武器がありません");
+		DrawFormatString(250, 540, 0x000000, "武器がありません");
 		break;
 	}
 
@@ -408,19 +414,19 @@ void Blacksmith::DrawWeaponImages() const
 	{
 	case spear:			// 槍
 		DrawRotaGraph(img_x + 570, img_y, 0.4f, 0.0f, img_spear, TRUE);
-		DrawFormatString(700, 540, 0x000000, "槍");
+		DrawFormatString(830, 540, 0x000000, "槍");
 		break;
 	case frail:			// フレイル
 		DrawRotaGraph(img_x + 570, img_y, 0.4f, 0.0f, img_frail, TRUE);
-		DrawFormatString(700, 540, 0x000000, "フレイル");
+		DrawFormatString(830, 540, 0x000000, "フレイル");
 		break;
 	case book:			// 魔導書
 		DrawRotaGraph(img_x + 570, img_y, 0.4f, 0.0f, img_book, TRUE);
-		DrawFormatString(700, 540, 0x000000, "魔導書");
+		DrawFormatString(830, 540, 0x000000, "魔導書");
 		break;
 	default:
 		DrawRotaGraph(img_x + 570, img_y, 0.2f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(700, 540, 0x000000, "武器がありません");
+		DrawFormatString(830, 540, 0x000000, "武器がありません");
 		break;
 	}
 
@@ -431,18 +437,18 @@ void Blacksmith::DrawResetLevelText() const
 {
 	SetFontSize(20);
 	// 武器1
-	DrawFormatString(280, 550, 0x000000, "Lv. %d", weapon1_info.level_hierarchy);
-	DrawFormatString(280, 570, 0x000000, "返却ポイント： %d", weapon1_info.level_hierarchy);
+	DrawFormatString(250, 550, 0x000000, "Lv. %d", weapon1_info.level_hierarchy);
+	DrawFormatString(250, 570, 0x000000, "返却ポイント： %d", weapon1_info.level_hierarchy);
 	if (weapon1_info.can_reset == false)
 	{
-		DrawFormatString(280, 590, 0xb00000, "レベルリセット不可");
+		DrawFormatString(250, 590, 0xb00000, "レベルリセット不可");
 	}
 
 	// 武器2
-	DrawFormatString(700, 560, 0x000000, "Lv. %d", weapon2_info.level_hierarchy);
-	DrawFormatString(700, 580, 0x000000, "返却ポイント： %d", weapon2_info.level_hierarchy);
+	DrawFormatString(830, 560, 0x000000, "Lv. %d", weapon2_info.level_hierarchy);
+	DrawFormatString(830, 580, 0x000000, "返却ポイント： %d", weapon2_info.level_hierarchy);
 	if (weapon2_info.can_reset == false)
 	{
-		DrawFormatString(700, 600, 0xb00000, "レベルリセット不可");
+		DrawFormatString(830, 600, 0xb00000, "レベルリセット不可");
 	}
 }
