@@ -17,6 +17,7 @@ Minotaur::Minotaur()
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
 	tackleCoolTime = 0;
+	tackleSpeed = 2;
 
 	//
 	boxX_a = 0;
@@ -83,9 +84,11 @@ void Minotaur::TackleUpdate()
 	//タックルのクールタイムを決める
 	if (boxY_a >= 200) {
 		tackleCoolTime = 60;
+		tackleSpeed = 2;
 	}
 	else if (boxY_a < 200) {
-		tackleCoolTime = 18;
+		tackleCoolTime = 0;
+		tackleSpeed = 1;
 	}
 
 	if (coolTimeFlg == false) {
@@ -99,7 +102,7 @@ void Minotaur::TackleUpdate()
 			tackleFlg = true;
 		}
 
-		if (lineSizeChageCnt >= TACKLE_SPEED) {
+		if (lineSizeChageCnt >= tackleSpeed) {
 			lineSize++;
 			lineSizeChageCnt = 0;
 		}
