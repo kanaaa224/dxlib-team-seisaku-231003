@@ -446,6 +446,7 @@ void GameScene::init() {
 	stage = new Stage();
 
 	weaponA->InitWeapon();
+	weaponB->InitWeapon(1);
 	
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		slime[i] = nullptr;
