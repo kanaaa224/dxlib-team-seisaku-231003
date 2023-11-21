@@ -89,11 +89,13 @@ private:
 	// レベルアップ詳細のテキスト群
 	void DrawLevelUpDetails()const;
 
-public:
-	/***********************
-	**	Set関数、Get関数
-	***********************/
+	// 武器1最終強化のテキスト群
+	void DrawWeapon1FinalText()const;
 
+	// 武器2最終強化のテキスト群
+	void DrawWeapon2FinalText()const;
+
+public:
 	// 鍛冶で返却されたポイントの設定
 	void SetLevelUpPoint(int return_point)
 	{
@@ -118,8 +120,11 @@ public:
 	int GetWeapon1LevelHierarchy() { return weapon1_info.level_hierarchy; }
 	int GetWeapon2LevelHierarchy() { return weapon2_info.level_hierarchy; }
 
+
+	// 武器1のレベルリセット
 	void Weapon1LevelInit();
 
+	// 武器2のレベルリセット
 	void Weapon2LevelInit();
 
 };
