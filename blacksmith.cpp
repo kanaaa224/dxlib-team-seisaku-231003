@@ -54,7 +54,7 @@ Blacksmith::~Blacksmith()
 }
 
 // 更新
-void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup)
+void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player)
 {
 	// 15fのインターバル
 	if (interval < 15)
@@ -88,7 +88,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		{
 			// 最終強化 or レベルアップ
 			weapon_levelup->SetIsBlacksmith(true);
-			weapon_levelup->update(weapon, second_weapon, restore_cursor_position);
+			weapon_levelup->update(weapon, second_weapon, player, restore_cursor_position);
 
 			// レベルアップ画面で武器の選択をしていた場合
 			if (weapon_levelup->GetIsCloseLevelUp() == true)

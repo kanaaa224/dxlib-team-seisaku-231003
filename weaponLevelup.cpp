@@ -45,10 +45,16 @@ WeaponLevelUp::WeaponLevelUp()
 			branch_point_x[i][j] = cursor_x;
 			branch_point_y[i][j] = img_branch_point_y;
 			is_chooce[i][j] = false;
-
 		}
 	}
 
+	w_p_speed = 0;
+	w_p_avoidancecooltime = 0;
+	w_p_upperlimitlimit = 0;
+
+	p_speed = 0;
+	p_avoidancecooltime = 0;
+	p_upperlimitlimit = 0;
 }
 
 WeaponLevelUp::~WeaponLevelUp()
@@ -57,8 +63,18 @@ WeaponLevelUp::~WeaponLevelUp()
 }
 
 // 更新
-void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position)
+void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position)
 {
+	// weaponからのプレイヤー情報
+	w_p_speed = weapon->GetP_Speed();
+	w_p_avoidancecooltime = weapon->GetP_AvoidanceCooltime();
+	w_p_upperlimitlimit = weapon->GetP_Upperlimitlimit();
+
+	// weaponからのプレイヤー情報
+	p_speed = player->GetPlayer_Speed();
+	p_avoidancecooltime = player->GetPlayer_Avoidance();
+	p_upperlimitlimit = player->GetPlayer_Upperlimit();
+
 	// カーソルの位置を元に戻す
 	if (restor_cursor_position == true)
 	{
@@ -171,7 +187,7 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(900, 40, 0x000000, "プレイヤーHP：%d", weapon->);
 	
 	// レベルアップ詳細のテキスト群
-	DrawLevelUpDetails();
+	//DrawLevelUpDetails();
 
 	// 武器1の画像
 	switch (weapon1_info.type)
@@ -290,7 +306,17 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
 	//DrawFormatString(0, 0, 0x000000, "branch_point_x[0][0] : %d", branch_point_x[0][0]);
 	//DrawFormatString(0, 20, 0x000000, "cursor_x : %d", cursor_x);
-	DrawFormatString(0, 20, 0x000000, "weapon2_info.type : %d", weapon2_info.type);
+
+	// 多分現在のプレイヤーのステータス
+	DrawFormatString(160, 20, 0x000000, "weapon.cppからの情報");
+	DrawFormatString(160, 40, 0x000000, "w_p_speed : %d", w_p_speed);
+	DrawFormatString(160, 60, 0x000000, "w_p_avoidancecooltime : %d", w_p_avoidancecooltime);
+	DrawFormatString(160, 80, 0x000000, "w_p_upperlimitlimit : %d", w_p_upperlimitlimit);
+	
+	DrawFormatString(160, 120, 0x000000, "player.cppからの情報");
+	DrawFormatString(160, 140, 0x000000, "p_speed : %d", p_speed);
+	DrawFormatString(160, 160, 0x000000, "p_avoidancecooltime : %d", p_avoidancecooltime);
+	DrawFormatString(160, 180, 0x000000, "p_upperlimitlimit : %d", p_upperlimitlimit);
 #endif
 
 }
