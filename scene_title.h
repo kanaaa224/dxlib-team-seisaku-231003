@@ -21,6 +21,7 @@ private:
 public:
 	//コンストラクタ
 	Title();
+	~Title();
 	//更新
 	Scene* update() override;
 	//描画
