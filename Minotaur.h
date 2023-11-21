@@ -2,10 +2,12 @@
 #include "EnemyBase.h"
 #define BOX_MAX_WIDTH  50  //タックル攻撃予測の矩形の最大の幅
 #define BOX_MAX_LENGTH 390 //タックル攻撃予測の矩形の最大の長さ
+#define TACKLE_SPEED 2	//タックルのスピード
 
 class Minotaur :public EnemyBase
 {
 private:
+	float pLength;//プレイヤーとの距離
 	//----------タックル----------//
 	int tackleCoolTimeCnt;//タックルした後のクールタイムカウント変数
 	int tackleCoolTime;//タックルのクールタイム

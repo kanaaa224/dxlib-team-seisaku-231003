@@ -17,7 +17,7 @@ Minotaur::Minotaur()
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
 	tackleCoolTime = 0;
-	tackleSpeed = 2;
+	tackleSpeed = TACKLE_SPEED;
 
 	//
 	boxX_a = 0;
@@ -52,6 +52,8 @@ void Minotaur::Draw() const
 	}
 
 #ifdef DEBUG
+	DrawFormatString(300, 600, C_GREEN, "%.2f", pLength);
+	DrawFormatString(300, 620, C_GREEN, "%.2f", boxX_a);
 
 	//DrawLine(location.x, location.y, location.x, location.y - tmpy, C_GREEN, 5);//縦
 	//DrawLine(location.x, location.y, location.x - tmpx, location.y, C_BLUE, 5);//横
@@ -62,33 +64,69 @@ void Minotaur::Draw() const
 
 void Minotaur::TackleUpdate()
 {
-	if (doOneFlg == false && coolTimeFlg == false) {
+	pLength = PlayerLoad(location, false);
+	if (coolTimeFlg == false) {
 		boxX_a = location.x - dL.x;
 		boxY_a = location.y - dL.y;
-
 		//箱の長さを５０大きくする
 		if (boxY_a < 0) {
-			boxY_a -= 50;
+			boxY_a -= 350;
 		}
 		else if (boxY_a > 0) {
-			boxY_a += 50;
+			boxY_a += 350;
 		}
 
-		//プレイヤーとの距離が箱の長さの最大を超えるなら
-		if (boxY_a >= 390) {
-			boxY_a = 390;
+		//プレイヤーとの距離が２００以上の場合
+		if (pLength >= 200 && pLength < 300) {
+			if (boxX_a < 0) {
+				boxX_a -= 50;
+			}
+			else if (boxX_a > 0) {
+				boxX_a += 50;
+			}
+		}//
+		else if (pLength >= 300 && pLength < 350) {
+			if (boxX_a < 0) {
+				boxX_a -= 70;
+			}
+			else if (boxX_a > 0) {
+				boxX_a += 70;
+			}
 		}
+		else if (pLength >= 350 && pLength < 400) {
+			if (boxX_a < 0) {
+				boxX_a -= 90;
+			}
+			else if (boxX_a > 0) {
+				boxX_a += 90;
+			}
+		}
+		else if (pLength >= 400) {
+			if (boxX_a < 0) {
+				boxX_a -= 120;
+			}
+			else if (boxX_a > 0) {
+				boxX_a += 120;
+			}
+		}
+	}
+	
+	if (doOneFlg == false && coolTimeFlg == false) {
+		
+
+		//プレイヤーとの距離が箱の長さの最大を超えるなら
+		/*if (boxY_a >= 390) {
+			boxY_a = 390;
+		}*/
 		doOneFlg = true;
 	}
 	
 	//タックルのクールタイムを決める
 	if (boxY_a >= 200) {
 		tackleCoolTime = 60;
-		tackleSpeed = 2;
 	}
 	else if (boxY_a < 200) {
 		tackleCoolTime = 0;
-		tackleSpeed = 1;
 	}
 
 	if (coolTimeFlg == false) {
@@ -107,6 +145,7 @@ void Minotaur::TackleUpdate()
 			lineSizeChageCnt = 0;
 		}
 	}
+	
 	
 	//タックル開始直後
 	if (tackleFlg == true) {
