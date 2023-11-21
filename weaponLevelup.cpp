@@ -14,7 +14,7 @@ WeaponLevelUp::WeaponLevelUp()
 	img_great_sword = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	img_spear = LoadGraph("resources/images/spear.png");
 	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
-	img_book = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	img_book = LoadGraph("resources/images/book_madousyo_necronomicon.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
 	// ç\ë¢ëÃèâä˙âª
@@ -290,6 +290,7 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
 	//DrawFormatString(0, 0, 0x000000, "branch_point_x[0][0] : %d", branch_point_x[0][0]);
 	//DrawFormatString(0, 20, 0x000000, "cursor_x : %d", cursor_x);
+	DrawFormatString(0, 20, 0x000000, "weapon2_info.type : %d", weapon2_info.type);
 #endif
 
 }

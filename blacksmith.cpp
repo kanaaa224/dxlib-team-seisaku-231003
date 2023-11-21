@@ -25,7 +25,7 @@ Blacksmith::Blacksmith()
 	img_great_sword = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	img_spear = LoadGraph("resources/images/spear.png");
 	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
-	img_book = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	img_book = LoadGraph("resources/images/book_madousyo_necronomicon.png");
 
 	// \‘¢‘Ì‰Šú‰»
 	weapon1_info = { 0, none, 0, 0, 0, false };
