@@ -353,6 +353,8 @@ Scene* GameScene::update() {
 				exp = 0;
 				level++;
 				point++;
+
+				gameUI->notification("武器強化可能！", "Xボタンで確認", "btnX");
 			};
 		};
 
@@ -447,6 +449,7 @@ void GameScene::init() {
 	stage = new Stage();
 
 	weaponA->InitWeapon();
+	weaponB->InitWeapon(1);
 	
 	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		slime[i] = nullptr;

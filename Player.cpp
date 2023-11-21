@@ -145,13 +145,13 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", AimingY);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", AimingY);
 	//DrawFormatString(0, 320, GetColor(255, 0, 0), "AimingY %0.1f", AimingY);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", AimingX);
+	//DrawFormatString(0, 320, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", AimingX);
 
 	//右スティック
-	DrawFormatString(0, 360, GetColor(255, 0, 0), "PlayerX:縦軸値 %0.1f", location.x);
-	DrawFormatString(0, 380, GetColor(255, 0, 0), "PlayerY:横軸値 %0.1f", location.y);
+	//DrawFormatString(0, 360, GetColor(255, 0, 0), "PlayerX:縦軸値 %0.1f", location.x);
+	//DrawFormatString(0, 380, GetColor(255, 0, 0), "PlayerY:横軸値 %0.1f", location.y);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
@@ -162,8 +162,8 @@ void Player::draw()const {
 	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);*/
 
 	//　中心線
-	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
 	//照準の画像　描画　中心座標
 	//DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
@@ -188,7 +188,7 @@ void Player::draw()const {
 	}
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
-	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
+	//DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
 }
 
 void Player::Player_Move() {
