@@ -9,6 +9,7 @@ class second_weapon;
 class Weapon_Selection
 {
 private:
+	int cnt;					//カウント
 	int interval;				//インターバル
 	int cursor_num;				//カーソル番号
 	int select_num;				//選択した番号
@@ -26,7 +27,6 @@ private:
 	int cursor_image;			//カーソル画像
 
 	bool is_selecting;			//武器を選択している？
-	bool was_selected;			//すでに武器を選択した？
 
 public:
 	//コンストラクタ
@@ -36,8 +36,8 @@ public:
 	~Weapon_Selection();
 
 	//描画に関すること以外の更新を実装する
-	virtual void update(weapon* _weapon, second_weapon* _second_weapon, bool& is_weapon_select);
+	virtual void update(weapon* _weapon, second_weapon* _second_weapon, bool& is_weapon_select, int& mode);
 
 	//描画に関することの更新を実装する
-	virtual void draw()const;
+	virtual void draw(bool flg)const;
 };

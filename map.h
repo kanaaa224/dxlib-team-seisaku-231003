@@ -2,8 +2,6 @@
 
 #include "rest.h"
 
-class GameScene;
-class GameUI;
 
 #define PATTERN_MAX 3
 #define DATA_MAX 21
@@ -84,20 +82,12 @@ private:
 	const int pattern_data_max[PATTERN_MAX]{ 21,21,21 };
 	int data_max;
 
-	Rest* rest;
-	GameUI* ui;
-
 	int cursor_pos;    // カーソル位置(次ステージ)
 	int cursor_loc;    // カーソル位置(全体マップ)
 	int move_cool;     // カーソル移動クールタイム
 	bool cursor_move;  // カーソル移動によるカメラ移動をするか(スクロール移動すると解除)
 	int cursor_r;      // カーソル半径
 	int now_stage;     // 現在のステージ
-
-	bool is_map_mode;
-
-	bool is_rest;		//休憩ステージのフラグ
-	bool is_show_rest;	//休憩ステージを映す？
 
 	// 画像
 	int battle_img = 0;
@@ -107,7 +97,7 @@ private:
 	int boss_img = 0;
 	int icon_back_img = 0;
 public:
-	Map(GameUI* ui);
+	Map();
 
 	~Map();
 
@@ -115,14 +105,6 @@ public:
 
 
 	void draw() const;
-
-	bool GetIsMapMode() {
-		return is_map_mode;
-	}
-
-	void SetIsMapMode(const bool flg) {
-		is_map_mode = flg;
-	}
 
 	int NowStage() {
 		return now_stage;

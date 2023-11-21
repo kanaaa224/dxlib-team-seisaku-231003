@@ -65,6 +65,7 @@ private:
 	bool restor_cursor_position; // レベルアップ画面のカーソル位置を元に戻すか
 
 	Blacksmith* blacksmith;
+	Rest* rest;
 
 	//////////////////////////////////////////////////
 
