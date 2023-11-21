@@ -23,6 +23,8 @@ Minotaur::Minotaur()
 	boxX_a = 0;
 	boxY_a = 0;
 
+	boxY_d = 0;
+
 	//
 	lineSize = 1;
 	lineSizeChageCnt = 0;
@@ -38,7 +40,7 @@ void Minotaur::Update(Player* player)
 
 	TackleUpdate();//タックル
 	
-	//座標計算
+	//移動
 	location.x = location.x - diff.x;
 	location.y = location.y - diff.y;
 }
@@ -53,11 +55,11 @@ void Minotaur::Draw() const
 
 #ifdef DEBUG
 	DrawFormatString(300, 600, C_GREEN, "%.2f", pLength);
-	DrawFormatString(300, 620, C_GREEN, "%.2f", boxX_a);
+	DrawFormatString(300, 620, C_GREEN, "%.2f", boxX_d);
 
-	//DrawLine(location.x, location.y, location.x, location.y - tmpy, C_GREEN, 5);//縦
-	//DrawLine(location.x, location.y, location.x - tmpx, location.y, C_BLUE, 5);//横
-	//DrawLine(location.x, location.y, location.x - tmpx, location.y - tmpy, C_RED, 10);
+	DrawLine(location.x, location.y, location.x, location.y - boxY_a, C_GREEN, 5);//縦
+	DrawLine(location.x, location.y, location.x - boxX_a, location.y, C_BLUE, 5);//横
+	DrawLine(location.x, location.y, location.x - boxX_a, location.y - boxY_a, C_RED, 10);
 #endif // DEBUG
 
 }
@@ -66,66 +68,27 @@ void Minotaur::TackleUpdate()
 {
 	pLength = PlayerLoad(location, false);
 	if (coolTimeFlg == false) {
+
 		boxX_a = location.x - dL.x;
 		boxY_a = location.y - dL.y;
-		//箱の長さを５０大きくする
-		if (boxY_a < 0) {
-			boxY_a -= 350;
-		}
-		else if (boxY_a > 0) {
-			boxY_a += 350;
-		}
 
-		//プレイヤーとの距離が２００以上の場合
-		if (pLength >= 200 && pLength < 300) {
-			if (boxX_a < 0) {
-				boxX_a -= 50;
-			}
-			else if (boxX_a > 0) {
-				boxX_a += 50;
-			}
-		}//
-		else if (pLength >= 300 && pLength < 350) {
-			if (boxX_a < 0) {
-				boxX_a -= 70;
-			}
-			else if (boxX_a > 0) {
-				boxX_a += 70;
-			}
-		}
-		else if (pLength >= 350 && pLength < 400) {
-			if (boxX_a < 0) {
-				boxX_a -= 90;
-			}
-			else if (boxX_a > 0) {
-				boxX_a += 90;
-			}
-		}
-		else if (pLength >= 400) {
-			if (boxX_a < 0) {
-				boxX_a -= 120;
-			}
-			else if (boxX_a > 0) {
-				boxX_a += 120;
-			}
-		}
+		//長さを一定にする
+		boxX_d = fabsf(BOX_MAX_LENGTH / PlayerLoad(location, false));
+		boxX_a *= boxX_d;
+		boxY_d = fabsf(BOX_MAX_LENGTH / PlayerLoad(location, false));
+		boxY_a *= boxY_d;
 	}
 	
-	if (doOneFlg == false && coolTimeFlg == false) {
+	if (doOneFlg == false && coolTimeFlg == false) {//
 		
-
-		//プレイヤーとの距離が箱の長さの最大を超えるなら
-		/*if (boxY_a >= 390) {
-			boxY_a = 390;
-		}*/
 		doOneFlg = true;
 	}
 	
 	//タックルのクールタイムを決める
-	if (boxY_a >= 200) {
+	if (pLength >= 200) {
 		tackleCoolTime = 60;
 	}
-	else if (boxY_a < 200) {
+	else if (pLength < 200) {
 		tackleCoolTime = 0;
 	}
 

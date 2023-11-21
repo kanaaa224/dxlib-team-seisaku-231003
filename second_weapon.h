@@ -120,6 +120,8 @@ private:
 
 	float attackBufRate;
 
+	int Bullet_speed;
+
 public:
 	second_weapon();
 	second_weapon(int type);
