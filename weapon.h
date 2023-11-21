@@ -179,5 +179,11 @@ public:
 	bool GetOldIsAttacking() { return oldIsAttacking; }
 
 	void InitWeapon();
+
+	//武器のレベルが上がる際、プレイヤーのステータスも上がるため
+	//その数値を返す関数
+	int GetP_Speed();
+	int GetP_AvoidanceCooltime();
+	int GetP_Upperlimitlimit();
 };
 
