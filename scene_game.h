@@ -89,14 +89,17 @@ public:
 	// 初期化
 	void init();
 
+	// 敵の最大数
+	int getEnemyMax(int);
+
 	// 敵の数
-	int getEnemiesNum(int);
+	int getEnemyNum(int);
 
 	// 累計経験値取得
-	int getEXP();
+	//int getEXP();
 
 	// レベル取得
-	int getLevel();
+	//int getLevel();
 
 	//////////////////////////////////////////////////
 
