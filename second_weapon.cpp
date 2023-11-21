@@ -295,7 +295,7 @@ void second_weapon::Draw() const
 
 	//フレイル
 	if (weaponType == frail) {
-		//DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
 		DrawRotaGraph2(frailLcation.x, frailLcation.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
@@ -452,9 +452,10 @@ void second_weapon::LevelState()
 			break;
 
 		case frail:
+			//ダメージを少し上昇
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.9f;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
@@ -478,10 +479,12 @@ void second_weapon::LevelState()
 			break;
 
 		case frail:
+			//フレイル　クールタイムを上げる 鉄球の半径を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.6f;
+			damage = INIT_DAMAGE_FRAIL + 3;
+			frailRadius = 40.0f;
 			break;
 
 		case book:
@@ -504,10 +507,13 @@ void second_weapon::LevelState()
 			break;
 
 		case frail:
+			//フレイル　攻撃範囲(照準)をでかくする　ダメージを上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
+			damage = INIT_DAMAGE_FRAIL + 5;
+			Player::SetPlayer_RadiusX(50.0f);
+			Player::SetPlayer_RadiusY(50.0f);
 			break;
 
 		case book:
@@ -530,10 +536,12 @@ void second_weapon::LevelState()
 			break;
 
 		case frail:
+			//フレイル　クールタイムを上げる 鉄球の半径を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
+			damage = INIT_DAMAGE_FRAIL + 5;
+			frailRadius = 100.0f;
 			break;
 
 		case book:
@@ -556,10 +564,13 @@ void second_weapon::LevelState()
 			break;
 
 		case frail:
+			//フレイル　攻撃範囲(照準)をでかくする　ダメージを上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.6f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
+			damage = INIT_DAMAGE_FRAIL + 10;
+			Player::SetPlayer_RadiusX(100.0f);
+			Player::SetPlayer_RadiusY(100.0f);
 			break;
 
 		case book:
@@ -574,6 +585,7 @@ void second_weapon::LevelState()
 	case 6:
 		switch (weaponType)
 		{
+			//今までに強化してきたものを全て追加する
 		case spear:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
@@ -585,7 +597,10 @@ void second_weapon::LevelState()
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
-			damage = INIT_DAMAGE_FRAIL;
+			damage = INIT_DAMAGE_FRAIL + 10;
+			frailRadius = 100.0f;
+			Player::SetPlayer_RadiusX(100.0f);
+			Player::SetPlayer_RadiusY(100.0f);
 			break;
 
 		case book:
