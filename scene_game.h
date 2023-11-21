@@ -122,7 +122,7 @@ public:
 	void WizardUpdate();
 	void WizardDraw() const;
 	//弾
-	void EnemyBulletUpdate(Location location);
+	void EnemyBulletUpdate();
 	void EnemyBulletDraw() const;
 	//ミノタウロス
 	void MinotaurUpdate();
