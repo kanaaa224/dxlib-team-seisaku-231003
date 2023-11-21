@@ -443,7 +443,7 @@ void GameScene::init() {
 	//delete player;
 	//player = new Player();
 
-	player->SetPlayer_HP(hp);
+	player->SetPlayerHP(hp);
 
 	delete stage;
 	stage = new Stage();
