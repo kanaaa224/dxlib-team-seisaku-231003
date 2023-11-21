@@ -14,6 +14,8 @@ Minotaur::Minotaur()
 
 	tackleFlg = false;
 	doOneFlg = false;
+	coolTimeFlg = false;
+	tackleCoolTimeCnt = 0;
 
 	//
 	boxX_a = 0;
@@ -43,7 +45,9 @@ void Minotaur::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 	
-	TackleDraw();
+	if (coolTimeFlg == false) {
+		TackleDraw();
+	}
 
 #ifdef DEBUG
 
@@ -56,7 +60,7 @@ void Minotaur::Draw() const
 
 void Minotaur::TackleUpdate()
 {
-	if (doOneFlg == false) {
+	if (doOneFlg == false && coolTimeFlg == false) {
 		boxX_a = location.x - dL.x;
 		boxY_a = location.y - dL.y;
 
@@ -77,26 +81,41 @@ void Minotaur::TackleUpdate()
 	
 	
 
-	//濃い赤色の矩形の太さ//
-	if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-		lineSizeChageCnt++;
-	}
-	else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
-		doOneFlg = false;
-		lineSize = 0;
-		tackleFlg = true;
-	}
+	if (coolTimeFlg == false) {
+		//濃い赤色の矩形の太さ//
+		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
+			lineSizeChageCnt++;
+		}
+		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
+			doOneFlg = false;
+			lineSize = 0;
+			tackleFlg = true;
+		}
 
-	if (lineSizeChageCnt >= TACKLE_SPEED) {
-		lineSize++;
-		lineSizeChageCnt = 0;
+		if (lineSizeChageCnt >= TACKLE_SPEED) {
+			lineSize++;
+			lineSizeChageCnt = 0;
+		}
 	}
-	//------------------------------//
 	
+	//タックル開始直後
 	if (tackleFlg == true) {
 		location.x = location.x - boxX_a;
 		location.y = location.y - boxY_a;
 		tackleFlg = false;
+		coolTimeFlg = true;
+	}
+
+	//タックルのクールタイム
+	if (coolTimeFlg == true) {
+		tackleCoolTimeCnt++;
+	}
+	else if (coolTimeFlg == false) {
+		tackleCoolTimeCnt = 0;
+	}
+
+	if (tackleCoolTimeCnt >= TACKLE_COOLTIME) {
+		coolTimeFlg = false;
 	}
 }
 
