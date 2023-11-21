@@ -16,6 +16,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
+	tackleCoolTime = 0;
 
 	//
 	boxX_a = 0;
@@ -66,10 +67,10 @@ void Minotaur::TackleUpdate()
 
 		//箱の長さを５０大きくする
 		if (boxY_a < 0) {
-			boxY_a = -300;
+			boxY_a -= 50;
 		}
 		else if (boxY_a > 0) {
-			boxY_a = +300;
+			boxY_a += 50;
 		}
 
 		//プレイヤーとの距離が箱の長さの最大を超えるなら
@@ -79,7 +80,13 @@ void Minotaur::TackleUpdate()
 		doOneFlg = true;
 	}
 	
-	
+	//タックルのクールタイムを決める
+	if (boxY_a >= 200) {
+		tackleCoolTime = 60;
+	}
+	else if (boxY_a < 200) {
+		tackleCoolTime = 18;
+	}
 
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
@@ -114,7 +121,7 @@ void Minotaur::TackleUpdate()
 		tackleCoolTimeCnt = 0;
 	}
 
-	if (tackleCoolTimeCnt >= TACKLE_COOLTIME) {
+	if (tackleCoolTimeCnt >= tackleCoolTime) {
 		coolTimeFlg = false;
 	}
 }
