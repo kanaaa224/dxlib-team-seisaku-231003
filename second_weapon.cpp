@@ -29,9 +29,19 @@ second_weapon::second_weapon()
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	bullet_img = LoadGraph("resources/images/magic_bullet.png");
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
+	barrier_img = LoadGraph("resources/images/baria_blue.png");
+	attackbuf_img = LoadGraph("resources/images/baria_red.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
+	thunderRadius = 1000.0f;
+	for (int i = 0; i < 64; i++){
+		thunder[i].flg = false;
+		thunder[i].fps = 0;
+		thunder[i].img[0] = LoadGraph("resources/images/Thunder_1.png");
+		thunder[i].img[1] = LoadGraph("resources/images/Thunder_2.png");
+		thunder[i].img[2] = LoadGraph("resources/images/Thunder_3.png");
+	}
 
 	frailRadius = 30.0f;
 	frailRate = 1.0f;
@@ -212,6 +222,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			}
 		}
 
+		if (weaponType == spear && weaponLevel == 8) {
+			SpearThunder();
+		}
+
 	}
 
 
@@ -286,6 +300,25 @@ void second_weapon::Draw() const
 		}
 	}
 
+	for (int i = 0; i < 64; i++){
+		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
+			
+			if (thunder[i].fps > 10) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 5) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			else {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
+		}
+	}
+
 	//弾
 	for (int i = 0; i < MAX_BULLETS_NUM; i++){
 		if (bullets[i].flg == true) {
@@ -309,10 +342,16 @@ void second_weapon::Draw() const
 		}
 	}
 
+	if (attackBufRate >= 2.0f) {
+		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
+	}
+
 	//バリア
 	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
-		DrawCircle(location.x, location.y, 25, 0x00ff00, FALSE);
+		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.05, 0, barrier_img, TRUE, TRUE);
 	}
+
+	
 	//spear
 	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
 	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
@@ -327,8 +366,8 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	//DrawFormatString(0, 180, 0xffffff, "フレイルX %f", frailLocation1.x);
-	//DrawFormatString(0, 210, 0xffffff, "フレイルY %f", frailLocation1.y);
+	DrawFormatString(0, 180, 0xffffff, "フレイルX %d", thunder[0].fps);
+	DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
 	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);
 	
 
@@ -662,6 +701,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.3f;
 			damage = INIT_DAMAGE_SPEAR;
+			thunderDamage = 10000.0f;
 			break;
 
 		case frail://アースクラッシャー
@@ -834,6 +874,48 @@ bool second_weapon::SpearAnim()
 	spearlocation.x += spear_move.x;
 	spearlocation.y += spear_move.y;
 
+	return false;
+}
+
+bool second_weapon::SpearThunder()
+{
+	for (int i = 0; i < 64; i++){
+		if (thunder[i].flg) {
+
+			thunder[i].l.x -= playerVector.x;
+			thunder[i].l.y -= playerVector.y;
+
+			if (thunder[i].fps++ > 120) {
+				thunder[i].fps = 0;
+				thunder[i].flg = false;
+			}
+		}
+	}
+	return false;
+}
+
+bool second_weapon::SpearThunderCollision(Location enemyLocation, float radius)
+{
+	Location weaponCollisionLocation;
+	float tmp_x, tmp_y, tmp_length;
+
+	for (int i = 0; i < 64; i++){
+		if (thunder[i].flg && thunder[i].fps > 0) {
+
+			weaponCollisionLocation.x = thunder[i].l.x;
+			weaponCollisionLocation.y = thunder[i].l.y;
+
+			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (tmp_length < radius + thunderRadius) { 
+				return true;
+			}
+
+		}
+	}
+	
 	return false;
 }
 
