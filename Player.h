@@ -109,16 +109,22 @@ public:
 	static int Player_invincible(int value);
 
 	//照準の半径を返す
-	static float Player_RadiusX(float value);
-	static float Player_RadiusY(float value);
+	static void SetPlayer_RadiusX(float value);
+	static void SetPlayer_RadiusY(float value);
+	float GetPlayer_RadiusX();
+	float GetPlayer_RadiusY();
 
 	//回避の移動スピード
-	static float Player_Upperlimit(float value);
+	static void SetPlayer_Upperlimit(float value);
+	float GetPlayer_Upperlimit();
 
 	//回避のクールダウン時間
-	static int Avoidance_limit(int value);
+	static void SetAvoidance_limit(int value);
+	int GetAvoidance_limit();
 
-	static float Player_Speed(float value);
+	//プレイヤーの移動速度
+	static void SetPlayer_Speed(float value);
+	float GetPlayer_Speed();
 
 	//プレイヤーの移動量 X Y を返す
 	float Player_MoveX();
@@ -130,6 +136,7 @@ public:
 
 	// プレイヤーの体力を返す
 	float GetPlayer_HP();
+
 	bool GetPlayer_Avoidance();
 
 	// プレイヤーの体力を引く
