@@ -161,6 +161,7 @@ public:
 	void SetThunderLocation(Location l) {
 		for (int i = 0; i < 64; i++){
 			if (!thunder[i].flg) {
+				thunder[i].fps = 0;
 				thunder[i].l = l;
 				thunder[i].flg = true;
 				break;

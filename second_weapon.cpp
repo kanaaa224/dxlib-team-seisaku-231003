@@ -38,7 +38,9 @@ second_weapon::second_weapon()
 	for (int i = 0; i < 64; i++){
 		thunder[i].flg = false;
 		thunder[i].fps = 0;
-		thunder[i].img[0] = LoadGraph("resources/images/Thunder.png");
+		thunder[i].img[0] = LoadGraph("resources/images/Thunder_1.png");
+		thunder[i].img[1] = LoadGraph("resources/images/Thunder_2.png");
+		thunder[i].img[2] = LoadGraph("resources/images/Thunder_3.png");
 	}
 
 	frailRadius = 30.0f;
@@ -300,7 +302,20 @@ void second_weapon::Draw() const
 
 	for (int i = 0; i < 64; i++){
 		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
-			DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 /2 , 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
+			
+			if (thunder[i].fps > 10) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 5) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			else {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
 	}
 
