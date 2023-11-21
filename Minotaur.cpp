@@ -13,6 +13,7 @@ Minotaur::Minotaur()
 	radius = 100;
 
 	tackleFlg = false;
+	doOneFlg = false;
 
 	//
 	boxX_a = 0;
@@ -33,6 +34,7 @@ void Minotaur::Update(Player* player)
 
 	TackleUpdate();//タックル
 	
+	//座標計算
 	location.x = location.x - diff.x;
 	location.y = location.y - diff.y;
 }
@@ -54,24 +56,48 @@ void Minotaur::Draw() const
 
 void Minotaur::TackleUpdate()
 {
-	boxX_a = location.x - dL.x;
-	boxY_a = location.y - dL.y;
-	if (boxY_a >= 390) {
-		boxY_a = 390;
+	if (doOneFlg == false) {
+		boxX_a = location.x - dL.x;
+		boxY_a = location.y - dL.y;
+
+		//箱の長さを５０大きくする
+		if (boxY_a < 0) {
+			boxY_a -= 50;
+		}
+		else if (boxY_a > 0) {
+			boxY_a += 50;
+		}
+
+		//プレイヤーとの距離が箱の長さの最大を超えるなら
+		if (boxY_a >= 390) {
+			boxY_a = 390;
+		}
+		doOneFlg = true;
 	}
+	
 	
 
 	//濃い赤色の矩形の太さ//
 	if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
 		lineSizeChageCnt++;
 	}
+	else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
+		doOneFlg = false;
+		lineSize = 0;
+		tackleFlg = true;
+	}
 
-	if (lineSizeChageCnt >= 5) {
+	if (lineSizeChageCnt >= TACKLE_SPEED) {
 		lineSize++;
 		lineSizeChageCnt = 0;
 	}
 	//------------------------------//
-	tackleFlg = true;
+	
+	if (tackleFlg == true) {
+		location.x = location.x - boxX_a;
+		location.y = location.y - boxY_a;
+		tackleFlg = false;
+	}
 }
 
 void Minotaur::TackleDraw() const
