@@ -19,7 +19,7 @@ Scene*Title::update()
 		TitleInterval++;
 	}
 
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15)
 	{
 		//スティック移動の初期化
 		TitleInterval = 0;
@@ -28,7 +28,7 @@ Scene*Title::update()
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber < 0) g_MenuNumber = 3;
 	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15)
 	{
 		//スティック移動の初期化
 		TitleInterval = 0;
@@ -40,7 +40,7 @@ Scene*Title::update()
 	g_MenuY = g_MenuNumber * 52;
 	
 	//Aボタンでメニュー決定・画面遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
 		if (g_MenuNumber == 0) {
 			return new GameScene;
@@ -65,8 +65,7 @@ void Title::draw() const
 	//タイトル背景の描画
 	DrawGraph(0, 0, TitleImage, TRUE);
 	//タイトル名の表示
-	SetFontSize(100);
-	DrawString(400, 150, "タイトル名", 0x000000);
+	
 	//タイトルメニューの表示
 	SetFontSize(55);
 	DrawString(550, 320, "Start", 0x000000);

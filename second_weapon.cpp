@@ -27,15 +27,30 @@ second_weapon::second_weapon()
 	spear_img = LoadGraph("resources/images/spear.png");
 	frail_img = LoadGraph("resources/images/chain_iron ball.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	bullet_img = LoadGraph("resources/images/magic_bullet.png");
+	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
+	barrier_img = LoadGraph("resources/images/baria_blue.png");
+	attackbuf_img = LoadGraph("resources/images/baria_red.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
+	thunderRadius = 1000.0f;
+	for (int i = 0; i < 64; i++){
+		thunder[i].flg = false;
+		thunder[i].fps = 0;
+		thunder[i].img[0] = LoadGraph("resources/images/Thunder_1.png");
+		thunder[i].img[1] = LoadGraph("resources/images/Thunder_2.png");
+		thunder[i].img[2] = LoadGraph("resources/images/Thunder_3.png");
+	}
 
 	frailRadius = 30.0f;
 	frailRate = 1.0f;
 	isFrailAttacking = false;
 	level7FrailFlg = false;
 	level8FrailRadius = 100.0f;
+	frailDistance = 0.0f;
+
+	Bullet_speed = 10;
 
 	book_move = { 0,0,0 };
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
@@ -45,6 +60,7 @@ second_weapon::second_weapon()
 		bullets[i].flg = false;
 	}
 	barrierFlg = false;
+
 }
 
 second_weapon::second_weapon(int type)
@@ -133,18 +149,6 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			switch (weaponType)
 			{
 			case spear:
-				/*if (++spear_move_cnt > SPEAR_MAX_MOVE) {
-					isAttacking = false;
-					spear_move = { 0,0,0 };
-					spear_move_cnt = 0;
-					
-				}
-				spear_move.x += unitVec.x * 3;
-				spear_move.y += unitVec.y * 3;
-
-				collisionX += spear_move.x;
-				collisionY += spear_move.y;*/
-
 				SpearAnim();
 				break;
 
@@ -160,7 +164,8 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 				frailLcationCursor = { cursorX,cursorY };
 
 				level7FrailRot = rot;
-				
+				frailDistance = 0.0f;
+
 				if (weaponLevel == 7) {
 					level7FrailFlg = true;
 				}
@@ -183,7 +188,6 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 					}
 					
 				}
-
 				break;
 
 			default:
@@ -216,6 +220,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			else {
 				frailRadius = FRAIL_RADIUS;
 			}
+		}
+
+		if (weaponType == spear && weaponLevel == 8) {
+			SpearThunder();
 		}
 
 	}
@@ -274,7 +282,7 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 void second_weapon::Draw() const
 {
-	//武器描画	//kk
+	//武器描画
 	if (isAttacking) {
 		switch (weaponType)
 		{
@@ -292,27 +300,58 @@ void second_weapon::Draw() const
 		}
 	}
 
-	for (int i = 0; i < MAX_BULLETS_NUM; i++)
-	{
-		if (bullets[i].flg == true) {
-			DrawCircle(bullets[i].l.x, bullets[i].l.y, 10, 0xffff00, TRUE);
+	for (int i = 0; i < 64; i++){
+		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
+			
+			if (thunder[i].fps > 10) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 5) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			else {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+			}
+			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
 	}
+
+	//弾
+	for (int i = 0; i < MAX_BULLETS_NUM; i++){
+		if (bullets[i].flg == true) {
+			//DrawCircle(bullets[i].l.x, bullets[i].l.y, 10, 0xffff00, TRUE);
+			DrawRotaGraph2(bullets[i].l.x, bullets[i].l.y, 250, 250, 0.05, rot + (M_PI / 4), bullet_img, TRUE, TRUE);
+		}
+	}
+
+	//フレイル
 	if (weaponType == frail) {
 		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
-		//DrawRotaGraph2(frailLcation.x, frailLcation.x, 550 / 2, 450 / 2, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+		DrawRotaGraph2(frailLcation.x, frailLcation.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
-			DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
-			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);
+			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
+			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);*/
+			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		}
 		if (weaponLevel == 8) {
 			DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
 		}
 	}
 
-	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
-		DrawCircle(location.x, location.y, 25, 0x00ff00, FALSE);
+	if (attackBufRate >= 2.0f) {
+		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
 	}
+
+	//バリア
+	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
+		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.05, 0, barrier_img, TRUE, TRUE);
+	}
+
+	
 	//spear
 	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
 	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
@@ -327,12 +366,11 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	//DrawFormatString(0, 180, 0xffffff, "フレイルX %f", frailLocation1.x);
-	//DrawFormatString(0, 210, 0xffffff, "フレイルY %f", frailLocation1.y);
-	//DrawFormatString(0, 240, 0xffffff, " %d", level7FrailFlg);
+	DrawFormatString(0, 180, 0xffffff, "フレイルX %d", thunder[0].fps);
+	DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
+	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);
 	
 
-	//kk
 	if (isAttacking) {
 		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
 		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
@@ -412,6 +450,9 @@ void second_weapon::LevelUpDebug(int num)
 
 void second_weapon::LevelState()
 {
+	attackBufRate = 1.0f;
+	InitWeapon(0);
+
 	switch (weaponLevel)
 	{
 	case 0:
@@ -444,24 +485,28 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//ダメージとクールタイムのみ クールタイムだけ上昇
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.9f;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
 			damage = INIT_DAMAGE_SPEAR;
 			break;
 
 		case frail:
+			//クールタイムを少し上昇
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.9f;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
 		case book:
+			//ダメージとクールタイムと弾の発射速度のみ クールタイムだけ上昇
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.9f;
 			damage = INIT_DAMAGE_BOOK;
+			Bullet_speed;
 			break;
 		}
 
@@ -470,24 +515,28 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//クールタイムのみ　ダメージは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.6f;
+			damage = INIT_DAMAGE_SPEAR + 2;
 			break;
 
 		case frail:
+			//フレイル　クールタイムを上げる 鉄球の半径を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.6f;
+			damage = INIT_DAMAGE_FRAIL + 3;
+			frailRadius = 40.0f;
 			break;
 
 		case book:
+			//魔導書　クールタイムを上げる　ダメージは微量
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.8f;
-			damage = INIT_DAMAGE_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
+			damage = INIT_DAMAGE_BOOK + 2;
 			break;
 		}
 
@@ -496,24 +545,30 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//ダメージのみ　クールタイムは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.8f;
+			damage = INIT_DAMAGE_SPEAR + 5;
 			break;
 
 		case frail:
+			//フレイル　攻撃範囲(照準)をでかくする　ダメージを上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
+			damage = INIT_DAMAGE_FRAIL + 5;
+			Player::SetPlayer_RadiusX(50.0f);
+			Player::SetPlayer_RadiusY(50.0f);
 			break;
 
 		case book:
+			//魔導書　ダメージを上げる　弾のスピードを上げる
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.8f;
 			damage = INIT_DAMAGE_BOOK;
+			Bullet_speed = 15.0f;
 			break;
 		}
 
@@ -522,24 +577,28 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//クールタイムのみ　ダメージは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
+			damage = INIT_DAMAGE_SPEAR + 5;
 			break;
 
 		case frail:
+			//フレイル　クールタイムを上げる 鉄球の半径を上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
+			damage = INIT_DAMAGE_FRAIL + 5;
+			frailRadius = 100.0f;
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
-			damage = INIT_DAMAGE_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.5f;
+			damage = INIT_DAMAGE_BOOK + 5;
+			Bullet_speed = 15;
 			break;
 		}
 
@@ -548,24 +607,29 @@ void second_weapon::LevelState()
 		switch (weaponType)
 		{
 		case spear:
+			//ダメージのみ　クールタイムは微量
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.6f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.7f;
+			damage = INIT_DAMAGE_SPEAR + 10;
 			break;
 
 		case frail:
+			//フレイル　攻撃範囲(照準)をでかくする　ダメージを上げる
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.6f;
-			damage = INIT_DAMAGE_FRAIL;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
+			damage = INIT_DAMAGE_FRAIL + 10;
+			Player::SetPlayer_RadiusX(100.0f);
+			Player::SetPlayer_RadiusY(100.0f);
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
-			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
-			damage = INIT_DAMAGE_BOOK;
+			maxCoolTime = INIT_COOLTIME_BOOK * 0.7f;
+			damage = INIT_DAMAGE_BOOK + 10;
+			Bullet_speed = 30.0f;
 			break;
 		}
 
@@ -573,25 +637,30 @@ void second_weapon::LevelState()
 	case 6:
 		switch (weaponType)
 		{
+			//今までに強化してきたものを全て追加する
 		case spear:
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
-			maxCoolTime = INIT_COOLTIME_SPEAR * 0.5f;
-			damage = INIT_DAMAGE_SPEAR;
+			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
+			damage = INIT_DAMAGE_SPEAR + 10;
 			break;
 
 		case frail:
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
-			damage = INIT_DAMAGE_FRAIL;
+			damage = INIT_DAMAGE_FRAIL + 10;
+			frailRadius = 100.0f;
+			Player::SetPlayer_RadiusX(100.0f);
+			Player::SetPlayer_RadiusY(100.0f);
 			break;
 
 		case book:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.5f;
-			damage = INIT_DAMAGE_BOOK;
+			damage = INIT_DAMAGE_BOOK + 10;
+			Bullet_speed = 30.0f;
 			break;
 		}
 
@@ -604,6 +673,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
 			damage = INIT_DAMAGE_SPEAR;
+			attackBufRate = 2.0f;
 			break;
 
 		case frail://三つ首
@@ -618,6 +688,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK_LEVEL7;
 			damage = INIT_DAMAGE_BOOK;
+			attackBufRate = 2.0f;
 			break;
 		}
 
@@ -630,6 +701,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.3f;
 			damage = INIT_DAMAGE_SPEAR;
+			thunderDamage = 10000.0f;
 			break;
 
 		case frail://アースクラッシャー
@@ -699,7 +771,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 
 	//フレイル
 	if (isFrailAttacking && frailRate <= 1.0f) {
-		if (weaponLevel == 7) {
+		if (weaponLevel == 7) {		//level7の判定
 			for (int i = 0; i < 3; i++)
 			{
 				switch (i)
@@ -745,7 +817,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 				}
 			}
 		}
-		else {
+		else {		//通常とlevel8の判定
 			weaponCollisionLocation.x = frailLcation.x;
 			weaponCollisionLocation.y = frailLcation.y;
 
@@ -766,6 +838,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 		}
 	}
 
+	//弾
 	for (int i = 0; i < MAX_BULLETS_NUM; i++) {
 		if (bullets[i].flg) {
 			weaponCollisionLocation = bullets[i].l;
@@ -790,7 +863,7 @@ bool second_weapon::SpearAnim()
 		isAttacking = false;
 		spear_move = { 0,0,0 };
 		spear_move_cnt = 0;
-
+		return true;
 	}
 
 	spearlocation = location;
@@ -801,6 +874,48 @@ bool second_weapon::SpearAnim()
 	spearlocation.x += spear_move.x;
 	spearlocation.y += spear_move.y;
 
+	return false;
+}
+
+bool second_weapon::SpearThunder()
+{
+	for (int i = 0; i < 64; i++){
+		if (thunder[i].flg) {
+
+			thunder[i].l.x -= playerVector.x;
+			thunder[i].l.y -= playerVector.y;
+
+			if (thunder[i].fps++ > 120) {
+				thunder[i].fps = 0;
+				thunder[i].flg = false;
+			}
+		}
+	}
+	return false;
+}
+
+bool second_weapon::SpearThunderCollision(Location enemyLocation, float radius)
+{
+	Location weaponCollisionLocation;
+	float tmp_x, tmp_y, tmp_length;
+
+	for (int i = 0; i < 64; i++){
+		if (thunder[i].flg && thunder[i].fps > 0) {
+
+			weaponCollisionLocation.x = thunder[i].l.x;
+			weaponCollisionLocation.y = thunder[i].l.y;
+
+			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
+			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
+			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (tmp_length < radius + thunderRadius) { 
+				return true;
+			}
+
+		}
+	}
+	
 	return false;
 }
 
@@ -838,8 +953,8 @@ void second_weapon::MoveBookBullet()
 
 			}
 			else {
-				bullets[i].l.x += bullets[i].v.x * 10 + playerVector.x * -1;
-				bullets[i].l.y += bullets[i].v.y * 10 + playerVector.y * -1;
+				bullets[i].l.x += bullets[i].v.x * Bullet_speed + playerVector.x * -1;
+				bullets[i].l.y += bullets[i].v.y * Bullet_speed + playerVector.y * -1;
 			}
 
 			if (bullets[i].distance > 300) {
@@ -900,12 +1015,45 @@ bool second_weapon::ThreeFrailAnim()
 	swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
 	swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;*/
 
+	frailDistance += 7.0f;
 
-	frailLocation1.x = 140 * cos(d_r(120.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;
-	frailLocation1.y = 140 * sin(d_r(120.0f) + level7FrailRot) + 0 * cos(d_r(90.0f) + level7FrailRot) + frailLcation.y;
+	frailLocation1.x = frailDistance * cos(d_r(120.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation1.y = frailDistance * sin(d_r(120.0f) + level7FrailRot) + 0 * cos(d_r(90.0f) + level7FrailRot) + frailLcation.y;
 
-	frailLocation2.x = 140 * cos(d_r(240.0f) + level7FrailRot) - 0 * sin(d_r(270.0f) + level7FrailRot) + frailLcation.x;
-	frailLocation2.y = 140 * sin(d_r(240.0f) + level7FrailRot) + 0 * cos(d_r(270.0f) + level7FrailRot) + frailLcation.y;
+	frailLocation2.x = frailDistance * cos(d_r(240.0f) + level7FrailRot) - 0 * sin(d_r(270.0f) + level7FrailRot) + frailLcation.x;
+	frailLocation2.y = frailDistance * sin(d_r(240.0f) + level7FrailRot) + 0 * cos(d_r(270.0f) + level7FrailRot) + frailLcation.y;
 
 	return false;
+}
+
+void second_weapon::InitWeapon(int type)
+{
+	relativeRot = 0.0f;		//武器によって変える
+	isAttacking = false;
+	levelUpFlg = false;
+
+	if (type == 1) {
+		LevelState();
+	}
+
+	spear_move_cnt = 0.0f;
+	spear_move = { 0,0,0 };
+
+	frailRadius = 30.0f;
+	frailRate = 1.0f;
+	isFrailAttacking = false;
+	level7FrailFlg = false;
+	level8FrailRadius = 100.0f;
+	frailDistance = 0.0f;
+
+
+	book_move = { 0,0,0 };
+	for (int i = 0; i < MAX_BULLETS_NUM; i++)
+	{
+		bullets[i].v = { 0,0,0 };
+		bullets[i].l = { 0,0 };
+		bullets[i].flg = false;
+	}
+
+	barrierFlg = false;
 }

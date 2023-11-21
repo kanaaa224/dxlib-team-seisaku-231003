@@ -140,31 +140,32 @@ void GameUI::drawHUD() const {
 
 
 	//////////////////////////////////////////////////
-	// レベル
+	// ポイント
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(rootRX - 60, rootRY + 60, 40, GetColor(0, 0, 0), true);
 	if(opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	int color = GetColor(255, 255, 255);
-	if (level < 10) {
-		color = GetColor(255, 214, 0);
-	}
-	else if (level < 20) {
-		// 未完成
-	};
+	int color = GetColor(0, 0, 0);
+	//if (point < 10) {
+	//	color = GetColor(255, 214, 0);
+	//}
+	//else if (point < 20) {
+	//	// 未完成
+	//};
 
-	DrawCircle(rootRX - 60, rootRY + 60, 40, color, false, 3);
+	DrawCircle(rootRX - 60, rootRY + 60, 40, color, false, 5);
 
-	SetFontSize(50);
+	SetFontSize(40);
 	//ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
-	std::string str = std::to_string(level);
-	DrawFormatString(((rootRX - 60) - GetDrawFormatStringWidth(str.c_str()) / 2), rootRY + 35, 0xffffff, str.c_str());
+	std::string str = std::to_string(point);
+	DrawFormatString(((rootRX - 60) - GetDrawFormatStringWidth(str.c_str()) / 2), rootRY + 34, 0xffffff, str.c_str());
 
-	SetFontSize(20);
+	SetFontSize(14);
 	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
-	DrawFormatString(((rootRX - 90) - GetDrawFormatStringWidth("Lv.") / 2), rootRY + 70, 0xffffff, "Lv.");
+	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("LEVELUP") / 2), rootRY + 72, 0xffffff, "LEVELUP");
+	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("POINT") / 2), rootRY + 84, 0xffffff, "POINT");
 
 
 	//////////////////////////////////////////////////
@@ -372,21 +373,26 @@ void GameUI::drawHUD() const {
 		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponB[0]) {
-		case 0: // 槍
+		case 0:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSpear, TRUE);
+			str = "槍";
 			break;
 
-		case 1: // フレイル
+		case 1:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
+			str = "フレイル";
 			break;
 
-		case 2: // 本
+		case 2:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponBook, TRUE);
+			str = "本";
 			break;
 
 		default:
 			break;
 		};
+
+		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
 	};
 
 	x -= 120;
@@ -403,21 +409,26 @@ void GameUI::drawHUD() const {
 		if(weaponA[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
 
 		switch (weaponA[0]) {
-		case 0: // 片手剣
+		case 0:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
+			str = "片手剣";
 			break;
 
-		case 1: // 短剣
+		case 1:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
+			str = "短剣";
 			break;
 
-		case 2: // 大剣
+		case 2:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
+			str = "大剣";
 			break;
 
 		default:
 			break;
 		};
+
+		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
 	};
 
 
@@ -599,8 +610,8 @@ void GameUI::setScore(int Score) {
 	score = Score;
 };
 
-void GameUI::setLevel(int Level) {
-	level = Level;
+void GameUI::setPoint(int Point) {
+	point = Point;
 };
 
 void GameUI::setFloor(int Floor) {

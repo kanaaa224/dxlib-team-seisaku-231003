@@ -40,6 +40,14 @@ struct Bullet
 	float distance;
 };
 
+struct Thunder
+{
+	Location l;
+	bool flg;
+	int img[5];	//アニメーションの枚数分
+	int fps = 0;
+};
+
 class second_weapon
 {
 private:
@@ -70,6 +78,10 @@ private:
 	int spear_img;
 	int frail_img;
 	int book_img;
+	int bullet_img;
+	int ironball_img;
+	int barrier_img;
+	int attackbuf_img;
 
 
 	float tmp, tmp1;
@@ -78,6 +90,9 @@ private:
 	float spear_move_cnt;
 	Vector spear_move;
 	Location spearlocation;
+	Thunder thunder[64];
+	float thunderRadius;
+	float thunderDamage;
 
 	float frailRadius;
 	float frailRadiusBase;
@@ -95,6 +110,7 @@ private:
 	Vector frailVec2;
 	float level7FrailRot;
 	bool level7FrailFlg;
+	float frailDistance;
 	float level8FrailRadius;
 
 	Vector book_move;
@@ -102,7 +118,9 @@ private:
 	bool barrierFlg;
 	
 
+	float attackBufRate;
 
+	int Bullet_speed;
 
 public:
 	second_weapon();
@@ -121,6 +139,8 @@ public:
 
 
 	bool SpearAnim();
+	bool SpearThunder();	//雷が降るまで、振り切ったタイミングでtrue
+	bool SpearThunderCollision(Location enemyLocation, float radius);	//雷の当たり判定
 
 	void SpawnBookBullets(int num);
 	void MoveBookBullet();
@@ -129,11 +149,24 @@ public:
 	bool FrailAnim();
 	bool ThreeFrailAnim();
 
+	//引数でどこから呼び出されたか指定する(0,second_weapon.cpp 1,scene_game.cpp)
+	void InitWeapon(int type);
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
 		weaponLevel = num;
 		LevelState();
+	}
+
+	void SetThunderLocation(Location l) {
+		for (int i = 0; i < 64; i++){
+			if (!thunder[i].flg) {
+				thunder[i].fps = 0;
+				thunder[i].l = l;
+				thunder[i].flg = true;
+				break;
+			}
+		}
 	}
 
 	void SetBarrierFlg(bool f) {
@@ -147,5 +180,8 @@ public:
 	int GetWeaponType() { return weaponType; }
 	int GetCoolTime() { return coolTime; }
 	bool GetBarrierFlg() { return barrierFlg; }
+
+	float GetThunderDamage() { return thunderDamage; }
+	float GetAttackBufRate() { return attackBufRate; }
 };
 

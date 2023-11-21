@@ -1,5 +1,9 @@
 ﻿#pragma once
 #include"DxLib.h"
+#define _USE_MATH_DEFINES
+#include<math.h>
+
+#define RADIAN_DEGREE(_rad) ((_rad)*180.0f/M_PI)
 
 //画面サイズ
 #define _SCREEN_HEIGHT_ 720 //縦
@@ -40,7 +44,7 @@
 #define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_SLIME_NUM 100			//スライムの最大数
 
-#define SLIME_1_STAGE_NUM 0 //１ステージ目のスライムの数
+#define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
 #define SLIME_3_STAGE_NUM 20 //３ステージ目のスライムの数
 #define SLIME_4_STAGE_NUM 25 //４ステージ目のスライムの数
@@ -72,7 +76,7 @@
 
 #define STOP_SHOOTING_DISTANCE 400 //プレイヤーとの距離がこの値になったら立ち止まる
 
-#define WIZARD_1_STAGE_NUM 3 //１ステージ目の魔法使いの数←仮で数が入っている
+#define WIZARD_1_STAGE_NUM 1 //１ステージ目の魔法使いの数←仮で数が入っている
 #define WIZARD_2_STAGE_NUM 0 //２ステージ目の魔法使いの数
 #define WIZARD_3_STAGE_NUM 0 //３ステージ目の魔法使いの数
 #define WIZARD_4_STAGE_NUM 0 //４ステージ目の魔法使いの数

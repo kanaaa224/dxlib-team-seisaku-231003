@@ -42,11 +42,39 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-	exp = level = 0; // 仮
+	hp    = 0;
+	exp   = 0;
+	level = 0;
+	point = 0;
+
+	currentStage = 0;
+
 
 	map->ResetStage();
 
-	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+
+	gameUI->setBanner(std::to_string(currentStage + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
+
+
+	// とりあえず
+	std::map<std::string, int> data;
+	data["slime"]    = 5;
+	data["skeleton"] = 3;
+	data["wizard"]   = 2;
+	a.push_back(data);
+
+	for (int i = 1; i < 20; i++) {
+		data["slime"]    = a[i - 1]["slime"]    + 1;
+		data["skeleton"] = a[i - 1]["skeleton"] + 1;
+		data["wizard"]   = a[i - 1]["wizard"]   + 1;
+		a.push_back(data);
+	};
+
+	enemySpawnData = a[currentStage];
+
+	for (int i = 1; i < 20; i++) {
+		expData.push_back(i * 100);
+	};
 };
 
 GameScene::~GameScene() {
@@ -78,11 +106,17 @@ Scene* GameScene::update() {
 
 	//////////////////////////////////////////////////
 
-	if (mode >= GameSceneMode::main && gameUI->getState() == 2) {
+	if (mode >= GameSceneMode::main && gameUI->getState() == playerUI) {
 		// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
 			if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
-			else mode = GameSceneMode::weaponLevelup;
+			else
+			{
+				mode = GameSceneMode::weaponLevelup;
+				//レベルアップ画面のカーソル位置初期化用フラグ
+				// レベルアップ画面を開くたびに初期化
+				restor_cursor_position = true;
+			}
 		};
 	};
 
@@ -100,7 +134,7 @@ Scene* GameScene::update() {
 	if (mode == GameSceneMode::main) {
 		gameUI->update(this);
 
-		if (gameUI->getState() >= 1) {
+		if (gameUI->getState() >= banner_playerUI) {
 
 			//敵
 			HitCheck();
@@ -111,19 +145,14 @@ Scene* GameScene::update() {
 
 
 			//武器と敵の当たり判定
-			if (true/*nowStage == 1*/) {
-				for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+			if (true/*currentStage == 1*/) {
+				for (int i = 0; i < enemySpawnData["slime"]; i++) {
 					if (slime[i] != nullptr) {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
 								//ダメージアップ
-								if (weaponB->GetWeaponType() == book && weaponB->GetWeaponLevel() == 7) {
-									slime[i]->SetHitHP(weaponA->GetDamage() * 2);
-								}
-								else {
-									slime[i]->SetHitHP(weaponA->GetDamage());
-								}
+								slime[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
 								slime[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -136,19 +165,28 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
-								slime[i]->SetHitHP(weaponB->GetDamage());
+								slime[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
 								slime[i]->SetHit1stFrameFlg(true);
+								
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+									}
+								}
 							}
 						}
+						
+
 					}
 				}
 
-				for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+				for (int i = 0; i < enemySpawnData["skeleton"]; i++) {
 					if (skeleton[i] != nullptr) {
 						if (weaponA->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponA->GetDamage());
+								skeleton[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
 								skeleton[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -161,25 +199,27 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponA->GetDamage());
+								skeleton[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
 								skeleton[i]->SetHit1stFrameFlg(true);
+
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+									}
+								}
 							}
 						}
 					}
 				}
 
-				for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+				for (int i = 0; i < enemySpawnData["wizard"]; i++) {
 					if (wizard[i] != nullptr) {
 						if (weaponA->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
 								//ダメージアップ
-								if (weaponB->GetWeaponType() == book && weaponB->GetWeaponLevel() == 7) {
-									wizard[i]->SetHitHP(weaponA->GetDamage() * 2);
-								}
-								else {
-									wizard[i]->SetHitHP(weaponA->GetDamage());
-								}
+								wizard[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
 								wizard[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -191,8 +231,15 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
-								wizard[i]->SetHitHP(weaponB->GetDamage());
+								wizard[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
 								wizard[i]->SetHit1stFrameFlg(true);
+
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+									}
+								}
 							}
 						}
 					}
@@ -254,47 +301,59 @@ Scene* GameScene::update() {
 
 			EnemyInc();//敵のダメージストップ関係
 
+			hp = player->GetPlayer_HP();
+			int maxHP = 100;
+
+			int maxEXP = expData[level];
+
 			//////////////////////////////////////////////////
 			// GameUI 仮
-			//gameUI->setScore((SLIME_1_STAGE_NUM - enemies) * 100);
-			gameUI->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
-			gameUI->setEXP(exp, 2000, (exp / 20));
-			gameUI->setLevel(level);
+			gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
+			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
+			gameUI->setPoint(point);
 
-			gameUI->setFloor(nowStage);
-			gameUI->setEnemy(getEnemiesNum(0), SLIME_1_STAGE_NUM);
+			gameUI->setFloor(currentStage + 1);
+			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
 			//////////////////////////////////////////////////
-			if (getEnemiesNum(0) <= 0 && frameCounter) {
+			if (getEnemyNum(0) <= 0 && frameCounter) {
 				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
-				if (gameUI->getState() == 2) {
+				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
 				};
-				if (gameUI->getState() == 1) {
+				if (gameUI->getState() == banner_playerUI) {
 					//GameScene();
 					map->ClearStage();
 					//return new Map;
 
+					currentStage++;
 					init();
-					nowStage++;
+					
 					mode = GameSceneMode::map;
 				};
 			};
 			if (player->GetPlayer_HP() <= 0) {
 				gameUI->setBanner("失敗、、", "体力が尽きました、、");
-				if (gameUI->getState() == 2) {
+				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
 				};
-				if (gameUI->getState() == 1) return new GameOverScene;
+				if (gameUI->getState() == banner_playerUI) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemiesNum(0), SLIME_1_STAGE_NUM, getEnemiesNum(0) * 10); // 怪奇現象発生中
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), getEnemyNum(0) / getEnemyMax(0)); // 怪奇現象発生中
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			//////////////////////////////////////////////////
+
+			// 経験値、レベル、ポイント処理
+			if (exp >= expData[level]) {
+				exp = 0;
+				level++;
+				point++;
+			};
 		};
 
 		frameCounter++;
@@ -356,9 +415,9 @@ void GameScene::draw() const {
 		}
 		else {
 			gameUI->draw();
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->drawEnemyHP();
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->drawEnemyHP(); // 仮
 
-			//gameUI->drawHP(); // プレイヤーHP単体表示
+			//gameUI->drawHP(); // 休憩用 プレイヤーHP単体表示
 		};
 
 		if (mode == GameSceneMode::weaponLevelup) weaponLevelup->draw();
@@ -382,20 +441,22 @@ void GameScene::init() {
 	//delete player;
 	//player = new Player();
 
+	player->SetPlayer_HP(hp);
+
 	delete stage;
 	stage = new Stage();
 
 	weaponA->InitWeapon();
 	
-	for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
 		slime[i] = nullptr;
 	};
 	tmpSlimeNum = 0;
-	for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
 		skeleton[i] = nullptr;
 	};
 	tmpSkeletonNum = 0;
-	for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
 		wizard[i] = nullptr;
 	};
 	tmpWizardNum = 0;
@@ -404,35 +465,41 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	gameUI->setBanner("ステージ " + std::to_string(nowStage), "全てのモンスターを倒してください");
+	gameUI->setBanner(std::to_string(currentStage + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
 	gameUI->init();
 	gameUI->setState(banner);
+
+	enemySpawnData = a[currentStage];
+
+	exp = 0;
 };
 
-int GameScene::getEnemiesNum(int type) {
-	int enemies = 0;
+int GameScene::getEnemyMax(int type) {
+	if (type == 0) return (enemySpawnData["slime"] + enemySpawnData["skeleton"] + enemySpawnData["wizard"]);
+	if (type == 1) return enemySpawnData["slime"];
+	if (type == 2) return enemySpawnData["skeleton"];
+	if (type == 3) return enemySpawnData["wizard"];
+};
 
-	if (type == 0) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) enemies++;
-		};
+int GameScene::getEnemyNum(int type) {
+	int slimeNum    = 0;
+	int skeletonNum = 0;
+	int wizardNum   = 0;
 
-		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
-			if (skeleton[i] != nullptr) enemies++;
-		};
-
-		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
-			if (wizard[i] != nullptr) enemies++;
-		};
+	for (int i = 0; i < MAX_SLIME_NUM; i++) {
+		if (slime[i] != nullptr) slimeNum++;
+	};
+	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+		if (skeleton[i] != nullptr) skeletonNum++;
+	};
+	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+		if (wizard[i] != nullptr) wizardNum++;
 	};
 
-	if (type == 1) {
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) enemies++;
-		};
-	};
-
-	return enemies;
+	if (type == 0) return (slimeNum + skeletonNum + wizardNum);
+	if (type == 1) return slimeNum;
+	if (type == 2) return skeletonNum;
+	if (type == 3) return wizardNum;
 };
 
 
@@ -635,31 +702,17 @@ void GameScene::EnemyInc()
 //----------スライム----------//
 void GameScene::SlimeUpdate()
 {
-	if (true/*nowStage == 1*/) {
-		if (tmpSlimeNum < SLIME_1_STAGE_NUM) {
-			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_1_STAGE_NUM);
-			tmpSlimeNum++;
-		}
-		for (int i = 0; i < SLIME_1_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player, weaponA, *(stage));
-				if (slime[i]->GetHP() <= 0) {
-					slime[i] = nullptr;
-				}
-			}
-		}
+	if (tmpSlimeNum < enemySpawnData["slime"]) {
+		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, enemySpawnData["slime"]);
+		tmpSlimeNum++;
 	}
-	else if (nowStage == 2) {
-		if (tmpSlimeNum < SLIME_2_STAGE_NUM) {
-			slime[tmpSlimeNum] = new Slime(tmpSlimeNum, SLIME_2_STAGE_NUM);
-			tmpSlimeNum++;
-		}
-		for (int i = 0; i < SLIME_2_STAGE_NUM; i++) {
-			if (slime[i] != nullptr) {
-				slime[i]->Update(i, player, weaponA, *(stage));
-				if (slime[i]->GetHP() <= 0) {
-					slime[i] = nullptr;
-				}
+	for (int i = 0; i < enemySpawnData["slime"]; i++) {
+		if (slime[i] != nullptr) {
+			slime[i]->Update(i, player, weaponA, *(stage));
+			if (slime[i]->GetHP() <= 0) {
+				slime[i] = nullptr;
+				//tmpSlimeNum--;
+				exp += 20;
 			}
 		}
 	}
@@ -677,17 +730,17 @@ void GameScene::SlimeDraw() const
 //----------スケルトン----------//
 void GameScene::SkeletonUpdate()
 {
-	if (true/*nowStage == 1*/) {
-		if (tmpSkeletonNum < SKELETON_1_STAGE_NUM) {
-			skeleton[tmpSkeletonNum] = new Skeleton(tmpSkeletonNum, SKELETON_1_STAGE_NUM);
-			tmpSkeletonNum++;
-		}
-		for (int i = 0; i < SKELETON_1_STAGE_NUM; i++) {
-			if (skeleton[i] != nullptr) {
-				skeleton[i]->Update(i, player, weaponA, *(stage));
-				if (skeleton[i]->GetHP() <= 0) {
-					skeleton[i] = nullptr;
-				}
+	if (tmpSkeletonNum < enemySpawnData["skeleton"]) {
+		skeleton[tmpSkeletonNum] = new Skeleton(tmpSkeletonNum, enemySpawnData["skeleton"]);
+		tmpSkeletonNum++;
+	}
+	for (int i = 0; i < enemySpawnData["skeleton"]; i++) {
+		if (skeleton[i] != nullptr) {
+			skeleton[i]->Update(i, player, weaponA, *(stage));
+			if (skeleton[i]->GetHP() <= 0) {
+				skeleton[i] = nullptr;
+				//tmpSkeletonNum--;
+				exp += 30;
 			}
 		}
 	}
@@ -705,17 +758,12 @@ void GameScene::SkeletonDraw() const
 //----------魔法使い----------//
 void GameScene::WizardUpdate()
 {
-	if (true/*nowStage == 1*/) {
-		if (tmpWizardNum < WIZARD_1_STAGE_NUM) {
-			wizard[tmpWizardNum] = new Wizard(tmpWizardNum, WIZARD_1_STAGE_NUM);
-			tmpWizardNum++;
-		}
-		for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
-			if (wizard[i] != nullptr) {
-				wizard[i]->Update(i, player, weaponA, *(stage));
+	for (int i = 0; i < enemySpawnData["wizard"]; i++) {
+		if (wizard[i] != nullptr) {
+			wizard[i]->Update(i, player, weaponA, *(stage));
 
 				if (wizard[i]->GetShootFlg() == true) {
-					EnemyBulletUpdate(wizard[i]->GetEnemyLocation());
+					EnemyBulletUpdate();
 					if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
 						if (tmpBulletNum < MAX_BULLET_NUM) {
 							enemyBullet[tmpBulletNum] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
@@ -724,17 +772,25 @@ void GameScene::WizardUpdate()
 					}
 				}
 
-				if (wizard[i]->GetHP() <= 0) {
-					wizard[i] = nullptr;
-				}
+			if (wizard[i]->GetHP() <= 0) {
+				wizard[i] = nullptr;
+				//tmpWizardNum--;
+				exp += 40;
 			}
 		}
+	}
+	if (tmpWizardNum < enemySpawnData["wizard"]) {
+		wizard[tmpWizardNum] = new Wizard(tmpWizardNum, enemySpawnData["wizard"]);
+		tmpWizardNum++;
 	}
 }
 
 void GameScene::WizardDraw() const
 {
-	for (int i = 0; i < WIZARD_1_STAGE_NUM; i++) {
+	int maxWizard = 0;
+	if (enemySpawnData.find("wizard") != enemySpawnData.end()) maxWizard = enemySpawnData.at("wizard");
+
+	for (int i = 0; i < maxWizard; i++) {
 		if (wizard[i] != nullptr) {
 			wizard[i]->Draw(i);
 		}
@@ -742,7 +798,7 @@ void GameScene::WizardDraw() const
 }
 
 //----------弾----------//
-void GameScene::EnemyBulletUpdate(Location location)
+void GameScene::EnemyBulletUpdate()
 {
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[i] != nullptr) {
@@ -766,7 +822,7 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update();
+	minotaur->Update(player);
 }
 
 void GameScene::MinotaurDraw() const

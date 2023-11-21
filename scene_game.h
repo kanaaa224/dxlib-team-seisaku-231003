@@ -23,7 +23,6 @@ enum GameSceneState {
 
 class GameScene : public Scene {
 private:
-
 	int mode, state, frameCounter;
 
 	//////////////////////////////////////////////////
@@ -58,21 +57,35 @@ private:
 	//////////////////////////////////////////////////
 
 	Map* map;
+
 	Weapon_Selection* weaponSelect;
+	bool weapon_selected;
+
 	WeaponLevelUp* weaponLevelup;
+	bool restor_cursor_position; // レベルアップ画面のカーソル位置を元に戻すか
+
 	Blacksmith* blacksmith;
 	Rest* rest;
 
 	//////////////////////////////////////////////////
 
-	int hp, exp, level; // 仮
+	// 島袋
 
-	int nowStage = 1;//ステージ
-	//bool hitFlg = false;
-	//int hitFrameCounter = 0;
+	int hp;    // プレイヤー体力
+	int exp;   // 経験値
+	int level; // レベル
+	int point; // ポイント（武器強化に使用）
 
-	bool weapon_selected;
-	bool restor_cursor_position;	// レベルアップ画面のカーソル位置を元に戻すか
+	int score; // 累計スコア
+
+	int currentStage; // 現在のステージ
+
+	// 敵のスポーンデータ
+	std::map<std::string, int> enemySpawnData;
+	std::vector<std::map<std::string, int>> a; // 敵のスポーンデータの塊（なんかのクラス（Enemy/Stage）で管理したい）
+
+	// 経験値データ
+	std::vector<int> expData;
 
 public:
 	GameScene();
@@ -88,8 +101,17 @@ public:
 	// 初期化
 	void init();
 
+	// 敵の最大数
+	int getEnemyMax(int);
+
 	// 敵の数
-	int getEnemiesNum(int);
+	int getEnemyNum(int);
+
+	// 累計経験値取得
+	//int getEXP();
+
+	// レベル取得
+	//int getLevel();
 
 	//////////////////////////////////////////////////
 
@@ -112,7 +134,7 @@ public:
 	void WizardUpdate();
 	void WizardDraw() const;
 	//弾
-	void EnemyBulletUpdate(Location location);
+	void EnemyBulletUpdate();
 	void EnemyBulletDraw() const;
 	//ミノタウロス
 	void MinotaurUpdate();

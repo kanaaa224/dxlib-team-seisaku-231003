@@ -437,11 +437,16 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
-float Player::Player_Upperlimit(float value) {
-
-	Upper_speed = value;
+//回避の速度を返す
+float Player::GetPlayer_Upperlimit() {
 
 	return Upper_speed;
+}
+
+//回避の速度をセットする
+void Player::SetPlayer_Upperlimit(float value) {
+
+	Upper_speed = value;
 }
 
 int Player::Player_invincible(int value) {
@@ -451,34 +456,52 @@ int Player::Player_invincible(int value) {
 	return Hit_cooltime;
 }
 
-float Player::Player_Speed(float value) {
-
-	Additional_Value2 =  value;
+// プレイヤーの移動速度を返す
+float Player::GetPlayer_Speed() {
 
 	return Additional_Value2;
 }
 
-// 照準の半径を返す
-float  Player::Player_RadiusX(float value) {
+//プレイヤーの移動速度をセットする
+void Player::SetPlayer_Speed(float value) {
 
-	Aiming_RadiusX = Aiming_RadiusX + value;
+	Additional_Value2 =  value;
+}
+
+//照準Xを返す
+float Player::GetPlayer_RadiusX() {
 
 	return Aiming_RadiusX;
 }
 
-float  Player::Player_RadiusY(float value) {
+// 照準Xをセットする
+void  Player::SetPlayer_RadiusX(float value) {
 
-	Aiming_RadiusY = Aiming_RadiusY + value;
+	Aiming_RadiusX = Aiming_RadiusX + value;
+}
+
+//照準Yを返す
+float Player::GetPlayer_RadiusY() {
 
 	return Aiming_RadiusY;
 }
 
-// 回避のクールタイムの時間を返す
-int Player::Avoidance_limit(int value) {
+//照準Yをセットする
+void  Player::SetPlayer_RadiusY(float value) {
 
-	Cool_Limit =  value;
+	Aiming_RadiusY = Aiming_RadiusY + value;
+}
+
+//回避のクールタイムを返す
+int Player::GetAvoidance_limit() {
 
 	return Cool_Limit;
+}
+
+// 回避のクールタイムの時間をセットする
+void Player::SetAvoidance_limit(int value) {
+
+	Cool_Limit =  value;
 }
 
 float Player::Player_MoveX() {

@@ -10,7 +10,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	if (DxLib_Init() == -1) return -1;             // DxLib の初期化処理
 	SetDrawScreen(DX_SCREEN_BACK);                 // 描画先画面を裏にする（ダブルバッファリング）
 
-	SceneManager* sceneMng = new SceneManager((Scene*) new DebugScene());
+	SceneManager* sceneMng = new SceneManager((Scene*) new Title());
 
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
 	FPSCtrl::SetUpdateInterval(1000);
