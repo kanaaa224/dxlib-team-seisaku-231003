@@ -352,6 +352,8 @@ Scene* GameScene::update() {
 				exp = 0;
 				level++;
 				point++;
+
+				gameUI->notification("武器強化可能！", "Xボタンで確認", "btnX");
 			};
 		};
 
