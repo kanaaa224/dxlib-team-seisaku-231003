@@ -147,7 +147,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				cursor_action = state_first;
 				action_number = levelup;
 				weapon_number = weapon1_info.num;
-				cursor_x = 300;
+				cursor_x = 140;
 				cursor_y = 320;
 				action_selection = false;
 			}
@@ -344,9 +344,9 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 		DrawRotaGraph(170, 490, 0.2f, 0.0f, img_exclamation_mark, TRUE);
 	}
 
-	DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
-	SetFontSize(20);
-	DrawFormatString(1180, 675, 0x000000, "出る");
+	//DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
+	//SetFontSize(20);
+	//DrawFormatString(1180, 675, 0x000000, "出る");
 }
 
 // レベルリセット画面描画
