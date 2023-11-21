@@ -1,4 +1,3 @@
-//#include "weaponLevelup.h"
 #include "main.h"
 
 WeaponLevelUp::WeaponLevelUp()
@@ -167,6 +166,9 @@ void WeaponLevelUp::draw() const
 
 	SetFontSize(20);
 	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
+
+	//DrawFormatString(900, 40, 0x000000, "プレイヤーHP：%d", (int)player->GetPlayer_HP());
+	//DrawFormatString(900, 40, 0x000000, "プレイヤーHP：%d", weapon->);
 	
 	// レベルアップ詳細のテキスト群
 	DrawLevelUpDetails();
@@ -593,12 +595,16 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 		{
 		case sword:			// 片手剣
 			DrawFormatString(200, 510, 0x000000, "伝説の剣");
+			DrawFormatString(200, 540, 0x000000, "斬撃を飛ばす");
 			break;
 		case dagger:		// 短剣
 			DrawFormatString(200, 510, 0x000000, "アサシンダガ―");
+			DrawFormatString(200, 540, 0x000000, "回避した軌道にいる敵");
+			DrawFormatString(200, 560, 0x000000, "にダメージを与える。");
 			break;
 		case greatSword:	// 大剣
 			DrawFormatString(200, 510, 0x000000, "旋風斬");
+			DrawFormatString(200, 540, 0x000000, "+回転");
 			break;
 		default:
 			DrawFormatString(200, 510, 0xb00000, "武器がありません");
@@ -612,12 +618,16 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 		{
 		case sword:			// 片手剣
 			DrawFormatString(200, 510, 0x000000, "魔剣ブラッドファング");
+			DrawFormatString(200, 540, 0x000000, "");
 			break;
 		case dagger:		// 短剣
 			DrawFormatString(200, 510, 0x000000, "投げナイフ");
+			DrawFormatString(200, 540, 0x000000, "照準の方向にナイフを");
+			DrawFormatString(200, 560, 0x000000, "5本発射する。");
 			break;
 		case greatSword:	// 大剣
 			DrawFormatString(200, 510, 0x000000, "砂塵の太刀");
+			DrawFormatString(200, 540, 0x000000, "+砂ぼこり");
 			break;
 		default:
 			DrawFormatString(200, 510, 0xb00000, "武器がありません");
@@ -637,16 +647,19 @@ void WeaponLevelUp::DrawWeapon2FinalText() const
 		switch (weapon2_info.type)
 		{
 		case spear:
-			DrawFormatString(200, 500, 0x000000, "ロイヤルランス");
+			DrawFormatString(200, 510, 0x000000, "ロイヤルランス");
+			DrawFormatString(200, 540, 0x000000, "");
 			break;
 		case frail:
-			DrawFormatString(200, 500, 0x000000, "三つ首の鎖");
+			DrawFormatString(200, 510, 0x000000, "三つ首の鎖");
+			DrawFormatString(200, 540, 0x000000, "");
 			break;
 		case book:
-			DrawFormatString(200, 500, 0x000000, "賢者の加護");
+			DrawFormatString(200, 510, 0x000000, "賢者の加護");
+			DrawFormatString(200, 540, 0x000000, "");
 			break;
 		default:
-			DrawFormatString(200, 500, 0xb00000, "武器がありません");
+			DrawFormatString(200, 510, 0xb00000, "武器がありません");
 			break;
 		}
 	}
@@ -656,20 +669,22 @@ void WeaponLevelUp::DrawWeapon2FinalText() const
 		switch (weapon2_info.type)
 		{
 		case spear:
-			DrawFormatString(200, 500, 0x000000, "グングニル");
+			DrawFormatString(200, 510, 0x000000, "グングニル");
+			DrawFormatString(200, 540, 0x000000, "+落雷");
 			break;
 		case frail:
-			DrawFormatString(200, 500, 0x000000, "アースクラッシャー");
+			DrawFormatString(200, 510, 0x000000, "アースクラッシャー");
+			DrawFormatString(200, 540, 0x000000, "");
 			break;
 		case book:
-			DrawFormatString(200, 500, 0x000000, "エンチャントバレット");
+			DrawFormatString(200, 510, 0x000000, "エンチャントバレット");
+			DrawFormatString(200, 540, 0x000000, "");
 			break;
 		default:
-			DrawFormatString(200, 500, 0xb00000, "武器がありません");
+			DrawFormatString(200, 510, 0xb00000, "武器がありません");
 			break;
 		}
 	}
-
 }
 
 // 武器1のレベルリセット処理
