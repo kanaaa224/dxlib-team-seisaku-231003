@@ -158,7 +158,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 {
 	// ”wŒi
-	DrawBox(0, 0, 1280, 720, 0xb0c4de, TRUE);
+	DrawBox(0, 0, 1280, 720, 0x808080, TRUE);
 
 	//SetFontSize(30);
 	//DrawFormatString(560, 10, 0x000000, "’b–è");
