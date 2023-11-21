@@ -19,10 +19,11 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-	map           = new Map(gameUI);
+	map           = new Map;
 	weaponSelect  = new Weapon_Selection(weapon_selected);
 	weaponLevelup = new WeaponLevelUp;
 	blacksmith    = new Blacksmith;
+	rest = new Rest(gameUI);
 
 	//////////////////////////////////////////////////
 	
@@ -87,6 +88,7 @@ GameScene::~GameScene() {
 	delete weaponSelect;
 	delete weaponLevelup;
 	delete blacksmith;
+	delete rest;
 
 	delete minotaur;
 };
@@ -324,7 +326,6 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == banner_playerUI) {
 					//GameScene();
 					map->ClearStage();
-					map->SetIsMapMode(true);
 					//return new Map;
 
 					currentStage++;
@@ -361,15 +362,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::weaponSelect) {
-		bool is_weapon_select = false;
-		weaponSelect->update(weaponA, weaponB, is_weapon_select);
-		if (is_weapon_select == true) {
-			delete weaponSelect;
-			weaponSelect = nullptr;
-			weapon_selected = true;
-
-			mode = GameSceneMode::main;
-		};
+		weaponSelect->update(weaponA, weaponB, weapon_selected, mode);
 		return this;
 	};
 
@@ -390,6 +383,13 @@ Scene* GameScene::update() {
 		weaponLevelup->SetIsBlacksmith(false);
 		return this;
 	};
+
+	if (mode == GameSceneMode::rest)
+	{
+		map->ClearStage();
+		rest->update(player, mode, currentStage);
+		return this;
+	}
 
 	return this;
 };
@@ -413,7 +413,7 @@ void GameScene::draw() const {
 		//////////////////////////////////////////////////
 
 		if (mode == GameSceneMode::weaponSelect) {
-			weaponSelect->draw();
+			weaponSelect->draw(weapon_selected);
 		}
 		else {
 			gameUI->draw();
@@ -432,6 +432,7 @@ void GameScene::draw() const {
 	if (mode == GameSceneMode::blacksmith) blacksmith->draw(weaponLevelup);
 	if (mode == GameSceneMode::main) 	DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面");
 
+	if (mode == GameSceneMode::rest)rest->draw();
 
 	//////////////////////////////////////////////////
 
@@ -439,10 +440,10 @@ void GameScene::draw() const {
 };
 
 void GameScene::init() {
-	delete player;
-	player = new Player();
+	//delete player;
+	//player = new Player();
 
-	player->SetPlayer_HP(hp);
+	player->SetPlayerHP(hp);
 
 	delete stage;
 	stage = new Stage();

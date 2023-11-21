@@ -141,6 +141,10 @@ public:
 
 	// プレイヤーの体力を引く
 	void SetPlayer_HP(float value);
+	
+	//プレイヤーのHPをセット
+	void SetPlayerHP(float value);
+
 
 	//is_hitを取得する
 	bool GetIsHit()

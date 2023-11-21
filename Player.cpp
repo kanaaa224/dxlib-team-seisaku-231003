@@ -543,6 +543,11 @@ void Player::SetPlayer_HP(float value) {
 	}
 }
 
+void Player::SetPlayerHP(float value)
+{
+	Player_HP = value;
+}
+
 Location Player::Player_Location()
 {
 	return location;
