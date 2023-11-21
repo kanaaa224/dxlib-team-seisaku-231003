@@ -129,6 +129,7 @@ public:
 	}
 
 	void ClearStage() {
+		cursor_move = TRUE;
 		cursor_pos = 0;
 		cursor_loc = next_stage[pattern][now_stage][0];
 		for (int i = 0; i <= 10; i++) {
