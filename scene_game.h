@@ -21,6 +21,11 @@ enum GameSceneState {
 	end
 };
 
+enum GameSceneBattleMode {
+	normal,
+	boss
+};
+
 class GameScene : public Scene {
 private:
 	int mode, state, frameCounter;
@@ -78,7 +83,9 @@ private:
 
 	int score; // 累計スコア
 
-	int currentStage; // 現在のステージ
+	int currentFloor; // 現在の階
+	int currentStage; // 現在のステージ（戦闘か休憩かなど）
+	int battleMode;   // 戦闘のタイプ（通常かボスか）
 
 	std::map<std::string, int> enemySpawnData; // 敵のスポーンデータ
 
