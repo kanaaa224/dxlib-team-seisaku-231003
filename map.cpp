@@ -1,10 +1,7 @@
 //#include "map.h"
 #include "main.h"
 
-Map::Map(GameUI* ui) {
-
-	this->ui = ui;
-	rest = new Rest(ui);
+Map::Map() {
 
 	// アイコン移動初期化処理
 	icon_vec = 0;
@@ -13,11 +10,6 @@ Map::Map(GameUI* ui) {
 	move_cool = 0;
 	cursor_move = FALSE;
 	cursor_r = 30;
-
-	is_map_mode = true;
-
-	is_rest = false;
-	is_show_rest = false;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -33,7 +25,6 @@ Map::~Map() {
 	DeleteGraph(rest_img);
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
-	delete rest;
 }
 
 int Map::update(int& mode, bool& weapon_selected) {
@@ -144,65 +135,43 @@ int Map::update(int& mode, bool& weapon_selected) {
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 
-		if(weapon_selected) mode = GameSceneMode::main;
-		else mode = GameSceneMode::weaponSelect;
-
-		//is_map_mode = false;
 		now_stage = cursor_loc;
 
-		switch (MapData[cursor_pos])
+		switch (MapData[now_stage])
 		{
-		case 0:
-			return 1; //戦闘
+		case 0:		//戦闘
+			if (weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
 			break;
-		case 1:
-			return 2; //イベント
+		case 1:		//イベント
+			mode = GameSceneMode::weaponSelect;
 			break;
-		case 2: //休憩
-			if (is_rest != true)
-			{
-				//現状意味がない、ゲームメイン時に変更
-				Player* player = new Player();
-				rest->update(player,is_rest);
-				is_show_rest = true;
-				if (is_rest)
-				{
-					delete player;
-					player = nullptr;
-				}
-			}
-			is_show_rest = false;
-			is_rest = false;		//今は何度でも
+		case 2:		//休憩
+			mode = GameSceneMode::rest;
 			break;
-		case 3:
-			return 3; //鍛冶屋
+		case 3:		//鍛冶屋
+			mode = GameSceneMode::main;
 			break;
-		case 4:
-			return 4; //ボス
+		case 4:		//ボス
+			if (weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
 			break;
 		default:
 			break;
 		}
-	}
 
-	return 0;
+		return 0;
+	}
 };
 
 void Map::draw() const {
-	if (is_show_rest)
+	int log_i = 0; // stage_log用変数
+	for (int i = 0; i < DATA_MAX; i++)
 	{
-		rest->draw();
-	}
-	else
-	{
-		int log_i = 0; // stage_log用変数
-		for (int i = 0; i < data_max; i++)
-		{
-			// デバック表示(Debug)
-			DrawFormatString(10, 30, 0xffff00, "内部データ");
-			DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
-			DrawFormatString(10, 70, 0xffffff, "%d", pattern);
-			DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
+		// デバック表示
+		DrawFormatString(10, 30, 0xffff00, "内部データ");
+		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
+		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 
 			// ステージ間のライン
 			for (int j = 0; next_stage[pattern][i][j] > 0 && j <= 2; j++) {
@@ -239,7 +208,7 @@ void Map::draw() const {
 			}
 			//アイコン番号表示(Debug)
 			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
-		}
+		
 		// カーソル表示(アイコンの円と被るように半径に-1)
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xff0000, 0, 3);
 	}
