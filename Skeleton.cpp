@@ -6,7 +6,7 @@
 
 #define DEBUG
 
-Skeleton::Skeleton(int arrayNum, int SkeletonMaxNum)
+Skeleton::Skeleton(Player* player, int arrayNum, int SkeletonMaxNum)
 {
 	//画像読込
 	img = LoadGraph("resources/images/enemy_tmp_images/gorira_Skeleton.png");
@@ -22,7 +22,7 @@ Skeleton::Skeleton(int arrayNum, int SkeletonMaxNum)
 	respawnTime = SetRespawnTime(arrayNum, SkeletonMaxNum);
 
 	//リスポーンポイント決め
-	SetRespawnPoint();
+	SetRespawnPoint(player,1,arrayNum);
 }
 
 void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)

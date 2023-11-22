@@ -707,7 +707,7 @@ void GameScene::EnemyInc()
 void GameScene::SlimeUpdate()
 {
 	if (tmpSlimeNum < enemySpawnData["slime"]) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, enemySpawnData["slime"]);
+		slime[tmpSlimeNum] = new Slime(player,tmpSlimeNum, enemySpawnData["slime"]);
 		tmpSlimeNum++;
 	}
 	for (int i = 0; i < enemySpawnData["slime"]; i++) {
@@ -735,7 +735,7 @@ void GameScene::SlimeDraw() const
 void GameScene::SkeletonUpdate()
 {
 	if (tmpSkeletonNum < enemySpawnData["skeleton"]) {
-		skeleton[tmpSkeletonNum] = new Skeleton(tmpSkeletonNum, enemySpawnData["skeleton"]);
+		skeleton[tmpSkeletonNum] = new Skeleton(player,tmpSkeletonNum, enemySpawnData["skeleton"]);
 		tmpSkeletonNum++;
 	}
 	for (int i = 0; i < enemySpawnData["skeleton"]; i++) {
@@ -784,7 +784,7 @@ void GameScene::WizardUpdate()
 		}
 	}
 	if (tmpWizardNum < enemySpawnData["wizard"]) {
-		wizard[tmpWizardNum] = new Wizard(tmpWizardNum, enemySpawnData["wizard"]);
+		wizard[tmpWizardNum] = new Wizard(player,tmpWizardNum, enemySpawnData["wizard"]);
 		tmpWizardNum++;
 	}
 }

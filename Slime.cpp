@@ -6,7 +6,7 @@
 
 #define DEBUG
 
-Slime::Slime(int arrayNum, int SlimeMaxNum)
+Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum)
 {
 	//画像読込
 	img = LoadGraph("resources/images/enemy_tmp_images/slime_cat.png");
@@ -23,7 +23,7 @@ Slime::Slime(int arrayNum, int SlimeMaxNum)
 	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum);
 
 	//リスポーンポイント決め
-	SetRespawnPoint();
+	SetRespawnPoint(player,10,arrayNum);
 }
 
 void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)

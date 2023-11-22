@@ -5,6 +5,8 @@
 
 //ラジアンを度に変更
 #define RADIAN_DEGREE(_rad) ((_rad)*180.0f/M_PI)
+//秒をフレームに変更
+#define SECOND_FRAME(_s) ((_s) * 60)
 
 //画面サイズ
 #define _SCREEN_HEIGHT_ 720 //縦
