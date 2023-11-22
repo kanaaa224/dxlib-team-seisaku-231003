@@ -203,9 +203,9 @@ Scene* GameScene::update() {
 								skeleton[i]->SetHit1stFrameFlg(true);
 
 								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+									weaponB->SetThunderLocation(skeleton[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+										skeleton[i]->SetHitHP(weaponB->GetThunderDamage());
 									}
 								}
 							}
@@ -235,9 +235,9 @@ Scene* GameScene::update() {
 								wizard[i]->SetHit1stFrameFlg(true);
 
 								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+									weaponB->SetThunderLocation(wizard[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
 									}
 								}
 							}
