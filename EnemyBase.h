@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "SphereCollider.h"
 #include "weapon.h"
+#include "Player.h"
 
 class Stage;
 
@@ -83,7 +84,7 @@ public:
 	float GetVY();
 
 	//Set関数
-	void SetRespawnPoint();//リスポーン位置を設定する
+	void SetRespawnPoint(Player* player ,int WaveNum/*１ウェーブでリスポーンする数*/,int arrayNum);//リスポーン位置を設定する
 	int SetGetRand(int min, int max);//最小値と最大値の間のランダムな数字を返す
 	void SetHitFlg(int hit);//変数HitFlgに値をセットする
 	void SetWeaponDamage(int d);//武器からのダメージをセットする

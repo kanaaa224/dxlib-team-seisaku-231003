@@ -50,6 +50,8 @@ GameScene::GameScene() {
 	currentStage = 0;
 	battleMode   = 0;
 
+	bossState = 0;
+
 
 	map->ResetStage();
 
@@ -60,15 +62,15 @@ GameScene::GameScene() {
 	// とりあえず
 	// 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
-	data["slime"]    = 5;
-	data["skeleton"] = 3;
-	data["wizard"]   = 2;
+	data["slime"]    = 10;
+	data["skeleton"] = 0;
+	data["wizard"]   = 0;
 	shimabukuro.push_back(data);
 
 	for (int i = 1; i < 20; i++) {
-		data["slime"]    = shimabukuro[i - 1]["slime"]    + 1;
-		data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 1;
-		data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 1;
+		data["slime"]    = shimabukuro[i - 1]["slime"]    + 10;
+		data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 3;
+		data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 2;
 		shimabukuro.push_back(data);
 	};
 
@@ -356,6 +358,8 @@ Scene* GameScene::update() {
 
 				gameUI->notification("武器強化可能！", "Xボタンで確認", "btnX");
 			};
+
+			if (battleMode == GameSceneBattleMode::midBoss) bossState = 1; // 中ボス討伐状態
 		};
 
 		frameCounter++;
@@ -707,7 +711,7 @@ void GameScene::EnemyInc()
 void GameScene::SlimeUpdate()
 {
 	if (tmpSlimeNum < enemySpawnData["slime"]) {
-		slime[tmpSlimeNum] = new Slime(tmpSlimeNum, enemySpawnData["slime"]);
+		slime[tmpSlimeNum] = new Slime(player,tmpSlimeNum, enemySpawnData["slime"]);
 		tmpSlimeNum++;
 	}
 	for (int i = 0; i < enemySpawnData["slime"]; i++) {
@@ -735,7 +739,7 @@ void GameScene::SlimeDraw() const
 void GameScene::SkeletonUpdate()
 {
 	if (tmpSkeletonNum < enemySpawnData["skeleton"]) {
-		skeleton[tmpSkeletonNum] = new Skeleton(tmpSkeletonNum, enemySpawnData["skeleton"]);
+		skeleton[tmpSkeletonNum] = new Skeleton(player,tmpSkeletonNum, enemySpawnData["skeleton"]);
 		tmpSkeletonNum++;
 	}
 	for (int i = 0; i < enemySpawnData["skeleton"]; i++) {
@@ -784,7 +788,7 @@ void GameScene::WizardUpdate()
 		}
 	}
 	if (tmpWizardNum < enemySpawnData["wizard"]) {
-		wizard[tmpWizardNum] = new Wizard(tmpWizardNum, enemySpawnData["wizard"]);
+		wizard[tmpWizardNum] = new Wizard(player,tmpWizardNum, enemySpawnData["wizard"]);
 		tmpWizardNum++;
 	}
 }

@@ -188,28 +188,18 @@ float EnemyBase::GetVY() {
 //-----------------------------------------------//
 //----------------------set----------------------//
 
-void EnemyBase::SetRespawnPoint()
+void EnemyBase::SetRespawnPoint(Player* player, int WaveNum, int arrayNum)
 {
-	respawnPosition = GetRand(3);
+	Location pl = player->GetLocation();
+	int i = 360 / WaveNum;
+	i *= arrayNum;
 
-	switch(respawnPosition){
-	case 0://上
-		location.x = SetGetRand(-100, 1380);
-		location.y = 0;
-		break;
-	case 1://下
-		location.x = SetGetRand(-100, 1380);
-		location.y = 720;
-		break;
-	case 2://右
-		location.x = 1280;
-		location.y = SetGetRand(-100, 820);
-		break;
-	case 3://左
-		location.x = 0;
-		location.y = SetGetRand(-100, 820);
-		break;
+	if (arrayNum > WaveNum) {
+		i -= 360;
 	}
+
+	location.x = pl.x + (cos(i) * 400);
+	location.y = pl.y + (sin(i) * 400);
 }
 
 int EnemyBase::SetGetRand(int min, int max) {
@@ -271,18 +261,11 @@ void EnemyBase::SetPlayer_Location(Location PL) {
 
 int EnemyBase::SetRespawnTime(int arrayNum, int MAX_ENEMY_STAGE_NUM)
 {
-	int zeroTimeNum = MAX_ENEMY_STAGE_NUM / 3;
-	int time;
-	time = arrayNum * 60;
-	if (arrayNum < zeroTimeNum) {
-		time = 0;
-	}
-	else if (arrayNum >= zeroTimeNum) {
-		arrayNum = arrayNum - zeroTimeNum;
-		time = arrayNum * 60;
-	}
+	int s;
 
-	return time;
+	s = 0;
+
+	return s;
 }
 
 void EnemyBase::SetHitLocation_X(float lx) {
