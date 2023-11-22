@@ -22,8 +22,9 @@ enum GameSceneState {
 };
 
 enum GameSceneBattleMode {
-	normal,
-	boss
+	normal,  // 通常戦闘
+	midBoss, // 中ボス
+	boss,    // 最終ボス
 };
 
 class GameScene : public Scene {
@@ -81,11 +82,13 @@ private:
 	int level; // レベル
 	int point; // ポイント（武器強化に使用）
 
-	int score; // 累計スコア
+	//int score; // 累計スコア
 
 	int currentFloor; // 現在の階
 	int currentStage; // 現在のステージ（戦闘か休憩かなど）
 	int battleMode;   // 戦闘のタイプ（通常かボスか）
+
+	int bossState; // 中ボスの討伐状態
 
 	std::map<std::string, int> enemySpawnData; // 敵のスポーンデータ
 
