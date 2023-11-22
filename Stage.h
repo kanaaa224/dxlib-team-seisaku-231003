@@ -34,6 +34,8 @@ public:
 	//•`‰æˆ—
 	void draw() const;
 
+	void init();
+
 	StageArray GetStageArray(int arrayNum)
 	{
 		return StageArrayImg[arrayNum];

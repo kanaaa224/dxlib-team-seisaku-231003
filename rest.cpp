@@ -53,6 +53,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 			is_ok = true;
 			stage++;
 			mode = GameSceneMode::map;
+			Init();
 		}
 	}
 
@@ -82,4 +83,13 @@ void Rest::draw() const
 		DrawString((SCREEN_WIDTH / 2) - 48 * 4.5, (SCREEN_HEIGHT / 2) - 24, "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
 		SetFontSize(16);
 	}
+}
+
+void Rest::Init()
+{
+	interval = 0;
+
+	is_select = false;
+	is_ok = false;
+
 }

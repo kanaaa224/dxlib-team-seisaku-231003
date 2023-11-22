@@ -385,7 +385,7 @@ void GameUI::drawHUD() const {
 
 		case 2:
 			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponBook, TRUE);
-			str = "本";
+			str = "魔導書";
 			break;
 
 		default:

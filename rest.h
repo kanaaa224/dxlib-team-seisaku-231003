@@ -31,4 +31,6 @@ public:
 	//•`‰æ‚ÉŠÖ‚·‚é‚±‚Æ‚ÌXV‚ğÀ‘•‚·‚é
 	void draw()const;
 
+	void Init();
+
 };
