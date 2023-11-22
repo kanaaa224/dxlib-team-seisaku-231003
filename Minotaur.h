@@ -7,6 +7,8 @@
 class Minotaur :public EnemyBase
 {
 private:
+	int debugCnt;
+
 	float pLength;//プレイヤーとの距離
 	//----------タックル----------//
 	int tackleCoolTimeCnt;//タックルした後のクールタイムカウント変数
@@ -17,6 +19,7 @@ private:
 	bool doOneFlg;//プレイヤーとの距離を一回だけとる
 	bool coolTimeFlg;//現在がタックルのクールタイム中か
 
+	Location tackleTmpL;
 	int tackleCnt;//現在が何回目のタックルか？
 
 	Location tackleTmpL;
@@ -42,6 +45,10 @@ public:
 	//タックル
 	void TackleUpdate();
 	void TackleDraw() const;
+
+	//
+	float M_PLX(float location_X);
+	float M_PLY(float location_Y);
 
 	//咆哮
 	void RoarUpdate();

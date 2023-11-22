@@ -3,6 +3,7 @@
 #define _USE_MATH_DEFINES
 #include<math.h>
 
+//ラジアンを度に変更
 #define RADIAN_DEGREE(_rad) ((_rad)*180.0f/M_PI)
 
 //画面サイズ
@@ -59,7 +60,7 @@
 #define SKELETON_ATTAK_DAMAGE 2.0f	//ダメージ
 #define MAX_SKELETON_NUM 30			//スケルトンの最大数
 
-#define SKELETON_1_STAGE_NUM 0  //１ステージ目のスケルトンの数←仮で数が入っている
+#define SKELETON_1_STAGE_NUM 0  //１ステージ目のスケルトンの数
 #define SKELETON_2_STAGE_NUM 0  //２ステージ目のスケルトンの数
 #define SKELETON_3_STAGE_NUM 0  //３ステージ目のスケルトンの数
 #define SKELETON_4_STAGE_NUM 0  //４ステージ目のスケルトンの数
