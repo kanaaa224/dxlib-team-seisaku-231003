@@ -63,12 +63,22 @@ private:
 	int branch_point_y[2][5];		// 選択した分岐点のY座標を格納
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
 
+	// プレイヤー情報格納用（weaponから）
+	int w_p_speed;					// 速度
+	int w_p_avoidancecooltime;		// 回避のクールタイム
+	int w_p_upperlimitlimit;		// 回避速度
+
+	// プレイヤー情報格納用（playerから）
+	float p_speed;					// 速度
+	int p_avoidancecooltime;		// 回避のクールタイム
+	float p_upperlimitlimit;		// 回避速度
+
 public:
 	WeaponLevelUp();
 	~WeaponLevelUp();
 
 	// 更新
-	void update(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
+	void update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position);
 
 	// 描画
 	void draw()const;
