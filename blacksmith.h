@@ -3,6 +3,7 @@
 class weapon;
 class second_weapon;
 class WeaponLevelUp;
+class Player;
 
 class Blacksmith
 {
@@ -73,7 +74,7 @@ public:
 	~Blacksmith();
 
 	// çXêV
-	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup);
+	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player);
 
 	// ï`âÊ
 	void draw(WeaponLevelUp* weapon_levelup)const;

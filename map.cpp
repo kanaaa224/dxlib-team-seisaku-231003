@@ -148,6 +148,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 			break;
 		case 2:		//‹xŒe
 			mode = GameSceneMode::rest;
+			ClearStage();
 			break;
 		case 3:		//’b–è‰®
 			mode = GameSceneMode::main;
