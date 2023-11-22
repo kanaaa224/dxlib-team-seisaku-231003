@@ -176,8 +176,6 @@ Scene* GameScene::update() {
 								}
 							}
 						}
-						
-
 					}
 				}
 
