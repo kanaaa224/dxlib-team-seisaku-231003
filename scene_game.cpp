@@ -23,7 +23,7 @@ GameScene::GameScene() {
 	weaponSelect  = new Weapon_Selection(weapon_selected);
 	weaponLevelup = new WeaponLevelUp;
 	blacksmith    = new Blacksmith;
-	rest = new Rest(gameUI);
+	rest          = new Rest(gameUI);
 
 	//////////////////////////////////////////////////
 	
@@ -31,9 +31,8 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-
-
 	swordHitFlg = false;
+	bookFlg     = false;
 
 	weapon_selected = false;
 
@@ -57,21 +56,23 @@ GameScene::GameScene() {
 
 
 	// とりあえず
+	// 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
 	data["slime"]    = 5;
 	data["skeleton"] = 3;
 	data["wizard"]   = 2;
-	a.push_back(data);
+	shimabukuro.push_back(data);
 
 	for (int i = 1; i < 20; i++) {
-		data["slime"]    = a[i - 1]["slime"]    + 1;
-		data["skeleton"] = a[i - 1]["skeleton"] + 1;
-		data["wizard"]   = a[i - 1]["wizard"]   + 1;
-		a.push_back(data);
+		data["slime"]    = shimabukuro[i - 1]["slime"]    + 1;
+		data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 1;
+		data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 1;
+		shimabukuro.push_back(data);
 	};
 
-	enemySpawnData = a[currentStage];
+	enemySpawnData = shimabukuro[currentStage];
 
+	// 経験値の最大値データ生成
 	for (int i = 1; i < 20; i++) {
 		expData.push_back(i * 100);
 	};
@@ -472,7 +473,7 @@ void GameScene::init() {
 	gameUI->init();
 	gameUI->setState(banner);
 
-	enemySpawnData = a[currentStage];
+	enemySpawnData = shimabukuro[currentStage];
 
 	exp = 0;
 };
