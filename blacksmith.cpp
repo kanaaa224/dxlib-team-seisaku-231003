@@ -345,8 +345,9 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 	}
 
 	//DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
-	//SetFontSize(20);
-	//DrawFormatString(1180, 675, 0x000000, "出る");
+	SetFontSize(20);
+	DrawFormatString(1100, 675, 0x000000, "Bキーで");
+	DrawFormatString(1180, 675, 0x000000, "出る");
 }
 
 // レベルリセット画面描画
@@ -359,11 +360,11 @@ void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 	DrawBox(770, 200, 1070, 500, 0xd3d3d3, TRUE);
 	if (weapon_number == weapon1_info.num)
 	{
-		DrawBox(200, 200, 500, 500, 0x800000, TRUE);
+		DrawBox(200, 200, 500, 500, 0xaa0000, TRUE);
 	}
 	else
 	{
-		DrawBox(770, 200, 1070, 500, 0x800000, TRUE);
+		DrawBox(770, 200, 1070, 500, 0xaa0000, TRUE);
 	}
 
 	SetFontSize(35);
