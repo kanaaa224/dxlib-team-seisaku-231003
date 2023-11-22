@@ -23,7 +23,7 @@ GameScene::GameScene() {
 	weaponSelect  = new Weapon_Selection(weapon_selected);
 	weaponLevelup = new WeaponLevelUp;
 	blacksmith    = new Blacksmith;
-	rest = new Rest(gameUI);
+	rest          = new Rest(gameUI);
 
 	//////////////////////////////////////////////////
 	
@@ -31,9 +31,8 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-
-
 	swordHitFlg = false;
+	bookFlg     = false;
 
 	weapon_selected = false;
 
@@ -47,31 +46,35 @@ GameScene::GameScene() {
 	level = 0;
 	point = 0;
 
+	currentFloor = 0;
 	currentStage = 0;
+	battleMode   = 0;
 
 
 	map->ResetStage();
 
 
-	gameUI->setBanner(std::to_string(currentStage + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
+	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
 
 
 	// とりあえず
+	// 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
 	data["slime"]    = 5;
 	data["skeleton"] = 3;
 	data["wizard"]   = 2;
-	a.push_back(data);
+	shimabukuro.push_back(data);
 
 	for (int i = 1; i < 20; i++) {
-		data["slime"]    = a[i - 1]["slime"]    + 1;
-		data["skeleton"] = a[i - 1]["skeleton"] + 1;
-		data["wizard"]   = a[i - 1]["wizard"]   + 1;
-		a.push_back(data);
+		data["slime"]    = shimabukuro[i - 1]["slime"]    + 1;
+		data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 1;
+		data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 1;
+		shimabukuro.push_back(data);
 	};
 
-	enemySpawnData = a[currentStage];
+	enemySpawnData = shimabukuro[currentFloor];
 
+	// 経験値の最大値データ生成
 	for (int i = 1; i < 20; i++) {
 		expData.push_back(i * 100);
 	};
@@ -145,7 +148,7 @@ Scene* GameScene::update() {
 
 
 			//武器と敵の当たり判定
-			if (true/*currentStage == 1*/) {
+			if (true/*currentFloor == 1*/) {
 				for (int i = 0; i < enemySpawnData["slime"]; i++) {
 					if (slime[i] != nullptr) {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -310,7 +313,7 @@ Scene* GameScene::update() {
 			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
 			gameUI->setPoint(point);
 
-			gameUI->setFloor(currentStage + 1);
+			gameUI->setFloor(currentFloor + 1);
 			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
 
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
@@ -322,11 +325,9 @@ Scene* GameScene::update() {
 					gameUI->setState(banner);
 				};
 				if (gameUI->getState() == banner_playerUI) {
-					//GameScene();
 					map->ClearStage();
-					//return new Map;
 
-					currentStage++;
+					currentFloor++;
 					init();
 					
 					mode = GameSceneMode::map;
@@ -341,9 +342,10 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == banner_playerUI) return new GameOverScene;
 			};
 			//////////////////////////////////////////////////
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), getEnemyNum(0) / getEnemyMax(0)); // 怪奇現象発生中
+			if (battleMode == GameSceneBattleMode::boss) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100); // 怪奇現象発生中
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
+			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
 			//////////////////////////////////////////////////
 
 			// 経験値、レベル、ポイント処理
@@ -382,11 +384,10 @@ Scene* GameScene::update() {
 		return this;
 	};
 
-	if (mode == GameSceneMode::rest)
-	{
-		rest->update(player, mode, currentStage);
+	if (mode == GameSceneMode::rest) {
+		rest->update(player, mode, currentFloor);
 		return this;
-	}
+	};
 
 	return this;
 };
@@ -414,9 +415,7 @@ void GameScene::draw() const {
 		}
 		else {
 			gameUI->draw();
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) gameUI->drawEnemyHP(); // 仮
-
-			//gameUI->drawHP(); // 休憩用 プレイヤーHP単体表示
+			if (battleMode == GameSceneBattleMode::boss) gameUI->drawEnemyHP(); // ボスの体力ゲージ
 		};
 
 		if (mode == GameSceneMode::weaponLevelup) weaponLevelup->draw();
@@ -427,13 +426,17 @@ void GameScene::draw() const {
 	if (mode == GameSceneMode::map) map->draw();
 
 	if (mode == GameSceneMode::blacksmith) blacksmith->draw(weaponLevelup);
-	if (mode == GameSceneMode::main) 	DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面");
 
 	if (mode == GameSceneMode::rest)rest->draw();
 
 	//////////////////////////////////////////////////
 
 	if (state == pause) gameUI->drawPause();
+
+	//////////////////////////////////////////////////
+
+	SetFontSize(16);
+	if (mode == GameSceneMode::main) DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面\nキーボードVでボス戦闘モード");
 };
 
 void GameScene::init() {
@@ -465,11 +468,12 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	gameUI->setBanner(std::to_string(currentStage + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
+	     if (battleMode == GameSceneBattleMode::normal) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
+	else if (battleMode == GameSceneBattleMode::boss)   gameUI->setBanner("最上階 - ラスボス", "全てのモンスターを倒してください");
 	gameUI->init();
 	gameUI->setState(banner);
 
-	enemySpawnData = a[currentStage];
+	enemySpawnData = shimabukuro[currentFloor];
 
 	exp = 0;
 };

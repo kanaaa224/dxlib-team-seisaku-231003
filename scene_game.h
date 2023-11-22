@@ -21,6 +21,11 @@ enum GameSceneState {
 	end
 };
 
+enum GameSceneBattleMode {
+	normal,
+	boss
+};
+
 class GameScene : public Scene {
 private:
 	int mode, state, frameCounter;
@@ -32,7 +37,7 @@ private:
 	bool swordHitFlg; //魔剣の連続ヒットカウント用
 	weapon* weaponA;
 	second_weapon* weaponB;
-	bool bookFlg = false;
+	bool bookFlg;
 
 	Stage* stage;
 
@@ -78,14 +83,15 @@ private:
 
 	int score; // 累計スコア
 
-	int currentStage; // 現在のステージ
+	int currentFloor; // 現在の階
+	int currentStage; // 現在のステージ（戦闘か休憩かなど）
+	int battleMode;   // 戦闘のタイプ（通常かボスか）
 
-	// 敵のスポーンデータ
-	std::map<std::string, int> enemySpawnData;
-	std::vector<std::map<std::string, int>> a; // 敵のスポーンデータの塊（なんかのクラス（Enemy/Stage）で管理したい）
+	std::map<std::string, int> enemySpawnData; // 敵のスポーンデータ
 
-	// 経験値データ
-	std::vector<int> expData;
+	std::vector<int> expData; // 経験値データ
+
+	std::vector<std::map<std::string, int>> shimabukuro; // 敵のスポーンデータの塊（なんらかのクラス（Enemy/Stage）で管理したい）
 
 public:
 	GameScene();
