@@ -198,8 +198,8 @@ void EnemyBase::SetRespawnPoint(Player* player, int WaveNum, int arrayNum)
 		i -= 360;
 	}
 
-	location.x = pl.x + (cos(i)*400);
-	location.y = pl.y + (sin(i)*400);
+	location.x = pl.x + (cos(i) * 400);
+	location.y = pl.y + (sin(i) * 400);
 }
 
 int EnemyBase::SetGetRand(int min, int max) {
