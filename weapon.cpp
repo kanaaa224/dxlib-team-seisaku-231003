@@ -34,6 +34,9 @@ weapon::weapon()
 	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
 	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
 	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	//attackbuf_img = LoadGraph("resources/images/baria_red.png");
+
+	attackbuf = 1.0f;
 
 	rotSpeed = 4.0f;
 	for (int i = 0; i < 10; i++)
@@ -281,6 +284,10 @@ void weapon::Draw() const
 		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
+	if (attackbuf == 2.0f) {
+		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
+	}
+
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
@@ -394,6 +401,8 @@ void weapon::LevelUpDebug(int num)
 
 void weapon::LevelState()
 {
+	attackbuf = 1.0f;
+
 	switch (weaponLevel)
 	{
 	case 0:
@@ -458,7 +467,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 20 = 80
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
-			P_speed = Player::Player_Speed(2.1);
+			P_speed = 2.1f;
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case dagger:
@@ -467,7 +477,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
 			damage = INIT_DAMAGE_DAGGER + 2;
-			P_speed = Player::Player_Speed(2.5);
+			P_speed = 2.5f;
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case greatSword:
@@ -489,7 +500,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD + 1;
-			P_limit = Player::Player_Upperlimit(2.0f);
+			P_limit = 2.0f;
+			Player::SetPlayer_Upperlimit(P_limit);
 			break;
 
 		case dagger:
@@ -498,7 +510,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER + 1;
-			P_limit = Player::Player_Upperlimit(2.5f);
+			P_limit = 2.5f;
+			Player::SetPlayer_Upperlimit(P_limit);
 			break;
 
 		case greatSword:
@@ -520,7 +533,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 15; // 60 + 30 = 90 
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
-			P_speed = Player::Player_Speed(2.5f);
+			P_speed = 2.5f;
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case dagger:
@@ -529,7 +543,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_speed = Player::Player_Speed(3.0f);
+			P_speed = 3.0f;
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case greatSword:
@@ -551,8 +566,10 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 5; // 60 + 10 = 70
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD + 1;
-			P_limit = Player::Player_Upperlimit(2.3f);
-			P_cooltime = Player::Avoidance_limit(0);
+			P_limit = 2.3f;
+			P_cooltime = 0;
+			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case dagger:
@@ -561,7 +578,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = Player::Avoidance_limit(0);
+			P_cooltime = 0;
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case greatSword:
@@ -579,12 +597,15 @@ void weapon::LevelState()
 		{
 		case sword:
 			baseVec = { 100,0,100 };
-			maxRot = INIT_ROTATION_SWORD + 10; // 60 + 20 = 90
+			maxRot = INIT_ROTATION_SWORD + 15; // 60 + 30 = 90
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
 			damage = INIT_DAMAGE_SWORD + 2;
-			P_limit = Player::Player_Upperlimit(2.1f);
-			P_cooltime = Player::Avoidance_limit(1);
-			P_speed = Player::Player_Speed(2.2f);
+			P_limit = 2.3f;
+			P_cooltime = 0;
+			P_speed = 2.5f;
+			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetAvoidance_limit(P_cooltime);
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case dagger:
@@ -593,8 +614,12 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER + 5.0f; // 60 + 10 = 70
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER + 3;
-			P_cooltime = Player::Avoidance_limit(1);
-			P_speed = Player::Player_Speed(3.0);
+			P_limit = 2.5f;
+			P_cooltime = 1;
+			P_speed = 3.0f;
+			Player::SetAvoidance_limit(P_cooltime);
+			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
 			break;
 
 		case greatSword:
@@ -621,7 +646,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER * 1000;
-			P_cooltime = Player::Avoidance_limit(0);
+			P_cooltime = 0;
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case greatSword: //‰ñ“]UŒ‚
@@ -642,6 +668,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.3f;
 			damage = INIT_DAMAGE_SWORD;
+			attackbuf = 2.0f;
 			break;
 
 		case dagger:
@@ -799,11 +826,11 @@ void weapon::SwordLevel8(Player* player)
 			if (player->GetPlayer_HP() > MAX_HP / 2) {
 				player->SetPlayer_HP(MAX_HP / 100);//ƒ_ƒ[ƒW‚ðŽó‚¯‚é
 
-				damage = INIT_DAMAGE_SWORD * 2;
+				damage = INIT_DAMAGE_SWORD * attackbuf;
 			}
 		}
 
-		if (damage == INIT_DAMAGE_SWORD * 2) {
+		if (damage == INIT_DAMAGE_SWORD * attackbuf) {
 			fpsCnt++;
 			if (fpsCnt > 120) {
 				damage = INIT_COOLTIME_SWORD;
@@ -910,3 +937,19 @@ void weapon::InitWeapon()
 
 //X = x * cos(r) - y * sin(r)
 //Y = x * sin(r) + y * cos(r)
+
+int weapon::GetP_Speed() {
+
+	return P_speed;
+}
+
+int weapon::GetP_Upperlimitlimit() {
+
+	return P_limit;
+}
+
+int weapon::GetP_AvoidanceCooltime() {
+
+	return P_cooltime;
+}
+

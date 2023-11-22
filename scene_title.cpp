@@ -10,6 +10,11 @@ Title::Title()
 	//state = 10;
 }
 
+Title::~Title()
+{
+	DeleteGraph(TitleImage);
+}
+
 //更新
 Scene*Title::update()
 {
@@ -40,7 +45,7 @@ Scene*Title::update()
 	g_MenuY = g_MenuNumber * 52;
 	
 	//Aボタンでメニュー決定・画面遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 	{
 		if (g_MenuNumber == 0) {
 			return new GameScene;

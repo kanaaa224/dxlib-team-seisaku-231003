@@ -65,15 +65,27 @@ private:
 	bool restor_cursor_position; // レベルアップ画面のカーソル位置を元に戻すか
 
 	Blacksmith* blacksmith;
+	Rest* rest;
 
 	//////////////////////////////////////////////////
+
+	// 島袋
 
 	int hp;    // プレイヤー体力
 	int exp;   // 経験値
 	int level; // レベル
 	int point; // ポイント（武器強化に使用）
 
+	int score; // 累計スコア
+
 	int currentStage; // 現在のステージ
+
+	// 敵のスポーンデータ
+	std::map<std::string, int> enemySpawnData;
+	std::vector<std::map<std::string, int>> a; // 敵のスポーンデータの塊（なんかのクラス（Enemy/Stage）で管理したい）
+
+	// 経験値データ
+	std::vector<int> expData;
 
 public:
 	GameScene();

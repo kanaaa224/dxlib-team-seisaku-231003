@@ -44,7 +44,7 @@
 #define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_SLIME_NUM 100			//スライムの最大数
 
-#define SLIME_1_STAGE_NUM 0 //１ステージ目のスライムの数
+#define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
 #define SLIME_3_STAGE_NUM 20 //３ステージ目のスライムの数
 #define SLIME_4_STAGE_NUM 25 //４ステージ目のスライムの数

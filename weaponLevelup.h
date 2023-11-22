@@ -6,8 +6,9 @@
 #define MAX_LEVEL_HIERARCHY			4		// レベル階層の最大値
 #define LEVEL_HIERARCHY_HEIGHT		90		// 1階層の高さ
 
-class weapon;
-class second_weapon;
+class weapon;								// 最初の武器
+class second_weapon;						// 二つ目の武器
+class Player;								// プレイヤー
 
 class WeaponLevelUp
 {
@@ -62,12 +63,22 @@ private:
 	int branch_point_y[2][5];		// 選択した分岐点のY座標を格納
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
 
+	// プレイヤー情報格納用（weaponから）
+	int w_p_speed;					// 速度
+	int w_p_avoidancecooltime;		// 回避のクールタイム
+	int w_p_upperlimitlimit;		// 回避速度
+
+	// プレイヤー情報格納用（playerから）
+	float p_speed;					// 速度
+	int p_avoidancecooltime;		// 回避のクールタイム
+	float p_upperlimitlimit;		// 回避速度
+
 public:
 	WeaponLevelUp();
 	~WeaponLevelUp();
 
 	// 更新
-	void update(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
+	void update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position);
 
 	// 描画
 	void draw()const;
@@ -89,11 +100,13 @@ private:
 	// レベルアップ詳細のテキスト群
 	void DrawLevelUpDetails()const;
 
-public:
-	/***********************
-	**	Set関数、Get関数
-	***********************/
+	// 武器1最終強化のテキスト群
+	void DrawWeapon1FinalText()const;
 
+	// 武器2最終強化のテキスト群
+	void DrawWeapon2FinalText()const;
+
+public:
 	// 鍛冶で返却されたポイントの設定
 	void SetLevelUpPoint(int return_point)
 	{
@@ -118,8 +131,11 @@ public:
 	int GetWeapon1LevelHierarchy() { return weapon1_info.level_hierarchy; }
 	int GetWeapon2LevelHierarchy() { return weapon2_info.level_hierarchy; }
 
+
+	// 武器1のレベルリセット
 	void Weapon1LevelInit();
 
+	// 武器2のレベルリセット
 	void Weapon2LevelInit();
 
 };

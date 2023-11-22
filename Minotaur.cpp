@@ -3,7 +3,7 @@
 #include "Player.h"
 #include <math.h>
 
-#define DEBUG
+//#define DEBUG
 
 Minotaur::Minotaur()
 {
@@ -16,10 +16,14 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
+	tackleCoolTime = 0;
+	tackleSpeed = TACKLE_SPEED;
 
 	//
 	boxX_a = 0;
 	boxY_a = 0;
+
+	boxY_d = 0;
 
 	//
 	lineSize = 1;
@@ -36,7 +40,7 @@ void Minotaur::Update(Player* player)
 
 	TackleUpdate();//タックル
 	
-	//座標計算
+	//移動
 	location.x = location.x - diff.x;
 	location.y = location.y - diff.y;
 }
@@ -50,36 +54,43 @@ void Minotaur::Draw() const
 	}
 
 #ifdef DEBUG
+	DrawFormatString(300, 600, C_GREEN, "%.2f", pLength);
+	DrawFormatString(300, 620, C_GREEN, "%.2f", boxX_d);
 
-	//DrawLine(location.x, location.y, location.x, location.y - tmpy, C_GREEN, 5);//縦
-	//DrawLine(location.x, location.y, location.x - tmpx, location.y, C_BLUE, 5);//横
-	//DrawLine(location.x, location.y, location.x - tmpx, location.y - tmpy, C_RED, 10);
+	DrawLine(location.x, location.y, location.x, location.y - boxY_a, C_GREEN, 5);//縦
+	DrawLine(location.x, location.y, location.x - boxX_a, location.y, C_BLUE, 5);//横
+	DrawLine(location.x, location.y, location.x - boxX_a, location.y - boxY_a, C_RED, 10);
 #endif // DEBUG
 
 }
 
 void Minotaur::TackleUpdate()
 {
-	if (doOneFlg == false && coolTimeFlg == false) {
+	pLength = PlayerLoad(location, false);
+	if (coolTimeFlg == false) {
+
 		boxX_a = location.x - dL.x;
 		boxY_a = location.y - dL.y;
 
-		//箱の長さを５０大きくする
-		if (boxY_a < 0) {
-			boxY_a -= 50;
-		}
-		else if (boxY_a > 0) {
-			boxY_a += 50;
-		}
-
-		//プレイヤーとの距離が箱の長さの最大を超えるなら
-		if (boxY_a >= 390) {
-			boxY_a = 390;
-		}
+		//長さを一定にする
+		boxX_d = fabsf(BOX_MAX_LENGTH / PlayerLoad(location, false));
+		boxX_a *= boxX_d;
+		boxY_d = fabsf(BOX_MAX_LENGTH / PlayerLoad(location, false));
+		boxY_a *= boxY_d;
+	}
+	
+	if (doOneFlg == false && coolTimeFlg == false) {//
+		
 		doOneFlg = true;
 	}
 	
-	
+	//タックルのクールタイムを決める
+	if (pLength >= 200) {
+		tackleCoolTime = 60;
+	}
+	else if (pLength < 200) {
+		tackleCoolTime = 0;
+	}
 
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
@@ -92,11 +103,12 @@ void Minotaur::TackleUpdate()
 			tackleFlg = true;
 		}
 
-		if (lineSizeChageCnt >= TACKLE_SPEED) {
+		if (lineSizeChageCnt >= tackleSpeed) {
 			lineSize++;
 			lineSizeChageCnt = 0;
 		}
 	}
+	
 	
 	//タックル開始直後
 	if (tackleFlg == true) {
@@ -114,7 +126,7 @@ void Minotaur::TackleUpdate()
 		tackleCoolTimeCnt = 0;
 	}
 
-	if (tackleCoolTimeCnt >= TACKLE_COOLTIME) {
+	if (tackleCoolTimeCnt >= tackleCoolTime) {
 		coolTimeFlg = false;
 	}
 }

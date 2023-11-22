@@ -145,13 +145,13 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", AimingY);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "RStick:縦軸値 %0.1f", AimingY);
 	//DrawFormatString(0, 320, GetColor(255, 0, 0), "AimingY %0.1f", AimingY);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", AimingX);
+	//DrawFormatString(0, 320, GetColor(255, 0, 0), "RStick:横軸値 %0.1f", AimingX);
 
 	//右スティック
-	DrawFormatString(0, 360, GetColor(255, 0, 0), "PlayerX:縦軸値 %0.1f", location.x);
-	DrawFormatString(0, 380, GetColor(255, 0, 0), "PlayerY:横軸値 %0.1f", location.y);
+	//DrawFormatString(0, 360, GetColor(255, 0, 0), "PlayerX:縦軸値 %0.1f", location.x);
+	//DrawFormatString(0, 380, GetColor(255, 0, 0), "PlayerY:横軸値 %0.1f", location.y);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
@@ -162,8 +162,8 @@ void Player::draw()const {
 	DrawFormatString(0, 460, GetColor(255, 0, 0), "秒		%d", Second);*/
 
 	//　中心線
-	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
 	//照準の画像　描画　中心座標
 	//DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
@@ -188,7 +188,7 @@ void Player::draw()const {
 	}
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
-	DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
+	//DrawCircleAA(location.x, location.y, radius, 10, 0xffffff,FALSE);
 }
 
 void Player::Player_Move() {
@@ -437,11 +437,16 @@ int Player::Player_AimingY() {
 	return Y;
 }
 
-float Player::Player_Upperlimit(float value) {
-
-	Upper_speed = value;
+//回避の速度を返す
+float Player::GetPlayer_Upperlimit() {
 
 	return Upper_speed;
+}
+
+//回避の速度をセットする
+void Player::SetPlayer_Upperlimit(float value) {
+
+	Upper_speed = value;
 }
 
 int Player::Player_invincible(int value) {
@@ -451,34 +456,52 @@ int Player::Player_invincible(int value) {
 	return Hit_cooltime;
 }
 
-float Player::Player_Speed(float value) {
-
-	Additional_Value2 =  value;
+// プレイヤーの移動速度を返す
+float Player::GetPlayer_Speed() {
 
 	return Additional_Value2;
 }
 
-// 照準の半径を返す
-float  Player::Player_RadiusX(float value) {
+//プレイヤーの移動速度をセットする
+void Player::SetPlayer_Speed(float value) {
 
-	Aiming_RadiusX = Aiming_RadiusX + value;
+	Additional_Value2 =  value;
+}
+
+//照準Xを返す
+float Player::GetPlayer_RadiusX() {
 
 	return Aiming_RadiusX;
 }
 
-float  Player::Player_RadiusY(float value) {
+// 照準Xをセットする
+void  Player::SetPlayer_RadiusX(float value) {
 
-	Aiming_RadiusY = Aiming_RadiusY + value;
+	Aiming_RadiusX = Aiming_RadiusX + value;
+}
+
+//照準Yを返す
+float Player::GetPlayer_RadiusY() {
 
 	return Aiming_RadiusY;
 }
 
-// 回避のクールタイムの時間を返す
-int Player::Avoidance_limit(int value) {
+//照準Yをセットする
+void  Player::SetPlayer_RadiusY(float value) {
 
-	Cool_Limit =  value;
+	Aiming_RadiusY = Aiming_RadiusY + value;
+}
+
+//回避のクールタイムを返す
+int Player::GetAvoidance_limit() {
 
 	return Cool_Limit;
+}
+
+// 回避のクールタイムの時間をセットする
+void Player::SetAvoidance_limit(int value) {
+
+	Cool_Limit =  value;
 }
 
 float Player::Player_MoveX() {
@@ -518,6 +541,11 @@ void Player::SetPlayer_HP(float value) {
 	{
 		Player_HP = MAX_HP;
 	}
+}
+
+void Player::SetPlayerHP(float value)
+{
+	Player_HP = value;
 }
 
 Location Player::Player_Location()

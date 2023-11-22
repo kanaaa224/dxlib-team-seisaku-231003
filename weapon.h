@@ -92,6 +92,9 @@ private:
 	int sword_img;
 	int dagger_img;
 	int greatsword_img;
+	int attackbuf_img;
+
+	float attackbuf;
 
 	//仮　プレイヤーのステータス
 	float P_speed;
@@ -179,5 +182,11 @@ public:
 	bool GetOldIsAttacking() { return oldIsAttacking; }
 
 	void InitWeapon();
+
+	//武器のレベルが上がる際、プレイヤーのステータスも上がるため
+	//その数値を返す関数
+	int GetP_Speed();
+	int GetP_AvoidanceCooltime();
+	int GetP_Upperlimitlimit();
 };
 
