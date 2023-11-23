@@ -46,7 +46,7 @@ private:
 	int cursor_x;					// カーソルX座標
 	int cursor_y;					// カーソルY座標
 	int level_cursor_pos;			// レベルアップ時カーソル表示位置
-	int point;						// レベルアップ用ポイント
+	int lv_point;						// レベルアップ用ポイント
 	int weapon_number;				// 武器番号
 	bool weapon_selection;			// 武器の選択
 
@@ -78,7 +78,7 @@ public:
 	~WeaponLevelUp();
 
 	// 更新
-	void update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position);
+	void update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position, int& point);
 
 	// 描画
 	void draw()const;
@@ -89,7 +89,7 @@ public:
 private:
 
 	// レベルアップ処理
-	void LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info);
+	void LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info, int& point);
 
 	// レベルアップのカーソル移動
 	void LevelUpCursorMove(weapon_information* info);
@@ -108,13 +108,13 @@ private:
 
 public:
 	// 鍛冶で返却されたポイントの設定
-	void SetLevelUpPoint(int return_point)
+	void SetLevelUpPoint(int& point, int return_point)
 	{
 		point += return_point;
 	}
 
 	// 現在所持しているポイントの取得
-	int GetLevelUpPoint() { return point; }
+	int GetLevelUpPoint(int& point) { return point; }
 
 	// 鍛冶で使うやつ
 	void SetIsBlacksmith(bool set_bool)

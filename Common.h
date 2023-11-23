@@ -45,7 +45,7 @@
 //スライム
 #define SLIME_HP_MAX 10.0f			//HP
 #define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
-#define MAX_SLIME_NUM 100			//スライムの最大数
+#define MAX_SLIME_NUM 1000		//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
@@ -60,7 +60,7 @@
 //スケルトン
 #define SKELETON_HP_MAX 40.0f		//HP
 #define SKELETON_ATTAK_DAMAGE 2.0f	//ダメージ
-#define MAX_SKELETON_NUM 30			//スケルトンの最大数
+#define MAX_SKELETON_NUM 300		//スケルトンの最大数
 
 #define SKELETON_1_STAGE_NUM 0  //１ステージ目のスケルトンの数
 #define SKELETON_2_STAGE_NUM 0  //２ステージ目のスケルトンの数
@@ -75,7 +75,7 @@
 //魔法使い
 #define WIZARD_HP_MAX 15.0f			//HP
 #define WIZARD_ATTAK_DAMAGE 1.0f	//ダメージ
-#define MAX_WIZARD_NUM 10			//魔法使いの最大数
+#define MAX_WIZARD_NUM 100			//魔法使いの最大数
 
 #define STOP_SHOOTING_DISTANCE 400 //プレイヤーとの距離がこの値になったら立ち止まる
 

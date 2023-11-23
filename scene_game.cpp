@@ -371,7 +371,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::weaponLevelup) {
-		weaponLevelup->update(weaponA, weaponB, player, restor_cursor_position);
+		weaponLevelup->update(weaponA, weaponB, player, restor_cursor_position, point);
 		return this;
 	};
 
@@ -383,7 +383,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::blacksmith) {
-		blacksmith->update(weaponA, weaponB, weaponLevelup, player);
+		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point);
 		weaponLevelup->SetIsBlacksmith(false);
 		return this;
 	};
