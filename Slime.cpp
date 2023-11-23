@@ -20,7 +20,7 @@ Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum)
 	
 
 	respawnTimeCnt = 0;
-	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum);
+	respawnTime = SetRespawnTime(arrayNum, SlimeMaxNum, 10);
 
 	//リスポーンポイント決め
 	SetRespawnPoint(player,10,arrayNum);

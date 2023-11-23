@@ -43,7 +43,7 @@
 #define ENEMY_RADIUS 20//敵の半径
 
 //スライム
-#define SLIME_HP_MAX 20.0f			//HP
+#define SLIME_HP_MAX 10.0f			//HP
 #define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_SLIME_NUM 100			//スライムの最大数
 

@@ -20,7 +20,7 @@ Wizard::Wizard(Player* player, int arrayNum, int WizardMaxNum)
 	reroadTime = BULLET_LIFE_TIME;
 
 	respawnTimeCnt = 0;
-	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum);
+	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum, 10);
 
 	//リスポーンポイント決め
 	SetRespawnPoint(player,1, arrayNum);

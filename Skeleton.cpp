@@ -19,7 +19,7 @@ Skeleton::Skeleton(Player* player, int arrayNum, int SkeletonMaxNum)
 	vector.y = 0;
 
 	respawnTimeCnt = 0;
-	respawnTime = SetRespawnTime(arrayNum, SkeletonMaxNum);
+	respawnTime = SetRespawnTime(arrayNum, SkeletonMaxNum, 10);
 
 	//リスポーンポイント決め
 	SetRespawnPoint(player,1,arrayNum);

@@ -259,13 +259,14 @@ void EnemyBase::SetPlayer_Location(Location PL) {
 	dL.y = PL.y;
 }
 
-int EnemyBase::SetRespawnTime(int arrayNum, int MAX_ENEMY_STAGE_NUM)
+int EnemyBase::SetRespawnTime(int arrayNum, int MAX_ENEMY_STAGE_NUM, int WaveNum)
 {
-	int s;
+	int s = 0;
+	int fixArrayNum = arrayNum + 1;
 
-	s = 0;
 
-	return s;
+
+	return SECOND_FRAME(s);
 }
 
 void EnemyBase::SetHitLocation_X(float lx) {

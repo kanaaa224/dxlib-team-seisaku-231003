@@ -93,7 +93,7 @@ public:
 	void SetHit1stFrameFlg(bool flg);
 	void SetHitFrameCnt(int i);
 	void SetPlayer_Location(Location PL);
-	int SetRespawnTime(int array, int MAX_ENEMY_STAGE_NUM);
+	int SetRespawnTime(int array, int MAX_ENEMY_STAGE_NUM, int WaveNum);
 
 	void SetHitLocation_X(float lx);
 	void SetHitLocation_Y(float ly);
