@@ -8,6 +8,9 @@
 //秒をフレームに変更
 #define SECOND_FRAME(_s) ((_s) * 60)
 
+//
+#define HIT_VECTOR 0.06f
+
 //画面サイズ
 #define _SCREEN_HEIGHT_ 720 //縦
 #define _SCREEN_WIDHT_	1280//横
@@ -33,7 +36,7 @@
 #define MAX_ALPHA 255		//透過の最大値
 #define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
 #define KNCKBACK 30.0f		//ノックバック
-#define ENEMY_SPEED 1.5f	//敵の移動速度
+#define ENEMY_SPEED 1.0f	//敵の移動速度
 #define RED_FRAME 15		//ダメージを受けた時の赤く表示するフレーム数
 
 #define DISTANT  0			//遠ざかっている
@@ -44,7 +47,7 @@
 
 //スライム
 #define SLIME_HP_MAX 10.0f			//HP
-#define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
+#define SLIME_ATTAK_DAMAGE 0.0f	//ダメージ
 #define MAX_SLIME_NUM 1000		//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数

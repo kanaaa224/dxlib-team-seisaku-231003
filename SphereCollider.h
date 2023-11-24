@@ -34,6 +34,12 @@ struct CaleVector
 	float y;
 };
 
+struct TmpVector
+{
+	float x;
+	float y;
+};
+
 class SphereCollider
 {
 protected:
@@ -43,6 +49,7 @@ protected:
 	float radius;		//半径
 	DiffLocation dL;
 	CaleVector caleVector;
+	TmpVector tmpVector;
 
 public:
 	//

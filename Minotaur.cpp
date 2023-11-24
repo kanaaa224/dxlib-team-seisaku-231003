@@ -3,7 +3,7 @@
 #include "Player.h"
 #include <math.h>
 
-#define DEBUG
+//#define DEBUG
 
 Minotaur::Minotaur()
 {
@@ -27,6 +27,10 @@ Minotaur::Minotaur()
 	tackleCoolTimeCnt = 0;
 	tackleCoolTime = 60;
 	tackleSpeed = TACKLE_SPEED;
+	nowTackleCnt = 0;
+	tackleCnt = 0;
+
+	roarStartFlg = false;
 
 	//
 	boxX_a = 0;
@@ -38,6 +42,12 @@ Minotaur::Minotaur()
 	//
 	lineSize = 1;
 	lineSizeChageCnt = 0;
+
+	//--咆哮--//
+	roarCnt = 0;
+	roarFlg = false;
+	roarRadius = 0;
+	roarFinFlg = false;
 }
 
 void Minotaur::Update(Player* player)
@@ -48,7 +58,13 @@ void Minotaur::Update(Player* player)
 	//プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 
-	TackleUpdate();//タックル
+	if (roarStartFlg == false) {
+		TackleUpdate();//タックル
+	}
+	else if (roarStartFlg == true) {
+		RoarUpdate();//咆哮
+	}
+	
 	
 	//移動処理
 	if (tackleFlg == false) {
@@ -56,8 +72,8 @@ void Minotaur::Update(Player* player)
 		location.y = location.y - diff.y;
 	}
 	else if (tackleFlg == true) {//タックル中
-		location.x += vector.x - diff.x;
-		location.y += vector.y - diff.y;
+		location.x += vector.x * TACKLE_SPEED - diff.x;
+		location.y += vector.y * TACKLE_SPEED - diff.y;
 	}
 }
 
@@ -68,18 +84,15 @@ void Minotaur::Draw() const
 	if (coolTimeFlg == false && tackleFlg == false) {
 		TackleDraw();
 	}
+	
+	if (roarStartFlg == true) {
+		RoarDraw();
+	}
 
 #ifdef DEBUG
-	DrawFormatString(300, 600, C_GREEN, "X:%.2f Y:%.2f", location.x ,location.y);
-	DrawFormatString(300, 620, C_GREEN, "VX:%.2f VY:%.2f", vector.x, vector.y);
-	DrawFormatString(300, 640, C_GREEN, "TX:%.2f TY:%.2f", tackleTmpL.x, tackleTmpL.y);
-	DrawFormatString(300, 660, C_GREEN, "CTC:%d", tackleCoolTimeCnt);
-	DrawFormatString(300, 680, C_GREEN, "DC:%d", debugCnt);
+	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
 
-	//Flg
-	DrawFormatString(500, 600, C_GREEN, "CTF:%d", coolTimeFlg);
-	DrawFormatString(500, 620, C_GREEN, "TF:%d", tackleFlg);
-	DrawFormatString(500, 640, C_GREEN, "DOF:%d", doOneFlg);
+	
 
 	DrawLine(location.x, location.y, location.x, location.y - boxY_a, C_GREEN, 5);//縦
 	DrawLine(location.x, location.y, location.x - boxX_a, location.y, C_BLUE, 5);//横
@@ -120,38 +133,26 @@ void Minotaur::TackleUpdate()
 	}
 	
 	
-	//タックル開始直後
+	//タックル開始
 	if (tackleFlg == true) {
 		if (doOneFlg == false) {
 			//タックルした時に最終的に移動する場所
 			tackleTmpL.x = location.x - boxX_a;
 			tackleTmpL.y = location.y - boxY_a;
-			debugCnt++;
 			//タックル中の移動量をセット
 			vector.x = Normalization_X(M_PLX(location.x), M_PLY(location.y));
 			vector.y = Normalization_Y(M_PLX(location.x), M_PLY(location.y));
 			doOneFlg = true;
 		}
 
-		if (diff.x < 0) {
-			tackleTmpL.x += diff.x;
-		}
-		else if (diff.x > 0) {
-			tackleTmpL.x -= diff.x;
-		}
-		
-		if (diff.y < 0) {
-			tackleTmpL.y += diff.y;
-		}
-		else if (diff.y > 0) {
-			tackleTmpL.y -= diff.y;
-		}
-
+		nowTackleCnt++;
 		//タックルの最終地点移動
-		if (tackleTmpL.x == location.x && tackleTmpL.y == location.y) {
+		if (nowTackleCnt >= BOX_MAX_LENGTH / TACKLE_SPEED) {
 			tackleFlg = false;
 			coolTimeFlg = true;
 			doOneFlg = false;
+			nowTackleCnt = 0;
+			tackleCnt++;
 		}
 	}
 
@@ -165,6 +166,10 @@ void Minotaur::TackleUpdate()
 
 	if (tackleCoolTimeCnt >= tackleCoolTime) {
 		coolTimeFlg = false;
+	}
+
+	if (tackleCnt >= 3) {
+		roarStartFlg = true;
 	}
 }
 
@@ -195,10 +200,37 @@ float Minotaur::M_PLY(float location_Y)
 
 void Minotaur::RoarUpdate()
 {
+	roarFlg = true;
+	if (roarRadius <= ROAR_RADIU) {
+		roarRadius++;
+	}
+	else if (roarRadius >= ROAR_RADIU) {
+		roarEffectFlg = true;
+	}
 
+	if (roarEffectFinFlg == true) {
+		roarFinFlg = true;
+	}
+
+	if (roarFinFlg == true) {
+		roarFlg = false;
+		roarStartFlg = false;
+		tackleCnt = 0;
+		roarRadius = 0;
+		roarFinFlg = false;
+	}
 }
 
 void Minotaur::RoarDraw() const
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
+	DrawCircle(location.x, location.y, ROAR_RADIU, C_RED, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+	DrawCircle(location.x, location.y, roarRadius, C_RED, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+}
+
+void Minotaur::RoarEffectDraw() const
 {
 
 }

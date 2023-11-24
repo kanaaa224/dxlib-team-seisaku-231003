@@ -264,6 +264,8 @@ int EnemyBase::SetRespawnTime(int arrayNum, int MAX_ENEMY_STAGE_NUM, int WaveNum
 	int s = 0;
 	int fixArrayNum = arrayNum + 1;
 
+	int a = fixArrayNum / (WaveNum + 1);
+	s = a * 3;
 
 
 	return SECOND_FRAME(s);
