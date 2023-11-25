@@ -16,9 +16,6 @@
     <Filter Include="ゲーム処理\Enemy">
       <UniqueIdentifier>{398ca3f0-f89d-4600-bab8-dcf41ef29e5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ゲーム処理\Enemy\Small Fry">
-      <UniqueIdentifier>{e85633fe-19ac-4f47-8826-730274231778}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ゲーム処理\Enemy\Common">
       <UniqueIdentifier>{40a5f877-8f13-4096-8ac2-57636cd3510f}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,9 @@
     </Filter>
     <Filter Include="ゲーム処理\Enemy\Boss">
       <UniqueIdentifier>{275dcab2-53f9-452d-824d-64022d250ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム処理\Enemy\minion">
+      <UniqueIdentifier>{e85633fe-19ac-4f47-8826-730274231778}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -127,10 +127,10 @@
       <Filter>ゲーム処理\weapon</Filter>
     </ClInclude>
     <ClInclude Include="Slime.h">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>ゲーム処理\Enemy\Common</Filter>
@@ -142,10 +142,10 @@
       <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClInclude>
     <ClInclude Include="Wizard.h">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBullet.h">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClInclude>
     <ClInclude Include="blacksmith.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\鍛冶屋</Filter>
@@ -232,10 +232,10 @@
       <Filter>ゲーム処理\weapon</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClCompile>
     <ClCompile Include="Slime.cpp">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>ゲーム処理\Enemy\Common</Filter>
@@ -244,10 +244,10 @@
       <Filter>ゲーム処理\Enemy\Common</Filter>
     </ClCompile>
     <ClCompile Include="Wizard.cpp">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
-      <Filter>ゲーム処理\Enemy\Small Fry</Filter>
+      <Filter>ゲーム処理\Enemy\minion</Filter>
     </ClCompile>
     <ClCompile Include="blacksmith.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\鍛冶屋</Filter>

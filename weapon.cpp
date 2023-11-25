@@ -34,7 +34,7 @@ weapon::weapon()
 	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
 	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
 	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
-	//attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	attackbuf_img = LoadGraph("resources/images/baria_red.png");
 
 	attackbuf = 1.0f;
 

@@ -54,7 +54,7 @@ Blacksmith::~Blacksmith()
 }
 
 // 更新
-void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player)
+void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point)
 {
 	// 15fのインターバル
 	if (interval < 15)
@@ -88,7 +88,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		{
 			// 最終強化 or レベルアップ
 			weapon_levelup->SetIsBlacksmith(true);
-			weapon_levelup->update(weapon, second_weapon, player, restore_cursor_position);
+			weapon_levelup->update(weapon, second_weapon, player, restore_cursor_position, point);
 
 			// レベルアップ画面で武器の選択をしていた場合
 			if (weapon_levelup->GetIsCloseLevelUp() == true)
@@ -128,7 +128,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				// 過去にレベルアップしたことがある場合選択できる
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
-					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info);
+					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info, point);
 				}
 			}
 			else if (weapon2_info.num != none && weapon2_info.level_hierarchy != 0)
@@ -137,7 +137,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
-					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon2_info);
+					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon2_info, point);
 				}
 			}
 
@@ -271,7 +271,7 @@ void Blacksmith::CursorMove()
 }
 
 // レベルリセット
-void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, weapon_information* info)
+void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, weapon_information* info, int& point)
 {
 	// レベルリセット
 	if (info->num == weapon1_info.num)
@@ -290,11 +290,11 @@ void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, Weapon
 	// ポイントの返却
 	if (info->level_hierarchy >= 3)
 	{
-		weapon_levelup->SetLevelUpPoint(3);
+		weapon_levelup->SetLevelUpPoint(point, 3);
 	}
 	else
 	{
-		weapon_levelup->SetLevelUpPoint(info->level_hierarchy - 1);
+		weapon_levelup->SetLevelUpPoint(point, info->level_hierarchy - 1);
 	}
 
 	info->can_reset = false;
@@ -438,7 +438,8 @@ void Blacksmith::DrawResetLevelText() const
 {
 	SetFontSize(20);
 	// 武器1
-	DrawFormatString(250, 550, 0x000000, "Lv. %d", weapon1_info.level_hierarchy);
+	DrawFormatString(250, 550, 0x000000, "Lv階層 %d", weapon1_info.level_hierarchy);
+	DrawFormatString(400, 550, 0x000000, "Lv. %d", weapon1_info.level);
 
 	if (weapon1_info.can_reset == false)
 	{

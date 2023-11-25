@@ -6,7 +6,7 @@
 
 #define DEBUG
 
-Wizard::Wizard(int arrayNum, int WizardMaxNum)
+Wizard::Wizard(Player* player, int arrayNum, int WizardMaxNum)
 {
 	//画像読込
 	img = LoadGraph("resources/images/enemy_tmp_images/wizard_sato.png");
@@ -20,10 +20,10 @@ Wizard::Wizard(int arrayNum, int WizardMaxNum)
 	reroadTime = BULLET_LIFE_TIME;
 
 	respawnTimeCnt = 0;
-	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum);
+	respawnTime = SetRespawnTime(arrayNum, WizardMaxNum, 10);
 
 	//リスポーンポイント決め
-	SetRespawnPoint();
+	SetRespawnPoint(player,1, arrayNum);
 }
 
 void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)

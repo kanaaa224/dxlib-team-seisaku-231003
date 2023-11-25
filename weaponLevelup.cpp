@@ -26,7 +26,7 @@ WeaponLevelUp::WeaponLevelUp()
 	cursor_x = 580;
 	cursor_y = 120;
 	level_cursor_pos = 85;
-	point = 7;
+	lv_point = 0;
 	weapon_number = weapon1_info.num;
 	weapon_selection = false;
 
@@ -63,8 +63,10 @@ WeaponLevelUp::~WeaponLevelUp()
 }
 
 // 更新
-void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position)
+void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position, int& point)
 {
+	lv_point = point;
+
 	// weaponからのプレイヤー情報
 	w_p_speed = weapon->GetP_Speed();
 	w_p_avoidancecooltime = weapon->GetP_AvoidanceCooltime();
@@ -115,7 +117,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 		//}
 
 		// Aボタンで決定
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && lv_point > 0)
 		{
 			// 武器2がnoneだったら武器2の選択決定は不可
 			// それ以外の場合は選択決定可能
@@ -135,7 +137,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 			if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 			{
 				// 武器1のレベルアップ
-				LevelUp(weapon, second_weapon, &weapon1_info);
+				LevelUp(weapon, second_weapon, &weapon1_info, point);
 			}
 
 			// カーソル移動
@@ -146,7 +148,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 			if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 			{
 				// 武器2のレベルアップ
-				LevelUp(weapon, second_weapon, &weapon2_info);
+				LevelUp(weapon, second_weapon, &weapon2_info, point);
 			}
 
 			// カーソル移動
@@ -181,7 +183,7 @@ void WeaponLevelUp::draw() const
 	DrawFormatString(560, 10, 0x000000, "レベルアップ");
 
 	SetFontSize(20);
-	DrawFormatString(1000, 20, 0x000000, "仮）P：%d", point);
+	DrawFormatString(900, 20, 0x000000, "LevelUpPoint：%d", lv_point);
 
 	// レベルアップ詳細のテキスト群
 	//DrawLevelUpDetails();
@@ -293,7 +295,7 @@ void WeaponLevelUp::draw() const
 #ifdef _DEBUG	
 	// テスト表示
 	//SetFontSize(20);
-	//DrawFormatString(0, 10, 0x000000, "W1level(State) : %d", weapon1_info.level);
+	DrawFormatString(160, 210, 0xa00000, "W1level(State) : %d", weapon1_info.level);
 	//DrawFormatString(0, 30, 0x000000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
 	//DrawFormatString(0, 50, 0x000000, "W2level (State): %d", weapon2_info.level);
 	//DrawFormatString(0, 70, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
@@ -351,7 +353,7 @@ void WeaponLevelUp::Init(weapon* weapon, second_weapon* second_weapon, bool& res
 }
 
 // レベルアップ処理
-void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info)
+void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info, int& point)
 {
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
@@ -586,7 +588,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 				// 武器1最終強化のテキスト群
 				DrawWeapon1FinalText();
 			}
-			else if (point <= 0)
+			else if (lv_point <= 0)
 			{
 				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
 			}
@@ -598,7 +600,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 				// 武器2最終強化のテキスト群
 				DrawWeapon2FinalText();
 			}
-			else if (point <= 0)
+			else if (lv_point <= 0)
 			{
 				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
 			}

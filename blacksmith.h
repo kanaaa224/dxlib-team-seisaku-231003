@@ -74,7 +74,7 @@ public:
 	~Blacksmith();
 
 	// 更新
-	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player);
+	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point);
 
 	// 描画
 	void draw(WeaponLevelUp* weapon_levelup)const;
@@ -87,7 +87,7 @@ private:
 	void CursorMove();
 
 	// レベルリセット関数
-	void ResetLevel(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, weapon_information* info);
+	void ResetLevel(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, weapon_information* info, int& point);
 
 	// 行動選択時の描画
 	void FirstDraw(WeaponLevelUp* weapon_levelup)const;
