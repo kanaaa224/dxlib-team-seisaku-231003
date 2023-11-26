@@ -37,6 +37,7 @@ private:
 		int level;					// 武器のレベル
 		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
 		int level_hierarchy;		// 武器のレベルの階層
+		int tmp_level;			// カーソルがさしているレベル
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -72,6 +73,8 @@ private:
 	float p_speed;					// 速度
 	int p_avoidancecooltime;		// 回避のクールタイム
 	float p_upperlimitlimit;		// 回避速度
+
+	bool close;						// 画面を閉じるか
 
 public:
 	WeaponLevelUp();
@@ -137,5 +140,7 @@ public:
 
 	// 武器2のレベルリセット
 	void Weapon2LevelInit();
+
+	bool GetClose() { return close; }
 
 };
