@@ -76,6 +76,16 @@ private:
 
 	bool close;						// ‰æ–Ê‚ð•Â‚¶‚é‚©
 
+	// ƒeƒXƒg
+	FILE* fp;
+	struct Sample
+	{
+		int type;
+		int level;
+		int damage;
+	};
+	struct Sample sample[2];
+
 public:
 	WeaponLevelUp();
 	~WeaponLevelUp();

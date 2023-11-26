@@ -57,6 +57,13 @@ WeaponLevelUp::WeaponLevelUp()
 	p_upperlimitlimit = 0.0f;
 
 	close = false;
+
+	// テスト
+	fp = NULL;
+	for (int i = 0; i < 2; i++)
+	{
+		sample[i] = { 0 };
+	}
 }
 
 WeaponLevelUp::~WeaponLevelUp()
@@ -66,7 +73,25 @@ WeaponLevelUp::~WeaponLevelUp()
 
 // 更新
 void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position, int& point)
-{
+{	
+	// テスト
+	sample[0].type = weapon1_info.type;
+	sample[0].level = weapon1_info.level;
+
+	// ファイル書き込み
+	fopen_s(&fp, "resources/dat/sample_w.txt", "w");
+
+	if (fp)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			fprintf(fp, "%1d %1d %d\n", sample[i].type, sample[i].level, sample[i].damage);
+		}
+		//ファイルクローズ
+		fclose(fp);
+	}
+	//////////////////////////////
+
 	// 閉じるとき
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 	{
