@@ -10,7 +10,7 @@ class Skeleton :public EnemyBase
 private:
 
 public:
-	Skeleton(int arrayNum,int SkeletonMaxNum);
+	Skeleton(Player* player,int arrayNum,int SkeletonMaxNum);
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum) const;

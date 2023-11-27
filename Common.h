@@ -3,7 +3,13 @@
 #define _USE_MATH_DEFINES
 #include<math.h>
 
+//ラジアンを度に変更
 #define RADIAN_DEGREE(_rad) ((_rad)*180.0f/M_PI)
+//秒をフレームに変更
+#define SECOND_FRAME(_s) ((_s) * 60)
+
+//
+#define HIT_VECTOR 0.06f
 
 //画面サイズ
 #define _SCREEN_HEIGHT_ 720 //縦
@@ -30,7 +36,7 @@
 #define MAX_ALPHA 255		//透過の最大値
 #define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
 #define KNCKBACK 30.0f		//ノックバック
-#define ENEMY_SPEED 1.5f	//敵の移動速度
+#define ENEMY_SPEED 1.0f	//敵の移動速度
 #define RED_FRAME 15		//ダメージを受けた時の赤く表示するフレーム数
 
 #define DISTANT  0			//遠ざかっている
@@ -40,9 +46,9 @@
 #define ENEMY_RADIUS 20//敵の半径
 
 //スライム
-#define SLIME_HP_MAX 20.0f			//HP
-#define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
-#define MAX_SLIME_NUM 100			//スライムの最大数
+#define SLIME_HP_MAX 10.0f			//HP
+#define SLIME_ATTAK_DAMAGE 0.0f	//ダメージ
+#define MAX_SLIME_NUM 1000		//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
 #define SLIME_2_STAGE_NUM 15 //２ステージ目のスライムの数
@@ -57,9 +63,9 @@
 //スケルトン
 #define SKELETON_HP_MAX 40.0f		//HP
 #define SKELETON_ATTAK_DAMAGE 2.0f	//ダメージ
-#define MAX_SKELETON_NUM 30			//スケルトンの最大数
+#define MAX_SKELETON_NUM 300		//スケルトンの最大数
 
-#define SKELETON_1_STAGE_NUM 0  //１ステージ目のスケルトンの数←仮で数が入っている
+#define SKELETON_1_STAGE_NUM 0  //１ステージ目のスケルトンの数
 #define SKELETON_2_STAGE_NUM 0  //２ステージ目のスケルトンの数
 #define SKELETON_3_STAGE_NUM 0  //３ステージ目のスケルトンの数
 #define SKELETON_4_STAGE_NUM 0  //４ステージ目のスケルトンの数
@@ -72,7 +78,7 @@
 //魔法使い
 #define WIZARD_HP_MAX 15.0f			//HP
 #define WIZARD_ATTAK_DAMAGE 1.0f	//ダメージ
-#define MAX_WIZARD_NUM 10			//魔法使いの最大数
+#define MAX_WIZARD_NUM 100			//魔法使いの最大数
 
 #define STOP_SHOOTING_DISTANCE 400 //プレイヤーとの距離がこの値になったら立ち止まる
 
