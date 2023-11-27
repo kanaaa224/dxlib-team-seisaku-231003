@@ -9,9 +9,11 @@ private:
 
 	int lifeTimeCnt = 0;
 
+	float angle;
+
 public:
 	EnemyBullet(Location spawnLocation , Player* player);
-	void Update(Player*player);
+	void Update(Player* player, Wizard* enemy);
 	void Draw() const;
 
 	//get
