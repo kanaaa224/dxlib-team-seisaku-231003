@@ -137,15 +137,6 @@ void Slime::X()
 	if (hitFlg == HIT) {
 		vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 
-		/*if (fabsf(tmpVector.x) <= fabsf(caleVector.x)) {
-			if (caleVector.x < 0) {
-				tmpVector.x *= -HIT_VECTOR;
-			}
-			else if (caleVector.x > 0) {
-				tmpVector.x *= HIT_VECTOR;
-			}
-		}*/
-
 		vector.x = vector.x + caleVector.x;
 	}
 	else if (hitFlg == NO_COLLISION) {
@@ -158,16 +149,9 @@ void Slime::Y()
 	if (hitFlg == HIT) {
 		vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * ENEMY_SPEED;
 
-		/*if (fabsf(tmpVector.y) <= fabsf(caleVector.y)) {
-			if (caleVector.y < 0) {
-				tmpVector.y *= -HIT_VECTOR;
-			}
-			else if (caleVector.y > 0) {
-				tmpVector.y *= HIT_VECTOR;
-			}
-		}*/
-		
 		vector.y = vector.y + caleVector.y;
+
+
 		hitFlg = NO_COLLISION;
 	}
 	else if (hitFlg == NO_COLLISION) {
