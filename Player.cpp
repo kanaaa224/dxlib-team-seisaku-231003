@@ -6,13 +6,14 @@ float Player::MovingY;
 float Player::Additional_Value2;
 float Player::Aiming_RadiusX;
 float Player::Aiming_RadiusY;
-int   Player::Cool_Limit;
+float Player::Cool_Limit;
 int   Player::Hit_cooltime;
 float Player::Upper_speed;
 
 Player::Player() {
 
-	if (PlayerImg = LoadGraph("resources/images/yusya_red.png")) {}
+	if(PlayerTestImg = LoadGraph("resources/images/raiyatest.png")) {}
+	if (PlayerImg = LoadGraph("resources/images/knightplayer_test.png")) {}
 	if (AimingImg = LoadGraph("resources/images/mark_maru.png")) {}
 	if (KaihiImg = LoadGraph("resources/images/yusya_kaihi.png")) {}
 
@@ -178,12 +179,13 @@ void Player::draw()const {
 		if (is_hit)
 		{
 			SetDrawBright(125, 50, 50);
-			DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+			DrawRotaGraph(location.x, location.y, 0.15f, 0.01, PlayerImg, TRUE);
 			SetDrawBright(255, 255, 255);
 		}
 		else
 		{
-			DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
+			DrawRotaGraph(location.x, location.y, 0.15f, 0.01, PlayerImg, TRUE);
+			DrawRotaGraph(location.x + 70, location.y, 0.15f, 0.01, PlayerTestImg, TRUE);
 		}
 	}
 
@@ -493,13 +495,13 @@ void  Player::SetPlayer_RadiusY(float value) {
 }
 
 //回避のクールタイムを返す
-int Player::GetAvoidance_limit() {
+float Player::GetAvoidance_limit() {
 
 	return Cool_Limit;
 }
 
 // 回避のクールタイムの時間をセットする
-void Player::SetAvoidance_limit(int value) {
+void Player::SetAvoidance_limit(float value) {
 
 	Cool_Limit =  value;
 }
@@ -543,12 +545,10 @@ void Player::SetPlayer_HP(float value) {
 	}
 }
 
-void Player::SetPlayerHP(float value)
-{
+void Player::SetPlayerHP(float value){
 	Player_HP = value;
 }
 
-Location Player::Player_Location()
-{
+Location Player::Player_Location(){
 	return location;
 }

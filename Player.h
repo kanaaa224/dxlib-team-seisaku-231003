@@ -73,6 +73,7 @@ private:
 	bool camera_flg_left_right;
 
 	bool is_hit;			//攻撃を受けたかどうか
+	int PlayerTestImg;
 
 public:
 
@@ -81,7 +82,7 @@ public:
 	static float Additional_Value2;
 	static float Aiming_RadiusX;
 	static float Aiming_RadiusY;
-	static int   Cool_Limit;
+	static float   Cool_Limit;
 	static float Upper_speed;
 
 	//ヒットクールダウン
@@ -119,8 +120,8 @@ public:
 	float GetPlayer_Upperlimit();
 
 	//回避のクールダウン時間
-	static void SetAvoidance_limit(int value);
-	int GetAvoidance_limit();
+	static void SetAvoidance_limit(float value);
+	float GetAvoidance_limit();
 
 	//プレイヤーの移動速度
 	static void SetPlayer_Speed(float value);

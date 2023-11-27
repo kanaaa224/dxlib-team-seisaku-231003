@@ -122,6 +122,9 @@ private:
 
 	int Bullet_speed;
 
+	float P_aiming_radiusX;
+	float P_aiming_radiusY;
+
 public:
 	second_weapon();
 	second_weapon(int type);
@@ -183,5 +186,13 @@ public:
 
 	float GetThunderDamage() { return thunderDamage; }
 	float GetAttackBufRate() { return attackBufRate; }
+
+
+	// ’Ç‰Á@ƒtƒŒƒCƒ‹‚ÌÆ€
+	float GetP_aiming_radiusX() { return P_aiming_radiusX; }
+	float GetP_aiming_radiusY() { return P_aiming_radiusY; }
+
+	float GetFrailRadius() { return frailRadius; }
+	int GetBullet_speed() { return Bullet_speed; }
 };
 

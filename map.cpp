@@ -92,6 +92,19 @@ int Map::update(int& mode, bool& weapon_selected) {
 		cursor_r--;
 	}
 
+	if (alpha_flg) {
+		alpha = alpha + 4;
+		if (alpha >= 255) {
+			alpha = 255;
+			alpha_flg = FALSE;
+		}
+	} else {
+		alpha = alpha - 4;
+		if (alpha <= 0) {
+			alpha = 0;
+			alpha_flg = TRUE;
+		}
+	}
 
 	// スクロール(Rスティック)
 	if (InputCtrl::GetStickRatio(R).y >= 0.2 || InputCtrl::GetStickRatio(R).y <= -0.2)
@@ -179,11 +192,17 @@ void Map::draw() const {
 				int next_loc = next_stage[pattern][i][j];
 				if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
 					DrawLine(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xaa0000);
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xaa0000, 3);
 					log_i++;
-				} else {
+				}
+				else if (i == now_stage && j == cursor_pos) {
+
 					DrawLine(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff);
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, alpha, alpha), 3);
+				}
+				else {
+					DrawLine(icon_loc_center[i][0], icon_loc_center[i][1],
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 3);
 				}
 			}
 			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);

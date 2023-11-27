@@ -122,3 +122,50 @@ void Stage::draw()const {
 		DrawGraph(StageArrayImg[i].x, StageArrayImg[i].y, StageArrayImg[i].img, TRUE);
 	}
 }
+
+void Stage::init()
+{
+	for (int i = 0; i < 9; i++) {
+		switch (i)
+		{
+		case 0:
+			StageArrayImg[i].x = -STAGEIMG_X + STAGEIMG_X / 2;
+			StageArrayImg[i].y = -STAGEIMG_Y + STAGEIMG_Y / 2;
+			break;
+		case 1:
+			StageArrayImg[i].x = STAGEIMG_X / 2;
+			StageArrayImg[i].y = -STAGEIMG_Y + STAGEIMG_Y / 2;
+			break;
+		case 2:
+			StageArrayImg[i].x = STAGEIMG_X + STAGEIMG_X / 2;
+			StageArrayImg[i].y = -STAGEIMG_Y + STAGEIMG_Y / 2;
+			break;
+		case 3:
+			StageArrayImg[i].x = -STAGEIMG_X + STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y / 2;
+			break;
+		case 4:
+			StageArrayImg[i].x = STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y / 2;
+			break;
+		case 5:
+			StageArrayImg[i].x = STAGEIMG_X + STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y / 2;
+			break;
+		case 6:
+			StageArrayImg[i].x = -STAGEIMG_X + STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y + STAGEIMG_Y / 2;
+			break;
+		case 7:
+			StageArrayImg[i].x = STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y + STAGEIMG_Y / 2;
+			break;
+		case 8:
+			StageArrayImg[i].x = STAGEIMG_X + STAGEIMG_X / 2;
+			StageArrayImg[i].y = STAGEIMG_Y + STAGEIMG_Y / 2;
+			break;
+		default:
+			break;
+		}
+	}
+}
