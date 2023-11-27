@@ -22,6 +22,8 @@ weapon::weapon()
 	oldIsAttacking = false;
 	weaponLevel = 0;
 	levelUpFlg = false;
+
+	fps = 0;
 	
 	P_speed = 0.0;
 	P_cooltime = 0;
@@ -54,6 +56,14 @@ weapon::weapon()
 	slashFlg = false;
 
 	avoidanceDamageFlg = false;
+
+
+	for (int i = 0; i < MAX_DUST; i++){
+		dust[i].flg = false;
+		dust[i].startcnt = 0;
+		dust[i].endcnt = 0;
+	}
+	dustcnt = 0;
 }
 
 weapon::weapon(int type)
@@ -128,6 +138,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 					relativeRot = maxRot;
 					isAttacking = false;
 					slashFlg = false;
+
 				}
 			}
 			rot = -1 * (weaponAngle - (d_r(relativeRot)));
@@ -150,6 +161,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			unitVec.y = collisionVec.y / collisionVec.length;
 			unitVec.length = sqrt((unitVec.x) * (unitVec.x) + (unitVec.y) * (unitVec.y));
 			
+			
 
 			//(仮)斬撃
 			if (weaponType == sword && weaponLevel == 7) {
@@ -169,6 +181,17 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 					slashRot = rot;
 				}
 			}
+			//砂塵の大剣
+			if (weaponType == greatSword && weaponLevel == 8) {
+				if (fps % 10 == 0 /*&& dustcnt < 4*/) {
+					if (SpawnDust()) {
+						dustcnt++;
+						fps = 0;
+					}
+				}
+			}
+			//砂塵の大剣用
+			fps++;
 		
 		}
 
@@ -182,11 +205,14 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			}
 		}
 
-
+		if (!isAttacking) {
+			fps = 0;
+		}
 
 
 		SwordSlashAnim();
 		ThrowDaggerAnim();
+		DustAnim();
 	}
 
 	SwordLevel8(player);
@@ -288,6 +314,20 @@ void weapon::Draw() const
 		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
 	}
 
+
+	for (int i = 0; i < MAX_DUST; i++) {
+		if (dust[i].flg) {
+			DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
+		}
+	}
+
+
+
+
+
+
+
+
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
 	int y = InputCtrl::GetMouseCursor().y;
@@ -300,12 +340,9 @@ void weapon::Draw() const
 	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
-	//DrawFormatString(0, 240, 0xffffff, "rennzoku %d",hitCnt );
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", fps);
 
 
-
-
-	//kk
 	if (isAttacking) {
 		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
 		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
@@ -898,6 +935,58 @@ void weapon::ThrowDaggerAnim()
 			if (throwDagger[i].l.x < 0 || throwDagger[i].l.x > 1280 ||
 				throwDagger[i].l.y < 0 || throwDagger[i].l.y > 720) {
 				throwDagger[i].flg = false;
+			}
+		}
+	}
+}
+
+bool weapon::SpawnDust()
+{
+	for (int i = 0; i < MAX_DUST; i++){
+		if (!dust[i].flg) {
+			dust[i].v.x = unitVec.x * 5;
+			dust[i].v.y = unitVec.y * 5;
+			dust[i].l = location;
+			dust[i].flg = true;
+			dust[i].radius = 0.0f;
+			dust[i].startcnt = 0;
+			dust[i].endcnt = 0;
+
+			return true;
+		}
+	}
+	return false;
+}
+
+void weapon::DustAnim()
+{
+	for (int i = 0; i < MAX_DUST; i++) {
+		if (dust[i].flg) {
+			int len = sqrtf((dust[i].l.x - location.x) * (dust[i].l.x - location.x) + (dust[i].l.y - location.y) * (dust[i].l.y - location.y));
+			
+			if (dust[i].startcnt++ < 50) {
+				dust[i].l.x += dust[i].v.x;
+				dust[i].l.y += dust[i].v.y;
+				dust[i].radius += 2;
+			}
+			else {
+				dust[i].endcnt++;
+				dust[i].l.x -= playerVector.x;
+				dust[i].l.y -= playerVector.y;
+			}
+
+			if (dust[i].endcnt > 120) {
+				dust[i].flg = false;
+				dust[i].endcnt = 0;
+				dust[i].startcnt = 0;
+			}
+
+			
+			
+
+			if (dust[i].l.x < 0 || dust[i].l.x > 1280 ||
+				dust[i].l.y < 0 || dust[i].l.y > 720) {
+				dust[i].flg = false;
 			}
 		}
 	}
