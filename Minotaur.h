@@ -60,6 +60,7 @@ public:
 
 	//咆哮
 	void RoarUpdate();
+	void RoarEffectUpdate();
 	void RoarDraw() const;
 	void RoarEffectDraw() const;
 };

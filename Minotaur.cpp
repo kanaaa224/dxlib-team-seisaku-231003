@@ -63,6 +63,9 @@ void Minotaur::Update(Player* player)
 	}
 	else if (roarStartFlg == true) {
 		RoarUpdate();//咆哮
+		if (roarEffectFlg == true) {
+			RoarEffectUpdate();
+		}
 	}
 	
 	
@@ -218,7 +221,14 @@ void Minotaur::RoarUpdate()
 		tackleCnt = 0;
 		roarRadius = 0;
 		roarFinFlg = false;
+		roarEffectFinFlg = false;
+		roarEffectFlg = false;
 	}
+}
+
+void Minotaur::RoarEffectUpdate()
+{
+	roarEffectFinFlg = true;
 }
 
 void Minotaur::RoarDraw() const

@@ -73,6 +73,7 @@ private:
 	bool camera_flg_left_right;
 
 	bool is_hit;			//UŒ‚‚ğó‚¯‚½‚©‚Ç‚¤‚©
+	int PlayerTestImg;
 
 public:
 
