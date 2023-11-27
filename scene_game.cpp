@@ -62,7 +62,7 @@ GameScene::GameScene() {
 	// とりあえず
 	// 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
-	data["slime"]    = 10;
+	data["slime"]    = 20;
 	data["skeleton"] = 0;
 	data["wizard"]   = 0;
 	shimabukuro.push_back(data);
