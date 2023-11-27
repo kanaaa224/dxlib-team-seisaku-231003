@@ -19,6 +19,8 @@ class Player;
 #define AVOIDANCE_DAMAGE_RADIUS 100
 #define MAX_THROW_DAGGER 64
 
+#define MAX_DUST 64
+
 struct Vector
 {
 	float x;
@@ -59,6 +61,16 @@ struct ThrowDagger
 	Vector unit;
 };
 
+struct Dust
+{
+	Location l;
+	Vector v;
+	bool flg;
+	float radius;
+	int endcnt;
+	int startcnt;
+};
+
 
 class weapon {
 private:
@@ -81,6 +93,8 @@ private:
 	float maxRot;			//最大どれくらい回転するか
 	float weaponAngle;
 	float rotSpeed;
+
+	int fps;
 
 	int coolTime;	//クールタイムを計算する変数
 	int maxCoolTime;  //クールタイムの値
@@ -118,6 +132,11 @@ private:
 	//回避中のダメージ
 	bool avoidanceDamageFlg;
 
+	//dust
+	Dust dust[MAX_DUST];
+	int dustcnt;
+
+
 	float tmp, tmp1;
 public:
 	weapon();
@@ -143,6 +162,9 @@ public:
 
 	bool SpawnThrowDagger(int num);
 	void ThrowDaggerAnim();
+
+	bool SpawnDust();
+	void DustAnim();
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
