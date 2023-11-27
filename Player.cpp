@@ -6,7 +6,7 @@ float Player::MovingY;
 float Player::Additional_Value2;
 float Player::Aiming_RadiusX;
 float Player::Aiming_RadiusY;
-int   Player::Cool_Limit;
+float Player::Cool_Limit;
 int   Player::Hit_cooltime;
 float Player::Upper_speed;
 
@@ -495,13 +495,13 @@ void  Player::SetPlayer_RadiusY(float value) {
 }
 
 //回避のクールタイムを返す
-int Player::GetAvoidance_limit() {
+float Player::GetAvoidance_limit() {
 
 	return Cool_Limit;
 }
 
 // 回避のクールタイムの時間をセットする
-void Player::SetAvoidance_limit(int value) {
+void Player::SetAvoidance_limit(float value) {
 
 	Cool_Limit =  value;
 }
