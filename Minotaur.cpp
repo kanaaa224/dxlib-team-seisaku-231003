@@ -123,7 +123,7 @@ void Minotaur::TackleUpdate()
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
 		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-			lineSizeChageCnt+=10;
+			lineSizeChageCnt+= 8;		//タックルの速さ
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
 			lineSize = 0;
