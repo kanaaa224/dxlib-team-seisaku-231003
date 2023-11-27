@@ -37,7 +37,7 @@ private:
 		int level;					// 武器のレベル
 		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
 		int level_hierarchy;		// 武器のレベルの階層
-		int tmp_level;			// カーソルがさしているレベル
+		int tmp_level;				// カーソルがさしているレベル
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -103,7 +103,7 @@ public:
 private:
 
 	// レベルアップ処理
-	void LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info, int& point);
+	void LevelUp(weapon* weapon, second_weapon* second_weapon, Player* player, weapon_information* info, int& point);
 
 	// レベルアップのカーソル移動
 	void LevelUpCursorMove(weapon_information* info);
