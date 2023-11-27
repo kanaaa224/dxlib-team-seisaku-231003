@@ -123,16 +123,18 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode >= GameSceneMode::main && gameUI->getState() == playerUI) {
-		// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
+		if (mode == GameSceneMode::weaponLevelup && weaponLevelup->GetCloseMode() == 2)
+		{
+			restor_cursor_position = true;
+			mode = GameSceneMode::main;
+		}
+		// 武器のレベルアップ画面
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
-			if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
-			else
+			if (restor_cursor_position == true)
 			{
-				mode = GameSceneMode::weaponLevelup;
-				//レベルアップ画面のカーソル位置初期化用フラグ
-				// レベルアップ画面を開くたびに初期化
-				restor_cursor_position = true;
+				weaponLevelup->SetCloseMode(0);
 			}
+			mode = GameSceneMode::weaponLevelup;
 		};
 	};
 
