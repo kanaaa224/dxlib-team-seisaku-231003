@@ -36,7 +36,7 @@ Blacksmith::Blacksmith()
 	cursor_x = 140;
 	cursor_y = 320;
 	weapon_number = weapon1_info.num;
-	is_blacksmith = false;
+	//is_blacksmith = false;
 
 	// ‰æ‘œƒpƒ‰ƒ[ƒ^
 	img_x = 350;

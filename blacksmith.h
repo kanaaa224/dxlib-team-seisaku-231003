@@ -58,7 +58,7 @@ private:
 	int cursor_x;					// カーソルX座標
 	int cursor_y;					// カーソルY座標
 	int weapon_number;				// 武器番号
-	bool is_blacksmith;				// 鍛冶で呼び出されているか（レベルアップ画面に渡すもの）
+	//bool is_blacksmith;				// 鍛冶で呼び出されているか（レベルアップ画面に渡すもの）
 
 	// 画像パラメータ
 	int img_x;						// 画像のX座標

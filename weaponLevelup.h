@@ -75,6 +75,7 @@ private:
 	float p_upperlimitlimit;		// 回避速度
 
 	bool close;						// 画面を閉じるか
+	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
 
 	// テスト
 	FILE* fp;
@@ -153,4 +154,14 @@ public:
 
 	bool GetClose() { return close; }
 
+	void SetClose(bool flg)
+	{
+		close = flg;
+	}
+
+	int GetCloseMode() { return close_mode; }
+	void SetCloseMode(int num)
+	{
+		close_mode = num;
+	}
 };

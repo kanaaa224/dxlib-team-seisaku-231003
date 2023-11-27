@@ -57,6 +57,7 @@ WeaponLevelUp::WeaponLevelUp()
 	p_upperlimitlimit = 0.0f;
 
 	close = false;
+	close_mode = 0;
 
 	// テスト
 	fp = NULL;
@@ -92,14 +93,25 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	}
 	//////////////////////////////
 
+	// Xボタン離した
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
+	{
+		close_mode = 1;
+	}
+
 	// 閉じるとき
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 	{
-		// 現在の武器レベルのセット
-		weapon->SetWeaponLevel(weapon1_info.level);
-		second_weapon->SetWeaponLevel(weapon2_info.level);
+		if (close_mode == 1)
+		{
+			// 現在の武器レベルのセット
+			weapon->SetWeaponLevel(weapon1_info.level);
+			second_weapon->SetWeaponLevel(weapon2_info.level);
 
-		close = true;
+			// 閉じる
+			close_mode = 2;
+			//close = true;
+		}
 	}
 
 	lv_point = point;
@@ -264,8 +276,6 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 			weapon_selection = false;
 		}
 	}
-
-
 }
 
 // 描画
@@ -393,7 +403,8 @@ void WeaponLevelUp::draw() const
 	DrawFormatString(0, 210, 0xa00000, "W1level(State) : %d", weapon1_info.level);
 	DrawFormatString(0, 230, 0xa00000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
 	DrawFormatString(0, 250, 0xa00000, "W1tmpレベル : %d", weapon1_info.tmp_level);
-	DrawFormatString(0, 270, 0xa00000, "close : %d", (int)close);
+	//DrawFormatString(0, 270, 0xa00000, "close : %d", (int)close);
+	DrawFormatString(0, 270, 0xa00000, "close_mode : %d", close_mode);
 	//DrawFormatString(0, 50, 0x000000, "W2level (State): %d", weapon2_info.level);
 	//DrawFormatString(0, 70, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
 	//DrawFormatString(0, 90, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
@@ -448,7 +459,7 @@ void WeaponLevelUp::Init(weapon* weapon, second_weapon* second_weapon, bool& res
 	// 初期化完了
 	restor_cursor_position = false;
 
-	close = false;
+	//close = false;
 }
 
 // レベルアップ処理
