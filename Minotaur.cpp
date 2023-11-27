@@ -122,7 +122,7 @@ void Minotaur::TackleUpdate()
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
 		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-			lineSizeChageCnt++;
+			lineSizeChageCnt+=10;
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
 			lineSize = 0;
@@ -156,6 +156,7 @@ void Minotaur::TackleUpdate()
 			doOneFlg = false;
 			nowTackleCnt = 0;
 			tackleCnt++;
+			lineSize = 0;
 		}
 	}
 
@@ -205,7 +206,7 @@ void Minotaur::RoarUpdate()
 {
 	roarFlg = true;
 	if (roarRadius <= ROAR_RADIU) {
-		roarRadius++;
+		roarRadius += 2;
 	}
 	else if (roarRadius >= ROAR_RADIU) {
 		roarEffectFlg = true;
