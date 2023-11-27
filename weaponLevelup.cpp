@@ -307,13 +307,13 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	}
 
 	// Xƒ{ƒ^ƒ“—£‚µ‚½
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
+	if (InputCtrl::GetKeyState(KEY_INPUT_X) == RELEASE || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
 	{
 		close_mode = 1;
 	}
 
 	// •Â‚¶‚é‚Æ‚«
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+	if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 	{
 		if (close_mode == 1)
 		{
