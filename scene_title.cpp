@@ -7,7 +7,6 @@ Title::Title()
 	g_MenuNumber = 0;
 	TitleInterval = 0;
 	cursor = LoadGraph("resources/images/cursor.png");
-	//state = 10;
 }
 
 Title::~Title()
