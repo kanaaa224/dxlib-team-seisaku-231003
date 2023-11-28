@@ -5,7 +5,7 @@
 DrawHelp::DrawHelp()
 {
 	//ƒwƒ‹ƒv2‰æ‘œ‚Ì“Ç
-	HelpImage2 = LoadGraph("resources/images/Help2.png");
+	HelpImage2 = LoadGraph("resources/images/Help/Help2.png");
 }
 
 Scene* DrawHelp::update()

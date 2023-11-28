@@ -124,6 +124,16 @@ int EnemyBase::checkHitEnemyProximity(Location location, float hlx, float hly)
 	}
 }
 
+int EnemyBase::CheckImgAngle()
+{
+	if (dL.x < location.x) {
+		return IMG_L;
+	}
+	else if (dL.x > location.x) {
+		return IMG_R;
+	}
+}
+
 //----------------------Inc----------------------//
 
 void EnemyBase::hitFrameCntInc()
