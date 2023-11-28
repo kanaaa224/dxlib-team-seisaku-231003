@@ -43,10 +43,10 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	if (respawnFlg == true && hp > 0) {
 
 		//画像切り替え
-		if (imgFrameCounter >= 1 && imgFrameCounter <= 30) {
+		if (imgFrameCounter >= 1 && imgFrameCounter <= 60) {
 			img = imgArray[0];
 		}
-		else if (imgFrameCounter >= 31 && imgFrameCounter <= 60) {
+		else if (imgFrameCounter >= 61 && imgFrameCounter <= 120) {
 			img = imgArray[1];
 		}
 
@@ -96,7 +96,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 	}
 
 	//画像切り替え用フレームカウント変数が３０になったら０にする
-	if (imgFrameCounter >= 60) {
+	if (imgFrameCounter >= 120) {
 		imgFrameCounter = 0;
 	}
 
