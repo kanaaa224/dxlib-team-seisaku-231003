@@ -17,6 +17,9 @@ Player::Player() {
 	if (AimingImg = LoadGraph("resources/images/mark_maru.png")) {}
 	if (KaihiImg = LoadGraph("resources/images/yusya_kaihi.png")) {}
 
+	SE_playermove = LoadSoundMem("resources/sounds/se_player_move.wav");
+	SE_playeravoidance = LoadSoundMem("resources/sounds/se_player_avoidance.wav");
+
 	PlayerX = 640;
 	PlayerY = 360;
 

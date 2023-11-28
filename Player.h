@@ -72,6 +72,10 @@ private:
 	bool camera_flg_top_bottom;
 	bool camera_flg_left_right;
 
+	//SE—p
+	int SE_playermove;
+	int SE_playeravoidance;
+
 	bool is_hit;			//UŒ‚‚ğó‚¯‚½‚©‚Ç‚¤‚©
 	int PlayerTestImg;
 
