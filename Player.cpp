@@ -12,13 +12,15 @@ float Player::Upper_speed;
 
 Player::Player() {
 
+	//‰æ‘œ
 	if(PlayerTestImg = LoadGraph("resources/images/raiyatest.png")) {}
 	if (PlayerImg = LoadGraph("resources/images/knightplayer_test.png")) {}
 	if (AimingImg = LoadGraph("resources/images/mark_maru.png")) {}
 	if (KaihiImg = LoadGraph("resources/images/yusya_kaihi.png")) {}
 
-	SE_playermove = LoadSoundMem("resources/sounds/se_player_move.wav");
-	SE_playeravoidance = LoadSoundMem("resources/sounds/se_player_avoidance.wav");
+	//SE
+	if (SE_playermove = LoadSoundMem("resources/sounds/se_player_move.wav")) {};
+	if (SE_playeravoidance = LoadSoundMem("resources/sounds/se_player_avoidance.wav")) {};
 
 	PlayerX = 640;
 	PlayerY = 360;
