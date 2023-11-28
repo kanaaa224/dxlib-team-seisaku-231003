@@ -379,10 +379,17 @@ Scene* GameScene::update() {
 			};
 
 			if (battleMode == GameSceneBattleMode::midBoss) bossState = 1; // 中ボス討伐状態
+
 		};
+
+		if (bossState == 1)
+		{
+			GameSceneMode::weaponSelect;
+		}
 
 		frameCounter++;
 	};
+
 
 	if (mode == GameSceneMode::weaponSelect) {
 		weaponSelect->update(weaponA, weaponB, weapon_selected, mode);
@@ -813,6 +820,10 @@ void GameScene::WizardUpdate()
 				//tmpWizardNum--;
 				exp += 40;
 			}
+		}
+		else
+		{
+			enemyBullet[i] = nullptr;
 		}
 	}
 	if (tmpWizardNum < enemySpawnData["wizard"]) {

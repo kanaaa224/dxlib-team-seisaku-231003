@@ -157,7 +157,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 			else mode = GameSceneMode::weaponSelect;
 			break;
 		case 1:		//イベント
-			mode = GameSceneMode::weaponSelect;
+			mode = GameSceneMode::main;
 			break;
 		case 2:		//休憩
 			mode = GameSceneMode::rest;
@@ -167,8 +167,7 @@ int Map::update(int& mode, bool& weapon_selected) {
 			mode = GameSceneMode::main;
 			break;
 		case 4:		//ボス
-			if (weapon_selected) mode = GameSceneMode::main;
-			else mode = GameSceneMode::weaponSelect;
+			mode = GameSceneBattleMode::boss;
 			break;
 		default:
 			break;
