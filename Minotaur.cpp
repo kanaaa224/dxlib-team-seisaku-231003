@@ -10,7 +10,7 @@ Minotaur::Minotaur()
 	debugCnt = 0;
 
 	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
-	damage = 10;
+	damage = 0;
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
 
