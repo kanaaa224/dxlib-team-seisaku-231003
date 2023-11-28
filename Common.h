@@ -51,7 +51,7 @@
 
 //スライム
 #define SLIME_HP_MAX 10.0f			//HP
-#define SLIME_ATTAK_DAMAGE 0.0f	//ダメージ
+#define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_SLIME_NUM 1000		//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
