@@ -16,8 +16,8 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))              == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
 
-	if ((img["whiteCircle"]      = LoadGraph("resources/images/shiromaru.png"))                  == -1) throw;
-	if ((img["blackCircle"]      = LoadGraph("resources/images/kuromaru.png"))                   == -1) throw;
+	if ((img["whiteCircle"]      = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
+	if ((img["blackCircle"]      = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -259,38 +259,27 @@ void GameUI::drawHUD() const {
 	// CoolTime
 	//////////////////////////////////////////////////
 
+	int img_whiteCircle = 0;
+
+	if (img.find("whiteCircle") != img.end()) img_whiteCircle = img.at("whiteCircle");
+
 	current = 0;
 	max     = 0;
 
 	if (coolTime.find("current") != coolTime.end()) current = coolTime.at("current");
 	if (coolTime.find("max")     != coolTime.end()) max     = coolTime.at("max");
 
-	lx = rootLX + 40;
-	ly = rootLY + 40;
-	rx = rootLX + 460;
-	ry = rootLY + 70;
+	int x = rootLX + 80;
+	int y = rootLY + 120;
 
-	/*SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawCircle(x, y, 28, GetColor(0, 0, 0), true);
+	DrawCircleGauge(x, y, (current / max) * 100.0f, img_whiteCircle);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	lx = lx + 5;
-	ly = ly + 5;
-	rx = rx - 5;
-	ry = ry - 5;
-
-	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
-
-	color = GetColor(128, 207, 27);
-	if (ratio <= 15)      color = GetColor(255, 0, 0);
-	else if (ratio <= 30) color = GetColor(255, 140, 76);
-
-	DrawBox(lx, ly, rx, ry, color, true);*/
-
-	//SetFontSize(16);
-	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT);
-	//str = "HP: " + std::to_string(current) + "/" + std::to_string(max);
-	//DrawFormatString(rootLX + 45, rootLY + 30, 0xffffff, str.c_str());
+	SetFontSize(14);
+	str = "回避";
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 7, 0xffffff, str.c_str());
 
 
 	//////////////////////////////////////////////////
@@ -407,8 +396,8 @@ void GameUI::drawHUD() const {
 		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
 	};
 
-	int x = rootRX - 80;
-	int y = rootRY + (SCREEN_HEIGHT - 80);
+	x = rootRX - 80;
+	y = rootRY + (SCREEN_HEIGHT - 80);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
@@ -679,7 +668,7 @@ void GameUI::setHP(int Current, int Max, int Ratio) {
 	if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
 };
 
-void GameUI::setCoolTime(float Current, float Max) {
+void GameUI::setCoolTime(int Current, int Max) {
 	coolTime["current"] = Current;
 	coolTime["max"]     = Max;
 };

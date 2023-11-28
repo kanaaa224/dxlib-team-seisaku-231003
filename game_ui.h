@@ -22,7 +22,7 @@ private:
 	std::map<std::string, std::string> enemyHP;
 	std::map<std::string, std::map<std::string, int>> weapon;
 
-	std::map<std::string, double> coolTime;
+	std::map<std::string, int> coolTime;
 
 	std::map<std::string, double> hud;
 	std::map<std::string, std::string> banner;
@@ -102,7 +102,7 @@ public:
 	void setHP(int, int, int);
 
 	// プレイヤーのクールタイムを設定（現在値、最大値）
-	void setCoolTime(float, float);
+	void setCoolTime(int, int);
 
 	// 所持している武器を設定（それぞれの武器の種類、レベル）
 	void setWeapon(std::vector<int>, std::vector<int>);

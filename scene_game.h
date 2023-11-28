@@ -85,7 +85,7 @@ private:
 	//int score; // 累計スコア
 
 	int currentFloor; // 現在の階
-	int currentStage; // 現在のステージ（戦闘か休憩かなど）
+	//int currentStage; // 現在のステージ（戦闘か休憩かなど）
 	int battleMode;   // 戦闘のタイプ（通常かボスか）
 
 	int bossState; // 中ボスの討伐状態

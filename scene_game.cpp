@@ -47,7 +47,7 @@ GameScene::GameScene() {
 	point = 0;
 
 	currentFloor = 0;
-	currentStage = 0;
+	//currentStage = 0;
 	battleMode   = 0;
 
 	bossState = 0;
@@ -56,7 +56,7 @@ GameScene::GameScene() {
 	map->ResetStage();
 
 
-	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
+	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！");
 
 
 	// とりあえず
@@ -156,10 +156,10 @@ Scene* GameScene::update() {
 
 			//敵
 			HitCheck();
-			SlimeUpdate();
-			SkeletonUpdate();
-			WizardUpdate();
-			MinotaurUpdate();
+			if (battleMode == GameSceneBattleMode::normal) SlimeUpdate();
+			if (battleMode == GameSceneBattleMode::normal) SkeletonUpdate();
+			if (battleMode == GameSceneBattleMode::normal) WizardUpdate();
+			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
 
 
 			//武器と敵の当たり判定
@@ -324,8 +324,12 @@ Scene* GameScene::update() {
 			int maxHP = 100;
 
 			int maxEXP = expData[level];
+
+			int coolTime = player->GetAvoidance_limit(), coolTimeMax = 2;
+
+			//printfDx("%f", coolTime);
 			
-			gameUI->setCoolTime(0.0f, 100.0f);
+			gameUI->setCoolTime(coolTime, coolTimeMax);
 
 			gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
 			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
@@ -364,7 +368,8 @@ Scene* GameScene::update() {
 				};
 			};
 			//////////////////////////////////////////////////
-			if (battleMode == GameSceneBattleMode::boss) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100); // 怪奇現象発生中
+			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100);
+			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100);
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
@@ -398,7 +403,7 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::map) {
-		map->update(mode, weapon_selected);
+		map->update(mode, battleMode, weapon_selected);
 		return this;
 	};
 
@@ -426,11 +431,11 @@ void GameScene::draw() const {
 		weaponB->Draw();
 
 		// 敵
-		SlimeDraw();
-		SkeletonDraw();
-		WizardDraw();
-		EnemyBulletDraw();
-		MinotaurDraw();
+		if (battleMode == GameSceneBattleMode::normal) SlimeDraw();
+		if (battleMode == GameSceneBattleMode::normal) SkeletonDraw();
+		if (battleMode == GameSceneBattleMode::normal) WizardDraw();
+		if (battleMode == GameSceneBattleMode::normal) EnemyBulletDraw();
+		if (battleMode == GameSceneBattleMode::midBoss) MinotaurDraw();
 
 		//////////////////////////////////////////////////
 
@@ -439,7 +444,7 @@ void GameScene::draw() const {
 		}
 		else {
 			gameUI->draw();
-			if (battleMode == GameSceneBattleMode::boss) gameUI->drawEnemyHP(); // ボスの体力ゲージ
+			if (battleMode >= GameSceneBattleMode::midBoss) gameUI->drawEnemyHP(); // ボスの体力ゲージ
 		};
 
 		if (mode == GameSceneMode::weaponLevelup) weaponLevelup->draw();
@@ -492,8 +497,9 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	     if (battleMode == GameSceneBattleMode::normal) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - XXXの部屋", "全てのモンスターを倒してください");
-	else if (battleMode == GameSceneBattleMode::boss)   gameUI->setBanner("最上階 - ラスボス", "全てのモンスターを倒してください");
+	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 雑魚的の部屋", "全てのモンスターを倒してください");
+	     if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 中ボスの部屋", "討伐してください");
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", "特に何もしていない魔王を討伐してください");
 	gameUI->init();
 	gameUI->setState(banner);
 
@@ -503,31 +509,43 @@ void GameScene::init() {
 };
 
 int GameScene::getEnemyMax(int type) {
-	if (type == 0) return (enemySpawnData["slime"] + enemySpawnData["skeleton"] + enemySpawnData["wizard"]);
-	if (type == 1) return enemySpawnData["slime"];
-	if (type == 2) return enemySpawnData["skeleton"];
-	if (type == 3) return enemySpawnData["wizard"];
+	int slimeNum    = 0;
+	int skeletonNum = 0;
+	int wizardNum   = 0;
+	int minotourNum = 0;
+	int bossNum     = 0;
+
+	if (battleMode == GameSceneBattleMode::normal)  slimeNum    = enemySpawnData["slime"];
+	if (battleMode == GameSceneBattleMode::normal)  skeletonNum = enemySpawnData["skeleton"];
+	if (battleMode == GameSceneBattleMode::normal)  wizardNum   = enemySpawnData["wizard"];
+	if (battleMode == GameSceneBattleMode::midBoss) minotourNum = 1;
+	if (battleMode == GameSceneBattleMode::boss)    bossNum     = 1;
+
+	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
 };
 
 int GameScene::getEnemyNum(int type) {
 	int slimeNum    = 0;
 	int skeletonNum = 0;
 	int wizardNum   = 0;
+	int minotourNum = 0;
+	int bossNum     = 0;
 
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) slimeNum++;
+	if (battleMode == GameSceneBattleMode::normal) {
+		for (int i = 0; i < MAX_SLIME_NUM; i++) {
+			if (slime[i] != nullptr) slimeNum++;
+		};
+		for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+			if (skeleton[i] != nullptr) skeletonNum++;
+		};
+		for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+			if (wizard[i] != nullptr) wizardNum++;
+		};
 	};
-	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
-		if (skeleton[i] != nullptr) skeletonNum++;
-	};
-	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
-		if (wizard[i] != nullptr) wizardNum++;
-	};
+	if (battleMode == GameSceneBattleMode::midBoss && true/*体力*/) minotourNum = 1;
+	if (battleMode == GameSceneBattleMode::boss) bossNum = 1;
 
-	if (type == 0) return (slimeNum + skeletonNum + wizardNum);
-	if (type == 1) return slimeNum;
-	if (type == 2) return skeletonNum;
-	if (type == 3) return wizardNum;
+	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
 };
 
 
