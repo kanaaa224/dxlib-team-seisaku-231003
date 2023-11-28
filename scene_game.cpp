@@ -869,7 +869,14 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update(player);
+	if (minotaur != nullptr) {
+		if (minotaur->GetRespwanFlg() == true) {
+			minotaur->Update(player);
+		}
+		else if (minotaur->GetRespwanFlg() == false) {
+			minotaur = nullptr;
+		}
+	}
 }
 
 void GameScene::MinotaurDraw() const

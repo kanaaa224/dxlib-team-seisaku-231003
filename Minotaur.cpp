@@ -3,14 +3,14 @@
 #include "Player.h"
 #include <math.h>
 
-#define DEBUG
+//#define DEBUG
 
 Minotaur::Minotaur()
 {
 	debugCnt = 0;
 
 	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
-	hp = 100.0f;
+	hp = MINOTAUR_MAX_HP;
 	damage = 10;
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
@@ -23,6 +23,8 @@ Minotaur::Minotaur()
 
 	radius = 50;
 
+	respawnFlg = true;
+
 	tackleFlg = false;
 	doOneFlg = false;
 	coolTimeFlg = false;
@@ -34,26 +36,34 @@ Minotaur::Minotaur()
 
 	roarStartFlg = false;
 
-	//
+	//-----タックル-----//
+	//薄い赤色の矩形
 	boxX_a = 0;
 	boxY_a = 0;
-
 	boxX_d = 0;
 	boxY_d = 0;
 
-	//
+	//濃い赤色の矩形
 	lineSize = 1;
 	lineSizeChageCnt = 0;
 
-	//--咆哮--//
+	//-----咆哮-----//
 	roarCnt = 0;
 	roarFlg = false;
 	roarRadius = 0;
 	roarFinFlg = false;
+	playerRoarHitFlg = false;
+
+	//-----その他-----//
+	hpRate = 1;
+	hpSize = 0;
 }
 
 void Minotaur::Update(Player* player)
 {
+	//HP
+	HPUpdate();
+
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
@@ -80,6 +90,10 @@ void Minotaur::Update(Player* player)
 		location.x += vector.x * TACKLE_SPEED - diff.x;
 		location.y += vector.y * TACKLE_SPEED - diff.y;
 	}
+
+	if (hp <= 0) {
+		respawnFlg = false;
+	}
 }
 
 void Minotaur::Draw() const
@@ -93,6 +107,9 @@ void Minotaur::Draw() const
 	if (roarStartFlg == true) {
 		RoarDraw();
 	}
+
+	//HP描画
+	HPDraw();
 
 #ifdef DEBUG
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
@@ -194,6 +211,16 @@ void Minotaur::TackleDraw() const
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 
+void Minotaur::TackleEffectUpdate()
+{
+
+}
+
+void Minotaur::TackleEffectDraw() const
+{
+
+}
+
 float Minotaur::M_PLX(float location_X)
 {
 	float r = dL.x - location.x;
@@ -209,10 +236,10 @@ float Minotaur::M_PLY(float location_Y)
 void Minotaur::RoarUpdate()
 {
 	roarFlg = true;
-	if (roarRadius <= ROAR_RADIU) {
+	if (roarRadius <= ROAR_RADIUS) {
 		roarRadius += 2;
 	}
-	else if (roarRadius >= ROAR_RADIU) {
+	else if (roarRadius >= ROAR_RADIUS) {
 		roarEffectFlg = true;
 	}
 
@@ -231,21 +258,69 @@ void Minotaur::RoarUpdate()
 	}
 }
 
-void Minotaur::RoarEffectUpdate()
-{
-	roarEffectFinFlg = true;
-}
-
 void Minotaur::RoarDraw() const
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-	DrawCircle(location.x, location.y, ROAR_RADIU, C_RED, TRUE);
+	DrawCircle(location.x, location.y, ROAR_RADIUS, C_RED, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 	DrawCircle(location.x, location.y, roarRadius, C_RED, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 
+void Minotaur::RoarEffectUpdate()
+{
+	//プレイヤーとの当たり判定
+	float a = location.x - dL.x;
+	float b = location.y - dL.y;
+	float c = sqrtf(pow(a, 2) + pow(b, 2));
+	if (c <= ROAR_RADIUS + PLAYER_RADIUS) {//当たった
+		playerRoarHitFlg = true;
+	}
+	else {
+		playerRoarHitFlg = false;
+	}
+
+
+	roarEffectFinFlg = true;
+}
+
 void Minotaur::RoarEffectDraw() const
 {
 
+}
+
+bool Minotaur::GetRoarHitFlg()
+{
+	return playerRoarHitFlg;
+}
+
+void Minotaur::DeathEffectUpdate()
+{
+
+}
+
+void Minotaur::DeathEffectDraw() const
+{
+	
+}
+
+void Minotaur::HPUpdate()
+{
+	hpRate = hp / MINOTAUR_MAX_HP;
+	hpSize = 400.0f + 500.0f * hpRate;
+}
+
+void Minotaur::HPDraw() const
+{
+	//文字の表示
+	SetFontSize(32);
+	DrawFormatString(600, 50, C_RED, "Minotaur");
+	SetFontSize(16);
+
+	//HPバーの表示
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
+	DrawBox(400, 100, 900, 130, C_BLACK, TRUE);//黒バー
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 170);
+	DrawBox(400, 102, hpSize, 128, C_RED, TRUE);//赤バー
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }

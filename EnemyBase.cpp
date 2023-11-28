@@ -179,6 +179,11 @@ float EnemyBase::GetDamage()
 	return damage;
 }
 
+bool EnemyBase::GetRespwanFlg()
+{
+	return respawnFlg;
+}
+
 float EnemyBase::GetLX() {
 	return location.x;
 }
