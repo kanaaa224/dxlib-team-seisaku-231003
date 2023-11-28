@@ -32,6 +32,8 @@ Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum)
 	imgFrameCounter = 0;
 	//画像格納用変数の初期化
 	img = imgArray[0];
+	//画像左右
+	imgAngle = 0;
 }
 
 void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
@@ -41,6 +43,9 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 
 	//リスポーンしていてHPが０より大きいなら
 	if (respawnFlg == true && hp > 0) {
+
+		//画像左右
+		imgAngle = CheckImgAngle();
 
 		//画像切り替え
 		if (imgFrameCounter >= 1 && imgFrameCounter <= 60) {
@@ -117,20 +122,39 @@ void Slime::Draw(int arrayNum) const
 {
 	if (respawnFlg == true) {
 		
-		if (hp <= 0) {//HPが０の時
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
-			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-		}
-		else {//通常時
-			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-		}
+		if (imgAngle == IMG_L) {//左向き表示
+			if (hp <= 0) {//HPが０の時
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
+				DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE, IMG_L);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			}
+			else {//通常時
+				DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE, IMG_L);
+			}
 
-		if (redDrawFlg == true) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
-			SetDrawBright(255, 0, 0);
-			DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-			SetDrawBright(255, 255, 255);
+			if (redDrawFlg == true) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
+				SetDrawBright(255, 0, 0);
+				DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE, IMG_L);
+				SetDrawBright(255, 255, 255);
+			}
 		}
+		else if (imgAngle == IMG_R) {//右向き表示
+			if (hp <= 0) {//HPが０の時
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaNum);
+				DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE, IMG_R);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			}
+			else {//通常時
+				DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE, IMG_R);
+			}
+
+			if (redDrawFlg == true) {//武器からダメージを受けた時とHPが０じゃない時、敵を赤色表示
+				SetDrawBright(255, 0, 0);
+				DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE, IMG_R);
+				SetDrawBright(255, 255, 255);
+			}
+		}
+		
 
 		//デバッグ表示（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
 #ifdef DEBUG

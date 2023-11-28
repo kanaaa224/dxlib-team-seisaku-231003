@@ -157,18 +157,18 @@ int Map::update(int& mode, bool& weapon_selected) {
 			else mode = GameSceneMode::weaponSelect;
 			break;
 		case 1:		//ƒCƒxƒ“ƒg
-			mode = GameSceneMode::weaponSelect;
+			mode = GameSceneMode::main;
 			break;
 		case 2:		//‹xŒe
 			mode = GameSceneMode::rest;
 			ClearStage();
 			break;
 		case 3:		//’b–è‰®
-			mode = GameSceneMode::main;
+			mode = GameSceneMode::blacksmith;
+			ClearStage();
 			break;
 		case 4:		//ƒ{ƒX
-			if (weapon_selected) mode = GameSceneMode::main;
-			else mode = GameSceneMode::weaponSelect;
+			mode = GameSceneBattleMode::boss;
 			break;
 		default:
 			break;

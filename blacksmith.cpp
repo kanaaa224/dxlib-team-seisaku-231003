@@ -49,7 +49,7 @@ Blacksmith::~Blacksmith()
 }
 
 // 更新
-void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point)
+void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point, int& mode, int& stage)
 {
 	// 15fのインターバル
 	if (interval < 15)
@@ -75,6 +75,13 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				cursor_x = img_x;
 				cursor_y = 160;
 			}
+		}
+
+		// Bボタンで出る
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			stage++;
+			mode = GameSceneMode::map;
 		}
 	}
 	else
@@ -340,9 +347,9 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 		DrawRotaGraph(170, 490, 0.2f, 0.0f, img_exclamation_mark, TRUE);
 	}
 
-	//DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
+	DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
 	SetFontSize(20);
-	DrawFormatString(1100, 675, 0x000000, "Bキーで");
+	//DrawFormatString(1100, 675, 0x000000, "Bキーで");
 	DrawFormatString(1180, 675, 0x000000, "出る");
 }
 

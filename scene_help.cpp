@@ -4,7 +4,7 @@
 Help::Help()
 {
 	//ƒwƒ‹ƒv‰æ‘œ‚Ì“Ç‚İ‚İ
-	HelpImage1 = LoadGraph("resources/images/Help1.png");
+	HelpImage1 = LoadGraph("resources/images/Help/Help1.png");
 }
 
 Help::~Help()

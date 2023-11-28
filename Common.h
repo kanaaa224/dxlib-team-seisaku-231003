@@ -11,6 +11,10 @@
 //
 #define HIT_VECTOR 0.06f
 
+//画像左右
+#define IMG_L 0//左
+#define IMG_R 1//右
+
 //画面サイズ
 #define _SCREEN_HEIGHT_ 720 //縦
 #define _SCREEN_WIDHT_	1280//横
@@ -47,7 +51,7 @@
 
 //スライム
 #define SLIME_HP_MAX 10.0f			//HP
-#define SLIME_ATTAK_DAMAGE 0.0f	//ダメージ
+#define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_SLIME_NUM 1000		//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
