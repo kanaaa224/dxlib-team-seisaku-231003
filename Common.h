@@ -11,6 +11,10 @@
 //
 #define HIT_VECTOR 0.06f
 
+//画像左右
+#define IMG_L 0//左
+#define IMG_R 1//右
+
 //画面サイズ
 #define _SCREEN_HEIGHT_ 720 //縦
 #define _SCREEN_WIDHT_	1280//横
