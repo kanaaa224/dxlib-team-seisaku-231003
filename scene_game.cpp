@@ -62,9 +62,9 @@ GameScene::GameScene() {
 	// とりあえず
 	// 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
-	data["slime"]    = 10;
+	data["slime"]    = 8;
 	data["skeleton"] = 0;
-	data["wizard"]   = 0;
+	data["wizard"]   = 2;
 	shimabukuro.push_back(data);
 
 	for (int i = 1; i < 20; i++) {
@@ -775,15 +775,19 @@ void GameScene::WizardUpdate()
 		if (wizard[i] != nullptr) {
 			wizard[i]->Update(i, player, weaponA, *(stage));
 
-				if (wizard[i]->GetShootFlg() == true) {
-					if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
-						if (tmpBulletNum < MAX_BULLET_NUM) {
-							enemyBullet[tmpBulletNum] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
-						}
-						tmpBulletNum++;
-					}
-					EnemyBulletUpdate(wizard[i]);
+			if (wizard[i]->GetShootFlg() == true) {
+				if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
+					//if (tmpBulletNum < MAX_BULLET_NUM) {
+					//	tmpBulletNum++;
+					//}						
+					enemyBullet[i] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
 				}
+				EnemyBulletUpdate(i, wizard[i]);
+			}
+			else
+			{
+				enemyBullet[i] = nullptr;
+			}
 
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
@@ -811,17 +815,17 @@ void GameScene::WizardDraw() const
 }
 
 //----------弾----------//
-void GameScene::EnemyBulletUpdate(Wizard* enemy)
+void GameScene::EnemyBulletUpdate(const int& array_num, Wizard* enemy)
 {
-	for (int i = 0; i < MAX_BULLET_NUM; i++) {
-		if (enemyBullet[i] != nullptr) {
-			enemyBullet[i]->Update(player,enemy);
-			if (enemyBullet[i]->GetlifeTimeCnt() <= 0) {
-				enemyBullet[i] = nullptr;
+	//for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[array_num] != nullptr) {
+			enemyBullet[array_num]->Update(player,enemy);
+			if (enemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
+				enemyBullet[array_num] = nullptr;
 				tmpBulletNum--;
 			}
 		}
-	}
+	//}
 }
 
 void GameScene::EnemyBulletDraw() const

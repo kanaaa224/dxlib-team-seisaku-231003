@@ -143,7 +143,7 @@ public:
 	void WizardUpdate();
 	void WizardDraw() const;
 	//弾
-	void EnemyBulletUpdate(Wizard* enemy);
+	void EnemyBulletUpdate(const int& array_num, Wizard* enemy);
 	void EnemyBulletDraw() const;
 	//ミノタウロス
 	void MinotaurUpdate();
