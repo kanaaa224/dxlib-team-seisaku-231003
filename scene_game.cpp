@@ -317,13 +317,16 @@ Scene* GameScene::update() {
 
 			EnemyInc();//敵のダメージストップ関係
 
+
+			//////////////////////////////////////////////////
+			// GameUI 仮
 			hp = player->GetPlayer_HP();
 			int maxHP = 100;
 
 			int maxEXP = expData[level];
+			
+			gameUI->setCoolTime(0.0f, 100.0f);
 
-			//////////////////////////////////////////////////
-			// GameUI 仮
 			gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
 			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
 			gameUI->setPoint(point);
@@ -331,7 +334,7 @@ Scene* GameScene::update() {
 			gameUI->setFloor(currentFloor + 1);
 			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
 
-			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false });
+			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, 0, 0 }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, 25, 100 });
 			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
 				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
@@ -340,6 +343,7 @@ Scene* GameScene::update() {
 					gameUI->setState(banner);
 				};
 				if (gameUI->getState() == banner_playerUI) {
+					// 黒帯消滅後に発火
 					map->ClearStage();
 
 					currentFloor++;
@@ -354,7 +358,10 @@ Scene* GameScene::update() {
 					gameUI->init();
 					gameUI->setState(banner);
 				};
-				if (gameUI->getState() == banner_playerUI) return new GameOverScene;
+				if (gameUI->getState() == banner_playerUI) {
+					// 黒帯消滅後に発火
+					return new GameOverScene;
+				};
 			};
 			//////////////////////////////////////////////////
 			if (battleMode == GameSceneBattleMode::boss) gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100); // 怪奇現象発生中
