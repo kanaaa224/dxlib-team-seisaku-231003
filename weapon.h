@@ -200,6 +200,7 @@ public:
 	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
+	int GetCoolTime() { return coolTime; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
 	bool GetIsAttacking() { return isAttacking; }
