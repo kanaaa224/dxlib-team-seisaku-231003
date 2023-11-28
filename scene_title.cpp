@@ -70,7 +70,7 @@ void Title::draw() const
 	DrawGraph(0, 0, TitleImage, TRUE);
 	//タイトル名の表示
 	SetFontSize(100);
-	DrawString(520, 200, "戦闘", 0x000000);
+	DrawString(520, 200, "戦塔", 0x000000);
 	//タイトルメニューの表示
 	SetFontSize(55);
 	DrawString(550, 320, "Start", 0x000000);
