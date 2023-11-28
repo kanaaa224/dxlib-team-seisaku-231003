@@ -37,7 +37,11 @@ private:
 		int level;					// 武器のレベル
 		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
 		int level_hierarchy;		// 武器のレベルの階層
+		int damege;					// 武器の攻撃力
+		int cool_time;				// 武器のクールタイム
 		int tmp_level;				// カーソルがさしているレベル
+		int tmp_damege;				// 武器の攻撃力一時避難場
+		int tmp_cool_time;			// 武器のクールタイム一時避難場
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -74,7 +78,7 @@ private:
 	int p_avoidancecooltime;		// 回避のクールタイム
 	float p_upperlimitlimit;		// 回避速度
 
-	bool close;						// 画面を閉じるか
+	//bool close;						// 画面を閉じるか
 	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
 
 	// テスト
@@ -152,12 +156,12 @@ public:
 	// 武器2のレベルリセット
 	void Weapon2LevelInit();
 
-	bool GetClose() { return close; }
+	//bool GetClose() { return close; }
 
-	void SetClose(bool flg)
-	{
-		close = flg;
-	}
+	//void SetClose(bool flg)
+	//{
+	//	close = flg;
+	//}
 
 	int GetCloseMode() { return close_mode; }
 	void SetCloseMode(int num)

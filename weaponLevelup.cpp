@@ -18,8 +18,8 @@ WeaponLevelUp::WeaponLevelUp()
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
 	// 構造体初期化
-	weapon1_info = { 0, none, 0, 0, 0, 0 };
-	weapon2_info = { 1, none, 0, 0, 0, 0 };
+	weapon1_info = { 0, none, 0, 0, 0, 0, 0, 0, 0, 0};
+	weapon2_info = { 1, none, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// 変数の初期化
 	interval = 0;
@@ -56,7 +56,7 @@ WeaponLevelUp::WeaponLevelUp()
 	p_avoidancecooltime = 0;
 	p_upperlimitlimit = 0.0f;
 
-	close = false;
+	//close = false;
 	close_mode = 2;
 
 	// テスト
@@ -79,6 +79,9 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	sample[0].type = weapon1_info.type;
 	sample[0].level = weapon1_info.level;
 
+	sample[1].type = weapon1_info.type;
+	sample[1].level = weapon1_info.level;
+
 	// ファイル書き込み
 	fopen_s(&fp, "resources/dat/sample_w.txt", "w");
 
@@ -96,9 +99,13 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	lv_point = point;
 
 	// weaponからのプレイヤー情報
+	// カーソル移動で更新される値
 	w_p_speed = weapon->GetP_Speed();
 	w_p_avoidancecooltime = weapon->GetP_AvoidanceCooltime();
 	w_p_upperlimitlimit = weapon->GetP_Upperlimitlimit();
+
+	weapon1_info.cool_time = weapon->GetMaxCoolTime();
+	weapon1_info.damege = weapon->GetDamage();
 
 	// カーソルの位置を元に戻す
 	if (restor_cursor_position == true)
@@ -451,14 +458,14 @@ void WeaponLevelUp::draw() const
 #ifdef _DEBUG	
 	// テスト表示
 	//SetFontSize(20);
-	DrawFormatString(0, 210, 0xa00000, "W1level(State) : %d", weapon1_info.level);
-	DrawFormatString(0, 230, 0xa00000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
-	DrawFormatString(0, 250, 0xa00000, "W1tmpレベル : %d", weapon1_info.tmp_level);
+	//DrawFormatString(0, 210, 0xa00000, "W1level(State) : %d", weapon1_info.level);
+	//DrawFormatString(0, 230, 0xa00000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
+	//DrawFormatString(0, 250, 0xa00000, "W1tmpレベル : %d", weapon1_info.tmp_level);
 	//DrawFormatString(0, 270, 0xa00000, "close : %d", (int)close);
 	//DrawFormatString(0, 270, 0xa00000, "close_mode : %d", close_mode);
-	DrawFormatString(0, 270, 0x000000, "W2level (State): %d", weapon2_info.level);
-	DrawFormatString(0, 290, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
-	DrawFormatString(0, 310, 0x000000, "W2tmpレベル : %d", weapon2_info.tmp_level);
+	//DrawFormatString(0, 270, 0x000000, "W2level (State): %d", weapon2_info.level);
+	//DrawFormatString(0, 290, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
+	//DrawFormatString(0, 310, 0x000000, "W2tmpレベル : %d", weapon2_info.tmp_level);
 	//DrawFormatString(0, 90, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
 	//DrawFormatString(0, 110, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
 	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
@@ -467,15 +474,15 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(0, 20, 0x000000, "cursor_x : %d", cursor_x);
 
 	// 多分現在のプレイヤーのステータス
-	DrawFormatString(0, 20, 0xf0f0f0, "weapon.cppからの情報");
-	DrawFormatString(0, 40, 0xf0f0f0, "w_p_speed : %d", w_p_speed);
-	DrawFormatString(0, 60, 0xf0f0f0, "w_p_avoidancecooltime : %d", w_p_avoidancecooltime);
-	DrawFormatString(0, 80, 0xf0f0f0, "w_p_upperlimitlimit : %d", w_p_upperlimitlimit);
-	
-	DrawFormatString(0, 120, 0xf0f0f0, "player.cppからの情報");
-	DrawFormatString(0, 140, 0xf0f0f0, "p_speed : %f", p_speed);
-	DrawFormatString(0, 160, 0xf0f0f0, "p_avoidancecooltime : %d", p_avoidancecooltime);
-	DrawFormatString(0, 180, 0xf0f0f0, "p_upperlimitlimit : %f", p_upperlimitlimit);
+	//DrawFormatString(0, 20, 0xf0f0f0, "weapon.cppからの情報");
+	//DrawFormatString(0, 40, 0xf0f0f0, "w_p_speed : %d", w_p_speed);
+	//DrawFormatString(0, 60, 0xf0f0f0, "w_p_avoidancecooltime : %d", w_p_avoidancecooltime);
+	//DrawFormatString(0, 80, 0xf0f0f0, "w_p_upperlimitlimit : %d", w_p_upperlimitlimit);
+	//
+	//DrawFormatString(0, 120, 0xf0f0f0, "player.cppからの情報");
+	//DrawFormatString(0, 140, 0xf0f0f0, "p_speed : %f", p_speed);
+	//DrawFormatString(0, 160, 0xf0f0f0, "p_avoidancecooltime : %d", p_avoidancecooltime);
+	//DrawFormatString(0, 180, 0xf0f0f0, "p_upperlimitlimit : %f", p_upperlimitlimit);
 #endif
 
 }
@@ -654,9 +661,9 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			// テキスト
 			DrawFormatString(200, 180, 0x000000, "レベルアップ詳細");
 			DrawFormatString(200, 220, 0x000000, "ダメージ");
-			DrawFormatString(200, 240, 0x000000, "　15　→　20 (+5)");
-			DrawFormatString(200, 260, 0x000000, "攻撃速度");
-			DrawFormatString(200, 280, 0x000000, "　10　→　15 (+5)");
+			DrawFormatString(200, 240, 0x000000, "　%d　→　%d", weapon1_info.tmp_damege, weapon1_info.damege);
+			DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
+			DrawFormatString(200, 280, 0x000000, "　%d　→　%d", weapon1_info.tmp_cool_time, weapon1_info.cool_time);
 			DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
 			DrawFormatString(200, 380, 0x000000, "移動速度");
 			DrawFormatString(200, 400, 0x000000, "　%.1f　→　%d", p_speed, w_p_speed);
