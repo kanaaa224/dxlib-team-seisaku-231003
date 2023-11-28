@@ -38,6 +38,12 @@ weapon::weapon()
 	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
 
+	dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
+	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");
+
+
+	soundFlg = false;
+
 	attackbuf = 1.0f;
 
 	rotSpeed = 4.0f;
@@ -124,14 +130,41 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			coolTime = maxCoolTime;
 		}
 
+		if (!soundFlg && coolTime < 5) {
+			switch (weaponType)
+			{
+			case sword:
+
+				break;
+
+			case dagger:
+				PlaySoundMem(dagger_sound, DX_PLAYTYPE_BACK, TRUE);
+				soundFlg = true;
+				break;
+
+			case greatSword:
+				PlaySoundMem(greatSword_sound, DX_PLAYTYPE_BACK, TRUE);
+				soundFlg = true;
+				break;
+
+			default:
+				break;
+			}
+
+		}
+
 		//攻撃中
 		if (isAttacking) {
+
+			
+
 
 			if (weaponLevel == 7 && weaponType == greatSword) {
 				if (relativeRot < 0) {
 					relativeRot = maxRot;
 					isAttacking = false;
 					slashFlg = false;
+					soundFlg = false;
 				}
 			}
 			else {
@@ -139,7 +172,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 					relativeRot = maxRot;
 					isAttacking = false;
 					slashFlg = false;
-
+					soundFlg = false;
 				}
 			}
 			rot = -1 * (weaponAngle - (d_r(relativeRot)));
@@ -342,7 +375,7 @@ void weapon::Draw() const
 	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
-	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", fps);
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", dagger_sound);
 
 
 	if (isAttacking) {

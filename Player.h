@@ -51,7 +51,7 @@ private:
 
 	//@‰ÁZ’l
 	float Additional_Value;
-	float Additional_Value3;
+	Vector Additional_Value3;
 	float Avoidance;
 
 	//ˆÚ“®—Ê
@@ -78,6 +78,12 @@ private:
 
 	bool is_hit;			//UŒ‚‚ğó‚¯‚½‚©‚Ç‚¤‚©
 	int PlayerTestImg;
+
+	//‰ñ”ğ
+	Vector relativeCursorLocation;
+	Vector unitRelativeCursorLocation;
+	bool firstAvoidanceFlg = false;
+	int AvoidanceCnt = 0;
 
 public:
 
