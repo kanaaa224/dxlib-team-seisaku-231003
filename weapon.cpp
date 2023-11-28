@@ -64,6 +64,7 @@ weapon::weapon()
 		dust[i].endcnt = 0;
 	}
 	dustcnt = 0;
+	dustDamage = 1.0f;
 }
 
 weapon::weapon(int type)
@@ -183,7 +184,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			}
 			//砂塵の大剣
 			if (weaponType == greatSword && weaponLevel == 8) {
-				if (fps % 10 == 0 /*&& dustcnt < 4*/) {
+				if (fps % 10 == 0 && dustcnt < 3) {
 					if (SpawnDust()) {
 						dustcnt++;
 						fps = 0;
@@ -207,6 +208,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 		if (!isAttacking) {
 			fps = 0;
+			dustcnt = 0;
 		}
 
 
@@ -339,7 +341,7 @@ void weapon::Draw() const
 	//DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
 	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
-	//DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %f", sl[0].y);
+	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
 	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", fps);
 
 
@@ -992,6 +994,23 @@ void weapon::DustAnim()
 	}
 }
 
+bool weapon::DustCollision(Location enemyLocation, float radius)
+{
+	for (int i = 0; i < MAX_DUST; i++){
+		if (dust[i].flg) {
+			float tmp_x = dust[i].l.x - enemyLocation.x;
+			float tmp_y = dust[i].l.y - enemyLocation.y;
+			float tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
+
+			if (tmp_length < radius + dust[i].radius) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 void weapon::InitWeapon()
 {
 	LevelState();
@@ -1013,6 +1032,14 @@ void weapon::InitWeapon()
 	slashFlg = false;
 
 	avoidanceDamageFlg = false;
+
+	for (int i = 0; i < MAX_DUST; i++) {
+		dust[i].flg = false;
+		dust[i].startcnt = 0;
+		dust[i].endcnt = 0;
+	}
+	dustcnt = 0;
+	dustDamage = 1.0f;
 }
 
 

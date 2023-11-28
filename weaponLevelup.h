@@ -37,6 +37,7 @@ private:
 		int level;					// 武器のレベル
 		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
 		int level_hierarchy;		// 武器のレベルの階層
+		int tmp_level;				// カーソルがさしているレベル
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -73,6 +74,19 @@ private:
 	int p_avoidancecooltime;		// 回避のクールタイム
 	float p_upperlimitlimit;		// 回避速度
 
+	bool close;						// 画面を閉じるか
+	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
+
+	// テスト
+	FILE* fp;
+	struct Sample
+	{
+		int type;
+		int level;
+		int damage;
+	};
+	struct Sample sample[2];
+
 public:
 	WeaponLevelUp();
 	~WeaponLevelUp();
@@ -89,7 +103,7 @@ public:
 private:
 
 	// レベルアップ処理
-	void LevelUp(weapon* weapon, second_weapon* second_weapon, weapon_information* info, int& point);
+	void LevelUp(weapon* weapon, second_weapon* second_weapon, Player* player, weapon_information* info, int& point);
 
 	// レベルアップのカーソル移動
 	void LevelUpCursorMove(weapon_information* info);
@@ -138,4 +152,16 @@ public:
 	// 武器2のレベルリセット
 	void Weapon2LevelInit();
 
+	bool GetClose() { return close; }
+
+	void SetClose(bool flg)
+	{
+		close = flg;
+	}
+
+	int GetCloseMode() { return close_mode; }
+	void SetCloseMode(int num)
+	{
+		close_mode = num;
+	}
 };

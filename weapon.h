@@ -135,6 +135,7 @@ private:
 	//dust
 	Dust dust[MAX_DUST];
 	int dustcnt;
+	float dustDamage;
 
 
 	float tmp, tmp1;
@@ -165,6 +166,7 @@ public:
 
 	bool SpawnDust();
 	void DustAnim();
+	bool DustCollision(Location enemyLocation, float radius);
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
@@ -198,10 +200,12 @@ public:
 	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
+	int GetCoolTime() { return coolTime; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
 	bool GetIsAttacking() { return isAttacking; }
 	bool GetOldIsAttacking() { return oldIsAttacking; }
+	float GetDustDamage() { return dustDamage; }
 
 	void InitWeapon();
 

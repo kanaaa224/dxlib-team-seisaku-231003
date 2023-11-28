@@ -100,6 +100,17 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+	
+	//////////////////////////////////////////////////
+	// テスト
+	if (InputCtrl::GetKeyState(KEY_INPUT_C) == PRESS)
+	{
+		// 指定領域をSave.png として保存
+		// 画像は上書き保存される
+		// マイナスの値は使用不可（エラーなし、保存不可）
+		SaveDrawScreenToPNG(300, 0, 1000, 720, "resources/save.png");
+	}
+	//////////////////////////////////////////////////
 
 	// ポーズ
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
@@ -112,16 +123,18 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode >= GameSceneMode::main && gameUI->getState() == playerUI) {
-		// 武器のレベルアップ画面 - Xボタンで表示と非表示を切り替え
+		if (mode == GameSceneMode::weaponLevelup && weaponLevelup->GetCloseMode() == 2)
+		{
+			restor_cursor_position = true;
+			mode = GameSceneMode::main;
+		}
+		// 武器のレベルアップ画面
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
-			if (mode == GameSceneMode::weaponLevelup) mode = GameSceneMode::main;
-			else
+			if (restor_cursor_position == true)
 			{
-				mode = GameSceneMode::weaponLevelup;
-				//レベルアップ画面のカーソル位置初期化用フラグ
-				// レベルアップ画面を開くたびに初期化
-				restor_cursor_position = true;
+				weaponLevelup->SetCloseMode(0);
 			}
+			mode = GameSceneMode::weaponLevelup;
 		};
 	};
 
@@ -180,6 +193,12 @@ Scene* GameScene::update() {
 									}
 								}
 							}
+						}
+						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+							slime[i]->SetHitWeaponFlg();
+							//ダメージアップ
+							slime[i]->SetHitHP(weaponA->GetDustDamage());
+							slime[i]->SetHit1stFrameFlg(true);
 						}
 					}
 				}

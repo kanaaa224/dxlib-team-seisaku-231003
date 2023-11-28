@@ -1,9 +1,4 @@
-#include "blacksmith.h"
-#define _USE_MATH_DEFINES
-
-#include "weaponLevelup.h"
-#include "weapon.h"
-#include "second_weapon.h"
+#include "main.h"
 
 Blacksmith::Blacksmith()
 {
@@ -17,7 +12,7 @@ Blacksmith::Blacksmith()
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 	img_button_b = LoadGraph("resources/images/button_b.png");
 	// テスト用
-	img_background = LoadGraph("resources/images/button_b.png");
+	img_background = LoadGraph("resources/images/stageimage2.png");
 
 	// 武器画像
 	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
@@ -36,7 +31,7 @@ Blacksmith::Blacksmith()
 	cursor_x = 140;
 	cursor_y = 320;
 	weapon_number = weapon1_info.num;
-	is_blacksmith = false;
+	//is_blacksmith = false;
 
 	// 画像パラメータ
 	img_x = 350;
@@ -160,6 +155,7 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 {
 	// 背景
 	DrawBox(0, 0, 1280, 720, 0x808080, TRUE);
+	//DrawGraph(0, 0, img_background, TRUE);
 
 	if (action_selection == false)
 	{
@@ -353,9 +349,6 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 // レベルリセット画面描画
 void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 {
-	// テスト用
-	//DrawGraph(0, 0, img_background, TRUE);
-
 	DrawBox(200, 200, 500, 500, 0xd3d3d3, TRUE);
 	DrawBox(770, 200, 1070, 500, 0xd3d3d3, TRUE);
 	if (weapon_number == weapon1_info.num)

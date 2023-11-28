@@ -18,6 +18,17 @@ private:
 	// フェード演出
 	int value;						// 不透明度
 
+	// テスト
+	FILE* fp;
+	struct Sample
+	{
+		int type;
+		int level;
+		int damage;
+	};
+	struct Sample sample[2];
+	bool is_fopen;
+
 public:
 	ResultScene();
 	~ResultScene();
