@@ -2,7 +2,7 @@
 #include "EnemyBase.h"
 #define BOX_MAX_WIDTH  50	//タックル攻撃予測の矩形の最大の幅
 #define BOX_MAX_LENGTH 500	//タックル攻撃予測の矩形の長さ
-#define TACKLE_SPEED   10	//タックルのスピード
+#define TACKLE_SPEED   8	//タックルのスピード
 #define ROAR_RADIU     250	//咆哮の半径
 
 class Minotaur :public EnemyBase

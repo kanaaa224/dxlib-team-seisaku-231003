@@ -3,7 +3,7 @@
 #include "Player.h"
 #include <math.h>
 
-//#define DEBUG
+#define DEBUG
 
 Minotaur::Minotaur()
 {
@@ -20,7 +20,7 @@ Minotaur::Minotaur()
 	vector.x = 0;
 	vector.y = 0;
 
-	radius = 100;
+	radius = 50;
 
 	tackleFlg = false;
 	doOneFlg = false;
@@ -95,6 +95,8 @@ void Minotaur::Draw() const
 
 #ifdef DEBUG
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
+
+	DrawCircle(location.x, location.y, radius, C_RED, FALSE, 1);
 
 	
 

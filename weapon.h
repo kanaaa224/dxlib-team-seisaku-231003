@@ -201,6 +201,7 @@ public:
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
 	int GetCoolTime() { return coolTime; }
+	int GetMaxCoolTime() { return maxCoolTime; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
 	bool GetIsAttacking() { return isAttacking; }
