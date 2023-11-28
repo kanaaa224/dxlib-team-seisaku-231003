@@ -49,7 +49,7 @@ Player::Player() {
 
 	Additional_Value = 10.0;
 	Additional_Value2 = 2.0;
-	Additional_Value3 = 0.0;
+	Additional_Value3 = { 0.0f,0.0f };
 
 	MoveX = 0.0;
 	MoveY = 0.0;
@@ -76,6 +76,9 @@ Player::Player() {
 
 	Hit_cooltime = 30;
 	Upper_speed = 1.5f;
+
+	firstAvoidanceFlg = false;
+	AvoidanceCnt = 0;
 }
 
 Player::~Player() {
@@ -269,37 +272,54 @@ void Player::Player_Aim() {
 
 void Player::Player_Avoidance() {
 
+	if (!firstAvoidanceFlg) {
+		relativeCursorLocation.x = Provisional_LStickX;
+		relativeCursorLocation.y = Provisional_LStickY;
+		relativeCursorLocation.length = sqrtf((relativeCursorLocation.x * relativeCursorLocation.x) + (relativeCursorLocation.y * relativeCursorLocation.y));
+
+		unitRelativeCursorLocation.x = relativeCursorLocation.x / relativeCursorLocation.length;
+		unitRelativeCursorLocation.y = relativeCursorLocation.y / relativeCursorLocation.length;
+		unitRelativeCursorLocation.length = relativeCursorLocation.length / relativeCursorLocation.length;
+
+		firstAvoidanceFlg = true;
+	}
+
+
 	//回避　Aボタン
 	//横
-	if (Provisional_LStickX > MOVE_RIGHT) {
-		Additional_Value3 = Additional_Value3 + Upper_speed;
-		if (camera_flg_left_right) {
-			location.x += Additional_Value3 * Provisional_LStickX;
+	if (relativeCursorLocation.x > MOVE_RIGHT) {
+		//Additional_Value3.x = Additional_Value3.x + Upper_speed;	//回避の速度
+		Additional_Value3.x = unitRelativeCursorLocation.x + Upper_speed * 5;	//回避の速度
+		if (camera_flg_left_right) {	//壁際
+			location.x += Additional_Value3.x * unitRelativeCursorLocation.x;
 		}
 		else{
-			MoveX = Additional_Value3 * Provisional_LStickX;
+			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
 		}
 	
-		if (Additional_Value3 > Upper_Limit) {
-			Additional_Value3 = Initial_Value;
-			CoolTime = true;
-		}
+		//if (Additional_Value3.x > fabsf( unitRelativeCursorLocation.x) * Upper_Limit) {		//終了
+		//	Additional_Value3.x = Initial_Value;
+		//	CoolTime = true;
+		//	firstAvoidanceFlg = false;
+		//}
 	}
-	else if (Provisional_LStickX < MOVE_LEFT) {
-		Additional_Value3 = Additional_Value3 + Upper_speed;
+	else if (relativeCursorLocation.x < MOVE_LEFT) {
+		Additional_Value3.x = unitRelativeCursorLocation.x + Upper_speed * 5;	//回避の速度
+		//Additional_Value3.x = Additional_Value3.x + Upper_speed;
 		if (camera_flg_left_right) {
-			location.x += Additional_Value3 * Provisional_LStickX;
+			location.x += Additional_Value3.x * unitRelativeCursorLocation.x;
 		}
 		else {
-			MoveX = Additional_Value3 * Provisional_LStickX;
+			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
 		}
 
-		if (Additional_Value3 > Upper_Limit) {
-			Additional_Value3 = Initial_Value;
+		/*if (Additional_Value3.x > fabsf(unitRelativeCursorLocation.x) * Upper_Limit) {
+			Additional_Value3.x = Initial_Value;
 			CoolTime = true;
-		}
+			firstAvoidanceFlg = false;
+		}*/
 	}
 	/*else if (Provisional_LStickX == 0) {
 		Additional_Value3 = 0.0f;
@@ -307,39 +327,67 @@ void Player::Player_Avoidance() {
 	}*/
 
 	//縦 下方向
-	if (Provisional_LStickY < MOVE_DOWN) {
-		Additional_Value3 = Additional_Value3 + Upper_speed;
+	if (relativeCursorLocation.y < MOVE_DOWN) {
+		//Additional_Value3.y = Additional_Value3.y + Upper_speed;
+		Additional_Value3.y = unitRelativeCursorLocation.y + Upper_speed * 5;	//回避の速度
+
 		if (camera_flg_top_bottom) {
-			location.y += -1 * Additional_Value3 * Provisional_LStickY;
+			location.y += -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 		}
 		else {
-			MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
 		}
-		if (Additional_Value3 > Upper_Limit) {
-			Additional_Value3 = Initial_Value;
+		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
+			Additional_Value3.y = Initial_Value;
 			CoolTime = true;
-		}
+			firstAvoidanceFlg = false;
+		}*/
 	}
 	//縦　上方向
-	else if (Provisional_LStickY > MOVE_UP) {
-		Additional_Value3 = Additional_Value3 + Upper_speed;
+	else if (relativeCursorLocation.y > MOVE_UP) {
+		//Additional_Value3.y = Additional_Value3.y + Upper_speed;
+		Additional_Value3.y = unitRelativeCursorLocation.y + Upper_speed * 5;	//回避の速度
+
 		if (camera_flg_top_bottom) {
-			location.y += -1 * Additional_Value3 * Provisional_LStickY;
+			location.y += -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 		}
 		else {
-			MoveY = -1 * Additional_Value3 * Provisional_LStickY;
+			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
 		}
-		if (Additional_Value3 > Upper_Limit) {
-			Additional_Value3 = Initial_Value;
+		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
+			Additional_Value3.y = Initial_Value;
 			CoolTime = true;
-		}
+			firstAvoidanceFlg = false;
+		}*/
 	}
 	/*else if (Provisional_LStickY == 0) {
 		Additional_Value3 = 0.0f;
 		MoveY = 0;
 	}*/
+
+	
+	if (AvoidanceCnt++ > 20) {
+		Additional_Value3.x = Initial_Value;
+		Additional_Value3.y = Initial_Value;
+		CoolTime = true;
+		firstAvoidanceFlg = false;
+		AvoidanceCnt = 0;
+	}
+
+
+
+	/*MoveX = unitRelativeCursorLocation.x * 10;
+	MovingX = MovingX - MoveX;*/
+
+	/*location.x += unitRelativeCursorLocation.x * 10;
+	location.y += unitRelativeCursorLocation.y * 10;*/
+
+
+
+
+
 }
 
 void Player::Player_CoolTime() {
@@ -349,11 +397,11 @@ void Player::Player_CoolTime() {
 	if (CoolTime_fps > 59) {
 		CoolTime_fps = 0;
 		Second++;
-		if (Second > Cool_Limit) {
+		if (/*Second > Cool_Limit*/true) {
 			A_value = false;
 			CoolTime = false;
 			
-			Additional_Value3 = 0.0f;
+			Additional_Value3 = { 0.0f,0.0f };
 			Second = 0;
 		}
 	}

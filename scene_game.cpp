@@ -463,8 +463,8 @@ void GameScene::draw() const {
 };
 
 void GameScene::init() {
-	//delete player;
-	//player = new Player();
+	delete player;
+	player = new Player();
 
 	player->SetPlayerHP(hp);
 
