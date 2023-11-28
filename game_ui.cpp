@@ -16,8 +16,8 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))              == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
 
-	if ((img["whiteCircle"]      = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
-	if ((img["blackCircle"]      = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
+	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
+	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -46,8 +46,8 @@ GameUI::~GameUI() {
 	DeleteGraph(img["weaponFrail"]);
 	DeleteGraph(img["weaponBook"]);
 
-	DeleteGraph(img["whiteCircle"]);
-	DeleteGraph(img["blackCircle"]);
+	DeleteGraph(img["whiteCircle50"]);
+	DeleteGraph(img["blackCircle50"]);
 
 	//////////////////////////////////////////////////
 
@@ -261,7 +261,7 @@ void GameUI::drawHUD() const {
 
 	int img_whiteCircle = 0;
 
-	if (img.find("whiteCircle") != img.end()) img_whiteCircle = img.at("whiteCircle");
+	if (img.find("whiteCircle50") != img.end()) img_whiteCircle = img.at("whiteCircle50");
 
 	current = 0;
 	max     = 0;
