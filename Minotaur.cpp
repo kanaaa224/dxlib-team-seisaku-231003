@@ -3,7 +3,7 @@
 #include "Player.h"
 #include <math.h>
 
-//#define DEBUG
+#define DEBUG
 
 Minotaur::Minotaur()
 {
@@ -115,6 +115,7 @@ void Minotaur::Draw() const
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
 
 	DrawCircle(location.x, location.y, radius, C_RED, FALSE, 1);
+	DrawFormatString(300, 500, C_GREEN, "HP:%.2f", hp);
 
 	
 
