@@ -49,7 +49,7 @@ Blacksmith::~Blacksmith()
 }
 
 // 更新
-void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point)
+void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point, int& mode, int& stage)
 {
 	// 15fのインターバル
 	if (interval < 15)
@@ -75,6 +75,13 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				cursor_x = img_x;
 				cursor_y = 160;
 			}
+		}
+
+		// Bボタンで出る
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			stage++;
+			mode = GameSceneMode::map;
 		}
 	}
 	else

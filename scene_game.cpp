@@ -402,7 +402,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::blacksmith) {
-		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point);
+		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
 		weaponLevelup->SetIsBlacksmith(false);
 		return this;
 	};

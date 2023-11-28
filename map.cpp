@@ -164,7 +164,8 @@ int Map::update(int& mode, bool& weapon_selected) {
 			ClearStage();
 			break;
 		case 3:		//’b–è‰®
-			mode = GameSceneMode::main;
+			mode = GameSceneMode::blacksmith;
+			ClearStage();
 			break;
 		case 4:		//ƒ{ƒX
 			if (weapon_selected) mode = GameSceneMode::main;
