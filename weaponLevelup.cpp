@@ -7,6 +7,9 @@ WeaponLevelUp::WeaponLevelUp()
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	img_branch_point = LoadGraph("resources/images/branch_point.png");
 	img_chooce = LoadGraph("resources/images/levelup_choose.png");
+	img_button_a = LoadGraph("resources/images/button_a01.png");
+	img_button_b = LoadGraph("resources/images/button_b.png");
+	img_button_x = LoadGraph("resources/images/button_x.png");
 
 	// 武器画像
 	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
@@ -364,6 +367,14 @@ void WeaponLevelUp::draw() const
 
 	SetFontSize(20);
 	DrawFormatString(900, 20, 0x000000, "LevelUpPoint：%d", lv_point);
+
+	// ボタン案内
+	DrawRotaGraph(855, 690, 0.2f, 0.0f, img_button_a, TRUE);
+	DrawRotaGraph(945, 690, 0.2f, 0.0f, img_button_b, TRUE);
+	DrawRotaGraph(1030, 690, 0.2f, 0.0f, img_button_x, TRUE);
+	DrawFormatString(875, 680, 0x000000, "決定");
+	DrawFormatString(965, 680, 0x000000, "戻る");
+	DrawFormatString(1050, 680, 0x000000, "閉じる");
 
 	// レベルアップ詳細のテキスト群
 	DrawLevelUpDetails();

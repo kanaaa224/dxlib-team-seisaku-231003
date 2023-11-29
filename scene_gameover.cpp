@@ -6,7 +6,7 @@ GameOverScene::GameOverScene()
 	// 画像読込
 	img_gameover = LoadGraph("resources/images/gameover.png");
 	img_ghost = LoadGraph("resources/images/ghost.png");
-	img_button_a = LoadGraph("resources/images/button_a.png");
+	img_button_a = LoadGraph("resources/images/button_a01.png");
 
 	// 変数の初期化
 	ghost_x = 750;
@@ -64,13 +64,13 @@ void GameOverScene::draw() const
 	DrawGraph(0, 0, img_gameover, TRUE);
 	// sin( PI*2 / 周期 * Count ) * 振幅
 	DrawGraph(ghost_x, ghost_y + sinf(M_PI * 2 / FPS_PERIOD * count) * 40, img_ghost, TRUE);
-	DrawGraph(1100, 670, img_button_a, TRUE);
+	DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
 
 	// テキスト表示
 	SetFontSize(60);
 	DrawFormatString(545, 515, 0x000000, "GAME OVER");
 	SetFontSize(20);
-	DrawFormatString(1150, 680, 0x000000, "RESULT");
+	DrawFormatString(1175, 680, 0x000000, "RESULT");
 
 	//フェードの設定
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, value);
