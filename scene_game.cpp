@@ -586,7 +586,7 @@ int GameScene::getEnemyNum(int type) {
 			if (wizard[i] != nullptr) wizardNum++;
 		};
 	};
-	if (battleMode == GameSceneBattleMode::midBoss && true/*体力*/) minotourNum = 1;
+	if (battleMode == GameSceneBattleMode::midBoss && (minotaur->GetHP() > 0.0f)) minotourNum = 1;
 	if (battleMode == GameSceneBattleMode::boss && true/*体力*/) bossNum = 1;
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
