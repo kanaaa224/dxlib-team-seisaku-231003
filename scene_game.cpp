@@ -158,8 +158,8 @@ Scene* GameScene::update() {
 			HitCheck();
 			SlimeUpdate();
 			SkeletonUpdate();
-			WizardUpdate();
-			MinotaurUpdate();
+			//WizardUpdate();
+			//MinotaurUpdate();
 
 
 			//武器と敵の当たり判定
@@ -409,7 +409,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::blacksmith) {
-		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point);
+		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
 		weaponLevelup->SetIsBlacksmith(false);
 		return this;
 	};
@@ -434,9 +434,9 @@ void GameScene::draw() const {
 		// 敵
 		SlimeDraw();
 		SkeletonDraw();
-		WizardDraw();
-		EnemyBulletDraw();
-		MinotaurDraw();
+		//WizardDraw();
+		//EnemyBulletDraw();
+		//MinotaurDraw();
 
 		//////////////////////////////////////////////////
 
@@ -470,8 +470,8 @@ void GameScene::draw() const {
 };
 
 void GameScene::init() {
-	//delete player;
-	//player = new Player();
+	delete player;
+	player = new Player();
 
 	player->SetPlayerHP(hp);
 
@@ -869,7 +869,14 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update(player);
+	if (minotaur != nullptr) {
+		if (minotaur->GetRespwanFlg() == true) {
+			minotaur->Update(player);
+		}
+		else if (minotaur->GetRespwanFlg() == false) {
+			minotaur = nullptr;
+		}
+	}
 }
 
 void GameScene::MinotaurDraw() const

@@ -13,13 +13,19 @@
 
 #define MAX_HP 100.f
 
+#define ANIMATION_FPS 60
+
 class Player :public SphereCollider
 {
 private:
 	//画像用変数
+	int PlayerArrayImg[3];
 	int PlayerImg;
 	int AimingImg;
 	int KaihiImg;
+	bool TurnFlg;
+	int P_Cnt;
+	bool MovingFlg;
 
 	//PlayerLocation
 	int PlayerX;
@@ -51,7 +57,7 @@ private:
 
 	//　加算値
 	float Additional_Value;
-	float Additional_Value3;
+	Vector Additional_Value3;
 	float Avoidance;
 
 	//移動量
@@ -79,6 +85,12 @@ private:
 	bool is_hit;			//攻撃を受けたかどうか
 	int PlayerTestImg;
 
+	//回避
+	Vector relativeCursorLocation;
+	Vector unitRelativeCursorLocation;
+	bool firstAvoidanceFlg = false;
+	int AvoidanceCnt = 0;
+
 public:
 
 	static float MovingX;
@@ -105,6 +117,7 @@ public:
 	void Player_Avoidance();
 	void Player_CoolTime();
 	void Player_Camera();
+	void Player_Move_Animation();
 
 	//照準の関数 X Y を戻り値で返す
 	int Player_AimingX();
@@ -124,7 +137,7 @@ public:
 	float GetPlayer_Upperlimit();
 
 	//回避のクールダウン時間
-	static void SetAvoidance_limit(float value);
+	static void SetAvoidance_limit(int value);
 	float GetAvoidance_limit();
 
 	//プレイヤーの移動速度

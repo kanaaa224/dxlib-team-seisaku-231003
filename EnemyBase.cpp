@@ -124,6 +124,16 @@ int EnemyBase::checkHitEnemyProximity(Location location, float hlx, float hly)
 	}
 }
 
+int EnemyBase::CheckImgAngle()
+{
+	if (dL.x < location.x) {
+		return IMG_L;
+	}
+	else if (dL.x > location.x) {
+		return IMG_R;
+	}
+}
+
 //----------------------Inc----------------------//
 
 void EnemyBase::hitFrameCntInc()
@@ -167,6 +177,11 @@ int EnemyBase::GetHitFrameCnt()
 float EnemyBase::GetDamage() 
 {
 	return damage;
+}
+
+bool EnemyBase::GetRespwanFlg()
+{
+	return respawnFlg;
 }
 
 float EnemyBase::GetLX() {

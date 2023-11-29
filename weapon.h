@@ -108,6 +108,12 @@ private:
 	int greatsword_img;
 	int attackbuf_img;
 
+	int sword_sound;
+	int dagger_sound;
+	int greatSword_sound;
+
+	bool soundFlg;
+
 	float attackbuf;
 
 	//仮　プレイヤーのステータス
@@ -212,8 +218,11 @@ public:
 
 	//武器のレベルが上がる際、プレイヤーのステータスも上がるため
 	//その数値を返す関数
-	int GetP_Speed();
-	int GetP_AvoidanceCooltime();
-	int GetP_Upperlimitlimit();
+	float GetP_Speed() { return P_speed; }
+	float GetP_AvoidanceCooltime() { return P_cooltime; }
+	int GetP_Upperlimitlimit() { return P_limit;}
+
+	float GetMaxRot() { return maxRot; }
+
 };
 
