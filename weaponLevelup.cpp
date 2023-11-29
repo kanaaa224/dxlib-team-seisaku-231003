@@ -698,7 +698,6 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 
 	// テキスト
 	DrawFormatString(200, 180, 0x000000, "レベルアップ詳細");
-	DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
 
 		if (weapon_number == weapon1_info.num)
 		{
@@ -708,7 +707,8 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 280, 0x000000, "　%d　→　%d", weapon1_info.tmp_cool_time, weapon1_info.cool_time);
 			DrawFormatString(200, 300, 0x000000, "攻撃範囲");
 			DrawFormatString(200, 320, 0x000000, "　%.1f　→　%.1f", weapon1_info.tmp_attack_range, weapon1_info.attack_range);
-
+			
+			DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
 			DrawFormatString(200, 380, 0x000000, "移動速度");
 			DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", p_speed, w_p_speed);
 			DrawFormatString(200, 420, 0x000000, "回避速度");
@@ -732,8 +732,8 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 				//DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
 				//DrawFormatString(200, 420, 0x000000, "攻撃距離Y");
 				//DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
-				DrawFormatString(200, 380, 0x000000, "鉄球が飛ぶ距離");
-				DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
+				DrawFormatString(200, 340, 0x000000, "鉄球の飛距離");
+				DrawFormatString(200, 360, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
 			}
 		}
 	//}
