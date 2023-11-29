@@ -176,6 +176,7 @@ void Player::draw()const {
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Provisional_LStickX);
 	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
+	DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
@@ -560,7 +561,7 @@ float Player::GetPlayer_RadiusX() {
 // 照準Xをセットする
 void  Player::SetPlayer_RadiusX(float value) {
 
-	Aiming_RadiusX = Aiming_RadiusX + value;
+	Aiming_RadiusX = value;
 }
 
 //照準Yを返す
@@ -572,7 +573,7 @@ float Player::GetPlayer_RadiusY() {
 //照準Yをセットする
 void  Player::SetPlayer_RadiusY(float value) {
 
-	Aiming_RadiusY = Aiming_RadiusY + value;
+	Aiming_RadiusY = value;
 }
 
 //回避のクールタイムを返す
