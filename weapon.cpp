@@ -1079,8 +1079,10 @@ bool weapon::DustCollision(Location enemyLocation, float radius)
 void weapon::InitWeapon()
 {
 	LevelState();
+	relativeRot = maxRot;
 	isAttacking = false;
 	oldIsAttacking = false;
+	soundFlg = false;
 
 	for (int i = 0; i < 10; i++)
 	{
