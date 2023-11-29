@@ -459,6 +459,7 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
+		hp = MAX_HP;
 		return this;
 	};
 
