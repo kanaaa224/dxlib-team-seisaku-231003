@@ -389,7 +389,14 @@ Scene* GameScene::update() {
 
 					currentFloor++;
 					
-					mode = GameSceneMode::map;
+					if (battleMode == GameSceneBattleMode::midBoss)
+					{
+						mode = GameSceneMode::weaponSelect;
+					}
+					else
+					{
+						mode = GameSceneMode::map;
+					}
 				};
 			};
 			if (player->GetPlayer_HP() <= 0) {
@@ -423,11 +430,6 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::midBoss) bossState = 1; // 中ボス討伐状態
 
 		};
-
-		if (bossState == 1)
-		{
-			GameSceneMode::weaponSelect;
-		}
 
 		frameCounter++;
 	};

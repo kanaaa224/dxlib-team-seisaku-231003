@@ -21,6 +21,10 @@ Map::Map() {
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
 	if (icon_back_img == 0) icon_back_img = (LoadGraph("resources/images/icon_back.png"));
 	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
+
+	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
+	SetLoopPosSoundMem(400, map_bgm);
+
 }
 Map::~Map() {
 	DeleteGraph(battle_img);
@@ -29,9 +33,15 @@ Map::~Map() {
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
 	DeleteGraph(cross_img);
+	DeleteSoundMem(map_bgm);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
+
+	if (!CheckSoundMem(map_bgm))
+	{
+		PlaySoundMem(map_bgm, DX_PLAYTYPE_LOOP, TRUE);
+	}
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -151,6 +161,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	}
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
+
+		StopSoundMem(map_bgm);
 
 		now_stage = cursor_loc;
 
