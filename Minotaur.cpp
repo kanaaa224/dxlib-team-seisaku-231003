@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Player.h"
 #include <math.h>
+#include "inputCtrl.h"
 
 #define DEBUG
 
@@ -94,6 +95,17 @@ void Minotaur::Update(Player* player)
 	if (hp <= 0) {
 		respawnFlg = false;
 	}
+
+#ifdef DEBUG
+	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
+		hitWeaponFlg = true;
+		hp -= 10;
+	}
+	else {
+		hitWeaponFlg = false;
+	}
+#endif // DEBUG
+
 }
 
 void Minotaur::Draw() const
