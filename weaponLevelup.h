@@ -69,9 +69,9 @@ private:
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
 
 	// プレイヤー情報格納用（weaponから）
-	int w_p_speed;					// 速度
+	float w_p_speed;				// 速度
 	int w_p_avoidancecooltime;		// 回避のクールタイム
-	int w_p_upperlimitlimit;		// 回避速度
+	float w_p_upperlimitlimit;		// 回避速度
 
 	// プレイヤー情報格納用（playerから）
 	float p_speed;					// 速度
