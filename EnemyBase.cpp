@@ -286,6 +286,11 @@ int EnemyBase::SetRespawnTime(int arrayNum, int MAX_ENEMY_STAGE_NUM, int WaveNum
 	return SECOND_FRAME(s);
 }
 
+void EnemyBase::SetCloudOfDustHitFlg(bool flg)
+{
+	cloudOfDustHitFlg = flg;
+}
+
 void EnemyBase::SetHitLocation_X(float lx) {
 	hitLX = lx;
 }

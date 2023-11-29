@@ -199,6 +199,7 @@ Scene* GameScene::update() {
 							//ダメージアップ
 							slime[i]->SetHitHP(weaponA->GetDustDamage());
 							slime[i]->SetHit1stFrameFlg(true);
+							slime[i]->SetCloudOfDustHitFlg(true);
 						}
 					}
 				}
@@ -922,6 +923,7 @@ void GameScene::EnemyBulletDraw() const
 	}
 }
 
+//----------ミノタウロス----------//
 void GameScene::MinotaurUpdate()
 {
 	if (minotaur != nullptr) {
@@ -936,5 +938,7 @@ void GameScene::MinotaurUpdate()
 
 void GameScene::MinotaurDraw() const
 {
-	minotaur->Draw();
+	if (minotaur != nullptr) {
+		minotaur->Draw();
+	}
 }
