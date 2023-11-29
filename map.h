@@ -103,7 +103,7 @@ public:
 
 	~Map();
 
-	int update(int&, bool&);
+	int update(int&, int&, bool&);
 
 
 	void draw() const;
