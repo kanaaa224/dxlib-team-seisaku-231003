@@ -10,6 +10,8 @@ Map::Map() {
 	move_cool = 0;
 	cursor_move = FALSE;
 	cursor_r = 30;
+	alpha = 0;
+	alpha_flg = TRUE;
 
 	// ‰æ‘œ“Ç
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
