@@ -3,7 +3,7 @@
 #define BOX_MAX_WIDTH  50	//タックル攻撃予測の矩形の最大の幅
 #define BOX_MAX_LENGTH 500	//タックル攻撃予測の矩形の長さ
 #define TACKLE_SPEED   8	//タックルのスピード
-#define ROAR_RADIUS    250	//咆哮の半径
+#define ROAR_RADIUS    200	//咆哮の半径
 #define PLAYER_RADIUS  50
 #define MINOTAUR_MAX_HP 2000//ミノタウロスの最大HP
 
@@ -85,8 +85,7 @@ public:
 	void DeathEffectUpdate();
 	void DeathEffectDraw() const;
 
-	//HPバー表示
-	void HPUpdate();
-	void HPDraw() const;
+	//get 
+	float GetHP();
 };
 

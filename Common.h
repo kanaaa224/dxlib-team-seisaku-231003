@@ -65,7 +65,7 @@
 #define SLIME_9_STAGE_NUM 50 //９ステージ目のスライムの数
 
 //スケルトン
-#define SKELETON_HP_MAX 40.0f		//HP
+#define SKELETON_HP_MAX 20.0f		//HP
 #define SKELETON_ATTAK_DAMAGE 2.0f	//ダメージ
 #define MAX_SKELETON_NUM 300		//スケルトンの最大数
 
@@ -80,7 +80,7 @@
 #define SKELETON_9_STAGE_NUM 15 //９ステージ目のスケルトンの数
 
 //魔法使い
-#define WIZARD_HP_MAX 15.0f			//HP
+#define WIZARD_HP_MAX 4.0f			//HP
 #define WIZARD_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_WIZARD_NUM 100			//魔法使いの最大数
 
