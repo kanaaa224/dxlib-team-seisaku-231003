@@ -118,7 +118,7 @@ private:
 
 	//仮　プレイヤーのステータス
 	float P_speed;
-	int   P_cooltime;
+	float   P_cooltime;
 	float P_limit;
 
 	//飛ぶ斬撃
@@ -218,8 +218,11 @@ public:
 
 	//武器のレベルが上がる際、プレイヤーのステータスも上がるため
 	//その数値を返す関数
-	int GetP_Speed();
-	int GetP_AvoidanceCooltime();
-	int GetP_Upperlimitlimit();
+	float GetP_Speed() { return P_speed; }
+	float GetP_AvoidanceCooltime() { return P_cooltime; }
+	int GetP_Upperlimitlimit() { return P_limit;}
+
+	float GetMaxRot() { return maxRot; }
+
 };
 

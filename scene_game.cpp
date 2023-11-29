@@ -158,7 +158,7 @@ Scene* GameScene::update() {
 			HitCheck();
 			SlimeUpdate();
 			SkeletonUpdate();
-			WizardUpdate();
+			//WizardUpdate();
 			MinotaurUpdate();
 
 
@@ -261,6 +261,36 @@ Scene* GameScene::update() {
 									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
 									}
+								}
+							}
+						}
+					}
+				}
+				//ミノタウロス
+				if (minotaur != nullptr) {
+					if (weaponA->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							//ダメージアップ
+							minotaur->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHit1stFrameFlg(true);
+							if (weaponA->GetIsAttacking() && !swordHitFlg) {
+								swordHitFlg = true;
+								weaponA->SetHitCnt(true);
+								weaponA->SwordLevel8(player);
+							}
+						}
+					}
+					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							minotaur->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHit1stFrameFlg(true);
+
+							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+								weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
+								if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+									minotaur->SetHitHP(weaponB->GetThunderDamage());
 								}
 							}
 						}
@@ -434,8 +464,8 @@ void GameScene::draw() const {
 		// 敵
 		SlimeDraw();
 		SkeletonDraw();
-		WizardDraw();
-		EnemyBulletDraw();
+		//WizardDraw();
+		//EnemyBulletDraw();
 		MinotaurDraw();
 
 		//////////////////////////////////////////////////
@@ -869,7 +899,14 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update(player);
+	if (minotaur != nullptr) {
+		if (minotaur->GetRespwanFlg() == true) {
+			minotaur->Update(player);
+		}
+		else if (minotaur->GetRespwanFlg() == false) {
+			minotaur = nullptr;
+		}
+	}
 }
 
 void GameScene::MinotaurDraw() const
