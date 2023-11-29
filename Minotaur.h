@@ -77,7 +77,7 @@ public:
 	void RoarEffectUpdate();
 	void RoarEffectDraw() const;
 
-	//get
+	//get 咆哮に当たったかあたってないか
 	bool GetRoarHitFlg();
 
 	//-----その他-----//
