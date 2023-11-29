@@ -20,6 +20,9 @@ private:
 	int img_dagger;					// 短剣
 	int img_great_sword;			//大剣
 	int img_question_mark;			// はてなマーク（武器無しの場合）
+	int img_spear;					// 槍
+	int img_frail;					// フレイア
+	int img_book;					// 本
 
 	// フェード演出
 	int value;						// 不透明度
