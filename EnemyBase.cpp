@@ -251,7 +251,7 @@ void EnemyBase::SetWeaponDamage(int d)
 	weaponDamage = r;
 }
 
-void EnemyBase::SetHitHP(int d) {
+void EnemyBase::SetHitHP(float d) {
 	hp -= d;
 }
 

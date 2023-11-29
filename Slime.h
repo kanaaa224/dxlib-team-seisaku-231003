@@ -11,6 +11,7 @@ private:
 
 public:
 	Slime(Player* player, int arrayNum, int SlimeMaxNum);
+	~Slime();
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum) const;

@@ -36,6 +36,13 @@ Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum)
 	imgAngle = 0;
 }
 
+Slime::~Slime()
+{
+	//画像をdelete
+	DeleteGraph(imgArray[0]);
+	DeleteGraph(imgArray[1]);
+}
+
 void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 {
 	//画像切り替え用フレームカウントをインクリメント
@@ -76,8 +83,33 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 				location.y += vector.y - diff.y;
 			}
 			else if (cloudOfDustHitFlg == true) {//砂塵当たった
+				X();
+				Y();
+
+				vector.x *= 0.6f;
+				vector.y *= 0.6f;
+
+				if (fabsf(vector.x) <= 0.05f) {
+					if (vector.x < 0) {
+						vector.x = -0.05f;
+					}
+					else if (vector.x > 0) {
+						vector.x = 0.05f;
+					}
+				}
+
+				if (fabsf(vector.y) <= 0.05f) {
+					if (vector.y < 0) {
+						vector.y= -0.05f;
+					}
+					else if (vector.y > 0) {
+						vector.y = 0.05f;
+					}
+				}
+
 				location.x += vector.x - diff.x;
 				location.y += vector.y - diff.y;
+
 				cloudOfDustHitFlg = false;
 			}
 			

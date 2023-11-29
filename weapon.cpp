@@ -70,7 +70,7 @@ weapon::weapon()
 		dust[i].endcnt = 0;
 	}
 	dustcnt = 0;
-	dustDamage = 1.0f;
+	dustDamage = 0.01f;
 }
 
 weapon::weapon(int type)

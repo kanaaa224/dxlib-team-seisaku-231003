@@ -26,6 +26,11 @@ Wizard::Wizard(Player* player, int arrayNum, int WizardMaxNum)
 	SetRespawnPoint(player,1, arrayNum);
 }
 
+Wizard::~Wizard()
+{
+
+}
+
 void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 {
 	if (respawnFlg == true && hp > 0) {

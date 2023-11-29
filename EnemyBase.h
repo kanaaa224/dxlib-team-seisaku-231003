@@ -98,7 +98,7 @@ public:
 	int SetGetRand(int min, int max);//最小値と最大値の間のランダムな数字を返す
 	void SetHitFlg(int hit);//変数HitFlgに値をセットする
 	void SetWeaponDamage(int d);//武器からのダメージをセットする
-	void SetHitHP(int d);//武器からのダメージを受けた時の処理
+	void SetHitHP(float d);//武器からのダメージを受けた時の処理
 	void SetHitWeaponFlg();//武器との当たり判定用フラグ変数をセットする
 	void SetHit1stFrameFlg(bool flg);
 	void SetHitFrameCnt(int i);
