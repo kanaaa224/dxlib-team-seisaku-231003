@@ -108,11 +108,17 @@ private:
 	int greatsword_img;
 	int attackbuf_img;
 
+	int sword_sound;
+	int dagger_sound;
+	int greatSword_sound;
+
+	bool soundFlg;
+
 	float attackbuf;
 
 	//仮　プレイヤーのステータス
 	float P_speed;
-	int   P_cooltime;
+	float   P_cooltime;
 	float P_limit;
 
 	//飛ぶ斬撃
@@ -135,6 +141,7 @@ private:
 	//dust
 	Dust dust[MAX_DUST];
 	int dustcnt;
+	float dustDamage;
 
 
 	float tmp, tmp1;
@@ -165,6 +172,7 @@ public:
 
 	bool SpawnDust();
 	void DustAnim();
+	bool DustCollision(Location enemyLocation, float radius);
 
 	//武器レベルをセット
 	void SetWeaponLevel(int num) {
@@ -198,17 +206,23 @@ public:
 	int GetWeaponLevel() { return weaponLevel; }
 
 	bool GetLevelUpFlg() { return levelUpFlg; }
+	int GetCoolTime() { return coolTime; }
+	int GetMaxCoolTime() { return maxCoolTime; }
 	int GetDamage() { return damage; }
 	int GetWeaponType() { return weaponType; }
 	bool GetIsAttacking() { return isAttacking; }
 	bool GetOldIsAttacking() { return oldIsAttacking; }
+	float GetDustDamage() { return dustDamage; }
 
 	void InitWeapon();
 
 	//武器のレベルが上がる際、プレイヤーのステータスも上がるため
 	//その数値を返す関数
-	int GetP_Speed();
-	int GetP_AvoidanceCooltime();
-	int GetP_Upperlimitlimit();
+	float GetP_Speed() { return P_speed; }
+	float GetP_AvoidanceCooltime() { return P_cooltime; }
+	int GetP_Upperlimitlimit() { return P_limit;}
+
+	float GetMaxRot() { return maxRot; }
+
 };
 

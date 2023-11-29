@@ -107,6 +107,8 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 		}
 	}
 
+	bool switch_flg = is_weapon_select;
+
 	//•Ší‚ğ‘I‘ğ‚µ‚Ä‚¢‚È‚¢‚È‚ç
 	if (is_selecting != true)
 	{
@@ -156,7 +158,14 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 			cursor_num = 0;
 			//•Ší‘I‘ğ‰æ–Ê‚Í‚È‚µ
 			is_weapon_select = true;
-			mode = GameSceneMode::main;
+			if (switch_flg)
+			{
+				mode = GameSceneMode::map;
+			}
+			else
+			{
+				mode = GameSceneMode::main;
+			}
 		}
 	}
 	//•Ší‚ğ‘I‘ğ‚µ‚½‚È‚ç

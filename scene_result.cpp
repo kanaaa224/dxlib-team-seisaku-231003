@@ -5,6 +5,15 @@ ResultScene::ResultScene()
 	// 画像読込
 	img_button_a = LoadGraph("resources/images/button_a.png");
 
+	//武器の画像読込
+	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
+	img_dagger = LoadGraph("resources/images/sword_shortsword_brown.png");
+	img_great_sword = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	img_question_mark = LoadGraph("resources/images/mark_question.png");
+	img_spear = LoadGraph("resources/images/spear.png");
+	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
+	img_book = LoadGraph("resources/images/book_madousyo_necronomicon.png");
+
 	// 変数の初期化
 	value = 180;
 
@@ -92,15 +101,56 @@ void ResultScene::draw() const
 	}
 	else
 	{
-		DrawFormatString(700, 200, 0x000000, "武器UI１  %d", sample[0].type);
-		DrawFormatString(850, 150, 0x000000, "武器名１  %d", sample[0].type);
+		/*DrawFormatString(700, 200, 0x000000, "武器UI１  %d", sample[0].type);
+		DrawFormatString(850, 150, 0x000000, "武器名１  %d", sample[0].type);*/
 		DrawFormatString(850, 200, 0x000000, "Lv.              %d", sample[0].level);
 		DrawFormatString(850, 250, 0x000000, "総ダメージ数      %7d", sample[0].damage);
 
-		DrawFormatString(700, 450, 0x000000, "武器UI２  %d", sample[1].type);
-		DrawFormatString(850, 400, 0x000000, "武器名２  %d", sample[1].type);
+		/*DrawFormatString(700, 450, 0x000000, "武器UI２  %d", sample[1].type);
+		DrawFormatString(850, 400, 0x000000, "武器名２  %d", sample[1].type);*/
 		DrawFormatString(850, 450, 0x000000, "Lv.              %d", sample[1].level);
 		DrawFormatString(850, 500, 0x000000, "総ダメージ数      %7d", sample[1].damage);
+	}
+
+	switch (sample[0].type)
+	{
+	case 0:			// 片手剣
+		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_sword, TRUE);
+		DrawFormatString(850, 150, 0x000000, "片手剣");
+		break;
+	case 1:		// 短剣
+		DrawRotaGraph(750, 215, 0.4f, 0.0f, img_dagger, TRUE);
+		DrawFormatString(250, 530, 0x000000, "短剣");
+		break;
+	case 2:	// 大剣
+		DrawRotaGraph(750, 215, 0.4f, 0.0f, img_great_sword, TRUE);
+		DrawFormatString(250, 530, 0x000000, "大剣");
+		break;
+	default:
+		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(250, 530, 0x000000, "武器がありません");
+		break;
+	}
+
+	// 武器2の画像
+	switch (sample[1].type)
+	{
+	case 0:			// 槍
+		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_spear, TRUE);
+		DrawFormatString(850, 400, 0x000000, "槍");
+		break;
+	case 1:			// フレイル
+		DrawRotaGraph(750, 470, 0.4f, 0.0f, img_frail, TRUE);
+		DrawFormatString(850, 400, 0x000000, "フレイル");
+		break;
+	case 2:			// 魔導書
+		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_book, TRUE);
+		DrawFormatString(850, 400, 0x000000, "魔導書");
+		break;
+	default:
+		DrawRotaGraph(1000, 470, 0.2f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(850, 400, 0x000000, "武器がありません");
+		break;
 	}
 
 	//フェードの設定

@@ -28,12 +28,16 @@ protected:
 
 	int weaponDamage;   //武器のダメージを格納する変数
 
-	float previousFrameValue;//1フレーム前のプレイヤーとの距離
-	float currentFrameValue;//現在のフレームでのプレイヤーとの距離
+	float previousFrameValue;	//1フレーム前のプレイヤーとの距離
+	float currentFrameValue;	//現在のフレームでのプレイヤーとの距離
+
+	int imgArray[2];//画像格納用変数
+	int imgAngle;	//画像左右を格納用
 
 	//FrameCnt変数
 	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
 	int redFrameCounter = 0;//画像を赤くする時間をCnt
+	int imgFrameCounter = 0;//画像切り替え用変数
 
 	//Flg変数
 	bool playerHitFlg;			//プレイヤーに当たったらTRUEを返す
@@ -66,6 +70,9 @@ public:
 	//敵同士の距離
 	int checkHitEnemyProximity(Location location, float hlx, float hly);
 
+	//画像左右
+	int CheckImgAngle();
+
 	//Inc
 	void hitFrameCntInc();
 
@@ -77,6 +84,7 @@ public:
 	bool GetHit1stFrameFlg();
 	int GetHitFrameCnt();
 	float GetDamage();
+	bool GetRespwanFlg();
 
 	float GetLX();
 	float GetLY();

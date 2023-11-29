@@ -160,7 +160,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 			break;
 		case 1:		//ƒCƒxƒ“ƒg
-			mode = GameSceneMode::weaponSelect;
+			mode = GameSceneMode::main;
 			break;
 		case 2:		//‹xŒe
 			mode = GameSceneMode::rest;
@@ -175,6 +175,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 			battleMode = GameSceneBattleMode::midBoss;
 
+			ClearStage();
 			break;
 		default:
 			break;

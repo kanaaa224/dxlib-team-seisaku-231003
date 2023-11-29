@@ -1,5 +1,4 @@
-#include "EnemyBullet.h"
-#include "Player.h"
+#include"main.h"
 
 EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 {
@@ -16,6 +15,8 @@ EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 	speed = BULLET_SPEED;
 	lifeTimeCnt = BULLET_LIFE_TIME;
 
+	angle = 0;
+
 	//プレイヤーの移動量をdiffにセット
 	//SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	//SetPlayerAmountOfTravel_Y(player->Player_MoveY());
@@ -23,16 +24,20 @@ EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 	SetPlayer_Location(player->GetLocation());
 	vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
 	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
+	angle = asinf(PlayerLoad_Y(location.y) / PlayerLoad(this->location, true));
 }
 
-void EnemyBullet::Update(Player* player)
+void EnemyBullet::Update(Player* player, Wizard* enemy)
 {
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
-	location.x += vector.x - player->Player_MoveX();
-	location.y += vector.y - player->Player_MoveY();
+	location.x += vector.x - diff.x;
+	location.y += vector.y - diff.y;
+
+	//location.x += cosf(angle) * speed - diff.x;
+	//location.y += sinf(angle) * speed - diff.y;
 
 	lifeTimeCnt--;
 }

@@ -2,8 +2,10 @@
 #include "EnemyBase.h"
 #define BOX_MAX_WIDTH  50	//タックル攻撃予測の矩形の最大の幅
 #define BOX_MAX_LENGTH 500	//タックル攻撃予測の矩形の長さ
-#define TACKLE_SPEED   10	//タックルのスピード
-#define ROAR_RADIU     250	//咆哮の半径
+#define TACKLE_SPEED   8	//タックルのスピード
+#define ROAR_RADIUS    250	//咆哮の半径
+#define PLAYER_RADIUS  50
+#define MINOTAUR_MAX_HP 2000//ミノタウロスの最大HP
 
 class Minotaur :public EnemyBase
 {
@@ -45,23 +47,46 @@ private:
 	bool roarEffectFlg;
 	bool roarEffectFinFlg;
 
+	bool playerRoarHitFlg;
+
+	//----------その他----------//
+	//HP
+	float hpRate;
+	float hpSize;
+
 public:
 	Minotaur();
 	void Update(Player* player);
 	void Draw() const;
 
-	//タックル
+	//-----タックル-----//
 	void TackleUpdate();
 	void TackleDraw() const;
+	//タックルエフェクト
+	void TackleEffectUpdate();
+	void TackleEffectDraw() const;
 
-	//
+	//プレイヤーまでの距離計算
 	float M_PLX(float location_X);
 	float M_PLY(float location_Y);
 
-	//咆哮
+	//-----咆哮-----//
 	void RoarUpdate();
-	void RoarEffectUpdate();
 	void RoarDraw() const;
+	//咆哮エフェクト
+	void RoarEffectUpdate();
 	void RoarEffectDraw() const;
+
+	//get
+	bool GetRoarHitFlg();
+
+	//-----その他-----//
+	//死亡時エフェクト
+	void DeathEffectUpdate();
+	void DeathEffectDraw() const;
+
+	//HPバー表示
+	void HPUpdate();
+	void HPDraw() const;
 };
 

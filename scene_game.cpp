@@ -62,9 +62,9 @@ GameScene::GameScene() {
 	// とりあえず
 	// 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
-	data["slime"]    = 10;
+	data["slime"]    = 8;
 	data["skeleton"] = 0;
-	data["wizard"]   = 0;
+	data["wizard"]   = 2;
 	shimabukuro.push_back(data);
 
 	for (int i = 1; i < 20; i++) {
@@ -161,7 +161,6 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::normal) WizardUpdate();
 			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
 
-
 			//武器と敵の当たり判定
 			if (true/*currentFloor == 1*/) {
 				for (int i = 0; i < enemySpawnData["slime"]; i++) {
@@ -193,6 +192,12 @@ Scene* GameScene::update() {
 									}
 								}
 							}
+						}
+						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+							slime[i]->SetHitWeaponFlg();
+							//ダメージアップ
+							slime[i]->SetHitHP(weaponA->GetDustDamage());
+							slime[i]->SetHit1stFrameFlg(true);
 						}
 					}
 				}
@@ -255,6 +260,36 @@ Scene* GameScene::update() {
 									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
 									}
+								}
+							}
+						}
+					}
+				}
+				//ミノタウロス
+				if (minotaur != nullptr) {
+					if (weaponA->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							//ダメージアップ
+							minotaur->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHit1stFrameFlg(true);
+							if (weaponA->GetIsAttacking() && !swordHitFlg) {
+								swordHitFlg = true;
+								weaponA->SetHitCnt(true);
+								weaponA->SwordLevel8(player);
+							}
+						}
+					}
+					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							minotaur->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHit1stFrameFlg(true);
+
+							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+								weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
+								if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+									minotaur->SetHitHP(weaponB->GetThunderDamage());
 								}
 							}
 						}
@@ -385,10 +420,17 @@ Scene* GameScene::update() {
 			};
 
 			if (battleMode == GameSceneBattleMode::midBoss) bossState = 1; // 中ボス討伐状態
+
 		};
+
+		if (bossState == 1)
+		{
+			GameSceneMode::weaponSelect;
+		}
 
 		frameCounter++;
 	};
+
 
 	if (mode == GameSceneMode::weaponSelect) {
 		weaponSelect->update(weaponA, weaponB, weapon_selected, mode);
@@ -408,7 +450,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::blacksmith) {
-		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point);
+		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
 		weaponLevelup->SetIsBlacksmith(false);
 		return this;
 	};
@@ -469,8 +511,8 @@ void GameScene::draw() const {
 };
 
 void GameScene::init() {
-	//delete player;
-	//player = new Player();
+	delete player;
+	player = new Player();
 
 	player->SetPlayerHP(hp);
 
@@ -813,21 +855,29 @@ void GameScene::WizardUpdate()
 		if (wizard[i] != nullptr) {
 			wizard[i]->Update(i, player, weaponA, *(stage));
 
-				if (wizard[i]->GetShootFlg() == true) {
-					EnemyBulletUpdate();
-					if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
-						if (tmpBulletNum < MAX_BULLET_NUM) {
-							enemyBullet[tmpBulletNum] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
-						}
-						tmpBulletNum++;
-					}
+			if (wizard[i]->GetShootFlg() == true) {
+				if (wizard[i]->GetCreateBulletFlg() == true) {//弾の生成処理
+					//if (tmpBulletNum < MAX_BULLET_NUM) {
+					//	tmpBulletNum++;
+					//}						
+					enemyBullet[i] = new EnemyBullet(wizard[i]->GetEnemyLocation() , player);
 				}
+				EnemyBulletUpdate(i, wizard[i]);
+			}
+			else
+			{
+				enemyBullet[i] = nullptr;
+			}
 
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
 				exp += 40;
 			}
+		}
+		else
+		{
+			enemyBullet[i] = nullptr;
 		}
 	}
 	if (tmpWizardNum < enemySpawnData["wizard"]) {
@@ -849,17 +899,17 @@ void GameScene::WizardDraw() const
 }
 
 //----------弾----------//
-void GameScene::EnemyBulletUpdate()
+void GameScene::EnemyBulletUpdate(const int& array_num, Wizard* enemy)
 {
-	for (int i = 0; i < MAX_BULLET_NUM; i++) {
-		if (enemyBullet[i] != nullptr) {
-			enemyBullet[i]->Update(player);
-			if (enemyBullet[i]->GetlifeTimeCnt() <= 0) {
-				enemyBullet[i] = nullptr;
+	//for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (enemyBullet[array_num] != nullptr) {
+			enemyBullet[array_num]->Update(player,enemy);
+			if (enemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
+				enemyBullet[array_num] = nullptr;
 				tmpBulletNum--;
 			}
 		}
-	}
+	//}
 }
 
 void GameScene::EnemyBulletDraw() const
@@ -873,7 +923,14 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update(player);
+	if (minotaur != nullptr) {
+		if (minotaur->GetRespwanFlg() == true) {
+			minotaur->Update(player);
+		}
+		else if (minotaur->GetRespwanFlg() == false) {
+			minotaur = nullptr;
+		}
+	}
 }
 
 void GameScene::MinotaurDraw() const

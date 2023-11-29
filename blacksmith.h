@@ -74,7 +74,7 @@ public:
 	~Blacksmith();
 
 	// çXêV
-	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point);
+	void update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point, int& mode, int& stage);
 
 	// ï`âÊ
 	void draw(WeaponLevelUp* weapon_levelup)const;
