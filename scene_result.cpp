@@ -36,7 +36,7 @@ Scene* ResultScene::update()
 {
 	// テスト
 	// ファイル読み込み
-	fopen_s(&fp, "resources/dat/sample.txt", "r");
+	fopen_s(&fp, "resources/dat/sample_w.txt", "r");
 
 	if (fp)
 	{
@@ -103,11 +103,13 @@ void ResultScene::draw() const
 	{
 		/*DrawFormatString(700, 200, 0x000000, "武器UI１  %d", sample[0].type);
 		DrawFormatString(850, 150, 0x000000, "武器名１  %d", sample[0].type);*/
+		SetFontSize(25);
 		DrawFormatString(850, 200, 0x000000, "Lv.              %d", sample[0].level);
 		DrawFormatString(850, 250, 0x000000, "総ダメージ数      %7d", sample[0].damage);
 
 		/*DrawFormatString(700, 450, 0x000000, "武器UI２  %d", sample[1].type);
 		DrawFormatString(850, 400, 0x000000, "武器名２  %d", sample[1].type);*/
+		SetFontSize(25);
 		DrawFormatString(850, 450, 0x000000, "Lv.              %d", sample[1].level);
 		DrawFormatString(850, 500, 0x000000, "総ダメージ数      %7d", sample[1].damage);
 	}
@@ -119,16 +121,16 @@ void ResultScene::draw() const
 		DrawFormatString(850, 150, 0x000000, "片手剣");
 		break;
 	case 1:		// 短剣
-		DrawRotaGraph(750, 215, 0.4f, 0.0f, img_dagger, TRUE);
-		DrawFormatString(250, 530, 0x000000, "短剣");
+		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_dagger, TRUE);
+		DrawFormatString(850, 150, 0x000000, "短剣");
 		break;
 	case 2:	// 大剣
-		DrawRotaGraph(750, 215, 0.4f, 0.0f, img_great_sword, TRUE);
-		DrawFormatString(250, 530, 0x000000, "大剣");
+		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_great_sword, TRUE);
+		DrawFormatString(850, 150, 0x000000, "大剣");
 		break;
 	default:
 		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(250, 530, 0x000000, "武器がありません");
+		DrawFormatString(850, 150, 0x000000, "武器がありません");
 		break;
 	}
 
@@ -140,7 +142,7 @@ void ResultScene::draw() const
 		DrawFormatString(850, 400, 0x000000, "槍");
 		break;
 	case 1:			// フレイル
-		DrawRotaGraph(750, 470, 0.4f, 0.0f, img_frail, TRUE);
+		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_frail, TRUE);
 		DrawFormatString(850, 400, 0x000000, "フレイル");
 		break;
 	case 2:			// 魔導書

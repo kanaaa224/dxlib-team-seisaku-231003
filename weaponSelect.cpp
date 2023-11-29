@@ -10,13 +10,13 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 	cursor_x = 0;
 	image_shift = 0;
 
-	dagger_image = LoadGraph("resources/images/sword_shortsword_brown.png");
-	sword_image = LoadGraph("resources/images/sword_longsword_brown.png");
-	great_sword_image = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	dagger_image = LoadGraph("resources/images/武器/短剣.png");
+	sword_image = LoadGraph("resources/images/武器/片手剣.png");
+	great_sword_image = LoadGraph("resources/images/武器/大剣.png");
 
-	spear_image = LoadGraph("resources/images/spear.png");
-	frail_image = LoadGraph("resources/images/Frailt_dottoy.png");
-	book_image = LoadGraph("resources/images/book_madousyo_necronomicon.png");
+	spear_image = LoadGraph("resources/images/武器/槍.png");
+	frail_image = LoadGraph("resources/images/武器/フレイル.png");
+	book_image = LoadGraph("resources/images/武器/本.png");
 
 	button_image = LoadGraph("resources/images/button_a.png");
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
@@ -214,45 +214,45 @@ void Weapon_Selection::draw(bool flg) const
 			if (cursor_num == 0)
 			{
 				DrawString(320, 450, "短剣", 0xffffff, 0xff0000);
-				DrawRotaGraph(350, 300 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .45f, .0625f, dagger_image, TRUE);
+				DrawRotaGraph(350, 310 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .35f, .0625f, dagger_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 				DrawString(600, 450, "片手剣", 0x666666);
-				DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
+				DrawRotaGraph(650, 280, .40f, .0625f, sword_image, TRUE);
 
 				DrawString(920, 450, "大剣", 0x666666);
-				DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
+				DrawRotaGraph(950, 260, .55f, .0625f, great_sword_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 			else if (cursor_num == 1)
 			{
 				DrawString(600, 450, "片手剣", 0xffffff, 0xff0000);
-				DrawRotaGraph(650, 300 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .45f, .0625f, sword_image, TRUE);
+				DrawRotaGraph(650, 280 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .40f, .0625f, sword_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 				DrawString(320, 450, "短剣", 0x666666);
-				DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
+				DrawRotaGraph(350, 310, .35f, .0625f, dagger_image, TRUE);
 
 				DrawString(920, 450, "大剣", 0x666666);
-				DrawRotaGraph(950, 300, .45f, .0625f, great_sword_image, TRUE);
+				DrawRotaGraph(950, 260, .55f, .0625f, great_sword_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 			else
 			{
 				DrawString(920, 450, "大剣", 0xffffff, 0xff0000);
-				DrawRotaGraph(950, 300 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .45f, .0625f, great_sword_image, TRUE);
+				DrawRotaGraph(950, 260 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .55f, .0625f, great_sword_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 				DrawString(600, 450, "片手剣", 0x666666);
-				DrawRotaGraph(650, 300, .45f, .0625f, sword_image, TRUE);
+				DrawRotaGraph(650, 280, .40f, .0625f, sword_image, TRUE);
 
 				DrawString(320, 450, "短剣", 0x666666);
-				DrawRotaGraph(350, 300, .45f, .0625f, dagger_image, TRUE);
+				DrawRotaGraph(350, 310, .35f, .0625f, dagger_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
@@ -269,45 +269,45 @@ void Weapon_Selection::draw(bool flg) const
 			if (cursor_num == 0)
 			{
 				DrawString(320, 450, "槍", 0xffffff);
-				DrawRotaGraph(330, 300 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .45f, .0625f, spear_image, TRUE);
+				DrawRotaGraph(330, 300 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .4f, .2f, spear_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 				DrawString(580, 450, "フレイル", 0xffffff);
-				DrawRotaGraph(690, 330, .45f, .2925f, frail_image, TRUE);
+				DrawRotaGraph(690, 330, .35f, .2925f, frail_image, TRUE);
 
 				DrawString(980, 450, "魔導書", 0xffffff);
-				DrawRotaGraph(1030, 300, .45f, 0.f, book_image, TRUE);
+				DrawRotaGraph(1030, 340, .25f, 0.f, book_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 			else if (cursor_num == 1)
 			{
 				DrawString(580, 450, "フレイル", 0xffffff);
-				DrawRotaGraph(690, 330 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .45f, .2925f, frail_image, TRUE);
+				DrawRotaGraph(690, 330 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .35f, .2925f, frail_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 				DrawString(320, 450, "槍", 0xffffff);
-				DrawRotaGraph(330, 300, .45f, .0625f, spear_image, TRUE);
+				DrawRotaGraph(330, 300, .4f, .2f, spear_image, TRUE);
 
 				DrawString(980, 450, "魔導書", 0xffffff);
-				DrawRotaGraph(1030, 300, .45f, 0.f, book_image, TRUE);
+				DrawRotaGraph(1030, 340, .25f, 0.f, book_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 			else
 			{
 				DrawString(980, 450, "魔導書", 0xffffff);
-				DrawRotaGraph(1030, 300 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .45f, 0.f, book_image, TRUE);
+				DrawRotaGraph(1030, 340 + sin(M_PI * 2 / SCREEN_FPS * cnt) * 10, .25f, 0.f, book_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 				DrawString(580, 450, "フレイル", 0xffffff);
-				DrawRotaGraph(690, 330, .45f, .2925f, frail_image, TRUE);
+				DrawRotaGraph(690, 330, .35f, .2925f, frail_image, TRUE);
 
 				DrawString(320, 450, "槍", 0xffffff);
-				DrawRotaGraph(330, 300, .45f, .0625f, spear_image, TRUE);
+				DrawRotaGraph(330, 300, .4f, .2f, spear_image, TRUE);
 
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}

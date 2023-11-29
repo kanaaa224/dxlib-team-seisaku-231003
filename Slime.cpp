@@ -117,7 +117,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 #ifdef DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
 		hitWeaponFlg = true;
-		hp -= 10;
+		hp -= 9999;
 	}
 	else {
 		hitWeaponFlg = false;
