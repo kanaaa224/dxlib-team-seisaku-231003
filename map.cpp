@@ -27,7 +27,7 @@ Map::~Map() {
 	DeleteGraph(boss_img);
 }
 
-int Map::update(int& mode, bool& weapon_selected) {
+int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -155,6 +155,9 @@ int Map::update(int& mode, bool& weapon_selected) {
 		case 0:		//戦闘
 			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
+
+			battleMode = GameSceneBattleMode::normal;
+
 			break;
 		case 1:		//イベント
 			mode = GameSceneMode::main;
@@ -165,10 +168,14 @@ int Map::update(int& mode, bool& weapon_selected) {
 			break;
 		case 3:		//鍛冶屋
 			mode = GameSceneMode::blacksmith;
-			ClearStage();
 			break;
 		case 4:		//ボス
-			mode = GameSceneMode::main;
+			if (weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
+
+			battleMode = GameSceneBattleMode::midBoss;
+
+			ClearStage();
 			break;
 		default:
 			break;
