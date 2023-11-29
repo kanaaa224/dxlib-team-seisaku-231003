@@ -48,6 +48,8 @@ protected:
 	bool redDrawFlg = false;	//ダメージを受けた時の赤く表示する
 	bool stopFlg = false;		//立ち止まっているか
 
+	bool cloudOfDustHitFlg = false;//砂塵に当たっているか
+
 	bool flg = false;
 public:
 	EnemyBase();
@@ -102,6 +104,8 @@ public:
 	void SetHitFrameCnt(int i);
 	void SetPlayer_Location(Location PL);
 	int SetRespawnTime(int array, int MAX_ENEMY_STAGE_NUM, int WaveNum);
+
+	void SetCloudOfDustHitFlg(bool flg);//砂塵に当たったかどうかのFlgをSetする
 
 	void SetHitLocation_X(float lx);
 	void SetHitLocation_Y(float ly);

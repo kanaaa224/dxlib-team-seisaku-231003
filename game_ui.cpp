@@ -16,10 +16,18 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))              == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
 
+	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
+	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
+
 	//////////////////////////////////////////////////
 
 	//if (AddFontResourceEx("resources/fonts/Anton-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
 	//MessageBox(NULL, "フォントのロードに失敗しました。resourcesフォルダーを確認してください。", "", MB_OK);
+
+	//////////////////////////////////////////////////
+
+	coolTime["current"] = 0.0f;
+	coolTime["max"]     = 0.0f;
 
 	//////////////////////////////////////////////////
 
@@ -37,6 +45,9 @@ GameUI::~GameUI() {
 	DeleteGraph(img["weaponSpear"]);
 	DeleteGraph(img["weaponFrail"]);
 	DeleteGraph(img["weaponBook"]);
+
+	DeleteGraph(img["whiteCircle50"]);
+	DeleteGraph(img["blackCircle50"]);
 
 	//////////////////////////////////////////////////
 
@@ -57,21 +68,21 @@ void GameUI::update(GameScene* gameScene) {
 		frameCounter++;
 
 		if (state == 0) {
-			hud["opacity"] = 0.0f;
+			hud["opacity"]      = 0.0f;
 			hud["unvisibility"] = 1.0f;
 
 			if (frameCounter % ((int)FPSCtrl::Get() * 3) == 0) state = 1;
 		}
 		else if (state == 1) {
 			for (int i = 0; i < 450; i++) {
-				if (hud["opacity"] < 1.0f)       hud["opacity"]      += ((60.0f / FPSCtrl::Get()) * 0.0001f);
-				if (hud["unvisibility"] >= 0.0f) hud["unvisibility"] -= ((60.0f / FPSCtrl::Get()) * 0.0001f);
+				if (hud["opacity"] < 1.0f)      hud["opacity"]      += ((60.0f / FPSCtrl::Get()) * 0.0001f);
+				if (hud["unvisibility"] > 0.0f) hud["unvisibility"] -= ((60.0f / FPSCtrl::Get()) * 0.0001f);
 			};
 
 			if (frameCounter % ((int)FPSCtrl::Get() * 2) == 0) state = 2;
 		}
 		else if (state == 2) {
-			hud["opacity"] = 1.0f;
+			hud["opacity"]      = 1.0f;
 			hud["unvisibility"] = 0.0f;
 		};
 	};
@@ -245,6 +256,33 @@ void GameUI::drawHUD() const {
 
 
 	//////////////////////////////////////////////////
+	// CoolTime
+	//////////////////////////////////////////////////
+
+	int img_blackCircle50 = 0;
+
+	if (img.find("blackCircle50") != img.end()) img_blackCircle50 = img.at("blackCircle50");
+
+	current = 0;
+	max     = 0;
+
+	if (coolTime.find("current") != coolTime.end()) current = coolTime.at("current");
+	if (coolTime.find("max")     != coolTime.end()) max     = coolTime.at("max");
+
+	int x = rootLX + 80;
+	int y = rootLY + 120;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawCircle(x, y, 28, GetColor(0, 0, 0), true);
+	DrawCircleGauge(x, y, (current / max) * 100.0f, img_blackCircle50);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	SetFontSize(14);
+	str = "回避";
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 7, 0xffffff, str.c_str());
+
+
+	//////////////////////////////////////////////////
 	// スコア
 	//////////////////////////////////////////////////
 
@@ -358,8 +396,8 @@ void GameUI::drawHUD() const {
 		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
 	};
 
-	int x = rootRX - 80;
-	int y = rootRY + (SCREEN_HEIGHT - 80);
+	x = rootRX - 80;
+	y = rootRY + (SCREEN_HEIGHT - 80);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
@@ -630,14 +668,23 @@ void GameUI::setHP(int Current, int Max, int Ratio) {
 	if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
 };
 
-void GameUI::setWeapon(std::vector<int> WeaponA, std::vector<int> WeaponB) {
-	weapon["A"]["type"]     = WeaponA[0];
-	weapon["A"]["level"]    = WeaponA[1];
-	weapon["A"]["selected"] = WeaponA[2];
+void GameUI::setCoolTime(int Current, int Max) {
+	coolTime["current"] = Current;
+	coolTime["max"]     = Max;
+};
 
-	weapon["B"]["type"]     = WeaponB[0];
-	weapon["B"]["level"]    = WeaponB[1];
-	weapon["B"]["selected"] = WeaponB[2];
+void GameUI::setWeapon(std::vector<int> WeaponA, std::vector<int> WeaponB) {
+	weapon["A"]["type"]        = WeaponA[0];
+	weapon["A"]["level"]       = WeaponA[1];
+	weapon["A"]["selected"]    = WeaponA[2];
+	weapon["A"]["coolTime"]    = WeaponA[3];
+	weapon["A"]["coolTimeMax"] = WeaponA[4];
+
+	weapon["B"]["type"]        = WeaponB[0];
+	weapon["B"]["level"]       = WeaponB[1];
+	weapon["B"]["selected"]    = WeaponB[2];
+	weapon["B"]["coolTime"]    = WeaponB[3];
+	weapon["B"]["coolTimeMax"] = WeaponB[4];
 };
 
 void GameUI::setEnemy(int Current, int Max) {

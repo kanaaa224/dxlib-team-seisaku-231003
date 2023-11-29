@@ -27,7 +27,7 @@ Map::~Map() {
 	DeleteGraph(boss_img);
 }
 
-int Map::update(int& mode, bool& weapon_selected) {
+int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 	// アイコン移動距離リセット
 	icon_vec = 0;
@@ -155,9 +155,16 @@ int Map::update(int& mode, bool& weapon_selected) {
 		case 0:		//戦闘
 			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
+
+			battleMode = GameSceneBattleMode::normal;
+
 			break;
-		case 1:		//イベント
-			mode = GameSceneMode::main;
+		case 1:		//イベント（中ボス）
+			if (weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
+
+			battleMode = GameSceneBattleMode::midBoss;
+
 			break;
 		case 2:		//休憩
 			mode = GameSceneMode::rest;
@@ -165,10 +172,14 @@ int Map::update(int& mode, bool& weapon_selected) {
 			break;
 		case 3:		//鍛冶屋
 			mode = GameSceneMode::blacksmith;
-			ClearStage();
 			break;
 		case 4:		//ボス
-			mode = GameSceneMode::main;
+			if (weapon_selected) mode = GameSceneMode::main;
+			else mode = GameSceneMode::weaponSelect;
+
+			battleMode = GameSceneBattleMode::boss;
+
+			ClearStage();
 			break;
 		default:
 			break;
@@ -191,18 +202,18 @@ void Map::draw() const {
 			for (int j = 0; next_stage[pattern][i][j] > 0 && j <= 2; j++) {
 				int next_loc = next_stage[pattern][i][j];
 				if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
-					DrawLine(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xaa0000, 3);
+					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xaa0000, 5);
 					log_i++;
 				}
 				else if (i == now_stage && j == cursor_pos) {
 
-					DrawLine(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, alpha, alpha), 3);
+					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, alpha, alpha), 9.0f - ((float)alpha * 4 / 255));
 				}
 				else {
-					DrawLine(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 3);
+					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 5);
 				}
 			}
 			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);

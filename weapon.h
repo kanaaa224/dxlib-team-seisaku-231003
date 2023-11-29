@@ -4,9 +4,9 @@ class Player;
 #define d_r(_d) _d * (M_PI / 180)
 #define r_d(_r) _r * (180 / M_PI)
 
-#define INIT_COOLTIME_SWORD  120
-#define INIT_COOLTIME_DAGGER  60
-#define INIT_COOLTIME_GREATSWORD  210
+#define INIT_COOLTIME_SWORD  60
+#define INIT_COOLTIME_DAGGER  30
+#define INIT_COOLTIME_GREATSWORD  90
 
 #define INIT_ROTATION_SWORD  60.0f
 #define INIT_ROTATION_DAGGER  60.0f
@@ -118,7 +118,7 @@ private:
 
 	//仮　プレイヤーのステータス
 	float P_speed;
-	int   P_cooltime;
+	float   P_cooltime;
 	float P_limit;
 
 	//飛ぶ斬撃
@@ -220,7 +220,7 @@ public:
 	//その数値を返す関数
 	float GetP_Speed() { return P_speed; }
 	float GetP_AvoidanceCooltime() { return P_cooltime; }
-	int GetP_Upperlimitlimit() { return P_limit;}
+	float GetP_Upperlimitlimit() { return P_limit;}
 
 	float GetMaxRot() { return maxRot; }
 

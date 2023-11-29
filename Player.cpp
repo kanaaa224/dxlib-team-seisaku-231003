@@ -63,6 +63,7 @@ Player::Player() {
 	MovingY = 0.0;
 
 	Player_HP = MAX_HP;
+	MaxPlayer_hp = 100.0f;
 
 	fps = 0;
 	CoolTime_fps = 0;
@@ -71,7 +72,7 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
-	Cool_Limit = 2;
+	Cool_Limit = 2.0f;
 
 	is_hit = false;
 
@@ -87,6 +88,8 @@ Player::Player() {
 	TurnFlg = true;
 	P_Cnt = 0;
 	MovingFlg = false;
+
+	p_CoolTimeCounter = 0;
 }
 
 Player::~Player() {
@@ -136,6 +139,7 @@ void Player::update() {
 	if (A_value == true && CoolTime == false) {
 		Avoidance_Flg = true;
 		Player_Avoidance();
+		Player_Move_Animation();
 	}
 	
 	if (CoolTime == true) {
@@ -153,7 +157,7 @@ void Player::update() {
 		MovingFlg = false;
 	}
 
-	if (MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
+	if (A_value == false && CoolTime == true && MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
 		PlayerImg = PlayerArrayImg[0];
 	}
 
@@ -176,6 +180,7 @@ void Player::draw()const {
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Provisional_LStickX);
 	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
+	DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
@@ -190,8 +195,9 @@ void Player::draw()const {
 	DrawRotaGraph(X, Y, 0.10f, 0.01, AimingImg, TRUE);
 
 	if (TurnFlg == true) {
-		//DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, FALSE);
-		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 5.0, 0.0, PlayerImg, TRUE, FALSE);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, FALSE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		/*if (is_hit)
 		{
 			SetDrawBright(125, 50, 50);
@@ -202,7 +208,7 @@ void Player::draw()const {
 	else {
 		if (TurnFlg == false) {
 			//DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, TRUE);
-			DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 5.0, 0.0, PlayerImg, TRUE, TRUE);
+			DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TRUE);
 			/*if (is_hit)
 			{
 				SetDrawBright(125, 50, 50);
@@ -315,6 +321,7 @@ void Player::Player_Avoidance() {
 		else{
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
+			Player_Move_Animation();
 		}
 	
 		//if (Additional_Value3.x > fabsf( unitRelativeCursorLocation.x) * Upper_Limit) {		//終了
@@ -332,6 +339,7 @@ void Player::Player_Avoidance() {
 		else {
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
+			Player_Move_Animation();
 		}
 
 		/*if (Additional_Value3.x > fabsf(unitRelativeCursorLocation.x) * Upper_Limit) {
@@ -356,6 +364,7 @@ void Player::Player_Avoidance() {
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
+			Player_Move_Animation();
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -374,6 +383,7 @@ void Player::Player_Avoidance() {
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
+			Player_Move_Animation();
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -405,16 +415,17 @@ void Player::Player_Avoidance() {
 void Player::Player_CoolTime() {
 	
 	CoolTime_fps++;
-
+	p_CoolTimeCounter++;
 	if (CoolTime_fps > 59) {
 		CoolTime_fps = 0;
 		Second++;
-		if (/*Second > Cool_Limit*/true) {
+		if (Second > Cool_Limit/*true*/) {
 			A_value = false;
 			CoolTime = false;
-			
+
 			Additional_Value3 = { 0.0f,0.0f };
 			Second = 0;
+			p_CoolTimeCounter = 0;
 		}
 	}
 }
@@ -560,7 +571,7 @@ float Player::GetPlayer_RadiusX() {
 // 照準Xをセットする
 void  Player::SetPlayer_RadiusX(float value) {
 
-	Aiming_RadiusX = Aiming_RadiusX + value;
+	Aiming_RadiusX = value;
 }
 
 //照準Yを返す
@@ -572,7 +583,7 @@ float Player::GetPlayer_RadiusY() {
 //照準Yをセットする
 void  Player::SetPlayer_RadiusY(float value) {
 
-	Aiming_RadiusY = Aiming_RadiusY + value;
+	Aiming_RadiusY = value;
 }
 
 //回避のクールタイムを返す
@@ -607,6 +618,7 @@ float Player::Player_MovingY() {
 	return MovingY;
 }
 
+//現在の体力を返す関数
 float Player::GetPlayer_HP() {
 
 	return Player_HP;
@@ -620,9 +632,9 @@ bool Player::GetPlayer_Avoidance() {
 void Player::SetPlayer_HP(float value) {
 
 	Player_HP = Player_HP - value;
-	if (Player_HP > MAX_HP)
+	if (Player_HP > MaxPlayer_hp)
 	{
-		Player_HP = MAX_HP;
+		Player_HP = MaxPlayer_hp;
 	}
 }
 

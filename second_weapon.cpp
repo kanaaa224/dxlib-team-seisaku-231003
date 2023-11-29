@@ -34,6 +34,10 @@ second_weapon::second_weapon()
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
 	barrier_img = LoadGraph("resources/images/baria_blue.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	crack_img = LoadGraph("resources/images/crack.png");
+	thunder_img[0] = LoadGraph("resources/images/Thunder_1.png");
+	thunder_img[1] = LoadGraph("resources/images/Thunder_2.png");
+	thunder_img[2] = LoadGraph("resources/images/Thunder_3.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
@@ -41,9 +45,6 @@ second_weapon::second_weapon()
 	for (int i = 0; i < 64; i++){
 		thunder[i].flg = false;
 		thunder[i].fps = 0;
-		thunder[i].img[0] = LoadGraph("resources/images/Thunder_1.png");
-		thunder[i].img[1] = LoadGraph("resources/images/Thunder_2.png");
-		thunder[i].img[2] = LoadGraph("resources/images/Thunder_3.png");
 	}
 
 	frailRadius = 30.0f;
@@ -88,6 +89,17 @@ second_weapon::second_weapon(int type)
 
 second_weapon::~second_weapon()
 {
+	DeleteGraph(spear_img);
+	DeleteGraph(frail_img);
+	DeleteGraph(book_img);
+	DeleteGraph(bullet_img);
+	DeleteGraph(ironball_img);
+	DeleteGraph(barrier_img);
+	DeleteGraph(attackbuf_img);
+	DeleteGraph(crack_img);
+	DeleteGraph(thunder_img[0]);
+	DeleteGraph(thunder_img[1]);
+	DeleteGraph(thunder_img[2]);
 }
 
 void second_weapon::Update(float cursorX, float cursorY, Location playerLocation, Vector playerVec, Player* player)
@@ -307,16 +319,16 @@ void second_weapon::Draw() const
 		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
 			
 			if (thunder[i].fps > 10) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[2], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else if (thunder[i].fps > 5) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
@@ -332,7 +344,14 @@ void second_weapon::Draw() const
 
 	//フレイル
 	if (weaponType == frail) {
-		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		//DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		if (weaponLevel == 8) {
+			
+			//DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
+			if (frailRate == 1.0f) {
+				DrawRotaGraph2(frailLcation.x, frailLcation.y, 1480 / 2, 1110 / 2, 0.2, rot + (M_PI / 4), crack_img, TRUE, TRUE);
+			}
+		}
 		DrawRotaGraph2(frailLcation.x, frailLcation.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
@@ -340,9 +359,7 @@ void second_weapon::Draw() const
 			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		}
-		if (weaponLevel == 8) {
-			DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
-		}
+		
 	}
 
 	if (attackBufRate >= 2.0f) {
@@ -561,8 +578,8 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
 			damage = INIT_DAMAGE_FRAIL + 5;
-			P_aiming_radiusX = 50.0f;
-			P_aiming_radiusY = 50.0f;
+			P_aiming_radiusX = 250.0f;
+			P_aiming_radiusY = 250.0f;
 			Player::SetPlayer_RadiusX(P_aiming_radiusX);
 			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
@@ -625,8 +642,8 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
 			damage = INIT_DAMAGE_FRAIL + 10;
-			P_aiming_radiusX = 100.0f;
-			P_aiming_radiusY = 100.0f;
+			P_aiming_radiusX = 300.0f;
+			P_aiming_radiusY = 300.0f;
 			Player::SetPlayer_RadiusX(P_aiming_radiusX);
 			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
@@ -658,8 +675,8 @@ void second_weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
 			damage = INIT_DAMAGE_FRAIL + 10;
 			frailRadius = 100.0f;
-			P_aiming_radiusX = 100.0f;
-			P_aiming_radiusY = 100.0f;
+			P_aiming_radiusX = 300.0f;
+			P_aiming_radiusY = 300.0f;
 			Player::SetPlayer_RadiusX(P_aiming_radiusX);
 			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
@@ -716,7 +733,7 @@ void second_weapon::LevelState()
 		case frail://アースクラッシャー
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.3f;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
@@ -1051,6 +1068,7 @@ void second_weapon::InitWeapon(int type)
 		thunder[i].flg = false;
 	}
 
+	frailLcation = { -1000,-1000 };
 	frailRadius = 30.0f;
 	frailRate = 1.0f;
 	isFrailAttacking = false;

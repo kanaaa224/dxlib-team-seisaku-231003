@@ -44,7 +44,7 @@ struct Thunder
 {
 	Location l;
 	bool flg;
-	int img[5];	//アニメーションの枚数分
+	//int img[5];	//アニメーションの枚数分
 	int fps = 0;
 };
 
@@ -82,6 +82,8 @@ private:
 	int ironball_img;
 	int barrier_img;
 	int attackbuf_img;
+	int crack_img;
+	int thunder_img[5];
 
 
 	float tmp, tmp1;
@@ -194,5 +196,9 @@ public:
 
 	float GetFrailRadius() { return frailRadius; }
 	int GetBullet_speed() { return Bullet_speed; }
+
+	// レベルアップ画面で使用
+	int GetMaxCoolTime() { return maxCoolTime; }
+	float GetMaxRot() { return maxRot; }
 };
 

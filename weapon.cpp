@@ -26,7 +26,7 @@ weapon::weapon()
 	fps = 0;
 	
 	P_speed = 0.0;
-	P_cooltime = 0;
+	P_cooltime = 0.0f;
 	P_limit = 0.0;
 
 	tmp = 0;
@@ -95,6 +95,12 @@ weapon::weapon(int type)
 
 weapon::~weapon()
 {
+	DeleteGraph(sword_img);
+	DeleteGraph(dagger_img);
+	DeleteGraph(greatsword_img);
+	DeleteGraph(attackbuf_img);
+	DeleteSoundMem(dagger_sound);
+	DeleteSoundMem(greatSword_sound);
 }
 
 void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)
@@ -487,7 +493,7 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_SWORD;
 			P_speed = 2.0f;
 			P_limit = 1.5f;
-			P_cooltime = 2;
+			P_cooltime = 2.0f;
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -500,7 +506,7 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_DAGGER;
 			P_speed = 2.0f;
 			P_limit = 1.5f;
-			P_cooltime = 2;
+			P_cooltime = 2.0f;
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -627,7 +633,7 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_SWORD;
 			P_speed = 2.5f;
 			P_limit = 1.5f;//初期値に戻す
-			P_cooltime = 2;//初期値に戻す
+			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -640,7 +646,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
 			P_speed = 3.0f;
-			P_cooltime = 2;//初期値に戻す
+			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
@@ -665,7 +671,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD + 1;
 			P_limit = 2.3f;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -678,7 +684,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			P_speed = 2.0f;//レベル２に戻す
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
@@ -703,7 +709,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
 			damage = INIT_DAMAGE_SWORD + 2;
 			P_limit = 2.3f;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			P_speed = 2.5f;
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -717,7 +723,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER + 3;
 			P_limit = 2.5f;
-			P_cooltime = 1;
+			P_cooltime = 1.0f;
 			P_speed = 3.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
@@ -748,7 +754,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER * 1000;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
@@ -778,7 +784,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
@@ -1079,8 +1085,10 @@ bool weapon::DustCollision(Location enemyLocation, float radius)
 void weapon::InitWeapon()
 {
 	LevelState();
+	relativeRot = maxRot;
 	isAttacking = false;
 	oldIsAttacking = false;
+	soundFlg = false;
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -1089,7 +1097,7 @@ void weapon::InitWeapon()
 	hitCnt = 0;
 	fpsCnt = 0;
 	heelAmount = 10;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < MAX_THROW_DAGGER; i++)
 	{
 		throwDagger[i] = { {0,0},{0,0,0},false };
 	}
