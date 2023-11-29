@@ -122,6 +122,7 @@ Scene* GameScene::update() {
 
 	//////////////////////////////////////////////////
 
+	// 武器のレベルアップ画面（プレイヤーが動けるようになってから）
 	if (mode >= GameSceneMode::main && gameUI->getState() == playerUI) {
 		if (mode == GameSceneMode::weaponLevelup && weaponLevelup->GetCloseMode() == 2)
 		{
