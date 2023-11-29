@@ -83,7 +83,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	sample[1].level = weapon2_info.level;
 
 	// ƒtƒ@ƒCƒ‹‘‚«‚İ
-	fopen_s(&fp, "resources/dat/sample_w.txt", "w");
+	fopen_s(&fp, "resources/dat/test.txt", "w");
 
 	if (fp)
 	{

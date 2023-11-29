@@ -36,7 +36,7 @@ Scene* ResultScene::update()
 {
 	// テスト
 	// ファイル読み込み
-	fopen_s(&fp, "resources/dat/sample_w.txt", "r");
+	fopen_s(&fp, "resources/dat/test.txt", "r");
 
 	if (fp)
 	{
