@@ -67,10 +67,12 @@ private:
 
 	//プレイヤーの体力
 	float Player_HP;
+	float MaxPlayer_hp;
 
 	int fps;
 	int CoolTime_fps;
 	int Second;
+	int p_CoolTimeCounter;
 
 	//カメラ用
 	StageArray lefttop;
@@ -184,5 +186,14 @@ public:
 	}
 	void SetRightBottom(StageArray sa) {
 		rightbottom = sa;
+	}
+
+	int GetCoolTimeCounter() {
+		return p_CoolTimeCounter;
+	}
+
+	//プレイヤーの体力の上限値
+	float GetMaxPlayer_hp() {
+		return MaxPlayer_hp;
 	}
 };
