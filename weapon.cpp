@@ -95,6 +95,12 @@ weapon::weapon(int type)
 
 weapon::~weapon()
 {
+	DeleteGraph(sword_img);
+	DeleteGraph(dagger_img);
+	DeleteGraph(greatsword_img);
+	DeleteGraph(attackbuf_img);
+	DeleteSoundMem(dagger_sound);
+	DeleteSoundMem(greatSword_sound);
 }
 
 void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)

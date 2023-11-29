@@ -35,6 +35,9 @@ second_weapon::second_weapon()
 	barrier_img = LoadGraph("resources/images/baria_blue.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
 	crack_img = LoadGraph("resources/images/crack.png");
+	thunder_img[0] = LoadGraph("resources/images/Thunder_1.png");
+	thunder_img[1] = LoadGraph("resources/images/Thunder_2.png");
+	thunder_img[2] = LoadGraph("resources/images/Thunder_3.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
@@ -42,9 +45,6 @@ second_weapon::second_weapon()
 	for (int i = 0; i < 64; i++){
 		thunder[i].flg = false;
 		thunder[i].fps = 0;
-		thunder[i].img[0] = LoadGraph("resources/images/Thunder_1.png");
-		thunder[i].img[1] = LoadGraph("resources/images/Thunder_2.png");
-		thunder[i].img[2] = LoadGraph("resources/images/Thunder_3.png");
 	}
 
 	frailRadius = 30.0f;
@@ -89,6 +89,17 @@ second_weapon::second_weapon(int type)
 
 second_weapon::~second_weapon()
 {
+	DeleteGraph(spear_img);
+	DeleteGraph(frail_img);
+	DeleteGraph(book_img);
+	DeleteGraph(bullet_img);
+	DeleteGraph(ironball_img);
+	DeleteGraph(barrier_img);
+	DeleteGraph(attackbuf_img);
+	DeleteGraph(crack_img);
+	DeleteGraph(thunder_img[0]);
+	DeleteGraph(thunder_img[1]);
+	DeleteGraph(thunder_img[2]);
 }
 
 void second_weapon::Update(float cursorX, float cursorY, Location playerLocation, Vector playerVec, Player* player)
@@ -308,16 +319,16 @@ void second_weapon::Draw() const
 		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
 			
 			if (thunder[i].fps > 10) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[2], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else if (thunder[i].fps > 5) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder[i].img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}

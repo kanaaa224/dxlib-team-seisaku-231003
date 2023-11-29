@@ -44,7 +44,7 @@ struct Thunder
 {
 	Location l;
 	bool flg;
-	int img[5];	//アニメーションの枚数分
+	//int img[5];	//アニメーションの枚数分
 	int fps = 0;
 };
 
@@ -83,6 +83,7 @@ private:
 	int barrier_img;
 	int attackbuf_img;
 	int crack_img;
+	int thunder_img[5];
 
 
 	float tmp, tmp1;
