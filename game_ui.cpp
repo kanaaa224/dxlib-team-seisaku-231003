@@ -259,9 +259,9 @@ void GameUI::drawHUD() const {
 	// CoolTime
 	//////////////////////////////////////////////////
 
-	int img_whiteCircle = 0;
+	int img_blackCircle50 = 0;
 
-	if (img.find("whiteCircle50") != img.end()) img_whiteCircle = img.at("whiteCircle50");
+	if (img.find("blackCircle50") != img.end()) img_blackCircle50 = img.at("blackCircle50");
 
 	current = 0;
 	max     = 0;
@@ -274,7 +274,7 @@ void GameUI::drawHUD() const {
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(x, y, 28, GetColor(0, 0, 0), true);
-	DrawCircleGauge(x, y, (current / max) * 100.0f, img_whiteCircle);
+	DrawCircleGauge(x, y, (current / max) * 100.0f, img_blackCircle50);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetFontSize(14);
