@@ -33,7 +33,7 @@ weapon::weapon()
 
 	location = { 640.360 };
 
-	sword_img = LoadGraph("resources/images/sword_longsword_brown.png");
+	sword_img = LoadGraph("resources/images/ïêäÌ/ï–éËåï50ÅE50.png");
 	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
 	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
@@ -315,7 +315,7 @@ void weapon::Draw() const
 		switch (weaponType)
 		{
 		case sword:
-			DrawRotaGraph2(location.x, location.y, 0, 500, 0.16, rot + (M_PI / 4), sword_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 10, 40, /*0.16*/3, rot + (M_PI / 4) + d_r(12), sword_img, TRUE, FALSE);
 			break;
 		case dagger:
 			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
@@ -753,7 +753,7 @@ void weapon::LevelState()
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
-			damage = INIT_DAMAGE_DAGGER * 1000;
+			damage = INIT_DAMAGE_DAGGER + 10;
 			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
