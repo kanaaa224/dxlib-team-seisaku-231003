@@ -485,6 +485,12 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD; //片手剣は、大剣　短剣の強化内容を全て取り入れる
 			damage = INIT_DAMAGE_SWORD;
+			P_speed = 2.0f;
+			P_limit = 1.5f;
+			P_cooltime = 2;
+			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case dagger:
@@ -492,6 +498,12 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER; //プレイヤーの移動速度、回避の速度等を上げれるようにする
 			damage = INIT_DAMAGE_DAGGER;
+			P_speed = 2.0f;
+			P_limit = 1.5f;
+			P_cooltime = 2;
+			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case greatSword:
@@ -540,7 +552,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
 			P_speed = 2.1f;
+			P_limit = 1.5f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
 			break;
 
 		case dagger:
@@ -550,7 +564,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
 			damage = INIT_DAMAGE_DAGGER + 2;
 			P_speed = 2.5f;
+			P_limit = 1.5f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
 			break;
 
 		case greatSword:
@@ -573,7 +589,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD + 1;
 			P_limit = 2.0f;
+			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case dagger:
@@ -583,7 +601,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER + 1;
 			P_limit = 2.5f;
+			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case greatSword:
@@ -606,7 +626,11 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD;
 			P_speed = 2.5f;
+			P_limit = 1.5f;//初期値に戻す
+			P_cooltime = 2;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case dagger:
@@ -616,7 +640,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
 			P_speed = 3.0f;
+			P_cooltime = 2;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case greatSword:
@@ -640,8 +666,10 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_SWORD + 1;
 			P_limit = 2.3f;
 			P_cooltime = 0;
+			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case dagger:
@@ -651,7 +679,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
 			P_cooltime = 0;
+			P_speed = 2.0f;//レベル２に戻す
 			Player::SetAvoidance_limit(P_cooltime);
+			Player::SetPlayer_Speed(P_speed);
 			break;
 
 		case greatSword:
@@ -748,6 +778,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER;
+			P_cooltime = 0;
+			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
 		case greatSword:
@@ -1086,19 +1118,4 @@ void weapon::InitWeapon()
 
 //X = x * cos(r) - y * sin(r)
 //Y = x * sin(r) + y * cos(r)
-
-int weapon::GetP_Speed() {
-
-	return P_speed;
-}
-
-int weapon::GetP_Upperlimitlimit() {
-
-	return P_limit;
-}
-
-int weapon::GetP_AvoidanceCooltime() {
-
-	return P_cooltime;
-}
 

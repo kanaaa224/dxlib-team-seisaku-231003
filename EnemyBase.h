@@ -84,6 +84,7 @@ public:
 	bool GetHit1stFrameFlg();
 	int GetHitFrameCnt();
 	float GetDamage();
+	bool GetRespwanFlg();
 
 	float GetLX();
 	float GetLY();

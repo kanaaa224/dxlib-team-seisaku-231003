@@ -158,8 +158,8 @@ Scene* GameScene::update() {
 			HitCheck();
 			SlimeUpdate();
 			SkeletonUpdate();
-			WizardUpdate();
-			MinotaurUpdate();
+			//WizardUpdate();
+			//MinotaurUpdate();
 
 
 			//武器と敵の当たり判定
@@ -464,9 +464,9 @@ void GameScene::draw() const {
 		// 敵
 		SlimeDraw();
 		SkeletonDraw();
-		WizardDraw();
-		EnemyBulletDraw();
-		MinotaurDraw();
+		//WizardDraw();
+		//EnemyBulletDraw();
+		//MinotaurDraw();
 
 		//////////////////////////////////////////////////
 
@@ -899,7 +899,14 @@ void GameScene::EnemyBulletDraw() const
 
 void GameScene::MinotaurUpdate()
 {
-	minotaur->Update(player);
+	if (minotaur != nullptr) {
+		if (minotaur->GetRespwanFlg() == true) {
+			minotaur->Update(player);
+		}
+		else if (minotaur->GetRespwanFlg() == false) {
+			minotaur = nullptr;
+		}
+	}
 }
 
 void GameScene::MinotaurDraw() const
