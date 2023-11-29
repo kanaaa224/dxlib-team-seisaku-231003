@@ -159,7 +159,7 @@ Scene* GameScene::update() {
 			SlimeUpdate();
 			SkeletonUpdate();
 			//WizardUpdate();
-			//MinotaurUpdate();
+			MinotaurUpdate();
 
 
 			//武器と敵の当たり判定
@@ -261,6 +261,36 @@ Scene* GameScene::update() {
 									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
 									}
+								}
+							}
+						}
+					}
+				}
+				//ミノタウロス
+				if (minotaur != nullptr) {
+					if (weaponA->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							//ダメージアップ
+							minotaur->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHit1stFrameFlg(true);
+							if (weaponA->GetIsAttacking() && !swordHitFlg) {
+								swordHitFlg = true;
+								weaponA->SetHitCnt(true);
+								weaponA->SwordLevel8(player);
+							}
+						}
+					}
+					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							minotaur->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHit1stFrameFlg(true);
+
+							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+								weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
+								if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+									minotaur->SetHitHP(weaponB->GetThunderDamage());
 								}
 							}
 						}
@@ -436,7 +466,7 @@ void GameScene::draw() const {
 		SkeletonDraw();
 		//WizardDraw();
 		//EnemyBulletDraw();
-		//MinotaurDraw();
+		MinotaurDraw();
 
 		//////////////////////////////////////////////////
 
