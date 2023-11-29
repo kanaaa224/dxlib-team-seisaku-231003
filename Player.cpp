@@ -71,7 +71,7 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
-	Cool_Limit = 2;
+	Cool_Limit = 2.0f;
 
 	is_hit = false;
 
@@ -191,7 +191,7 @@ void Player::draw()const {
 
 	if (TurnFlg == true) {
 		//DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, FALSE);
-		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 5.0, 0.0, PlayerImg, TRUE, FALSE);
+		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, FALSE);
 		/*if (is_hit)
 		{
 			SetDrawBright(125, 50, 50);
@@ -202,7 +202,7 @@ void Player::draw()const {
 	else {
 		if (TurnFlg == false) {
 			//DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, TRUE);
-			DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 5.0, 0.0, PlayerImg, TRUE, TRUE);
+			DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TRUE);
 			/*if (is_hit)
 			{
 				SetDrawBright(125, 50, 50);
