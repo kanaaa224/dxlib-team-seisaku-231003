@@ -82,6 +82,7 @@ private:
 	int ironball_img;
 	int barrier_img;
 	int attackbuf_img;
+	int crack_img;
 
 
 	float tmp, tmp1;

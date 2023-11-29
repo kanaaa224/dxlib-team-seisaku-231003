@@ -34,6 +34,7 @@ second_weapon::second_weapon()
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
 	barrier_img = LoadGraph("resources/images/baria_blue.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	crack_img = LoadGraph("resources/images/crack.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
@@ -332,7 +333,14 @@ void second_weapon::Draw() const
 
 	//フレイル
 	if (weaponType == frail) {
-		DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		//DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
+		if (weaponLevel == 8) {
+			
+			//DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
+			if (frailRate == 1.0f) {
+				DrawRotaGraph2(frailLcation.x, frailLcation.y, 1480 / 2, 1110 / 2, 0.2, rot + (M_PI / 4), crack_img, TRUE, TRUE);
+			}
+		}
 		DrawRotaGraph2(frailLcation.x, frailLcation.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
@@ -340,9 +348,7 @@ void second_weapon::Draw() const
 			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		}
-		if (weaponLevel == 8) {
-			DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
-		}
+		
 	}
 
 	if (attackBufRate >= 2.0f) {
@@ -716,7 +722,7 @@ void second_weapon::LevelState()
 		case frail://アースクラッシャー
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
-			maxCoolTime = INIT_COOLTIME_FRAIL * 0.3f;
+			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
 			damage = INIT_DAMAGE_FRAIL;
 			break;
 
@@ -1051,6 +1057,7 @@ void second_weapon::InitWeapon(int type)
 		thunder[i].flg = false;
 	}
 
+	frailLcation = { -1000,-1000 };
 	frailRadius = 30.0f;
 	frailRate = 1.0f;
 	isFrailAttacking = false;

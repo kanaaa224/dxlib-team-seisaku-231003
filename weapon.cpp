@@ -1091,7 +1091,7 @@ void weapon::InitWeapon()
 	hitCnt = 0;
 	fpsCnt = 0;
 	heelAmount = 10;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < MAX_THROW_DAGGER; i++)
 	{
 		throwDagger[i] = { {0,0},{0,0,0},false };
 	}
