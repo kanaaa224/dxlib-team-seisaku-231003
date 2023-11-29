@@ -220,7 +220,7 @@ public:
 	//‚»‚Ì”’l‚ğ•Ô‚·ŠÖ”
 	float GetP_Speed() { return P_speed; }
 	float GetP_AvoidanceCooltime() { return P_cooltime; }
-	int GetP_Upperlimitlimit() { return P_limit;}
+	float GetP_Upperlimitlimit() { return P_limit;}
 
 	float GetMaxRot() { return maxRot; }
 

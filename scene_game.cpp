@@ -44,7 +44,7 @@ GameScene::GameScene() {
 	hp    = 0;
 	exp   = 0;
 	level = 0;
-	point = 0;
+	point = 10;
 
 	currentFloor = 0;
 	currentStage = 0;
