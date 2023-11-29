@@ -158,8 +158,8 @@ Scene* GameScene::update() {
 			HitCheck();
 			SlimeUpdate();
 			SkeletonUpdate();
-			WizardUpdate();
-			MinotaurUpdate();
+			//WizardUpdate();
+			//MinotaurUpdate();
 
 
 			//武器と敵の当たり判定
@@ -434,9 +434,9 @@ void GameScene::draw() const {
 		// 敵
 		SlimeDraw();
 		SkeletonDraw();
-		WizardDraw();
-		EnemyBulletDraw();
-		MinotaurDraw();
+		//WizardDraw();
+		//EnemyBulletDraw();
+		//MinotaurDraw();
 
 		//////////////////////////////////////////////////
 

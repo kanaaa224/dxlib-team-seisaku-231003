@@ -561,8 +561,10 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
 			damage = INIT_DAMAGE_FRAIL + 5;
-			Player::SetPlayer_RadiusX(50.0f);
-			Player::SetPlayer_RadiusY(50.0f);
+			P_aiming_radiusX = 50.0f;
+			P_aiming_radiusY = 50.0f;
+			Player::SetPlayer_RadiusX(P_aiming_radiusX);
+			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
 
 		case book:
@@ -658,8 +660,8 @@ void second_weapon::LevelState()
 			frailRadius = 100.0f;
 			P_aiming_radiusX = 100.0f;
 			P_aiming_radiusY = 100.0f;
-			Player::SetPlayer_RadiusX(100.0f);
-			Player::SetPlayer_RadiusY(100.0f);
+			Player::SetPlayer_RadiusX(P_aiming_radiusX);
+			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
 
 		case book:
