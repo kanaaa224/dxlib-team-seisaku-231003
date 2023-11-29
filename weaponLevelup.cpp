@@ -709,7 +709,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	//if (weapon_selection == true)
 	//{
 
-				// テキスト
+	// テキスト
 	DrawFormatString(200, 180, 0x000000, "レベルアップ詳細");
 	DrawFormatString(200, 220, 0x000000, "ダメージ");
 	DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
