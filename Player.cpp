@@ -409,7 +409,7 @@ void Player::Player_CoolTime() {
 	if (CoolTime_fps > 59) {
 		CoolTime_fps = 0;
 		Second++;
-		if (/*Second > Cool_Limit*/true) {
+		if (Second > Cool_Limit/*true*/) {
 			A_value = false;
 			CoolTime = false;
 			
