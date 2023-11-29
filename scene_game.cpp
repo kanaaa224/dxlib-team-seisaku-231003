@@ -516,7 +516,7 @@ void GameScene::init() {
 	delete player;
 	player = new Player();
 
-	player->SetPlayerHP(hp);
+	//player->SetPlayerHP(hp);
 
 	delete stage;
 	stage = new Stage();
