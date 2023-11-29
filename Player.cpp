@@ -136,6 +136,7 @@ void Player::update() {
 	if (A_value == true && CoolTime == false) {
 		Avoidance_Flg = true;
 		Player_Avoidance();
+		Player_Move_Animation();
 	}
 	
 	if (CoolTime == true) {
@@ -153,7 +154,7 @@ void Player::update() {
 		MovingFlg = false;
 	}
 
-	if (MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
+	if (A_value == false && CoolTime == true && MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
 		PlayerImg = PlayerArrayImg[0];
 	}
 
@@ -191,7 +192,9 @@ void Player::draw()const {
 
 	if (TurnFlg == true) {
 		//DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, FALSE);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 124);
 		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, FALSE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		/*if (is_hit)
 		{
 			SetDrawBright(125, 50, 50);
@@ -315,6 +318,7 @@ void Player::Player_Avoidance() {
 		else{
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
+			Player_Move_Animation();
 		}
 	
 		//if (Additional_Value3.x > fabsf( unitRelativeCursorLocation.x) * Upper_Limit) {		//I—¹
@@ -332,6 +336,7 @@ void Player::Player_Avoidance() {
 		else {
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
+			Player_Move_Animation();
 		}
 
 		/*if (Additional_Value3.x > fabsf(unitRelativeCursorLocation.x) * Upper_Limit) {
@@ -356,6 +361,7 @@ void Player::Player_Avoidance() {
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
+			Player_Move_Animation();
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -374,6 +380,7 @@ void Player::Player_Avoidance() {
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
+			Player_Move_Animation();
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;

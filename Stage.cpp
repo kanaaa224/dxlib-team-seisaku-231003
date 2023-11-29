@@ -120,6 +120,7 @@ void Stage::draw()const {
 
 	for (int i = 0; i < 9; i++){
 		DrawGraph(StageArrayImg[i].x, StageArrayImg[i].y, StageArrayImg[i].img, TRUE);
+		//DrawRotaGraph(StageArrayImg[i].x, StageArrayImg[i].y, 0.4, 0.0, StageArrayImg[i].img, TRUE);
 	}
 }
 

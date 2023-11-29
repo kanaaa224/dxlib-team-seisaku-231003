@@ -2,8 +2,9 @@
 #include "Common.h"
 #include "Player.h"
 #include <math.h>
+#include "inputCtrl.h"
 
-#define DEBUG
+//#define DEBUG
 
 Minotaur::Minotaur()
 {
@@ -29,7 +30,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
-	tackleCoolTime = 60;
+	tackleCoolTime = 240;
 	tackleSpeed = TACKLE_SPEED;
 	nowTackleCnt = 0;
 	tackleCnt = 0;
@@ -61,9 +62,6 @@ Minotaur::Minotaur()
 
 void Minotaur::Update(Player* player)
 {
-	//HP
-	HPUpdate();
-
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
@@ -94,6 +92,17 @@ void Minotaur::Update(Player* player)
 	if (hp <= 0) {
 		respawnFlg = false;
 	}
+
+#ifdef DEBUG
+	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
+		hitWeaponFlg = true;
+		hp -= 10;
+	}
+	else {
+		hitWeaponFlg = false;
+	}
+#endif // DEBUG
+
 }
 
 void Minotaur::Draw() const
@@ -107,9 +116,6 @@ void Minotaur::Draw() const
 	if (roarStartFlg == true) {
 		RoarDraw();
 	}
-
-	//HP描画
-	HPDraw();
 
 #ifdef DEBUG
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
@@ -144,7 +150,7 @@ void Minotaur::TackleUpdate()
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
 		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-			lineSizeChageCnt+= 8;		//タックルの速さ
+			lineSizeChageCnt += 4;
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
 			lineSize = 0;
@@ -305,23 +311,7 @@ void Minotaur::DeathEffectDraw() const
 	
 }
 
-void Minotaur::HPUpdate()
+float Minotaur::GetHP()
 {
-	hpRate = hp / MINOTAUR_MAX_HP;
-	hpSize = 400.0f + 500.0f * hpRate;
-}
-
-void Minotaur::HPDraw() const
-{
-	//文字の表示
-	SetFontSize(32);
-	DrawFormatString(600, 50, C_RED, "Minotaur");
-	SetFontSize(16);
-
-	//HPバーの表示
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
-	DrawBox(400, 100, 900, 130, C_BLACK, TRUE);//黒バー
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 170);
-	DrawBox(400, 102, hpSize, 128, C_RED, TRUE);//赤バー
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	return hp;
 }
