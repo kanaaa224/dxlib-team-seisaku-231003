@@ -30,7 +30,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
-	tackleCoolTime = 60;
+	tackleCoolTime = 240;
 	tackleSpeed = TACKLE_SPEED;
 	nowTackleCnt = 0;
 	tackleCnt = 0;
@@ -156,7 +156,7 @@ void Minotaur::TackleUpdate()
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
 		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-			lineSizeChageCnt+= 8;		//タックルの速さ
+			lineSizeChageCnt += 4;
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
 			lineSize = 0;
@@ -336,4 +336,9 @@ void Minotaur::HPDraw() const
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 170);
 	DrawBox(400, 102, hpSize, 128, C_RED, TRUE);//赤バー
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+}
+
+float Minotaur::GetHP()
+{
+	return hp;
 }
