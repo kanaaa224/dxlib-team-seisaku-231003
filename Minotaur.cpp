@@ -4,7 +4,7 @@
 #include <math.h>
 #include "inputCtrl.h"
 
-#define DEBUG
+//#define DEBUG
 
 Minotaur::Minotaur()
 {
@@ -62,9 +62,6 @@ Minotaur::Minotaur()
 
 void Minotaur::Update(Player* player)
 {
-	//HP
-	HPUpdate();
-
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
@@ -119,9 +116,6 @@ void Minotaur::Draw() const
 	if (roarStartFlg == true) {
 		RoarDraw();
 	}
-
-	//HP描画
-	HPDraw();
 
 #ifdef DEBUG
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
@@ -315,27 +309,6 @@ void Minotaur::DeathEffectUpdate()
 void Minotaur::DeathEffectDraw() const
 {
 	
-}
-
-void Minotaur::HPUpdate()
-{
-	hpRate = hp / MINOTAUR_MAX_HP;
-	hpSize = 400.0f + 500.0f * hpRate;
-}
-
-void Minotaur::HPDraw() const
-{
-	//文字の表示
-	SetFontSize(32);
-	DrawFormatString(600, 50, C_RED, "Minotaur");
-	SetFontSize(16);
-
-	//HPバーの表示
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
-	DrawBox(400, 100, 900, 130, C_BLACK, TRUE);//黒バー
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 170);
-	DrawBox(400, 102, hpSize, 128, C_RED, TRUE);//赤バー
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 
 float Minotaur::GetHP()
