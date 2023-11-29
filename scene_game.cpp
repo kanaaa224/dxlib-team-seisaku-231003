@@ -358,7 +358,7 @@ Scene* GameScene::update() {
 			//////////////////////////////////////////////////
 			// GameUI 仮
 			hp = player->GetPlayer_HP();
-			int maxHP = 100;
+			int maxHP = player->GetMaxPlayer_hp();
 
 			int maxEXP = expData[level];
 

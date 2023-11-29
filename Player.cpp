@@ -63,6 +63,7 @@ Player::Player() {
 	MovingY = 0.0;
 
 	Player_HP = MAX_HP;
+	MaxPlayer_hp = 100.0f;
 
 	fps = 0;
 	CoolTime_fps = 0;
@@ -87,6 +88,8 @@ Player::Player() {
 	TurnFlg = true;
 	P_Cnt = 0;
 	MovingFlg = false;
+
+	p_CoolTimeCounter = 0;
 }
 
 Player::~Player() {
@@ -412,16 +415,17 @@ void Player::Player_Avoidance() {
 void Player::Player_CoolTime() {
 	
 	CoolTime_fps++;
-
+	p_CoolTimeCounter++;
 	if (CoolTime_fps > 59) {
 		CoolTime_fps = 0;
 		Second++;
 		if (Second > Cool_Limit/*true*/) {
 			A_value = false;
 			CoolTime = false;
-			
+
 			Additional_Value3 = { 0.0f,0.0f };
 			Second = 0;
+			p_CoolTimeCounter = 0;
 		}
 	}
 }
@@ -614,6 +618,7 @@ float Player::Player_MovingY() {
 	return MovingY;
 }
 
+//Œ»Ý‚Ì‘Ì—Í‚ð•Ô‚·ŠÖ”
 float Player::GetPlayer_HP() {
 
 	return Player_HP;
@@ -627,9 +632,9 @@ bool Player::GetPlayer_Avoidance() {
 void Player::SetPlayer_HP(float value) {
 
 	Player_HP = Player_HP - value;
-	if (Player_HP > MAX_HP)
+	if (Player_HP > MaxPlayer_hp)
 	{
-		Player_HP = MAX_HP;
+		Player_HP = MaxPlayer_hp;
 	}
 }
 
