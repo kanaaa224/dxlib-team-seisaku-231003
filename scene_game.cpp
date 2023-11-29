@@ -362,7 +362,7 @@ Scene* GameScene::update() {
 
 			int maxEXP = expData[level];
 
-			int coolTime = player->GetAvoidance_limit(), coolTimeMax = 2;
+			int coolTime = (int)player->GetCoolTimeCounter(), coolTimeMax = 120;
 
 			//printfDx("%f", coolTime);
 			

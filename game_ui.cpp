@@ -18,6 +18,8 @@ GameUI::GameUI() {
 
 	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
 	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
+	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png"))               == -1) throw;
+	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))                == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -48,6 +50,8 @@ GameUI::~GameUI() {
 
 	DeleteGraph(img["whiteCircle50"]);
 	DeleteGraph(img["blackCircle50"]);
+	DeleteGraph(img["whiteCircle80"]);
+	DeleteGraph(img["blackCircle80"]);
 
 	//////////////////////////////////////////////////
 
@@ -259,7 +263,7 @@ void GameUI::drawHUD() const {
 	// CoolTime
 	//////////////////////////////////////////////////
 
-	int img_blackCircle50 = 0;
+	/* int img_blackCircle50 = 0;
 
 	if (img.find("blackCircle50") != img.end()) img_blackCircle50 = img.at("blackCircle50");
 
@@ -274,12 +278,12 @@ void GameUI::drawHUD() const {
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(x, y, 28, GetColor(0, 0, 0), true);
-	DrawCircleGauge(x, y, (current / max) * 100.0f, img_blackCircle50);
+	DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle50);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetFontSize(14);
 	str = "回避";
-	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 7, 0xffffff, str.c_str());
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 7, 0xffffff, str.c_str()); */
 
 
 	//////////////////////////////////////////////////
@@ -396,8 +400,8 @@ void GameUI::drawHUD() const {
 		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
 	};
 
-	x = rootRX - 80;
-	y = rootRY + (SCREEN_HEIGHT - 80);
+	int x = rootRX - 80;
+	int y = rootRY + (SCREEN_HEIGHT - 80);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
@@ -468,6 +472,36 @@ void GameUI::drawHUD() const {
 
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
 	};
+
+
+	//////////////////////////////////////////////////
+	// CoolTime
+	//////////////////////////////////////////////////
+
+	int img_blackCircle80 = 0;
+
+	if (img.find("blackCircle80") != img.end()) img_blackCircle80 = img.at("blackCircle80");
+
+	current = 0;
+	max     = 0;
+
+	if (coolTime.find("current") != coolTime.end()) current = coolTime.at("current");
+	if (coolTime.find("max")     != coolTime.end()) max     = coolTime.at("max");
+
+	x -= 120;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	SetFontSize(16);
+	str = "回避ゲージ";
+	if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0xffffff, str.c_str());
+	//DrawBox(x - 35, y - 35, x + 35, y + 35, GetColor(255, 255, 255), false);
+	//DrawCircle(x, y, 50, GetColor(255, 255, 255), false, 2);
+	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
+	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 
 	//////////////////////////////////////////////////
