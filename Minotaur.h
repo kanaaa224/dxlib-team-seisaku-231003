@@ -85,10 +85,6 @@ public:
 	void DeathEffectUpdate();
 	void DeathEffectDraw() const;
 
-	//HPバー表示
-	void HPUpdate();
-	void HPDraw() const;
-
 	//get 
 	float GetHP();
 };
