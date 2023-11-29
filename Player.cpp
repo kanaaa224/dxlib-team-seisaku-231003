@@ -191,8 +191,7 @@ void Player::draw()const {
 	DrawRotaGraph(X, Y, 0.10f, 0.01, AimingImg, TRUE);
 
 	if (TurnFlg == true) {
-		//DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, FALSE);
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 124);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, FALSE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		/*if (is_hit)
