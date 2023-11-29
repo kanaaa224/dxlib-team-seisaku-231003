@@ -26,7 +26,7 @@ weapon::weapon()
 	fps = 0;
 	
 	P_speed = 0.0;
-	P_cooltime = 0;
+	P_cooltime = 0.0f;
 	P_limit = 0.0;
 
 	tmp = 0;
@@ -487,7 +487,7 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_SWORD;
 			P_speed = 2.0f;
 			P_limit = 1.5f;
-			P_cooltime = 2;
+			P_cooltime = 2.0f;
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -500,7 +500,7 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_DAGGER;
 			P_speed = 2.0f;
 			P_limit = 1.5f;
-			P_cooltime = 2;
+			P_cooltime = 2.0f;
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -627,7 +627,7 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_SWORD;
 			P_speed = 2.5f;
 			P_limit = 1.5f;//初期値に戻す
-			P_cooltime = 2;//初期値に戻す
+			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -640,7 +640,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
 			damage = INIT_DAMAGE_DAGGER;
 			P_speed = 3.0f;
-			P_cooltime = 2;//初期値に戻す
+			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
@@ -665,7 +665,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.7f;
 			damage = INIT_DAMAGE_SWORD + 1;
 			P_limit = 2.3f;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -678,7 +678,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			P_speed = 2.0f;//レベル２に戻す
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
@@ -703,7 +703,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.6f;
 			damage = INIT_DAMAGE_SWORD + 2;
 			P_limit = 2.3f;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			P_speed = 2.5f;
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
@@ -717,7 +717,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
 			damage = INIT_DAMAGE_DAGGER + 3;
 			P_limit = 2.5f;
-			P_cooltime = 1;
+			P_cooltime = 1.0f;
 			P_speed = 3.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
@@ -748,7 +748,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER * 1000;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
@@ -778,7 +778,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER;
-			P_cooltime = 0;
+			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
 			break;
 
