@@ -69,17 +69,18 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 			location.y += vector.y - diff.y;
 		}
 		else if (hitWeaponFlg == true) {
-			if (cloudOfDustHitFlg == false) {
+			if (cloudOfDustHitFlg == false) {//砂塵当たってない
 				vector.x = -vector.x * KNCKBACK;
 				location.x += vector.x - diff.x;
 				vector.y = -vector.y * KNCKBACK;
 				location.y += vector.y - diff.y;
 			}
-			else if (cloudOfDustHitFlg == true) {
-				vector.x = -vector.x * KNCKBACK;
+			else if (cloudOfDustHitFlg == true) {//砂塵当たった
+				vector.x = -vector.x / 2;
 				location.x += vector.x - diff.x;
-				vector.y = -vector.y * KNCKBACK;
+				vector.y = -vector.y / 2;
 				location.y += vector.y - diff.y;
+				cloudOfDustHitFlg = false;
 			}
 			
 			//武器からの攻撃とHPが０以上なら赤く表示する
