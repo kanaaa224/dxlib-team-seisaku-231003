@@ -10,6 +10,8 @@ Map::Map() {
 	move_cool = 0;
 	cursor_move = FALSE;
 	cursor_r = 30;
+	alpha = 0;
+	alpha_flg = TRUE;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -18,6 +20,7 @@ Map::Map() {
 	if (anvil_img == 0) anvil_img = (LoadGraph("resources/images/anvil.png"));
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
 	if (icon_back_img == 0) icon_back_img = (LoadGraph("resources/images/icon_back.png"));
+	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
 }
 Map::~Map() {
 	DeleteGraph(battle_img);
@@ -25,6 +28,7 @@ Map::~Map() {
 	DeleteGraph(rest_img);
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
+	DeleteGraph(cross_img);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
@@ -191,6 +195,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 void Map::draw() const {
 	int log_i = 0; // stage_log用変数
+	int x_img = 0;
 	for (int i = 0; i < DATA_MAX; i++)
 	{
 		// デバック表示
@@ -236,6 +241,10 @@ void Map::draw() const {
 				break;
 			default:
 				break;
+			}
+			if (i == stage_log[x_img]) {
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
+				x_img++;
 			}
 			//アイコン番号表示(Debug)
 			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);

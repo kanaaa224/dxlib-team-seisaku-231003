@@ -10,6 +10,8 @@ private:
 
 	//画像の読込用変数
 	int TitleImage;
+	int Titlelogo;
+	int Titlelogo_white;
 
 	int g_MenuNumber;
 	//カーソル画像読み込み用変数
