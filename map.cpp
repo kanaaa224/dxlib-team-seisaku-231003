@@ -23,6 +23,7 @@ Map::Map() {
 	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
 
 	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
+	ChangeVolumeSoundMem(255*0.265, map_bgm);
 	SetLoopPosSoundMem(400, map_bgm);
 
 }
