@@ -41,7 +41,7 @@ GameScene::GameScene() {
 
 	//////////////////////////////////////////////////
 
-	hp    = 0;
+	hp    = 100;
 	exp   = 0;
 	level = 0;
 	point = 0;
@@ -388,7 +388,6 @@ Scene* GameScene::update() {
 					map->ClearStage();
 
 					currentFloor++;
-					init();
 					
 					mode = GameSceneMode::map;
 				};
@@ -405,8 +404,8 @@ Scene* GameScene::update() {
 				};
 			};
 			//////////////////////////////////////////////////
-			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100);
-			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", getEnemyNum(0), getEnemyMax(0), ((float)getEnemyNum(0) / (float)getEnemyMax(0)) * 100);
+			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), 2000, (int)(minotaur->GetHP() / 20.0f));
+			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", 0, 0, 0);
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
@@ -448,6 +447,7 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::map) {
 		map->update(mode, battleMode, weapon_selected);
+		if (mode >= GameSceneMode::main) init();
 		return this;
 	};
 
@@ -541,8 +541,8 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 雑魚的の部屋", "全てのモンスターを倒してください");
-	     if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 中ボスの部屋", "討伐してください");
+	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください");
+	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください");
 	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", "特に何もしていない魔王を討伐してください");
 	gameUI->init();
 	gameUI->setState(banner);
@@ -586,8 +586,8 @@ int GameScene::getEnemyNum(int type) {
 			if (wizard[i] != nullptr) wizardNum++;
 		};
 	};
-	if (battleMode == GameSceneBattleMode::midBoss && true/*体力*/) minotourNum = 1;
-	if (battleMode == GameSceneBattleMode::boss) bossNum = 1;
+	if (battleMode == GameSceneBattleMode::midBoss && (minotaur->GetHP() > 0.0f)) minotourNum = 1;
+	if (battleMode == GameSceneBattleMode::boss && true/*体力*/) bossNum = 1;
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
 };
