@@ -455,12 +455,14 @@ Scene* GameScene::update() {
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
 		weaponLevelup->SetIsBlacksmith(false);
+		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
 		hp = MAX_HP;
+		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
 
@@ -551,7 +553,7 @@ void GameScene::init() {
 
 	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください");
 	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください");
-	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", "特に何もしていない魔王を討伐してください");
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください");
 	gameUI->init();
 	gameUI->setState(banner);
 
