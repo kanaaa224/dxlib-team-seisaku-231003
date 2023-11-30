@@ -9,12 +9,12 @@ GameUI::GameUI() {
 	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
 	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
 
-	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))      == -1) throw;
-	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png"))     == -1) throw;
-	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))        == -1) throw;
-	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                      == -1) throw;
-	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))              == -1) throw;
-	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
+	if ((img["weaponSword"]      = LoadGraph("resources/images/武器/片手剣50・50.png"))   == -1) throw;
+	if ((img["weaponDagger"]     = LoadGraph("resources/images/武器/短剣50・50.png"))     == -1) throw;
+	if ((img["weaponGreatSword"] = LoadGraph("resources/images/武器/大剣50・50.png"))     == -1) throw;
+	if ((img["weaponSpear"]      = LoadGraph("resources/images/武器/槍50・50.png"))       == -1) throw;
+	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
+	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
 	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
 	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
@@ -107,7 +107,7 @@ void GameUI::update(GameScene* gameScene) {
 			if (std::stoi(notice["frame"]) % ((int)FPSCtrl::Get() * 2) == 0) {
 				notice["opacity"] = std::to_string(0.0);
 				notice["state"]   = std::to_string(0);
-				notice["frame"]   = std::to_string(0);
+				notice["frame"]   = std::to_string(1);
 			};
 		};
 	};
@@ -346,8 +346,8 @@ void GameUI::drawHUD() const {
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnX, TRUE);
 
-	SetFontSize(18);
-	DrawFormatString(lx + 40, ly + 5 , 0xffffff, "レベルアップメニュー");
+	SetFontSize(16);
+	DrawFormatString(lx + 40, ly + 7 , 0xffffff, "レベルアップメニュー");
 
 	/* ly -= 40;
 	ry = ly + 30;
@@ -361,7 +361,7 @@ void GameUI::drawHUD() const {
 
 	DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
 
-	DrawFormatString(lx + 40, ly + 5, 0xffffff, "回避");
+	DrawFormatString(lx + 40, ly + 7, 0xffffff, "回避");
 
 
 	//////////////////////////////////////////////////
@@ -408,7 +408,7 @@ void GameUI::drawHUD() const {
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponB[0] != 99) {
-		SetFontSize(16);
+		//SetFontSize(16);
 		str = "Lv. " + std::to_string(weaponB[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
 
@@ -444,7 +444,7 @@ void GameUI::drawHUD() const {
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponA[0] != 99) {
-		SetFontSize(16);
+		//SetFontSize(16);
 		str = "Lv. " + std::to_string(weaponA[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
 
@@ -494,7 +494,7 @@ void GameUI::drawHUD() const {
 	DrawCircle(x, y, 50, GetColor(255, 255, 255), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	SetFontSize(16);
+	//SetFontSize(16);
 	str = "回避（仮）";
 	if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, GetColor(0, 0, 0), str.c_str());
@@ -654,17 +654,16 @@ void GameUI::drawNotice() const {
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180 * std::stod(opacity));
 	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * std::stod(opacity));
-
 	SetFontSize(18);
 	DrawFormatString(lx + 10, ly + 10, 0xffffff, title.c_str());
 
 	SetFontSize(14);
 	DrawFormatString(lx + 15, ly + 35, 0xffffff, message.c_str());
 
-	DrawExtendGraph(rx - (ry - ly), ly + 10, rx - 10, ry - 10, img_btn, TRUE);
-
+	DrawExtendGraph(rx - (ry - ly) + 2, ly + 10, rx - 10, ry - 10, img_btn, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 };
 

@@ -492,6 +492,11 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL;
 			damage = INIT_DAMAGE_FRAIL;
+			frailRadius = 30.0f;//初期値
+			P_aiming_radiusX = 200.0f;//初期値
+			P_aiming_radiusY = 200.0f;//初期値
+			Player::SetPlayer_RadiusX(P_aiming_radiusX);
+			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
 
 		case book:
@@ -551,6 +556,10 @@ void second_weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.6f;
 			damage = INIT_DAMAGE_FRAIL + 3;
 			frailRadius = 40.0f;
+			P_aiming_radiusX = 200.0f;//初期値
+			P_aiming_radiusY = 200.0f;//初期値
+			Player::SetPlayer_RadiusX(P_aiming_radiusX);
+			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
 
 		case book:
@@ -580,6 +589,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.8f;
 			damage = INIT_DAMAGE_FRAIL + 5;
+			frailRadius = 30.0f;//初期値
 			P_aiming_radiusX = 250.0f;
 			P_aiming_radiusY = 250.0f;
 			Player::SetPlayer_RadiusX(P_aiming_radiusX);
@@ -615,6 +625,10 @@ void second_weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.5f;
 			damage = INIT_DAMAGE_FRAIL + 5;
 			frailRadius = 100.0f;
+			P_aiming_radiusX = 200.0f;//初期値
+			P_aiming_radiusY = 200.0f;//初期値
+			Player::SetPlayer_RadiusX(P_aiming_radiusX);
+			Player::SetPlayer_RadiusY(P_aiming_radiusY);
 			break;
 
 		case book:
@@ -644,6 +658,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.7f;
 			damage = INIT_DAMAGE_FRAIL + 10;
+			frailRadius = 30.0f;//初期値
 			P_aiming_radiusX = 300.0f;
 			P_aiming_radiusY = 300.0f;
 			Player::SetPlayer_RadiusX(P_aiming_radiusX);

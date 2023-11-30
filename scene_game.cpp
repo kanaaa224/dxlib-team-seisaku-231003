@@ -44,7 +44,7 @@ GameScene::GameScene() {
 	hp    = 100;
 	exp   = 0;
 	level = 0;
-	point = 10;
+	point = 0;
 
 	currentFloor = 0;
 	//currentStage = 0;
@@ -65,6 +65,12 @@ GameScene::GameScene() {
 	data["skeleton"] = 0;
 	data["wizard"]   = 0;
 	shimabukuro.push_back(data);
+	for (int i = 1; i < 20; i++) {
+		data["slime"]    = 0;
+		data["skeleton"] = 0;
+		data["wizard"]   = 0;
+		shimabukuro.push_back(data);
+	};
 	enemySpawnData = shimabukuro[currentFloor];
 
 	// 仮 - 経験値の最大値データ生成
@@ -136,11 +142,11 @@ Scene* GameScene::update() {
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
 		else mode = GameSceneMode::blacksmith;
 	};
-#endif
+
 
 	// 強制ゲームオーバー
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) return new GameOverScene;
-
+#endif
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::main) {
@@ -462,16 +468,18 @@ Scene* GameScene::update() {
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
 		weaponLevelup->SetIsBlacksmith(false);
+		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
 		hp = MAX_HP;
+		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
 
-#if 1
+#if 0
 	clsDx();
 	printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
@@ -520,11 +528,6 @@ void GameScene::draw() const {
 	//////////////////////////////////////////////////
 
 	if (state == pause) gameUI->drawPause();
-
-	//////////////////////////////////////////////////
-
-	SetFontSize(16);
-	if (mode == GameSceneMode::main) DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面\nキーボードVでボス戦闘モード");
 };
 
 void GameScene::init() {
@@ -558,19 +561,19 @@ void GameScene::init() {
 
 	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください");
 	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください");
-	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", "特に何もしていない魔王を討伐してください");
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください");
 	gameUI->init();
 	gameUI->setState(banner);
 
 	// 仮 - 敵をどのステージでどれだけ出すかのデータ生成（中ボス以降版）
 	std::map<std::string, int> data;
-	for (int i = 1; i < 20; i++) {
+	for (int i = currentFloor + 1; i < 20; i++) {
 		data["slime"]    = shimabukuro[i - 1]["slime"] + 10;
 		data["skeleton"] = 0;
 		data["wizard"]   = 0;
 		if ((battleMode == GameSceneBattleMode::midBoss) || bossState) data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 5;
 		if ((battleMode == GameSceneBattleMode::midBoss) || bossState) data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 3;
-		shimabukuro.push_back(data);
+		shimabukuro[i] = data;
 	};
 	enemySpawnData = shimabukuro[currentFloor];
 
@@ -748,7 +751,9 @@ void GameScene::HitCheck()
 
 	//ミノタウロスとプレイヤーの当たり判定
 	if (minotaur != nullptr) {
-		HitEnemy(minotaur);
+		if (battleMode == GameSceneBattleMode::midBoss) {
+			HitEnemy(minotaur);
+		}
 	}
 }
 

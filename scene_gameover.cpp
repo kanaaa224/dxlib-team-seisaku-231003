@@ -80,12 +80,4 @@ void GameOverScene::draw() const
 
 	//デフォルトに戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-
-#ifdef _DEBUG
-	//DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
-	DrawFormatString(0, 0, 0xffffff, "%d",count);
-
-#endif
-
 }
