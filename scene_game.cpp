@@ -139,11 +139,13 @@ Scene* GameScene::update() {
 		};
 	};
 
+#ifdef _DEBUG
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
 		else mode = GameSceneMode::blacksmith;
 	};
+#endif
 
 	// 強制ゲームオーバー
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) return new GameOverScene;
