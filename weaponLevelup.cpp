@@ -3,7 +3,7 @@
 WeaponLevelUp::WeaponLevelUp()
 {
 	// 画像の読込
-	//img_tree_diagram = LoadGraph("resources/images/levelup.png");
+	img_tree_diagram = LoadGraph("resources/images/tree_diagram.png");
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	img_branch_point = LoadGraph("resources/images/branch_point.png");
 	img_chooce = LoadGraph("resources/images/levelup_choose.png");
@@ -58,6 +58,11 @@ WeaponLevelUp::WeaponLevelUp()
 	p_speed = 0.0f;
 	p_avoidancecooltime = 0.0f;
 	p_upperlimitlimit = 0.0f;
+
+	frail_radiusX = 0.0f;
+	frail_radiusY = 0.0f;
+	tmp_frail_radiusX = 0.0f;
+	tmp_frail_radiusY = 0.0f;
 
 	//close = false;
 	close_mode = 2;
@@ -379,6 +384,10 @@ void WeaponLevelUp::draw() const
 	// レベルアップ詳細のテキスト群
 	DrawLevelUpDetails();
 
+	// 樹形図の線
+	DrawRotaGraph(img_x, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
+	DrawRotaGraph(img_x + 380, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
+
 	// 武器1の画像
 	switch (weapon1_info.type)
 	{
@@ -430,6 +439,7 @@ void WeaponLevelUp::draw() const
 			}
 		}
 	}
+
 
 	// 選択したレベルに画像の表示
 	for (int i = 0; i < 2; i++)
