@@ -65,6 +65,8 @@ second_weapon::second_weapon()
 	}
 	barrierFlg = false;
 
+	totalDamage = 0;
+
 }
 
 second_weapon::second_weapon(int type)
@@ -302,7 +304,7 @@ void second_weapon::Draw() const
 		switch (weaponType)
 		{
 		case spear:
-			DrawRotaGraph2(spearlocation.x, spearlocation.y, 475, 40, 0.25, rot + (M_PI / 4), spear_img, TRUE);
+			DrawRotaGraph2(spearlocation.x, spearlocation.y, 45, 0, 2.5, rot + (M_PI / 4) + d_r(12), spear_img, TRUE);
 			break;
 		case frail:
 			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);
@@ -386,10 +388,10 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	/*DrawFormatString(0, 180, 0xffffff, "フレイルX %d", thunder[0].fps);
-	DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
-	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);
-	*/
+	//DrawFormatString(0, 180, 0xffffff, "totaldamage 2 %d", totalDamage);
+	/*DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
+	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);*/
+	
 
 	if (isAttacking) {
 		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
@@ -742,7 +744,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.3f;
 			damage = INIT_DAMAGE_SPEAR;
-			thunderDamage = 10000.0f;
+			thunderDamage = 100.0f;
 			break;
 
 		case frail://アースクラッシャー
@@ -778,8 +780,8 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 		case spear:
 			spearlen = sqrtf((spearlocation.x - location.x) * (spearlocation.x - location.x) + (spearlocation.y - location.y) * (spearlocation.y - location.y));
 			for (int i = 0; i < (spearlen / 10) + 1; i++) {
-				weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径	//kk
-				weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			//kk
+				weaponCollisionLocation.x = location.x + unitVec.x * (i * 10);		//プレイヤー座標＋単位ベクトル＊半径
+				weaponCollisionLocation.y = location.y + unitVec.y * (i * 10);			
 
 				tmp_x = weaponCollisionLocation.x - enemyLocation.x;
 				tmp_y = weaponCollisionLocation.y - enemyLocation.y;
@@ -909,8 +911,8 @@ bool second_weapon::SpearAnim()
 
 	spearlocation = location;
 
-	spear_move.x += unitVec.x * 5;
-	spear_move.y += unitVec.y * 5;
+	spear_move.x += unitVec.x * 7;
+	spear_move.y += unitVec.y * 7;
 
 	spearlocation.x += spear_move.x;
 	spearlocation.y += spear_move.y;
@@ -1101,4 +1103,14 @@ void second_weapon::InitWeapon(int type)
 	}
 
 	barrierFlg = false;
+}
+
+void second_weapon::AddTotalDamage()
+{
+	totalDamage += damage;
+}
+
+void second_weapon::AddTotalDamageThunder()
+{
+	totalDamage += thunderDamage;
 }

@@ -44,7 +44,7 @@ GameScene::GameScene() {
 	hp    = 100;
 	exp   = 0;
 	level = 0;
-	point = 10;
+	point = 0;
 
 	currentFloor = 0;
 	//currentStage = 0;
@@ -59,24 +59,21 @@ GameScene::GameScene() {
 	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！");
 
 
-	// とりあえず
-	// 敵をどのステージでどれだけ出すかのデータ生成
+	// 仮 - 敵をどのステージでどれだけ出すかのデータ生成
 	std::map<std::string, int> data;
-	data["slime"]    = 8;
+	data["slime"]    = 10;
 	data["skeleton"] = 0;
-	data["wizard"]   = 2;
+	data["wizard"]   = 0;
 	shimabukuro.push_back(data);
-
 	for (int i = 1; i < 20; i++) {
-		data["slime"]    = shimabukuro[i - 1]["slime"]    + 10;
-		data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 3;
-		data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 2;
+		data["slime"]    = 0;
+		data["skeleton"] = 0;
+		data["wizard"]   = 0;
 		shimabukuro.push_back(data);
 	};
-
 	enemySpawnData = shimabukuro[currentFloor];
 
-	// 経験値の最大値データ生成
+	// 仮 - 経験値の最大値データ生成
 	for (int i = 1; i < 20; i++) {
 		expData.push_back(i * 100);
 	};
@@ -145,11 +142,11 @@ Scene* GameScene::update() {
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
 		else mode = GameSceneMode::blacksmith;
 	};
-#endif
+
 
 	// 強制ゲームオーバー
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) return new GameOverScene;
-
+#endif
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::main) {
@@ -180,6 +177,7 @@ Scene* GameScene::update() {
 									weaponA->SwordLevel8(player);
 									weaponA->SwordLevel8Heel(player);
 								}
+								weaponA->AddTotalDamage();
 							}
 						}
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -192,8 +190,10 @@ Scene* GameScene::update() {
 									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
 									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
 									}
 								}
+								weaponB->AddTotalDamage();
 							}
 						}
 						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -202,6 +202,7 @@ Scene* GameScene::update() {
 							slime[i]->SetHitHP(weaponA->GetDustDamage());
 							slime[i]->SetHit1stFrameFlg(true);
 							slime[i]->SetCloudOfDustHitFlg(true);
+							weaponA->AddTotalDamageDust();
 						}
 					}
 				}
@@ -219,6 +220,7 @@ Scene* GameScene::update() {
 									weaponA->SwordLevel8(player);
 									weaponA->SwordLevel8Heel(player);
 								}
+								weaponA->AddTotalDamage();
 							}
 						}
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
@@ -231,8 +233,10 @@ Scene* GameScene::update() {
 									weaponB->SetThunderLocation(skeleton[i]->GetEnemyLocation());
 									if (weaponB->SpearThunderCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 										skeleton[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
 									}
 								}
+								weaponB->AddTotalDamage();
 							}
 						}
 					}
@@ -251,6 +255,7 @@ Scene* GameScene::update() {
 									weaponA->SetHitCnt(true);
 									weaponA->SwordLevel8(player);
 								}
+								weaponA->AddTotalDamage();
 							}
 						}
 						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
@@ -263,8 +268,10 @@ Scene* GameScene::update() {
 									weaponB->SetThunderLocation(wizard[i]->GetEnemyLocation());
 									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
 									}
 								}
+								weaponB->AddTotalDamage();
 							}
 						}
 					}
@@ -282,6 +289,7 @@ Scene* GameScene::update() {
 								weaponA->SetHitCnt(true);
 								weaponA->SwordLevel8(player);
 							}
+							weaponA->AddTotalDamage();
 						}
 					}
 					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
@@ -294,8 +302,10 @@ Scene* GameScene::update() {
 								weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
 								if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
 									minotaur->SetHitHP(weaponB->GetThunderDamage());
+									weaponB->AddTotalDamageThunder();
 								}
 							}
+							weaponB->AddTotalDamage();
 						}
 					}
 				}
@@ -429,7 +439,7 @@ Scene* GameScene::update() {
 				gameUI->notification("武器強化可能！", "Xボタンで確認", "btnX");
 			};
 
-			if (battleMode == GameSceneBattleMode::midBoss) bossState = 1; // 中ボス討伐状態
+			if (battleMode == GameSceneBattleMode::midBoss) bossState = 1; // 中ボス遭遇済み
 
 		};
 
@@ -458,14 +468,22 @@ Scene* GameScene::update() {
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
 		weaponLevelup->SetIsBlacksmith(false);
+		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
 		hp = MAX_HP;
+		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
+
+#if 0
+	clsDx();
+	printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
+	printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
+#endif
 
 	return this;
 };
@@ -510,11 +528,6 @@ void GameScene::draw() const {
 	//////////////////////////////////////////////////
 
 	if (state == pause) gameUI->drawPause();
-
-	//////////////////////////////////////////////////
-
-	SetFontSize(16);
-	if (mode == GameSceneMode::main) DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面\nキーボードVでボス戦闘モード");
 };
 
 void GameScene::init() {
@@ -548,10 +561,20 @@ void GameScene::init() {
 
 	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください");
 	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください");
-	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", "特に何もしていない魔王を討伐してください");
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください");
 	gameUI->init();
 	gameUI->setState(banner);
 
+	// 仮 - 敵をどのステージでどれだけ出すかのデータ生成（中ボス以降版）
+	std::map<std::string, int> data;
+	for (int i = currentFloor + 1; i < 20; i++) {
+		data["slime"]    = shimabukuro[i - 1]["slime"] + 10;
+		data["skeleton"] = 0;
+		data["wizard"]   = 0;
+		if ((battleMode == GameSceneBattleMode::midBoss) || bossState) data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 5;
+		if ((battleMode == GameSceneBattleMode::midBoss) || bossState) data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 3;
+		shimabukuro[i] = data;
+	};
 	enemySpawnData = shimabukuro[currentFloor];
 
 	exp = 0;
@@ -571,6 +594,10 @@ int GameScene::getEnemyMax(int type) {
 	if (battleMode == GameSceneBattleMode::boss)    bossNum     = 1;
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
+	if (type == 1) return slimeNum;
+	if (type == 2) return skeletonNum;
+	if (type == 3) return wizardNum;
+	if (type == 4) return minotourNum;
 };
 
 int GameScene::getEnemyNum(int type) {
@@ -595,6 +622,10 @@ int GameScene::getEnemyNum(int type) {
 	if (battleMode == GameSceneBattleMode::boss && true/*体力*/) bossNum = 1;
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
+	if (type == 1) return slimeNum;
+	if (type == 2) return skeletonNum;
+	if (type == 3) return wizardNum;
+	if (type == 4) return minotourNum;
 };
 
 
@@ -720,7 +751,9 @@ void GameScene::HitCheck()
 
 	//ミノタウロスとプレイヤーの当たり判定
 	if (minotaur != nullptr) {
-		HitEnemy(minotaur);
+		if (battleMode == GameSceneBattleMode::midBoss) {
+			HitEnemy(minotaur);
+		}
 	}
 }
 
@@ -795,6 +828,17 @@ void GameScene::EnemyInc()
 			if (wizard[i]->GetHit1stFrameFlg() == true) {
 				wizard[i]->hitFrameCntInc();
 			}
+		}
+	}
+
+	if (minotaur != nullptr) {
+		if (minotaur->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+			minotaur->SetHit1stFrameFlg(false);
+			minotaur->SetHitFrameCnt(0);
+		}
+
+		if (minotaur->GetHit1stFrameFlg() == true) {
+			minotaur->hitFrameCntInc();
 		}
 	}
 }

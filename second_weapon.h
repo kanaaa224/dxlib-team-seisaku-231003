@@ -16,7 +16,7 @@
 #define INIT_DAMAGE_BOOK  5
 
 
-#define SPEAR_MAX_MOVE 35.0f
+#define SPEAR_MAX_MOVE 23.0f
 #define MAX_BULLETS_NUM 512
 
 #define FRAIL_RADIUS 30
@@ -127,6 +127,8 @@ private:
 	float P_aiming_radiusX;
 	float P_aiming_radiusY;
 
+	int totalDamage;
+
 public:
 	second_weapon();
 	second_weapon(int type);
@@ -200,5 +202,9 @@ public:
 	// レベルアップ画面で使用
 	int GetMaxCoolTime() { return maxCoolTime; }
 	float GetMaxRot() { return maxRot; }
+
+	int GetTotalDamage() { return totalDamage; }
+	void AddTotalDamage();
+	void AddTotalDamageThunder();
 };
 

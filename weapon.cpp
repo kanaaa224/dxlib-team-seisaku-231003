@@ -37,6 +37,7 @@ weapon::weapon()
 	dagger_img = LoadGraph("resources/images/武器/短剣50・50.png");
 	greatsword_img = LoadGraph("resources/images/武器/大剣50・50.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	tornado_img = LoadGraph("resources/images/tornado_1.png");
 
 	dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
 	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");
@@ -70,7 +71,9 @@ weapon::weapon()
 		dust[i].endcnt = 0;
 	}
 	dustcnt = 0;
-	dustDamage = 0.01f;
+	dustDamage = 1.0f;
+
+	totalDamage = 0;
 }
 
 weapon::weapon(int type)
@@ -354,11 +357,43 @@ void weapon::Draw() const
 
 	for (int i = 0; i < MAX_DUST; i++) {
 		if (dust[i].flg) {
+
+			if (dust[i].startcnt < 70) {
+				if (dust[i].startcnt % 5 == 0) {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
+				}
+				else {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
+				}
+			}
+			else {
+				if (dust[i].endcnt % 5 == 0) {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
+				}
+				else {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
+				}
+			}
+			/*if ((dust[i].startcnt + dust[i].endcnt) % 2 == 0) {
+				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
+			}
+			else {
+				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
+			}*/
 			DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
 		}
 	}
 
-
+	/*if (dust[i].startcnt++ < 70) {
+		dust[i].l.x += dust[i].v.x;
+		dust[i].l.y += dust[i].v.y;
+		dust[i].radius += 2;
+	}
+	else {
+		dust[i].endcnt++;
+		dust[i].l.x -= playerVector.x;
+		dust[i].l.y -= playerVector.y;
+	}*/
 
 
 
@@ -377,12 +412,12 @@ void weapon::Draw() const
 	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
 	/*DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
-	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", dagger_sound);*/
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", totalDamage);*/
 
 
 	if (isAttacking) {
-		DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
+	/*	DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 	
 
@@ -1082,7 +1117,7 @@ void weapon::DustAnim()
 			if (dust[i].startcnt++ < 70) {
 				dust[i].l.x += dust[i].v.x;
 				dust[i].l.y += dust[i].v.y;
-				dust[i].radius += 2;
+				dust[i].radius += 1;
 			}
 			else {
 				dust[i].endcnt++;
@@ -1095,9 +1130,6 @@ void weapon::DustAnim()
 				dust[i].endcnt = 0;
 				dust[i].startcnt = 0;
 			}
-
-			
-			
 
 			if (dust[i].l.x < 0 || dust[i].l.x > 1280 ||
 				dust[i].l.y < 0 || dust[i].l.y > 720) {
@@ -1155,6 +1187,16 @@ void weapon::InitWeapon()
 	}
 	dustcnt = 0;
 	dustDamage = 1.0f;
+}
+
+void weapon::AddTotalDamage()
+{
+	totalDamage += damage;
+}
+
+void weapon::AddTotalDamageDust()
+{
+	totalDamage += dustDamage;
 }
 
 

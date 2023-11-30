@@ -107,6 +107,7 @@ private:
 	int dagger_img;
 	int greatsword_img;
 	int attackbuf_img;
+	int tornado_img;
 
 	int sword_sound;
 	int dagger_sound;
@@ -143,6 +144,9 @@ private:
 	int dustcnt;
 	float dustDamage;
 
+
+	//‘‡ƒ_ƒ[ƒW
+	int totalDamage;
 
 	float tmp, tmp1;
 public:
@@ -223,6 +227,10 @@ public:
 	float GetP_Upperlimitlimit() { return P_limit;}
 
 	float GetMaxRot() { return maxRot; }
+
+	int GetTotalDamage() { return totalDamage; }
+	void AddTotalDamage();
+	void AddTotalDamageDust();
 
 };
 

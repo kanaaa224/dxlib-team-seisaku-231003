@@ -94,6 +94,7 @@ public:
 	int GetHitFrameCnt();
 	float GetDamage();
 	bool GetRespwanFlg();
+	bool GetDamageStopFlg();
 
 	float GetLX();
 	float GetLY();
@@ -113,6 +114,8 @@ public:
 	int SetRespawnTime(int array, int MAX_ENEMY_STAGE_NUM, int WaveNum);
 
 	void SetCloudOfDustHitFlg(bool flg);//砂塵に当たったかどうかのFlgをSetする
+
+	void SetDamageStopFlg(bool flg);
 
 	void SetHitLocation_X(float lx);
 	void SetHitLocation_Y(float ly);
