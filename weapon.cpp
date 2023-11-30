@@ -579,7 +579,7 @@ void weapon::LevelState()
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 10 = 70度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
-			damage = INIT_DAMAGE_GREATSWORD + 25; // 序盤のステージは一回で敵を倒したい
+			damage = INIT_DAMAGE_GREATSWORD + 5; // 序盤のステージは一回で敵を倒したい
 			rotSpeed = 4.0f;
 			break;
 		}
