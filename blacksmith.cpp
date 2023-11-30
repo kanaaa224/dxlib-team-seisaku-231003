@@ -81,6 +81,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		// Bボタンで出る
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 		{
+			weapon_levelup->SetIsBlacksmith(false);
 			stage++;
 			mode = GameSceneMode::map;
 		}
@@ -292,7 +293,7 @@ void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, Weapon
 	}
 
 	// ポイントの返却
-	if (info->level_hierarchy >= 3)
+	if (info->level_hierarchy >= 4)
 	{
 		weapon_levelup->SetLevelUpPoint(point, 3);
 	}

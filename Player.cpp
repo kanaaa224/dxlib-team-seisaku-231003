@@ -201,7 +201,7 @@ void Player::draw()const {
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Previous_AfterImage_locationX);
 	//DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Previous_AfterImage_locationY);
 	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
-	DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
+	//DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);

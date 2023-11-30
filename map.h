@@ -105,6 +105,15 @@ private:
 	int tower_img = 0;
 
 	int map_bgm;
+
+	// リザルト画面で使用（縮小マップ作成が無理だった場合）
+	// ステージに何回到達したか
+	int battle_count;		// 通常ステージ
+	int event_count;		// イベント
+	int rest_count;			// 休憩
+	int anvil_count;		// 鍛冶
+	int boss_count;			// ボス
+
 public:
 	Map();
 
@@ -136,4 +145,11 @@ public:
 	void ResetStage();
 
 	void SetStage(int st_min, int st_max, int rand_min, int rand_max, int data_num);
+
+	// リザルト画面用
+	int GetBattleCount() { return battle_count; }
+	int GetEventCount() { return event_count; }
+	int GetRestCount() { return rest_count; }
+	int GetAnvilCount() { return anvil_count; }
+	int GetBossCount() { return boss_count; }
 };

@@ -1,10 +1,16 @@
 #include "main.h"
 
-ResultScene::ResultScene(int &num1,int &num2)
-//ResultScene::ResultScene()
+ResultScene::ResultScene(int result_info[11])
 {
 	// 画像読込
 	img_button_a = LoadGraph("resources/images/button_a01.png");
+
+	// マップアイコン読込用変数
+	img_battle = LoadGraph("resources/images/skeleton.png");
+	img_event = LoadGraph("resources/images/event.png");
+	img_rest = LoadGraph("resources/images/rest.png");
+	img_anvil = LoadGraph("resources/images/anvil.png");
+	img_boss = LoadGraph("resources/images/boss.png");
 
 	//武器の画像読込
 	img_sword = LoadGraph("resources/images/武器/片手剣.png");
@@ -19,19 +25,21 @@ ResultScene::ResultScene(int &num1,int &num2)
 	value = 180;
 
 	// 武器1
-	weapon1_info.type = num1;
+	weapon1_info.type = result_info[0];
+	weapon1_info.level = result_info[1];
+	weapon1_info.damage = result_info[2];
 
 	// 武器2
-	weapon2_info.type = num2;
+	weapon2_info.type = result_info[3];
+	weapon2_info.level = result_info[4];
+	weapon2_info.damage = result_info[5];
 
-	// テスト
-	fp = NULL;
-	for (int i = 0; i < 2; i++)
-	{
-		sample[i] = { 0 };
-	}
-	is_fopen = false;
-
+	// マップ情報
+	map_info.battle_count = result_info[6];
+	map_info.event_count = result_info[7];
+	map_info.rest_count = result_info[8];
+	map_info.anvil_count = result_info[9];
+	map_info.boss_count = result_info[10];
 }
 
 ResultScene::~ResultScene()
@@ -41,21 +49,6 @@ ResultScene::~ResultScene()
 
 Scene* ResultScene::update()
 {
-	// テスト
-	// ファイル読み込み
-	fopen_s(&fp, "resources/dat/test.txt", "r");
-
-	if (fp)
-	{
-		is_fopen = true;
-		for (int i = 0; i < 2; i++)
-		{
-			int dammy = fscanf_s(fp, "%1d %1d %07d", &sample[i].type, &sample[i].level, &sample[i].damage);
-		}
-		//ファイルクローズ
-		fclose(fp);
-	}
-
 	// ブレンドモードのパラメータ
 	if (value > 0)
 	{
@@ -91,35 +84,27 @@ void ResultScene::draw() const
 
 	DrawFormatString(10, 50, 0x000000, "縮小マップ");
 
-	//DrawFormatString(700, 200, 0x000000, "武器UI１");
-	//DrawFormatString(850, 150, 0x000000, "武器名１");
-	//DrawFormatString(850, 200, 0x000000, "Lv.              0");
-	//DrawFormatString(850, 250, 0x000000, "総ダメージ数      100000");
+	// マップ情報
+	DrawRotaGraph(150, 150, 1.0f, 0.0f, img_battle, TRUE);
+	DrawRotaGraph(150, 250, 1.0f, 0.0f, img_event, TRUE);
+	DrawRotaGraph(150, 350, 1.0f, 0.0f, img_rest, TRUE);
+	DrawRotaGraph(150, 450, 1.0f, 0.0f, img_anvil, TRUE);
+	DrawRotaGraph(150, 550, 1.0f, 0.0f, img_boss, TRUE);
 
-	//DrawFormatString(700, 450, 0x000000, "武器UI２");
-	//DrawFormatString(850, 400, 0x000000, "武器名２");
-	//DrawFormatString(850, 450, 0x000000, "Lv.              0");
-	//DrawFormatString(850, 500, 0x000000, "総ダメージ数      100000");
+	SetFontSize(30);
+	DrawFormatString(200, 135, 0x000000, "× %d",map_info.battle_count);
+	DrawFormatString(200, 235, 0x000000, "× %d",map_info.event_count);
+	DrawFormatString(200, 335, 0x000000, "× %d",map_info.event_count);
+	DrawFormatString(200, 435, 0x000000, "× %d",map_info.anvil_count);
+	DrawFormatString(200, 535, 0x000000, "× %d",map_info.boss_count);
 
-	if (is_fopen == false)
-	{
-		DrawFormatString(600, 50, 0xff0000, "error");
+	// 武器1情報表示
+	DrawFormatString(850, 200, 0x000000, "Lv．               %d", weapon1_info.level);
+	DrawFormatString(850, 250, 0x000000, "総ダメージ    %7d", weapon1_info.damage);
 
-	}
-	else
-	{
-		/*DrawFormatString(700, 200, 0x000000, "武器UI１  %d", sample[0].type);
-		DrawFormatString(850, 150, 0x000000, "武器名１  %d", sample[0].type);*/
-		SetFontSize(25);
-		DrawFormatString(850, 200, 0x000000, "Lv.              %d", sample[0].level);
-		DrawFormatString(850, 250, 0x000000, "総ダメージ数      %7d", sample[0].damage);
-
-		/*DrawFormatString(700, 450, 0x000000, "武器UI２  %d", sample[1].type);
-		DrawFormatString(850, 400, 0x000000, "武器名２  %d", sample[1].type);*/
-		SetFontSize(25);
-		DrawFormatString(850, 450, 0x000000, "Lv.              %d", sample[1].level);
-		DrawFormatString(850, 500, 0x000000, "総ダメージ数      %7d", sample[1].damage);
-	}
+	// 武器2情報表示
+	DrawFormatString(850, 450, 0x000000, "Lv．               %d", weapon2_info.level);
+	DrawFormatString(850, 500, 0x000000, "総ダメージ    %7d", weapon2_info.damage);
 
 	switch (weapon1_info.type)
 	{
@@ -175,5 +160,4 @@ void ResultScene::draw() const
 #ifdef _DEBUG
 	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
-
 }

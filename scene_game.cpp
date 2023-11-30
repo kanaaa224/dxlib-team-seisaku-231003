@@ -147,7 +147,7 @@ Scene* GameScene::update() {
 	// 強制ゲームオーバー
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
 
-		return new GameOverScene(weaponA,weaponB);
+		return new GameOverScene(weaponA, weaponB, map);
 	}
 #endif
 	//////////////////////////////////////////////////
@@ -454,7 +454,7 @@ Scene* GameScene::update() {
 				};
 				if (gameUI->getState() == banner_playerUI) {
 					// 黒帯消滅後に発火
-					return new GameOverScene(weaponA, weaponB);
+					return new GameOverScene(weaponA, weaponB, map);
 				};
 			};
 			//////////////////////////////////////////////////
@@ -502,7 +502,6 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
-		weaponLevelup->SetIsBlacksmith(false);
 		if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};

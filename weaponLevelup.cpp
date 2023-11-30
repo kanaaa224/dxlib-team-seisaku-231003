@@ -64,15 +64,7 @@ WeaponLevelUp::WeaponLevelUp()
 	tmp_frail_radiusX = 0.0f;
 	tmp_frail_radiusY = 0.0f;
 
-	//close = false;
 	close_mode = 2;
-
-	// テスト
-	fp = NULL;
-	for (int i = 0; i < 2; i++)
-	{
-		sample[i] = { 0 };
-	}
 }
 
 WeaponLevelUp::~WeaponLevelUp()
@@ -83,27 +75,6 @@ WeaponLevelUp::~WeaponLevelUp()
 // 更新
 void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position, int& point)
 {	
-	// テスト
-	sample[0].type = weapon1_info.type;
-	sample[0].level = weapon1_info.level;
-
-	sample[1].type = weapon2_info.type;
-	sample[1].level = weapon2_info.level;
-
-	// ファイル書き込み
-	fopen_s(&fp, "resources/dat/test.txt", "w");
-
-	if (fp)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			fprintf(fp, "%1d %1d %d\n", sample[i].type, sample[i].level, sample[i].damage);
-		}
-		//ファイルクローズ
-		fclose(fp);
-	}
-	//////////////////////////////
-
 	// weaponからのプレイヤー情報
 	// カーソル移動で更新される値
 	w_p_speed = weapon->GetP_Speed();
@@ -118,8 +89,11 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	weapon2_info.damege = second_weapon->GetDamage();
 	weapon2_info.attack_range = second_weapon->GetMaxRot();
 
-	frail_radiusX = second_weapon->GetP_aiming_radiusX();
-	frail_radiusY = second_weapon->GetP_aiming_radiusY();
+	if (weapon2_info.type == frail)
+	{
+		frail_radiusX = second_weapon->GetP_aiming_radiusX();
+		frail_radiusY = second_weapon->GetP_aiming_radiusY();
+	}
 
 	lv_point = point;
 
@@ -356,7 +330,6 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 
 			// 閉じる
 			close_mode = 2;
-			//close = true;
 		}
 	}
 }
@@ -374,12 +347,15 @@ void WeaponLevelUp::draw() const
 	DrawFormatString(900, 20, 0x000000, "LevelUpPoint：%d", lv_point);
 
 	// ボタン案内
-	DrawRotaGraph(855, 690, 0.2f, 0.0f, img_button_a, TRUE);
-	DrawRotaGraph(945, 690, 0.2f, 0.0f, img_button_b, TRUE);
-	DrawRotaGraph(1030, 690, 0.2f, 0.0f, img_button_x, TRUE);
-	DrawFormatString(875, 680, 0x000000, "決定");
-	DrawFormatString(965, 680, 0x000000, "戻る");
-	DrawFormatString(1050, 680, 0x000000, "閉じる");
+	if (is_blacksmith == false)
+	{
+		DrawRotaGraph(850, 690, 0.2f, 0.0f, img_button_x, TRUE);
+		DrawFormatString(870, 680, 0x000000, "閉じる");
+	}
+	DrawRotaGraph(960, 690, 0.2f, 0.0f, img_button_a, TRUE);
+	DrawFormatString(980, 680, 0x000000, "決定");
+	DrawRotaGraph(1050, 690, 0.2f, 0.0f, img_button_b, TRUE);
+	DrawFormatString(1070, 680, 0x000000, "戻る");
 
 	// レベルアップ詳細のテキスト群
 	DrawLevelUpDetails();
@@ -453,9 +429,6 @@ void WeaponLevelUp::draw() const
 		}
 	}
 
-	// 武器選択用の円を描画
-	//DrawCircle(cursor_x , cursor_y, 20, 0x000000, FALSE);
-	
 	// 武器選択カーソル
 	if (weapon_selection == false)
 	{
@@ -484,9 +457,6 @@ void WeaponLevelUp::draw() const
 			{
 				// カーソル表示
 				DrawRotaGraph(cursor_x + weapon2_info.cursor_pos, cursor_y + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 0.08f, 0.0f, img_cursor, TRUE);
-
-				// レベル選択の円を描画
-				//DrawCircle(cursor_x + weapon2_info.cursor_pos, cursor_y + 50 + (LEVEL_HIERARCHY_HEIGHT * (weapon2_info.level_hierarchy + 1)), 20, 0xb00000, FALSE);
 			}
 		}
 	}
@@ -494,6 +464,7 @@ void WeaponLevelUp::draw() const
 #ifdef _DEBUG	
 	// テスト表示
 	//SetFontSize(20);
+	//DrawFormatString(0, 210, 0xa00000, "is_blacksmith : %d", is_blacksmith);
 	//DrawFormatString(0, 210, 0xa00000, "W1level(State) : %d", weapon1_info.level);
 	//DrawFormatString(0, 230, 0xa00000, "W1レベル階層 : %d", weapon1_info.level_hierarchy);
 	//DrawFormatString(0, 250, 0xa00000, "W1tmpレベル : %d", weapon1_info.tmp_level);
@@ -560,8 +531,6 @@ void WeaponLevelUp::Init(weapon* weapon, second_weapon* second_weapon, bool& res
 
 	// 初期化完了
 	restor_cursor_position = false;
-
-	//close = false;
 }
 
 // レベルアップ処理
@@ -600,8 +569,11 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 			info->tmp_cool_time = second_weapon->GetMaxCoolTime();
 			info->tmp_damege = second_weapon->GetDamage();
 			info->tmp_attack_range = second_weapon->GetMaxRot();
-			tmp_frail_radiusX = player->GetPlayer_RadiusX();
-			tmp_frail_radiusY = player->GetPlayer_RadiusY();
+			if (info->type == frail)
+			{
+				tmp_frail_radiusX = player->GetPlayer_RadiusX();
+				tmp_frail_radiusY = player->GetPlayer_RadiusY();
+			}
 		}
 
 		info->level_hierarchy++;
@@ -944,6 +916,7 @@ void WeaponLevelUp::DrawWeapon2FinalText() const
 // 武器1のレベルリセット処理
 void WeaponLevelUp::Weapon1LevelInit()
 {
+	weapon1_info.level = 0;
 	weapon1_info.level_hierarchy = 0;
 	weapon1_info.cursor_pos = 0;
 
@@ -958,6 +931,7 @@ void WeaponLevelUp::Weapon1LevelInit()
 // 武器2のレベルリセット処理
 void WeaponLevelUp::Weapon2LevelInit()
 {
+	weapon2_info.level = 0;
 	weapon2_info.level_hierarchy = 0;
 	weapon2_info.cursor_pos = 0;
 

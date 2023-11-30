@@ -9,14 +9,11 @@
 // リザルトで使用予定
 class weapon;								// 最初の武器
 class second_weapon;						// 二つ目の武器
+class Map;									// マップ
 
 class GameOverScene : public Scene
 {
 private:
-	// リザルトで使用予定
-	int num1;
-	int num2;
-
 	// 画像用変数
 	int img_gameover;					// ゲームオーバー（装飾）
 	int img_ghost;						// ゴースト
@@ -29,10 +26,12 @@ private:
 	int count;
 
 	// フェード演出
-	int value;							// 不透明度
+	int value;						// 不透明度
+
+	int result_info[11];			// リザルト画面に渡す武器情報、マップ情報
 
 public:
-	GameOverScene(weapon* weapon1, second_weapon* weapon2);
+	GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map);
 	~GameOverScene();
 
 	// 更新
@@ -40,6 +39,4 @@ public:
 
 	// 描画
 	void draw() const override;
-
 };
-

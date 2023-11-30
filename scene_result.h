@@ -1,6 +1,5 @@
 #pragma once
 
-#include "inputCtrl.h"
 #include "scene.h"
 
 class weapon;								// 最初の武器
@@ -17,6 +16,13 @@ private:
 	//int img_weapon2;				// 武器２
 	//int img_background;			// 背景
 	int img_button_a;				// Aボタン
+
+	// マップアイコン読込用変数
+	int img_battle;					// 通常ステージ
+	int img_event;					// イベント
+	int img_rest;					// 休憩
+	int img_anvil;					// 鍛冶
+	int img_boss;					// ボス
 
 	// 武器画像読込用変数
 	int img_sword;					// 片手剣
@@ -37,23 +43,22 @@ private:
 		int damage;					// ダメージ総量
 	};
 
-	weapon_info weapon1_info;
-	weapon_info weapon2_info;
+	weapon_info weapon1_info;		// 武器1
+	weapon_info weapon2_info;		// 武器2
 
-	// テスト
-	FILE* fp;
-	struct Sample
+	struct map_info
 	{
-		int type;
-		int level;
-		int damage;
+		int battle_count;			// 通常ステージ
+		int event_count;			// イベント
+		int rest_count;				// 休憩
+		int anvil_count;			// 鍛冶
+		int boss_count;				// ボス
 	};
-	struct Sample sample[2];
-	bool is_fopen;
+
+	map_info map_info;				// マップ情報
 
 public:
-	ResultScene(int &num1,int &num2);
-	//ResultScene();
+	ResultScene(int result_info[11]);
 	~ResultScene();
 
 	// 更新
@@ -61,6 +66,4 @@ public:
 
 	// 描画
 	void draw() const override;
-
 };
-

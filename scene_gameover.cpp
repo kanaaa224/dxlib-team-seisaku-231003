@@ -1,16 +1,7 @@
 #include "main.h"
 
-// リザルトで使用予定
-class weapon;								// 最初の武器
-class second_weapon;						// 二つ目の武器
-
-GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2)
+GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 {
-	//weapon1 = new weapon();
-	//weapon2 = new second_weapon();
-	num1 = weapon1->GetWeaponType();
-	num2 = weapon2->GetWeaponType();
-
 	// 画像読込
 	img_gameover = LoadGraph("resources/images/gameover.png");
 	img_ghost = LoadGraph("resources/images/ghost.png");
@@ -22,12 +13,28 @@ GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2)
 	count = 0;
 
 	value = 180;
+
+	// 武器1情報
+	result_info[0] = weapon1->GetWeaponType();
+	result_info[1] = weapon1->GetWeaponLevel();
+	result_info[2] = weapon1->GetTotalDamage();
+
+	// 武器2情報
+	result_info[3] = weapon2->GetWeaponType();
+	result_info[4] = weapon2->GetWeaponLevel();
+	result_info[5] = weapon2->GetTotalDamage();
+
+	// マップ情報
+	result_info[6] = map->GetBattleCount();
+	result_info[7] = map->GetEventCount();
+	result_info[8] = map->GetRestCount();
+	result_info[9] = map->GetAnvilCount();
+	result_info[10] = map->GetBossCount();
 }
 
 GameOverScene::~GameOverScene()
 {
-	//delete weapon1;
-	//delete weapon2;
+
 }
 
 Scene* GameOverScene::update()
@@ -58,7 +65,7 @@ Scene* GameOverScene::update()
 
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		return new ResultScene(num1,num2);
+		return new ResultScene(result_info);
 	}
 
 	return this;
