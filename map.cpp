@@ -26,7 +26,7 @@ Map::Map() {
 	if (tower_img == 0) tower_img = (LoadGraph("resources/images/maps/tower.png"));
 
 	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
-	ChangeVolumeSoundMem(255 * 0.265, map_bgm);
+	ChangeVolumeSoundMem(255 * 0.45, map_bgm);
 	SetLoopPosSoundMem(400, map_bgm);
 
 }
