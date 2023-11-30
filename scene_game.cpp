@@ -44,7 +44,7 @@ GameScene::GameScene() {
 	hp    = 100;
 	exp   = 0;
 	level = 0;
-	point = 10;
+	point = 0;
 
 	currentFloor = 0;
 	//currentStage = 0;
@@ -65,6 +65,12 @@ GameScene::GameScene() {
 	data["skeleton"] = 0;
 	data["wizard"]   = 0;
 	shimabukuro.push_back(data);
+	for (int i = 1; i < 20; i++) {
+		data["slime"]    = 0;
+		data["skeleton"] = 0;
+		data["wizard"]   = 0;
+		shimabukuro.push_back(data);
+	};
 	enemySpawnData = shimabukuro[currentFloor];
 
 	// 仮 - 経験値の最大値データ生成
@@ -458,7 +464,7 @@ Scene* GameScene::update() {
 		return this;
 	};
 
-#if 1
+#if 0
 	clsDx();
 	printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
@@ -551,13 +557,13 @@ void GameScene::init() {
 
 	// 仮 - 敵をどのステージでどれだけ出すかのデータ生成（中ボス以降版）
 	std::map<std::string, int> data;
-	for (int i = 1; i < 20; i++) {
+	for (int i = currentFloor + 1; i < 20; i++) {
 		data["slime"]    = shimabukuro[i - 1]["slime"] + 10;
 		data["skeleton"] = 0;
 		data["wizard"]   = 0;
 		if ((battleMode == GameSceneBattleMode::midBoss) || bossState) data["skeleton"] = shimabukuro[i - 1]["skeleton"] + 5;
 		if ((battleMode == GameSceneBattleMode::midBoss) || bossState) data["wizard"]   = shimabukuro[i - 1]["wizard"]   + 3;
-		shimabukuro.push_back(data);
+		shimabukuro[i] = data;
 	};
 	enemySpawnData = shimabukuro[currentFloor];
 
