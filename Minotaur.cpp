@@ -60,6 +60,11 @@ Minotaur::Minotaur()
 	hpSize = 0;
 }
 
+Minotaur::~Minotaur()
+{
+	DeleteGraph(img);
+}
+
 void Minotaur::Update(Player* player)
 {
 	//プレイヤーの移動量をdiffにセット

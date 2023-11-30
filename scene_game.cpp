@@ -130,11 +130,13 @@ Scene* GameScene::update() {
 		};
 	};
 
+#ifdef _DEBUG
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
 		else mode = GameSceneMode::blacksmith;
 	};
+#endif
 
 	// 強制ゲームオーバー
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) return new GameOverScene;
@@ -816,7 +818,7 @@ void GameScene::EnemyInc()
 void GameScene::SlimeUpdate()
 {
 	if (tmpSlimeNum < enemySpawnData["slime"]) {
-		slime[tmpSlimeNum] = new Slime(player,tmpSlimeNum, enemySpawnData["slime"]);
+		slime[tmpSlimeNum] = new Slime(player,tmpSlimeNum, enemySpawnData["slime"], currentFloor);
 		tmpSlimeNum++;
 	}
 	for (int i = 0; i < enemySpawnData["slime"]; i++) {

@@ -4,7 +4,6 @@
 Map::Map() {
 
 	// アイコン移動初期化処理
-	icon_vec = 0;
 	cursor_pos = 0;
 	cursor_loc = 0;
 	move_cool = 0;
@@ -21,6 +20,8 @@ Map::Map() {
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
 	if (icon_back_img == 0) icon_back_img = (LoadGraph("resources/images/icon_back.png"));
 	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
+	if (crown_img == 0) crown_img = (LoadGraph("resources/images/crown.png"));
+	if (roof_img == 0) roof_img = (LoadGraph("resources/images/maps/roof.png"));
 
 	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
 	ChangeVolumeSoundMem(255 * 0.265, map_bgm);
@@ -34,6 +35,7 @@ Map::~Map() {
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
 	DeleteGraph(cross_img);
+	DeleteGraph(crown_img);
 	DeleteSoundMem(map_bgm);
 }
 
@@ -44,8 +46,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 		PlaySoundMem(map_bgm, DX_PLAYTYPE_LOOP, TRUE);
 	}
 
-	// アイコン移動距離リセット
-	icon_vec = 0;
+	// アイコン移動距離
+	int icon_vec = 0;
 
 
 	// カーソル移動(Lスティック)
@@ -154,6 +156,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 	// アイコン移動処理
 	if (icon_vec != 0) {
+		map_move = map_move + icon_vec;
 		for (int i = 0; i < data_max; i++)
 		{
 			icon_loc[i][1] = icon_loc[i][1] + icon_vec;
@@ -207,6 +210,10 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 };
 
 void Map::draw() const {
+
+	//DrawGraph(355, -330 + map_move, roof_img, 1);
+	DrawExtendGraph(355, -380 + map_move, 955, -200 + map_move, roof_img, 1);
+
 	int log_i = 0; // stage_log用変数
 	int x_img = 0;
 	for (int i = 0; i < DATA_MAX; i++)
@@ -257,6 +264,7 @@ void Map::draw() const {
 			}
 			if (i == stage_log[x_img]) {
 				DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
+				//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
 				x_img++;
 			}
 			//アイコン番号表示(Debug)
@@ -308,6 +316,7 @@ void Map::ResetStage() {
 		icon_loc[i][1] = icon_loc_def[pattern][i][1];
 		icon_loc_center[i][0] = icon_loc_def[pattern][i][0] + 25;
 		icon_loc_center[i][1] = icon_loc_def[pattern][i][1] + 25;
+		map_move = 0;
 	}
 }
 
