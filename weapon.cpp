@@ -34,9 +34,10 @@ weapon::weapon()
 	location = { 640.360 };
 
 	sword_img = LoadGraph("resources/images/武器/片手剣50・50.png");
-	dagger_img = LoadGraph("resources/images/sword_shortsword_brown.png");
-	greatsword_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	dagger_img = LoadGraph("resources/images/武器/短剣50・50.png");
+	greatsword_img = LoadGraph("resources/images/武器/大剣50・50.png");
 	attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	tornado_img = LoadGraph("resources/images/tornado_1.png");
 
 	dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
 	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");
@@ -71,6 +72,8 @@ weapon::weapon()
 	}
 	dustcnt = 0;
 	dustDamage = 1.0f;
+
+	totalDamage = 0;
 }
 
 weapon::weapon(int type)
@@ -135,7 +138,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			isAttacking = true;
 			coolTime = maxCoolTime;
 		}
-
+		//効果音
 		if (!soundFlg && coolTime < 5) {
 			switch (weaponType)
 			{
@@ -161,10 +164,6 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 		//攻撃中
 		if (isAttacking) {
-
-			
-
-
 			if (weaponLevel == 7 && weaponType == greatSword) {
 				if (relativeRot < 0) {
 					relativeRot = maxRot;
@@ -318,10 +317,10 @@ void weapon::Draw() const
 			DrawRotaGraph2(location.x, location.y, 10, 40, /*0.16*/3, rot + (M_PI / 4) + d_r(12), sword_img, TRUE, FALSE);
 			break;
 		case dagger:
-			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 10, 40, 2, rot + (M_PI / 4) + d_r(12), dagger_img, TRUE, FALSE);
 			break;
 		case greatSword:
-			DrawRotaGraph2(location.x, location.y, 0, 500, 0.2, rot + (M_PI / 4), greatsword_img, TRUE, TRUE);
+			DrawRotaGraph2(location.x, location.y, 10, 50, 3.7 , rot + (M_PI / 4) + d_r(12), greatsword_img, TRUE, FALSE);
 			break;
 		default:
 			break;
@@ -338,7 +337,7 @@ void weapon::Draw() const
 	//投げナイフ
 	for (int i = 0; i < MAX_THROW_DAGGER; i++){
 		if (throwDagger[i].flg) {
-			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, -50, 550, 0.1, throwDagger[i].rot + d_r(throwDagger[i].relativeRot) +(M_PI / 4), dagger_img, TRUE, TRUE);
+			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, 10, 40, 2, throwDagger[i].rot + d_r(throwDagger[i].relativeRot) +(M_PI / 4) + d_r(12), dagger_img, TRUE, FALSE);
 		}
 	}
 
@@ -358,11 +357,43 @@ void weapon::Draw() const
 
 	for (int i = 0; i < MAX_DUST; i++) {
 		if (dust[i].flg) {
+
+			if (dust[i].startcnt < 70) {
+				if (dust[i].startcnt % 5 == 0) {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
+				}
+				else {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
+				}
+			}
+			else {
+				if (dust[i].endcnt % 5 == 0) {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
+				}
+				else {
+					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
+				}
+			}
+			/*if ((dust[i].startcnt + dust[i].endcnt) % 2 == 0) {
+				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
+			}
+			else {
+				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
+			}*/
 			DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
 		}
 	}
 
-
+	/*if (dust[i].startcnt++ < 70) {
+		dust[i].l.x += dust[i].v.x;
+		dust[i].l.y += dust[i].v.y;
+		dust[i].radius += 2;
+	}
+	else {
+		dust[i].endcnt++;
+		dust[i].l.x -= playerVector.x;
+		dust[i].l.y -= playerVector.y;
+	}*/
 
 
 
@@ -380,12 +411,12 @@ void weapon::Draw() const
 	//DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
 	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
-	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
-	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", dagger_sound);
+	/*DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", totalDamage);*/
 
 
 	if (isAttacking) {
-		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+	/*	DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
 		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 	
@@ -497,6 +528,7 @@ void weapon::LevelState()
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
+			rotSpeed = 4.0f;
 			break;
 
 		case dagger:
@@ -510,6 +542,7 @@ void weapon::LevelState()
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
+			rotSpeed = 12.0f;
 			break;
 
 		case greatSword:
@@ -517,6 +550,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_GREATSWORD; //クールダウンは一撃が重い分　激重にしたい
 			damage = INIT_DAMAGE_GREATSWORD;
+			rotSpeed = 4.0f;
 			break;
 		}
 
@@ -529,6 +563,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.8f; // クールタイムを微量ながら上げる
 			damage = INIT_DAMAGE_SWORD;
+			rotSpeed = 4.0f;
 			break;
 
 		case dagger:
@@ -536,6 +571,7 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
 			damage = INIT_DAMAGE_DAGGER + 1;
+			rotSpeed = 12.0f;
 			
 			break;
 
@@ -543,7 +579,8 @@ void weapon::LevelState()
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 10 = 70度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
-			damage = INIT_DAMAGE_GREATSWORD + 25; // 序盤のステージは一回で敵を倒したい
+			damage = INIT_DAMAGE_GREATSWORD + 5; // 序盤のステージは一回で敵を倒したい
+			rotSpeed = 4.0f;
 			break;
 		}
 
@@ -561,6 +598,8 @@ void weapon::LevelState()
 			P_limit = 1.5f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -573,6 +612,8 @@ void weapon::LevelState()
 			P_limit = 1.5f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
+			rotSpeed = 12.0f;
+
 			break;
 
 		case greatSword:
@@ -581,6 +622,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 5.0f; // 60 + 10 = 70度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD + 10; // 35
+			rotSpeed = 4.0f;
+
 			break;
 		}
 
@@ -598,6 +641,8 @@ void weapon::LevelState()
 			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetPlayer_Speed(P_speed);
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -610,6 +655,8 @@ void weapon::LevelState()
 			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetPlayer_Speed(P_speed);
+			rotSpeed = 12.0f;
+
 			break;
 
 		case greatSword:
@@ -618,6 +665,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 10.0f; // 60 + 20 = 80度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD + 5; // 30
+			rotSpeed = 4.0f;
+
 			break;
 		}
 
@@ -637,6 +686,8 @@ void weapon::LevelState()
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -649,6 +700,8 @@ void weapon::LevelState()
 			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetAvoidance_limit(P_cooltime);
+			rotSpeed = 12.0f;
+
 			break;
 
 		case greatSword:
@@ -657,6 +710,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 10.0f; // 60 + 20 = 80
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD + 25; // 45
+			rotSpeed = 4.0f;
+
 			break;
 		}
 
@@ -676,6 +731,8 @@ void weapon::LevelState()
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -688,6 +745,8 @@ void weapon::LevelState()
 			P_speed = 2.0f;//レベル２に戻す
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
+			rotSpeed = 12.0f;
+
 			break;
 
 		case greatSword:
@@ -696,6 +755,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 20.0f; // 60 + 40 = 100
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.8f;
 			damage = INIT_DAMAGE_GREATSWORD + 10; // 35
+			rotSpeed = 4.0f;
+
 			break;
 		}
 
@@ -714,6 +775,8 @@ void weapon::LevelState()
 			Player::SetPlayer_Upperlimit(P_limit);
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -728,6 +791,8 @@ void weapon::LevelState()
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
 			Player::SetPlayer_Upperlimit(P_limit);
+			rotSpeed = 12.0f;
+
 			break;
 
 		case greatSword:
@@ -735,6 +800,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD + 30.0f; // 60 + 60 = 120度
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.7f;
 			damage = INIT_DAMAGE_GREATSWORD + 20; // 45
+			rotSpeed = 4.0f;
+
 			break;
 		}
 
@@ -747,6 +814,8 @@ void weapon::LevelState()
 			maxRot = INIT_ROTATION_SWORD;
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.4f;
 			damage = INIT_DAMAGE_SWORD;
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -756,6 +825,8 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_DAGGER + 10;
 			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
+			rotSpeed = 12.0f;
+
 			break;
 
 		case greatSword: //回転攻撃
@@ -777,6 +848,8 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_SWORD * 0.3f;
 			damage = INIT_DAMAGE_SWORD;
 			attackbuf = 2.0f;
+			rotSpeed = 4.0f;
+
 			break;
 
 		case dagger:
@@ -786,13 +859,17 @@ void weapon::LevelState()
 			damage = INIT_DAMAGE_DAGGER;
 			P_cooltime = 0.0f;
 			Player::SetAvoidance_limit(P_cooltime);
+			rotSpeed = 4.0f;
+
 			break;
 
 		case greatSword:
 			baseVec = { 120,0,120 };
 			maxRot = INIT_ROTATION_SWORD;
-			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.3f;
+			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.5f;
 			damage = INIT_DAMAGE_GREATSWORD;
+			rotSpeed = 4.0f;
+
 			break;
 		}
 
@@ -1037,10 +1114,10 @@ void weapon::DustAnim()
 		if (dust[i].flg) {
 			int len = sqrtf((dust[i].l.x - location.x) * (dust[i].l.x - location.x) + (dust[i].l.y - location.y) * (dust[i].l.y - location.y));
 			
-			if (dust[i].startcnt++ < 50) {
+			if (dust[i].startcnt++ < 70) {
 				dust[i].l.x += dust[i].v.x;
 				dust[i].l.y += dust[i].v.y;
-				dust[i].radius += 2;
+				dust[i].radius += 1;
 			}
 			else {
 				dust[i].endcnt++;
@@ -1053,9 +1130,6 @@ void weapon::DustAnim()
 				dust[i].endcnt = 0;
 				dust[i].startcnt = 0;
 			}
-
-			
-			
 
 			if (dust[i].l.x < 0 || dust[i].l.x > 1280 ||
 				dust[i].l.y < 0 || dust[i].l.y > 720) {
@@ -1113,6 +1187,16 @@ void weapon::InitWeapon()
 	}
 	dustcnt = 0;
 	dustDamage = 1.0f;
+}
+
+void weapon::AddTotalDamage()
+{
+	totalDamage += damage;
+}
+
+void weapon::AddTotalDamageDust()
+{
+	totalDamage += dustDamage;
 }
 
 

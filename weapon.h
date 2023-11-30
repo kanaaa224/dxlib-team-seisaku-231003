@@ -12,9 +12,9 @@ class Player;
 #define INIT_ROTATION_DAGGER  60.0f
 #define INIT_ROTATION_GREATSWORD  90.0f
 
-#define INIT_DAMAGE_SWORD  7
-#define INIT_DAMAGE_DAGGER  4
-#define INIT_DAMAGE_GREATSWORD  25
+#define INIT_DAMAGE_SWORD  10
+#define INIT_DAMAGE_DAGGER  6
+#define INIT_DAMAGE_GREATSWORD  20
 
 #define AVOIDANCE_DAMAGE_RADIUS 100
 #define MAX_THROW_DAGGER 64
@@ -107,6 +107,7 @@ private:
 	int dagger_img;
 	int greatsword_img;
 	int attackbuf_img;
+	int tornado_img;
 
 	int sword_sound;
 	int dagger_sound;
@@ -143,6 +144,9 @@ private:
 	int dustcnt;
 	float dustDamage;
 
+
+	//ëççáÉ_ÉÅÅ[ÉW
+	int totalDamage;
 
 	float tmp, tmp1;
 public:
@@ -223,6 +227,10 @@ public:
 	float GetP_Upperlimitlimit() { return P_limit;}
 
 	float GetMaxRot() { return maxRot; }
+
+	int GetTotalDamage() { return totalDamage; }
+	void AddTotalDamage();
+	void AddTotalDamageDust();
 
 };
 

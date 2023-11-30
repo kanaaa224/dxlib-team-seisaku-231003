@@ -5,6 +5,7 @@
 #include "inputCtrl.h"
 
 //#define DEBUG
+#define BTN_DEBUG
 
 Minotaur::Minotaur()
 {
@@ -56,8 +57,11 @@ Minotaur::Minotaur()
 	playerRoarHitFlg = false;
 
 	//-----その他-----//
-	hpRate = 1;
-	hpSize = 0;
+}
+
+Minotaur::~Minotaur()
+{
+	DeleteGraph(img);
 }
 
 void Minotaur::Update(Player* player)
@@ -93,7 +97,7 @@ void Minotaur::Update(Player* player)
 		respawnFlg = false;
 	}
 
-#ifdef DEBUG
+#ifdef BTN_DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
 		hitWeaponFlg = true;
 		hp -= 9999;
@@ -101,7 +105,8 @@ void Minotaur::Update(Player* player)
 	else {
 		hitWeaponFlg = false;
 	}
-#endif // DEBUG
+#endif // BTN_DEBUG
+
 
 }
 

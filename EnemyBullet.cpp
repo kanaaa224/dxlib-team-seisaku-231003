@@ -27,6 +27,11 @@ EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 	angle = asinf(PlayerLoad_Y(location.y) / PlayerLoad(this->location, true));
 }
 
+EnemyBullet::~EnemyBullet()
+{
+	DeleteGraph(img);
+}
+
 void EnemyBullet::Update(Player* player, Wizard* enemy)
 {
 	//プレイヤーの移動量をdiffにセット
