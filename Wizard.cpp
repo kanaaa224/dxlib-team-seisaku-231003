@@ -28,7 +28,7 @@ Wizard::Wizard(Player* player, int arrayNum, int WizardMaxNum)
 
 Wizard::~Wizard()
 {
-
+	DeleteGraph(img);
 }
 
 void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)

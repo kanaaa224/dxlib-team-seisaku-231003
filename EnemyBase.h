@@ -75,6 +75,13 @@ public:
 	//画像左右
 	int CheckImgAngle();
 
+	//ステージごとのHP設定
+	float EnemyHP(int stage, float firstHP);
+	//ステージごとの攻撃力設定
+	float EnemyAttckDamage(int stage, float firstDamage);
+	//ステージごとの移動速度設定
+	float EnemySpeed(int stage, float firstSpeed);
+
 	//Inc
 	void hitFrameCntInc();
 

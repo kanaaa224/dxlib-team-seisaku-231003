@@ -38,6 +38,7 @@ Skeleton::~Skeleton()
 {
 	DeleteGraph(imgArray[0]);
 	DeleteGraph(imgArray[1]);
+	DeleteGraph(img);
 }
 
 void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)

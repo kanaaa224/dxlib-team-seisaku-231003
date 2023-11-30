@@ -6,11 +6,11 @@
 
 #define DEBUG
 
-Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum)
+Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum, int stage)
 {
 	//変数の初期化
-	hp = SLIME_HP_MAX;
-	damage = SLIME_ATTAK_DAMAGE;
+	hp = EnemyHP(stage,SLIME_HP_MAX);
+	damage = EnemyAttckDamage(stage, SLIME_ATTAK_DAMAGE);
 	location.x = 0;
 	location.y = 0;
 	vector.x = 0;
@@ -41,6 +41,7 @@ Slime::~Slime()
 	//画像をdelete
 	DeleteGraph(imgArray[0]);
 	DeleteGraph(imgArray[1]);
+	DeleteGraph(img);
 }
 
 void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
@@ -106,7 +107,7 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 						vector.y = 0.05f;
 					}
 				}
-
+				
 				location.x += vector.x - diff.x;
 				location.y += vector.y - diff.y;
 
