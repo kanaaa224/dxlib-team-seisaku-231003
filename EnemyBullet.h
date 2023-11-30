@@ -13,6 +13,8 @@ private:
 
 public:
 	EnemyBullet(Location spawnLocation , Player* player);
+	~EnemyBullet();
+
 	void Update(Player* player, Wizard* enemy);
 	void Draw() const;
 

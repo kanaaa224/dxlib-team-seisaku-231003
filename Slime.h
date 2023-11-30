@@ -10,7 +10,8 @@ class Slime :public EnemyBase
 private:
 
 public:
-	Slime(Player* player, int arrayNum, int SlimeMaxNum);
+	Slime(Player* player, int arrayNum, int SlimeMaxNum, int stage);
+	~Slime();
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum) const;

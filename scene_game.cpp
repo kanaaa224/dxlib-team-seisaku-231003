@@ -801,7 +801,7 @@ void GameScene::EnemyInc()
 void GameScene::SlimeUpdate()
 {
 	if (tmpSlimeNum < enemySpawnData["slime"]) {
-		slime[tmpSlimeNum] = new Slime(player,tmpSlimeNum, enemySpawnData["slime"]);
+		slime[tmpSlimeNum] = new Slime(player,tmpSlimeNum, enemySpawnData["slime"], currentFloor);
 		tmpSlimeNum++;
 	}
 	for (int i = 0; i < enemySpawnData["slime"]; i++) {
