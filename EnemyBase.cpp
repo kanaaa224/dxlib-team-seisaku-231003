@@ -17,11 +17,11 @@ float EnemyBase::PlayerLoad_X(float location_x)
 	float r = dL.x - location_x;
 	if (dL.x > location_x)
 	{
-		r -= (radius + 5);
+		r -= (radius + 20);
 	}
 	else
 	{
-		r += (radius + 5);
+		r += (radius + 20);
 	}
 	return r;
 }
@@ -132,6 +132,33 @@ int EnemyBase::CheckImgAngle()
 	else if (dL.x > location.x) {
 		return IMG_R;
 	}
+}
+
+float EnemyBase::EnemyHP(int stage, float firstHP)
+{
+	float r;
+
+	r = (firstHP * (stage + 1)) / 2;
+
+	return r;
+}
+
+float EnemyBase::EnemyAttckDamage(int stage, float firstDamage)
+{
+	float r;
+
+	r = (firstDamage * (stage + 1)) / 3;
+
+	return r;
+}
+
+float EnemyBase::EnemySpeed(int stage, float firstSpeed)
+{
+	float r;
+
+	r = firstSpeed * (stage + 1);
+
+	return r;
 }
 
 //----------------------Inc----------------------//
@@ -251,7 +278,7 @@ void EnemyBase::SetWeaponDamage(int d)
 	weaponDamage = r;
 }
 
-void EnemyBase::SetHitHP(int d) {
+void EnemyBase::SetHitHP(float d) {
 	hp -= d;
 }
 

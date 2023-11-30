@@ -14,10 +14,13 @@ class WeaponLevelUp
 {
 private:
 	// 画像読込用変数
-	//int img_tree_diagram;			// 樹形図
+	int img_tree_diagram;			// 樹形図
 	int img_cursor;					// カーソル
 	int img_branch_point;			// レベル分岐点
 	int img_chooce;					// レベル選択位置
+	int img_button_a;				// Aボタン
+	int img_button_b;				// Bボタン
+	int img_button_x;				// Xボタン
 	//int img_background;			// 背景
 
 	// 武器画像読込用変数

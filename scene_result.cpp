@@ -3,7 +3,7 @@
 ResultScene::ResultScene()
 {
 	// 画像読込
-	img_button_a = LoadGraph("resources/images/button_a.png");
+	img_button_a = LoadGraph("resources/images/button_a01.png");
 
 	//武器の画像読込
 	img_sword = LoadGraph("resources/images/武器/片手剣.png");
@@ -36,7 +36,7 @@ Scene* ResultScene::update()
 {
 	// テスト
 	// ファイル読み込み
-	fopen_s(&fp, "resources/dat/sample_w.txt", "r");
+	fopen_s(&fp, "resources/dat/test.txt", "r");
 
 	if (fp)
 	{
@@ -74,13 +74,13 @@ void ResultScene::draw() const
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
 
 	// 画像表示
-	DrawGraph(1100, 670, img_button_a, TRUE);
+	DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
 
 	// テキスト表示
 	SetFontSize(60);
 	DrawFormatString(550, 10, 0x000000, "RESULT");
 	SetFontSize(20);
-	DrawFormatString(1150, 680, 0x000000, "TITLE");
+	DrawFormatString(1180, 680, 0x000000, "TITLE");
 
 	DrawFormatString(10, 50, 0x000000, "縮小マップ");
 
@@ -129,7 +129,7 @@ void ResultScene::draw() const
 		DrawFormatString(850, 150, 0x000000, "大剣");
 		break;
 	default:
-		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_question_mark, TRUE);
+		DrawRotaGraph(750, 215, 0.15f, 0.0f, img_question_mark, TRUE);
 		DrawFormatString(850, 150, 0x000000, "武器がありません");
 		break;
 	}
@@ -150,7 +150,7 @@ void ResultScene::draw() const
 		DrawFormatString(850, 400, 0x000000, "魔導書");
 		break;
 	default:
-		DrawRotaGraph(1000, 470, 0.2f, 0.0f, img_question_mark, TRUE);
+		DrawRotaGraph(750, 470, 0.15f, 0.0f, img_question_mark, TRUE);
 		DrawFormatString(850, 400, 0x000000, "武器がありません");
 		break;
 	}

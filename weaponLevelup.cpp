@@ -3,10 +3,13 @@
 WeaponLevelUp::WeaponLevelUp()
 {
 	// 画像の読込
-	//img_tree_diagram = LoadGraph("resources/images/levelup.png");
+	img_tree_diagram = LoadGraph("resources/images/tree_diagram.png");
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	img_branch_point = LoadGraph("resources/images/branch_point.png");
 	img_chooce = LoadGraph("resources/images/levelup_choose.png");
+	img_button_a = LoadGraph("resources/images/button_a01.png");
+	img_button_b = LoadGraph("resources/images/button_b.png");
+	img_button_x = LoadGraph("resources/images/button_x.png");
 
 	// 武器画像
 	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
@@ -56,6 +59,11 @@ WeaponLevelUp::WeaponLevelUp()
 	p_avoidancecooltime = 0.0f;
 	p_upperlimitlimit = 0.0f;
 
+	frail_radiusX = 0.0f;
+	frail_radiusY = 0.0f;
+	tmp_frail_radiusX = 0.0f;
+	tmp_frail_radiusY = 0.0f;
+
 	//close = false;
 	close_mode = 2;
 
@@ -83,7 +91,7 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	sample[1].level = weapon2_info.level;
 
 	// ファイル書き込み
-	fopen_s(&fp, "resources/dat/sample_w.txt", "w");
+	fopen_s(&fp, "resources/dat/test.txt", "w");
 
 	if (fp)
 	{
@@ -172,19 +180,6 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && lv_point > 0)
 		{
-			//if (weapon_number == weapon1_info.num)
-			//{
-			//	// weaponからのプレイヤー情報
-			//	// カーソル移動で更新される値
-			//	w_p_speed = weapon->GetP_Speed();
-			//	w_p_avoidancecooltime = weapon->GetP_AvoidanceCooltime();
-			//	w_p_upperlimitlimit = weapon->GetP_Upperlimitlimit();
-
-			//	weapon1_info.cool_time = weapon->GetMaxCoolTime();
-			//	weapon1_info.damege = weapon->GetDamage();
-			//	weapon1_info.attack_range = weapon->GetMaxRot();
-			//}
-
 			// 武器2がnoneだったら武器2の選択決定は不可
 			// それ以外の場合は選択決定可能
 			if (cursor_x == 580 || weapon2_info.type != none)
@@ -378,8 +373,20 @@ void WeaponLevelUp::draw() const
 	SetFontSize(20);
 	DrawFormatString(900, 20, 0x000000, "LevelUpPoint：%d", lv_point);
 
+	// ボタン案内
+	DrawRotaGraph(855, 690, 0.2f, 0.0f, img_button_a, TRUE);
+	DrawRotaGraph(945, 690, 0.2f, 0.0f, img_button_b, TRUE);
+	DrawRotaGraph(1030, 690, 0.2f, 0.0f, img_button_x, TRUE);
+	DrawFormatString(875, 680, 0x000000, "決定");
+	DrawFormatString(965, 680, 0x000000, "戻る");
+	DrawFormatString(1050, 680, 0x000000, "閉じる");
+
 	// レベルアップ詳細のテキスト群
 	DrawLevelUpDetails();
+
+	// 樹形図の線
+	DrawRotaGraph(img_x, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
+	DrawRotaGraph(img_x + 380, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
 
 	// 武器1の画像
 	switch (weapon1_info.type)
@@ -432,6 +439,7 @@ void WeaponLevelUp::draw() const
 			}
 		}
 	}
+
 
 	// 選択したレベルに画像の表示
 	for (int i = 0; i < 2; i++)
@@ -711,17 +719,17 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 
 	// テキスト
 	DrawFormatString(200, 180, 0x000000, "レベルアップ詳細");
-	DrawFormatString(200, 220, 0x000000, "ダメージ");
-	DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
-	DrawFormatString(200, 300, 0x000000, "攻撃範囲");
-	DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
 
 		if (weapon_number == weapon1_info.num)
 		{
+			DrawFormatString(200, 220, 0x000000, "ダメージ");
 			DrawFormatString(200, 240, 0x000000, "　%d　→　%d", weapon1_info.tmp_damege, weapon1_info.damege);
+			DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
 			DrawFormatString(200, 280, 0x000000, "　%d　→　%d", weapon1_info.tmp_cool_time, weapon1_info.cool_time);
+			DrawFormatString(200, 300, 0x000000, "攻撃範囲");
 			DrawFormatString(200, 320, 0x000000, "　%.1f　→　%.1f", weapon1_info.tmp_attack_range, weapon1_info.attack_range);
-
+			
+			DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
 			DrawFormatString(200, 380, 0x000000, "移動速度");
 			DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", p_speed, w_p_speed);
 			DrawFormatString(200, 420, 0x000000, "回避速度");
@@ -731,19 +739,22 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 		}
 		else if(weapon2_info.type != none)
 		{
+			DrawFormatString(200, 220, 0x000000, "ダメージ");
 			DrawFormatString(200, 240, 0x000000, "　%d　→　%d", weapon2_info.tmp_damege, weapon2_info.damege);
+			DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
 			DrawFormatString(200, 280, 0x000000, "　%d　→　%d", weapon2_info.tmp_cool_time, weapon2_info.cool_time);
+			DrawFormatString(200, 300, 0x000000, "攻撃範囲");
 			DrawFormatString(200, 320, 0x000000, "　%.1f　→　%.1f", weapon2_info.tmp_attack_range, weapon2_info.attack_range);
 
 			if (weapon2_info.type == frail)
 			{
-				DrawFormatString(200, 380, 0x000000, "攻撃照準X");
-				DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
-				DrawFormatString(200, 420, 0x000000, "攻撃照準Y");
-				DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
-				//DrawFormatString(200, 460, 0x000000, "回避クールタイム");
-				//DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_upperlimitlimit, w_p_upperlimitlimit);
-
+				// 照準はどこまで攻撃が届くか（鎖の長さ）
+				//DrawFormatString(200, 380, 0x000000, "攻撃距離X");
+				//DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
+				//DrawFormatString(200, 420, 0x000000, "攻撃距離Y");
+				//DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
+				DrawFormatString(200, 340, 0x000000, "鉄球の飛距離");
+				DrawFormatString(200, 360, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
 			}
 		}
 	//}
@@ -766,6 +777,9 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 100, 0xb00000, "武器がありません");
 			break;
 		}
+
+		// レベルの表示
+		DrawFormatString(200, 120, 0x000000, "Lv. %d",weapon1_info.level);
 	}
 	else
 	{
@@ -784,6 +798,12 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 100, 0xb00000, "武器がありません");
 			break;
 		}
+
+		if (weapon2_info.type != none)
+		{
+			// レベルの表示
+			DrawFormatString(200, 120, 0x000000, "Lv. %d", weapon2_info.level);
+		}
 	}
 	
 	// 武器選択済み
@@ -798,7 +818,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			}
 			else if (lv_point <= 0)
 			{
-				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
+				DrawFormatString(200, 140, 0xb00000, "ポイントが足りません");
 			}
 		}
 		else
@@ -810,7 +830,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			}
 			else if (lv_point <= 0)
 			{
-				DrawFormatString(200, 120, 0xb00000, "ポイントが足りません");
+				DrawFormatString(200, 140, 0xb00000, "ポイントが足りません");
 			}
 		}
 	}
@@ -819,7 +839,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 // 武器1最終強化のテキスト群
 void WeaponLevelUp::DrawWeapon1FinalText() const
 {
-	DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
+	DrawFormatString(200, 140, 0xb00000, "次は最終強化です");
 	//DrawFormatString(200, 140, 0xb00000, "→鍛冶");
 
 	if (weapon1_info.cursor_pos == -level_cursor_pos)
@@ -828,20 +848,20 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 		switch (weapon1_info.type)
 		{
 		case sword:			// 片手剣
-			DrawFormatString(200, 510, 0x000000, "伝説の剣");
-			DrawFormatString(200, 540, 0x000000, "斬撃を飛ばす");
+			DrawFormatString(200, 520, 0x000000, "伝説の剣");
+			DrawFormatString(200, 550, 0x000000, "斬撃を飛ばす");
 			break;
 		case dagger:		// 短剣
-			DrawFormatString(200, 510, 0x000000, "アサシンダガ―");
-			DrawFormatString(200, 540, 0x000000, "回避した軌道にいる敵");
-			DrawFormatString(200, 560, 0x000000, "にダメージを与える");
+			DrawFormatString(200, 520, 0x000000, "アサシンダガ―");
+			//SetFontSize(15);
+			DrawFormatString(200, 550, 0x000000, "回避した軌道にいる敵\nにダメージを与える");
 			break;
 		case greatSword:	// 大剣
-			DrawFormatString(200, 510, 0x000000, "旋風斬");
-			DrawFormatString(200, 540, 0x000000, "+回転");
+			DrawFormatString(200, 520, 0x000000, "旋風斬");
+			DrawFormatString(200, 550, 0x000000, "回転攻撃に変化する");
 			break;
 		default:
-			DrawFormatString(200, 510, 0xb00000, "武器がありません");
+			DrawFormatString(200, 520, 0xb00000, "武器がありません");
 			break;
 		}
 	}
@@ -851,20 +871,19 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 		switch (weapon1_info.type)
 		{
 		case sword:			// 片手剣
-			DrawFormatString(200, 510, 0x000000, "魔剣ブラッドファング");
-			DrawFormatString(200, 540, 0x000000, "");
+			DrawFormatString(200, 520, 0x000000, "魔剣ブラッドファング");
+			DrawFormatString(200, 550, 0x000000, "自傷武器に変化する\n自傷した際に攻撃力が\n上がり、連続で攻撃を\n当てると微量ながら\n回復する");
 			break;
 		case dagger:		// 短剣
-			DrawFormatString(200, 510, 0x000000, "投げナイフ");
-			DrawFormatString(200, 540, 0x000000, "照準の方向にナイフを");
-			DrawFormatString(200, 560, 0x000000, "5本発射する");
+			DrawFormatString(200, 520, 0x000000, "投げナイフ");
+			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する");
 			break;
 		case greatSword:	// 大剣
-			DrawFormatString(200, 510, 0x000000, "砂塵の太刀");
-			DrawFormatString(200, 540, 0x000000, "+砂ぼこり");
+			DrawFormatString(200, 520, 0x000000, "砂塵の太刀");
+			DrawFormatString(200, 550, 0x000000, "砂ぼこりが起こり\n敵に小ダメージを\n与える");
 			break;
 		default:
-			DrawFormatString(200, 510, 0xb00000, "武器がありません");
+			DrawFormatString(200, 520, 0xb00000, "武器がありません");
 			break;
 		}
 	}
@@ -873,7 +892,7 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 // 武器2最終強化のテキスト群
 void WeaponLevelUp::DrawWeapon2FinalText() const
 {
-	DrawFormatString(200, 120, 0xb00000, "次は最終強化です");
+	DrawFormatString(200, 140, 0xb00000, "次は最終強化です");
 
 	if (weapon2_info.cursor_pos == -level_cursor_pos)
 	{
@@ -881,19 +900,20 @@ void WeaponLevelUp::DrawWeapon2FinalText() const
 		switch (weapon2_info.type)
 		{
 		case spear:
-			DrawFormatString(200, 510, 0x000000, "ロイヤルランス");
-			DrawFormatString(200, 540, 0x000000, "");
+			DrawFormatString(200, 520, 0x000000, "ロイヤルランス");
+			DrawFormatString(200, 550, 0x000000, "攻撃範囲が縦方向に\n拡大される");
 			break;
 		case frail:
-			DrawFormatString(200, 510, 0x000000, "三つ首の鎖");
-			DrawFormatString(200, 540, 0x000000, "");
+			DrawFormatString(200, 520, 0x000000, "三つ首の鎖");
+			DrawFormatString(200, 550, 0x000000, "鉄球が３つになる");
 			break;
 		case book:
-			DrawFormatString(200, 510, 0x000000, "賢者の加護");
-			DrawFormatString(200, 540, 0x000000, "");
+			DrawFormatString(200, 520, 0x000000, "賢者の加護");
+			//SetFontSize(15);
+			DrawFormatString(200, 550, 0x000000, "武器ダメージが上がり\n一定時間武器のクール\nタイムが減少しバリア\nがつくが、バリアは攻\n撃されると消える");
 			break;
 		default:
-			DrawFormatString(200, 510, 0xb00000, "武器がありません");
+			DrawFormatString(200, 520, 0xb00000, "武器がありません");
 			break;
 		}
 	}
@@ -903,19 +923,19 @@ void WeaponLevelUp::DrawWeapon2FinalText() const
 		switch (weapon2_info.type)
 		{
 		case spear:
-			DrawFormatString(200, 510, 0x000000, "グングニル");
-			DrawFormatString(200, 540, 0x000000, "+落雷");
+			DrawFormatString(200, 520, 0x000000, "グングニル");
+			DrawFormatString(200, 550, 0x000000, "攻撃が当たった敵に\n雷が落ちる");
 			break;
 		case frail:
-			DrawFormatString(200, 510, 0x000000, "アースクラッシャー");
-			DrawFormatString(200, 540, 0x000000, "");
+			DrawFormatString(200, 520, 0x000000, "アースクラッシャー");
+			DrawFormatString(200, 550, 0x000000, "鉄球が大きくなり\n地割れが発生する");
 			break;
 		case book:
-			DrawFormatString(200, 510, 0x000000, "エンチャントバレット");
-			DrawFormatString(200, 540, 0x000000, "");
+			DrawFormatString(200, 520, 0x000000, "エンチャントバレット");
+			DrawFormatString(200, 550, 0x000000, "球が６つ円状に回転し\n攻撃をする");
 			break;
 		default:
-			DrawFormatString(200, 510, 0xb00000, "武器がありません");
+			DrawFormatString(200, 520, 0xb00000, "武器がありません");
 			break;
 		}
 	}

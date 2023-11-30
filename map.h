@@ -33,7 +33,7 @@ private:
 	} };
 	int icon_loc[DATA_MAX][2];        // アイコン座標
 	int icon_loc_center[DATA_MAX][2]; // アイコン座標(中央)
-	int icon_vec;                     // アイコン移動量
+	int map_move;
 
 
 	// マップ生成制御
@@ -98,6 +98,11 @@ private:
 	int anvil_img = 0;
 	int boss_img = 0;
 	int icon_back_img = 0;
+	int cross_img = 0;
+	int crown_img = 0;
+	int roof_img = 0;
+
+	int map_bgm;
 public:
 	Map();
 
