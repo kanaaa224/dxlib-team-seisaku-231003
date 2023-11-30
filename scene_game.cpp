@@ -44,7 +44,7 @@ GameScene::GameScene() {
 	hp    = 100;
 	exp   = 0;
 	level = 0;
-	point = 0;
+	point = 10;
 
 	currentFloor = 0;
 	//currentStage = 0;
@@ -362,7 +362,7 @@ Scene* GameScene::update() {
 
 			int maxEXP = expData[level];
 
-			int coolTime = player->GetAvoidance_limit(), coolTimeMax = 2;
+			int coolTime = (int)player->GetCoolTimeCounter(), coolTimeMax = 120;
 
 			//printfDx("%f", coolTime);
 			
@@ -389,7 +389,14 @@ Scene* GameScene::update() {
 
 					currentFloor++;
 					
-					mode = GameSceneMode::map;
+					if (battleMode == GameSceneBattleMode::midBoss)
+					{
+						mode = GameSceneMode::weaponSelect;
+					}
+					else
+					{
+						mode = GameSceneMode::map;
+					}
 				};
 			};
 			if (player->GetPlayer_HP() <= 0) {
@@ -424,11 +431,6 @@ Scene* GameScene::update() {
 
 		};
 
-		if (bossState == 1)
-		{
-			GameSceneMode::weaponSelect;
-		}
-
 		frameCounter++;
 	};
 
@@ -459,6 +461,7 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
+		hp = MAX_HP;
 		return this;
 	};
 

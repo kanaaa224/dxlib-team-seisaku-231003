@@ -18,6 +18,9 @@ private:
 	int img_cursor;					// カーソル
 	int img_branch_point;			// レベル分岐点
 	int img_chooce;					// レベル選択位置
+	int img_button_a;				// Aボタン
+	int img_button_b;				// Bボタン
+	int img_button_x;				// Xボタン
 	//int img_background;			// 背景
 
 	// 武器画像読込用変数
@@ -37,7 +40,13 @@ private:
 		int level;					// 武器のレベル
 		int cursor_pos;				// 武器のレベルアップ時カーソル表示位置
 		int level_hierarchy;		// 武器のレベルの階層
+		int damege;					// 武器の攻撃力
+		int cool_time;				// 武器のクールタイム
 		int tmp_level;				// カーソルがさしているレベル
+		int tmp_damege;				// 武器の攻撃力一時避難場
+		int tmp_cool_time;			// 武器のクールタイム一時避難場
+		float attack_range;			// 攻撃範囲
+		float tmp_attack_range;			// 攻撃範囲一時避難場
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -65,16 +74,21 @@ private:
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
 
 	// プレイヤー情報格納用（weaponから）
-	int w_p_speed;					// 速度
-	int w_p_avoidancecooltime;		// 回避のクールタイム
-	int w_p_upperlimitlimit;		// 回避速度
+	float w_p_speed;				// 速度
+	float w_p_avoidancecooltime;		// 回避のクールタイム
+	float w_p_upperlimitlimit;		// 回避速度
 
 	// プレイヤー情報格納用（playerから）
 	float p_speed;					// 速度
-	int p_avoidancecooltime;		// 回避のクールタイム
+	float p_avoidancecooltime;		// 回避のクールタイム
 	float p_upperlimitlimit;		// 回避速度
 
-	bool close;						// 画面を閉じるか
+	float frail_radiusX;
+	float frail_radiusY;
+	float tmp_frail_radiusX;
+	float tmp_frail_radiusY;
+
+	//bool close;						// 画面を閉じるか
 	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
 
 	// テスト
@@ -152,12 +166,12 @@ public:
 	// 武器2のレベルリセット
 	void Weapon2LevelInit();
 
-	bool GetClose() { return close; }
+	//bool GetClose() { return close; }
 
-	void SetClose(bool flg)
-	{
-		close = flg;
-	}
+	//void SetClose(bool flg)
+	//{
+	//	close = flg;
+	//}
 
 	int GetCloseMode() { return close_mode; }
 	void SetCloseMode(int num)

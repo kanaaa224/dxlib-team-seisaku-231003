@@ -4,12 +4,13 @@
 Map::Map() {
 
 	// アイコン移動初期化処理
-	icon_vec = 0;
 	cursor_pos = 0;
 	cursor_loc = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
 	cursor_r = 30;
+	alpha = 0;
+	alpha_flg = TRUE;
 
 	// 画像読込
 	if (battle_img == 0) battle_img = (LoadGraph("resources/images/skeleton.png"));
@@ -18,6 +19,14 @@ Map::Map() {
 	if (anvil_img == 0) anvil_img = (LoadGraph("resources/images/anvil.png"));
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
 	if (icon_back_img == 0) icon_back_img = (LoadGraph("resources/images/icon_back.png"));
+	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
+	if (crown_img == 0) crown_img = (LoadGraph("resources/images/crown.png"));
+	if (roof_img == 0) roof_img = (LoadGraph("resources/images/maps/roof.png"));
+
+	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
+	ChangeVolumeSoundMem(255 * 0.265, map_bgm);
+	SetLoopPosSoundMem(400, map_bgm);
+
 }
 Map::~Map() {
 	DeleteGraph(battle_img);
@@ -25,12 +34,20 @@ Map::~Map() {
 	DeleteGraph(rest_img);
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
+	DeleteGraph(cross_img);
+	DeleteGraph(crown_img);
+	DeleteSoundMem(map_bgm);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
-	// アイコン移動距離リセット
-	icon_vec = 0;
+	if (!CheckSoundMem(map_bgm))
+	{
+		PlaySoundMem(map_bgm, DX_PLAYTYPE_LOOP, TRUE);
+	}
+
+	// アイコン移動距離
+	int icon_vec = 0;
 
 
 	// カーソル移動(Lスティック)
@@ -139,6 +156,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 	// アイコン移動処理
 	if (icon_vec != 0) {
+		map_move = map_move + icon_vec;
 		for (int i = 0; i < data_max; i++)
 		{
 			icon_loc[i][1] = icon_loc[i][1] + icon_vec;
@@ -147,6 +165,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	}
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
+
+		StopSoundMem(map_bgm);
 
 		now_stage = cursor_loc;
 
@@ -190,7 +210,12 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 };
 
 void Map::draw() const {
+
+	//DrawGraph(355, -330 + map_move, roof_img, 1);
+	DrawExtendGraph(355, -380 + map_move, 955, -200 + map_move, roof_img, 1);
+
 	int log_i = 0; // stage_log用変数
+	int x_img = 0;
 	for (int i = 0; i < DATA_MAX; i++)
 	{
 		// デバック表示
@@ -236,6 +261,11 @@ void Map::draw() const {
 				break;
 			default:
 				break;
+			}
+			if (i == stage_log[x_img]) {
+				DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
+				//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
+				x_img++;
 			}
 			//アイコン番号表示(Debug)
 			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
@@ -286,6 +316,7 @@ void Map::ResetStage() {
 		icon_loc[i][1] = icon_loc_def[pattern][i][1];
 		icon_loc_center[i][0] = icon_loc_def[pattern][i][0] + 25;
 		icon_loc_center[i][1] = icon_loc_def[pattern][i][1] + 25;
+		map_move = 0;
 	}
 }
 

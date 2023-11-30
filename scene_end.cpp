@@ -13,7 +13,7 @@ End::~End()
 
 Scene* End::update()
 {
-	if (++g_WaitTime > 300)
+	if (++g_WaitTime > 200)
 	{
 		return nullptr;
 	}

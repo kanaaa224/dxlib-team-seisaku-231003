@@ -180,6 +180,7 @@ void Player::draw()const {
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Provisional_LStickX);
 	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
+	DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
@@ -194,8 +195,7 @@ void Player::draw()const {
 	DrawRotaGraph(X, Y, 0.10f, 0.01, AimingImg, TRUE);
 
 	if (TurnFlg == true) {
-		//DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, FALSE);
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 124);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, FALSE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		/*if (is_hit)
@@ -571,7 +571,7 @@ float Player::GetPlayer_RadiusX() {
 // 照準Xをセットする
 void  Player::SetPlayer_RadiusX(float value) {
 
-	Aiming_RadiusX = Aiming_RadiusX + value;
+	Aiming_RadiusX = value;
 }
 
 //照準Yを返す
@@ -583,7 +583,7 @@ float Player::GetPlayer_RadiusY() {
 //照準Yをセットする
 void  Player::SetPlayer_RadiusY(float value) {
 
-	Aiming_RadiusY = Aiming_RadiusY + value;
+	Aiming_RadiusY = value;
 }
 
 //回避のクールタイムを返す

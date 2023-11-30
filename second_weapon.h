@@ -196,5 +196,9 @@ public:
 
 	float GetFrailRadius() { return frailRadius; }
 	int GetBullet_speed() { return Bullet_speed; }
+
+	// レベルアップ画面で使用
+	int GetMaxCoolTime() { return maxCoolTime; }
+	float GetMaxRot() { return maxRot; }
 };
 

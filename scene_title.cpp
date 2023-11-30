@@ -4,6 +4,8 @@
 Title::Title()
 {
 	TitleImage = LoadGraph("resources/images/Title.png");
+	Titlelogo = LoadGraph("resources/images/ロゴ/戦塔ロゴ.png");
+	Titlelogo_white = LoadGraph("resources/images/ロゴ/戦塔ロゴ-白.png");
 	g_MenuNumber = 0;
 	TitleInterval = 0;
 	cursor = LoadGraph("resources/images/cursor.png");
@@ -68,9 +70,11 @@ void Title::draw() const
 {
 	//タイトル背景の描画
 	DrawGraph(0, 0, TitleImage, TRUE);
-	//タイトル名の表示
-	SetFontSize(100);
-	DrawString(520, 200, "戦塔", 0x000000);
+	//タイトルの表示
+	/*SetFontSize(100);
+	DrawString(520, 200, "戦塔", 0x000000);*/
+	DrawRotaGraph(650, 150, 1.0f, 0.0f, Titlelogo, TRUE);
+	DrawRotaGraph(640, 140, 1.0f, 0.0f, Titlelogo_white, TRUE);
 	//タイトルメニューの表示
 	SetFontSize(55);
 	DrawString(550, 320, "Start", 0x000000);
