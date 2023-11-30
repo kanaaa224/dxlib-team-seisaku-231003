@@ -144,6 +144,9 @@ private:
 	float dustDamage;
 
 
+	//‘‡ƒ_ƒ[ƒW
+	int totalDamage;
+
 	float tmp, tmp1;
 public:
 	weapon();
@@ -223,6 +226,10 @@ public:
 	float GetP_Upperlimitlimit() { return P_limit;}
 
 	float GetMaxRot() { return maxRot; }
+
+	int GetTotalDamage() { return totalDamage; }
+	void AddTotalDamage();
+	void AddTotalDamageDust();
 
 };
 

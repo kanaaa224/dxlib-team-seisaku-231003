@@ -71,6 +71,8 @@ weapon::weapon()
 	}
 	dustcnt = 0;
 	dustDamage = 1.0f;
+
+	totalDamage = 0;
 }
 
 weapon::weapon(int type)
@@ -376,8 +378,8 @@ void weapon::Draw() const
 	//DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
 	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
 	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
-	/*DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
-	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", dagger_sound);*/
+	DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
+	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", totalDamage);
 
 
 	if (isAttacking) {
@@ -1155,6 +1157,16 @@ void weapon::InitWeapon()
 	}
 	dustcnt = 0;
 	dustDamage = 1.0f;
+}
+
+void weapon::AddTotalDamage()
+{
+	totalDamage += damage;
+}
+
+void weapon::AddTotalDamageDust()
+{
+	totalDamage += dustDamage;
 }
 
 
