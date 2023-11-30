@@ -375,8 +375,8 @@ void second_weapon::Draw() const
 
 	
 	//spear
-	DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
-	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);
+	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
+	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
 
 	//debug
 	int x = InputCtrl::GetMouseCursor().x;
@@ -388,7 +388,7 @@ void second_weapon::Draw() const
 	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
 	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
 	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	DrawFormatString(0, 180, 0xffffff, "totaldamage 2 %d", totalDamage);
+	//DrawFormatString(0, 180, 0xffffff, "totaldamage 2 %d", totalDamage);
 	/*DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
 	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);*/
 	
