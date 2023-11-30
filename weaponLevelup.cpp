@@ -385,8 +385,8 @@ void WeaponLevelUp::draw() const
 	DrawLevelUpDetails();
 
 	// ÷Œ`}‚Ìü
-	DrawRotaGraph(img_x, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
-	DrawRotaGraph(img_x + 380, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
+	DrawRotaGraph(img_x + 5, 440, 0.9f, 0.0f, img_tree_diagram, TRUE);
+	DrawRotaGraph(img_x + 385, 440, 0.9f, 0.0f, img_tree_diagram, TRUE);
 
 	// •Ší1‚Ì‰æ‘œ
 	switch (weapon1_info.type)
