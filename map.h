@@ -99,6 +99,7 @@ private:
 	int boss_img = 0;
 	int icon_back_img = 0;
 	int cross_img = 0;
+	int crown_img = 0;
 public:
 	Map();
 

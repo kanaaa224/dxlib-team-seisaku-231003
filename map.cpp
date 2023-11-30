@@ -21,6 +21,7 @@ Map::Map() {
 	if (boss_img == 0) boss_img = (LoadGraph("resources/images/boss.png"));
 	if (icon_back_img == 0) icon_back_img = (LoadGraph("resources/images/icon_back.png"));
 	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
+	if (crown_img == 0) crown_img = (LoadGraph("resources/images/crown.png"));
 }
 Map::~Map() {
 	DeleteGraph(battle_img);
@@ -29,6 +30,7 @@ Map::~Map() {
 	DeleteGraph(anvil_img);
 	DeleteGraph(boss_img);
 	DeleteGraph(cross_img);
+	DeleteGraph(crown_img);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
@@ -244,6 +246,7 @@ void Map::draw() const {
 			}
 			if (i == stage_log[x_img]) {
 				DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
+				//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
 				x_img++;
 			}
 			//アイコン番号表示(Debug)
