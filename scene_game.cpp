@@ -515,11 +515,6 @@ void GameScene::draw() const {
 	//////////////////////////////////////////////////
 
 	if (state == pause) gameUI->drawPause();
-
-	//////////////////////////////////////////////////
-
-	SetFontSize(16);
-	if (mode == GameSceneMode::main) DrawFormatString(0, 80, 0xffffff, "キーボードVでボス戦闘モード");
 };
 
 void GameScene::init() {

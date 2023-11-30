@@ -9,12 +9,12 @@ GameUI::GameUI() {
 	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
 	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
 
-	if ((img["weaponSword"]      = LoadGraph("resources/images/sword_longsword_brown.png"))      == -1) throw;
-	if ((img["weaponDagger"]     = LoadGraph("resources/images/sword_shortsword_brown.png"))     == -1) throw;
-	if ((img["weaponGreatSword"] = LoadGraph("resources/images/tsurugi_bronze_blue.png"))        == -1) throw;
-	if ((img["weaponSpear"]      = LoadGraph("resources/images/spear.png"))                      == -1) throw;
-	if ((img["weaponFrail"]      = LoadGraph("resources/images/Frailt_dottoy.png"))              == -1) throw;
-	if ((img["weaponBook"]       = LoadGraph("resources/images/book_madousyo_necronomicon.png")) == -1) throw;
+	if ((img["weaponSword"]      = LoadGraph("resources/images/武器/片手剣50・50.png"))   == -1) throw;
+	if ((img["weaponDagger"]     = LoadGraph("resources/images/武器/短剣50・50.png"))     == -1) throw;
+	if ((img["weaponGreatSword"] = LoadGraph("resources/images/武器/大剣50・50.png"))     == -1) throw;
+	if ((img["weaponSpear"]      = LoadGraph("resources/images/武器/槍50・50.png"))       == -1) throw;
+	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
+	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
 	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
 	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
