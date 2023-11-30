@@ -12,12 +12,12 @@ WeaponLevelUp::WeaponLevelUp()
 	img_button_x = LoadGraph("resources/images/button_x.png");
 
 	// 武器画像
-	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
-	img_dagger= LoadGraph("resources/images/sword_shortsword_brown.png");
-	img_great_sword = LoadGraph("resources/images/tsurugi_bronze_blue.png");
-	img_spear = LoadGraph("resources/images/spear.png");
-	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
-	img_book = LoadGraph("resources/images/book_madousyo_necronomicon.png");
+	img_sword = LoadGraph("resources/images/武器/片手剣.png");
+	img_dagger= LoadGraph("resources/images/武器/短剣.png");
+	img_great_sword = LoadGraph("resources/images/武器/大剣.png");
+	img_spear = LoadGraph("resources/images/武器/槍.png");
+	img_frail = LoadGraph("resources/images/武器/フレイル.png");
+	img_book = LoadGraph("resources/images/武器/本.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
 	// 構造体初期化
@@ -38,7 +38,7 @@ WeaponLevelUp::WeaponLevelUp()
 
 	// 画像パラメータ
 	img_x = 580;
-	img_y = 140;
+	img_y = 160;
 	img_branch_point_x = cursor_x;
 	img_branch_point_y = 260;
 	for (int i = 0; i < 2; i++)
@@ -392,10 +392,10 @@ void WeaponLevelUp::draw() const
 	switch (weapon1_info.type)
 	{
 		case sword:			// 片手剣
-			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_sword, TRUE);
+			DrawRotaGraph(img_x, img_y, 0.14f, 0.0f, img_sword, TRUE);
 			break;
 		case dagger:		// 短剣
-			DrawRotaGraph(img_x, img_y, 0.18f, 0.0f, img_dagger, TRUE);
+			DrawRotaGraph(img_x, img_y, 0.14f, 0.0f, img_dagger, TRUE);
 			break;
 		case greatSword:	// 大剣
 			DrawRotaGraph(img_x, img_y, 0.2f, 0.0f, img_great_sword, TRUE);
@@ -409,13 +409,13 @@ void WeaponLevelUp::draw() const
 	switch (weapon2_info.type)
 	{
 		case spear:			// 槍
-			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_spear, TRUE);
+			DrawRotaGraph(img_x + 380, img_y, 0.17f, 0.0f, img_spear, TRUE);
 			break;
 		case frail:			// フレイル
-			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_frail, TRUE);
+			DrawRotaGraph(img_x + 380, img_y, 0.17f, 0.0f, img_frail, TRUE);
 			break;
 		case book:			// 本
-			DrawRotaGraph(img_x + 380, img_y, 0.2f, 0.0f, img_book, TRUE);
+			DrawRotaGraph(img_x + 380, img_y, 0.14f, 0.0f, img_book, TRUE);
 			break;
 		default:
 			DrawRotaGraph(img_x + 380, img_y, 0.1f, 0.0f, img_question_mark, TRUE);
