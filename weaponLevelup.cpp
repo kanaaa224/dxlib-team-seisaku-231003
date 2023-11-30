@@ -3,7 +3,7 @@
 WeaponLevelUp::WeaponLevelUp()
 {
 	// ‰æ‘œ‚Ì“Ç
-	img_tree_diagram = LoadGraph("resources/images/tree_diagram.png");
+	img_tree_diagram = LoadGraph("resources/images/tree_diagram01.png");
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	img_branch_point = LoadGraph("resources/images/branch_point.png");
 	img_chooce = LoadGraph("resources/images/levelup_choose.png");

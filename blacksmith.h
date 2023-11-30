@@ -30,6 +30,7 @@ private:
 	int img_arrow;					// 矢印
 	int img_question_mark;			// はてなマーク（武器無しの場合）
 	int img_button_b;				// Bボタン
+	int img_button_a;				// Aボタン
 	int img_background;			// 背景
 
 	// 武器画像読込用変数

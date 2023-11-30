@@ -11,6 +11,7 @@ Blacksmith::Blacksmith()
 	img_arrow = LoadGraph("resources/images/arrow.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 	img_button_b = LoadGraph("resources/images/button_b.png");
+	img_button_a = LoadGraph("resources/images/button_a01.png");
 	// テスト用
 	img_background = LoadGraph("resources/images/stageimage2.png");
 
@@ -345,10 +346,12 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 		DrawRotaGraph(170, 130, 0.2f, 0.0f, img_exclamation_mark, TRUE);
 	}
 
-	DrawBox(1100, 660, 1250, 710, 0xd3d3d3, TRUE);
+	DrawBox(1000, 660, 1250, 710, 0xd3d3d3, TRUE);
+	DrawRotaGraph(1050, 685, 0.25f, 0.0f, img_button_a, TRUE);
 	DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
 	SetFontSize(20);
 	//DrawFormatString(1100, 675, 0x000000, "Bキーで");
+	DrawFormatString(1080, 675, 0x000000, "決定");
 	DrawFormatString(1180, 675, 0x000000, "出る");
 }
 
@@ -380,8 +383,11 @@ void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 
 	// カーソル画像
 	DrawRotaGraph(cursor_x, cursor_y, 0.1f, 0.0f, img_cursor, TRUE);
-	DrawBox(1100, 660, 1250, 710, 0xd3d3d3, TRUE);
+	DrawBox(1000, 660, 1250, 710, 0xd3d3d3, TRUE);
+	DrawRotaGraph(1050, 685, 0.25f, 0.0f, img_button_a, TRUE);
 	DrawRotaGraph(1150, 685, 0.25f, 0.0f, img_button_b, TRUE);
+	SetFontSize(20);
+	DrawFormatString(1080, 675, 0x000000, "決定");
 	DrawFormatString(1180, 675, 0x000000, "戻る");
 }
 
