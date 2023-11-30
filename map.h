@@ -101,6 +101,8 @@ private:
 	int cross_img = 0;
 	int crown_img = 0;
 	int roof_img = 0;
+	int wall_img = 0;
+	int tower_img = 0;
 
 	int map_bgm;
 public:
