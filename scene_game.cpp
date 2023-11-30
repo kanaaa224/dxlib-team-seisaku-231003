@@ -197,12 +197,14 @@ Scene* GameScene::update() {
 							}
 						}
 						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-							slime[i]->SetHitWeaponFlg();
-							//ダメージアップ
-							slime[i]->SetHitHP(weaponA->GetDustDamage());
-							slime[i]->SetHit1stFrameFlg(true);
-							slime[i]->SetCloudOfDustHitFlg(true);
-							weaponA->AddTotalDamageDust();
+							if (slime[i]->GetHitFrameCnt() == 0) {
+								slime[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								slime[i]->SetHitHP(weaponA->GetDustDamage());
+								slime[i]->SetHit1stFrameFlg(true);
+								slime[i]->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
 						}
 					}
 				}
