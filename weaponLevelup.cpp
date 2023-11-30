@@ -3,7 +3,7 @@
 WeaponLevelUp::WeaponLevelUp()
 {
 	// ‰æ‘œ‚Ì“Ç
-	img_tree_diagram = LoadGraph("resources/images/tree_diagram.png");
+	img_tree_diagram = LoadGraph("resources/images/tree_diagram01.png");
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
 	img_branch_point = LoadGraph("resources/images/branch_point.png");
 	img_chooce = LoadGraph("resources/images/levelup_choose.png");
@@ -385,8 +385,8 @@ void WeaponLevelUp::draw() const
 	DrawLevelUpDetails();
 
 	// ÷Œ`}‚Ìü
-	DrawRotaGraph(img_x, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
-	DrawRotaGraph(img_x + 380, 430, 0.9f, 0.0f, img_tree_diagram, TRUE);
+	DrawRotaGraph(img_x + 5, 440, 0.9f, 0.0f, img_tree_diagram, TRUE);
+	DrawRotaGraph(img_x + 385, 440, 0.9f, 0.0f, img_tree_diagram, TRUE);
 
 	// •Ší1‚Ì‰æ‘œ
 	switch (weapon1_info.type)

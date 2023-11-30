@@ -6,13 +6,13 @@ ResultScene::ResultScene()
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 
 	//•Ší‚Ì‰æ‘œ“Ç
-	img_sword = LoadGraph("resources/images/sword_longsword_brown.png");
-	img_dagger = LoadGraph("resources/images/sword_shortsword_brown.png");
-	img_great_sword = LoadGraph("resources/images/tsurugi_bronze_blue.png");
+	img_sword = LoadGraph("resources/images/•Ší/•ĞèŒ•.png");
+	img_dagger = LoadGraph("resources/images/•Ší/’ZŒ•.png");
+	img_great_sword = LoadGraph("resources/images/•Ší/‘åŒ•.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
-	img_spear = LoadGraph("resources/images/spear.png");
-	img_frail = LoadGraph("resources/images/Frailt_dottoy.png");
-	img_book = LoadGraph("resources/images/book_madousyo_necronomicon.png");
+	img_spear = LoadGraph("resources/images/•Ší/‘„.png");
+	img_frail = LoadGraph("resources/images/•Ší/ƒtƒŒƒCƒ‹.png");
+	img_book = LoadGraph("resources/images/•Ší/–{.png");
 
 	// •Ï”‚Ì‰Šú‰»
 	value = 180;
