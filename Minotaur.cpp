@@ -93,7 +93,7 @@ void Minotaur::Update(Player* player)
 		respawnFlg = false;
 	}
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
 		hitWeaponFlg = true;
 		hp -= 9999;

@@ -9,8 +9,10 @@
 class DebugScene : public Scene {
 private:
 	int state;
+
 	float angle;
 	float r;
+
 public:
 	DebugScene();
 

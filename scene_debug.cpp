@@ -7,6 +7,7 @@
 
 DebugScene::DebugScene() {
 	state = 0;
+
 	angle = 0;
 	r = 0;
 };
@@ -25,26 +26,22 @@ Scene* DebugScene::update() {
 	//     if (InputCtrl::GetKeyState(KEY_INPUT_UP)   == PRESS) state++;
 	//else if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) state--;
 		 
-		 if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS)   return new GameScene();
-		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) return new GameScene();
+	if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS)   return new LoadScene();
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) return new LoadScene();
 
-		 if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) return new LoadScene();
+	if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
 
-		 if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
-
-		 if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new map_temp();
-
-		 float v = InputCtrl::GetStickRatio(L).x;
-		 float h = InputCtrl::GetStickRatio(L).y;
-		 
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new map_temp();
 
 
-		 if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
-			 || InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
-			 
-			 angle = atan2(v, h) / M_PI * 180 + 180;
-		 }
-		 
+	float v = InputCtrl::GetStickRatio(L).x;
+	float h = InputCtrl::GetStickRatio(L).y;
+
+	if (InputCtrl::GetStickRatio(L).x >= 0.3 || InputCtrl::GetStickRatio(L).x <= -0.3
+		|| InputCtrl::GetStickRatio(L).y >= 0.3 || InputCtrl::GetStickRatio(L).y <= -0.3) {
+
+		angle = atan2(v, h) / M_PI * 180 + 180;
+	};
 
 	return this;
 };
@@ -116,7 +113,7 @@ void DebugScene::draw() const {
 	//////////////////////////////////////////////////
 	
 	y += 30;
-	DrawFormatString(x, y, 0xffffff, "マウス の状態:");
+	DrawFormatString(x, y, 0xffffff, "マウス 左ボタン の状態:");
 
 	x += 20;
 
@@ -158,11 +155,11 @@ void DebugScene::draw() const {
 	//////////////////////////////////////////////////
 
 	y += 30;
-	DrawFormatString(x, y, 0xffffff, "コントローラー Aボタン の状態:");
+	DrawFormatString(x, y, 0xffffff, "コントローラー Xボタン の状態:");
 
 	x += 20;
 	y += 15;
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
 		DrawFormatString(x, y, 0xffffff, "押されました");
 	}
 	else {
@@ -172,7 +169,7 @@ void DebugScene::draw() const {
 	};
 
 	y += 15;
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESSED) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESSED) {
 		DrawFormatString(x, y, 0xffffff, "まだ押されています");
 	}
 	else {
@@ -182,7 +179,7 @@ void DebugScene::draw() const {
 	};
 
 	y += 15;
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == RELEASE) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE) {
 		DrawFormatString(x, y, 0xffffff, "離されました");
 	}
 	else {
@@ -199,20 +196,23 @@ void DebugScene::draw() const {
 	y += 30;
 	DrawFormatString(x, y, 0xffffff, "コントローラー L Stick の傾き: X %.1f - Y %.1f", InputCtrl::GetStickState(L).x, InputCtrl::GetStickState(L).y);
 
+	y += 30;
+	DrawFormatString(x, y, 0xffffff, "コントローラー R Stick の傾き割合: X %.5f - Y %.5f", InputCtrl::GetStickRatio(R).x, InputCtrl::GetStickRatio(R).y);
+
+	y += 30;
+	DrawFormatString(x, y, 0xffffff, "コントローラー R Stick の傾き: X %.1f - Y %.1f", InputCtrl::GetStickState(R).x, InputCtrl::GetStickState(R).y);
+
 	x -= 20;
 
 	//////////////////////////////////////////////////
 
 	y += 50;
-	DrawFormatString(x, y, 0xffffff, "Enterキー/Bボタン で仮のゲームメインシーンへ");
+	DrawFormatString(x, y, 0xffffff, "Enterキー/Aボタン で仮のゲームメインシーンへ（ロード画面付き）");
 
-	y += 50;
-	DrawFormatString(x, y, 0xffffff, "Lキー でロード画面付きで仮のゲームメインシーンへ");
-
-	y += 50;
+	y += 30;
 	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
 
-	y += 50;
+	y += 30;
 	DrawFormatString(x, y, 0xffffff, "STARTでマップテンプレート");
 
 	//////////////////////////////////////////////////
