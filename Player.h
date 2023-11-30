@@ -13,8 +13,6 @@
 
 #define MAX_HP 100.f
 
-#define ANIMATION_FPS 60
-
 class Player :public SphereCollider
 {
 private:
@@ -23,13 +21,17 @@ private:
 	int PlayerImg;
 	int AimingImg;
 	int KaihiImg;
-	bool TurnFlg;
+	int TurnFlg;
 	int P_Cnt;
 	bool MovingFlg;
 
 	//PlayerLocation
 	int PlayerX;
 	int PlayerY;
+
+	//残像用前回の座標格納用変数
+	float Previous_AfterImage_locationX;
+	float Previous_AfterImage_locationY;
 
 	//照準
 	float AimingX;
@@ -73,6 +75,7 @@ private:
 	int CoolTime_fps;
 	int Second;
 	int p_CoolTimeCounter;
+	int Animation_fps;
 
 	//カメラ用
 	StageArray lefttop;

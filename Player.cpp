@@ -23,14 +23,17 @@ Player::Player() {
 	PlayerImg = PlayerArrayImg[0];
 
 	//SE
-	if (SE_playermove = LoadSoundMem("resources/sounds/se_player_move.wav")) {};
-	if (SE_playeravoidance = LoadSoundMem("resources/sounds/se_player_avoidance.wav")) {};
+	if (SE_playermove = LoadSoundMem("resources/sounds/SE/se_player_move.wav")) {};
+	if (SE_playeravoidance = LoadSoundMem("resources/sounds/SE/se_player_avoidance.wav")) {};
 
 	PlayerX = 640;
 	PlayerY = 360;
 
 	location.x = PlayerX;
 	location.y = PlayerY;
+
+	Previous_AfterImage_locationX = 0.0f;
+	Previous_AfterImage_locationY = 0.0f;
 
 	//当たり判定のもの
 	radius = 20;
@@ -85,11 +88,12 @@ Player::Player() {
 	firstAvoidanceFlg = false;
 	AvoidanceCnt = 0;
 
-	TurnFlg = true;
+	TurnFlg = FALSE;
 	P_Cnt = 0;
 	MovingFlg = false;
 
 	p_CoolTimeCounter = 0;
+	Animation_fps = 60;
 }
 
 Player::~Player() {
@@ -100,6 +104,8 @@ Player::~Player() {
 
 	DeleteGraph(AimingImg);
 	DeleteGraph(KaihiImg);
+	DeleteSoundMem(SE_playermove);
+	DeleteSoundMem(SE_playeravoidance);
 }
 
 void Player::update() {
@@ -137,9 +143,16 @@ void Player::update() {
 
 	//回避の動作を実効　指定の加算値に到達するまで動く　その後クールダウンをはさむ
 	if (A_value == true && CoolTime == false) {
+		StopSoundMem(SE_playermove);
 		Avoidance_Flg = true;
 		Player_Avoidance();
-		Player_Move_Animation();
+		//Player_Move_Animation();
+
+		if (!CheckSoundMem(SE_playeravoidance))
+		{
+			//ChangeVolumeSoundMem(255, SE_playermove);
+			PlaySoundMem(SE_playeravoidance, DX_PLAYTYPE_BACK, TRUE);
+		}
 	}
 	
 	if (CoolTime == true) {
@@ -149,15 +162,23 @@ void Player::update() {
 
 	//プレイヤーの移動　プレイヤーが回避をしていない間は動ける
 	if ((A_value == false || CoolTime == true) /*&& camera_flg*/) {
+		StopSoundMem(SE_playeravoidance);
 		MovingFlg = true;
 		Player_Move();
-		//PlaySoundMem(P_Respawn_BGM, DX_PLAYTYPE_BACK, FALSE);
+
+		if (!CheckSoundMem(SE_playermove))
+		{
+			//ChangeVolumeSoundMem(255, SE_playermove);
+			PlaySoundMem(SE_playermove, DX_PLAYTYPE_BACK, TRUE);
+		}
 	}
 	else {
 		MovingFlg = false;
 	}
 
 	if (A_value == false && CoolTime == true && MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
+		StopSoundMem(SE_playermove);
+		StopSoundMem(SE_playeravoidance);
 		PlayerImg = PlayerArrayImg[0];
 	}
 
@@ -177,8 +198,8 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Provisional_LStickY);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Provisional_LStickX);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Previous_AfterImage_locationX);
+	//DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Previous_AfterImage_locationY);
 	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
 	DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
@@ -194,28 +215,21 @@ void Player::draw()const {
 	//DrawRotaGraph(AimingX - 25, AimingY - 25, 0.10f, 0.01, AimingImg, TRUE);
 	DrawRotaGraph(X, Y, 0.10f, 0.01, AimingImg, TRUE);
 
-	if (TurnFlg == true) {
+	if (is_hit) {
+
+		SetDrawBright(125, 50, 50);
+		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
+		SetDrawBright(255, 255, 255);
+	}
+	else if (Avoidance_Flg == true) {
+
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, FALSE);
+		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-		/*if (is_hit)
-		{
-			SetDrawBright(125, 50, 50);
-			DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, FALSE);
-			SetDrawBright(255, 255, 255);
-		}*/
 	}
 	else {
-		if (TurnFlg == false) {
-			//DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, TRUE);
-			DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TRUE);
-			/*if (is_hit)
-			{
-				SetDrawBright(125, 50, 50);
-				DrawRotaGraph2(location.x - 40, location.y - 40, 0, 0, 1.0, 0.0, PlayerImg, TRUE, TRUE);
-				SetDrawBright(255, 255, 255);
-			}*/
-		}
+
+		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
 	}
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
@@ -227,13 +241,13 @@ void Player::Player_Move() {
 	//移動　左スティック
 	//横
 	if (Provisional_LStickX > MOVE_RIGHT) {
-		TurnFlg = true;
+		TurnFlg = FALSE;
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 		Player_Move_Animation();
 	}
 	else if (Provisional_LStickX < MOVE_LEFT) {
-		TurnFlg = false;
+		TurnFlg = TRUE;
 		MoveX = Additional_Value2 * Provisional_LStickX;
 		MovingX = MovingX - MoveX;
 		Player_Move_Animation();
@@ -321,7 +335,6 @@ void Player::Player_Avoidance() {
 		else{
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
-			Player_Move_Animation();
 		}
 	
 		//if (Additional_Value3.x > fabsf( unitRelativeCursorLocation.x) * Upper_Limit) {		//終了
@@ -339,7 +352,6 @@ void Player::Player_Avoidance() {
 		else {
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
-			Player_Move_Animation();
 		}
 
 		/*if (Additional_Value3.x > fabsf(unitRelativeCursorLocation.x) * Upper_Limit) {
@@ -364,7 +376,6 @@ void Player::Player_Avoidance() {
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
-			Player_Move_Animation();
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -383,7 +394,6 @@ void Player::Player_Avoidance() {
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
-			Player_Move_Animation();
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -507,17 +517,39 @@ void Player::Player_Camera()
 
 void Player:: Player_Move_Animation() {
 
-	if (fps % ANIMATION_FPS > 0 && fps % ANIMATION_FPS < 16) {
-		PlayerImg = PlayerArrayImg[0];
+	if (Avoidance_Flg == true) {
+
+		Animation_fps = 40;
+
+		if (fps % Animation_fps > 0 && fps % Animation_fps < 11) {
+			PlayerImg = PlayerArrayImg[0];
+		}
+		else if (fps % Animation_fps > 10 && fps % Animation_fps < 21) {
+			PlayerImg = PlayerArrayImg[1];
+		}
+		else if (fps % Animation_fps > 20 && fps % Animation_fps < 31) {
+			PlayerImg = PlayerArrayImg[0];
+		}
+		else if (fps % Animation_fps > 30 && fps % Animation_fps < 41) {
+			PlayerImg = PlayerArrayImg[2];
+		}
 	}
-	else if (fps % ANIMATION_FPS > 15 && fps % ANIMATION_FPS < 31) {
-		PlayerImg = PlayerArrayImg[1];
-	}
-	else if (fps % ANIMATION_FPS > 30 && fps % ANIMATION_FPS < 46) {
-		PlayerImg = PlayerArrayImg[0];
-	}
-	else if (fps % ANIMATION_FPS > 45 && fps % ANIMATION_FPS < 61) {
-		PlayerImg = PlayerArrayImg[2];
+	else {
+
+		Animation_fps = 60;
+
+		if (fps % Animation_fps > 0 && fps % Animation_fps < 16) {
+			PlayerImg = PlayerArrayImg[0];
+		}
+		else if (fps % Animation_fps > 15 && fps % Animation_fps < 31) {
+			PlayerImg = PlayerArrayImg[1];
+		}
+		else if (fps % Animation_fps > 30 && fps % Animation_fps < 46) {
+			PlayerImg = PlayerArrayImg[0];
+		}
+		else if (fps % Animation_fps > 45 && fps % Animation_fps < 61) {
+			PlayerImg = PlayerArrayImg[2];
+		}
 	}
 }
 
@@ -645,3 +677,5 @@ void Player::SetPlayerHP(float value){
 Location Player::Player_Location(){
 	return location;
 }
+
+
