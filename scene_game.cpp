@@ -517,7 +517,7 @@ void GameScene::draw() const {
 	//////////////////////////////////////////////////
 
 	SetFontSize(16);
-	if (mode == GameSceneMode::main) DrawFormatString(0, 80, 0xffffff, "キーボードBで鍛冶画面\nキーボードVでボス戦闘モード");
+	if (mode == GameSceneMode::main) DrawFormatString(0, 80, 0xffffff, "キーボードVでボス戦闘モード");
 };
 
 void GameScene::init() {
