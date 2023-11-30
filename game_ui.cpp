@@ -491,13 +491,13 @@ void GameUI::drawHUD() const {
 	x -= 120;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
+	DrawCircle(x, y, 50, GetColor(255, 255, 255), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetFontSize(16);
-	str = "回避ゲージ";
+	str = "回避（仮）";
 	if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0xffffff, str.c_str());
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, GetColor(0, 0, 0), str.c_str());
 	//DrawBox(x - 35, y - 35, x + 35, y + 35, GetColor(255, 255, 255), false);
 	//DrawCircle(x, y, 50, GetColor(255, 255, 255), false, 2);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);

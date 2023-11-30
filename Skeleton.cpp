@@ -34,6 +34,13 @@ Skeleton::Skeleton(Player* player, int arrayNum, int SkeletonMaxNum)
 	imgAngle = 0;
 }
 
+Skeleton::~Skeleton()
+{
+	DeleteGraph(imgArray[0]);
+	DeleteGraph(imgArray[1]);
+	DeleteGraph(img);
+}
+
 void Skeleton::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 {
 	//画像切り替え用フレームカウントをインクリメント

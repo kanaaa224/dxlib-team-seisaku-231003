@@ -13,6 +13,7 @@ private:
 	int reroadTime;
 public:
 	Wizard(Player* player, int arrayNum, int WizardMaxNum);
+	~Wizard();
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum) const;

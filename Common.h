@@ -38,7 +38,7 @@
 //敵
 // 
 #define MAX_ALPHA 255		//透過の最大値
-#define DAMAGE_STOP_FRAME 60//ダメージストップ（ダメージが与えられた時）
+#define DAMAGE_STOP_FRAME 30//ダメージストップ（ダメージが与えられた時）
 #define KNCKBACK 30.0f		//ノックバック
 #define ENEMY_SPEED 1.0f	//敵の移動速度
 #define RED_FRAME 15		//ダメージを受けた時の赤く表示するフレーム数
@@ -50,8 +50,8 @@
 #define ENEMY_RADIUS 20//敵の半径
 
 //スライム
-#define SLIME_HP_MAX 1000.0f			//HP
-#define SLIME_ATTAK_DAMAGE 1.0f	//ダメージ
+#define SLIME_HP_MAX 10.0f	//HP
+#define SLIME_ATTAK_DAMAGE 1.0f	//最初のダメージ
 #define MAX_SLIME_NUM 1000		//スライムの最大数
 
 #define SLIME_1_STAGE_NUM 10 //１ステージ目のスライムの数
@@ -97,7 +97,7 @@
 #define WIZARD_9_STAGE_NUM 5 //９ステージ目の魔法使いの数
 
 //弾
-#define BULLET_ATTAK_DAMAGE 0.0f	//ダメージ
+#define BULLET_ATTAK_DAMAGE 1.0f	//ダメージ
 #define MAX_BULLET_NUM 100			//弾の最大数
 #define BULLET_SPEED   3.0f			//弾の速度
 #define BULLET_RADIUS  10			//弾の半径
