@@ -177,6 +177,7 @@ Scene* GameScene::update() {
 									weaponA->SwordLevel8(player);
 									weaponA->SwordLevel8Heel(player);
 								}
+								weaponA->AddTotalDamage();
 							}
 						}
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -189,8 +190,10 @@ Scene* GameScene::update() {
 									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
 									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 										slime[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
 									}
 								}
+								weaponB->AddTotalDamage();
 							}
 						}
 						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
@@ -199,6 +202,7 @@ Scene* GameScene::update() {
 							slime[i]->SetHitHP(weaponA->GetDustDamage());
 							slime[i]->SetHit1stFrameFlg(true);
 							slime[i]->SetCloudOfDustHitFlg(true);
+							weaponA->AddTotalDamageDust();
 						}
 					}
 				}
@@ -216,6 +220,7 @@ Scene* GameScene::update() {
 									weaponA->SwordLevel8(player);
 									weaponA->SwordLevel8Heel(player);
 								}
+								weaponA->AddTotalDamage();
 							}
 						}
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
@@ -228,8 +233,10 @@ Scene* GameScene::update() {
 									weaponB->SetThunderLocation(skeleton[i]->GetEnemyLocation());
 									if (weaponB->SpearThunderCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 										skeleton[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
 									}
 								}
+								weaponB->AddTotalDamage();
 							}
 						}
 					}
@@ -248,6 +255,7 @@ Scene* GameScene::update() {
 									weaponA->SetHitCnt(true);
 									weaponA->SwordLevel8(player);
 								}
+								weaponA->AddTotalDamage();
 							}
 						}
 						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
@@ -260,8 +268,10 @@ Scene* GameScene::update() {
 									weaponB->SetThunderLocation(wizard[i]->GetEnemyLocation());
 									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
 									}
 								}
+								weaponB->AddTotalDamage();
 							}
 						}
 					}
@@ -279,6 +289,7 @@ Scene* GameScene::update() {
 								weaponA->SetHitCnt(true);
 								weaponA->SwordLevel8(player);
 							}
+							weaponA->AddTotalDamage();
 						}
 					}
 					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
@@ -291,8 +302,10 @@ Scene* GameScene::update() {
 								weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
 								if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
 									minotaur->SetHitHP(weaponB->GetThunderDamage());
+									weaponB->AddTotalDamageThunder();
 								}
 							}
+							weaponB->AddTotalDamage();
 						}
 					}
 				}
