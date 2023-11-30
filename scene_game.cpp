@@ -795,6 +795,17 @@ void GameScene::EnemyInc()
 			}
 		}
 	}
+
+	if (minotaur != nullptr) {
+		if (minotaur->GetHitFrameCnt() >= DAMAGE_STOP_FRAME) {
+			minotaur->SetHit1stFrameFlg(false);
+			minotaur->SetHitFrameCnt(0);
+		}
+
+		if (minotaur->GetHit1stFrameFlg() == true) {
+			minotaur->hitFrameCntInc();
+		}
+	}
 }
 
 //----------スライム----------//
