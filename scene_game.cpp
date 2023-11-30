@@ -454,7 +454,7 @@ Scene* GameScene::update() {
 				};
 				if (gameUI->getState() == banner_playerUI) {
 					// 黒帯消滅後に発火
-					//return new GameOverScene;
+					return new GameOverScene(weaponA, weaponB);
 				};
 			};
 			//////////////////////////////////////////////////
