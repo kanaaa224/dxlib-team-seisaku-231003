@@ -142,11 +142,11 @@ Scene* GameScene::update() {
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
 		else mode = GameSceneMode::blacksmith;
 	};
-#endif
+
 
 	// 強制ゲームオーバー
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) return new GameOverScene;
-
+#endif
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::main) {
