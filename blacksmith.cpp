@@ -355,8 +355,8 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 // レベルリセット画面描画
 void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 {
-	DrawBox(200, 200, 500, 600, 0xa9a9a9, TRUE);
-	DrawBox(770, 200, 1070, 600, 0xa9a9a9, TRUE);
+	DrawBox(200, 200, 500, 600, 0x909090, TRUE);
+	DrawBox(770, 200, 1070, 600, 0x909090, TRUE);
 	if (weapon_number == weapon1_info.num)
 	{
 		DrawBox(200, 200, 500, 600, 0xd3d3d3, TRUE);
@@ -370,7 +370,7 @@ void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 	SetFontSize(35);
 	DrawFormatString(510, 45, 0x000000, "レベルリセット");
 	SetFontSize(15);
-	DrawFormatString(510, 100, 0xb00000, "武器のレベルが0になります");
+	DrawFormatString(530, 100, 0xb00000, "武器のレベルが0になります");
 
 	// 武器の画像描画
 	DrawWeaponImages();
