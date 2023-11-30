@@ -241,6 +241,16 @@ Scene* GameScene::update() {
 								weaponB->AddTotalDamage();
 							}
 						}
+						if (weaponA->DustCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+							if (skeleton[i]->GetHitFrameCnt() == 0) {
+								skeleton[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								skeleton[i]->SetHitHP(weaponA->GetDustDamage());
+								skeleton[i]->SetHit1stFrameFlg(true);
+								skeleton[i]->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
+						}
 					}
 				}
 
@@ -276,6 +286,16 @@ Scene* GameScene::update() {
 								weaponB->AddTotalDamage();
 							}
 						}
+						if (weaponA->DustCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+							if (wizard[i]->GetHitFrameCnt() == 0) {
+								wizard[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								wizard[i]->SetHitHP(weaponA->GetDustDamage());
+								wizard[i]->SetHit1stFrameFlg(true);
+								wizard[i]->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
+						}
 					}
 				}
 				//ミノタウロス
@@ -308,6 +328,16 @@ Scene* GameScene::update() {
 								}
 							}
 							weaponB->AddTotalDamage();
+						}
+					}
+					if (weaponA->DustCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+						if (minotaur->GetHitFrameCnt() == 0) {
+							minotaur->SetHitWeaponFlg();
+							//ダメージアップ
+							minotaur->SetHitHP(weaponA->GetDustDamage());
+							minotaur->SetHit1stFrameFlg(true);
+							minotaur->SetCloudOfDustHitFlg(true);
+							weaponA->AddTotalDamageDust();
 						}
 					}
 				}
