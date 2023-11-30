@@ -22,6 +22,8 @@ Map::Map() {
 	if (cross_img == 0) cross_img = (LoadGraph("resources/images/cross.png"));
 	if (crown_img == 0) crown_img = (LoadGraph("resources/images/crown.png"));
 	if (roof_img == 0) roof_img = (LoadGraph("resources/images/maps/roof.png"));
+	if (wall_img == 0) wall_img = (LoadGraph("resources/images/maps/wall.png"));
+	if (tower_img == 0) tower_img = (LoadGraph("resources/images/maps/tower.png"));
 
 	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
 	ChangeVolumeSoundMem(255 * 0.265, map_bgm);
@@ -36,6 +38,9 @@ Map::~Map() {
 	DeleteGraph(boss_img);
 	DeleteGraph(cross_img);
 	DeleteGraph(crown_img);
+	DeleteGraph(roof_img);
+	DeleteGraph(wall_img);
+	DeleteGraph(tower_img);
 	DeleteSoundMem(map_bgm);
 }
 
@@ -211,8 +216,9 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 void Map::draw() const {
 
-	//DrawGraph(355, -330 + map_move, roof_img, 1);
-	DrawExtendGraph(355, -380 + map_move, 955, -200 + map_move, roof_img, 1);
+	DrawExtendGraph(300, -380 + map_move, 1010, -200 + map_move, roof_img, 1);
+	DrawExtendGraph(370, -200 + map_move, 940, 650 + map_move, wall_img, 1);
+	//DrawExtendGraph(205, -430 + map_move, 1105, 650 + map_move, tower_img, 1);
 
 	int log_i = 0; // stage_log用変数
 	int x_img = 0;
@@ -228,20 +234,20 @@ void Map::draw() const {
 				int next_loc = next_stage[pattern][i][j];
 				if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
 					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xaa0000, 5);
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xFFD000, 5);
 					log_i++;
 				}
 				else if (i == now_stage && j == cursor_pos) {
 
 					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, alpha, alpha), 9.0f - ((float)alpha * 4 / 255));
+						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, 208 + (alpha * (255 - 208) / 255), alpha), 9.0f - ((float)alpha * 4 / 255));
 				}
 				else {
 					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
 						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 5);
 				}
 			}
-			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
+				DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
 			// アイコン表示
 			switch (MapData[i]) {
 			case 0:
@@ -271,7 +277,9 @@ void Map::draw() const {
 			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		
 		// カーソル表示(アイコンの円と被るように半径に-1)
-		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xff0000, 0, 3);
+		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xFFD000, 0, 3);
+		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r + 1, 0x050505, 0);
+		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 3, 0x050505, 0);
 	}
 }
 
@@ -291,19 +299,18 @@ void Map::ResetStage() {
 	now_stage = data_max - 1;
 
 	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
-	// 生成内容(ステージ範囲)(ステージ数) 
 
-	// ランダムイベント(st7固定)
+	// ランダムイベント
 	SetStage(map_ctrl[pattern][0][0], map_ctrl[pattern][0][1], map_ctrl[pattern][0][2], map_ctrl[pattern][0][3], 1);
 
-	// 休憩1(st3-6)(1-2)
+	// 休憩1
 	SetStage(map_ctrl[pattern][1][0], map_ctrl[pattern][1][1], map_ctrl[pattern][1][2], map_ctrl[pattern][1][3], 2);
-	// 休憩2(st8-18)(2-3)
+	// 休憩2
 	SetStage(map_ctrl[pattern][2][0], map_ctrl[pattern][2][1], map_ctrl[pattern][2][2], map_ctrl[pattern][2][3], 2);
-	// 休憩3(ボス前)
+	// 休憩3
 	MapData[data_max - 2] = 2;
 
-	// 鍛冶屋(st15-18)(1)
+	// 鍛冶屋
 	SetStage(map_ctrl[pattern][3][0], map_ctrl[pattern][3][1], map_ctrl[pattern][3][2], map_ctrl[pattern][3][3], 3);
 
 	// ボス
