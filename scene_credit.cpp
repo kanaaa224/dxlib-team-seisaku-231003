@@ -3,7 +3,7 @@
 Credit::Credit()
 {
 	//クレジット画像の読込
-	CreditImage = LoadGraph("resources/images/Title.png");
+	CreditImage = LoadGraph("resources/images/background.png");
 	//時間の初期化
 	g_WaitTime = 0;
 }
