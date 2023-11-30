@@ -56,6 +56,7 @@ private:
 
 public:
 	Minotaur();
+	~Minotaur();
 	void Update(Player* player);
 	void Draw() const;
 

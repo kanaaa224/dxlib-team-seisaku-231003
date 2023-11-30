@@ -11,6 +11,7 @@ private:
 
 public:
 	Skeleton(Player* player,int arrayNum,int SkeletonMaxNum);
+	~Skeleton();
 
 	void Update(int arrayNum, Player* player, weapon* w, Stage stage);
 	void Draw(int arrayNum) const;
