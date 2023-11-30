@@ -17,12 +17,12 @@ Scene* GameClearScene::update()
 {
 	// スペースキーでゲームオーバー画面へ
 	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
-		return new GameOverScene;
+		//return new GameOverScene();
 	}
 
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		return new ResultScene;
+		//return new ResultScene;
 	}
 
 	return this;

@@ -2,11 +2,14 @@
 
 #include "inputCtrl.h"
 #include "scene.h"
-#include "scene_title.h"
+
+class weapon;								// 最初の武器
+class second_weapon;						// 二つ目の武器
 
 class ResultScene : public Scene
 {
 private:
+
 	// 画像用変数
 	//int img_map;					// マップ
 	//int img_branchPoint;			// 分岐点
@@ -27,6 +30,16 @@ private:
 	// フェード演出
 	int value;						// 不透明度
 
+	struct weapon_info
+	{
+		int type;					// 種類
+		int level;					// レベル
+		int damage;					// ダメージ総量
+	};
+
+	weapon_info weapon1_info;
+	weapon_info weapon2_info;
+
 	// テスト
 	FILE* fp;
 	struct Sample
@@ -39,7 +52,8 @@ private:
 	bool is_fopen;
 
 public:
-	ResultScene();
+	ResultScene(int &num1,int &num2);
+	//ResultScene();
 	~ResultScene();
 
 	// 更新

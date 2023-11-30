@@ -1,6 +1,7 @@
-#include "scene_result.h"
+#include "main.h"
 
-ResultScene::ResultScene()
+ResultScene::ResultScene(int &num1,int &num2)
+//ResultScene::ResultScene()
 {
 	// 画像読込
 	img_button_a = LoadGraph("resources/images/button_a01.png");
@@ -16,6 +17,12 @@ ResultScene::ResultScene()
 
 	// 変数の初期化
 	value = 180;
+
+	// 武器1
+	weapon1_info.type = num1;
+
+	// 武器2
+	weapon2_info.type = num2;
 
 	// テスト
 	fp = NULL;
@@ -114,7 +121,7 @@ void ResultScene::draw() const
 		DrawFormatString(850, 500, 0x000000, "総ダメージ数      %7d", sample[1].damage);
 	}
 
-	switch (sample[0].type)
+	switch (weapon1_info.type)
 	{
 	case 0:			// 片手剣
 		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_sword, TRUE);
@@ -135,7 +142,7 @@ void ResultScene::draw() const
 	}
 
 	// 武器2の画像
-	switch (sample[1].type)
+	switch (weapon2_info.type)
 	{
 	case 0:			// 槍
 		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_spear, TRUE);

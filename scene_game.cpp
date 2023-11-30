@@ -145,7 +145,10 @@ Scene* GameScene::update() {
 
 
 	// 強制ゲームオーバー
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) return new GameOverScene;
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
+
+		return new GameOverScene(weaponA,weaponB);
+	}
 #endif
 	//////////////////////////////////////////////////
 
@@ -451,7 +454,7 @@ Scene* GameScene::update() {
 				};
 				if (gameUI->getState() == banner_playerUI) {
 					// 黒帯消滅後に発火
-					return new GameOverScene;
+					//return new GameOverScene;
 				};
 			};
 			//////////////////////////////////////////////////

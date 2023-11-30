@@ -1,19 +1,22 @@
 #pragma once
 
-#define _USE_MATH_DEFINES				// <math.h>
-
 // アニメーション
 #define FPS_PERIOD 120					// 周期
 #define AMPLITUDE 40					// 振幅
 
-#include <math.h>
-#include "inputCtrl.h"
 #include "scene.h"
-#include "scene_result.h"
+
+// リザルトで使用予定
+class weapon;								// 最初の武器
+class second_weapon;						// 二つ目の武器
 
 class GameOverScene : public Scene
 {
 private:
+	// リザルトで使用予定
+	int num1;
+	int num2;
+
 	// 画像用変数
 	int img_gameover;					// ゲームオーバー（装飾）
 	int img_ghost;						// ゴースト
@@ -29,7 +32,7 @@ private:
 	int value;							// 不透明度
 
 public:
-	GameOverScene();
+	GameOverScene(weapon* weapon1, second_weapon* weapon2);
 	~GameOverScene();
 
 	// 更新
