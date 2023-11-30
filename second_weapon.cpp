@@ -27,7 +27,7 @@ second_weapon::second_weapon()
 
 	location = { 640.360 };
 
-	spear_img = LoadGraph("resources/images/spear.png");
+	spear_img = LoadGraph("resources/images/•Ší/‘„50E50.png");
 	frail_img = LoadGraph("resources/images/chain_iron ball.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	bullet_img = LoadGraph("resources/images/magic_bullet.png");
