@@ -107,7 +107,7 @@ void GameUI::update(GameScene* gameScene) {
 			if (std::stoi(notice["frame"]) % ((int)FPSCtrl::Get() * 2) == 0) {
 				notice["opacity"] = std::to_string(0.0);
 				notice["state"]   = std::to_string(0);
-				notice["frame"]   = std::to_string(0);
+				notice["frame"]   = std::to_string(1);
 			};
 		};
 	};
