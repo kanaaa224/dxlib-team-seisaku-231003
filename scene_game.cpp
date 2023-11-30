@@ -741,7 +741,9 @@ void GameScene::HitCheck()
 
 	//ミノタウロスとプレイヤーの当たり判定
 	if (minotaur != nullptr) {
-		HitEnemy(minotaur);
+		if (battleMode == GameSceneBattleMode::midBoss) {
+			HitEnemy(minotaur);
+		}
 	}
 }
 
