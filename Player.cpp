@@ -1,5 +1,5 @@
 #include "main.h"
-#include "Player.h"
+//#include "Player.h"
 
 float Player::MovingX;
 float Player::MovingY;
@@ -23,8 +23,9 @@ Player::Player() {
 	PlayerImg = PlayerArrayImg[0];
 
 	//SE
-	if (SE_playermove = LoadSoundMem("resources/sounds/SE/se_player_move.wav")) {};
-	if (SE_playeravoidance = LoadSoundMem("resources/sounds/SE/se_player_avoidance.wav")) {};
+	SoundManager::SetSE("se_player_move");
+	SoundManager::SetSE("se_player_avoidance");
+	SoundManager::SetVolumeSEs(100);
 
 	PlayerX = 640;
 	PlayerY = 360;
@@ -104,8 +105,6 @@ Player::~Player() {
 
 	DeleteGraph(AimingImg);
 	DeleteGraph(KaihiImg);
-	DeleteSoundMem(SE_playermove);
-	DeleteSoundMem(SE_playeravoidance);
 }
 
 void Player::update() {
@@ -148,11 +147,7 @@ void Player::update() {
 		Player_Avoidance();
 		//Player_Move_Animation();
 
-		if (!CheckSoundMem(SE_playeravoidance))
-		{
-			//ChangeVolumeSoundMem(255, SE_playermove);
-			PlaySoundMem(SE_playeravoidance, DX_PLAYTYPE_BACK, TRUE);
-		}
+		SoundManager::PlaySoundSE("se_player_avoidance");
 	}
 	
 	if (CoolTime == true) {
@@ -162,23 +157,19 @@ void Player::update() {
 
 	//プレイヤーの移動　プレイヤーが回避をしていない間は動ける
 	if ((A_value == false || CoolTime == true) /*&& camera_flg*/) {
-		StopSoundMem(SE_playeravoidance);
+		SoundManager::StopSoundSE("se_player_avoidance");
 		MovingFlg = true;
 		Player_Move();
 
-		if (!CheckSoundMem(SE_playermove))
-		{
-			//ChangeVolumeSoundMem(255, SE_playermove);
-			PlaySoundMem(SE_playermove, DX_PLAYTYPE_BACK, TRUE);
-		}
+		SoundManager::PlaySoundSE("se_player_move");
 	}
 	else {
 		MovingFlg = false;
 	}
 
 	if (A_value == false && CoolTime == true && MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
-		StopSoundMem(SE_playermove);
-		StopSoundMem(SE_playeravoidance);
+		SoundManager::StopSoundSE("se_player_move");
+		SoundManager::StopSoundSE("se_player_avoidance");
 		PlayerImg = PlayerArrayImg[0];
 	}
 

@@ -58,6 +58,7 @@
     <ClInclude Include="scene_gameclear.h" />
     <ClInclude Include="scene_gameover.h" />
     <ClInclude Include="scene_help.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="weaponLevelup.h" />
     <ClInclude Include="rest.h" />
     <ClInclude Include="scene_result.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="scene_gameclear.cpp" />
     <ClCompile Include="scene_gameover.cpp" />
     <ClCompile Include="scene_help.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="weaponLevelup.cpp" />
     <ClCompile Include="rest.cpp" />
     <ClCompile Include="scene_result.cpp" />

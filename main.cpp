@@ -15,6 +15,8 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
 	FPSCtrl::SetUpdateInterval(1000);
 
+	SoundManager::CreateSoundManager();
+
 	// ゲームループ＆シーンの更新
 	while ((ProcessMessage() == 0) && (sceneMng->update() != nullptr)) {
 		ClearDrawScreen();
@@ -36,6 +38,8 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		
 		ScreenFlip();
     };
+
+	SoundManager::DeleteSoundManager();
 
 	DxLib_End();
 	return 0;

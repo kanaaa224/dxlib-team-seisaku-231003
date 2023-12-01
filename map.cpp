@@ -25,9 +25,9 @@ Map::Map() {
 	if (wall_img == 0) wall_img = (LoadGraph("resources/images/maps/wall.png"));
 	if (tower_img == 0) tower_img = (LoadGraph("resources/images/maps/tower.png"));
 
-	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
-	ChangeVolumeSoundMem(255 * 0.45, map_bgm);
-	SetLoopPosSoundMem(400, map_bgm);
+	SoundManager::SetBGM("bgm_map");
+	SoundManager::SetVolumeBGM("bgm_map", 50);
+	SetLoopPosSoundMem(400,SoundManager::GetBGMHandle("bgm_map"));
 
 }
 Map::~Map() {
@@ -46,10 +46,7 @@ Map::~Map() {
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
-	if (!CheckSoundMem(map_bgm))
-	{
-		PlaySoundMem(map_bgm, DX_PLAYTYPE_LOOP, TRUE);
-	}
+	SoundManager::PlaySoundBGM("bgm_map");
 
 	// アイコン移動距離
 	int icon_vec = 0;
@@ -171,7 +168,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 
-		StopSoundMem(map_bgm);
+		SoundManager::StopSoundBGM("bgm_map");
 
 		now_stage = cursor_loc;
 
