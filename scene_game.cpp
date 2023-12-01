@@ -1045,6 +1045,19 @@ void GameScene::DevilKingUpdate()
 {
 	if (devilKing != nullptr) {
 		devilKing->Update(player);
+
+		//大きい弾の生成処理
+		if (devilKing->GetBigBulletCreateFlg() == true) {
+			if (tmpBigBulletNum < MAX_BULLET_NUM) {
+				bigEnemyBullet[tmpBigBulletNum] = new BigEnemyBullet(devilKing->GetEnemyLocation(), player);
+				tmpBigBulletNum++;
+				devilKing->SetBigBulletCreateFlg(false);
+			}
+		}
+		//大きい弾のUpdate
+		for (int i = 0; i < MAX_BULLET_NUM; i++) {
+			BigEnemyBulletUpdate(i);
+		}
 	}
 }
 
@@ -1052,5 +1065,25 @@ void GameScene::DevilKingDraw() const
 {
 	if (devilKing != nullptr) {
 		devilKing->Draw();
+	}
+}
+
+void GameScene::BigEnemyBulletUpdate(const int& array_num)
+{
+	if (bigEnemyBullet[array_num] != nullptr) {
+		bigEnemyBullet[array_num]->Update(player);
+		if (bigEnemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
+			bigEnemyBullet[array_num] = nullptr;
+			tmpBigBulletNum--;
+		}
+	}
+}
+
+void GameScene::BigEnemyBulletDraw() const
+{
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (bigEnemyBullet[i] != nullptr) {
+			bigEnemyBullet[i]->Draw();
+		}
 	}
 }

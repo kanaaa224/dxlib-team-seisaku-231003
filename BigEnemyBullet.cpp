@@ -1,8 +1,8 @@
-#include "BigEnemyBullet.h"
+ï»¿#include "BigEnemyBullet.h"
 
 BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 {
-	//•Ï”‚Ì‰Šú‰»
+	//å¤‰æ•°ã®åˆæœŸåŒ–
 	img = LoadGraph("resources/images/enemy_tmp_images/dekakintama.png");
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
@@ -26,7 +26,7 @@ BigEnemyBullet::~BigEnemyBullet()
 
 void BigEnemyBullet::Update(Player* player)
 {
-	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê‚ðdiff‚ÉƒZƒbƒg
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é‡ã‚’diffã«ã‚»ãƒƒãƒˆ
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 
@@ -34,9 +34,31 @@ void BigEnemyBullet::Update(Player* player)
 	location.y += vector.y - diff.y;
 
 	lifeTimeCnt--;
+
+	//èµ¤è‰²ã®ç‚¹æ»…è¡¨ç¤ºå‡¦ç†
+	redDrawCounter++;
+	if (redDrawCounter >= redDrawInterval) {
+		redDrawInterval -= redDrawCounter / 2;
+		if (redDrawInterval <= 0) {
+			redDrawInterval = 1;
+		}
+		redDrawCounter = 0;
+		redDrawFlg = true;
+	}
+
+	if (redDrawCounter == 1) {
+		redDrawFlg = false;
+	}
 }
 
 void BigEnemyBullet::Draw() const
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+	if (redDrawFlg == false) {
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+	}
+	else if (redDrawFlg == true) {
+		SetDrawBright(255, 0, 0);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+		SetDrawBright(255, 255, 255);
+	}
 }
