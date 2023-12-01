@@ -1,7 +1,6 @@
-#include "scene_gameover.h"
-#include "scene_gameclear.h"		// 仮
+#include "main.h"
 
-GameOverScene::GameOverScene()
+GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 {
 	// 画像読込
 	img_gameover = LoadGraph("resources/images/gameover.png");
@@ -14,6 +13,23 @@ GameOverScene::GameOverScene()
 	count = 0;
 
 	value = 180;
+
+	// 武器1情報
+	result_info[0] = weapon1->GetWeaponType();
+	result_info[1] = weapon1->GetWeaponLevel();
+	result_info[2] = weapon1->GetTotalDamage();
+
+	// 武器2情報
+	result_info[3] = weapon2->GetWeaponType();
+	result_info[4] = weapon2->GetWeaponLevel();
+	result_info[5] = weapon2->GetTotalDamage();
+
+	// マップ情報
+	result_info[6] = map->GetBattleCount();
+	result_info[7] = map->GetEventCount();
+	result_info[8] = map->GetRestCount();
+	result_info[9] = map->GetAnvilCount();
+	result_info[10] = map->GetBossCount();
 }
 
 GameOverScene::~GameOverScene()
@@ -49,7 +65,7 @@ Scene* GameOverScene::update()
 
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		return new ResultScene;
+		return new ResultScene(result_info);
 	}
 
 	return this;

@@ -57,6 +57,8 @@ private:
 	int tmpBulletNum = 0;
 	//ミノタウロス
 	Minotaur* minotaur;
+	//魔王
+	Devil_king* devilKing;
 
 	GameUI* gameUI;
 
@@ -148,4 +150,7 @@ public:
 	//ミノタウロス
 	void MinotaurUpdate();
 	void MinotaurDraw() const;
+	//魔王
+	void DevilKingUpdate();
+	void DevilKingDraw() const;
 };

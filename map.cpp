@@ -29,6 +29,12 @@ Map::Map() {
 	SoundManager::SetVolumeBGM("bgm_map", 50);
 	SetLoopPosSoundMem(400,SoundManager::GetBGMHandle("bgm_map"));
 
+	// リザルト画面用
+	battle_count = 0;
+	event_count = 0;
+	rest_count = 0;
+	anvil_count = 0;
+	boss_count = 0;
 }
 Map::~Map() {
 	DeleteGraph(battle_img);
@@ -179,29 +185,31 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 			else mode = GameSceneMode::weaponSelect;
 
 			battleMode = GameSceneBattleMode::normal;
-
+			battle_count++;
 			break;
 		case 1:		//イベント（中ボス）
 			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
 
 			battleMode = GameSceneBattleMode::midBoss;
-
+			event_count++;
 			break;
 		case 2:		//休憩
 			mode = GameSceneMode::rest;
 			ClearStage();
+			rest_count++;
 			break;
 		case 3:		//鍛冶屋
 			mode = GameSceneMode::blacksmith;
+			anvil_count++;
 			break;
 		case 4:		//ボス
 			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
 
 			battleMode = GameSceneBattleMode::boss;
-
 			ClearStage();
+			boss_count++;
 			break;
 		default:
 			break;
@@ -278,6 +286,15 @@ void Map::draw() const {
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r + 1, 0x050505, 0);
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 3, 0x050505, 0);
 	}
+
+#ifdef _DEBUG	
+	DrawFormatString(0, 80, 0xffffff, "リザルト用（仮）");
+	DrawFormatString(0, 100, 0xffffff, "battle_count : %d", battle_count);
+	DrawFormatString(0, 120, 0xffffff, "event_count : %d", event_count);
+	DrawFormatString(0, 140, 0xffffff, "rest_count : %d", rest_count);
+	DrawFormatString(0, 160, 0xffffff, "anvil_count : %d", anvil_count);
+	DrawFormatString(0, 180, 0xffffff, "boss_count : %d", boss_count);
+#endif
 }
 
 void Map::ResetStage() {

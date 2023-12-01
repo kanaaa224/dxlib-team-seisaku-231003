@@ -516,21 +516,29 @@ void GameUI::drawBanner() const {
 	if (banner.find("title")    != banner.end()) title    = banner.at("title");
 	if (banner.find("subTitle") != banner.end()) subTitle = banner.at("subTitle");
 
+	int lx = 0;
+	int ly = (SCREEN_HEIGHT / 3);
+	int rx = SCREEN_WIDTH;
+	int ry = (SCREEN_HEIGHT / 3) * 2;
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
+	DrawBox(0, ly, rx, ry, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int line = 5;
-	DrawBox(0, (SCREEN_HEIGHT / 3),         SCREEN_WIDTH, (SCREEN_HEIGHT / 3) + line, GetColor(255, 255, 255), true);
-	DrawBox(0, (SCREEN_HEIGHT / 3) * 2 - line, SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(255, 255, 255), true);
+	DrawBox(lx, ly, rx, (SCREEN_HEIGHT / 3) + line, GetColor(255, 255, 255), true);
+	DrawBox(0, ry - line, rx, ry, GetColor(255, 255, 255), true);
 
 	//ChangeFont("");
 
 	SetFontSize(40);
-	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(title.c_str()) / 2, 320, 0xffffff, title.c_str());
+	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(title.c_str()) / 2, 320, 0xffffff, title.c_str());
 
 	SetFontSize(24);
-	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
+	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
+
+	int x = 0;
+	int y = 0;
 };
 
 void GameUI::drawEnemyHP() const {

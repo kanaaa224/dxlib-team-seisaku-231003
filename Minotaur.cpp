@@ -13,7 +13,7 @@ Minotaur::Minotaur()
 
 	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
 	hp = MINOTAUR_MAX_HP;
-	damage = 10;
+	damage = MINOTAUR_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
 

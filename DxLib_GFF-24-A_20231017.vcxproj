@@ -35,6 +35,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BigEnemyBullet.h" />
+    <ClInclude Include="Devil_king.h" />
     <ClInclude Include="DrawHelp.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="Common.h" />
@@ -74,6 +76,8 @@
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BigEnemyBullet.cpp" />
+    <ClCompile Include="Devil_king.cpp" />
     <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
