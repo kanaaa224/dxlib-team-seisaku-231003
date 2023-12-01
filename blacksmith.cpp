@@ -4,7 +4,7 @@ Blacksmith::Blacksmith()
 {
 	// 画像の読込
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
-	img_chooce = LoadGraph("resources/images/levelup_choose.png");
+	img_chooce = LoadGraph("resources/images/blacksmith_choose.png");
 	img_hammer = LoadGraph("resources/images/hammer.png");
 	img_spark = LoadGraph("resources/images/spark.png");
 	img_exclamation_mark = LoadGraph("resources/images/mark_exclamation_white.png");
@@ -303,53 +303,38 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 	DrawBox(170, 130, 570, 590, box_color, TRUE);
 	DrawBox(710, 130, 1110, 590, box_color, TRUE);
 
+	SetFontSize(50);
+
 	if (action_number == levelup)
-	{
-		//DrawBox(170, 130, 570, 590, box_color_hover, TRUE);
-		
+	{		
 		DrawRotaGraph(430, 280, 0.5f, 0.0f, img_hammer, TRUE);
 		DrawRotaGraph(250, 370, 0.2f, 0.0f, img_spark, TRUE);
+		DrawFormatString(210, 520, 0x000000, "レベルアップ");
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 		DrawRotaGraph(1030, 210, 0.2f, 0.0f, img_sword, TRUE);
-		DrawRotaGraph(930, 270, 0.2f, M_PI / -4.0f, img_arrow, TRUE);
-		DrawRotaGraph(780, 340, 0.15f, 0.0f, img_chooce, TRUE);
-		DrawRotaGraph(840, 355, 0.15f, 0.0f, img_chooce, TRUE);
-		DrawRotaGraph(800, 390, 0.15f, 0.0f, img_chooce, TRUE);
+		DrawRotaGraph(900, 300, 0.2f, M_PI / -4.0f, img_arrow, TRUE);
+		DrawRotaGraph(800, 400, 1.0f, 0.0f, img_chooce, TRUE);
+		DrawFormatString(740, 520, 0x000000, "レベルリセット");
 		
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 	else
 	{
-		//DrawBox(710, 130, 1110, 590, box_color_hover, TRUE);
-
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
 
 		DrawRotaGraph(430, 280, 0.5f, 0.0f, img_hammer, TRUE);
 		DrawRotaGraph(250, 370, 0.2f, 0.0f, img_spark, TRUE);
-		
+		DrawFormatString(210, 520, 0x000000, "レベルアップ");
+
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 		DrawRotaGraph(1030, 210, 0.2f, 0.0f, img_sword, TRUE);
-		DrawRotaGraph(930, 270, 0.2f, M_PI / -4.0f, img_arrow, TRUE);
-		DrawRotaGraph(780, 340, 0.15f, 0.0f, img_chooce, TRUE);
-		DrawRotaGraph(840, 355, 0.15f, 0.0f, img_chooce, TRUE);
-		DrawRotaGraph(800, 390, 0.15f, 0.0f, img_chooce, TRUE);
+		DrawRotaGraph(900, 300, 0.2f, M_PI / -4.0f, img_arrow, TRUE);
+		DrawRotaGraph(800, 400, 1.0f, 0.0f, img_chooce, TRUE);
+		DrawFormatString(740, 520, 0x000000, "レベルリセット");
 	}
-
-	SetFontSize(50);
-	DrawFormatString(740, 520, 0x000000, "レベルリセット");
-	DrawFormatString(210, 520, 0x000000, "レベルアップ");
-
-	// 画像の表示
-	//DrawRotaGraph(430, 280, 0.5f, 0.0f, img_hammer, TRUE);
-	//DrawRotaGraph(250, 370, 0.2f, 0.0f, img_spark, TRUE);
-	//DrawRotaGraph(1030, 210, 0.2f, 0.0f, img_sword, TRUE);
-	//DrawRotaGraph(930, 270, 0.2f, M_PI / - 4.0f, img_arrow, TRUE);
-	//DrawRotaGraph(780, 340, 0.15f, 0.0f, img_chooce, TRUE);
-	//DrawRotaGraph(840, 355, 0.15f, 0.0f, img_chooce, TRUE);
-	//DrawRotaGraph(800, 390, 0.15f, 0.0f, img_chooce, TRUE);
 
 	// 最終強化できる場合
 	if (weapon_levelup->GetWeapon1LevelHierarchy() == MAX_LEVEL_HIERARCHY || weapon_levelup->GetWeapon2LevelHierarchy() == MAX_LEVEL_HIERARCHY)
