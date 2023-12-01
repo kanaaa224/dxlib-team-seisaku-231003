@@ -1,31 +1,30 @@
-#include"main.h"
+#include "BigEnemyBullet.h"
 
-EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
+BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 {
 	//変数の初期化
-	img = LoadGraph("resources/images/enemy_tmp_images/kintama.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/dekakintama.png");
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
 	vector.x = 0;
 	vector.y = 0;
 	diff.x = 0;
 	diff.y = 0;
-	radius = BULLET_RADIUS;
-	damage = BULLET_ATTAK_DAMAGE;
-	speed = BULLET_SPEED;
-	lifeTimeCnt = BULLET_LIFE_TIME;
-
+	radius = 25;
+	damage = 1;
+	speed = 2.0f;
+	lifeTimeCnt = SECOND_FRAME(5);
 	SetPlayer_Location(player->GetLocation());
 	vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
 	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
 }
 
-EnemyBullet::~EnemyBullet()
+BigEnemyBullet::~BigEnemyBullet()
 {
-	DeleteGraph(img);
+
 }
 
-void EnemyBullet::Update(Player* player)
+void BigEnemyBullet::Update(Player* player)
 {
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
@@ -37,17 +36,7 @@ void EnemyBullet::Update(Player* player)
 	lifeTimeCnt--;
 }
 
-void EnemyBullet::Draw() const
+void BigEnemyBullet::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-}
-
-int EnemyBullet::GetDamage()
-{
-	return damage;
-}
-
-int EnemyBullet::GetlifeTimeCnt()
-{
-	return lifeTimeCnt;
 }

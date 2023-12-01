@@ -28,6 +28,7 @@ GameScene::GameScene() {
 	//////////////////////////////////////////////////
 	
 	minotaur = new Minotaur;
+	devilKing = new Devil_king;
 
 	//////////////////////////////////////////////////
 
@@ -93,6 +94,7 @@ GameScene::~GameScene() {
 	delete rest;
 
 	delete minotaur;
+	delete devilKing;
 };
 
 Scene* GameScene::update() {
@@ -163,6 +165,7 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::normal) SkeletonUpdate();
 			if (battleMode == GameSceneBattleMode::normal) WizardUpdate();
 			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
+			if (battleMode == GameSceneBattleMode::boss) DevilKingUpdate();
 
 			//武器と敵の当たり判定
 			if (true/*currentFloor == 1*/) {
@@ -537,6 +540,7 @@ void GameScene::draw() const {
 		if (battleMode == GameSceneBattleMode::normal) WizardDraw();
 		if (battleMode == GameSceneBattleMode::normal) EnemyBulletDraw();
 		if (battleMode == GameSceneBattleMode::midBoss) MinotaurDraw();
+		if (battleMode == GameSceneBattleMode::boss) DevilKingDraw();
 
 		//////////////////////////////////////////////////
 
@@ -988,7 +992,7 @@ void GameScene::EnemyBulletUpdate(const int& array_num, Wizard* enemy)
 {
 	//for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[array_num] != nullptr) {
-			enemyBullet[array_num]->Update(player,enemy);
+			enemyBullet[array_num]->Update(player);
 			if (enemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
 				enemyBullet[array_num] = nullptr;
 				tmpBulletNum--;
@@ -1023,5 +1027,20 @@ void GameScene::MinotaurDraw() const
 {
 	if (minotaur != nullptr) {
 		minotaur->Draw();
+	}
+}
+
+//----------魔王----------//
+void GameScene::DevilKingUpdate()
+{
+	if (devilKing != nullptr) {
+		devilKing->Update(player);
+	}
+}
+
+void GameScene::DevilKingDraw() const
+{
+	if (devilKing != nullptr) {
+		devilKing->Draw();
 	}
 }
