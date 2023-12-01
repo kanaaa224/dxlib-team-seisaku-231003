@@ -34,7 +34,7 @@ Scene*Title::update()
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber < 0) g_MenuNumber = 3;
 	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15)
 	{
 		//スティック移動の初期化
 		TitleInterval = 0;
@@ -46,7 +46,7 @@ Scene*Title::update()
 	g_MenuY = g_MenuNumber * 52;
 	
 	//Aボタンでメニュー決定・画面遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_A) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
 		if (g_MenuNumber == 0) {
 			return new GameScene;
