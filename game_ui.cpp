@@ -525,9 +525,9 @@ void GameUI::drawBanner() const {
 	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	int line = 5;
-	DrawBox(lx, ly, rx, ly + line, GetColor(255, 255, 255), true);
-	DrawBox(lx, ry - line, rx, ry, GetColor(255, 255, 255), true);
+	//int line = 5;
+	//DrawBox(lx, ly, rx, ly + line, GetColor(255, 255, 255), true);
+	//DrawBox(lx, ry - line, rx, ry, GetColor(255, 255, 255), true);
 
 	//ChangeFont("");
 
@@ -540,9 +540,17 @@ void GameUI::drawBanner() const {
 	int x = lx;
 	int y = ly;
 
-	DrawTriangle(x - 20, y, x - 40, y, x, y + 20, GetColor(255, 255, 255), true);
+	while (x < SCREEN_WIDTH) {
+		y = ly;
+		DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
+		DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
 
+		y = ry - 40;
+		DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
+		DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
 
+		x += 80;
+	};
 };
 
 void GameUI::drawEnemyHP() const {
