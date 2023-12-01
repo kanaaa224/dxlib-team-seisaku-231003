@@ -149,6 +149,16 @@ Scene* GameScene::update() {
 
 		return new GameOverScene(weaponA, weaponB, map);
 	}
+
+	// デバッグ - Oキーで強制ボス戦
+	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
+		battleMode = GameSceneBattleMode::boss;
+	};
+
+	// デバッグ - Iキーで強制中ボス戦
+	if (InputCtrl::GetKeyState(KEY_INPUT_I) == PRESS) {
+		battleMode = GameSceneBattleMode::midBoss;
+	};
 #endif
 	//////////////////////////////////////////////////
 
@@ -502,14 +512,14 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
-		if (mode >= GameSceneMode::main) map->ClearStage();
+		if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
 	};
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
 		hp = MAX_HP;
-		if (mode >= GameSceneMode::main) map->ClearStage();
+		//if (mode >= GameSceneMode::main) map->ClearStage();
 		return this;
 	};
 
