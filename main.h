@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define APP_NAME    "タイトル未設定"
+#define APP_NAME    "戦塔"
 #define APP_VERSION "v0.0.0"
 
 #define SCREEN_WIDTH  1280 // 画面サイズ（幅）
