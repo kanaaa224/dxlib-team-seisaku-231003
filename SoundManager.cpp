@@ -99,7 +99,23 @@ void SoundManager::StopSoundBGM(const char* fileName)
 	StopSoundMem(manager->bgm[fileName]);
 }
 
+void SoundManager::StopSoundBGMs()
+{
+	for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
+	{
+		StopSoundMem(manager->bgm[iterator->first]);
+	}
+}
+
 void SoundManager::StopSoundSE(const char* fileName)
 {
 	StopSoundMem(manager->se[fileName]);
+}
+
+void SoundManager::StopSoundSEs()
+{
+	for (auto iterator = manager->se.begin(); iterator != manager->se.end(); ++iterator)
+	{
+		StopSoundMem(manager->se[iterator->first]);
+	}
 }

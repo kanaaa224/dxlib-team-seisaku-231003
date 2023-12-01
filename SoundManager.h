@@ -55,7 +55,13 @@ public:
 	//BGM‚ð’âŽ~‚·‚é
 	static void StopSoundBGM(const char* fileName);
 
+	//‚·‚×‚Ä‚ÌBGM‚ð’âŽ~‚·‚é
+	static void StopSoundBGMs();
+
 	//SE‚ð’âŽ~‚·‚é
 	static void StopSoundSE(const char* fileName);
+
+	//‚·‚×‚Ä‚ÌSE‚ð’âŽ~‚·‚é
+	static void StopSoundSEs();
 };
 
