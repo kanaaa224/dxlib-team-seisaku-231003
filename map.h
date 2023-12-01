@@ -34,6 +34,7 @@ private:
 	int icon_loc[DATA_MAX][2];        // アイコン座標
 	int icon_loc_center[DATA_MAX][2]; // アイコン座標(中央)
 	int map_move;
+	int map_move_log;
 
 
 	// マップ生成制御
@@ -123,6 +124,8 @@ public:
 		cursor_move = TRUE;
 		cursor_pos = 0;
 		cursor_loc = next_stage[pattern][now_stage][0];
+		int center_def = 360 - icon_loc[cursor_loc][1];
+		map_move = map_move + center_def;
 		alpha = 0;
 		alpha_flg = TRUE;
 		for (int i = 0; i <= 10; i++) {
