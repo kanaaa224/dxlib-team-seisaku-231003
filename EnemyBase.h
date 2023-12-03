@@ -57,6 +57,8 @@ public:
 	//プレイヤーまでの距離を求める
 	float PlayerLoad_X(float location_x);//X座標上でのプレイヤーまでの距離
 	float PlayerLoad_Y(float location_y);//Y座標上でのプレイヤーまでの距離
+	float PlayerLoadX(float location_x);
+	float PlayerLoadY(float location_y);
 	//プレイヤーまでの直線距離
 	float PlayerLoad(Location location, bool absFlg);
 	//正規化

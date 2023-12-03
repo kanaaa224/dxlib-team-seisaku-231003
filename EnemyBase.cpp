@@ -40,6 +40,18 @@ float EnemyBase::PlayerLoad_Y(float location_y)
 	return r;
 }
 
+float EnemyBase::PlayerLoadX(float location_x)
+{
+	float r = dL.x - location_x;
+	return r;
+}
+
+float EnemyBase::PlayerLoadY(float location_y)
+{
+	float r = dL.y - location_y;
+	return r;
+}
+
 float EnemyBase::PlayerLoad(Location location, bool absFlg)
 {
 	float x = dL.x - location.x;

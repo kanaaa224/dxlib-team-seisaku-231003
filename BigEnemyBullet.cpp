@@ -1,4 +1,6 @@
 ﻿#include "BigEnemyBullet.h"
+#include "Common.h"
+#define DEBUG
 
 BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 {
@@ -12,11 +14,11 @@ BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 	diff.y = 0;
 	radius = 25;
 	damage = 1;
-	speed = 2.0f;
-	lifeTimeCnt = SECOND_FRAME(5);
+	speed = 1.0f;
+	lifeTimeCnt = SECOND_FRAME(10);
 	SetPlayer_Location(player->GetLocation());
-	vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
-	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
+	vector.x = Normalization_X(PlayerLoadX(location.x), PlayerLoadY(location.y)) * speed;
+	vector.y = Normalization_Y(PlayerLoadX(location.x), PlayerLoadY(location.y)) * speed;
 }
 
 BigEnemyBullet::~BigEnemyBullet()
@@ -37,18 +39,7 @@ void BigEnemyBullet::Update(Player* player)
 
 	//赤色の点滅表示処理
 	redDrawCounter++;
-	if (redDrawCounter >= redDrawInterval) {
-		redDrawInterval -= redDrawCounter / 2;
-		if (redDrawInterval <= 0) {
-			redDrawInterval = 1;
-		}
-		redDrawCounter = 0;
-		redDrawFlg = true;
-	}
-
-	if (redDrawCounter == 1) {
-		redDrawFlg = false;
-	}
+	RedFlashing();
 }
 
 void BigEnemyBullet::Draw() const
@@ -60,5 +51,22 @@ void BigEnemyBullet::Draw() const
 		SetDrawBright(255, 0, 0);
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 		SetDrawBright(255, 255, 255);
+	}
+
+#ifdef DEBUG
+	DrawFormatString(location.x, location.y, C_BLACK, "lifeTime:%d",lifeTimeCnt);
+#endif // DEBUG
+
+}
+
+void BigEnemyBullet::RedFlashing()
+{
+	if (redDrawCounter >= 510) {
+		if (redDrawCounter % 15 == 0 || redDrawCounter % 15 == 1 || redDrawCounter % 15 == 2 || redDrawCounter % 15 == 3 || redDrawCounter % 15 == 4) {
+			redDrawFlg = true;
+		}
+		else {
+			redDrawFlg = false;
+		}
 	}
 }

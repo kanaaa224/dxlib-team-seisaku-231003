@@ -551,6 +551,7 @@ void GameScene::draw() const {
 		if (battleMode == GameSceneBattleMode::normal) EnemyBulletDraw();
 		if (battleMode == GameSceneBattleMode::midBoss) MinotaurDraw();
 		if (battleMode == GameSceneBattleMode::boss) DevilKingDraw();
+		if (battleMode == GameSceneBattleMode::boss) BigEnemyBulletDraw();
 
 		//////////////////////////////////////////////////
 
@@ -1048,10 +1049,12 @@ void GameScene::DevilKingUpdate()
 
 		//大きい弾の生成処理
 		if (devilKing->GetBigBulletCreateFlg() == true) {
-			if (tmpBigBulletNum < MAX_BULLET_NUM) {
-				bigEnemyBullet[tmpBigBulletNum] = new BigEnemyBullet(devilKing->GetEnemyLocation(), player);
-				tmpBigBulletNum++;
-				devilKing->SetBigBulletCreateFlg(false);
+			for (int i = 0; i < MAX_BULLET_NUM; i++) {
+				if (bigEnemyBullet[i] == nullptr) {
+					bigEnemyBullet[i] = new BigEnemyBullet(devilKing->GetEnemyLocation(), player);
+					devilKing->SetBigBulletCreateFlg(false);
+					break;
+				}
 			}
 		}
 		//大きい弾のUpdate
@@ -1068,13 +1071,12 @@ void GameScene::DevilKingDraw() const
 	}
 }
 
-void GameScene::BigEnemyBulletUpdate(const int& array_num)
+void GameScene::BigEnemyBulletUpdate(int array_num)
 {
 	if (bigEnemyBullet[array_num] != nullptr) {
 		bigEnemyBullet[array_num]->Update(player);
 		if (bigEnemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
 			bigEnemyBullet[array_num] = nullptr;
-			tmpBigBulletNum--;
 		}
 	}
 }

@@ -161,6 +161,6 @@ public:
 	void DevilKingUpdate();
 	void DevilKingDraw() const;
 	//大きい弾
-	void BigEnemyBulletUpdate(const int& array_num);
+	void BigEnemyBulletUpdate(int array_num);
 	void BigEnemyBulletDraw() const;
 };
