@@ -61,7 +61,8 @@ private:
 	Devil_king* devilKing;
 	//大きい弾
 	BigEnemyBullet* bigEnemyBullet[MAX_BULLET_NUM];
-	int tmpBigBulletNum = 0;
+	//小さい弾
+	SmallEnemyBullet* smallEnemyBullet[MAX_BULLET_NUM];
 
 	GameUI* gameUI;
 
@@ -163,4 +164,7 @@ public:
 	//大きい弾
 	void BigEnemyBulletUpdate(int array_num);
 	void BigEnemyBulletDraw() const;
+	//小さい弾
+	void SmallEnemyBulletUpdate(int array_num);
+	void SmallEnemyBulletDraw() const;
 };

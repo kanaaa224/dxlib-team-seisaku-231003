@@ -3,7 +3,7 @@
 EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 {
 	//•Ï”‚Ì‰Šú‰»
-	img = LoadGraph("resources/images/enemy_tmp_images/kintama.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/tama.png");
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
 	vector.x = 0;

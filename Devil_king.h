@@ -19,6 +19,10 @@ public:
 	void Update(Player* player);
 	void Draw() const;
 
+	//ビーム
+	void BeamUpdate();
+	void BeamDraw() const;
+
 	//Get関数
 	bool GetBigBulletCreateFlg() {
 		return bigBulletCreateFlg;
