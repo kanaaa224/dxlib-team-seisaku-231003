@@ -50,6 +50,8 @@ private:
 
 	bool playerRoarHitFlg;
 
+	int playerRoarHitCounter = 0;
+
 	//----------その他----------//
 	//HP
 	float hpRate;
