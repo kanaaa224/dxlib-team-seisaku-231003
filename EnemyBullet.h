@@ -6,16 +6,13 @@
 class EnemyBullet :public EnemyBase
 {
 private:
-
 	int lifeTimeCnt = 0;
-
-	float angle;
 
 public:
 	EnemyBullet(Location spawnLocation , Player* player);
 	~EnemyBullet();
 
-	void Update(Player* player, Wizard* enemy);
+	void Update(Player* player);
 	void Draw() const;
 
 	//get

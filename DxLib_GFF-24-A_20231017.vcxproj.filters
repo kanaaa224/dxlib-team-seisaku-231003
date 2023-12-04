@@ -172,6 +172,16 @@
     <ClInclude Include="Minotaur.h">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Devil_king.h">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BigEnemyBullet.h">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SmallEnemyBullet.h">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sceneManager.cpp">
@@ -272,6 +282,16 @@
     </ClCompile>
     <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="Minotaur.cpp">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Devil_king.cpp">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BigEnemyBullet.cpp">
+      <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SmallEnemyBullet.cpp">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>

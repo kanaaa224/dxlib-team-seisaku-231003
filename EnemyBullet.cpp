@@ -15,16 +15,9 @@ EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 	speed = BULLET_SPEED;
 	lifeTimeCnt = BULLET_LIFE_TIME;
 
-	angle = 0;
-
-	//プレイヤーの移動量をdiffにセット
-	//SetPlayerAmountOfTravel_X(player->Player_MoveX());
-	//SetPlayerAmountOfTravel_Y(player->Player_MoveY());
-	////プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 	vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
 	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * BULLET_SPEED;
-	angle = asinf(PlayerLoad_Y(location.y) / PlayerLoad(this->location, true));
 }
 
 EnemyBullet::~EnemyBullet()
@@ -32,7 +25,7 @@ EnemyBullet::~EnemyBullet()
 	DeleteGraph(img);
 }
 
-void EnemyBullet::Update(Player* player, Wizard* enemy)
+void EnemyBullet::Update(Player* player)
 {
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
@@ -40,9 +33,6 @@ void EnemyBullet::Update(Player* player, Wizard* enemy)
 
 	location.x += vector.x - diff.x;
 	location.y += vector.y - diff.y;
-
-	//location.x += cosf(angle) * speed - diff.x;
-	//location.y += sinf(angle) * speed - diff.y;
 
 	lifeTimeCnt--;
 }

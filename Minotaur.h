@@ -5,7 +5,8 @@
 #define TACKLE_SPEED   8	//タックルのスピード
 #define ROAR_RADIUS    200	//咆哮の半径
 #define PLAYER_RADIUS  50
-#define MINOTAUR_MAX_HP 2000//ミノタウロスの最大HP
+#define MINOTAUR_MAX_HP 400		//ミノタウロスの最大HP
+#define MINOTAUR_ATTAK_DAMAGE 10//ミノタウロスの攻撃力
 
 class Minotaur :public EnemyBase
 {
@@ -48,6 +49,8 @@ private:
 	bool roarEffectFinFlg;
 
 	bool playerRoarHitFlg;
+
+	int playerRoarHitCounter = 0;
 
 	//----------その他----------//
 	//HP

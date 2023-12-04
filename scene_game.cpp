@@ -28,6 +28,7 @@ GameScene::GameScene() {
 	//////////////////////////////////////////////////
 	
 	minotaur = new Minotaur;
+	devilKing = new Devil_king;
 
 	//////////////////////////////////////////////////
 
@@ -93,6 +94,7 @@ GameScene::~GameScene() {
 	delete rest;
 
 	delete minotaur;
+	delete devilKing;
 };
 
 Scene* GameScene::update() {
@@ -149,6 +151,16 @@ Scene* GameScene::update() {
 
 		return new GameOverScene(weaponA, weaponB, map);
 	}
+
+	// デバッグ - Oキーで強制ボス戦
+	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
+		battleMode = GameSceneBattleMode::boss;
+	};
+
+	// デバッグ - Iキーで強制中ボス戦
+	if (InputCtrl::GetKeyState(KEY_INPUT_I) == PRESS) {
+		battleMode = GameSceneBattleMode::midBoss;
+	};
 #endif
 	//////////////////////////////////////////////////
 
@@ -163,6 +175,7 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::normal) SkeletonUpdate();
 			if (battleMode == GameSceneBattleMode::normal) WizardUpdate();
 			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
+			if (battleMode == GameSceneBattleMode::boss) DevilKingUpdate();
 
 			//武器と敵の当たり判定
 			if (true/*currentFloor == 1*/) {
@@ -458,8 +471,8 @@ Scene* GameScene::update() {
 				};
 			};
 			//////////////////////////////////////////////////
-			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), 2000, (int)(minotaur->GetHP() / 20.0f));
-			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", 0, 0, 0);
+			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
+			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
@@ -502,14 +515,14 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
-		if (mode >= GameSceneMode::main) map->ClearStage();
+		if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
 	};
 
 	if (mode == GameSceneMode::rest) {
 		rest->update(player, mode, currentFloor);
 		hp = MAX_HP;
-		if (mode >= GameSceneMode::main) map->ClearStage();
+		//if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
 	};
 
@@ -537,6 +550,8 @@ void GameScene::draw() const {
 		if (battleMode == GameSceneBattleMode::normal) WizardDraw();
 		if (battleMode == GameSceneBattleMode::normal) EnemyBulletDraw();
 		if (battleMode == GameSceneBattleMode::midBoss) MinotaurDraw();
+		if (battleMode == GameSceneBattleMode::boss) DevilKingDraw();
+		if (battleMode == GameSceneBattleMode::boss) BigEnemyBulletDraw();
 
 		//////////////////////////////////////////////////
 
@@ -988,7 +1003,7 @@ void GameScene::EnemyBulletUpdate(const int& array_num, Wizard* enemy)
 {
 	//for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (enemyBullet[array_num] != nullptr) {
-			enemyBullet[array_num]->Update(player,enemy);
+			enemyBullet[array_num]->Update(player);
 			if (enemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
 				enemyBullet[array_num] = nullptr;
 				tmpBulletNum--;
@@ -1023,5 +1038,54 @@ void GameScene::MinotaurDraw() const
 {
 	if (minotaur != nullptr) {
 		minotaur->Draw();
+	}
+}
+
+//----------魔王----------//
+void GameScene::DevilKingUpdate()
+{
+	if (devilKing != nullptr) {
+		devilKing->Update(player);
+
+		//大きい弾の生成処理
+		if (devilKing->GetBigBulletCreateFlg() == true) {
+			for (int i = 0; i < MAX_BULLET_NUM; i++) {
+				if (bigEnemyBullet[i] == nullptr) {
+					bigEnemyBullet[i] = new BigEnemyBullet(devilKing->GetEnemyLocation(), player);
+					devilKing->SetBigBulletCreateFlg(false);
+					break;
+				}
+			}
+		}
+		//大きい弾のUpdate
+		for (int i = 0; i < MAX_BULLET_NUM; i++) {
+			BigEnemyBulletUpdate(i);
+		}
+	}
+}
+
+void GameScene::DevilKingDraw() const
+{
+	if (devilKing != nullptr) {
+		devilKing->Draw();
+	}
+}
+
+void GameScene::BigEnemyBulletUpdate(int array_num)
+{
+	if (bigEnemyBullet[array_num] != nullptr) {
+		bigEnemyBullet[array_num]->Update(player);
+		if (bigEnemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
+			bigEnemyBullet[array_num] = nullptr;
+		}
+	}
+}
+
+void GameScene::BigEnemyBulletDraw() const
+{
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (bigEnemyBullet[i] != nullptr) {
+			bigEnemyBullet[i]->Draw();
+		}
 	}
 }
