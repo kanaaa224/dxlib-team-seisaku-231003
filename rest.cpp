@@ -16,7 +16,7 @@ Rest::Rest(GameUI* ui)
 	bonfire_image = LoadGraph("resources/images/bonfirelit.png");
 	button_image = LoadGraph("resources/images/button_a.png");
 
-	rest_bgm = LoadSoundMem("resources/sounds/BGM/bgm_breakstage.wav");
+	SoundManager::SetBGM("bgm_breakstage");
 
 	is_select = false;
 	is_ok = false;
@@ -27,15 +27,11 @@ Rest::~Rest()
 	DeleteGraph(cursor_image);
 	DeleteGraph(bonfire_image);
 	DeleteGraph(button_image);
-	DeleteSoundMem(rest_bgm);
 }
 
 void Rest::update(Player* player, int& mode, int& stage)
 {
-	if (!CheckSoundMem(rest_bgm))
-	{
-		PlaySoundMem(rest_bgm, DX_PLAYTYPE_LOOP, TRUE);
-	}
+	SoundManager::PlaySoundBGM("bgm_breakstage");
 
 	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 
@@ -44,11 +40,8 @@ void Rest::update(Player* player, int& mode, int& stage)
 	{
 		if (cursor_num == 0)
 		{
-			//if (interval > 1)
-			//{
-				player->SetPlayer_HP(-100);
-				is_select = true;
-			//}
+			player->SetPlayer_HP(-100);
+			is_select = true;
 		}
 	}
 	
@@ -64,7 +57,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 			stage++;
 			mode = GameSceneMode::map;
 			Init();
-			StopSoundMem(rest_bgm);
+			SoundManager::StopSoundBGM("bgm_breakstage");
 		}
 	}
 

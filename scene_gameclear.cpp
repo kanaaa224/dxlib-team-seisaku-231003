@@ -1,11 +1,13 @@
-#include "scene_gameclear.h"
-#include "scene_gameover.h"			// 仮
+#include "main.h"
 
 GameClearScene::GameClearScene()
 {
 	// 画像読込
 	img_gameclear = LoadGraph("resources/images/gameclear.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
+
+	SoundManager::SetBGM("bgm_gameclear");
+	SoundManager::SetVolumeBGM("bgm_gameclear", 50);
 }
 
 GameClearScene::~GameClearScene()
@@ -15,6 +17,8 @@ GameClearScene::~GameClearScene()
 
 Scene* GameClearScene::update()
 {
+	SoundManager::PlaySoundBGM("bgm_gameclear");
+
 	// スペースキーでゲームオーバー画面へ
 	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
 		//return new GameOverScene();

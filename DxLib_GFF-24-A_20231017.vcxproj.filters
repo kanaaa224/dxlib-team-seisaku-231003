@@ -64,6 +64,9 @@
     <Filter Include="ゲーム処理\Enemy\minion">
       <UniqueIdentifier>{e85633fe-19ac-4f47-8826-730274231778}</UniqueIdentifier>
     </Filter>
+    <Filter Include="メイン\サウンドマネージャー">
+      <UniqueIdentifier>{40ff97f8-0d4e-4465-ab6d-389069602f4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -178,9 +181,11 @@
     <ClInclude Include="BigEnemyBullet.h">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SmallEnemyBullet.h">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>メイン\サウンドマネージャー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +295,11 @@
     <ClCompile Include="BigEnemyBullet.cpp">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SmallEnemyBullet.cpp">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>メイン\サウンドマネージャー</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

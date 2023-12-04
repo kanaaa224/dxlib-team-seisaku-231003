@@ -47,7 +47,6 @@ Map::~Map() {
 	DeleteGraph(roof_img);
 	DeleteGraph(wall_img);
 	DeleteGraph(tower_img);
-	DeleteSoundMem(map_bgm);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {

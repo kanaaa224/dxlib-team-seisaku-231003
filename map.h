@@ -105,8 +105,6 @@ private:
 	int wall_img = 0;
 	int tower_img = 0;
 
-	int map_bgm;
-
 	// リザルト画面で使用（縮小マップ作成が無理だった場合）
 	// ステージに何回到達したか
 	int battle_count;		// 通常ステージ
