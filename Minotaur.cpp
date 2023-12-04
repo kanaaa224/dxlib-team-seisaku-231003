@@ -92,9 +92,23 @@ void Minotaur::Update(Player* player)
 		location.x += vector.x * TACKLE_SPEED - diff.x;
 		location.y += vector.y * TACKLE_SPEED - diff.y;
 	}
+	//武器からの攻撃とHPが０以上なら赤く表示する
+	if (hitWeaponFlg == true && hp > 0) {
+		redDrawFlg = true;
+	}
+	hitWeaponFlg = false;
+
 
 	if (hp <= 0) {
 		respawnFlg = false;
+	}
+
+	if (redFrameCounter == RED_FRAME) {
+		redDrawFlg = false;
+		redFrameCounter = 0;
+	}
+	if (redDrawFlg == true) {
+		redFrameCounter++;
 	}
 
 #ifdef BTN_DEBUG
@@ -113,7 +127,15 @@ void Minotaur::Update(Player* player)
 void Minotaur::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-	
+
+	if (redDrawFlg == true) {
+		SetDrawBright(255, 0, 0);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+		SetDrawBright(255, 255, 255);
+	}
+
+
+
 	if (coolTimeFlg == false && tackleFlg == false) {
 		TackleDraw();
 	}

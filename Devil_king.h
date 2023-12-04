@@ -1,17 +1,32 @@
-#pragma once
+ï»¿#pragma once
 #include "EnemyBase.h"
 #include "Common.h"
-#define DEVILKING_MAX_HP 2000//–‚‰¤‚ÌÅ‘å‘Ì—Í
-#define DEVILKING_ATTAK_DAMAGE 10//–‚‰¤‚Ìƒ_ƒ[ƒW
+#define DEVILKING_MAX_HP 2000//é­”ç‹ã®æœ€å¤§ä½“åŠ›
+#define DEVILKING_ATTAK_DAMAGE 10//é­”ç‹ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
+#define BIG_BULLET_CREATE_TIME  SECOND_FRAME(3)
 
 class Devil_king:public EnemyBase
 {
 private:
-	float shield;//–‚‰¤‚ÌƒV[ƒ‹ƒh
+	float shield;//é­”ç‹ã®ã‚·ãƒ¼ãƒ«ãƒ‰
+
+	bool bigBulletCreateFlg = false;
+	int bigBulletCreateCounter = 0;
+
 public:
 	Devil_king();
 	~Devil_king();
 	void Update(Player* player);
 	void Draw() const;
+
+	//Geté–¢æ•°
+	bool GetBigBulletCreateFlg() {
+		return bigBulletCreateFlg;
+	}
+
+	//Seté–¢æ•°
+	void SetBigBulletCreateFlg(bool flg) {
+		bigBulletCreateFlg = flg;
+	}
 };
 

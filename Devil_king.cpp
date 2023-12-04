@@ -1,4 +1,4 @@
-#include "Devil_king.h"
+ï»¿#include "Devil_king.h"
 #include "Common.h"
 
 Devil_king::Devil_king()
@@ -10,7 +10,7 @@ Devil_king::Devil_king()
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
 
-	//-----‘å‚«‚¢’e-----//
+	//-----å¤§ãã„å¼¾-----//
 }
 
 Devil_king::~Devil_king()
@@ -20,14 +20,24 @@ Devil_king::~Devil_king()
 
 void Devil_king::Update(Player* player)
 {
-	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê‚ðdiff‚ÉƒZƒbƒg
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é‡ã‚’diffã«ã‚»ãƒƒãƒˆ
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
-	//ƒvƒŒƒCƒ„[‚ÌÀ•W‚ðdiffLocation‚ÉƒZƒbƒg
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‚’diffLocationã«ã‚»ãƒƒãƒˆ
 	SetPlayer_Location(player->GetLocation());
 
+	//ç§»å‹•å‡¦ç†
 	location.x = location.x - diff.x;
 	location.y = location.y - diff.y;
+
+	if (bigBulletCreateFlg == false) {
+		bigBulletCreateCounter++;
+	}
+
+	if (bigBulletCreateCounter >= BIG_BULLET_CREATE_TIME) {
+		bigBulletCreateFlg = true;
+		bigBulletCreateCounter = 0;
+	}
 }
 
 void Devil_king::Draw() const
