@@ -107,17 +107,6 @@ GameScene::~GameScene() {
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
-	//////////////////////////////////////////////////
-	// テスト
-	if (InputCtrl::GetKeyState(KEY_INPUT_C) == PRESS)
-	{
-		// 指定領域をSave.png として保存
-		// 画像は上書き保存される
-		// マイナスの値は使用不可（エラーなし、保存不可）
-		SaveDrawScreenToPNG(300, 0, 1000, 720, "resources/save.png");
-	}
-	//////////////////////////////////////////////////
-
 	// ポーズ
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
 		if (state) state = 0;
@@ -154,10 +143,10 @@ Scene* GameScene::update() {
 	};
 
 
-	// 強制ゲームオーバー
+	// 強制ゲームクリア
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
 		SoundManager::StopSoundBGMs();
-		return new GameOverScene(weaponA, weaponB, map);
+		return new GameClearScene(weaponA, weaponB, map);
 	}
 
 	// デバッグ - Oキーで強制ボス戦
@@ -383,6 +372,62 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+				//魔王
+				if (devilKing != nullptr) {
+					if (weaponA->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+						if (devilKing->GetHitFrameCnt() == 0) {
+							devilKing->SetHitWeaponFlg();
+							//ダメージアップ
+							devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+							devilKing->SetHit1stFrameFlg(true);
+							if (weaponA->GetIsAttacking() && !swordHitFlg) {
+								swordHitFlg = true;
+								weaponA->SetHitCnt(true);
+								weaponA->SwordLevel8(player);
+							}
+							weaponA->AddTotalDamage();
+						}
+					}
+					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+						if (devilKing->GetHitFrameCnt() == 0) {
+							devilKing->SetHitWeaponFlg();
+							devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+							devilKing->SetHit1stFrameFlg(true);
+
+							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+								weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
+								if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+									devilKing->SetHitHP(weaponB->GetThunderDamage());
+									weaponB->AddTotalDamageThunder();
+								}
+							}
+							weaponB->AddTotalDamage();
+						}
+					}
+					if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+						if (devilKing->GetHitFrameCnt() == 0) {
+							devilKing->SetHitWeaponFlg();
+							//ダメージアップ
+							devilKing->SetHitHP(weaponA->GetDustDamage());
+							devilKing->SetHit1stFrameFlg(true);
+							devilKing->SetCloudOfDustHitFlg(true);
+							weaponA->AddTotalDamageDust();
+						}
+					}
+				}
+				//魔王の弾
+				for (int i = 0; i < MAX_BULLET_NUM; i++){
+					if (bigEnemyBullet[i] != nullptr) {
+						if (weaponA->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
+							//weaponAと魔王の弾の当たり判定
+							if (true);
+						}
+						if (weaponB->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
+							//weaponBと魔王の弾の当たり判定
+						}
+					}
+				}
+				
 			}
 
 			if (!weaponA->GetIsAttacking() && weaponA->GetOldIsAttacking()) {
@@ -587,6 +632,7 @@ void GameScene::draw() const {
 		if (battleMode == GameSceneBattleMode::midBoss) MinotaurDraw();
 		if (battleMode == GameSceneBattleMode::boss) DevilKingDraw();
 		if (battleMode == GameSceneBattleMode::boss) BigEnemyBulletDraw();
+		if (battleMode == GameSceneBattleMode::boss) SmallEnemyBulletDraw();
 
 		//////////////////////////////////////////////////
 
@@ -1096,6 +1142,10 @@ void GameScene::DevilKingUpdate()
 		for (int i = 0; i < MAX_BULLET_NUM; i++) {
 			BigEnemyBulletUpdate(i);
 		}
+
+		for (int i = 0; i < MAX_BULLET_NUM; i++) {
+			SmallEnemyBulletUpdate(i);
+		}
 	}
 }
 
@@ -1105,12 +1155,17 @@ void GameScene::DevilKingDraw() const
 		devilKing->Draw();
 	}
 }
-
+//大きい弾
 void GameScene::BigEnemyBulletUpdate(int array_num)
 {
 	if (bigEnemyBullet[array_num] != nullptr) {
 		bigEnemyBullet[array_num]->Update(player);
 		if (bigEnemyBullet[array_num]->GetlifeTimeCnt() <= 0) {
+			//小さい弾の生成処理
+			for (int i = 0; i < 7; i++) {
+				smallEnemyBullet[i] = new SmallEnemyBullet(bigEnemyBullet[array_num]->GetEnemyLocation());
+			}
+			//大きい弾を削除
 			bigEnemyBullet[array_num] = nullptr;
 		}
 	}
@@ -1121,6 +1176,25 @@ void GameScene::BigEnemyBulletDraw() const
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (bigEnemyBullet[i] != nullptr) {
 			bigEnemyBullet[i]->Draw();
+		}
+	}
+}
+//小さい弾
+void GameScene::SmallEnemyBulletUpdate(int array_num)
+{
+	if (smallEnemyBullet[array_num] != nullptr) {
+		smallEnemyBullet[array_num]->Update(player);
+		if (smallEnemyBullet[array_num]->GetLifeTimeCnt() <= 0) {
+			smallEnemyBullet[array_num] = nullptr;
+		}
+	}
+}
+
+void GameScene::SmallEnemyBulletDraw() const
+{
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		if (smallEnemyBullet[i] != nullptr) {
+			smallEnemyBullet[i]->Draw();
 		}
 	}
 }
