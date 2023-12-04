@@ -100,17 +100,6 @@ GameScene::~GameScene() {
 Scene* GameScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
-	//////////////////////////////////////////////////
-	// テスト
-	if (InputCtrl::GetKeyState(KEY_INPUT_C) == PRESS)
-	{
-		// 指定領域をSave.png として保存
-		// 画像は上書き保存される
-		// マイナスの値は使用不可（エラーなし、保存不可）
-		SaveDrawScreenToPNG(300, 0, 1000, 720, "resources/save.png");
-	}
-	//////////////////////////////////////////////////
-
 	// ポーズ
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
 		if (state) state = 0;
@@ -146,10 +135,10 @@ Scene* GameScene::update() {
 	};
 
 
-	// 強制ゲームオーバー
+	// 強制ゲームクリア
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
 
-		return new GameOverScene(weaponA, weaponB, map);
+		return new GameClearScene(weaponA, weaponB, map);
 	}
 
 	// デバッグ - Oキーで強制ボス戦
