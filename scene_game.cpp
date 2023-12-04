@@ -357,6 +357,62 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+				//魔王
+				if (devilKing != nullptr) {
+					if (weaponA->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+						if (devilKing->GetHitFrameCnt() == 0) {
+							devilKing->SetHitWeaponFlg();
+							//ダメージアップ
+							devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+							devilKing->SetHit1stFrameFlg(true);
+							if (weaponA->GetIsAttacking() && !swordHitFlg) {
+								swordHitFlg = true;
+								weaponA->SetHitCnt(true);
+								weaponA->SwordLevel8(player);
+							}
+							weaponA->AddTotalDamage();
+						}
+					}
+					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+						if (devilKing->GetHitFrameCnt() == 0) {
+							devilKing->SetHitWeaponFlg();
+							devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+							devilKing->SetHit1stFrameFlg(true);
+
+							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+								weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
+								if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+									devilKing->SetHitHP(weaponB->GetThunderDamage());
+									weaponB->AddTotalDamageThunder();
+								}
+							}
+							weaponB->AddTotalDamage();
+						}
+					}
+					if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+						if (devilKing->GetHitFrameCnt() == 0) {
+							devilKing->SetHitWeaponFlg();
+							//ダメージアップ
+							devilKing->SetHitHP(weaponA->GetDustDamage());
+							devilKing->SetHit1stFrameFlg(true);
+							devilKing->SetCloudOfDustHitFlg(true);
+							weaponA->AddTotalDamageDust();
+						}
+					}
+				}
+				//魔王の弾
+				for (int i = 0; i < MAX_BULLET_NUM; i++){
+					if (bigEnemyBullet[i] != nullptr) {
+						if (weaponA->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
+							//weaponAと魔王の弾の当たり判定
+							if (true);
+						}
+						if (weaponB->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
+							//weaponBと魔王の弾の当たり判定
+						}
+					}
+				}
+				
 			}
 
 			if (!weaponA->GetIsAttacking() && weaponA->GetOldIsAttacking()) {
