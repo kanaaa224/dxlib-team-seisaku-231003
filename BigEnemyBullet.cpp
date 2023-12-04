@@ -1,11 +1,11 @@
 ﻿#include "BigEnemyBullet.h"
 #include "Common.h"
-#define DEBUG
+//#define DEBUG
 
 BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 {
 	//変数の初期化
-	img = LoadGraph("resources/images/enemy_tmp_images/dekakintama.png");
+	img = LoadGraph("resources/images/enemy_tmp_images/dekatama.png");
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
 	vector.x = 0;
@@ -15,7 +15,7 @@ BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 	radius = 25;
 	damage = 1;
 	speed = 1.0f;
-	lifeTimeCnt = SECOND_FRAME(10);
+	lifeTimeCnt = SECOND_FRAME(LIFETIME);
 	SetPlayer_Location(player->GetLocation());
 	vector.x = Normalization_X(PlayerLoadX(location.x), PlayerLoadY(location.y)) * speed;
 	vector.y = Normalization_Y(PlayerLoadX(location.x), PlayerLoadY(location.y)) * speed;
@@ -61,7 +61,7 @@ void BigEnemyBullet::Draw() const
 
 void BigEnemyBullet::RedFlashing()
 {
-	if (redDrawCounter >= 510) {
+	if (redDrawCounter >= SECOND_FRAME(LIFETIME)- SECOND_FRAME(1)) {
 		if (redDrawCounter % 15 == 0 || redDrawCounter % 15 == 1 || redDrawCounter % 15 == 2 || redDrawCounter % 15 == 3 || redDrawCounter % 15 == 4) {
 			redDrawFlg = true;
 		}
