@@ -60,6 +60,7 @@
     <ClInclude Include="scene_gameclear.h" />
     <ClInclude Include="scene_gameover.h" />
     <ClInclude Include="scene_help.h" />
+    <ClInclude Include="SmallEnemyBullet.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="weaponLevelup.h" />
     <ClInclude Include="rest.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="scene_gameclear.cpp" />
     <ClCompile Include="scene_gameover.cpp" />
     <ClCompile Include="scene_help.cpp" />
+    <ClCompile Include="SmallEnemyBullet.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="weaponLevelup.cpp" />
     <ClCompile Include="rest.cpp" />
