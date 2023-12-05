@@ -202,6 +202,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 			break;
 		case 3:		//’b–è‰®
 			mode = GameSceneMode::blacksmith;
+			ClearStage();
 			anvil_count++;
 			break;
 		case 4:		//ƒ{ƒX
