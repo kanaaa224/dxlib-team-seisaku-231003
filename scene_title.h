@@ -55,6 +55,7 @@ private:
 	bool Title_FadeIn_flg;
 	bool Title_select_flg;
 	bool Title_Cursor_Flg;
+	bool Title_logo_Anim_End_Flg;
 
 	//fpsån
 	int Title_Animation_fps;

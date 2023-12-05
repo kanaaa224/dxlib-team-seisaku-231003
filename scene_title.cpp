@@ -72,6 +72,7 @@ Title::Title()
 	Title_FadeIn_flg = false;
 	Title_select_flg = false;
 	Title_Cursor_Flg = false;
+	Title_logo_Anim_End_Flg = true;
 
 	//色
 	Title_Star_Anim_Color_red = 255;
@@ -86,10 +87,11 @@ Scene* Title::update()
 
 	Title_Animation_fps++;
 
+	//デバッグ用 あとで消す
 	Title_Debug_Mousepoint_x = InputCtrl::GetMouseCursor().x;
 	Title_Debug_Mousepoint_y = InputCtrl::GetMouseCursor().y;
 
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && Title_logo_Anim_End_Flg == false) {
 
 		Title_Cursor_Flg = true;
 	}
@@ -151,6 +153,16 @@ Scene* Title::update()
 		}
 	}
 
+	//タイトルロゴアニメーション
+	Title_logo_Animation();
+
+	logo_white_y = logo_white_y + logo_move_y;
+
+	//if (logo_location_y_flg == true && Title_Select_mg_flg == false) {
+	//	//タイトルのセレクトアニメーション
+	//	Title_Select_Anim();
+	//}
+
 	if (Title_Anim_flg == true) {
 
 		//星の座標を rands_x:25～500  rands_y:25～250 rands1_x:775～1260 rands1_y:25～250の範囲内で取得する
@@ -166,17 +178,12 @@ Scene* Title::update()
 		//星のフェードイン関数
 		Title_Star_FadeIn();
 	}
-
-	//タイトルロゴアニメーション
-	Title_logo_Animation();
-
-	logo_white_y = logo_white_y + logo_move_y;
-
-	if (logo_location_y_flg == true && Title_Select_mg_flg == false) {
-		//タイトルのセレクトアニメーション
-		Title_Select_Anim();
-	}
 	
+	if (Title_select_flg == true) {
+
+		Title_logo_Anim_End_Flg = false;
+	}
+
 	if (Title_Animation_fps > 59) {
 		// 1秒
 		Title_Animation_fps = 0;
