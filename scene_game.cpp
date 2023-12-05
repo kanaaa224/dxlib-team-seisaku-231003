@@ -595,7 +595,7 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
-		if (mode >= GameSceneMode::map) map->ClearStage();
+		//if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
 	};
 
