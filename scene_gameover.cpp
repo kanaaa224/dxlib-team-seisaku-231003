@@ -8,6 +8,9 @@ GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 	img_background = LoadGraph("resources/images/stageimage2.png");
 
+	SoundManager::SetBGM("bgm_gameover");
+	SoundManager::SetVolumeBGM("bgm_gameover", 50);
+
 	// 変数の初期化
 	ghost_x = 750;
 	ghost_y = 150;
@@ -40,6 +43,8 @@ GameOverScene::~GameOverScene()
 
 Scene* GameOverScene::update()
 {
+	SoundManager::PlaySoundBGM("bgm_gameover");
+
 	// ブレンドモードのパラメータ
 	if (value > 0)
 	{

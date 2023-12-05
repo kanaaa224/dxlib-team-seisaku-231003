@@ -62,6 +62,7 @@ Scene* ResultScene::update()
 	// ƒ^ƒCƒgƒ‹‚Ö‘JˆÚ
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
+		SoundManager::StopSoundBGMs();
 		return new Title;
 	}
 

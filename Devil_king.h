@@ -27,6 +27,9 @@ public:
 	bool GetBigBulletCreateFlg() {
 		return bigBulletCreateFlg;
 	}
+	float GetHP() {
+		return hp;
+	}
 
 	//Set関数
 	void SetBigBulletCreateFlg(bool flg) {

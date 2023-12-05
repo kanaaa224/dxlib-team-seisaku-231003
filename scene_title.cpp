@@ -3,6 +3,9 @@
 //コンストラクタ
 Title::Title()
 {
+	SoundManager::SetBGM("bgm_title");
+	SoundManager::SetVolumeBGMs(50);
+
 	TitleImage = LoadGraph("resources/images/Title.png");
 	Titlelogo = LoadGraph("resources/images/ロゴ/戦塔ロゴ.png");
 	Titlelogo_white = LoadGraph("resources/images/ロゴ/戦塔ロゴ-白.png");
@@ -19,6 +22,8 @@ Title::~Title()
 //更新
 Scene*Title::update()
 {
+	SoundManager::PlaySoundBGM("bgm_title");
+
 	//スティックの制御
 	if (TitleInterval < TITLEINTERVAL)
 	{
@@ -48,7 +53,9 @@ Scene*Title::update()
 	//Aボタンでメニュー決定・画面遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_A) == PRESS)
 	{
+
 		if (g_MenuNumber == 0) {
+			SoundManager::StopSoundBGMs();
 			return new GameScene;
 		}
 		if (g_MenuNumber == 1) {

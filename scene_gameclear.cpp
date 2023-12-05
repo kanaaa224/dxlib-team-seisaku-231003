@@ -26,6 +26,9 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 	result_info[8] = map->GetRestCount();
 	result_info[9] = map->GetAnvilCount();
 	result_info[10] = map->GetBossCount();
+
+	SoundManager::SetBGM("bgm_gameclear");
+	SoundManager::SetVolumeBGM("bgm_gameclear", 50);
 }
 
 GameClearScene::~GameClearScene()
@@ -35,6 +38,8 @@ GameClearScene::~GameClearScene()
 
 Scene* GameClearScene::update()
 {
+	SoundManager::PlaySoundBGM("bgm_gameclear");
+
 	// ブレンドモードのパラメータ
 	if (value > 0)
 	{
