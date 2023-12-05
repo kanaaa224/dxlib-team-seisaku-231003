@@ -67,7 +67,7 @@ void GameUI::init() {
 	notice["frame"]   = std::to_string(0);
 };
 
-void GameUI::update(GameScene* gameScene) {
+void GameUI::update() {
 	if ((int)FPSCtrl::Get()) {
 		frameCounter++;
 
@@ -111,6 +111,13 @@ void GameUI::update(GameScene* gameScene) {
 			};
 		};
 	};
+
+	if (hp["currentRatio"] > hp["ratio"]) hp["ratio"]++;
+	if (hp["currentRatio"] < hp["ratio"]) hp["ratio"]--;
+
+	if (exp["currentRatio"] > exp["ratio"]) exp["ratio"]++;
+	if (exp["currentRatio"] < exp["ratio"]) exp["ratio"]--;
+	if (exp["currentRatio"] == 0) exp["ratio"] = 0;
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
 	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 仮
@@ -718,13 +725,13 @@ void GameUI::setFloor(int Floor) {
 void GameUI::setEXP(int Current, int Max, int Ratio) {
 	exp["current"] = Current;
 	exp["max"]     = Max;
-	if (Ratio >= 0 && Ratio <= 100) exp["ratio"] = Ratio;
+	if (Ratio >= 0 && Ratio <= 100) exp["currentRatio"] = Ratio;
 };
 
 void GameUI::setHP(int Current, int Max, int Ratio) {
 	hp["current"] = Current;
 	hp["max"]     = Max;
-	if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
+	if (Ratio >= 0 && Ratio <= 100) hp["currentRatio"] = Ratio;
 };
 
 void GameUI::setCoolTime(int Current, int Max) {

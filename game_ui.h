@@ -35,7 +35,7 @@ public:
 
 	~GameUI();
 
-	void update(GameScene* gameScene);
+	void update(/*GameScene* gameScene*/);
 
 	void draw() const;
 

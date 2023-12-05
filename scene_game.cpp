@@ -180,7 +180,7 @@ Scene* GameScene::update() {
 
 		}
 
-		gameUI->update(this);
+		gameUI->update(/*this*/);
 
 		if (gameUI->getState() >= banner_playerUI) {
 

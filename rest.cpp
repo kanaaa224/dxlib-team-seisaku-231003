@@ -34,6 +34,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 	SoundManager::PlaySoundBGM("bgm_breakstage");
 
 	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
+	ui->update();
 
 
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
@@ -47,7 +48,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 	
 	if (is_select)
 	{
-		if (interval < 60)
+		if (interval < 120)
 		{
 			interval++;
 		}
