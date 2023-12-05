@@ -64,7 +64,7 @@ GameScene::GameScene() {
 	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
 	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
 
-	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！");
+	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！", 1);
 
 
 	// 仮 - 敵をどのステージでどれだけ出すかのデータ生成
@@ -83,7 +83,7 @@ GameScene::GameScene() {
 
 	// 仮 - 経験値の最大値データ生成
 	for (int i = 1; i < 20; i++) {
-		expData.push_back(i * 100);
+		expData.push_back(i * 120);
 	};
 };
 
@@ -180,7 +180,7 @@ Scene* GameScene::update() {
 
 		}
 
-		gameUI->update(this);
+		gameUI->update(/*this*/);
 
 		if (gameUI->getState() >= banner_playerUI) {
 
@@ -514,7 +514,9 @@ Scene* GameScene::update() {
 					SoundManager::StopSoundBGM("bgm_middleboss");
 					SoundManager::PlaySoundBGM("bgm_middleboss_end");
 				}
-				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
+				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("クリア！", "全てのモンスターを倒しました", 0);
+				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロス討伐完了！", "+ 4 LEVELUP POINT", 0);
+				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了！", "戦塔を制覇しました", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -532,6 +534,10 @@ Scene* GameScene::update() {
 					{
 						mode = GameSceneMode::weaponSelect;
 					}
+					else if (battleMode == GameSceneBattleMode::boss)
+					{
+						return new GameClearScene(weaponA, weaponB, map);
+					}
 					else
 					{
 						mode = GameSceneMode::map;
@@ -539,7 +545,7 @@ Scene* GameScene::update() {
 				};
 			};
 			if (player->GetPlayer_HP() <= 0) {
-				gameUI->setBanner("失敗、、", "体力が尽きました、、");
+				gameUI->setBanner("失敗", "体力が尽きました、、", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -552,7 +558,7 @@ Scene* GameScene::update() {
 			};
 			//////////////////////////////////////////////////
 			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
-			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
+			if (battleMode == GameSceneBattleMode::boss) if (devilKing != nullptr) gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
@@ -690,9 +696,9 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください");
-	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください");
-	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください");
+	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください", 1);
+	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください", 1);
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください", 1);
 	gameUI->init();
 	gameUI->setState(banner);
 
@@ -729,6 +735,7 @@ int GameScene::getEnemyMax(int type) {
 	if (type == 2) return skeletonNum;
 	if (type == 3) return wizardNum;
 	if (type == 4) return minotourNum;
+	if (type == 5) return bossNum;
 };
 
 int GameScene::getEnemyNum(int type) {
@@ -751,14 +758,20 @@ int GameScene::getEnemyNum(int type) {
 	};
 
 	if (battleMode == GameSceneBattleMode::midBoss && (minotaur->GetHP() > 0.0f)) minotourNum = 1;
-	if (battleMode == GameSceneBattleMode::boss && (devilKing->GetHP() > 0.0f)) bossNum = 1;
-	
+
+	if (devilKing != nullptr) {
+		if (battleMode == GameSceneBattleMode::boss && (devilKing->GetHP() > 0.0f)) bossNum = 1;
+	}
+	else {
+		bossNum = 0;
+	};
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
 	if (type == 1) return slimeNum;
 	if (type == 2) return skeletonNum;
 	if (type == 3) return wizardNum;
 	if (type == 4) return minotourNum;
+	if (type == 5) return bossNum;
 };
 
 
@@ -1135,6 +1148,10 @@ void GameScene::MinotaurUpdate()
 		else if (minotaur->GetRespwanFlg() == false) {
 			minotaur = nullptr;
 		}
+
+		if (minotaur->GetHP() <= 0) {
+			point += 2; // 4を入れたいけど倍になる（2の場合、2+4のはずが何故か2+8となり、10になる）
+		};
 	}
 }
 
