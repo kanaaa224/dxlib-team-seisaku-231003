@@ -336,7 +336,7 @@ bool Minotaur::GetRoarHitFlg()
 	//プレイヤーの瞬間移動で使うFlg制御
 	if (playerRoarHitFlg == true) {
 		playerRoarHitCounter++;
-		if (playerRoarHitCounter >= SECOND_FRAME(3)) {
+		if (playerRoarHitCounter >= SECOND_FRAME(6)) {
 			playerRoarHitFlg = false;
 			playerRoarHitCounter = 0;
 		}

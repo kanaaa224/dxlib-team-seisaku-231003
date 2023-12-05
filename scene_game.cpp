@@ -420,10 +420,13 @@ Scene* GameScene::update() {
 					if (bigEnemyBullet[i] != nullptr) {
 						if (weaponA->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
 							//weaponAと魔王の弾の当たり判定
+							bigEnemyBullet[i]->SetHitWeapon(true);
+							
 							if (true);
 						}
 						if (weaponB->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
 							//weaponBと魔王の弾の当たり判定
+							/*bigEnemyBullet[i]->SetHitWeapon(true);*/
 						}
 					}
 				}
