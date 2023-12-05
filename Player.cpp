@@ -561,7 +561,7 @@ void Player::P_Hit_minotur() {
 
 	Hit_minotur_fps++;
 
-	if (Hit_minotur_fps < 179) {
+	if (Hit_minotur_fps < 359) {
 
 		A_value = false;
 		Additional_Value2 = 0.5f;

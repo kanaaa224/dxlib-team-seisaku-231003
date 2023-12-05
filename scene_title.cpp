@@ -19,9 +19,9 @@ Title::Title()
 	if (Title_Credit_Img = LoadGraph("resources/images/Title/title_logo_credit.png")) {}
 	if (Title_End_Img = LoadGraph("resources/images/Title/title_logo_end.png")) {}
 
-	if (Title_Cosol_sword_Img = LoadGraph("resources/images/Title/片手剣50・50.png")) {}
-	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/武器/大剣50・50.png")) {}
-	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/武器/短剣50・50.png")) {}
+	if (Title_Cosol_sword_Img = LoadGraph("resources/images/武器/片手剣.png")) {}
+	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/武器/大剣.png")) {}
+	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/武器/短剣.png")) {}
 
 	Title_Select_magnification = 0.0;
 
@@ -96,7 +96,7 @@ Scene* Title::update()
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	g_MenuY = g_MenuNumber * 52;
+	g_MenuY = g_MenuNumber * 90;
 	//Aボタンでメニュー決定・画面遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_A) == PRESS)
 	{
@@ -166,7 +166,6 @@ void Title::draw() const
 
 	//タイトルロゴ
 	//DrawRotaGraph(logo_white_x, logo_white_y, 0.4, 0.0, Titlelogo_white, TRUE);
-	DrawRotaGraph(logo_white_x, logo_white_y, 0.58, 0.0, Titlelogo_white, TRUE);
 
 	//星をランダムに出現させる範囲
 	DrawBox(25, 25, 500, 250, GetColor(255, 0, 0), FALSE);
@@ -180,18 +179,6 @@ void Title::draw() const
 	DrawFormatString(0, 420, GetColor(255, 0, 0), "星の座標 y1  %d", Title_Star_y[1]);
 	DrawFormatString(0, 440, GetColor(255, 0, 0), "星の座標 x2  %d", Title_Star_x[2]);
 	DrawFormatString(0, 460, GetColor(255, 0, 0), "星の座標 y2  %d", Title_Star_y[2]);*/
-	
-	if (Title_select_flg == true/* && Title_Select_mg_flg == false*/) {
-
-		//タイトルカーソルの描画
-		DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
-
-		// 90ずつ足している	倍率は0.32
-		DrawRotaGraph(659, 300, 0.32, 0.0, Title_Start_Img, TRUE);
-		DrawRotaGraph(659, 390, 0.32, 0.0, Title_Help_Img, TRUE);
-		DrawRotaGraph(659, 480, 0.32, 0.0, Title_Credit_Img, TRUE);
-		DrawRotaGraph(659, 570, 0.32, 0.0, Title_End_Img, TRUE);
-	}
 
 	//星のフェードアウト
 	SetDrawBright(Title_Star_Anim_Color_red, Title_Star_Anim_Color_green, Title_Star_Anim_Color_blue);
@@ -202,6 +189,24 @@ void Title::draw() const
 	}
 
 	SetDrawBright(255, 255, 255);
+
+	DrawRotaGraph(logo_white_x, logo_white_y, 0.58, 0.0, Titlelogo_white, TRUE);
+
+	if (Title_select_flg == true/* && Title_Select_mg_flg == false*/) {
+
+		//タイトルカーソルの描画
+		//DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
+
+		DrawRotaGraph(480, 290 + g_MenuY, 0.1, 1.0, Title_Cosol_sword_Img, TRUE);
+		DrawRotaGraph(480, 310 + g_MenuY, 0.12, 4.15, Title_Cosol_greatsword_Img, TRUE);
+		//DrawRotaGraph(659, 300, 0.32, 0.0, Title_Cosol_shortsword_Img, TRUE);
+
+		// 90ずつ足している	倍率は0.32
+		DrawRotaGraph(659, 300, 0.32, 0.0, Title_Start_Img, TRUE);
+		DrawRotaGraph(659, 390, 0.32, 0.0, Title_Help_Img, TRUE);
+		DrawRotaGraph(659, 480, 0.32, 0.0, Title_Credit_Img, TRUE);
+		DrawRotaGraph(659, 570, 0.32, 0.0, Title_End_Img, TRUE);
+	}
 }
 
 Title::~Title()
