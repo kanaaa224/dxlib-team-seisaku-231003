@@ -532,6 +532,10 @@ Scene* GameScene::update() {
 					{
 						mode = GameSceneMode::weaponSelect;
 					}
+					else if (battleMode == GameSceneBattleMode::boss)
+					{
+						return new GameClearScene(weaponA, weaponB, map);
+					}
 					else
 					{
 						mode = GameSceneMode::map;
@@ -552,7 +556,7 @@ Scene* GameScene::update() {
 			};
 			//////////////////////////////////////////////////
 			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
-			if (battleMode == GameSceneBattleMode::boss)    gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
+			if (battleMode == GameSceneBattleMode::boss) if (devilKing != nullptr) gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
 			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
@@ -750,7 +754,12 @@ int GameScene::getEnemyNum(int type) {
 	};
 
 	if (battleMode == GameSceneBattleMode::midBoss && (minotaur->GetHP() > 0.0f)) minotourNum = 1;
-	if (battleMode == GameSceneBattleMode::boss && (devilKing->GetHP() > 0.0f)) bossNum = 1;
+	if (devilKing != nullptr) {
+		if (battleMode == GameSceneBattleMode::boss && (devilKing->GetHP() > 0.0f)) bossNum = 1;
+	}
+	else {
+		bossNum = 0;
+	};
 	
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
