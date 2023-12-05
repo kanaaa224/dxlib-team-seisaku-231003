@@ -1,5 +1,5 @@
 #include "main.h"
-#include "Player.h"
+//#include "Player.h"
 
 float Player::MovingX;
 float Player::MovingY;
@@ -23,8 +23,9 @@ Player::Player() {
 	PlayerImg = PlayerArrayImg[0];
 
 	//SE
-	if (SE_playermove = LoadSoundMem("resources/sounds/SE/se_player_move.wav")) {};
-	if (SE_playeravoidance = LoadSoundMem("resources/sounds/SE/se_player_avoidance.wav")) {};
+	SoundManager::SetSE("se_player_move");
+	SoundManager::SetSE("se_player_avoidance");
+	SoundManager::SetVolumeSEs(100);
 
 	PlayerX = 640;
 	PlayerY = 360;
@@ -55,7 +56,7 @@ Player::Player() {
 	Provisional_Abtn = 0;
 
 	Additional_Value = 10.0;
-	Additional_Value2 = 2.0;
+	Additional_Value2 = 2.0f;
 	Additional_Value3 = { 0.0f,0.0f };
 
 	MoveX = 0.0;
@@ -94,6 +95,9 @@ Player::Player() {
 
 	p_CoolTimeCounter = 0;
 	Animation_fps = 60;
+	P_minotaur = false;
+	Hit_minotur_fps = 0;
+	P_minotaur_Hit_flg = true;
 }
 
 Player::~Player() {
@@ -104,11 +108,9 @@ Player::~Player() {
 
 	DeleteGraph(AimingImg);
 	DeleteGraph(KaihiImg);
-	DeleteSoundMem(SE_playermove);
-	DeleteSoundMem(SE_playeravoidance);
 }
 
-void Player::update() {
+void Player::update(bool minotaur) {
 
 	fps++;
 	
@@ -121,6 +123,9 @@ void Player::update() {
 		}
 	}
 
+	//ミノタウロスの咆哮にHitしたら true
+	P_minotaur = minotaur;
+	
 	//左スティック
 	Provisional_LStickX = InputCtrl::GetStickRatio(L).x;
 	Provisional_LStickY = InputCtrl::GetStickRatio(L).y;
@@ -133,13 +138,19 @@ void Player::update() {
 
 	//Aボタン
 	Provisional_Abtn = InputCtrl::GetButtonState(XINPUT_BUTTON_A);
-
-	//回避フラグ ON
-	if (Provisional_Abtn == PRESS && Provisional_LStickX > 0 || Provisional_Abtn == PRESS && Provisional_LStickX < 0 ||
-		Provisional_Abtn == PRESS && Provisional_LStickY > 0 || Provisional_Abtn == PRESS && Provisional_LStickY < 0) 
-	{
-		A_value = true;
+	
+	if (P_minotaur == true) {
+		P_Hit_minotur();
 	}
+	else {
+		//回避フラグ ON
+		if (Provisional_Abtn == PRESS && Provisional_LStickX > 0 || Provisional_Abtn == PRESS && Provisional_LStickX < 0 ||
+			Provisional_Abtn == PRESS && Provisional_LStickY > 0 || Provisional_Abtn == PRESS && Provisional_LStickY < 0)
+		{
+			A_value = true;
+		}
+	}
+	
 
 	//回避の動作を実効　指定の加算値に到達するまで動く　その後クールダウンをはさむ
 	if (A_value == true && CoolTime == false) {
@@ -148,37 +159,30 @@ void Player::update() {
 		Player_Avoidance();
 		//Player_Move_Animation();
 
-		if (!CheckSoundMem(SE_playeravoidance))
-		{
-			//ChangeVolumeSoundMem(255, SE_playermove);
-			PlaySoundMem(SE_playeravoidance, DX_PLAYTYPE_BACK, TRUE);
-		}
+		SoundManager::PlaySoundSE("se_player_avoidance");
 	}
 	
 	if (CoolTime == true) {
+		A_value = false;
 		Avoidance_Flg = false;
 		Player_CoolTime();
 	}
 
 	//プレイヤーの移動　プレイヤーが回避をしていない間は動ける
 	if ((A_value == false || CoolTime == true) /*&& camera_flg*/) {
-		StopSoundMem(SE_playeravoidance);
+		SoundManager::StopSoundSE("se_player_avoidance");
 		MovingFlg = true;
 		Player_Move();
 
-		if (!CheckSoundMem(SE_playermove))
-		{
-			//ChangeVolumeSoundMem(255, SE_playermove);
-			PlaySoundMem(SE_playermove, DX_PLAYTYPE_BACK, TRUE);
-		}
+		SoundManager::PlaySoundSE("se_player_move");
 	}
 	else {
 		MovingFlg = false;
 	}
 
 	if (A_value == false && CoolTime == true && MovingFlg == false || Provisional_LStickX < 0.2 && Provisional_LStickY < 0.2 && Provisional_LStickX > -0.2 && Provisional_LStickY > -0.2) {
-		StopSoundMem(SE_playermove);
-		StopSoundMem(SE_playeravoidance);
+		SoundManager::StopSoundSE("se_player_move");
+		SoundManager::StopSoundSE("se_player_avoidance");
 		PlayerImg = PlayerArrayImg[0];
 	}
 
@@ -198,10 +202,10 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	//DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Previous_AfterImage_locationX);
-	//DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Previous_AfterImage_locationY);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
-	DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
+	DrawFormatString(0, 300, GetColor(255, 0, 0), "ミノタウロスのHitフラグ %d", P_minotaur);
+	DrawFormatString(0, 320, GetColor(255, 0, 0), "P_minotaur_Hit_flg			%d", P_minotaur_Hit_flg);
+	DrawFormatString(0, 340, GetColor(255, 0, 0), "Hit_minotur_fps			 %d", Hit_minotur_fps);
+	//DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
@@ -430,7 +434,6 @@ void Player::Player_CoolTime() {
 		CoolTime_fps = 0;
 		Second++;
 		if (Second > Cool_Limit/*true*/) {
-			A_value = false;
 			CoolTime = false;
 
 			Additional_Value3 = { 0.0f,0.0f };
@@ -550,6 +553,23 @@ void Player:: Player_Move_Animation() {
 		else if (fps % Animation_fps > 45 && fps % Animation_fps < 61) {
 			PlayerImg = PlayerArrayImg[2];
 		}
+	}
+}
+
+
+void Player::P_Hit_minotur() {
+
+	Hit_minotur_fps++;
+
+	if (Hit_minotur_fps < 359) {
+
+		A_value = false;
+		Additional_Value2 = 0.5f;
+	}
+	else {
+
+		Hit_minotur_fps = 0;
+		Additional_Value2 = 2.0f;
 	}
 }
 

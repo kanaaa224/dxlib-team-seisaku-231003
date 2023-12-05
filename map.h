@@ -34,6 +34,7 @@ private:
 	int icon_loc[DATA_MAX][2];        // アイコン座標
 	int icon_loc_center[DATA_MAX][2]; // アイコン座標(中央)
 	int map_move;
+	int map_move_log;
 
 
 	// マップ生成制御
@@ -104,7 +105,14 @@ private:
 	int wall_img = 0;
 	int tower_img = 0;
 
-	int map_bgm;
+	// リザルト画面で使用（縮小マップ作成が無理だった場合）
+	// ステージに何回到達したか
+	int battle_count;		// 通常ステージ
+	int event_count;		// イベント
+	int rest_count;			// 休憩
+	int anvil_count;		// 鍛冶
+	int boss_count;			// ボス
+
 public:
 	Map();
 
@@ -123,6 +131,8 @@ public:
 		cursor_move = TRUE;
 		cursor_pos = 0;
 		cursor_loc = next_stage[pattern][now_stage][0];
+		int center_def = 360 - icon_loc[cursor_loc][1];
+		map_move = map_move + center_def;
 		alpha = 0;
 		alpha_flg = TRUE;
 		for (int i = 0; i <= 10; i++) {
@@ -136,4 +146,11 @@ public:
 	void ResetStage();
 
 	void SetStage(int st_min, int st_max, int rand_min, int rand_max, int data_num);
+
+	// リザルト画面用
+	int GetBattleCount() { return battle_count; }
+	int GetEventCount() { return event_count; }
+	int GetRestCount() { return rest_count; }
+	int GetAnvilCount() { return anvil_count; }
+	int GetBossCount() { return boss_count; }
 };

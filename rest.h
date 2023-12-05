@@ -16,8 +16,6 @@ private:
 	int bonfire_image;
 	int button_image;
 
-	int rest_bgm;
-
 	bool is_select;
 	bool is_ok;
 

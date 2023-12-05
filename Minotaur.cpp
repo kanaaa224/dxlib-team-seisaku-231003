@@ -13,7 +13,7 @@ Minotaur::Minotaur()
 
 	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
 	hp = MINOTAUR_MAX_HP;
-	damage = 10;
+	damage = MINOTAUR_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
 
@@ -31,7 +31,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
-	tackleCoolTime = 240;
+	tackleCoolTime = SECOND_FRAME(3);
 	tackleSpeed = TACKLE_SPEED;
 	nowTackleCnt = 0;
 	tackleCnt = 0;
@@ -92,9 +92,23 @@ void Minotaur::Update(Player* player)
 		location.x += vector.x * TACKLE_SPEED - diff.x;
 		location.y += vector.y * TACKLE_SPEED - diff.y;
 	}
+	//武器からの攻撃とHPが０以上なら赤く表示する
+	if (hitWeaponFlg == true && hp > 0) {
+		redDrawFlg = true;
+	}
+	hitWeaponFlg = false;
+
 
 	if (hp <= 0) {
 		respawnFlg = false;
+	}
+
+	if (redFrameCounter == RED_FRAME) {
+		redDrawFlg = false;
+		redFrameCounter = 0;
+	}
+	if (redDrawFlg == true) {
+		redFrameCounter++;
 	}
 
 #ifdef BTN_DEBUG
@@ -113,7 +127,15 @@ void Minotaur::Update(Player* player)
 void Minotaur::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
-	
+
+	if (redDrawFlg == true) {
+		SetDrawBright(255, 0, 0);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+		SetDrawBright(255, 255, 255);
+	}
+
+
+
 	if (coolTimeFlg == false && tackleFlg == false) {
 		TackleDraw();
 	}
@@ -193,6 +215,14 @@ void Minotaur::TackleUpdate()
 		}
 	}
 
+	
+	//咆哮が当たったなら
+	if (playerRoarHitFlg == true) {
+		tackleCoolTime = 0;
+	}
+	else {
+		tackleCoolTime = SECOND_FRAME(3);
+	}
 	//タックルのクールタイム
 	if (coolTimeFlg == true && tackleFlg == false) {
 		tackleCoolTimeCnt++;
@@ -303,6 +333,16 @@ void Minotaur::RoarEffectDraw() const
 
 bool Minotaur::GetRoarHitFlg()
 {
+	//プレイヤーの瞬間移動で使うFlg制御
+	if (playerRoarHitFlg == true) {
+		playerRoarHitCounter++;
+		if (playerRoarHitCounter >= SECOND_FRAME(6)) {
+			playerRoarHitFlg = false;
+			playerRoarHitCounter = 0;
+		}
+
+	}
+	//プレイヤーにFlgを返す
 	return playerRoarHitFlg;
 }
 

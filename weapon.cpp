@@ -143,7 +143,8 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			switch (weaponType)
 			{
 			case sword:
-
+				PlaySoundMem(greatSword_sound, DX_PLAYTYPE_BACK, TRUE);
+				soundFlg = true;
 				break;
 
 			case dagger:

@@ -1,12 +1,15 @@
-#include "scene_gameover.h"
-#include "scene_gameclear.h"		// 仮
+#include "main.h"
 
-GameOverScene::GameOverScene()
+GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 {
 	// 画像読込
 	img_gameover = LoadGraph("resources/images/gameover.png");
 	img_ghost = LoadGraph("resources/images/ghost.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
+	img_background = LoadGraph("resources/images/stageimage2.png");
+
+	SoundManager::SetBGM("bgm_gameover");
+	SoundManager::SetVolumeBGM("bgm_gameover", 50);
 
 	// 変数の初期化
 	ghost_x = 750;
@@ -14,6 +17,23 @@ GameOverScene::GameOverScene()
 	count = 0;
 
 	value = 180;
+
+	// 武器1情報
+	result_info[0] = weapon1->GetWeaponType();
+	result_info[1] = weapon1->GetWeaponLevel();
+	result_info[2] = weapon1->GetTotalDamage();
+
+	// 武器2情報
+	result_info[3] = weapon2->GetWeaponType();
+	result_info[4] = weapon2->GetWeaponLevel();
+	result_info[5] = weapon2->GetTotalDamage();
+
+	// マップ情報
+	result_info[6] = map->GetBattleCount();
+	result_info[7] = map->GetEventCount();
+	result_info[8] = map->GetRestCount();
+	result_info[9] = map->GetAnvilCount();
+	result_info[10] = map->GetBossCount();
 }
 
 GameOverScene::~GameOverScene()
@@ -23,10 +43,7 @@ GameOverScene::~GameOverScene()
 
 Scene* GameOverScene::update()
 {
-	// スペースキーでゲームクリア画面へ
-	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
-		return new GameClearScene;
-	}
+	SoundManager::PlaySoundBGM("bgm_gameover");
 
 	// ブレンドモードのパラメータ
 	if (value > 0)
@@ -49,7 +66,7 @@ Scene* GameOverScene::update()
 
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
-		return new ResultScene;
+		return new ResultScene(result_info);
 	}
 
 	return this;
@@ -59,6 +76,7 @@ void GameOverScene::draw() const
 {
 	// 背景色
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
+	//DrawGraph(0, 0, img_background, TRUE);
 
 	// 画像表示
 	DrawGraph(0, 0, img_gameover, TRUE);

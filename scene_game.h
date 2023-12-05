@@ -43,20 +43,26 @@ private:
 	Stage* stage;
 
 	//敵//
-	//スライム
+	//-----スライム-----//
 	Slime* slime[MAX_SLIME_NUM];
 	int tmpSlimeNum = 0;
-	//スケルトン
+	//-----スケルトン-----//
 	Skeleton* skeleton[MAX_SKELETON_NUM];
 	int tmpSkeletonNum = 0;
-	//魔法使い
+	//-----魔法使い-----//
 	Wizard* wizard[MAX_WIZARD_NUM];
 	int tmpWizardNum = 0;
 	//弾
 	EnemyBullet* enemyBullet[MAX_BULLET_NUM];
 	int tmpBulletNum = 0;
-	//ミノタウロス
+	//-----ミノタウロス-----//
 	Minotaur* minotaur;
+	//-----魔王-----//
+	Devil_king* devilKing;
+	//大きい弾
+	BigEnemyBullet* bigEnemyBullet[MAX_BULLET_NUM];
+	//小さい弾
+	SmallEnemyBullet* smallEnemyBullet[MAX_BULLET_NUM];
 
 	GameUI* gameUI;
 
@@ -145,7 +151,20 @@ public:
 	//弾
 	void EnemyBulletUpdate(const int& array_num, Wizard* enemy);
 	void EnemyBulletDraw() const;
+
+	//-----MID-BOSS-----//
 	//ミノタウロス
 	void MinotaurUpdate();
 	void MinotaurDraw() const;
+
+	//-----BOSS-----//
+	//魔王
+	void DevilKingUpdate();
+	void DevilKingDraw() const;
+	//大きい弾
+	void BigEnemyBulletUpdate(int array_num);
+	void BigEnemyBulletDraw() const;
+	//小さい弾
+	void SmallEnemyBulletUpdate(int array_num);
+	void SmallEnemyBulletDraw() const;
 };

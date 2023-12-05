@@ -67,7 +67,7 @@ void GameUI::init() {
 	notice["frame"]   = std::to_string(0);
 };
 
-void GameUI::update(GameScene* gameScene) {
+void GameUI::update() {
 	if ((int)FPSCtrl::Get()) {
 		frameCounter++;
 
@@ -111,6 +111,13 @@ void GameUI::update(GameScene* gameScene) {
 			};
 		};
 	};
+
+	if (hp["currentRatio"] > hp["ratio"]) hp["ratio"]++;
+	if (hp["currentRatio"] < hp["ratio"]) hp["ratio"]--;
+
+	if (exp["currentRatio"] > exp["ratio"]) exp["ratio"]++;
+	if (exp["currentRatio"] < exp["ratio"]) exp["ratio"]--;
+	if (exp["currentRatio"] == 0) exp["ratio"] = 0;
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
 	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 仮
@@ -512,25 +519,51 @@ void GameUI::drawHUD() const {
 void GameUI::drawBanner() const {
 	std::string title;
 	std::string subTitle;
+	std::string mode;
 
 	if (banner.find("title")    != banner.end()) title    = banner.at("title");
 	if (banner.find("subTitle") != banner.end()) subTitle = banner.at("subTitle");
+	if (banner.find("mode")     != banner.end()) mode     = banner.at("mode");
+
+	int lx = 0;
+	int ly = (SCREEN_HEIGHT / 3);
+	int rx = SCREEN_WIDTH;
+	int ry = ly * 2;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	int line = 5;
-	DrawBox(0, (SCREEN_HEIGHT / 3),         SCREEN_WIDTH, (SCREEN_HEIGHT / 3) + line, GetColor(255, 255, 255), true);
-	DrawBox(0, (SCREEN_HEIGHT / 3) * 2 - line, SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, GetColor(255, 255, 255), true);
+	if (!std::stoi(mode)) {
+		int line = 5;
+		DrawBox(lx, ly, rx, ly + line, GetColor(255, 255, 255), true);
+		DrawBox(lx, ry - line, rx, ry, GetColor(255, 255, 255), true);
+	};
 
 	//ChangeFont("");
 
 	SetFontSize(40);
-	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(title.c_str()) / 2, 320, 0xffffff, title.c_str());
+	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(title.c_str()) / 2, 320, 0xffffff, title.c_str());
 
 	SetFontSize(24);
-	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
+	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
+
+	if (std::stoi(mode)) {
+		int x = lx;
+		int y = ly;
+
+		while (x < SCREEN_WIDTH) {
+			y = ly;
+			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
+			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
+
+			y = ry - 40;
+			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
+			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
+
+			x += 80;
+		};
+	};
 };
 
 void GameUI::drawEnemyHP() const {
@@ -692,13 +725,13 @@ void GameUI::setFloor(int Floor) {
 void GameUI::setEXP(int Current, int Max, int Ratio) {
 	exp["current"] = Current;
 	exp["max"]     = Max;
-	if (Ratio >= 0 && Ratio <= 100) exp["ratio"] = Ratio;
+	if (Ratio >= 0 && Ratio <= 100) exp["currentRatio"] = Ratio;
 };
 
 void GameUI::setHP(int Current, int Max, int Ratio) {
 	hp["current"] = Current;
 	hp["max"]     = Max;
-	if (Ratio >= 0 && Ratio <= 100) hp["ratio"] = Ratio;
+	if (Ratio >= 0 && Ratio <= 100) hp["currentRatio"] = Ratio;
 };
 
 void GameUI::setCoolTime(int Current, int Max) {
@@ -732,9 +765,10 @@ void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
 	if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
 };
 
-void GameUI::setBanner(std::string Title, std::string SubTitle) {
+void GameUI::setBanner(std::string Title, std::string SubTitle, int Mode) {
 	banner["title"]    = Title;
 	banner["subTitle"] = SubTitle;
+	banner["mode"]     = std::to_string(Mode);
 };
 
 void GameUI::setState(int State) {

@@ -35,6 +35,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BigEnemyBullet.h" />
+    <ClInclude Include="Devil_king.h" />
     <ClInclude Include="DrawHelp.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="Common.h" />
@@ -58,6 +60,8 @@
     <ClInclude Include="scene_gameclear.h" />
     <ClInclude Include="scene_gameover.h" />
     <ClInclude Include="scene_help.h" />
+    <ClInclude Include="SmallEnemyBullet.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="weaponLevelup.h" />
     <ClInclude Include="rest.h" />
     <ClInclude Include="scene_result.h" />
@@ -73,6 +77,8 @@
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BigEnemyBullet.cpp" />
+    <ClCompile Include="Devil_king.cpp" />
     <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
@@ -94,6 +100,8 @@
     <ClCompile Include="scene_gameclear.cpp" />
     <ClCompile Include="scene_gameover.cpp" />
     <ClCompile Include="scene_help.cpp" />
+    <ClCompile Include="SmallEnemyBullet.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="weaponLevelup.cpp" />
     <ClCompile Include="rest.cpp" />
     <ClCompile Include="scene_result.cpp" />

@@ -25,10 +25,16 @@ Map::Map() {
 	if (wall_img == 0) wall_img = (LoadGraph("resources/images/maps/wall.png"));
 	if (tower_img == 0) tower_img = (LoadGraph("resources/images/maps/tower.png"));
 
-	map_bgm = LoadSoundMem("resources/sounds/BGM/bgm_map.wav");
-	ChangeVolumeSoundMem(255 * 0.265, map_bgm);
-	SetLoopPosSoundMem(400, map_bgm);
+	SoundManager::SetBGM("bgm_map");
+	SoundManager::SetVolumeBGM("bgm_map", 50);
+	SetLoopPosSoundMem(400,SoundManager::GetBGMHandle("bgm_map"));
 
+	// リザルト画面用
+	battle_count = 0;
+	event_count = 0;
+	rest_count = 0;
+	anvil_count = 0;
+	boss_count = 0;
 }
 Map::~Map() {
 	DeleteGraph(battle_img);
@@ -41,19 +47,22 @@ Map::~Map() {
 	DeleteGraph(roof_img);
 	DeleteGraph(wall_img);
 	DeleteGraph(tower_img);
-	DeleteSoundMem(map_bgm);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
-	if (!CheckSoundMem(map_bgm))
-	{
-		PlaySoundMem(map_bgm, DX_PLAYTYPE_LOOP, TRUE);
-	}
+	SoundManager::PlaySoundBGM("bgm_map");
 
 	// アイコン移動距離
 	int icon_vec = 0;
 
+	if (map_move != map_move_log) {
+		for (int i = 0; i < data_max; i++) {
+			icon_loc[i][1] = icon_loc_def[pattern][i][1] + map_move;
+			icon_loc_center[i][1] = icon_loc[i][1] + 25;
+		}
+		map_move_log = map_move;
+	}
 
 	// カーソル移動(Lスティック)
 	if (move_cool <= 0) {
@@ -134,7 +143,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 		icon_vec = 0;
 		cursor_move = FALSE;
 		// 上スクロール
-		if (icon_loc[data_max - 1][1] < 50) {
+		if (icon_loc[data_max - 1][1] < 170) {
 			if (InputCtrl::GetStickRatio(R).y >= 0.2 && InputCtrl::GetStickRatio(R).y < 0.5) {
 				icon_vec = 1;
 			}
@@ -162,16 +171,11 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	// アイコン移動処理
 	if (icon_vec != 0) {
 		map_move = map_move + icon_vec;
-		for (int i = 0; i < data_max; i++)
-		{
-			icon_loc[i][1] = icon_loc[i][1] + icon_vec;
-			icon_loc_center[i][1] = icon_loc[i][1] + 25;
-		}
 	}
 	// Aボタンでカーソルのステージに遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 
-		StopSoundMem(map_bgm);
+		SoundManager::StopSoundBGM("bgm_map");
 
 		now_stage = cursor_loc;
 
@@ -182,29 +186,32 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 			else mode = GameSceneMode::weaponSelect;
 
 			battleMode = GameSceneBattleMode::normal;
-
+			battle_count++;
 			break;
 		case 1:		//イベント（中ボス）
 			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
 
 			battleMode = GameSceneBattleMode::midBoss;
-
+			event_count++;
 			break;
 		case 2:		//休憩
 			mode = GameSceneMode::rest;
 			ClearStage();
+			rest_count++;
 			break;
 		case 3:		//鍛冶屋
 			mode = GameSceneMode::blacksmith;
+			ClearStage();
+			anvil_count++;
 			break;
 		case 4:		//ボス
 			if (weapon_selected) mode = GameSceneMode::main;
 			else mode = GameSceneMode::weaponSelect;
 
 			battleMode = GameSceneBattleMode::boss;
-
 			ClearStage();
+			boss_count++;
 			break;
 		default:
 			break;
@@ -216,9 +223,10 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 void Map::draw() const {
 
-	DrawExtendGraph(300, -380 + map_move, 1010, -200 + map_move, roof_img, 1);
-	DrawExtendGraph(370, -200 + map_move, 940, 650 + map_move, wall_img, 1);
-	//DrawExtendGraph(205, -430 + map_move, 1105, 650 + map_move, tower_img, 1);
+	//DrawGraph(200, -380 + map_move, roof_img, 1);
+	DrawExtendGraph(250, -480 + map_move, 1070, -200 + map_move, roof_img, 1);
+	//DrawExtendGraph(370, -200 + map_move, 940, 650 + map_move, wall_img, 1);
+	DrawGraph(370, -200 + map_move, wall_img, 1);
 
 	int log_i = 0; // stage_log用変数
 	int x_img = 0;
@@ -281,6 +289,15 @@ void Map::draw() const {
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r + 1, 0x050505, 0);
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 3, 0x050505, 0);
 	}
+
+#ifdef _DEBUG	
+	DrawFormatString(0, 80, 0xffffff, "リザルト用（仮）");
+	DrawFormatString(0, 100, 0xffffff, "battle_count : %d", battle_count);
+	DrawFormatString(0, 120, 0xffffff, "event_count : %d", event_count);
+	DrawFormatString(0, 140, 0xffffff, "rest_count : %d", rest_count);
+	DrawFormatString(0, 160, 0xffffff, "anvil_count : %d", anvil_count);
+	DrawFormatString(0, 180, 0xffffff, "boss_count : %d", boss_count);
+#endif
 }
 
 void Map::ResetStage() {
@@ -324,6 +341,7 @@ void Map::ResetStage() {
 		icon_loc_center[i][0] = icon_loc_def[pattern][i][0] + 25;
 		icon_loc_center[i][1] = icon_loc_def[pattern][i][1] + 25;
 		map_move = 0;
+		map_move_log = 0;
 	}
 }
 

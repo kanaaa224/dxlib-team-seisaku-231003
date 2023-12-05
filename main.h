@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define APP_NAME    "タイトル未設定"
+#define APP_NAME    "戦塔"
 #define APP_VERSION "v0.0.0"
 
 #define SCREEN_WIDTH  1280 // 画面サイズ（幅）
@@ -27,6 +27,7 @@ using std::to_string;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "sceneManager.h"
+#include "SoundManager.h"
 #include "inputCtrl.h"
 #include "fpsCtrl.h"
 
@@ -46,6 +47,9 @@ class GameScene;
 #include "Wizard.h"
 #include "EnemyBullet.h"
 #include "Minotaur.h"
+#include "Devil_king.h"
+#include "BigEnemyBullet.h"
+#include "SmallEnemyBullet.h"
 #include "Common.h"
 
 // ゲームメインシーン内のシーン（シーンを継承していない）

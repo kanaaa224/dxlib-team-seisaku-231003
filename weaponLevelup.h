@@ -1,7 +1,5 @@
 #pragma once
 
-#include"inputCtrl.h"
-
 //#define MAX_LEVEL					8		// レベルの最大値
 #define MAX_LEVEL_HIERARCHY			4		// レベル階層の最大値
 #define LEVEL_HIERARCHY_HEIGHT		90		// 1階層の高さ
@@ -46,7 +44,7 @@ private:
 		int tmp_damege;				// 武器の攻撃力一時避難場
 		int tmp_cool_time;			// 武器のクールタイム一時避難場
 		float attack_range;			// 攻撃範囲
-		float tmp_attack_range;			// 攻撃範囲一時避難場
+		float tmp_attack_range;		// 攻撃範囲一時避難場
 	};
 
 	weapon_information weapon1_info;		// 武器1
@@ -69,9 +67,11 @@ private:
 	int img_y;						// 画像のY座標
 	int img_branch_point_x;			// 樹形図の起点X座標
 	int img_branch_point_y;			// 樹形図の起点Y座標
-	int branch_point_x[2][5];		// 選択した分岐点のX座標を格納
-	int branch_point_y[2][5];		// 選択した分岐点のY座標を格納
+	int branch_point_x[2][5];		// 選択した分岐点のX座標を格納 [武器番号][X座標]
+	int branch_point_y[2][5];		// 選択した分岐点のY座標を格納 [武器番号][Y座標]
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
+
+	//int line[2][4][4];				// 選択した樹形図の線 [武器番号][BoxのX座標、Y座標][どこまで選択したか]
 
 	// プレイヤー情報格納用（weaponから）
 	float w_p_speed;				// 速度
@@ -83,23 +83,13 @@ private:
 	float p_avoidancecooltime;		// 回避のクールタイム
 	float p_upperlimitlimit;		// 回避速度
 
+	// フレイルの情報格納用
 	float frail_radiusX;
 	float frail_radiusY;
 	float tmp_frail_radiusX;
 	float tmp_frail_radiusY;
 
-	//bool close;						// 画面を閉じるか
 	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
-
-	// テスト
-	FILE* fp;
-	struct Sample
-	{
-		int type;
-		int level;
-		int damage;
-	};
-	struct Sample sample[2];
 
 public:
 	WeaponLevelUp();
@@ -112,9 +102,12 @@ public:
 	void draw()const;
 
 	// 初期化処理
-	void Init(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
+	void Init(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position);
 
 private:
+
+	// 武器選択後の処理
+	void AfterSelectingWeapon(weapon* weapon, second_weapon* second_weapon, Player* player, weapon_information* info, int& point);
 
 	// レベルアップ処理
 	void LevelUp(weapon* weapon, second_weapon* second_weapon, Player* player, weapon_information* info, int& point);
@@ -123,7 +116,10 @@ private:
 	void LevelUpCursorMove(weapon_information* info);
 
 	// レベルアップカーソルの位置を戻す
-	void ReturnLevelUpCursorPos(weapon_information* info);
+	void ResetLevelUpCursorPos(weapon_information* info);
+
+	// 武器の画像描画
+	void DrawWeaponImages()const;
 
 	// レベルアップ詳細のテキスト群
 	void DrawLevelUpDetails()const;
@@ -159,21 +155,14 @@ public:
 	int GetWeapon1LevelHierarchy() { return weapon1_info.level_hierarchy; }
 	int GetWeapon2LevelHierarchy() { return weapon2_info.level_hierarchy; }
 
-
 	// 武器1のレベルリセット
 	void Weapon1LevelInit();
 
 	// 武器2のレベルリセット
 	void Weapon2LevelInit();
 
-	//bool GetClose() { return close; }
-
-	//void SetClose(bool flg)
-	//{
-	//	close = flg;
-	//}
-
 	int GetCloseMode() { return close_mode; }
+
 	void SetCloseMode(int num)
 	{
 		close_mode = num;
