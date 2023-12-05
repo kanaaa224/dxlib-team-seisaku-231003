@@ -314,14 +314,6 @@ void Minotaur::RoarEffectUpdate()
 		playerRoarHitFlg = false;
 	}
 
-	if (playerRoarHitFlg == true) {
-		if (playerRoarHitCounter >= SECOND_FRAME(3)) {
-			playerRoarHitFlg = false;
-			playerRoarHitCounter = 0;
-		}
-		playerRoarHitCounter++;
-	}
-
 
 	roarEffectFinFlg = true;
 }
@@ -333,6 +325,15 @@ void Minotaur::RoarEffectDraw() const
 
 bool Minotaur::GetRoarHitFlg()
 {
+	if (playerRoarHitFlg == true) {
+		playerRoarHitCounter++;
+		if (playerRoarHitCounter >= SECOND_FRAME(3)) {
+			playerRoarHitFlg = false;
+			playerRoarHitCounter = 0;
+		}
+
+	}
+
 	return playerRoarHitFlg;
 }
 
