@@ -512,9 +512,11 @@ void GameUI::drawHUD() const {
 void GameUI::drawBanner() const {
 	std::string title;
 	std::string subTitle;
+	std::string mode;
 
 	if (banner.find("title")    != banner.end()) title    = banner.at("title");
 	if (banner.find("subTitle") != banner.end()) subTitle = banner.at("subTitle");
+	if (banner.find("mode")     != banner.end()) mode     = banner.at("mode");
 
 	int lx = 0;
 	int ly = (SCREEN_HEIGHT / 3);
@@ -525,9 +527,11 @@ void GameUI::drawBanner() const {
 	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	//int line = 5;
-	//DrawBox(lx, ly, rx, ly + line, GetColor(255, 255, 255), true);
-	//DrawBox(lx, ry - line, rx, ry, GetColor(255, 255, 255), true);
+	if (!std::stoi(mode)) {
+		int line = 5;
+		DrawBox(lx, ly, rx, ly + line, GetColor(255, 255, 255), true);
+		DrawBox(lx, ry - line, rx, ry, GetColor(255, 255, 255), true);
+	};
 
 	//ChangeFont("");
 
@@ -537,19 +541,21 @@ void GameUI::drawBanner() const {
 	SetFontSize(24);
 	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
 
-	int x = lx;
-	int y = ly;
+	if (std::stoi(mode)) {
+		int x = lx;
+		int y = ly;
 
-	while (x < SCREEN_WIDTH) {
-		y = ly;
-		DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
-		DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
+		while (x < SCREEN_WIDTH) {
+			y = ly;
+			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
+			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
 
-		y = ry - 40;
-		DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
-		DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
+			y = ry - 40;
+			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
+			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
 
-		x += 80;
+			x += 80;
+		};
 	};
 };
 
@@ -752,9 +758,10 @@ void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
 	if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
 };
 
-void GameUI::setBanner(std::string Title, std::string SubTitle) {
+void GameUI::setBanner(std::string Title, std::string SubTitle, int Mode) {
 	banner["title"]    = Title;
 	banner["subTitle"] = SubTitle;
+	banner["mode"]     = std::to_string(Mode);
 };
 
 void GameUI::setState(int State) {
