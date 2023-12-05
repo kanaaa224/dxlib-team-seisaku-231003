@@ -215,6 +215,14 @@ void Minotaur::TackleUpdate()
 		}
 	}
 
+	
+	//咆哮が当たったなら
+	if (playerRoarHitFlg == true) {
+		tackleCoolTime = 0;
+	}
+	else {
+		tackleCoolTime = SECOND_FRAME(3);
+	}
 	//タックルのクールタイム
 	if (coolTimeFlg == true && tackleFlg == false) {
 		tackleCoolTimeCnt++;
@@ -328,7 +336,7 @@ bool Minotaur::GetRoarHitFlg()
 	//プレイヤーの瞬間移動で使うFlg制御
 	if (playerRoarHitFlg == true) {
 		playerRoarHitCounter++;
-		if (playerRoarHitCounter >= SECOND_FRAME(6)) {
+		if (playerRoarHitCounter >= SECOND_FRAME(3)) {
 			playerRoarHitFlg = false;
 			playerRoarHitCounter = 0;
 		}
