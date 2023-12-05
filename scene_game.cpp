@@ -888,6 +888,26 @@ void GameScene::HitCheck()
 			HitEnemy(minotaur);
 		}
 	}
+
+	//魔王と魔王の武器、プレイヤーの当たり判定
+	if (devilKing != nullptr) {
+		if (battleMode == GameSceneBattleMode::boss) {
+			//魔王とプレイヤー
+			HitEnemy(devilKing);
+			//大きい弾
+			for (int i = 0; i < MAX_BULLET_NUM; i++) {
+				if (bigEnemyBullet[i] != nullptr) {
+					HitEnemy(bigEnemyBullet[i]);
+				}
+			}
+			//小さい弾
+			for (int i = 0; i < 7; i++) {
+				if (smallEnemyBullet[i] != nullptr) {
+					HitEnemy(smallEnemyBullet[i]);
+				}
+			}
+		}
+	}
 }
 
 bool GameScene::HitEnemy(EnemyBase* enemy)
@@ -1125,7 +1145,7 @@ void GameScene::MinotaurDraw() const
 	}
 }
 
-//-//---------魔王----------//
+//----------魔王----------//
 void GameScene::DevilKingUpdate()
 {
 	if (devilKing != nullptr) {
