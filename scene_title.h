@@ -36,11 +36,16 @@ private:
 
 	//セレクト倍率
 	double Title_Select_magnification;
+	double Title_Cosor_sword_Angle;
+	double Title_Cosor_greatsword_Angle;
+	double Title_Cosor_shortsword_Angle;
 
 	//座標系
 	float logo_white_x, logo_white_y;
 	float logo_move_x, logo_move_y;
 	int	  Title_Star_x[8], Title_Star_y[8];
+	int Title_Cosor_greatsword_x;
+	int Title_Cosor_greatsword_y;
 
 	//フラグ系
 	bool logo_location_y_flg;
@@ -49,6 +54,8 @@ private:
 	bool Title_FadeOut_flg;
 	bool Title_FadeIn_flg;
 	bool Title_select_flg;
+	bool Title_Cursor_Flg;
+	bool Title_logo_Anim_End_Flg;
 
 	//fps系
 	int Title_Animation_fps;
@@ -99,4 +106,7 @@ public:
 
 	//タイトルのセレクトアニメーション
 	void Title_Select_Anim();
+
+	//タイトルのカーソルアニメーション
+	void Title_Cursor_Anim();
 };

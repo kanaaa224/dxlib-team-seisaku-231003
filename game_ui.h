@@ -35,7 +35,7 @@ public:
 
 	~GameUI();
 
-	void update(GameScene* gameScene);
+	void update(/*GameScene* gameScene*/);
 
 	void draw() const;
 
@@ -114,7 +114,7 @@ public:
 	void setEnemyHP(std::string, int, int, int);
 
 	// stateが「banner」の時に表示するテキストを設定
-	void setBanner(std::string, std::string);
+	void setBanner(std::string, std::string, int);
 
 	//////////////////////////////////////////////////
 

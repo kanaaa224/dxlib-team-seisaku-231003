@@ -19,17 +19,31 @@ Title::Title()
 	if (Title_Credit_Img = LoadGraph("resources/images/Title/title_logo_credit.png")) {}
 	if (Title_End_Img = LoadGraph("resources/images/Title/title_logo_end.png")) {}
 
-	if (Title_Cosol_sword_Img = LoadGraph("resources/images/Title/片手剣50・50.png")) {}
-	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/武器/大剣50・50.png")) {}
-	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/武器/短剣50・50.png")) {}
+	if (Title_Cosol_sword_Img = LoadGraph("resources/images/武器/片手剣.png")) {}
+	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/武器/大剣.png")) {}
+	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/武器/短剣.png")) {}
 
-	Title_Select_magnification = 0.0;
+	//BGM
+	SoundManager::SetBGM("bgm_title");
+	SoundManager::SetVolumeBGMs(50);
+
+	//SE
+	SoundManager::SetSE("se_Title_decision_sound");
+	SoundManager::SetSE("se_select_syu");
+	SoundManager::SetVolumeSEs(65);
+
+	Title_Select_magnification = 0.01;
+	Title_Cosor_sword_Angle = 1.0;
+	Title_Cosor_greatsword_Angle = 4.15;
+	Title_Cosor_shortsword_Angle = 0.0;
 
 	//座標系
 	logo_white_x = 640.0f;
 	logo_white_y = -70.0f;
 	logo_move_x = 0.0f;
 	logo_move_y = 0.0f;
+	Title_Cosor_greatsword_x = 485;
+	Title_Cosor_greatsword_y = 330;
 
 	for (int i = 0; i < 8; i++) {
 		Title_Star_x[i] = 0;
@@ -57,6 +71,8 @@ Title::Title()
 	Title_FadeOut_flg = false;
 	Title_FadeIn_flg = false;
 	Title_select_flg = false;
+	Title_Cursor_Flg = false;
+	Title_logo_Anim_End_Flg = true;
 
 	//色
 	Title_Star_Anim_Color_red = 255;
@@ -67,21 +83,32 @@ Title::Title()
 //更新
 Scene* Title::update()
 {
+	SoundManager::PlaySoundBGM("bgm_title");
+
 	Title_Animation_fps++;
 
+	//デバッグ用 あとで消す
 	Title_Debug_Mousepoint_x = InputCtrl::GetMouseCursor().x;
 	Title_Debug_Mousepoint_y = InputCtrl::GetMouseCursor().y;
+
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && Title_logo_Anim_End_Flg == false) {
+
+		Title_Cursor_Flg = true;
+	}
 
 	//スティックの制御
 	if (TitleInterval < TITLEINTERVAL)
 	{
 		TitleInterval++;
 	}
+
 	//カーソル上下
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_UP) == PRESS)
 	{
 		//スティック移動の初期化
 		TitleInterval = 0;
+		//カーソルの移動音
+		SoundManager::PlaySoundSE("se_select_syu", DX_PLAYTYPE_BACK);
 		//タイトルカーソルの移動
 		if (--g_MenuNumber > TITLECURSOR);
 		//タイトルカーソルの移動量の制御
@@ -92,32 +119,53 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//タイトルカーソルの移動
+		SoundManager::PlaySoundSE("se_select_syu", DX_PLAYTYPE_BACK);
 		if (++g_MenuNumber < -TITLECURSOR);
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber > 3)g_MenuNumber = 0;
 	}
-	g_MenuY = g_MenuNumber * 52;
+
+	g_MenuY = g_MenuNumber * 90;
+
 	//Aボタンでメニュー決定・画面遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_A) == PRESS)
+	if (Title_Cursor_Flg == true)
 	{
-		if (g_MenuNumber == 0) {
-			return new GameScene;
-		}
-		if (g_MenuNumber == 1) {
-			return new Help;
-		}
-		if (g_MenuNumber == 2) {
-			return new Credit;
-		}
-		if (g_MenuNumber == 3) {
-			return new End;
+		Star_Anim_Count++;
+
+		Title_Cursor_Anim();
+
+		//カーソルのアニメーションが終了して 2秒待ってから動く
+		if (Star_Anim_Count > 100) {
+
+			if (g_MenuNumber == 0) {
+				SoundManager::StopSoundBGMs();
+				return new GameScene;
+			}
+			if (g_MenuNumber == 1) {
+				return new Help;
+			}
+			if (g_MenuNumber == 2) {
+				return new Credit;
+			}
+			if (g_MenuNumber == 3) {
+				return new End;
+			}
 		}
 	}
+
+	//タイトルロゴアニメーション
+	Title_logo_Animation();
+
+	logo_white_y = logo_white_y + logo_move_y;
+
+	//if (logo_location_y_flg == true && Title_Select_mg_flg == false) {
+	//	//タイトルのセレクトアニメーション
+	//	Title_Select_Anim();
+	//}
 
 	if (Title_Anim_flg == true) {
 
 		//星の座標を rands_x:25～500  rands_y:25～250 rands1_x:775～1260 rands1_y:25～250の範囲内で取得する
-		//Title_Star_Rands(499, 249, 1259, 249);
 		Title_Star_Rands(499, 249, 1259, 249);
 	}
 	else if (Title_FadeOut_flg == true) {
@@ -130,22 +178,17 @@ Scene* Title::update()
 		//星のフェードイン関数
 		Title_Star_FadeIn();
 	}
-
-	//タイトルロゴアニメーション
-	Title_logo_Animation();
-
-	logo_white_y = logo_white_y + logo_move_y;
-
-	//if (logo_location_y_flg == true && Title_Select_mg_flg == false) {
-	//	//タイトルのセレクトアニメーション
-	//	Title_Select_Anim();
-	//}
 	
+	if (Title_select_flg == true) {
+
+		Title_logo_Anim_End_Flg = false;
+	}
+
 	if (Title_Animation_fps > 59) {
 		// 1秒
 		Title_Animation_fps = 0;
-		Star_Anim_Count++;
-		if (Star_Anim_Count > 2) {
+		//Star_Anim_Count++;
+		if (Star_Anim_Count > 100) {
 			Star_Anim_Count = 0;
 		}
 	}
@@ -164,27 +207,38 @@ void Title::draw() const
 	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
 	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
-	//タイトルロゴ
-	//DrawRotaGraph(logo_white_x, logo_white_y, 0.4, 0.0, Titlelogo_white, TRUE);
-	DrawRotaGraph(logo_white_x, logo_white_y, 0.58, 0.0, Titlelogo_white, TRUE);
-
 	//星をランダムに出現させる範囲
 	DrawBox(25, 25, 500, 250, GetColor(255, 0, 0), FALSE);
 	DrawBox(775, 25, 1260, 250, GetColor(255, 0, 0), FALSE);
 
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %d", Title_Debug_Mousepoint_x);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "Mouse y %d", Title_Debug_Mousepoint_y);
-	/*DrawFormatString(0, 360, GetColor(255, 0, 0), "青	%d", Title_Star_Anim_Color_blue);
-	DrawFormatString(0, 380, GetColor(255, 0, 0), "カウンタ %d", Title_Star_rand_Count);
-	DrawFormatString(0, 400, GetColor(255, 0, 0), "星の座標 x1  %d", Title_Star_x[1]);
-	DrawFormatString(0, 420, GetColor(255, 0, 0), "星の座標 y1  %d", Title_Star_y[1]);
-	DrawFormatString(0, 440, GetColor(255, 0, 0), "星の座標 x2  %d", Title_Star_x[2]);
-	DrawFormatString(0, 460, GetColor(255, 0, 0), "星の座標 y2  %d", Title_Star_y[2]);*/
-	
+	DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %lf", Title_Cosor_greatsword_x);
+	DrawFormatString(0, 320, GetColor(255, 0, 0), "Mouse y %lf", Title_Cosor_greatsword_y);
+	DrawFormatString(0, 360, GetColor(255, 0, 0), "秒	%d", Star_Anim_Count);
+	//DrawFormatString(0, 380, GetColor(255, 0, 0), "カウンタ %d", Title_Star_rand_Count);
+	//DrawFormatString(0, 400, GetColor(255, 0, 0), "星の座標 x1  %d", Title_Star_x[1]);
+	//DrawFormatString(0, 420, GetColor(255, 0, 0), "星の座標 y1  %d", Title_Star_y[1]);
+	//DrawFormatString(0, 440, GetColor(255, 0, 0), "星の座標 x2  %d", Title_Star_x[2]);
+	//DrawFormatString(0, 460, GetColor(255, 0, 0), "星の座標 y2  %d", Title_Star_y[2]);
+
+	//星のフェードアウト
+	SetDrawBright(Title_Star_Anim_Color_red, Title_Star_Anim_Color_green, Title_Star_Anim_Color_blue);
+	for (int i = 0; i < 8; i++) {
+		//星
+		DrawRotaGraph(Title_Star_x[i], Title_Star_y[i], 0.05, 0.0, Title_SkyStar_Img, TRUE);
+	}
+	SetDrawBright(255, 255, 255);
+
+	//タイトルロゴ
+	DrawRotaGraph(logo_white_x, logo_white_y, 0.58, 0.0, Titlelogo_white, TRUE);
+
 	if (Title_select_flg == true/* && Title_Select_mg_flg == false*/) {
 
 		//タイトルカーソルの描画
-		DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
+		//DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
+
+		DrawRotaGraph(480, 300 + g_MenuY, 0.1,  Title_Cosor_sword_Angle/*1.0*/, Title_Cosol_sword_Img, TRUE);
+		DrawRotaGraph(Title_Cosor_greatsword_x, Title_Cosor_greatsword_y + g_MenuY, 0.1, Title_Cosor_greatsword_Angle/*4.15*/, Title_Cosol_greatsword_Img, TRUE);
+		//DrawRotaGraph(659, 300, 0.32, 0.0, Title_Cosol_shortsword_Img, TRUE);
 
 		// 90ずつ足している	倍率は0.32
 		DrawRotaGraph(659, 300, 0.32, 0.0, Title_Start_Img, TRUE);
@@ -192,16 +246,6 @@ void Title::draw() const
 		DrawRotaGraph(659, 480, 0.32, 0.0, Title_Credit_Img, TRUE);
 		DrawRotaGraph(659, 570, 0.32, 0.0, Title_End_Img, TRUE);
 	}
-
-	//星のフェードアウト
-	SetDrawBright(Title_Star_Anim_Color_red, Title_Star_Anim_Color_green, Title_Star_Anim_Color_blue);
-
-	for (int i = 0; i < 8; i++) {
-		//星
-		DrawRotaGraph(Title_Star_x[i], Title_Star_y[i], 0.05, 0.0, Title_SkyStar_Img, TRUE);
-	}
-
-	SetDrawBright(255, 255, 255);
 }
 
 Title::~Title()
@@ -325,5 +369,45 @@ void Title::Title_Select_Anim() {
 		}
 
 		Title_Select_magnification = Title_Select_magnification + TITLE_SELECT_MG;
+	}
+}
+
+void Title::Title_Cursor_Anim() {
+
+	if (Title_Cosor_sword_Angle >= 2.0) {
+
+		Title_Cosor_sword_Angle = 2.0;
+	}
+	else {
+
+		Title_Cosor_sword_Angle = Title_Cosor_sword_Angle + 0.05;
+	}
+
+	if (Title_Cosor_greatsword_Angle <= 3.0) {
+
+		Title_Cosor_greatsword_Angle = 3.0;
+	}
+	else {
+
+		Title_Cosor_greatsword_Angle = Title_Cosor_greatsword_Angle - 0.05;
+	}
+
+	if (Title_Cosor_greatsword_x >= 600) {
+
+		Title_Cosor_greatsword_x = 600;
+	}
+	else {
+
+		Title_Cosor_greatsword_x = Title_Cosor_greatsword_x + 0.05;
+	}
+
+	if (Title_Cosor_greatsword_y <= 310) {
+
+		Title_Cosor_greatsword_y = 310;
+		SoundManager::PlaySoundSE("se_Title_decision_sound");
+	}
+	else {
+
+		Title_Cosor_greatsword_y = Title_Cosor_greatsword_y - 0.05;
 	}
 }
