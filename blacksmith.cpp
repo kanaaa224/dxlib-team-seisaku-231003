@@ -23,6 +23,10 @@ Blacksmith::Blacksmith()
 	img_book = LoadGraph("resources/images/武器/本.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
+	SoundManager::SetBGM("bgm_smith");
+	SetLoopPosSoundMem(5100, SoundManager::GetBGMHandle("bgm_smith"));
+
+
 	// 構造体初期化
 	weapon1_info = { 0, none, 0, 0, 0, false };
 	weapon2_info = { 1, none, 0, 0, 0, false };
@@ -53,6 +57,8 @@ Blacksmith::~Blacksmith()
 // 更新
 void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup, Player* player, int& point, int& mode, int& stage)
 {
+	SoundManager::PlaySoundBGM("bgm_smith");
+
 	// 15fのインターバル
 	if (interval < 15)
 	{
@@ -84,6 +90,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		{
 			weapon_levelup->SetIsBlacksmith(false);
 			stage++;
+			SoundManager::StopSoundBGM("bgm_smith");
 			mode = GameSceneMode::map;
 		}
 	}

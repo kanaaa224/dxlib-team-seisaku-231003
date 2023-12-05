@@ -56,6 +56,13 @@ GameScene::GameScene() {
 
 	map->ResetStage();
 
+	SoundManager::SetBGM("bgm_normal");
+	SoundManager::SetBGM("bgm_middleboss");
+	SoundManager::SetBGM("bgm_middleboss_end");
+	SoundManager::SetVolumeBGMs(50);
+	SoundManager::SetVolumeSEs(50);
+	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
+	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
 
 	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！");
 
@@ -130,6 +137,7 @@ Scene* GameScene::update() {
 #ifdef _DEBUG
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
+		SoundManager::StopSoundBGMs();
 		if (mode == GameSceneMode::blacksmith) mode = GameSceneMode::main;
 		else mode = GameSceneMode::blacksmith;
 	};
@@ -137,23 +145,41 @@ Scene* GameScene::update() {
 
 	// 強制ゲームクリア
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
-
+		SoundManager::StopSoundBGMs();
 		return new GameClearScene(weaponA, weaponB, map);
 	}
 
 	// デバッグ - Oキーで強制ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
+		SoundManager::StopSoundBGMs();
 		battleMode = GameSceneBattleMode::boss;
 	};
 
 	// デバッグ - Iキーで強制中ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_I) == PRESS) {
+		SoundManager::StopSoundBGMs();
 		battleMode = GameSceneBattleMode::midBoss;
 	};
 #endif
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::main) {
+		if (battleMode == GameSceneBattleMode::normal)
+		{
+			SoundManager::PlaySoundBGM("bgm_normal");
+		}
+		if (battleMode == GameSceneBattleMode::midBoss)
+		{
+			if (!CheckSoundMem(SoundManager::GetBGMHandle("bgm_middleboss_end")))
+			{
+				SoundManager::PlaySoundBGM("bgm_middleboss");
+			}
+		}
+		if (battleMode == GameSceneBattleMode::boss)
+		{
+
+		}
+
 		gameUI->update(this);
 
 		if (gameUI->getState() >= banner_playerUI) {
@@ -483,6 +509,11 @@ Scene* GameScene::update() {
 			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, 0, 0 }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, 25, 100 });
 			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
+				if (battleMode == GameSceneBattleMode::midBoss) 
+				{
+					SoundManager::StopSoundBGM("bgm_middleboss");
+					SoundManager::PlaySoundBGM("bgm_middleboss_end");
+				}
 				gameUI->setBanner("クリア！", "全てのモンスターを倒しました");
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
@@ -493,6 +524,9 @@ Scene* GameScene::update() {
 					map->ClearStage();
 
 					currentFloor++;
+
+					SoundManager::StopSoundBGMs();
+					SoundManager::StopSoundSEs();
 					
 					if (battleMode == GameSceneBattleMode::midBoss)
 					{
@@ -512,6 +546,7 @@ Scene* GameScene::update() {
 				};
 				if (gameUI->getState() == banner_playerUI) {
 					// 黒帯消滅後に発火
+					SoundManager::StopSoundBGMs();
 					return new GameOverScene(weaponA, weaponB, map);
 				};
 			};
@@ -560,7 +595,7 @@ Scene* GameScene::update() {
 
 	if (mode == GameSceneMode::blacksmith) {
 		blacksmith->update(weaponA, weaponB, weaponLevelup, player, point, mode, currentFloor);
-		if (mode >= GameSceneMode::map) map->ClearStage();
+		//if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
 	};
 
@@ -714,8 +749,10 @@ int GameScene::getEnemyNum(int type) {
 			if (wizard[i] != nullptr) wizardNum++;
 		};
 	};
+
 	if (battleMode == GameSceneBattleMode::midBoss && (minotaur->GetHP() > 0.0f)) minotourNum = 1;
-	if (battleMode == GameSceneBattleMode::boss && true/*体力*/) bossNum = 1;
+	if (battleMode == GameSceneBattleMode::boss && (devilKing->GetHP() > 0.0f)) bossNum = 1;
+	
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
 	if (type == 1) return slimeNum;
@@ -1088,7 +1125,7 @@ void GameScene::MinotaurDraw() const
 	}
 }
 
-//----------魔王----------//
+//-//---------魔王----------//
 void GameScene::DevilKingUpdate()
 {
 	if (devilKing != nullptr) {
@@ -1111,6 +1148,12 @@ void GameScene::DevilKingUpdate()
 
 		for (int i = 0; i < MAX_BULLET_NUM; i++) {
 			SmallEnemyBulletUpdate(i);
+		}
+	}
+
+	if (devilKing != nullptr) {
+		if (devilKing->GetHP() <= 0) {
+			devilKing = nullptr;
 		}
 	}
 }

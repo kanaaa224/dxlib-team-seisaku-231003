@@ -1,5 +1,8 @@
 ﻿#include "Devil_king.h"
 #include "Common.h"
+#include <math.h>
+#include "inputCtrl.h"
+#define BTN_DEBUG
 
 Devil_king::Devil_king()
 {
@@ -38,9 +41,52 @@ void Devil_king::Update(Player* player)
 		bigBulletCreateFlg = true;
 		bigBulletCreateCounter = 0;
 	}
+
+	//武器からの攻撃とHPが０以上なら赤く表示する
+	if (hitWeaponFlg == true && hp > 0) {
+		redDrawFlg = true;
+	}
+	hitWeaponFlg = false;
+
+	if (hp <= 0) {
+		respawnFlg = false;
+	}
+
+	if (redFrameCounter == RED_FRAME) {
+		redDrawFlg = false;
+		redFrameCounter = 0;
+	}
+	if (redDrawFlg == true) {
+		redFrameCounter++;
+	}
+
+#ifdef BTN_DEBUG
+	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
+		hitWeaponFlg = true;
+		hp -= 100;
+	}
+	else {
+		hitWeaponFlg = false;
+	}
+#endif // BTN_DEBUG
 }
 
 void Devil_king::Draw() const
 {
-	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
+	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//通常時
+	if (redDrawFlg == true) {
+		SetDrawBright(255, 0, 0);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//赤色表示
+		SetDrawBright(255, 255, 255);
+	}
+}
+
+void Devil_king::BeamUpdate()
+{
+
+}
+
+void Devil_king::BeamDraw() const
+{
+
 }

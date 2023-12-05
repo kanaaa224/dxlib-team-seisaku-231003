@@ -10,12 +10,12 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	if (DxLib_Init() == -1) return -1;             // DxLib の初期化処理
 	SetDrawScreen(DX_SCREEN_BACK);                 // 描画先画面を裏にする（ダブルバッファリング）
 
-	SceneManager* sceneMng = new SceneManager((Scene*) new Title());
+	SoundManager::CreateSoundManager();
+
+	SceneManager* sceneMng = new SceneManager((Scene*) new DebugScene());
 
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
 	FPSCtrl::SetUpdateInterval(1000);
-
-	SoundManager::CreateSoundManager();
 
 	// ゲームループ＆シーンの更新
 	while ((ProcessMessage() == 0) && (sceneMng->update() != nullptr)) {
