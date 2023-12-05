@@ -231,7 +231,10 @@ void Player::draw()const {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 		for (int i = 0; i < 64; i++)
 		{
-			DrawRotaGraph2(avoidanceLocation[i].x - 35, avoidanceLocation[i].y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
+			if (i % 5 == 0) {
+				DrawRotaGraph2(avoidanceLocation[i].x - 35, avoidanceLocation[i].y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
+				DrawFormatString(avoidanceLocation[i].x, avoidanceLocation[i].y, 0xff0000, "%d", i);
+			}
 		}
 
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
@@ -335,7 +338,7 @@ void Player::Player_Avoidance() {
 	
 	
 
-
+	avoidanceLocation[0] = location;
 
 
 	//回避　Aボタン
@@ -346,14 +349,20 @@ void Player::Player_Avoidance() {
 		if (camera_flg_left_right) {	//壁際
 			location.x += Additional_Value3.x * unitRelativeCursorLocation.x;
 			
-			//avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - Additional_Value3.x * unitRelativeCursorLocation.x;
+			//avoidanceLocation[afterimageNum].x = location.x;
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - Additional_Value3.x * unitRelativeCursorLocation.x;
+			//avoidanceLocation[afterimageNum] = location;
 		}
 		else{
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
-			//avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			
 		}
-		
+		if (relativeCursorLocation.y < MOVE_UP && relativeCursorLocation.y > MOVE_DOWN) {
+			avoidanceLocation[afterimageNum].y = location.y;
+		}
 
 		//if (Additional_Value3.x > fabsf( unitRelativeCursorLocation.x) * Upper_Limit) {		//終了
 		//	Additional_Value3.x = Initial_Value;
@@ -366,15 +375,21 @@ void Player::Player_Avoidance() {
 		//Additional_Value3.x = Additional_Value3.x + Upper_speed;
 		if (camera_flg_left_right) {
 			location.x += Additional_Value3.x * unitRelativeCursorLocation.x;
-			//avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - Additional_Value3.x * unitRelativeCursorLocation.x;
-
+			//avoidanceLocation[afterimageNum].x = location.x;
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - Additional_Value3.x * unitRelativeCursorLocation.x;
+			//avoidanceLocation[afterimageNum] = location;
 		}
 		else {
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
-			//avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
-		}
 
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			
+			
+		}
+		if (relativeCursorLocation.y < MOVE_UP && relativeCursorLocation.y > MOVE_DOWN) {
+			avoidanceLocation[afterimageNum].y = location.y;
+		}
 		/*if (Additional_Value3.x > fabsf(unitRelativeCursorLocation.x) * Upper_Limit) {
 			Additional_Value3.x = Initial_Value;
 			CoolTime = true;
@@ -393,13 +408,19 @@ void Player::Player_Avoidance() {
 
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
-			//avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y + (-1 * Additional_Value3.y * unitRelativeCursorLocation.y);
-
+			//avoidanceLocation[afterimageNum].y = location.y;
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y + (-1 * Additional_Value3.y * unitRelativeCursorLocation.y);
+			//avoidanceLocation[afterimageNum] = location;
 		}
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
-			//avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y - MoveY;
+
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y - MoveY;
+		
+		}
+		if (relativeCursorLocation.x < MOVE_RIGHT && relativeCursorLocation.x > MOVE_LEFT) {
+			avoidanceLocation[afterimageNum].x = location.x;
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -414,13 +435,19 @@ void Player::Player_Avoidance() {
 
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
-			//avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y + (-1 * Additional_Value3.y * unitRelativeCursorLocation.y);
-
+			//avoidanceLocation[afterimageNum].y = location.y;
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y + (-1 * Additional_Value3.y * unitRelativeCursorLocation.y);
+			//avoidanceLocation[afterimageNum]. y= location.y;
 		}
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
-			//avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y - MoveY;
+
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y - MoveY;
+
+		}
+		if (relativeCursorLocation.x < MOVE_RIGHT && relativeCursorLocation.x > MOVE_LEFT) {
+			avoidanceLocation[afterimageNum].x = location.x;
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -434,7 +461,11 @@ void Player::Player_Avoidance() {
 	}*/
 
 
-	avoidanceLocation[afterimageNum] = location;
+	//for (int i = 0; i < 64; i++)
+	//{
+	//	avoidanceLocation[i].x -= MoveX;
+	//	avoidanceLocation[i].y -= MoveY;
+	//}
 	
 	if (AvoidanceCnt++ > 20) {
 		Additional_Value3.x = Initial_Value;
@@ -442,10 +473,11 @@ void Player::Player_Avoidance() {
 		CoolTime = true;
 		firstAvoidanceFlg = false;
 		AvoidanceCnt = 0;
+
 		afterimageNum = 1;
-		for (int i = 0; i < 64; i++)
+		for (int i = 1; i < 64; i++)
 		{
-			avoidanceLocation[i] = location;
+			avoidanceLocation[i] = { -100, -100 };
 		}
 	}
 	else {
