@@ -748,8 +748,10 @@ int GameScene::getEnemyNum(int type) {
 			if (wizard[i] != nullptr) wizardNum++;
 		};
 	};
+
 	if (battleMode == GameSceneBattleMode::midBoss && (minotaur->GetHP() > 0.0f)) minotourNum = 1;
-	if (battleMode == GameSceneBattleMode::boss && true/*体力*/) bossNum = 1;
+	if (battleMode == GameSceneBattleMode::boss && (devilKing->GetHP() > 0.0f)) bossNum = 1;
+	
 
 	if (type == 0) return (slimeNum + skeletonNum + wizardNum + minotourNum + bossNum);
 	if (type == 1) return slimeNum;
@@ -1122,7 +1124,7 @@ void GameScene::MinotaurDraw() const
 	}
 }
 
-//----------魔王----------//
+//-//---------魔王----------//
 void GameScene::DevilKingUpdate()
 {
 	if (devilKing != nullptr) {
@@ -1145,6 +1147,12 @@ void GameScene::DevilKingUpdate()
 
 		for (int i = 0; i < MAX_BULLET_NUM; i++) {
 			SmallEnemyBulletUpdate(i);
+		}
+	}
+
+	if (devilKing != nullptr) {
+		if (devilKing->GetHP() <= 0) {
+			devilKing = nullptr;
 		}
 	}
 }
