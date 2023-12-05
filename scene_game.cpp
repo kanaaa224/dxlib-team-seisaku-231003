@@ -478,7 +478,7 @@ Scene* GameScene::update() {
 			player->SetLeftTop(stage->GetStageArray(0));
 			player->SetRightBottom(stage->GetStageArray(8));
 			stage->update(player->Player_MoveX(), player->Player_MoveY());
-			player->update();
+			player->update(minotaur->GetRoarHitFlg());
 			weaponA->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), player);
 			Vector tmpV = { player->Player_MoveX(),player->Player_MoveY(),0 };
 			weaponB->Update(player->Player_AimingX(), player->Player_AimingY(), player->Player_Location(), tmpV, player);
@@ -616,6 +616,7 @@ Scene* GameScene::update() {
 };
 
 void GameScene::draw() const {
+
 	if (mode >= GameSceneMode::main) {
 		stage->draw();
 
