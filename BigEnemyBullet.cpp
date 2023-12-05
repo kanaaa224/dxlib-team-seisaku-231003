@@ -31,9 +31,27 @@ void BigEnemyBullet::Update(Player* player)
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
-
-	location.x += vector.x - diff.x;
-	location.y += vector.y - diff.y;
+	//プレイヤーの座標をdiffLocationにセット
+	SetPlayer_Location(player->GetLocation());
+	
+	//移動処理
+	if (hitWeapon == false) {
+		location.x += vector.x - diff.x;
+		location.y += vector.y - diff.y;
+	}
+	else if (hitWeapon == true) {
+		//プレイヤーのカーソルの位置を取得する関数
+		float x, y;
+		x = player->Player_AimingX() - dL.x;
+		y = player->Player_AimingY() - dL.y;
+		
+		vector.x = Normalization_X(x, y);
+		vector.y = Normalization_Y(x, y);
+		location.x += vector.x - diff.x;
+		location.y += vector.y - diff.y;
+		hitWeapon = false;
+	}
+	
 
 	lifeTimeCnt--;
 

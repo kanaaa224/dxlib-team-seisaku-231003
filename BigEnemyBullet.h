@@ -26,4 +26,9 @@ public:
 	int GetlifeTimeCnt() {
 		return lifeTimeCnt;
 	}
+
+	//Set関数
+	void SetHitWeapon(bool flg) {
+		hitWeapon = flg;
+	}
 };
