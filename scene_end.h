@@ -10,7 +10,6 @@ class End :public Scene
 {
 private:
 	int g_WaitTime;
-	int g_PosY;
 	int EndImage;
 	int End_Enemmy_Slime_Img[2];
 	int End_Playercharacter_Img[3];

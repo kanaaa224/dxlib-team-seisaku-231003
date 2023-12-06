@@ -26,8 +26,8 @@ Title::Title()
 	SoundManager::SetVolumeBGMs(50);
 
 	//SE
-	SoundManager::SetSE("se_Title_decision_sound");
-	SoundManager::SetSE("se_select_syu");
+	SoundManager::SetSE("se_system_Title_decision_sound");	//カーソル決定音
+	SoundManager::SetSE("se_system_select_syu");//カーソル移動音
 	SoundManager::SetVolumeSEs(65);
 
 	Title_Select_magnification = 0.01;
@@ -106,7 +106,7 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//カーソルの移動音
-		SoundManager::PlaySoundSE("se_select_syu", false, DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
 		//タイトルカーソルの移動
 		if (--g_MenuNumber > TITLECURSOR);
 		//タイトルカーソルの移動量の制御
@@ -117,7 +117,7 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//タイトルカーソルの移動
-		SoundManager::PlaySoundSE("se_select_syu",false, DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_system_select_syu",false, DX_PLAYTYPE_BACK);
 		if (++g_MenuNumber < -TITLECURSOR);
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber > 3)g_MenuNumber = 0;
@@ -401,7 +401,7 @@ void Title::Title_Cursor_Anim() {
 	if (Title_Cosor_greatsword_y <= 310) {
 
 		Title_Cosor_greatsword_y = 310;
-		SoundManager::PlaySoundSE("se_Title_decision_sound");
+		SoundManager::PlaySoundSE("se_system_Title_decision_sound");
 	}
 	else {
 
