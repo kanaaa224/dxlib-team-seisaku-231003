@@ -717,7 +717,7 @@ void GameScene::init() {
 	};
 	enemySpawnData = shimabukuro[currentFloor];
 
-	exp = 0;
+	//exp = 0;
 };
 
 int GameScene::getEnemyMax(int type) {
@@ -1025,7 +1025,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				exp += 20;
+				exp += 10;
 			}
 		}
 	}
@@ -1053,7 +1053,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				exp += 30;
+				exp += 20;
 			}
 		}
 	}
@@ -1092,7 +1092,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				exp += 40;
+				exp += 30;
 			}
 		}
 		else
