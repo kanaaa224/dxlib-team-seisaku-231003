@@ -8,7 +8,7 @@ Map::Map() {
 	cursor_loc = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
-	cursor_r = 30;
+	cursor_r = 45;
 	alpha = 0;
 	alpha_flg = TRUE;
 
@@ -227,8 +227,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 void Map::draw() const {
 
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xffffff, 1);
-	DrawExtendGraph(200, -500 + map_move, SCREEN_WIDTH - 200, SCREEN_HEIGHT + 70 + map_move, map_back_img, 0);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xaaaaaa, 1);
+	DrawExtendGraph(200, -500 + map_move, SCREEN_WIDTH - 200, SCREEN_HEIGHT + 70 + map_move, map_back_img, 1);
 	DrawExtendGraph(250, -450 + map_move, 1070, -170 + map_move, roof_img, 1);
 	DrawExtendGraph(370, -170 + map_move, 940, 680 + map_move, wall_img, 1);
 	//DrawGraph(370, -170 + map_move, wall_img, 1);
@@ -237,62 +237,57 @@ void Map::draw() const {
 	int x_img = 0;
 	for (int i = 0; i < DATA_MAX; i++)
 	{
-		// デバック表示
-		DrawFormatString(10, 30, 0xffff00, "内部データ");
-		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
-		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
 
 			// ステージ間のライン
-			for (int j = 0; next_stage[pattern][i][j] > 0 && j <= 2; j++) {
-				int next_loc = next_stage[pattern][i][j];
-				if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
-					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xFFD000, 5);
-					log_i++;
-				}
-				else if (i == now_stage && j == cursor_pos) {
+		for (int j = 0; next_stage[pattern][i][j] > 0 && j <= 2; j++) {
+			int next_loc = next_stage[pattern][i][j];
+			if (stage_log[log_i] == i && stage_log[log_i + 1] == next_loc) {
+				DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
+					icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xFFD000, 5);
+				log_i++;
+			}
+			else if (i == now_stage && j == cursor_pos) {
 
-					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, 208 + (alpha * (255 - 208) / 255), alpha), 9.0f - ((float)alpha * 4 / 255));
-				}
-				else {
-					DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
-						icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 5);
-				}
+				DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
+					icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], GetColor(255, 208 + (alpha * (255 - 208) / 255), alpha), 9.0f - ((float)alpha * 4 / 255));
 			}
-				DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
-			// アイコン表示
-			switch (MapData[i]) {
-			case 0:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
-				break;
-			case 1:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
-				break;
-			case 2:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
-				break;
-			case 3:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
-				break;
-			case 4:
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
-				break;
-			default:
-				break;
+			else {
+				DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
+					icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 5);
 			}
-			if (i == stage_log[x_img]) {
-				DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
-				//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
-				x_img++;
-			}
-			//アイコン番号表示(Debug)
-			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+		}
+			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
+		// アイコン表示
+		switch (MapData[i]) {
+		case 0:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], battle_img, TRUE);
+			break;
+		case 1:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], event_img, TRUE);
+			break;
+		case 2:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], rest_img, TRUE);
+			break;
+		case 3:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], anvil_img, TRUE);
+			break;
+		case 4:
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], boss_img, TRUE);
+			break;
+		default:
+			break;
+		}
+		if (i == stage_log[x_img]) {
+			DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
+			//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
+			x_img++;
+		}
+		//アイコン番号表示(Debug)
+		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		
 		// カーソル表示(アイコンの円と被るように半径に-1)
+		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0x050505, 0, 5);
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xFFD000, 0, 3);
-		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r + 1, 0x050505, 0);
-		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 3, 0x050505, 0);
 	}
 
 #ifdef _DEBUG	
@@ -316,7 +311,7 @@ void Map::ResetStage() {
 		}
 	}
 
-	pattern = 2;//GetRand(PATTERN_MAX - 1);
+	pattern = GetRand(PATTERN_MAX - 1);
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 

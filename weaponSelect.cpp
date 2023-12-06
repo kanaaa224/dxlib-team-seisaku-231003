@@ -21,6 +21,10 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 	button_image = LoadGraph("resources/images/button_a.png");
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
 
+	SoundManager::SetBGM("bgm_weaponselection");
+	SoundManager::SetVolumeBGM("bgm_weaponselection", 50);
+	SetLoopPosSoundMem(56400, SoundManager::GetBGMHandle("bgm_weaponselection"));
+
 	is_selecting = false;
 }
 
@@ -31,6 +35,8 @@ Weapon_Selection::~Weapon_Selection()
 
 void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bool& is_weapon_select, int& mode)
 {
+	SoundManager::PlaySoundBGM("bgm_weaponselection");
+
 	//１５ｆのインターバルを設ける
 	if (interval < INTERVAL)
 	{
@@ -158,6 +164,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 			cursor_num = 0;
 			//武器選択画面はなし
 			is_weapon_select = true;
+			SoundManager::StopSoundBGMs();
 			if (switch_flg)
 			{
 				mode = GameSceneMode::map;

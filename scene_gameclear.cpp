@@ -3,7 +3,9 @@
 GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 {
 	// 画像読込
-	img_gameclear = LoadGraph("resources/images/gameclear.png");
+	img_gameclear = LoadGraph("resources/images/GameClear/gameclear.png");
+	img_crown = LoadGraph("resources/images/GameClear/crown_01_gold_red.png");
+	img_grail = LoadGraph("resources/images/GameClear/seihai_gold.png");
 	img_player = LoadGraph("resources/images/player_images/Player_right50・50.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 	img_background = LoadGraph("resources/images/stageimage2.png");
@@ -50,13 +52,8 @@ Scene* GameClearScene::update()
 		value = 0;
 	}
 
-	// スペースキーでゲームオーバー画面へ
-	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
-		//return new GameOverScene();
-	}
-
 	// リザルトへ遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && value <= 0) {
 		return new ResultScene(result_info);
 	}
 
@@ -66,19 +63,22 @@ Scene* GameClearScene::update()
 void GameClearScene::draw() const
 {
 	// 背景色
-	DrawBox(0, 0, 1280, 720, 0x68030c, TRUE);
+	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
+	//DrawBox(0, 0, 1280, 720, 0x68030c, TRUE);
 	//DrawGraph(0, 0, img_background, TRUE);
 
 	// 画像表示
-	DrawGraph(0, 0, img_gameclear, TRUE);
+	//DrawGraph(0, 0, img_gameclear, TRUE);
+	DrawRotaGraph(650, 350, 3.0f, 0.0f, img_player, TRUE);
+	DrawRotaGraph(640, 180, 0.15f, 0.0f, img_crown, TRUE);
+	DrawRotaGraph(480, 545, 0.1f, 0.0f, img_grail, TRUE);
 	DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
-	DrawRotaGraph(650, 350, 3.0, 0.0f, img_player, TRUE);
 
 	// テキスト表示
 	SetFontSize(60);
-	DrawFormatString(545, 515, 0xffffff, "GAME CLEAR");
+	DrawFormatString(530, 515, 0x000000, "GAME CLEAR");
 	SetFontSize(20);
-	DrawFormatString(1175, 680, 0xffffff, "RESULT");
+	DrawFormatString(1175, 680, 0x000000, "RESULT");
 
 	//フェードの設定
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, value);

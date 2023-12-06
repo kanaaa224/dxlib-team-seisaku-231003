@@ -65,7 +65,7 @@ Scene* GameOverScene::update()
 	}
 
 	// ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && value <= 0) {
 		return new ResultScene(result_info);
 	}
 
