@@ -30,6 +30,7 @@ Scene* DebugScene::update() {
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) return new LoadScene();
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
+	if (InputCtrl::GetKeyState(KEY_INPUT_C) == PRESS) return new Credit();
 
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new map_temp();
 
@@ -211,6 +212,8 @@ void DebugScene::draw() const {
 
 	y += 30;
 	DrawFormatString(x, y, 0xffffff, "Tキー でタイトルシーンへ");
+	y += 30;
+	DrawFormatString(x, y, 0xffffff, "Cキー でクレジットシーンへ");
 
 	y += 30;
 	DrawFormatString(x, y, 0xffffff, "STARTでマップテンプレート");
