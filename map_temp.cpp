@@ -206,9 +206,9 @@ void map_temp::draw() const {
 	for (int i = 0; i < DATA_MAX_T; i++)
 	{
 		// デバック表示
-		DrawFormatString(10, 30, 0xffff00, "内部データ");
+		/*DrawFormatString(10, 30, 0xffff00, "内部データ");
 		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapDeta[i]);
-		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugScene");
+		DrawFormatString(10, 700, 0xffffff, "BボタンでDebugScene");*/
 
 		// ステージ間のライン
 		for (int j = 0; next_stage[i][j] > 0 && j <= 2; j++)

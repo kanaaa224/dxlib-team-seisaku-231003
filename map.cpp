@@ -238,9 +238,9 @@ void Map::draw() const {
 	for (int i = 0; i < DATA_MAX; i++)
 	{
 		// デバック表示
-		DrawFormatString(10, 30, 0xffff00, "内部データ");
+		/*DrawFormatString(10, 30, 0xffff00, "内部データ");
 		DrawFormatString(10 * i + 10, 50, 0xffffff, "%d", MapData[i]);
-		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");
+		DrawFormatString(10, 680, 0xffffff, "Aボタンでカーソルのステージへ");*/
 
 			// ステージ間のライン
 			for (int j = 0; next_stage[pattern][i][j] > 0 && j <= 2; j++) {
@@ -287,7 +287,7 @@ void Map::draw() const {
 				x_img++;
 			}
 			//アイコン番号表示(Debug)
-			DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
+			//DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		
 		// カーソル表示(アイコンの円と被るように半径に-1)
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xFFD000, 0, 3);
