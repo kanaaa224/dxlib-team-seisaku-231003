@@ -4,6 +4,7 @@
 #define DEVILKING_MAX_HP 2000//魔王の最大体力
 #define DEVILKING_ATTAK_DAMAGE 10//魔王のダメージ
 #define BIG_BULLET_CREATE_TIME  SECOND_FRAME(3)
+#define MAX_SHIELD 100//シールドの最大値
 
 class Devil_king:public EnemyBase
 {

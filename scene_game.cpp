@@ -910,18 +910,28 @@ void GameScene::HitCheck()
 		if (battleMode == GameSceneBattleMode::boss) {
 			//魔王とプレイヤー
 			HitEnemy(devilKing);
-			//大きい弾
+			
 			for (int i = 0; i < MAX_BULLET_NUM; i++) {
 				if (bigEnemyBullet[i] != nullptr) {
+					//大きい弾とプレイヤー
 					HitEnemy(bigEnemyBullet[i]);
+
+					//魔王と大きい弾
+					if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
+						devilKing->SetBigBulletHitFlg(true);
+						bigEnemyBullet[i] = nullptr;
+					}
 				}
 			}
-			//小さい弾
+			//小さい弾とプレイヤー
 			for (int i = 0; i < 7; i++) {
 				if (smallEnemyBullet[i] != nullptr) {
 					HitEnemy(smallEnemyBullet[i]);
 				}
 			}
+
+			
+
 		}
 	}
 }
