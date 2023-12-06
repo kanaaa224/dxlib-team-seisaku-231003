@@ -76,7 +76,7 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
-	Cool_Limit = 2.0f;
+	Cool_Limit = 3.0f;
 
 	is_hit = false;
 
@@ -95,9 +95,18 @@ Player::Player() {
 
 	p_CoolTimeCounter = 0;
 	Animation_fps = 60;
+
+
+	afterimageNum = 1;
+	for (int i = 0; i < 64; i++)
+	{
+		avoidanceLocation[i] = location;
+	}
+
 	P_minotaur = false;
 	Hit_minotur_fps = 0;
 	P_minotaur_Hit_flg = true;
+
 }
 
 Player::~Player() {
@@ -197,6 +206,9 @@ void Player::update(bool minotaur) {
 	else if(P_Cnt > 4) {
 		P_Cnt = 0;
 	}
+
+
+	avoidanceLocation[0] = location;
 }
 
 void Player::draw()const {
@@ -204,7 +216,7 @@ void Player::draw()const {
 	//左スティック
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "ミノタウロスのHitフラグ %d", P_minotaur);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "P_minotaur_Hit_flg			%d", P_minotaur_Hit_flg);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "Hit_minotur_fps			 %d", Hit_minotur_fps);
+	DrawFormatString(0, 340, GetColor(255, 0, 0), "Second			 %d", Second);
 	//DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
@@ -225,16 +237,28 @@ void Player::draw()const {
 		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
 		SetDrawBright(255, 255, 255);
 	}
-	else if (Avoidance_Flg == true) {
-
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-	}
 	else {
 
 		DrawRotaGraph2(location.x - 35, location.y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
 	}
+
+	if (Avoidance_Flg == true) {
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		for (int i = 0; i < 64; i++)
+		{
+			if (i % 5 == 0) {
+				/*DrawRotaGraph2(avoidanceLocation[i].x - 35, avoidanceLocation[i].y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
+				DrawFormatString(avoidanceLocation[i].x, avoidanceLocation[i].y, 0xff0000, "%d", i);*/
+			}
+		}
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+	}
+
+
+	/*DrawFormatString(100, 340, GetColor(255, 0, 0),"%f %f", avoidanceLocation[0].x, avoidanceLocation[0].y);
+	DrawFormatString(100, 370, GetColor(255, 0, 0),"%f %f", avoidanceLocation[1].x, avoidanceLocation[1].y);*/
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
 	//DrawCircle(location.x, location.y, radius, 0xff0000, 0xffffff,TRUE);
@@ -327,6 +351,11 @@ void Player::Player_Avoidance() {
 		firstAvoidanceFlg = true;
 	}
 
+	
+	
+
+	avoidanceLocation[0] = location;
+
 
 	//回避　Aボタン
 	//横
@@ -335,12 +364,23 @@ void Player::Player_Avoidance() {
 		Additional_Value3.x = unitRelativeCursorLocation.x + Upper_speed * 5;	//回避の速度
 		if (camera_flg_left_right) {	//壁際
 			location.x += Additional_Value3.x * unitRelativeCursorLocation.x;
+			
+			//avoidanceLocation[afterimageNum].x = location.x;
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - Additional_Value3.x * unitRelativeCursorLocation.x;
+			//avoidanceLocation[afterimageNum] = location;
 		}
 		else{
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
+			
+			//avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			avoidanceLocation[afterimageNum].x = location.x - (MoveX * afterimageNum);
+			
 		}
-	
+		if (relativeCursorLocation.y < MOVE_UP && relativeCursorLocation.y > MOVE_DOWN) {
+			avoidanceLocation[afterimageNum].y = location.y;
+		}
+
 		//if (Additional_Value3.x > fabsf( unitRelativeCursorLocation.x) * Upper_Limit) {		//終了
 		//	Additional_Value3.x = Initial_Value;
 		//	CoolTime = true;
@@ -352,12 +392,21 @@ void Player::Player_Avoidance() {
 		//Additional_Value3.x = Additional_Value3.x + Upper_speed;
 		if (camera_flg_left_right) {
 			location.x += Additional_Value3.x * unitRelativeCursorLocation.x;
+			//avoidanceLocation[afterimageNum].x = location.x;
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - Additional_Value3.x * unitRelativeCursorLocation.x;
+			//avoidanceLocation[afterimageNum] = location;
 		}
 		else {
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
-		}
 
+			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			
+			
+		}
+		if (relativeCursorLocation.y < MOVE_UP && relativeCursorLocation.y > MOVE_DOWN) {
+			avoidanceLocation[afterimageNum].y = location.y;
+		}
 		/*if (Additional_Value3.x > fabsf(unitRelativeCursorLocation.x) * Upper_Limit) {
 			Additional_Value3.x = Initial_Value;
 			CoolTime = true;
@@ -376,10 +425,19 @@ void Player::Player_Avoidance() {
 
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
+			//avoidanceLocation[afterimageNum].y = location.y;
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y + (-1 * Additional_Value3.y * unitRelativeCursorLocation.y);
+			//avoidanceLocation[afterimageNum] = location;
 		}
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
+
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y - MoveY;
+		
+		}
+		if (relativeCursorLocation.x < MOVE_RIGHT && relativeCursorLocation.x > MOVE_LEFT) {
+			avoidanceLocation[afterimageNum].x = location.x;
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -394,10 +452,19 @@ void Player::Player_Avoidance() {
 
 		if (camera_flg_top_bottom) {
 			location.y += -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
+			//avoidanceLocation[afterimageNum].y = location.y;
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y + (-1 * Additional_Value3.y * unitRelativeCursorLocation.y);
+			//avoidanceLocation[afterimageNum]. y= location.y;
 		}
 		else {
 			MoveY = -1 * Additional_Value3.y * unitRelativeCursorLocation.y;
 			MovingY = MovingY + MoveY;
+
+			avoidanceLocation[afterimageNum].y = avoidanceLocation[afterimageNum - 1].y - MoveY;
+
+		}
+		if (relativeCursorLocation.x < MOVE_RIGHT && relativeCursorLocation.x > MOVE_LEFT) {
+			avoidanceLocation[afterimageNum].x = location.x;
 		}
 		/*if (Additional_Value3.y > fabsf(unitRelativeCursorLocation.y) * Upper_Limit) {
 			Additional_Value3.y = Initial_Value;
@@ -410,6 +477,12 @@ void Player::Player_Avoidance() {
 		MoveY = 0;
 	}*/
 
+
+	//for (int i = 0; i < 64; i++)
+	//{
+	//	avoidanceLocation[i].x -= MoveX;
+	//	avoidanceLocation[i].y -= MoveY;
+	//}
 	
 	if (AvoidanceCnt++ > 20) {
 		Additional_Value3.x = Initial_Value;
@@ -417,7 +490,21 @@ void Player::Player_Avoidance() {
 		CoolTime = true;
 		firstAvoidanceFlg = false;
 		AvoidanceCnt = 0;
+
+		afterimageNum = 1;
+		for (int i = 1; i < 64; i++)
+		{
+			avoidanceLocation[i] = { -100, -100 };
+		}
 	}
+	else {
+		//avoidanceLocation[afterimageNum].x = location.x - MoveX;
+	
+		//avoidanceLocation[afterimageNum].y = location.y - MoveY;
+		afterimageNum++;
+	}
+
+
 
 	/*MoveX = unitRelativeCursorLocation.x * 10;
 	MovingX = MovingX - MoveX;*/
@@ -433,7 +520,7 @@ void Player::Player_CoolTime() {
 	if (CoolTime_fps > 59) {
 		CoolTime_fps = 0;
 		Second++;
-		if (Second > Cool_Limit/*true*/) {
+		if (Second >= Cool_Limit/*true*/) {
 			CoolTime = false;
 
 			Additional_Value3 = { 0.0f,0.0f };

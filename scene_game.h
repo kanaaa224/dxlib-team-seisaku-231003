@@ -40,6 +40,10 @@ private:
 	second_weapon* weaponB;
 	bool bookFlg;
 
+	float totalAttackBuf;
+	int arrow_img, attackBuf_img;
+	Location pl;
+
 	Stage* stage;
 
 	//敵//

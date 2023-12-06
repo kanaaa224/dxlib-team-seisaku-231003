@@ -55,6 +55,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 
 	if (is_selecting != true)
 	{
+		cursor_x = cursor_num * 300;
 		image_shift = cursor_num * 50;
 		if (cursor_num == 1)
 		{

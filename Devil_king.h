@@ -49,7 +49,7 @@ public:
 	float GetShield() {
 		return shield;
 	}
-	bool GetShieldFlg() {
+	bool GetShieldFlg() const {
 		return shieldFlg;
 	}
 
