@@ -953,7 +953,9 @@ void GameScene::HitCheck()
 	if (devilKing != nullptr) {
 		if (battleMode == GameSceneBattleMode::boss) {
 			//魔王とプレイヤー
-			HitEnemy(devilKing);
+			if (devilKing->GetSkyWalkFlg() == false) {
+				HitEnemy(devilKing);
+			}
 			
 			for (int i = 0; i < MAX_BULLET_NUM; i++) {
 				if (bigEnemyBullet[i] != nullptr) {
