@@ -86,9 +86,16 @@ void SoundManager::PlaySoundBGM(const char* fileName, int playType, int topPosit
 	}
 }
 
-void SoundManager::PlaySoundSE(const char* fileName, int playType, int topPositionFlag)
+void SoundManager::PlaySoundSE(const char* fileName, bool isSingleUnit, int playType, int topPositionFlag)
 {
-	if (!CheckSoundMem(manager->se[fileName]))
+	if (isSingleUnit)
+	{
+		if (!CheckSoundMem(manager->se[fileName]))
+		{
+			PlaySoundMem(manager->se[fileName], playType, topPositionFlag);
+		}
+	}
+	else
 	{
 		PlaySoundMem(manager->se[fileName], playType, topPositionFlag);
 	}
