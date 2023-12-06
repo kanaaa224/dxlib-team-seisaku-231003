@@ -1,13 +1,26 @@
 ﻿#include "BigEnemyBullet.h"
 #include "Common.h"
-//#define DEBUG
+#define DEBUG
 
 BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 {
+	//プレイヤーの座標をdiffLocationにセット
+	SetPlayer_Location(player->GetLocation());
 	//変数の初期化
 	img = LoadGraph("resources/images/enemy_tmp_images/dekatama.png");
+
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
+
+	float x = spawnLocation.x - dL.x;
+	float y = spawnLocation.y - dL.y;
+	float at = atan2f(y, x);
+
+	location.x += cosf(at) * -70;
+	location.y += sinf(at) * -70;
+
+	//location.x = spawnLocation.x;
+	//location.y = spawnLocation.y;
 	vector.x = 0;
 	vector.y = 0;
 	diff.x = 0;
@@ -72,7 +85,7 @@ void BigEnemyBullet::Draw() const
 	}
 
 #ifdef DEBUG
-	DrawFormatString(location.x, location.y, C_BLACK, "lifeTime:%d",lifeTimeCnt);
+	
 #endif // DEBUG
 
 }

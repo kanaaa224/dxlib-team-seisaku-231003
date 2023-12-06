@@ -13,7 +13,7 @@ Devil_king::Devil_king()
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
 	//シールド
-	shield = 100;
+	shield = MAX_SHIELD;
 	shieldFlg = false;
 
 	//-----大きい弾-----//
@@ -36,6 +36,7 @@ void Devil_king::Update(Player* player)
 	location.x = location.x - diff.x;
 	location.y = location.y - diff.y;
 
+	//大きい弾の生成//
 	if (bigBulletCreateFlg == false) {
 		bigBulletCreateCounter++;
 	}
@@ -43,6 +44,17 @@ void Devil_king::Update(Player* player)
 	if (bigBulletCreateCounter >= BIG_BULLET_CREATE_TIME) {
 		bigBulletCreateFlg = true;
 		bigBulletCreateCounter = 0;
+	}
+	//・・・・・・・・・・・・//
+	
+	//シールド
+	if (bigBulletHitFlg == true) {
+		shield -= 10;
+		bigBulletHitFlg = false;
+	}
+
+	if (shield <= 0) {
+		shieldFlg = true;
 	}
 
 	//武器からの攻撃とHPが０以上なら赤く表示する
