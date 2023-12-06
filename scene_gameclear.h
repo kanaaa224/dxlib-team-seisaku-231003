@@ -12,6 +12,8 @@ class GameClearScene : public Scene
 private:
 	// 画像用変数
 	int img_gameclear;					// ゲームクリア（装飾）
+	int img_crown;						// 王冠
+	int img_grail;						// 聖杯
 	int img_player;						// プレイヤー
 	int img_button_a;					// Aボタン
 	int img_background;					// 背景
