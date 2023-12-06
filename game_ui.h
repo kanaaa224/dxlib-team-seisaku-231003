@@ -57,10 +57,10 @@ public:
 	void drawEnemyHP() const;
 
 	// シールドの体力
-	void drawHP() const;
+	void drawShieldHP() const;
 
 	// HP表示
-	//void drawHP() const;
+	void drawHP() const;
 
 	// ポーズ画面
 	void drawPause() const;
@@ -116,6 +116,9 @@ public:
 
 	// 「drawEnemyHP()」で表示用の敵情報を設定（名前、体力）
 	void setEnemyHP(std::string, int, int, int);
+
+	// 「drawShieldHP()」で表示用の敵情報を設定（名前、体力）
+	void setShieldHP(std::string, int, int, int);
 
 	// stateが「banner」の時に表示するテキストを設定
 	void setBanner(std::string, std::string, int);
