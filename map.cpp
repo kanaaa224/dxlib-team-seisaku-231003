@@ -28,7 +28,7 @@ Map::Map() {
 
 	SoundManager::SetBGM("bgm_map");
 	SoundManager::SetVolumeBGM("bgm_map", 50);
-	SetLoopPosSoundMem(400,SoundManager::GetBGMHandle("bgm_map"));
+	SetLoopPosSoundMem(4798,SoundManager::GetBGMHandle("bgm_map"));
 
 	// ƒŠƒUƒ‹ƒg‰æ–Ê—p
 	battle_count = 0;
