@@ -204,16 +204,16 @@ void Title::draw() const
 	DrawGraph(0, 0, Title_Background_Img[0], TRUE);
 
 	//　中心線
-	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
 	//星をランダムに出現させる範囲
-	DrawBox(25, 25, 500, 250, GetColor(255, 0, 0), FALSE);
-	DrawBox(775, 25, 1260, 250, GetColor(255, 0, 0), FALSE);
+	//DrawBox(25, 25, 500, 250, GetColor(255, 0, 0), FALSE);
+	//DrawBox(775, 25, 1260, 250, GetColor(255, 0, 0), FALSE);
 
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %lf", Title_Cosor_greatsword_x);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "Mouse y %lf", Title_Cosor_greatsword_y);
-	DrawFormatString(0, 360, GetColor(255, 0, 0), "秒	%d", Star_Anim_Count);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %lf", Title_Cosor_greatsword_x);
+	//DrawFormatString(0, 320, GetColor(255, 0, 0), "Mouse y %lf", Title_Cosor_greatsword_y);
+	//DrawFormatString(0, 360, GetColor(255, 0, 0), "秒	%d", Star_Anim_Count);
 	//DrawFormatString(0, 380, GetColor(255, 0, 0), "カウンタ %d", Title_Star_rand_Count);
 	//DrawFormatString(0, 400, GetColor(255, 0, 0), "星の座標 x1  %d", Title_Star_x[1]);
 	//DrawFormatString(0, 420, GetColor(255, 0, 0), "星の座標 y1  %d", Title_Star_y[1]);

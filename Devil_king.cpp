@@ -3,15 +3,18 @@
 #include <math.h>
 #include "inputCtrl.h"
 #define BTN_DEBUG
+#define DEBUG
 
 Devil_king::Devil_king()
 {
 	img = LoadGraph("resources/images/enemy_tmp_images/ma.png");
 	hp = DEVILKING_MAX_HP;
-	shield = 100;
 	damage = DEVILKING_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
+	//シールド
+	shield = 100;
+	shieldFlg = false;
 
 	//-----大きい弾-----//
 }
@@ -79,6 +82,12 @@ void Devil_king::Draw() const
 		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//赤色表示
 		SetDrawBright(255, 255, 255);
 	}
+
+#ifdef DEBUG
+	DrawFormatString(location.x, location.y, C_BLUE,      "シールド:%0.2f", shield);
+	DrawFormatString(location.x, location.y + 10, C_BLUE, "   Flg  :%d", shieldFlg);
+#endif // DEBUG
+
 }
 
 void Devil_king::BeamUpdate()
