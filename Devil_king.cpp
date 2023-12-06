@@ -44,7 +44,7 @@ void Devil_king::Update(Player* player)
 		//魔王
 		skyWalkCounter++;
 		for (int i = 0; i < SECOND_FRAME(0.7); i++) {
-			skyWalkVectorY = sinf((skyWalkCounter + i) / 10.0f);
+			skyWalkVectorY = sinf((skyWalkCounter + i) / 13.0f);
 		}
 		
 
