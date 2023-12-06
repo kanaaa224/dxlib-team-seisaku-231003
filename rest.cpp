@@ -17,9 +17,12 @@ Rest::Rest(GameUI* ui)
 	button_image = LoadGraph("resources/images/button_a.png");
 
 	SoundManager::SetBGM("bgm_breakstage");
+	SoundManager::SetBGM("bgm_breaktime");
+	SoundManager::SetVolumeBGM("bgm_breaktime", 50);
 
 	is_select = false;
 	is_ok = false;
+	rest_buf_flg = false;
 }
 
 Rest::~Rest()
@@ -32,6 +35,7 @@ Rest::~Rest()
 void Rest::update(Player* player, int& mode, int& stage)
 {
 	SoundManager::PlaySoundBGM("bgm_breakstage");
+	SoundManager::PlaySoundBGM("bgm_breaktime");
 
 	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	ui->update();
@@ -58,7 +62,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 			stage++;
 			mode = GameSceneMode::map;
 			Init();
-			SoundManager::StopSoundBGM("bgm_breakstage");
+			SoundManager::StopSoundBGMs();
 		}
 	}
 
