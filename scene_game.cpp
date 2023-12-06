@@ -385,43 +385,49 @@ Scene* GameScene::update() {
 				//魔王
 				if (devilKing != nullptr) {
 					if (weaponA->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetHitFrameCnt() == 0) {
-							devilKing->SetHitWeaponFlg();
-							//ダメージアップ
-							devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
-							devilKing->SetHit1stFrameFlg(true);
-							if (weaponA->GetIsAttacking() && !swordHitFlg) {
-								swordHitFlg = true;
-								weaponA->SetHitCnt(true);
-								weaponA->SwordLevel8(player);
+						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+							if (devilKing->GetHitFrameCnt() == 0) {
+								devilKing->SetHitWeaponFlg();
+								//ダメージアップ
+								devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+								devilKing->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
+								weaponA->AddTotalDamage();
 							}
-							weaponA->AddTotalDamage();
 						}
 					}
 					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetHitFrameCnt() == 0) {
-							devilKing->SetHitWeaponFlg();
-							devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
-							devilKing->SetHit1stFrameFlg(true);
+						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+							if (devilKing->GetHitFrameCnt() == 0) {
+								devilKing->SetHitWeaponFlg();
+								devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+								devilKing->SetHit1stFrameFlg(true);
 
-							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-								weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
-								if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-									devilKing->SetHitHP(weaponB->GetThunderDamage());
-									weaponB->AddTotalDamageThunder();
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+										devilKing->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
+									}
 								}
+								weaponB->AddTotalDamage();
 							}
-							weaponB->AddTotalDamage();
 						}
 					}
 					if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetHitFrameCnt() == 0) {
-							devilKing->SetHitWeaponFlg();
-							//ダメージアップ
-							devilKing->SetHitHP(weaponA->GetDustDamage());
-							devilKing->SetHit1stFrameFlg(true);
-							devilKing->SetCloudOfDustHitFlg(true);
-							weaponA->AddTotalDamageDust();
+						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+							if (devilKing->GetHitFrameCnt() == 0) {
+								devilKing->SetHitWeaponFlg();
+								//ダメージアップ
+								devilKing->SetHitHP(weaponA->GetDustDamage());
+								devilKing->SetHit1stFrameFlg(true);
+								devilKing->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
 						}
 					}
 				}
