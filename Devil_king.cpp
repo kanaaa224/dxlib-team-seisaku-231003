@@ -37,7 +37,7 @@ void Devil_king::Update(Player* player)
 	SetPlayer_Location(player->GetLocation());
 
 	//移動処理
-	if (skyWalkFlg == true) {
+	if (skyWalkFlg == true) {//浮遊
 		//影
 		shadowLocation.x = shadowLocation.x - diff.x;
 		shadowLocation.y = shadowLocation.y - diff.y;
@@ -46,8 +46,6 @@ void Devil_king::Update(Player* player)
 		for (int i = 0; i < SECOND_FRAME(0.7); i++) {
 			skyWalkVectorY = sinf((skyWalkCounter + i) / 13.0f);
 		}
-		
-
 		location.x = location.x - diff.x;
 		location.y = (location.y + skyWalkVectorY) - diff.y;
 	}
