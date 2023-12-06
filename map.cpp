@@ -311,24 +311,26 @@ void Map::ResetStage() {
 		}
 	}
 
-	pattern = GetRand(PATTERN_MAX - 1);
+	pattern = 1;//GetRand(PATTERN_MAX - 1);
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 
 	// ƒ}ƒbƒv¶¬(0:í“¬A1:ƒ‰ƒ“ƒ_ƒ€ƒCƒxƒ“ƒgA2:‹xŒeA3:’b–è‰®A4:ƒ{ƒX)
 
 	// ƒ‰ƒ“ƒ_ƒ€ƒCƒxƒ“ƒg
-	SetStage(map_ctrl[pattern][0][0], map_ctrl[pattern][0][1], map_ctrl[pattern][0][2], map_ctrl[pattern][0][3], 1);
+	SetStage(map_ctrl[pattern][0][0], map_ctrl[pattern][0][1], map_ctrl[pattern][0][2], map_ctrl[pattern][0][3], map_ctrl[pattern][0][4], 1);
 
 	// ‹xŒe1
-	SetStage(map_ctrl[pattern][1][0], map_ctrl[pattern][1][1], map_ctrl[pattern][1][2], map_ctrl[pattern][1][3], 2);
+	SetStage(map_ctrl[pattern][1][0], map_ctrl[pattern][1][1], map_ctrl[pattern][1][2], map_ctrl[pattern][1][3], map_ctrl[pattern][1][4], 2);
 	// ‹xŒe2
-	SetStage(map_ctrl[pattern][2][0], map_ctrl[pattern][2][1], map_ctrl[pattern][2][2], map_ctrl[pattern][2][3], 2);
+	SetStage(map_ctrl[pattern][2][0], map_ctrl[pattern][2][1], map_ctrl[pattern][2][2], map_ctrl[pattern][2][3], map_ctrl[pattern][2][4], 2);
 	// ‹xŒe3
+	SetStage(map_ctrl[pattern][3][0], map_ctrl[pattern][3][1], map_ctrl[pattern][3][2], map_ctrl[pattern][3][3], map_ctrl[pattern][3][4], 2);
+	// ‹xŒe4
 	MapData[data_max - 2] = 2;
 
 	// ’b–è‰®
-	SetStage(map_ctrl[pattern][3][0], map_ctrl[pattern][3][1], map_ctrl[pattern][3][2], map_ctrl[pattern][3][3], 3);
+	SetStage(map_ctrl[pattern][4][0], map_ctrl[pattern][4][1], map_ctrl[pattern][4][2], map_ctrl[pattern][4][3], map_ctrl[pattern][4][4], 3);
 
 	// ƒ{ƒX
 	MapData[data_max - 1] = 4;
@@ -345,15 +347,45 @@ void Map::ResetStage() {
 	}
 }
 
-void Map::SetStage(int st_min, int st_max, int rand_min, int rand_max, int data_num) {
+void Map::SetStage(int st_min, int st_max, int rand_min, int rand_max, int type ,int data_num) {
 	int RandNum = GetRand(rand_max - rand_min) + rand_min;
-	for (int i = 0; i < RandNum;) {
-		int r = GetRand(st_max - st_min) + st_min;
-		// –¢•ÏX(0‚È‚ç)•ÏX
-		if (MapData[r] == 0) {
-			MapData[r] = data_num;
-			i++;
+	switch (type)
+	{
+	case 0:
+		for (int i = 0; i < RandNum;) {
+			int r = GetRand(st_max - st_min) + st_min;
+			// –¢•ÏX(0‚È‚ç)•ÏX
+			if (MapData[r] == 0) {
+				MapData[r] = data_num;
+				i++;
+			}
+			else continue;
 		}
-		else continue;
+		break;
+	case 1:
+		for (int i = 0; i < RandNum;) {
+			int r;
+			switch (GetRand(1))
+			{
+			case 0:
+				r = st_min;
+				break;
+			case 1:
+				r = st_max;
+				break;
+			default:
+				break;
+			}
+			// –¢•ÏX(0‚È‚ç)•ÏX
+			if (MapData[r] == 0) {
+				MapData[r] = data_num;
+				i++;
+			}
+			else continue;
+		}
+		break;
+	default:
+		break;
 	}
+	
 }
