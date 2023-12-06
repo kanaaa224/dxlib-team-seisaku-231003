@@ -108,6 +108,7 @@ private:
 	int greatsword_img;
 	int attackbuf_img;
 	int tornado_img;
+	int arrow_img;
 
 	int sword_sound;
 	int dagger_sound;

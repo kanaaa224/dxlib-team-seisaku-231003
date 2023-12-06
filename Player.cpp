@@ -373,7 +373,8 @@ void Player::Player_Avoidance() {
 			MoveX = Additional_Value3.x * unitRelativeCursorLocation.x;
 			MovingX = MovingX - MoveX;
 			
-			avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			//avoidanceLocation[afterimageNum].x = avoidanceLocation[afterimageNum - 1].x - MoveX;
+			avoidanceLocation[afterimageNum].x = location.x - (MoveX * afterimageNum);
 			
 		}
 		if (relativeCursorLocation.y < MOVE_UP && relativeCursorLocation.y > MOVE_DOWN) {

@@ -84,6 +84,7 @@ private:
 	int attackbuf_img;
 	int crack_img;
 	int thunder_img[5];
+	int arrow_img;
 
 
 	float tmp, tmp1;

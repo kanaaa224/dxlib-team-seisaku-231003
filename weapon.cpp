@@ -36,8 +36,9 @@ weapon::weapon()
 	sword_img = LoadGraph("resources/images/武器/片手剣50・50.png");
 	dagger_img = LoadGraph("resources/images/武器/短剣50・50.png");
 	greatsword_img = LoadGraph("resources/images/武器/大剣50・50.png");
-	attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	tornado_img = LoadGraph("resources/images/tornado_1.png");
+	arrow_img = LoadGraph("resources/images/arrow_red.png");
 
 	dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
 	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");
@@ -351,8 +352,12 @@ void weapon::Draw() const
 		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
+	//バフ
 	if (attackbuf == 2.0f) {
-		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
+		DrawRotaGraph2(location.x - 25, location.y - 47, 250, 250, 0.07, 0, attackbuf_img, TRUE, TRUE);
+
+		DrawRotaGraph2(location.x + 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+		DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
 	}
 
 
