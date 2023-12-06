@@ -26,8 +26,8 @@ Title::Title()
 	SoundManager::SetVolumeBGMs(50);
 
 	//SE
-	SoundManager::SetSE("se_Title_decision_sound");
-	SoundManager::SetSE("se_select_syu");
+	SoundManager::SetSE("se_Title_decision_sound");	//カーソル決定音
+	SoundManager::SetSE("se_select_syu");//カーソル移動音
 	SoundManager::SetVolumeSEs(65);
 
 	Title_Select_magnification = 0.01;
