@@ -9,10 +9,11 @@ class Devil_king:public EnemyBase
 {
 private:
 	float shield;//魔王のシールド
-	bool shieldFlg;//現在、魔王がシールドを持っているかどうか
+	bool shieldFlg;//シールドが０になったらtrueを返す
 
 	bool bigBulletCreateFlg = false;
 	int bigBulletCreateCounter = 0;
+	bool bigBulletHitFlg = false;
 
 public:
 	Devil_king();
@@ -31,10 +32,17 @@ public:
 	float GetHP() {
 		return hp;
 	}
+	float GetShield() {
+		return shield;
+	}
 
 	//Set関数
 	void SetBigBulletCreateFlg(bool flg) {
 		bigBulletCreateFlg = flg;
+	}
+
+	void SetBigBulletHitFlg(bool flg) {
+		bigBulletHitFlg = flg;
 	}
 };
 

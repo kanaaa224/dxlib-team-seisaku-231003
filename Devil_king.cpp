@@ -9,10 +9,12 @@ Devil_king::Devil_king()
 {
 	img = LoadGraph("resources/images/enemy_tmp_images/ma.png");
 	hp = DEVILKING_MAX_HP;
-	shield = 100;
 	damage = DEVILKING_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
 	location.y = 60;
+	//シールド
+	shield = 100;
+	shieldFlg = false;
 
 	//-----大きい弾-----//
 }
