@@ -20,6 +20,7 @@ private:
 	std::map<std::string, int> hp;
 	std::map<std::string, int> enemy;
 	std::map<std::string, std::string> enemyHP;
+	std::map<std::string, std::string> shieldHP;
 	std::map<std::string, std::map<std::string, int>> weapon;
 
 	std::map<std::string, int> coolTime;
@@ -55,8 +56,11 @@ public:
 	// 敵の体力
 	void drawEnemyHP() const;
 
-	// HP表示
+	// シールドの体力
 	void drawHP() const;
+
+	// HP表示
+	//void drawHP() const;
 
 	// ポーズ画面
 	void drawPause() const;

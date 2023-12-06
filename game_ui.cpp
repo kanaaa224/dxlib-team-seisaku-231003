@@ -65,6 +65,9 @@ void GameUI::init() {
 	notice["opacity"] = std::to_string(0.0);
 	notice["state"]   = std::to_string(0);
 	notice["frame"]   = std::to_string(0);
+
+	enemyHP["currentRatio"] = std::to_string(0);
+	enemyHP["ratio"]        = std::to_string(0);
 };
 
 void GameUI::update() {
@@ -119,8 +122,13 @@ void GameUI::update() {
 	if (exp["currentRatio"] < exp["ratio"]) exp["ratio"]--;
 	if (exp["currentRatio"] == 0) exp["ratio"] = 0;
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // 仮
-	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 仮
+	if (std::stoi(enemyHP["currentRatio"])) {
+		if (std::stoi(enemyHP["currentRatio"]) > std::stoi(enemyHP["ratio"])) enemyHP["ratio"] = std::to_string(std::stoi(enemyHP["ratio"]) + 1);
+		if (std::stoi(enemyHP["currentRatio"]) < std::stoi(enemyHP["ratio"])) enemyHP["ratio"] = std::to_string(std::stoi(enemyHP["ratio"]) - 1);
+	};
+
+	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init();
+	//if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX");
 	if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESS) state = 1; // スキップ
 };
 
@@ -762,7 +770,7 @@ void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
 	enemyHP["name"]    = Name;
 	enemyHP["current"] = std::to_string(Current);
 	enemyHP["max"]     = std::to_string(Max);
-	if (Ratio >= 0 && Ratio <= 100) enemyHP["ratio"] = std::to_string(Ratio);
+	if (Ratio >= 0 && Ratio <= 100) enemyHP["currentRatio"] = std::to_string(Ratio);
 };
 
 void GameUI::setBanner(std::string Title, std::string SubTitle, int Mode) {
