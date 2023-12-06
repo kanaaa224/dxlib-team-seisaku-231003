@@ -708,7 +708,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 		// レベルの表示
 		DrawFormatString(200, 120, 0x000000, "Lv. %d",weapon1_info.level);
 
-		if (lv_point <= 0)
+		if (weapon1_info.level_hierarchy < MAX_LEVEL_HIERARCHY && lv_point <= 0)
 		{
 			DrawFormatString(200, 140, 0xb00000, "ポイントが足りません");
 		}
@@ -736,7 +736,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			// レベルの表示
 			DrawFormatString(200, 120, 0x000000, "Lv. %d", weapon2_info.level);	
 
-			if (lv_point <= 0)
+			if (weapon2_info.level_hierarchy < MAX_LEVEL_HIERARCHY && lv_point <= 0)
 			{
 				DrawFormatString(200, 140, 0xb00000, "ポイントが足りません");
 			}
@@ -744,8 +744,8 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	}
 	
 	// 武器選択済み
-	if (weapon_selection == true)
-	{
+	//if (weapon_selection == true)
+	//{
 		if (weapon_number == weapon1_info.num)
 		{
 			if (weapon1_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
@@ -762,7 +762,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 				DrawWeapon2FinalText();
 			}
 		}
-	}
+	//}
 }
 
 // 武器1最終強化のテキスト群

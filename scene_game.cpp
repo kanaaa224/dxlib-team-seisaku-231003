@@ -375,43 +375,49 @@ Scene* GameScene::update() {
 				//魔王
 				if (devilKing != nullptr) {
 					if (weaponA->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetHitFrameCnt() == 0) {
-							devilKing->SetHitWeaponFlg();
-							//ダメージアップ
-							devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
-							devilKing->SetHit1stFrameFlg(true);
-							if (weaponA->GetIsAttacking() && !swordHitFlg) {
-								swordHitFlg = true;
-								weaponA->SetHitCnt(true);
-								weaponA->SwordLevel8(player);
+						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+							if (devilKing->GetHitFrameCnt() == 0) {
+								devilKing->SetHitWeaponFlg();
+								//ダメージアップ
+								devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+								devilKing->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
+								weaponA->AddTotalDamage();
 							}
-							weaponA->AddTotalDamage();
 						}
 					}
 					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetHitFrameCnt() == 0) {
-							devilKing->SetHitWeaponFlg();
-							devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
-							devilKing->SetHit1stFrameFlg(true);
+						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+							if (devilKing->GetHitFrameCnt() == 0) {
+								devilKing->SetHitWeaponFlg();
+								devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+								devilKing->SetHit1stFrameFlg(true);
 
-							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-								weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
-								if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-									devilKing->SetHitHP(weaponB->GetThunderDamage());
-									weaponB->AddTotalDamageThunder();
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+										devilKing->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
+									}
 								}
+								weaponB->AddTotalDamage();
 							}
-							weaponB->AddTotalDamage();
 						}
 					}
 					if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetHitFrameCnt() == 0) {
-							devilKing->SetHitWeaponFlg();
-							//ダメージアップ
-							devilKing->SetHitHP(weaponA->GetDustDamage());
-							devilKing->SetHit1stFrameFlg(true);
-							devilKing->SetCloudOfDustHitFlg(true);
-							weaponA->AddTotalDamageDust();
+						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+							if (devilKing->GetHitFrameCnt() == 0) {
+								devilKing->SetHitWeaponFlg();
+								//ダメージアップ
+								devilKing->SetHitHP(weaponA->GetDustDamage());
+								devilKing->SetHit1stFrameFlg(true);
+								devilKing->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
 						}
 					}
 				}
@@ -717,7 +723,7 @@ void GameScene::init() {
 	};
 	enemySpawnData = shimabukuro[currentFloor];
 
-	exp = 0;
+	//exp = 0;
 };
 
 int GameScene::getEnemyMax(int type) {
@@ -910,18 +916,28 @@ void GameScene::HitCheck()
 		if (battleMode == GameSceneBattleMode::boss) {
 			//魔王とプレイヤー
 			HitEnemy(devilKing);
-			//大きい弾
+			
 			for (int i = 0; i < MAX_BULLET_NUM; i++) {
 				if (bigEnemyBullet[i] != nullptr) {
+					//大きい弾とプレイヤー
 					HitEnemy(bigEnemyBullet[i]);
+
+					//魔王と大きい弾
+					if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
+						devilKing->SetBigBulletHitFlg(true);
+						bigEnemyBullet[i] = nullptr;
+					}
 				}
 			}
-			//小さい弾
+			//小さい弾とプレイヤー
 			for (int i = 0; i < 7; i++) {
 				if (smallEnemyBullet[i] != nullptr) {
 					HitEnemy(smallEnemyBullet[i]);
 				}
 			}
+
+			
+
 		}
 	}
 }
@@ -1025,7 +1041,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				exp += 20;
+				exp += 10;
 			}
 		}
 	}
@@ -1053,7 +1069,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				exp += 30;
+				exp += 20;
 			}
 		}
 	}
@@ -1092,7 +1108,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				exp += 40;
+				exp += 30;
 			}
 		}
 		else

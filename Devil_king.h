@@ -4,16 +4,21 @@
 #define DEVILKING_MAX_HP 2000//魔王の最大体力
 #define DEVILKING_ATTAK_DAMAGE 10//魔王のダメージ
 #define BIG_BULLET_CREATE_TIME  SECOND_FRAME(3)
+#define MAX_SHIELD 100//シールドの最大値
+#define DOWN_TIME SECOND_FRAME(7)//ダウンタイム
 
 class Devil_king:public EnemyBase
 {
 private:
+	//シールド
 	float shield;//魔王のシールド
 	bool shieldFlg;//シールドが０になったらtrueを返す
 
 	bool bigBulletCreateFlg = false;
 	int bigBulletCreateCounter = 0;
 	bool bigBulletHitFlg = false;
+
+	int downTimeCounter = 0;
 
 public:
 	Devil_king();
@@ -34,6 +39,9 @@ public:
 	}
 	float GetShield() {
 		return shield;
+	}
+	bool GetShieldFlg() {
+		return shieldFlg;
 	}
 
 	//Set関数
