@@ -42,8 +42,8 @@ void Credit::draw()const
 	DrawGraph(0, 0, CreditImage, TRUE);
 
 	//　中心線
-	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
+	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
 	//使ったサイトや関係者名の名前を表示
 	SetFontSize(50);
