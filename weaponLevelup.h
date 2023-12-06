@@ -83,6 +83,7 @@ private:
 	float p_avoidancecooltime;		// 回避のクールタイム
 	float p_upperlimitlimit;		// 回避速度
 
+	// フレイルの情報格納用
 	float frail_radiusX;
 	float frail_radiusY;
 	float tmp_frail_radiusX;
@@ -101,9 +102,12 @@ public:
 	void draw()const;
 
 	// 初期化処理
-	void Init(weapon* weapon, second_weapon* second_weapon, bool& restor_cursor_position);
+	void Init(weapon* weapon, second_weapon* second_weapon, Player* player, bool& restor_cursor_position);
 
 private:
+
+	// 武器選択後の処理
+	void AfterSelectingWeapon(weapon* weapon, second_weapon* second_weapon, Player* player, weapon_information* info, int& point);
 
 	// レベルアップ処理
 	void LevelUp(weapon* weapon, second_weapon* second_weapon, Player* player, weapon_information* info, int& point);
@@ -112,7 +116,10 @@ private:
 	void LevelUpCursorMove(weapon_information* info);
 
 	// レベルアップカーソルの位置を戻す
-	void ReturnLevelUpCursorPos(weapon_information* info);
+	void ResetLevelUpCursorPos(weapon_information* info);
+
+	// 武器の画像描画
+	void DrawWeaponImages()const;
 
 	// レベルアップ詳細のテキスト群
 	void DrawLevelUpDetails()const;

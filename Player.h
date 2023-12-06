@@ -76,6 +76,7 @@ private:
 	int Second;
 	int p_CoolTimeCounter;
 	int Animation_fps;
+	int Hit_minotur_fps;
 
 	//カメラ用
 	StageArray lefttop;
@@ -95,8 +96,13 @@ private:
 	Vector unitRelativeCursorLocation;
 	bool firstAvoidanceFlg = false;
 	int AvoidanceCnt = 0;
+
 	Location avoidanceLocation[64];//回避残像
 	int afterimageNum;
+
+	bool P_minotaur;
+	bool P_minotaur_Hit_flg;
+
 
 public:
 
@@ -114,7 +120,7 @@ public:
 	Player();
 	~Player();
 
-	void update();
+	void update(bool minotaur);
 
 	//描画処理
 	void draw() const;
@@ -164,6 +170,8 @@ public:
 
 	bool GetPlayer_Avoidance();
 
+	void P_Hit_minotur();
+
 	// プレイヤーの体力を引く
 	void SetPlayer_HP(float value);
 	
@@ -200,5 +208,9 @@ public:
 	//プレイヤーの体力の上限値
 	float GetMaxPlayer_hp() {
 		return MaxPlayer_hp;
+	}
+
+	bool GetPlayertest() {
+		return P_minotaur_Hit_flg;
 	}
 };

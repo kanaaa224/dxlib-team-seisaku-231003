@@ -13,6 +13,7 @@ Scene* DrawHelp::update()
 	//Aボタンでゲームメインへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 	{
+		SoundManager::StopSoundBGMs();
 		return new GameScene;
 	}
 	//Bボタンでタイトルへ遷移

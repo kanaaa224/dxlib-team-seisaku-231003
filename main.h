@@ -49,6 +49,7 @@ class GameScene;
 #include "Minotaur.h"
 #include "Devil_king.h"
 #include "BigEnemyBullet.h"
+#include "SmallEnemyBullet.h"
 #include "Common.h"
 
 // ゲームメインシーン内のシーン（シーンを継承していない）

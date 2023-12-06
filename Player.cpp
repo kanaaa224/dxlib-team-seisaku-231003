@@ -56,7 +56,7 @@ Player::Player() {
 	Provisional_Abtn = 0;
 
 	Additional_Value = 10.0;
-	Additional_Value2 = 2.0;
+	Additional_Value2 = 2.0f;
 	Additional_Value3 = { 0.0f,0.0f };
 
 	MoveX = 0.0;
@@ -96,11 +96,17 @@ Player::Player() {
 	p_CoolTimeCounter = 0;
 	Animation_fps = 60;
 
+
 	afterimageNum = 1;
 	for (int i = 0; i < 64; i++)
 	{
 		avoidanceLocation[i] = location;
 	}
+
+	P_minotaur = false;
+	Hit_minotur_fps = 0;
+	P_minotaur_Hit_flg = true;
+
 }
 
 Player::~Player() {
@@ -113,7 +119,7 @@ Player::~Player() {
 	DeleteGraph(KaihiImg);
 }
 
-void Player::update() {
+void Player::update(bool minotaur) {
 
 	fps++;
 	
@@ -126,6 +132,9 @@ void Player::update() {
 		}
 	}
 
+	//ミノタウロスの咆哮にHitしたら true
+	P_minotaur = minotaur;
+	
 	//左スティック
 	Provisional_LStickX = InputCtrl::GetStickRatio(L).x;
 	Provisional_LStickY = InputCtrl::GetStickRatio(L).y;
@@ -138,13 +147,19 @@ void Player::update() {
 
 	//Aボタン
 	Provisional_Abtn = InputCtrl::GetButtonState(XINPUT_BUTTON_A);
-
-	//回避フラグ ON
-	if (Provisional_Abtn == PRESS && Provisional_LStickX > 0 || Provisional_Abtn == PRESS && Provisional_LStickX < 0 ||
-		Provisional_Abtn == PRESS && Provisional_LStickY > 0 || Provisional_Abtn == PRESS && Provisional_LStickY < 0) 
-	{
-		A_value = true;
+	
+	if (P_minotaur == true) {
+		P_Hit_minotur();
 	}
+	else {
+		//回避フラグ ON
+		if (Provisional_Abtn == PRESS && Provisional_LStickX > 0 || Provisional_Abtn == PRESS && Provisional_LStickX < 0 ||
+			Provisional_Abtn == PRESS && Provisional_LStickY > 0 || Provisional_Abtn == PRESS && Provisional_LStickY < 0)
+		{
+			A_value = true;
+		}
+	}
+	
 
 	//回避の動作を実効　指定の加算値に到達するまで動く　その後クールダウンをはさむ
 	if (A_value == true && CoolTime == false) {
@@ -157,6 +172,7 @@ void Player::update() {
 	}
 	
 	if (CoolTime == true) {
+		A_value = false;
 		Avoidance_Flg = false;
 		Player_CoolTime();
 	}
@@ -198,9 +214,9 @@ void Player::update() {
 void Player::draw()const {
 
 	//左スティック
-	//DrawFormatString(0, 300, GetColor(255, 0, 0), "LStick:縦軸値 %0.1f", Previous_AfterImage_locationX);
-	//DrawFormatString(0, 320, GetColor(255, 0, 0), "LStick:横軸値 %0.1f", Previous_AfterImage_locationY);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "Cnt			 %d", P_Cnt);
+	DrawFormatString(0, 300, GetColor(255, 0, 0), "ミノタウロスのHitフラグ %d", P_minotaur);
+	DrawFormatString(0, 320, GetColor(255, 0, 0), "P_minotaur_Hit_flg			%d", P_minotaur_Hit_flg);
+	DrawFormatString(0, 340, GetColor(255, 0, 0), "Hit_minotur_fps			 %d", Hit_minotur_fps);
 	//DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
@@ -504,7 +520,6 @@ void Player::Player_CoolTime() {
 		CoolTime_fps = 0;
 		Second++;
 		if (Second > Cool_Limit/*true*/) {
-			A_value = false;
 			CoolTime = false;
 
 			Additional_Value3 = { 0.0f,0.0f };
@@ -624,6 +639,23 @@ void Player:: Player_Move_Animation() {
 		else if (fps % Animation_fps > 45 && fps % Animation_fps < 61) {
 			PlayerImg = PlayerArrayImg[2];
 		}
+	}
+}
+
+
+void Player::P_Hit_minotur() {
+
+	Hit_minotur_fps++;
+
+	if (Hit_minotur_fps < 359) {
+
+		A_value = false;
+		Additional_Value2 = 0.5f;
+	}
+	else {
+
+		Hit_minotur_fps = 0;
+		Additional_Value2 = 2.0f;
 	}
 }
 

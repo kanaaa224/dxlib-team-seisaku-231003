@@ -24,6 +24,7 @@ Map::Map() {
 	if (roof_img == 0) roof_img = (LoadGraph("resources/images/maps/roof.png"));
 	if (wall_img == 0) wall_img = (LoadGraph("resources/images/maps/wall.png"));
 	if (tower_img == 0) tower_img = (LoadGraph("resources/images/maps/tower.png"));
+	if (map_back_img == 0) map_back_img = (LoadGraph("resources/images/map_back.png"));
 
 	SoundManager::SetBGM("bgm_map");
 	SoundManager::SetVolumeBGM("bgm_map", 50);
@@ -47,7 +48,7 @@ Map::~Map() {
 	DeleteGraph(roof_img);
 	DeleteGraph(wall_img);
 	DeleteGraph(tower_img);
-	DeleteSoundMem(map_bgm);
+	DeleteGraph(map_back_img);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
@@ -58,6 +59,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	int icon_vec = 0;
 
 	if (map_move != map_move_log) {
+		if (map_move < 0) map_move = 0;
+		else if (map_move > 470) map_move = 470;
 		for (int i = 0; i < data_max; i++) {
 			icon_loc[i][1] = icon_loc_def[pattern][i][1] + map_move;
 			icon_loc_center[i][1] = icon_loc[i][1] + 25;
@@ -203,6 +206,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 			break;
 		case 3:		//’b–è‰®
 			mode = GameSceneMode::blacksmith;
+			ClearStage();
 			anvil_count++;
 			break;
 		case 4:		//ƒ{ƒX
@@ -223,10 +227,11 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 void Map::draw() const {
 
-	//DrawGraph(200, -380 + map_move, roof_img, 1);
-	DrawExtendGraph(250, -480 + map_move, 1070, -200 + map_move, roof_img, 1);
-	//DrawExtendGraph(370, -200 + map_move, 940, 650 + map_move, wall_img, 1);
-	DrawGraph(370, -200 + map_move, wall_img, 1);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0xffffff, 1);
+	DrawExtendGraph(200, -500 + map_move, SCREEN_WIDTH - 200, SCREEN_HEIGHT + 70 + map_move, map_back_img, 0);
+	DrawExtendGraph(250, -450 + map_move, 1070, -170 + map_move, roof_img, 1);
+	DrawExtendGraph(370, -170 + map_move, 940, 680 + map_move, wall_img, 1);
+	//DrawGraph(370, -170 + map_move, wall_img, 1);
 
 	int log_i = 0; // stage_log—p•Ï”
 	int x_img = 0;
@@ -311,7 +316,7 @@ void Map::ResetStage() {
 		}
 	}
 
-	pattern = GetRand(PATTERN_MAX - 1);
+	pattern = 2;//GetRand(PATTERN_MAX - 1);
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 

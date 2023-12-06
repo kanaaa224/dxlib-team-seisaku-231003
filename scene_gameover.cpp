@@ -6,6 +6,10 @@ GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 	img_gameover = LoadGraph("resources/images/gameover.png");
 	img_ghost = LoadGraph("resources/images/ghost.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
+	img_background = LoadGraph("resources/images/stageimage2.png");
+
+	SoundManager::SetBGM("bgm_gameover");
+	SoundManager::SetVolumeBGM("bgm_gameover", 50);
 
 	// 変数の初期化
 	ghost_x = 750;
@@ -39,10 +43,7 @@ GameOverScene::~GameOverScene()
 
 Scene* GameOverScene::update()
 {
-	// スペースキーでゲームクリア画面へ
-	if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS) {
-		return new GameClearScene;
-	}
+	SoundManager::PlaySoundBGM("bgm_gameover");
 
 	// ブレンドモードのパラメータ
 	if (value > 0)
@@ -75,6 +76,7 @@ void GameOverScene::draw() const
 {
 	// 背景色
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
+	//DrawGraph(0, 0, img_background, TRUE);
 
 	// 画像表示
 	DrawGraph(0, 0, img_gameover, TRUE);

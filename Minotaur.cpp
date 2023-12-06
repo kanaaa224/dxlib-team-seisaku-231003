@@ -31,7 +31,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
-	tackleCoolTime = 240;
+	tackleCoolTime = SECOND_FRAME(3);
 	tackleSpeed = TACKLE_SPEED;
 	nowTackleCnt = 0;
 	tackleCnt = 0;
@@ -215,6 +215,14 @@ void Minotaur::TackleUpdate()
 		}
 	}
 
+	
+	//咆哮が当たったなら
+	if (playerRoarHitFlg == true) {
+		tackleCoolTime = 0;
+	}
+	else {
+		tackleCoolTime = SECOND_FRAME(3);
+	}
 	//タックルのクールタイム
 	if (coolTimeFlg == true && tackleFlg == false) {
 		tackleCoolTimeCnt++;
@@ -314,14 +322,6 @@ void Minotaur::RoarEffectUpdate()
 		playerRoarHitFlg = false;
 	}
 
-	if (playerRoarHitFlg == true) {
-		if (playerRoarHitCounter >= SECOND_FRAME(3)) {
-			playerRoarHitFlg = false;
-			playerRoarHitCounter = 0;
-		}
-		playerRoarHitCounter++;
-	}
-
 
 	roarEffectFinFlg = true;
 }
@@ -333,6 +333,16 @@ void Minotaur::RoarEffectDraw() const
 
 bool Minotaur::GetRoarHitFlg()
 {
+	//プレイヤーの瞬間移動で使うFlg制御
+	if (playerRoarHitFlg == true) {
+		playerRoarHitCounter++;
+		if (playerRoarHitCounter >= SECOND_FRAME(6)) {
+			playerRoarHitFlg = false;
+			playerRoarHitCounter = 0;
+		}
+
+	}
+	//プレイヤーにFlgを返す
 	return playerRoarHitFlg;
 }
 
