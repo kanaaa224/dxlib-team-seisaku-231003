@@ -353,11 +353,13 @@ void weapon::Draw() const
 	}
 
 	//ƒoƒt
-	if (attackbuf == 2.0f) {
+	if (attackbuf > 1.0f) {
 		DrawRotaGraph2(location.x - 25, location.y - 47, 250, 250, 0.07, 0, attackbuf_img, TRUE, TRUE);
 
 		DrawRotaGraph2(location.x + 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
-		DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+		if (attackbuf > 2.0f) {
+			DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+		}
 	}
 
 
@@ -884,6 +886,7 @@ void weapon::LevelState()
 		break;
 	}
 	coolTime = maxCoolTime;
+	damage = damage * attackbuf;
 }
 
 bool weapon::WeaponCollision(Location enemyLocation, float radius)

@@ -85,6 +85,9 @@ GameScene::GameScene() {
 	for (int i = 1; i < 20; i++) {
 		expData.push_back(i * 120);
 	};
+
+	attackBuf_img = LoadGraph("resources/images/attack_buf.png");
+	arrow_img = LoadGraph("resources/images/arrow_red.png");
 };
 
 GameScene::~GameScene() {
@@ -191,6 +194,13 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::normal) WizardUpdate();
 			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
 			if (battleMode == GameSceneBattleMode::boss) DevilKingUpdate();
+
+
+			//休憩の攻撃バフ
+			//rest->SetRestBufFlg(true);
+			weaponA->SetAttackBuf(rest->GetRestBufFlg());
+			totalAttackBuf = weaponA->GetAttackBuf() * weaponB->GetAttackBufRate();
+			pl = player->GetLocation();
 
 			//武器と敵の当たり判定
 			if (true/*currentFloor == 1*/) {
@@ -633,7 +643,15 @@ void GameScene::draw() const {
 
 		weaponA->Draw();
 		weaponB->Draw();
+		if (totalAttackBuf > 1.0f) {
+			DrawRotaGraph2(pl.x - 25, pl.y - 47, 250, 250, 0.07, 0, attackBuf_img, TRUE, TRUE);
 
+			DrawRotaGraph2(pl.x + 5, pl.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+			if (totalAttackBuf > 2.0f) {
+				DrawRotaGraph2(pl.x - 5, pl.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+			}
+		}
+		
 		// 敵
 		if (battleMode == GameSceneBattleMode::normal) SlimeDraw();
 		if (battleMode == GameSceneBattleMode::normal) SkeletonDraw();

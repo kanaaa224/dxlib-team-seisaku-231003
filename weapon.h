@@ -207,6 +207,27 @@ public:
 			}
 		}
 	}
+
+	void SetAttackBuf(bool f) {
+		if (f) {
+			if (attackbuf != 1.5f) {
+				if (attackbuf == 1.0f) {
+					attackbuf = 1.5f;
+				}
+				else {
+					attackbuf = attackbuf * 1.5f;
+				}
+			}
+		}
+		else {
+			if (attackbuf >= 2.0f) {
+				attackbuf = 2.0f;
+			}
+			else {
+				attackbuf = 1.0f;
+			}
+		}
+	}
 	//•ŠíƒŒƒxƒ‹‚ğæ“¾
 	int GetWeaponLevel() { return weaponLevel; }
 
@@ -218,6 +239,10 @@ public:
 	bool GetIsAttacking() { return isAttacking; }
 	bool GetOldIsAttacking() { return oldIsAttacking; }
 	float GetDustDamage() { return dustDamage; }
+	float GetAttackBuf() { return attackbuf; }
+
+	int GetAttackBufImg() { return attackbuf_img; }
+	int GetArrowImg() { return arrow_img; }
 
 	void InitWeapon();
 

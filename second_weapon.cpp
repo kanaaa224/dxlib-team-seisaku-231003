@@ -366,10 +366,10 @@ void second_weapon::Draw() const
 	}
 
 	if (attackBufRate >= 2.0f) {
-		DrawRotaGraph2(location.x - 25, location.y - 47, 250, 250, 0.07, 0, attackbuf_img, TRUE, TRUE);
+		/*DrawRotaGraph2(location.x - 25, location.y - 47, 250, 250, 0.07, 0, attackbuf_img, TRUE, TRUE);
 		
 		DrawRotaGraph2(location.x + 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
-		DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+		DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);*/
 	}
 
 	//ƒoƒŠƒA

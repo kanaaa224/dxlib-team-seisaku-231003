@@ -248,8 +248,8 @@ void Player::draw()const {
 		for (int i = 0; i < 64; i++)
 		{
 			if (i % 5 == 0) {
-				DrawRotaGraph2(avoidanceLocation[i].x - 35, avoidanceLocation[i].y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
-				DrawFormatString(avoidanceLocation[i].x, avoidanceLocation[i].y, 0xff0000, "%d", i);
+				/*DrawRotaGraph2(avoidanceLocation[i].x - 35, avoidanceLocation[i].y - 40, 0, 0, 1.5, 0.0, PlayerImg, TRUE, TurnFlg);
+				DrawFormatString(avoidanceLocation[i].x, avoidanceLocation[i].y, 0xff0000, "%d", i);*/
 			}
 		}
 
@@ -257,8 +257,8 @@ void Player::draw()const {
 	}
 
 
-	DrawFormatString(100, 340, GetColor(255, 0, 0),"%f %f", avoidanceLocation[0].x, avoidanceLocation[0].y);
-	DrawFormatString(100, 370, GetColor(255, 0, 0),"%f %f", avoidanceLocation[1].x, avoidanceLocation[1].y);
+	/*DrawFormatString(100, 340, GetColor(255, 0, 0),"%f %f", avoidanceLocation[0].x, avoidanceLocation[0].y);
+	DrawFormatString(100, 370, GetColor(255, 0, 0),"%f %f", avoidanceLocation[1].x, avoidanceLocation[1].y);*/
 
 	//DrawRotaGraph(location.x, location.y, 0.10f, 0.01, PlayerImg, TRUE);
 	//DrawCircle(location.x, location.y, radius, 0xff0000, 0xffffff,TRUE);
