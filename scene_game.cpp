@@ -161,6 +161,12 @@ Scene* GameScene::update() {
 		battleMode = GameSceneBattleMode::midBoss;
 	};
 
+	// デバッグ - Uキーで強制ノーマル戦
+	if (InputCtrl::GetKeyState(KEY_INPUT_U) == PRESS) {
+		SoundManager::StopSoundBGMs();
+		battleMode = GameSceneBattleMode::normal;
+	};
+
 	// デバッグ - レベルアップポイント操作
 	if (InputCtrl::GetKeyState(KEY_INPUT_UP)   == PRESS) point++;
 	if (InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS) point--;
@@ -582,7 +588,6 @@ Scene* GameScene::update() {
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
 			//////////////////////////////////////////////////
 
 			// 経験値、レベル、ポイント処理
@@ -635,7 +640,7 @@ Scene* GameScene::update() {
 
 #if 1
 	clsDx();
-	printfDx("[ GameMain ] 上下キーでポイント操作、左右キーでHP\n");
+	printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
 	//printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	//printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
 #endif
