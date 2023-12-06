@@ -68,6 +68,9 @@ void GameUI::init() {
 
 	enemyHP["currentRatio"] = std::to_string(0);
 	enemyHP["ratio"]        = std::to_string(0);
+
+	shieldHP["currentRatio"] = std::to_string(0);
+	shieldHP["ratio"]        = std::to_string(0);
 };
 
 void GameUI::update() {
@@ -125,6 +128,11 @@ void GameUI::update() {
 	if (std::stoi(enemyHP["currentRatio"])) {
 		if (std::stoi(enemyHP["currentRatio"]) > std::stoi(enemyHP["ratio"])) enemyHP["ratio"] = std::to_string(std::stoi(enemyHP["ratio"]) + 1);
 		if (std::stoi(enemyHP["currentRatio"]) < std::stoi(enemyHP["ratio"])) enemyHP["ratio"] = std::to_string(std::stoi(enemyHP["ratio"]) - 1);
+	};
+
+	if (std::stoi(shieldHP["currentRatio"])) {
+		if (std::stoi(shieldHP["currentRatio"]) > std::stoi(shieldHP["ratio"])) shieldHP["ratio"] = std::to_string(std::stoi(shieldHP["ratio"]) + 1);
+		if (std::stoi(shieldHP["currentRatio"]) < std::stoi(shieldHP["ratio"])) shieldHP["ratio"] = std::to_string(std::stoi(shieldHP["ratio"]) - 1);
 	};
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init();
@@ -625,6 +633,57 @@ void GameUI::drawEnemyHP() const {
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 };
 
+void GameUI::drawShieldHP() const {
+	double opacity      = 0.0f;
+	double unvisibility = 0.0f;
+
+	if (hud.find("opacity")      != hud.end()) opacity      = hud.at("opacity");
+	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
+
+	//////////////////////////////////////////////////
+
+	SetFontSize(16);
+
+	std::string name;
+	std::string current;
+	std::string max;
+	std::string ratio = "0";
+
+	if (shieldHP.find("name")    != shieldHP.end()) name    = shieldHP.at("name");
+	if (shieldHP.find("current") != shieldHP.end()) current = shieldHP.at("current");
+	if (shieldHP.find("max")     != shieldHP.end()) max     = shieldHP.at("max");
+	if (shieldHP.find("ratio")   != shieldHP.end()) ratio   = shieldHP.at("ratio");
+
+	int lx = (SCREEN_WIDTH / 2) - 200;
+	int ly = 120;
+	int rx = (SCREEN_WIDTH / 2) + 200;
+	int ry = 140;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	int x = lx + ((rx - lx) / 2);
+	int y = ly - 20;
+
+	std::string str = name + ": " + current + "/" + max;
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y, 0xffffff, str.c_str());
+
+	lx = lx + 5;
+	ly = ly + 5;
+	rx = rx - 5;
+	ry = ry - 5;
+
+	rx = lx + static_cast<int>((rx - lx) * (std::stoi(ratio) / 100.0f));
+
+	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 255), true);
+
+
+	//////////////////////////////////////////////////
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+};
+
 void GameUI::drawHP() const {
 	SetFontSize(16);
 
@@ -771,6 +830,13 @@ void GameUI::setEnemyHP(std::string Name, int Current, int Max, int Ratio) {
 	enemyHP["current"] = std::to_string(Current);
 	enemyHP["max"]     = std::to_string(Max);
 	if (Ratio >= 0 && Ratio <= 100) enemyHP["currentRatio"] = std::to_string(Ratio);
+};
+
+void GameUI::setShieldHP(std::string Name, int Current, int Max, int Ratio) {
+	shieldHP["name"]    = Name;
+	shieldHP["current"] = std::to_string(Current);
+	shieldHP["max"]     = std::to_string(Max);
+	if (Ratio >= 0 && Ratio <= 100) shieldHP["currentRatio"] = std::to_string(Ratio);
 };
 
 void GameUI::setBanner(std::string Title, std::string SubTitle, int Mode) {
