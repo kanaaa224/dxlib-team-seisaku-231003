@@ -3,8 +3,6 @@
 //コンストラクタ
 Title::Title()
 {
-	//TitleImage = LoadGraph("resources/images/Title.png");
-	//Titlelogo = LoadGraph("resources/images/Title/logo/戦塔ロゴ.png");
 	Titlelogo_white = LoadGraph("resources/images/Title/logo/戦塔ロゴ-白.png");
 	g_MenuNumber = 0;
 	TitleInterval = 0;
@@ -108,7 +106,7 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//カーソルの移動音
-		SoundManager::PlaySoundSE("se_select_syu", DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_select_syu", false, DX_PLAYTYPE_BACK);
 		//タイトルカーソルの移動
 		if (--g_MenuNumber > TITLECURSOR);
 		//タイトルカーソルの移動量の制御
@@ -119,7 +117,7 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//タイトルカーソルの移動
-		SoundManager::PlaySoundSE("se_select_syu", DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_select_syu",false, DX_PLAYTYPE_BACK);
 		if (++g_MenuNumber < -TITLECURSOR);
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber > 3)g_MenuNumber = 0;
@@ -231,15 +229,14 @@ void Title::draw() const
 	//タイトルロゴ
 	DrawRotaGraph(logo_white_x, logo_white_y, 0.58, 0.0, Titlelogo_white, TRUE);
 
-	if (Title_select_flg == true/* && Title_Select_mg_flg == false*/) {
+	if (Title_select_flg == true) {
 
-		//タイトルカーソルの描画
-		//DrawGraph(470, 290 + g_MenuY, cursor, TRUE);
-
+		//タイトルのカーソル
 		DrawRotaGraph(480, 300 + g_MenuY, 0.1,  Title_Cosor_sword_Angle/*1.0*/, Title_Cosol_sword_Img, TRUE);
 		DrawRotaGraph(Title_Cosor_greatsword_x, Title_Cosor_greatsword_y + g_MenuY, 0.1, Title_Cosor_greatsword_Angle/*4.15*/, Title_Cosol_greatsword_Img, TRUE);
 		//DrawRotaGraph(659, 300, 0.32, 0.0, Title_Cosol_shortsword_Img, TRUE);
 
+		//タイトルのセレクト
 		// 90ずつ足している	倍率は0.32
 		DrawRotaGraph(659, 300, 0.32, 0.0, Title_Start_Img, TRUE);
 		DrawRotaGraph(659, 390, 0.32, 0.0, Title_Help_Img, TRUE);

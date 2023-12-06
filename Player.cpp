@@ -76,7 +76,7 @@ Player::Player() {
 	A_value = false;
 	CoolTime = false;
 	Avoidance_Flg = false;
-	Cool_Limit = 2.0f;
+	Cool_Limit = 3.0f;
 
 	is_hit = false;
 
@@ -216,7 +216,7 @@ void Player::draw()const {
 	//左スティック
 	DrawFormatString(0, 300, GetColor(255, 0, 0), "ミノタウロスのHitフラグ %d", P_minotaur);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "P_minotaur_Hit_flg			%d", P_minotaur_Hit_flg);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "Hit_minotur_fps			 %d", Hit_minotur_fps);
+	DrawFormatString(0, 340, GetColor(255, 0, 0), "Second			 %d", Second);
 	//DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
@@ -520,7 +520,7 @@ void Player::Player_CoolTime() {
 	if (CoolTime_fps > 59) {
 		CoolTime_fps = 0;
 		Second++;
-		if (Second > Cool_Limit/*true*/) {
+		if (Second >= Cool_Limit/*true*/) {
 			CoolTime = false;
 
 			Additional_Value3 = { 0.0f,0.0f };
