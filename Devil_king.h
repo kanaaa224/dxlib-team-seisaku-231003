@@ -9,6 +9,7 @@ class Devil_king:public EnemyBase
 {
 private:
 	float shield;//魔王のシールド
+	bool shieldFlg;//現在、魔王がシールドを持っているかどうか
 
 	bool bigBulletCreateFlg = false;
 	int bigBulletCreateCounter = 0;
