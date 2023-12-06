@@ -886,7 +886,7 @@ void weapon::LevelState()
 		break;
 	}
 	coolTime = maxCoolTime;
-	damage = damage * attackbuf;
+	//damage = damage * attackbuf;
 }
 
 bool weapon::WeaponCollision(Location enemyLocation, float radius)
@@ -1022,14 +1022,16 @@ void weapon::SwordLevel8(Player* player)
 			if (player->GetPlayer_HP() > MAX_HP / 2) {
 				player->SetPlayer_HP(MAX_HP / 100);//ƒ_ƒ[ƒW‚ðŽó‚¯‚é
 
-				damage = INIT_DAMAGE_SWORD * attackbuf;
+				//damage = INIT_DAMAGE_SWORD * attackbuf;
+				attackbuf = ATTACKBUF;
 			}
 		}
 
-		if (damage == INIT_DAMAGE_SWORD * attackbuf) {
+		//if (damage == INIT_DAMAGE_SWORD * attackbuf) {
+		if (attackbuf == ATTACKBUF) {
 			fpsCnt++;
 			if (fpsCnt > 120) {
-				damage = INIT_COOLTIME_SWORD;
+				damage = INIT_DAMAGE_SWORD;
 				fpsCnt = 0;
 			}
 		}

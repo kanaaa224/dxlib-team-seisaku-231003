@@ -21,6 +21,8 @@ class Player;
 
 #define MAX_DUST 64
 
+#define ATTACKBUF 2.0f
+
 struct Vector
 {
 	float x;
@@ -210,7 +212,7 @@ public:
 
 	void SetAttackBuf(bool f) {
 		if (f) {
-			if (attackbuf != 1.5f) {
+			if (attackbuf == ATTACKBUF || attackbuf == 1.0f) {
 				if (attackbuf == 1.0f) {
 					attackbuf = 1.5f;
 				}
@@ -218,10 +220,11 @@ public:
 					attackbuf = attackbuf * 1.5f;
 				}
 			}
+			
 		}
 		else {
-			if (attackbuf >= 2.0f) {
-				attackbuf = 2.0f;
+			if (attackbuf >= ATTACKBUF) {
+				attackbuf = ATTACKBUF;
 			}
 			else {
 				attackbuf = 1.0f;

@@ -210,7 +210,7 @@ Scene* GameScene::update() {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
 								//ダメージアップ
-								slime[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+								slime[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								slime[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -224,7 +224,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
-								slime[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+								slime[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								slime[i]->SetHit1stFrameFlg(true);
 								
 								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
@@ -255,7 +255,7 @@ Scene* GameScene::update() {
 						if (weaponA->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+								skeleton[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								skeleton[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -269,7 +269,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+								skeleton[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								skeleton[i]->SetHit1stFrameFlg(true);
 
 								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
@@ -301,7 +301,7 @@ Scene* GameScene::update() {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
 								//ダメージアップ
-								wizard[i]->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+								wizard[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								wizard[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -314,7 +314,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
-								wizard[i]->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+								wizard[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								wizard[i]->SetHit1stFrameFlg(true);
 
 								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
@@ -345,7 +345,7 @@ Scene* GameScene::update() {
 						if (minotaur->GetHitFrameCnt() == 0) {
 							minotaur->SetHitWeaponFlg();
 							//ダメージアップ
-							minotaur->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 							minotaur->SetHit1stFrameFlg(true);
 							if (weaponA->GetIsAttacking() && !swordHitFlg) {
 								swordHitFlg = true;
@@ -358,7 +358,7 @@ Scene* GameScene::update() {
 					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
 						if (minotaur->GetHitFrameCnt() == 0) {
 							minotaur->SetHitWeaponFlg();
-							minotaur->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+							minotaur->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 							minotaur->SetHit1stFrameFlg(true);
 
 							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
@@ -389,7 +389,7 @@ Scene* GameScene::update() {
 							if (devilKing->GetHitFrameCnt() == 0) {
 								devilKing->SetHitWeaponFlg();
 								//ダメージアップ
-								devilKing->SetHitHP(weaponA->GetDamage() * weaponB->GetAttackBufRate());
+								devilKing->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								devilKing->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
 									swordHitFlg = true;
@@ -404,7 +404,7 @@ Scene* GameScene::update() {
 						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
 							if (devilKing->GetHitFrameCnt() == 0) {
 								devilKing->SetHitWeaponFlg();
-								devilKing->SetHitHP(weaponB->GetDamage() * weaponB->GetAttackBufRate());
+								devilKing->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								devilKing->SetHit1stFrameFlg(true);
 
 								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
@@ -657,6 +657,7 @@ void GameScene::draw() const {
 				DrawRotaGraph2(pl.x - 5, pl.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
 			}
 		}
+		DrawFormatString(100, 300, 0xffffff, "%f", totalAttackBuf);
 		
 		// 敵
 		if (battleMode == GameSceneBattleMode::normal) SlimeDraw();

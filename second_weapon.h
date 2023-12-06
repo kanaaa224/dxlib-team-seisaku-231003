@@ -22,6 +22,8 @@
 #define FRAIL_RADIUS 30
 #define FRAIL_RADIUS_LEVEL8 45
 
+
+
 enum second_weapon_type
 {
 	spear,
