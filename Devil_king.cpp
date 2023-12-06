@@ -36,16 +36,18 @@ void Devil_king::Update(Player* player)
 	location.x = location.x - diff.x;
 	location.y = location.y - diff.y;
 
-	//大きい弾の生成//
-	if (bigBulletCreateFlg == false) {
-		bigBulletCreateCounter++;
-	}
+	//大きい弾の生成
+	if (shieldFlg == false) {
+		if (bigBulletCreateFlg == false) {
+			bigBulletCreateCounter++;
+		}
 
-	if (bigBulletCreateCounter >= BIG_BULLET_CREATE_TIME) {
-		bigBulletCreateFlg = true;
-		bigBulletCreateCounter = 0;
+		if (bigBulletCreateCounter >= BIG_BULLET_CREATE_TIME) {
+			bigBulletCreateFlg = true;
+			bigBulletCreateCounter = 0;
+		}
+
 	}
-	//・・・・・・・・・・・・//
 	
 	//シールド
 	if (bigBulletHitFlg == true) {
@@ -57,16 +59,30 @@ void Devil_king::Update(Player* player)
 		shieldFlg = true;
 	}
 
+	//ダウンタイム
+	if (shieldFlg == true) {
+		//downTimeCounterが設定した値になったらシールドを復活させる
+		if (downTimeCounter >= DOWN_TIME) {
+			shield = MAX_SHIELD;
+			shieldFlg = false;
+			downTimeCounter = 0;
+		}
+
+		downTimeCounter++;
+	}
+
 	//武器からの攻撃とHPが０以上なら赤く表示する
 	if (hitWeaponFlg == true && hp > 0) {
 		redDrawFlg = true;
 	}
 	hitWeaponFlg = false;
 
+	//リスポーンFlg
 	if (hp <= 0) {
 		respawnFlg = false;
 	}
 
+	//赤く表示
 	if (redFrameCounter == RED_FRAME) {
 		redDrawFlg = false;
 		redFrameCounter = 0;
