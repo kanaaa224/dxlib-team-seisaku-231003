@@ -25,7 +25,7 @@ Scene* Credit::update()
 	//Credit_Mouse_x = InputCtrl::GetMouseCursor().x;
 	//Credit_Mouse_y = InputCtrl::GetMouseCursor().y;
 
-	if (++g_WaitTime < /*1580*/ 2200) {
+	if (++g_WaitTime < /*1580*/ 2370) {
 
 		g_PosY = /*600*/ 450 - g_WaitTime;
 	}
@@ -44,6 +44,8 @@ void Credit::draw()const
 	//　中心線
 	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
 	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "%d", g_WaitTime, TRUE);
 
 	//使ったサイトや関係者名の名前を表示
 	SetFontSize(50);
