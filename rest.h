@@ -8,9 +8,10 @@ class Rest
 private:
 	GameUI* ui;
 
+	int cursor_interval;
 	int interval;
 	int cursor_num;
-
+	int cursor_x;
 
 	int cursor_image;
 	int bonfire_image;

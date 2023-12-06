@@ -182,7 +182,7 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(rootRX - 60, rootRY + 60, 40, GetColor(0, 0, 0), true);
+	DrawCircle(rootRX - 60, rootRY + 60, 40, 0x000000, true);
 	if(opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int color = GetColor(0, 0, 0);
@@ -224,7 +224,7 @@ void GameUI::drawHUD() const {
 	int ry = rootRY + 90;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	lx = lx + 5;
@@ -234,7 +234,7 @@ void GameUI::drawHUD() const {
 
 	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
-	DrawBox(lx, ly, rx, ry, GetColor(57, 165, 229), true);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 180, 255), true);
 
 	SetFontSize(16);
 	//ChangeFont("Bahnschrift Light", DX_CHARSET_DEFAULT); // Algerian
@@ -260,7 +260,7 @@ void GameUI::drawHUD() const {
 	ry = rootLY + 70;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	lx = lx + 5;
@@ -270,9 +270,9 @@ void GameUI::drawHUD() const {
 
 	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
-	color = GetColor(128, 207, 27);
+	color = GetColor(67, 255, 32);
 	if (ratio <= 15)      color = GetColor(255, 0, 0);
-	else if (ratio <= 30) color = GetColor(255, 140, 76);
+	else if (ratio <= 30) color = GetColor(255, 90, 0);
 
 	DrawBox(lx, ly, rx, ry, color, true);
 
@@ -300,7 +300,7 @@ void GameUI::drawHUD() const {
 	int y = rootLY + 120;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(x, y, 28, GetColor(0, 0, 0), true);
+	DrawCircle(x, y, 28, 0x000000, true);
 	DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle50);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -314,7 +314,7 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	/* SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawBox(rootLX + 40, rootLY + 80, rootLX + 260, rootLY + 110, GetColor(0, 0, 0), true);
+	DrawBox(rootLX + 40, rootLY + 80, rootLX + 260, rootLY + 110, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//SetFontSize(16);
@@ -427,7 +427,7 @@ void GameUI::drawHUD() const {
 	int y = rootRY + (SCREEN_HEIGHT - 80);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
+	DrawCircle(x, y, 50, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponB[0] != 99) {
@@ -435,7 +435,7 @@ void GameUI::drawHUD() const {
 		str = "Lv. " + std::to_string(weaponB[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
 
-		if (weaponB[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
+		if (weaponB[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
 
 		switch (weaponB[0]) {
 		case 0:
@@ -463,7 +463,7 @@ void GameUI::drawHUD() const {
 	x -= 120;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
+	DrawCircle(x, y, 50, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponA[0] != 99) {
@@ -471,7 +471,7 @@ void GameUI::drawHUD() const {
 		str = "Lv. " + std::to_string(weaponA[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
 
-		if(weaponA[2]) DrawCircle(x, y, 55, GetColor(255, 255, 255), false, 3);
+		if(weaponA[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
 
 		switch (weaponA[0]) {
 		case 0:
@@ -514,15 +514,15 @@ void GameUI::drawHUD() const {
 	x -= 120;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(x, y, 50, GetColor(255, 255, 255), true);
+	DrawCircle(x, y, 50, 0xffffff, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//SetFontSize(16);
 	str = "回避（仮）";
 	if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, GetColor(0, 0, 0), str.c_str());
-	//DrawBox(x - 35, y - 35, x + 35, y + 35, GetColor(255, 255, 255), false);
-	//DrawCircle(x, y, 50, GetColor(255, 255, 255), false, 2);
+	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
+	//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
+	//DrawCircle(x, y, 50, 0xffffff, false, 2);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
 	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -547,13 +547,13 @@ void GameUI::drawBanner() const {
 	int ry = ly * 2;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (!std::stoi(mode)) {
 		int line = 5;
-		DrawBox(lx, ly, rx, ly + line, GetColor(255, 255, 255), true);
-		DrawBox(lx, ry - line, rx, ry, GetColor(255, 255, 255), true);
+		DrawBox(lx, ly, rx, ly + line, 0xffffff, true);
+		DrawBox(lx, ry - line, rx, ry, 0xffffff, true);
 	};
 
 	//ChangeFont("");
@@ -570,12 +570,12 @@ void GameUI::drawBanner() const {
 
 		while (x < SCREEN_WIDTH) {
 			y = ly;
-			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
-			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
+			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, 0xffffff, true);
+			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, 0xffffff, true);
 
 			y = ry - 40;
-			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, GetColor(255, 255, 255), true);
-			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, GetColor(255, 255, 255), true);
+			DrawTriangle(x + 40, y, x, y + 40, x + 80, y, 0xffffff, true);
+			DrawTriangle(x + 80, y, x, y + 40, x + 40, y + 40, 0xffffff, true);
 
 			x += 80;
 		};
@@ -609,7 +609,7 @@ void GameUI::drawEnemyHP() const {
 	int ry = 140;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int x = lx + ((rx - lx) / 2);
@@ -660,7 +660,7 @@ void GameUI::drawShieldHP() const {
 	int ry = 140;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int x = lx + ((rx - lx) / 2);
@@ -676,7 +676,7 @@ void GameUI::drawShieldHP() const {
 
 	rx = lx + static_cast<int>((rx - lx) * (std::stoi(ratio) / 100.0f));
 
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 255), true);
+	DrawBox(lx, ly, rx, ry, GetColor(0, 110, 255), true);
 
 
 	//////////////////////////////////////////////////
@@ -701,7 +701,7 @@ void GameUI::drawHP() const {
 	int ry = 70;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	lx = lx + 5;
@@ -711,9 +711,9 @@ void GameUI::drawHP() const {
 
 	rx = lx + static_cast<int>((rx - lx) * (ratio / 100.0f));
 
-	int color = GetColor(128, 207, 27);
+	int color = GetColor(67, 255, 32);
 	if (ratio <= 15)      color = GetColor(255, 0, 0);
-	else if (ratio <= 30) color = GetColor(255, 140, 76);
+	else if (ratio <= 30) color = GetColor(255, 90, 0);
 
 	DrawBox(lx, ly, rx, ry, color, true);
 
@@ -725,7 +725,7 @@ void GameUI::drawPause() const {
 	SetFontSize(16);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 220);
-	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GetColor(0, 0, 0), true);
+	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	std::string str = "PAUSE（仮）";
@@ -753,7 +753,7 @@ void GameUI::drawNotice() const {
 	int ry = ly + 60;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180 * std::stod(opacity));
-	DrawBox(lx, ly, rx, ry, GetColor(0, 0, 0), true);
+	DrawBox(lx, ly, rx, ry, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * std::stod(opacity));

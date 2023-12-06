@@ -9,6 +9,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32); // ウインドウのサイズ
 	if (DxLib_Init() == -1) return -1;             // DxLib の初期化処理
 	SetDrawScreen(DX_SCREEN_BACK);                 // 描画先画面を裏にする（ダブルバッファリング）
+	SetAlwaysRunFlag(TRUE);							//常にアクティブ状態にする
 
 	SoundManager::CreateSoundManager();
 

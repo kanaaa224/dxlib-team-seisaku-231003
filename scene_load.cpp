@@ -51,6 +51,7 @@ Scene* LoadScene::update() {
 	};
 
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene();
+	if (InputCtrl::GetKeyState(KEY_INPUT_S))      return new GameScene();
 
 	return this;
 };
@@ -62,7 +63,11 @@ void LoadScene::draw() const {
 	DrawRotaGraph(620, 470, 0.5, 0.0, img_cat, true);
 
 	SetFontSize(40);
-	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth("ロード中...(仮)") / 2, 300, 0xffffff, "ロード中...(仮)");
+	std::string str = "ロード中...(仮)";
+		DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(str.c_str()) / 2, 300, 0xffffff, str.c_str());
+	SetFontSize(20);
+	str = "Sキーでスキップ";
+	DrawFormatString((SCREEN_WIDTH / 2) - GetDrawFormatStringWidth(str.c_str()) / 2, 340, 0xffffff, str.c_str());
 
 	DrawBox(0, SCREEN_HEIGHT - 70, SCREEN_WIDTH * progress, SCREEN_HEIGHT, GetColor(255, 255, 255), true);
 
