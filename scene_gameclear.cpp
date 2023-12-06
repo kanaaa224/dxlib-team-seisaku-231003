@@ -67,18 +67,22 @@ void GameClearScene::draw() const
 	//DrawBox(0, 0, 1280, 720, 0x68030c, TRUE);
 	//DrawGraph(0, 0, img_background, TRUE);
 
+	// テキスト表示
+	SetFontSize(60);
+	DrawFormatString(530, 515, 0x000000, "GAME CLEAR");
+
 	// 画像表示
 	//DrawGraph(0, 0, img_gameclear, TRUE);
 	DrawRotaGraph(650, 350, 3.0f, 0.0f, img_player, TRUE);
 	DrawRotaGraph(640, 180, 0.15f, 0.0f, img_crown, TRUE);
 	DrawRotaGraph(480, 545, 0.1f, 0.0f, img_grail, TRUE);
-	DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
 
-	// テキスト表示
-	SetFontSize(60);
-	DrawFormatString(530, 515, 0x000000, "GAME CLEAR");
-	SetFontSize(20);
-	DrawFormatString(1175, 680, 0x000000, "RESULT");
+	if (value <= 10)
+	{
+		DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
+		SetFontSize(20);
+		DrawFormatString(1175, 680, 0x000000, "RESULT");
+	}
 
 	//フェードの設定
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, value);
@@ -90,6 +94,6 @@ void GameClearScene::draw() const
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 #ifdef _DEBUG
-	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+//	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
 }
