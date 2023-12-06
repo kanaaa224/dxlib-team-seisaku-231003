@@ -41,17 +41,17 @@ private:
 	const int map_ctrl[PATTERN_MAX][4][4]{ {
 		{7, 7, 1, 1},
 		{3, 6, 1, 2},
-		{8, 18, 2, 3},
+		{8, 18, 1, 2},
 		{16, 18, 1, 1},
 		},{
 		{7, 7, 1, 1},
 		{2, 6, 1, 2},
-		{8, 18, 2, 3},
+		{8, 18, 1, 1},
 		{15, 18, 1, 1},
 		},{
 		{7, 7, 1, 1},
 		{1, 6, 1, 2},
-		{8, 18, 2, 3},
+		{8, 18, 1, 2},
 		{15, 18, 1, 1},
 		},
 	};
@@ -129,9 +129,9 @@ public:
 	}
 
 	void ClearStage() {
-		cursor_move = TRUE;
 		cursor_pos = 0;
 		cursor_loc = next_stage[pattern][now_stage][0];
+		cursor_r = 45;
 		int center_def = 360 - icon_loc[cursor_loc][1];
 		map_move = map_move + center_def;
 		alpha = 0;

@@ -8,9 +8,10 @@ class Rest
 private:
 	GameUI* ui;
 
+	int cursor_interval;
 	int interval;
 	int cursor_num;
-
+	int cursor_x;
 
 	int cursor_image;
 	int bonfire_image;
@@ -18,6 +19,7 @@ private:
 
 	bool is_select;
 	bool is_ok;
+	bool rest_buf_flg;			//休憩のバフをかける？
 
 public:
 	//コンストラクタ
@@ -32,5 +34,17 @@ public:
 	void draw()const;
 
 	void Init();
+
+	//rest_buf_flgを取得する
+	bool GetRestBufFlg()
+	{
+		return rest_buf_flg;
+	}
+
+	//rest_buf_flgを設定する
+	void SetRestBufFlg(const bool flg)
+	{
+		rest_buf_flg = flg;
+	}
 
 };
