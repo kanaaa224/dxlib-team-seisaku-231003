@@ -8,7 +8,7 @@ Map::Map() {
 	cursor_loc = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
-	cursor_r = 300;
+	cursor_r = 45;
 	alpha = 0;
 	alpha_flg = TRUE;
 
