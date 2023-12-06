@@ -78,17 +78,21 @@ void GameOverScene::draw() const
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
 	//DrawGraph(0, 0, img_background, TRUE);
 
+	// テキスト表示
+	SetFontSize(60);
+	DrawFormatString(545, 515, 0x000000, "GAME OVER");
+
 	// 画像表示
 	DrawGraph(0, 0, img_gameover, TRUE);
 	// sin( PI*2 / 周期 * Count ) * 振幅
 	DrawGraph(ghost_x, ghost_y + sinf(M_PI * 2 / FPS_PERIOD * count) * 40, img_ghost, TRUE);
-	DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
 
-	// テキスト表示
-	SetFontSize(60);
-	DrawFormatString(545, 515, 0x000000, "GAME OVER");
-	SetFontSize(20);
-	DrawFormatString(1175, 680, 0x000000, "RESULT");
+	if (value <= 10)
+	{
+		DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
+		SetFontSize(20);
+		DrawFormatString(1175, 680, 0x000000, "RESULT");
+	}
 
 	//フェードの設定
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, value);
