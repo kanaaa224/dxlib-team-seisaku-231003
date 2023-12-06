@@ -36,6 +36,9 @@ public:
 	float GetShield() {
 		return shield;
 	}
+	bool GetShieldFlg() {
+		return shieldFlg;
+	}
 
 	//Set関数
 	void SetBigBulletCreateFlg(bool flg) {
