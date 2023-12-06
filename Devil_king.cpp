@@ -111,6 +111,14 @@ void Devil_king::Draw() const
 		SetDrawBright(255, 255, 255);
 	}
 
+	if (skyWalkFlg == true) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
+		DrawOval((int)location.x, (int)location.y + 70, 50, 15, C_BLACK, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		DrawOval((int)location.x, (int)location.y + 70, 25, 7, C_BLACK, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	}
+
 #ifdef DEBUG
 	DrawFormatString(location.x, location.y, C_BLUE,      "シールド:%0.2f", shield);
 	DrawFormatString(location.x, location.y + 10, C_BLUE, "   Flg  :%d", shieldFlg);

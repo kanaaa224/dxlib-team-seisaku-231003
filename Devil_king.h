@@ -14,10 +14,15 @@ private:
 	float shield;//魔王のシールド
 	bool shieldFlg;//シールドが０になったらtrueを返す
 
+	//大きい弾
 	bool bigBulletCreateFlg = false;
 	int bigBulletCreateCounter = 0;
 	bool bigBulletHitFlg = false;
 
+	//浮遊
+	bool skyWalkFlg = true;//浮いているか
+
+	//ダウン
 	int downTimeCounter = 0;
 
 public:
