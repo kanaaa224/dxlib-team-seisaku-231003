@@ -49,8 +49,9 @@ public:
 	static void PlaySoundBGM(const char* fileName, int playType = DX_PLAYTYPE_LOOP, int topPositionFlag = TRUE);
 
 	//SEを再生する
+	//＊isSingleUnitはtrueなら音を重ねない、falseなら音を重ねる、デフォルトはtrue
 	//＊デフォルトの再生形式はバック、再生位置は先頭から
-	static void PlaySoundSE(const char* fileName, int playType = DX_PLAYTYPE_BACK, int topPositionFlag = TRUE);
+	static void PlaySoundSE(const char* fileName, bool isSingleUnit = true, int playType = DX_PLAYTYPE_BACK, int topPositionFlag = TRUE);
 
 	//BGMを停止する
 	static void StopSoundBGM(const char* fileName);

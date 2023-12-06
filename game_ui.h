@@ -20,6 +20,7 @@ private:
 	std::map<std::string, int> hp;
 	std::map<std::string, int> enemy;
 	std::map<std::string, std::string> enemyHP;
+	std::map<std::string, std::string> shieldHP;
 	std::map<std::string, std::map<std::string, int>> weapon;
 
 	std::map<std::string, int> coolTime;
@@ -54,6 +55,9 @@ public:
 
 	// 敵の体力
 	void drawEnemyHP() const;
+
+	// シールドの体力
+	void drawShieldHP() const;
 
 	// HP表示
 	void drawHP() const;
@@ -112,6 +116,9 @@ public:
 
 	// 「drawEnemyHP()」で表示用の敵情報を設定（名前、体力）
 	void setEnemyHP(std::string, int, int, int);
+
+	// 「drawShieldHP()」で表示用の敵情報を設定（名前、体力）
+	void setShieldHP(std::string, int, int, int);
 
 	// stateが「banner」の時に表示するテキストを設定
 	void setBanner(std::string, std::string, int);
