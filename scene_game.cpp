@@ -59,10 +59,12 @@ GameScene::GameScene() {
 	SoundManager::SetBGM("bgm_normal");
 	SoundManager::SetBGM("bgm_middleboss");
 	SoundManager::SetBGM("bgm_middleboss_end");
+	SoundManager::SetBGM("bgm_boss");
 	SoundManager::SetVolumeBGMs(50);
 	SoundManager::SetVolumeSEs(50);
 	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
 	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
+	SetLoopPosSoundMem(22720, SoundManager::GetBGMHandle("bgm_boss"));
 
 	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！", 1);
 
@@ -188,7 +190,7 @@ Scene* GameScene::update() {
 		}
 		if (battleMode == GameSceneBattleMode::boss)
 		{
-
+			SoundManager::PlaySoundBGM("bgm_boss");
 		}
 
 		gameUI->update(/*this*/);
