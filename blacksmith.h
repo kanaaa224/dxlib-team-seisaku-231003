@@ -70,7 +70,7 @@ private:
 	bool restore_cursor_position;	// カーソル位置を戻すか
 	int cursor_action;				// 今の行動（カーソル移動で使用）
 	int box_color;
-	int box_color_hover;
+	int value;						// 不透明度
 
 public:
 	Blacksmith();
@@ -99,8 +99,10 @@ private:
 	void DrawResetLevel(WeaponLevelUp* weapon_levelup)const;
 
 	// 武器の画像描画
-	void DrawWeaponImages()const;
+	void DrawWeapon1Images()const;
+	void DrawWeapon2Images()const;
 
 	// レベルリセット時のテキスト
-	void DrawResetLevelText()const;
+	void DrawWeapon1ResetText()const;
+	void DrawWeapon2ResetText()const;
 };
