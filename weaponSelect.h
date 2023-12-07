@@ -25,6 +25,15 @@ private:
 
 	int button_image;			//ボタンの画像
 	int cursor_image;			//カーソル画像
+	int logo_choice_image;		//武器を選べ！の画像
+	int logo_dicision_image;	//決定の画像
+
+	int logo_dagger_iamge;		//短剣のロゴ画像
+	int logo_sword_image;		//片手剣のロゴ画像
+	int logo_great_sword_image;	//大剣のロゴ画像
+	int logo_spear_image;		//槍のロゴ画像
+	int logo_frail_image;		//フレイルのロゴ画像
+	int logo_book_image;		//魔導書のロゴ画像
 
 	bool is_selecting;			//武器を選択している？
 
