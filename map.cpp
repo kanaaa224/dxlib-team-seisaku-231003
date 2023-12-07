@@ -25,6 +25,8 @@ Map::Map() {
 	if (wall_img == 0) wall_img = (LoadGraph("resources/images/maps/wall.png"));
 	if (tower_img == 0) tower_img = (LoadGraph("resources/images/maps/tower.png"));
 	if (map_back_img == 0) map_back_img = (LoadGraph("resources/images/map_back.png"));
+	if (button_a_image == 0) button_a_image = LoadGraph("resources/images/button_a.png");
+	if (decision_img == 0) decision_img = LoadGraph("resources/images/Logo/UI/logo_dicision.png");
 
 	SoundManager::SetBGM("bgm_map");
 	SoundManager::SetVolumeBGM("bgm_map", 50);
@@ -49,6 +51,8 @@ Map::~Map() {
 	DeleteGraph(wall_img);
 	DeleteGraph(tower_img);
 	DeleteGraph(map_back_img);
+	DeleteGraph(button_a_image);
+	DeleteGraph(decision_img);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
@@ -70,42 +74,45 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 	// カーソル移動(Lスティック)
 	if (move_cool <= 0) {
-		if (InputCtrl::GetStickRatio(L).x >= 0.3) {
-			//カーソルの移動音
-			SoundManager::PlaySoundSE("se_system_select_syu", false);
-			if (cursor_pos + 1 <= 2 && next_stage[pattern][now_stage][cursor_pos + 1] != -1) {
-				cursor_pos++;
-				cursor_loc = next_stage[pattern][now_stage][cursor_pos];
-				move_cool = 15;
+		if (next_stage[pattern][now_stage][1] != -1)
+		{
+			if (InputCtrl::GetStickRatio(L).x >= 0.3) {
+				//カーソルの移動音
+				SoundManager::PlaySoundSE("se_system_select_syu", false);
+				if (cursor_pos + 1 <= 2 && next_stage[pattern][now_stage][cursor_pos + 1] != -1) {
+					cursor_pos++;
+					cursor_loc = next_stage[pattern][now_stage][cursor_pos];
+					move_cool = 15;
+				}
+				else {
+					cursor_pos = 0;
+					cursor_loc = next_stage[pattern][now_stage][cursor_pos];
+					move_cool = 15;
+				}
+				cursor_move = TRUE;
+				cursor_r = 45;
 			}
-			else {
-				cursor_pos = 0;
-				cursor_loc = next_stage[pattern][now_stage][cursor_pos];
-				move_cool = 15;
-			}
-			cursor_move = TRUE;
-			cursor_r = 45;
-		}
-		else if (InputCtrl::GetStickRatio(L).x <= -0.3) {
-			//カーソルの移動音
-			SoundManager::PlaySoundSE("se_system_select_syu", false);
-			if (cursor_pos - 1 >= 0) {
-				cursor_pos--;
-				cursor_loc = next_stage[pattern][now_stage][cursor_pos];
-				move_cool = 15;
-			}
-			else {
-				for (int i = 2; i > 0; i--) {
-					if (next_stage[pattern][now_stage][i] != -1) {
-						cursor_pos = i;
-						cursor_loc = next_stage[pattern][now_stage][cursor_pos];
-						move_cool = 15;
-						break;
+			else if (InputCtrl::GetStickRatio(L).x <= -0.3) {
+				//カーソルの移動音
+				SoundManager::PlaySoundSE("se_system_select_syu", false);
+				if (cursor_pos - 1 >= 0) {
+					cursor_pos--;
+					cursor_loc = next_stage[pattern][now_stage][cursor_pos];
+					move_cool = 15;
+				}
+				else {
+					for (int i = 2; i > 0; i--) {
+						if (next_stage[pattern][now_stage][i] != -1) {
+							cursor_pos = i;
+							cursor_loc = next_stage[pattern][now_stage][cursor_pos];
+							move_cool = 15;
+							break;
+						}
 					}
 				}
+				cursor_move = TRUE;
+				cursor_r = 45;
 			}
-			cursor_move = TRUE;
-			cursor_r = 45;
 		}
 	}
 	else if(InputCtrl::GetStickRatio(L).x < 0.3 && InputCtrl::GetStickRatio(L).x > -0.3){
@@ -125,7 +132,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 
 	// カーソル移動後処理
 	if (cursor_r >= 30) {
-		if (next_stage[pattern][now_stage][1] == -1) {
+		 {
 			cursor_r = 30;
 		}
 		cursor_r--;
@@ -289,12 +296,14 @@ void Map::draw() const {
 			//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
 			x_img++;
 		}
-		//アイコン番号表示(Debug)
-		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 		
 		// カーソル表示(アイコンの円と被るように半径に-1)
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0x050505, 0, 5);
 		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xFFD000, 0, 3);
+
+		// Aボタン
+		DrawGraph(1150, 650, button_a_image, TRUE);
+		DrawString(1194, 662, "決定\n", 0xffffff);
 	}
 
 #ifdef _DEBUG	

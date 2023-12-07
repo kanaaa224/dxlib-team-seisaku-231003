@@ -60,8 +60,12 @@ GameScene::GameScene() {
 	SoundManager::SetBGM("bgm_middleboss");
 	SoundManager::SetBGM("bgm_middleboss_end");
 	SoundManager::SetBGM("bgm_boss");
+	SoundManager::SetSE("se_enemy_damage");
+	SoundManager::SetSE("se_enemy_barrierdamage");
+	SoundManager::SetSE("se_enemy_bossbullet");
 	SoundManager::SetVolumeBGMs(50);
 	SoundManager::SetVolumeSEs(65);
+	SoundManager::SetvolumeSE("se_enemy_bossbullet", 1);
 	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
 	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
 	SetLoopPosSoundMem(22720, SoundManager::GetBGMHandle("bgm_boss"));
@@ -235,6 +239,7 @@ Scene* GameScene::update() {
 						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage",false);
 								//ダメージアップ
 								slime[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								slime[i]->SetHit1stFrameFlg(true);
@@ -250,6 +255,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								slime[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								slime[i]->SetHit1stFrameFlg(true);
 								
@@ -266,6 +272,7 @@ Scene* GameScene::update() {
 						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
 							if (slime[i]->GetHitFrameCnt() == 0) {
 								slime[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								//ダメージアップ
 								slime[i]->SetHitHP(weaponA->GetDustDamage());
 								slime[i]->SetHit1stFrameFlg(true);
@@ -281,6 +288,7 @@ Scene* GameScene::update() {
 						if (weaponA->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								skeleton[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								skeleton[i]->SetHit1stFrameFlg(true);
 								if (weaponA->GetIsAttacking() && !swordHitFlg) {
@@ -295,6 +303,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								skeleton[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								skeleton[i]->SetHit1stFrameFlg(true);
 
@@ -311,6 +320,7 @@ Scene* GameScene::update() {
 						if (weaponA->DustCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
 							if (skeleton[i]->GetHitFrameCnt() == 0) {
 								skeleton[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								//ダメージアップ
 								skeleton[i]->SetHitHP(weaponA->GetDustDamage());
 								skeleton[i]->SetHit1stFrameFlg(true);
@@ -326,6 +336,7 @@ Scene* GameScene::update() {
 						if (weaponA->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								//ダメージアップ
 								wizard[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								wizard[i]->SetHit1stFrameFlg(true);
@@ -340,6 +351,7 @@ Scene* GameScene::update() {
 						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								wizard[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								wizard[i]->SetHit1stFrameFlg(true);
 
@@ -356,6 +368,7 @@ Scene* GameScene::update() {
 						if (weaponA->DustCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
 							if (wizard[i]->GetHitFrameCnt() == 0) {
 								wizard[i]->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								//ダメージアップ
 								wizard[i]->SetHitHP(weaponA->GetDustDamage());
 								wizard[i]->SetHit1stFrameFlg(true);
@@ -370,6 +383,7 @@ Scene* GameScene::update() {
 					if (weaponA->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
 						if (minotaur->GetHitFrameCnt() == 0) {
 							minotaur->SetHitWeaponFlg();
+							SoundManager::PlaySoundSE("se_enemy_damage", false);
 							//ダメージアップ
 							minotaur->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 							minotaur->SetHit1stFrameFlg(true);
@@ -384,6 +398,7 @@ Scene* GameScene::update() {
 					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
 						if (minotaur->GetHitFrameCnt() == 0) {
 							minotaur->SetHitWeaponFlg();
+							SoundManager::PlaySoundSE("se_enemy_damage", false);
 							minotaur->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 							minotaur->SetHit1stFrameFlg(true);
 
@@ -400,6 +415,7 @@ Scene* GameScene::update() {
 					if (weaponA->DustCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
 						if (minotaur->GetHitFrameCnt() == 0) {
 							minotaur->SetHitWeaponFlg();
+							SoundManager::PlaySoundSE("se_enemy_damage", false);
 							//ダメージアップ
 							minotaur->SetHitHP(weaponA->GetDustDamage());
 							minotaur->SetHit1stFrameFlg(true);
@@ -414,6 +430,7 @@ Scene* GameScene::update() {
 						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
 							if (devilKing->GetHitFrameCnt() == 0) {
 								devilKing->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								//ダメージアップ
 								devilKing->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
 								devilKing->SetHit1stFrameFlg(true);
@@ -430,6 +447,7 @@ Scene* GameScene::update() {
 						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
 							if (devilKing->GetHitFrameCnt() == 0) {
 								devilKing->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								devilKing->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
 								devilKing->SetHit1stFrameFlg(true);
 
@@ -448,6 +466,7 @@ Scene* GameScene::update() {
 						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
 							if (devilKing->GetHitFrameCnt() == 0) {
 								devilKing->SetHitWeaponFlg();
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
 								//ダメージアップ
 								devilKing->SetHitHP(weaponA->GetDustDamage());
 								devilKing->SetHit1stFrameFlg(true);
@@ -984,6 +1003,7 @@ void GameScene::HitCheck()
 
 					//魔王と大きい弾
 					if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
+						SoundManager::PlaySoundSE("se_enemy_barrierdamage", false);
 						devilKing->SetBigBulletHitFlg(true);
 						bigEnemyBullet[i] = nullptr;
 					}
@@ -1255,6 +1275,7 @@ void GameScene::DevilKingUpdate()
 			for (int i = 0; i < MAX_BULLET_NUM; i++) {
 				if (bigEnemyBullet[i] == nullptr) {
 					bigEnemyBullet[i] = new BigEnemyBullet(devilKing->GetEnemyLocation(), player);
+					SoundManager::PlaySoundSE("se_enemy_bossbullet");
 					devilKing->SetBigBulletCreateFlg(false);
 					break;
 				}
