@@ -711,8 +711,10 @@ void GameScene::draw() const {
 			gameUI->draw();
 			if (battleMode == GameSceneBattleMode::midBoss) gameUI->drawEnemyHP(); // ボスの体力ゲージ
 			if (battleMode == GameSceneBattleMode::boss) {
-				if (devilKing->GetShieldFlg()) gameUI->drawEnemyHP();
-				if (!devilKing->GetShieldFlg()) gameUI->drawShieldHP();
+				if (devilKing != nullptr) {
+					if (devilKing->GetShieldFlg()) gameUI->drawEnemyHP();
+					if (!devilKing->GetShieldFlg()) gameUI->drawShieldHP();
+				};
 			};
 		};
 
