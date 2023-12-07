@@ -1127,7 +1127,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				if (bossState) exp += 15;
+				if (bossState) exp += 10;
 				//else exp += 20;
 			}
 		}
@@ -1167,7 +1167,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				if (bossState) exp += 30;
+				if (bossState) exp += 15;
 				//else exp += 30;
 			}
 		}
