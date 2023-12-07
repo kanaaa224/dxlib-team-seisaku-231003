@@ -61,7 +61,7 @@ GameScene::GameScene() {
 	SoundManager::SetBGM("bgm_middleboss_end");
 	SoundManager::SetBGM("bgm_boss");
 	SoundManager::SetVolumeBGMs(50);
-	SoundManager::SetVolumeSEs(50);
+	SoundManager::SetVolumeSEs(65);
 	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
 	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
 	SetLoopPosSoundMem(22720, SoundManager::GetBGMHandle("bgm_boss"));
