@@ -132,6 +132,7 @@ private:
 	float P_aiming_radiusY;
 
 	int totalDamage;
+	bool soundFlg;
 
 public:
 	second_weapon();

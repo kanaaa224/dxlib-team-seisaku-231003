@@ -1,10 +1,8 @@
-#include "second_weapon.h"
-#include "inputCtrl.h"
-#include "DxLib.h"
+#include "main.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
-#include "Player.h"
+
 
 
 second_weapon::second_weapon()
@@ -28,7 +26,7 @@ second_weapon::second_weapon()
 	location = { 640.360 };
 
 	spear_img = LoadGraph("resources/images/ïêäÌ/ëÑ50ÅE50.png");
-	frail_img = LoadGraph("resources/images/chain_iron ball.png");
+	frail_img = LoadGraph("resources/images/ïêäÌ/ìSãÖ30.30.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	bullet_img = LoadGraph("resources/images/magic_bullet.png");
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
@@ -41,6 +39,14 @@ second_weapon::second_weapon()
 	thunder_img[2] = LoadGraph("resources/images/Thunder_3.png");
 	cooltime_img = LoadGraph("resources/images/Cool_Time_green.png");
 
+	SoundManager::SetSE("se_weapon_spear_swing");
+	SoundManager::SetSE("se_weapon_spear_Lv8");
+	SoundManager::SetSE("se_weapon_frail_swig");
+	SoundManager::SetSE("se_weapon_frail_Lv8");
+	SoundManager::SetSE("se_weapon_book_swing");
+	SoundManager::SetSE("se_weapon_book_Lv7");
+	SoundManager::SetSE("se_weapon_book_Lv8");
+	
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
 	thunderRadius = 1000.0f;
@@ -68,6 +74,8 @@ second_weapon::second_weapon()
 	barrierFlg = false;
 
 	totalDamage = 0;
+
+	soundFlg = false;
 
 }
 
@@ -137,6 +145,41 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			isAttacking = true;
 			coolTime = maxCoolTime;
 		}
+
+		if (!soundFlg && coolTime < 5) {
+			switch (weaponType)
+			{
+			case spear:
+				SoundManager::PlaySoundSE("se_weapon_spear_swing");
+				
+				soundFlg = true;
+				break;
+
+			case frail:
+				SoundManager::PlaySoundSE("se_weapon_frail_swig");
+				
+				soundFlg = true;
+				break;
+
+			case book:
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_book_Lv8");
+				}
+				else if (weaponLevel == 7) {
+					SoundManager::PlaySoundSE("se_weapon_book_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_book_swing",false);
+				}
+				soundFlg = true;
+				break;
+
+			default:
+				break;
+			}
+
+		}
+
 
 		//çUåÇíÜ
 		if (isAttacking) {
@@ -215,6 +258,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			
 
 		}
+		/*else {
+			soundFlg = false;
+		}*/
+		
 
 		if (weaponType == book) {
 			MoveBookBullet();
@@ -356,12 +403,12 @@ void second_weapon::Draw() const
 				DrawRotaGraph2(frailLcation.x, frailLcation.y, 1480 / 2, 1110 / 2, 0.2, rot + (M_PI / 4), crack_img, TRUE, TRUE);
 			}
 		}
-		DrawRotaGraph2(frailLcation.x, frailLcation.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+		DrawRotaGraph2(frailLcation.x, frailLcation.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
 			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);*/
-			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
-			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		}
 		
 	}
@@ -972,6 +1019,7 @@ void second_weapon::SpawnBookBullets(int num)
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
 		if (!bullets[i].flg) {
+			soundFlg = false;
 			bullets[i].flg = true;
 			bullets[i].v = unitVec;
 			bullets[i].l = location;
@@ -1049,6 +1097,7 @@ bool second_weapon::FrailAnim()
 
 	if ((int)frailLength > (int)frailLengthCursor) {
 		frailRate = 1.0f;
+		SoundManager::PlaySoundSE("se_weapon_frail_Lv8",false);
 		return true;
 	}
 
@@ -1108,6 +1157,7 @@ void second_weapon::InitWeapon(int type)
 	}
 
 	barrierFlg = false;
+	soundFlg = false;
 }
 
 void second_weapon::AddTotalDamage()
