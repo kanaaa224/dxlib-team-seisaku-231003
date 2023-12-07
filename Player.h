@@ -96,8 +96,13 @@ private:
 	Vector unitRelativeCursorLocation;
 	bool firstAvoidanceFlg = false;
 	int AvoidanceCnt = 0;
+
+	Location avoidanceLocation[64];//‰ñ”ðŽc‘œ
+	int afterimageNum;
+
 	bool P_minotaur;
 	bool P_minotaur_Hit_flg;
+
 
 public:
 

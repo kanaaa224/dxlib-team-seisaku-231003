@@ -21,6 +21,10 @@ private:
 
 	//浮遊
 	bool skyWalkFlg = true;//浮いているか
+	float skyWalkVectorY = 0;
+	int skyWalkCounter = 0;
+	//影
+	Location shadowLocation;
 
 	//ダウン
 	int downTimeCounter = 0;
