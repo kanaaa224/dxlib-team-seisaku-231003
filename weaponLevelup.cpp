@@ -582,8 +582,11 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 	{
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			//カーソルのNG音
-			SoundManager::PlaySoundSE("se_system_ng", false);
+			if (!CheckSoundMem(SoundManager::GetSEHandle("se_system_hammer")))
+			{
+				//カーソルのNG音
+				SoundManager::PlaySoundSE("se_system_ng", false);
+			}
 		}
 	}
 }
