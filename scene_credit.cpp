@@ -25,7 +25,7 @@ Scene* Credit::update()
 	//Credit_Mouse_x = InputCtrl::GetMouseCursor().x;
 	//Credit_Mouse_y = InputCtrl::GetMouseCursor().y;
 
-	if (++g_WaitTime < /*1580*/ 2370) {
+	if (++g_WaitTime < /*2370*/  2600) {
 
 		g_PosY = /*600*/ 450 - g_WaitTime;
 	}
@@ -50,7 +50,7 @@ void Credit::draw()const
 	//使ったサイトや関係者名の名前を表示
 	SetFontSize(50);
 
-	//DrawString(410, 350 + g_PosY, "スペシャルサンクス", 0xffffff);
+	//DrawString(485, 350 + g_PosY, "いろいろ倉庫", 0xffffff);
 
 	DrawString(460, 350 + g_PosY, "使用したサイト", 0xffffff);
 	DrawString(535, 450 + g_PosY, "画像など", 0xffffff);
@@ -59,13 +59,17 @@ void Credit::draw()const
 	DrawString(530, 750 + g_PosY, "illustAC", 0xffffff);
 	DrawString(480, 850 + g_PosY, "UTILITY-LABO", 0xffffff);
 	DrawString(480, 950 + g_PosY, "BANNERKOUBOU", 0xffffff);
-	DrawString(500, 1150 + g_PosY, "SE・BGMなど", 0xffffff);
-	DrawString(472, 1250 + g_PosY, "DOVA-SYNDROME", 0xffffff);
-	DrawString(510, 1350 + g_PosY, "ユーフルカ", 0xffffff);
-	DrawString(513, 1450 + g_PosY, "効果音工房", 0xffffff);
-	DrawString(513, 1550 + g_PosY, "効果音ラボ", 0xffffff);
-	DrawString(410, 1750 + g_PosY, "スペシャルサンクス", 0xffffff);
-	DrawString(270, 1850 + g_PosY, "グラフィックデザイン科の方々", 0xffffff);
+	DrawString(460, 1050 + g_PosY, "Game-icons.net", 0xffffff);
+	DrawString(485, 1150 + g_PosY, "いろいろ倉庫", 0xffffff);
+
+	DrawString(500, 1350 + g_PosY, "SE・BGMなど", 0xffffff);	//+ 200
+	DrawString(472, 1450 + g_PosY, "DOVA-SYNDROME", 0xffffff);
+	DrawString(510, 1550 + g_PosY, "ユーフルカ", 0xffffff);
+	DrawString(513, 1650 + g_PosY, "効果音工房", 0xffffff);
+	DrawString(513, 1750 + g_PosY, "効果音ラボ", 0xffffff);
+
+	DrawString(410, 1950 + g_PosY, "スペシャルサンクス", 0xffffff);		//+ 200
+	DrawString(270, 2050 + g_PosY, "グラフィックデザイン科の方々", 0xffffff);
 
 	//DrawString(200, 350+g_PosY, "pngtree", 0xffffff);
 	//DrawString(200, 470+g_PosY, "チコデザ", 0xffffff);

@@ -13,7 +13,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	SoundManager::CreateSoundManager();
 
-	SceneManager* sceneMng = new SceneManager((Scene*) new DebugScene());
+	SceneManager* sceneMng = new SceneManager((Scene*) new Title());
 
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
 	FPSCtrl::SetUpdateInterval(1000);
@@ -32,7 +32,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		//////////////////////////////////////////////////
 		// 仮
 		SetFontSize(16);
-		DrawFormatString(10, 10, 0xffffff, "FPS: %0.0f", FPSCtrl::Get());
+		//DrawFormatString(10, 10, 0xffffff, "FPS: %0.0f", FPSCtrl::Get());
 
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_BACK)) break; // 強制終了
 		//////////////////////////////////////////////////

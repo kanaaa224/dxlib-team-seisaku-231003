@@ -48,6 +48,7 @@ struct Thunder
 	bool flg;
 	//int img[5];	//アニメーションの枚数分
 	int fps = 0;
+	bool soundflg;
 };
 
 class second_weapon
@@ -82,11 +83,12 @@ private:
 	int book_img;
 	int bullet_img;
 	int ironball_img;
-	int barrier_img;
+	int barrier_img[2];
 	int attackbuf_img;
-	int crack_img;
+	int crack_img[6];
 	int thunder_img[5];
 	int arrow_img;
+	int cooltime_img;
 
 
 	float tmp, tmp1;
@@ -108,6 +110,7 @@ private:
 	float frailLengthCursor;
 	bool isFrailAttacking;
 	float frailRate;
+	int frailFps;
 	//強化後の増えたフレイルの当たり判定
 	Location frailLocation1;
 	Vector frailVec1;
@@ -131,6 +134,7 @@ private:
 	float P_aiming_radiusY;
 
 	int totalDamage;
+	bool soundFlg;
 
 public:
 	second_weapon();
