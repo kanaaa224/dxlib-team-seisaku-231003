@@ -307,12 +307,12 @@ void Map::draw() const {
 	}
 
 #ifdef _DEBUG	
-	DrawFormatString(0, 80, 0xffffff, "リザルト用（仮）");
+	/*DrawFormatString(0, 80, 0xffffff, "リザルト用（仮）");
 	DrawFormatString(0, 100, 0xffffff, "battle_count : %d", battle_count);
 	DrawFormatString(0, 120, 0xffffff, "event_count : %d", event_count);
 	DrawFormatString(0, 140, 0xffffff, "rest_count : %d", rest_count);
 	DrawFormatString(0, 160, 0xffffff, "anvil_count : %d", anvil_count);
-	DrawFormatString(0, 180, 0xffffff, "boss_count : %d", boss_count);
+	DrawFormatString(0, 180, 0xffffff, "boss_count : %d", boss_count);*/
 #endif
 }
 
