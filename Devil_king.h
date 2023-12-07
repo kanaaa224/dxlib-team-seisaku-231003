@@ -3,13 +3,20 @@
 #include "Common.h"
 #define DEVILKING_MAX_HP 2000					//魔王の最大体力
 #define DEVILKING_ATTAK_DAMAGE 10				//魔王のダメージ
-#define BIG_BULLET_CREATE_TIME  SECOND_FRAME(3)	//大きい弾の生成速度
+#define BIG_BULLET_CREATE_TIME  SECOND_FRAME(1.5)//大きい弾の生成速度
 #define MAX_SHIELD 100							//シールドの最大値
 #define DOWN_TIME SECOND_FRAME(7)				//ダウンタイム
+
+#define DARK_SHADOW_RADIUS_X  50				//濃い影の半径X
+#define DARK_SHADOW_RADIUS_Y  15				//濃い影の半径Y
+#define LIGHT_SHADOW_RADIUS_X 25				//薄い影の半径X
+#define LIGHT_SHADOW_RADIUS_Y  7				//薄い影の半径Y
 
 class Devil_king:public EnemyBase
 {
 private:
+	int debugCnt = 0;
+
 	//シールド
 	float shield;//魔王のシールド
 	bool shieldFlg;//シールドが０になったらtrueを返す
@@ -25,6 +32,9 @@ private:
 	int skyWalkCounter = 0;
 	//影
 	Location shadowLocation;
+	float shadowRadiusX = 25;
+	float shadowRadiusY = 7;
+	bool shadowRadiusChageFlg = false;
 
 	//ダウン
 	int downTimeCounter = 0;

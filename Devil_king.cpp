@@ -37,7 +37,7 @@ void Devil_king::Update(Player* player)
 	SetPlayer_Location(player->GetLocation());
 
 	//移動処理
-	if (skyWalkFlg == true) {//浮遊
+	if (skyWalkFlg == true && shieldFlg == false) {//浮遊
 		//影
 		shadowLocation.x = shadowLocation.x - diff.x;
 		shadowLocation.y = shadowLocation.y - diff.y;
@@ -49,11 +49,25 @@ void Devil_king::Update(Player* player)
 		location.x = location.x - diff.x;
 		location.y = (location.y + skyWalkVectorY) - diff.y;
 	}
-	else if (skyWalkFlg == false) {
+	else if ((skyWalkFlg == false || shadowRadiusChageFlg == true) && shieldFlg == true) {
 		location.x = location.x - diff.x;
-		location.y = location.y - diff.y;
+		location.y = (location.y + vector.y) - diff.y;
+		//影
+		shadowLocation.x = shadowLocation.x - diff.x;
+		shadowLocation.y = shadowLocation.y - diff.y;
 	}
 	
+	//影の半径
+	if (shieldFlg == false) {
+		if (skyWalkVectorY > 0) {//地面に近づいている
+			shadowRadiusX += 0.1;
+			shadowRadiusY += 0.1;
+		}
+		else if (skyWalkVectorY < 0) {//地面から遠ざかっている
+			shadowRadiusX -= 0.1;
+			shadowRadiusY -= 0.1;
+		}
+	}
 
 	//大きい弾の生成
 	if (shieldFlg == false) {
@@ -76,13 +90,23 @@ void Devil_king::Update(Player* player)
 
 	if (shield <= 0) {
 		shieldFlg = true;
-		skyWalkFlg = false;
 	}
 
 	//シールドが０になったら地面に降りる
 	if (shieldFlg == true) {
-		skyWalkVectorY = 0;
-		
+		//影の半径(シールド０)
+		if (shadowRadiusX >= DARK_SHADOW_RADIUS_X && shadowRadiusY >= DARK_SHADOW_RADIUS_Y) {
+			skyWalkFlg = false;
+		}
+		else {
+			shadowRadiusChageFlg = true;
+			//影の半径
+			shadowRadiusX += 0.5;//1
+			shadowRadiusY += 0.2;//0.4
+
+			//ベクトル
+			vector.y = 0.4;
+		}
 	}
 
 	//ダウンタイム
@@ -95,10 +119,14 @@ void Devil_king::Update(Player* player)
 
 			//浮遊
 			skyWalkFlg = true;
+			//影
 			shadowLocation.x = location.x;
 			shadowLocation.y = location.y;
+			shadowRadiusX = LIGHT_SHADOW_RADIUS_X;
+			shadowRadiusY = LIGHT_SHADOW_RADIUS_Y;
 		}
-
+		vector.y = 0;
+		shadowRadiusChageFlg = false;
 		downTimeCounter++;
 	}
 
@@ -124,8 +152,15 @@ void Devil_king::Update(Player* player)
 
 #ifdef BTN_DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
-		hitWeaponFlg = true;
-		hp -= 100;
+		if (shieldFlg == true) {
+			hitWeaponFlg = true;
+			hp -= 100;
+		}
+		else {
+			hitWeaponFlg = true;
+			shield -= 999;
+		}
+		
 	}
 	else {
 		hitWeaponFlg = false;
@@ -135,6 +170,15 @@ void Devil_king::Update(Player* player)
 
 void Devil_king::Draw() const
 {
+	//影の描画
+	if (skyWalkFlg == true) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
+		DrawOval((int)shadowLocation.x, (int)shadowLocation.y + 70, DARK_SHADOW_RADIUS_X, DARK_SHADOW_RADIUS_Y, C_BLACK, TRUE);//大きい＆薄い影
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		DrawOval((int)shadowLocation.x, (int)shadowLocation.y + 70, shadowRadiusX, shadowRadiusY, C_BLACK, TRUE);//小さい＆濃い影
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	}
+
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//通常時
 
 	//赤色表示
@@ -144,18 +188,10 @@ void Devil_king::Draw() const
 		SetDrawBright(255, 255, 255);
 	}
 
-	//影の描画
-	if (skyWalkFlg == true) {
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
-		DrawOval((int)shadowLocation.x, (int)shadowLocation.y + 70, 50, 15, C_BLACK, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawOval((int)shadowLocation.x, (int)shadowLocation.y + 70, 25, 7, C_BLACK, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-	}
-
 #ifdef DEBUG
-	DrawFormatString(location.x, location.y, C_BLUE,      "シールド:%0.2f", shield);
-	DrawFormatString(location.x, location.y + 10, C_BLUE, "   Flg  :%d", shieldFlg);
+	/*DrawFormatString(location.x, location.y, C_BLUE,      "シールド:%0.2f", shield);
+	DrawFormatString(location.x, location.y + 10, C_BLUE, "   Flg  :%d", shieldFlg);*/
+	DrawFormatString(location.x, location.y + 10, C_BLUE, "   cnt  :%d", debugCnt);
 #endif // DEBUG
 
 }
