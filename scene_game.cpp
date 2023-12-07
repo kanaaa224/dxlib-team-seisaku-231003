@@ -61,7 +61,7 @@ GameScene::GameScene() {
 	SoundManager::SetBGM("bgm_middleboss_end");
 	SoundManager::SetBGM("bgm_boss");
 	SoundManager::SetVolumeBGMs(50);
-	SoundManager::SetVolumeSEs(50);
+	SoundManager::SetVolumeSEs(65);
 	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
 	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
 	SetLoopPosSoundMem(22720, SoundManager::GetBGMHandle("bgm_boss"));
@@ -558,9 +558,9 @@ Scene* GameScene::update() {
 					SoundManager::PlaySoundBGM("bgm_middleboss_end");
 				}
 				SoundManager::StopSoundSEs();
-				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("クリア！", "全てのモンスターを倒しました", 0);
-				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("Congratulation!", "ミノタウロス討伐完了", 0);
-				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了！", "戦塔を制覇しました", 0);
+				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターが倒れた！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
+				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスが倒れた！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
+				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了", "戦塔を制覇しました！", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -763,7 +763,7 @@ void GameScene::init() {
 
 	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください", 1);
 	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください", 1);
-	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください", 1);
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス 魔王の部屋", "魔王「我に勝てるかな？」"/*"特に何もしていない魔王を討伐してください"*/, 1);
 	gameUI->init();
 	gameUI->setState(banner);
 
