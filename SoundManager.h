@@ -44,9 +44,25 @@ public:
 	//すべてのSEの音量を設定する
 	static void SetVolumeSEs(const int volume);
 
+	//BGMの再生位置を設定する
+	//＊再生位置をミリ秒単位で変更する
+	static void SetSoundBGMPosition(LONGLONG time, const char* fileName);
+
+	//すべてのBGMの再生位置を設定する
+	//＊再生位置をミリ秒単位で変更する
+	static void SetSoundBGMsPosition(LONGLONG time);
+
+	//SEの再生位置を設定する
+	//＊再生位置をミリ秒単位で変更する
+	static void SetSoundSEPosition(LONGLONG time, const char* fileName);
+
+	//すべてのSEの再生位置を設定する
+	//＊再生位置をミリ秒単位で変更する
+	static void SetSoundSEsPosition(LONGLONG time);
+
 	//BGMを再生する
-	//＊デフォルトの再生形式はループ、再生位置は先頭から
-	static void PlaySoundBGM(const char* fileName, int playType = DX_PLAYTYPE_LOOP, int topPositionFlag = TRUE);
+	//＊デフォルトの再生形式はループ、再生位置は最後に止めたところか、再生位置を指定したところから
+	static void PlaySoundBGM(const char* fileName, int playType = DX_PLAYTYPE_LOOP, int topPositionFlag = FALSE);
 
 	//SEを再生する
 	//＊isSingleUnitはtrueなら音を重ねない、falseなら音を重ねる、デフォルトはtrue

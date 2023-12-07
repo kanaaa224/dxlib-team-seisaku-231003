@@ -214,16 +214,16 @@ void Player::update(bool minotaur) {
 void Player::draw()const {
 
 	//左スティック
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "ミノタウロスのHitフラグ %d", P_minotaur);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "P_minotaur_Hit_flg			%d", P_minotaur_Hit_flg);
-	DrawFormatString(0, 340, GetColor(255, 0, 0), "Second			 %d", Second);
+	//DrawFormatString(0, 300, GetColor(255, 0, 0), "ミノタウロスのHitフラグ %d", P_minotaur);
+	//DrawFormatString(0, 320, GetColor(255, 0, 0), "P_minotaur_Hit_flg			%d", P_minotaur_Hit_flg);
+	//DrawFormatString(0, 340, GetColor(255, 0, 0), "Second			 %d", Second);
 	//DrawFormatString(0, 650, 0xffffff, "X:%f", Aiming_RadiusX);
 
 	//Aボタン
 	/*DrawFormatString(0, 380, GetColor(255, 0, 0), "Abtn: %d", Provisional_Abtn);
 	DrawFormatString(0, 400, GetColor(255, 0, 0), "加算値　回避　: %f", Additional_Value3);*/
 
-	////　中心線
+	//　中心線
 	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
 	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
