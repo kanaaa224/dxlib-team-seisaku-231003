@@ -131,6 +131,7 @@ Scene* GameScene::update() {
 		}
 		// 武器のレベルアップ画面
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
+			SoundManager::StopSoundSE("se_player_move"); //プレイヤーの移動SE Stop
 			if (restor_cursor_position == true)
 			{
 				weaponLevelup->SetCloseMode(0);
@@ -547,6 +548,7 @@ Scene* GameScene::update() {
 					SoundManager::StopSoundBGM("bgm_middleboss");
 					SoundManager::PlaySoundBGM("bgm_middleboss_end");
 				}
+				SoundManager::StopSoundSEs();
 				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("クリア！", "全てのモンスターを倒しました", 0);
 				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("Congratulation!", "ミノタウロス討伐完了", 0);
 				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了！", "戦塔を制覇しました", 0);
