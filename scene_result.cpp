@@ -1,6 +1,6 @@
 #include "main.h"
 
-ResultScene::ResultScene(int result_info[11])
+ResultScene::ResultScene(int result_info[])
 {
 	// 画像読込
 	img_button_a = LoadGraph("resources/images/button_a01.png");
@@ -74,24 +74,27 @@ void ResultScene::draw() const
 	// 背景色
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
 
-	// 画像表示
-	DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
-
 	// テキスト表示
 	SetFontSize(60);
 	DrawFormatString(550, 10, 0x000000, "RESULT");
 	SetFontSize(20);
-	DrawFormatString(1180, 680, 0x000000, "TITLE");
+	DrawFormatString(10, 50, 0x000000, "到達したステージ");
 
-	DrawFormatString(10, 50, 0x000000, "縮小マップ");
+	if (value <= 10)
+	{
+		DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
+		DrawFormatString(1180, 680, 0x000000, "TITLE");
+	}
+	
 
-	// マップ情報
+	// 画像表示
 	DrawRotaGraph(150, 150, 1.0f, 0.0f, img_battle, TRUE);
 	DrawRotaGraph(150, 250, 1.0f, 0.0f, img_event, TRUE);
 	DrawRotaGraph(150, 350, 1.0f, 0.0f, img_rest, TRUE);
 	DrawRotaGraph(150, 450, 1.0f, 0.0f, img_anvil, TRUE);
 	DrawRotaGraph(150, 550, 1.0f, 0.0f, img_boss, TRUE);
-
+	
+	// マップ情報
 	SetFontSize(30);
 	DrawFormatString(200, 135, 0x000000, "× %d",map_info.battle_count);
 	DrawFormatString(200, 235, 0x000000, "× %d",map_info.event_count);
@@ -159,6 +162,6 @@ void ResultScene::draw() const
 
 
 #ifdef _DEBUG
-	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+	//DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
 }

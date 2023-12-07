@@ -6,7 +6,6 @@ Title::Title()
 	Titlelogo_white = LoadGraph("resources/images/Title/logo/戦塔ロゴ-白.png");
 	g_MenuNumber = 0;
 	TitleInterval = 0;
-	cursor = LoadGraph("resources/images/cursor.png");
 
 	if (Title_Background_Img[0] = LoadGraph("resources/images/Title/Title_background_tree tower_1280.png")) {}
 	if (Title_Background_Img[1] = LoadGraph("resources/images/Title/Title_background_tree.png")) {}
@@ -26,8 +25,8 @@ Title::Title()
 	SoundManager::SetVolumeBGMs(50);
 
 	//SE
-	SoundManager::SetSE("se_Title_decision_sound");
-	SoundManager::SetSE("se_select_syu");
+	SoundManager::SetSE("se_system_Title_decision_sound");	//カーソル決定音
+	SoundManager::SetSE("se_system_select_syu");			//カーソル移動音
 	SoundManager::SetVolumeSEs(65);
 
 	Title_Select_magnification = 0.01;
@@ -78,6 +77,24 @@ Title::Title()
 	Title_Star_Anim_Color_blue = 255;
 }
 
+Title::~Title()
+{
+	DeleteGraph(Titlelogo_white);
+	DeleteGraph(Title_SkyStar_Img);
+	DeleteGraph(Title_Start_Img);
+	DeleteGraph(Title_Help_Img);
+	DeleteGraph(Title_Credit_Img);
+	DeleteGraph(Title_End_Img);
+	DeleteGraph(Title_Cosol_sword_Img);
+	DeleteGraph(Title_Cosol_greatsword_Img);
+	DeleteGraph(Title_Cosol_shortsword_Img);
+
+	for (int i = 0; i < 2; i++) {
+
+		DeleteGraph(Title_Background_Img[i]);
+	}
+}
+
 //更新
 Scene* Title::update()
 {
@@ -106,7 +123,7 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//カーソルの移動音
-		SoundManager::PlaySoundSE("se_select_syu", false, DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
 		//タイトルカーソルの移動
 		if (--g_MenuNumber > TITLECURSOR);
 		//タイトルカーソルの移動量の制御
@@ -117,7 +134,7 @@ Scene* Title::update()
 		//スティック移動の初期化
 		TitleInterval = 0;
 		//タイトルカーソルの移動
-		SoundManager::PlaySoundSE("se_select_syu",false, DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_system_select_syu",false, DX_PLAYTYPE_BACK);
 		if (++g_MenuNumber < -TITLECURSOR);
 		//タイトルカーソルの移動量の制御
 		if (g_MenuNumber > 3)g_MenuNumber = 0;
@@ -243,11 +260,6 @@ void Title::draw() const
 		DrawRotaGraph(659, 480, 0.32, 0.0, Title_Credit_Img, TRUE);
 		DrawRotaGraph(659, 570, 0.32, 0.0, Title_End_Img, TRUE);
 	}
-}
-
-Title::~Title()
-{
-	DeleteGraph(TitleImage);
 }
 
 void Title::Title_logo_Animation() {
@@ -401,7 +413,7 @@ void Title::Title_Cursor_Anim() {
 	if (Title_Cosor_greatsword_y <= 310) {
 
 		Title_Cosor_greatsword_y = 310;
-		SoundManager::PlaySoundSE("se_Title_decision_sound");
+		SoundManager::PlaySoundSE("se_system_Title_decision_sound");
 	}
 	else {
 

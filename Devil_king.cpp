@@ -3,7 +3,7 @@
 #include <math.h>
 #include "inputCtrl.h"
 #define BTN_DEBUG
-#define DEBUG
+//#define DEBUG
 
 Devil_king::Devil_king()
 {
@@ -17,6 +17,10 @@ Devil_king::Devil_king()
 	shieldFlg = false;
 
 	//-----大きい弾-----//
+
+	//影
+	shadowLocation.x = location.x;
+	shadowLocation.y = location.y;
 }
 
 Devil_king::~Devil_king()
@@ -33,8 +37,23 @@ void Devil_king::Update(Player* player)
 	SetPlayer_Location(player->GetLocation());
 
 	//移動処理
-	location.x = location.x - diff.x;
-	location.y = location.y - diff.y;
+	if (skyWalkFlg == true) {//浮遊
+		//影
+		shadowLocation.x = shadowLocation.x - diff.x;
+		shadowLocation.y = shadowLocation.y - diff.y;
+		//魔王
+		skyWalkCounter++;
+		for (int i = 0; i < SECOND_FRAME(0.7); i++) {
+			skyWalkVectorY = sinf((skyWalkCounter + i) / 13.0f);
+		}
+		location.x = location.x - diff.x;
+		location.y = (location.y + skyWalkVectorY) - diff.y;
+	}
+	else if (skyWalkFlg == false) {
+		location.x = location.x - diff.x;
+		location.y = location.y - diff.y;
+	}
+	
 
 	//大きい弾の生成
 	if (shieldFlg == false) {
@@ -51,21 +70,33 @@ void Devil_king::Update(Player* player)
 	
 	//シールド
 	if (bigBulletHitFlg == true) {
-		shield -= 10;
+		shield -= 20;//当たったらシールドを減らす値
 		bigBulletHitFlg = false;
 	}
 
 	if (shield <= 0) {
 		shieldFlg = true;
+		skyWalkFlg = false;
+	}
+
+	//シールドが０になったら地面に降りる
+	if (shieldFlg == true) {
+		skyWalkVectorY = 0;
+		
 	}
 
 	//ダウンタイム
-	if (shieldFlg == true) {
+	if (skyWalkFlg == false) {
 		//downTimeCounterが設定した値になったらシールドを復活させる
 		if (downTimeCounter >= DOWN_TIME) {
 			shield = MAX_SHIELD;
 			shieldFlg = false;
 			downTimeCounter = 0;
+
+			//浮遊
+			skyWalkFlg = true;
+			shadowLocation.x = location.x;
+			shadowLocation.y = location.y;
 		}
 
 		downTimeCounter++;
@@ -105,17 +136,20 @@ void Devil_king::Update(Player* player)
 void Devil_king::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//通常時
+
+	//赤色表示
 	if (redDrawFlg == true) {
 		SetDrawBright(255, 0, 0);
-		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//赤色表示
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 		SetDrawBright(255, 255, 255);
 	}
 
+	//影の描画
 	if (skyWalkFlg == true) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
-		DrawOval((int)location.x, (int)location.y + 70, 50, 15, C_BLACK, TRUE);
+		DrawOval((int)shadowLocation.x, (int)shadowLocation.y + 70, 50, 15, C_BLACK, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-		DrawOval((int)location.x, (int)location.y + 70, 25, 7, C_BLACK, TRUE);
+		DrawOval((int)shadowLocation.x, (int)shadowLocation.y + 70, 25, 7, C_BLACK, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 	}
 

@@ -69,7 +69,8 @@ private:
 	int action_number;				// 選択した行動の番号格納用
 	bool restore_cursor_position;	// カーソル位置を戻すか
 	int cursor_action;				// 今の行動（カーソル移動で使用）
-	int box_color;
+	int box_color;					// アイコン（ボックス）の色
+	int box_color_hover;			// 選択されているときの色
 	int value;						// 不透明度
 
 public:

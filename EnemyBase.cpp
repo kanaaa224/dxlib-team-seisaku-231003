@@ -17,11 +17,11 @@ float EnemyBase::PlayerLoad_X(float location_x)
 	float r = dL.x - location_x;
 	if (dL.x > location_x)
 	{
-		r -= (radius + 20);
+		r -= (radius + 11);
 	}
 	else
 	{
-		r += (radius + 20);
+		r += (radius + 11);
 	}
 	return r;
 }

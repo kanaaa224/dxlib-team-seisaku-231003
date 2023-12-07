@@ -16,14 +16,17 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
-	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png"))               == -1) throw;
-	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))                == -1) throw;
-	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png"))               == -1) throw;
-	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))                == -1) throw;
+	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png")) == -1) throw;
+	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))  == -1) throw;
+	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png")) == -1) throw;
+	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))  == -1) throw;
+
+	if ((img["coolTimeWhite"]    = LoadGraph("resources/images/Cool_Time_white.png")) == -1) throw;
+	if ((img["coolTimeGreen"]    = LoadGraph("resources/images/Cool_Time_green.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
-	//if (AddFontResourceEx("resources/fonts/Anton-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
+	//if (AddFontResourceEx("resources/fonts/PressStart2P-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
 	//MessageBox(NULL, "フォントのロードに失敗しました。resourcesフォルダーを確認してください。", "", MB_OK);
 
 	//////////////////////////////////////////////////
@@ -53,9 +56,12 @@ GameUI::~GameUI() {
 	DeleteGraph(img["whiteCircle80"]);
 	DeleteGraph(img["blackCircle80"]);
 
+	DeleteGraph(img["coolTimeWhite"]);
+	DeleteGraph(img["coolTimeGreen"]);
+
 	//////////////////////////////////////////////////
 
-	//RemoveFontResourceEx("resources/fonts/Anton-Regular.ttf", FR_PRIVATE, NULL);
+	//RemoveFontResourceEx("resources/fonts/APressStart2P-Regular.ttf", FR_PRIVATE, NULL);
 };
 
 void GameUI::init() {
@@ -501,9 +507,11 @@ void GameUI::drawHUD() const {
 	// CoolTime
 	//////////////////////////////////////////////////
 
-	int img_blackCircle80 = 0;
+	int img_blackCircle80 = 0, img_coolTimeWhite = 0, img_coolTimeGreen = 0;
 
 	if (img.find("blackCircle80") != img.end()) img_blackCircle80 = img.at("blackCircle80");
+	if (img.find("coolTimeWhite") != img.end()) img_coolTimeWhite = img.at("coolTimeWhite");
+	if (img.find("coolTimeGreen") != img.end()) img_coolTimeGreen = img.at("coolTimeGreen");
 
 	current = 0;
 	max     = 0;
@@ -513,16 +521,18 @@ void GameUI::drawHUD() const {
 
 	x -= 120;
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawCircle(x, y, 50, 0xffffff, true);
-	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	//DrawCircle(x, y, 50, 0xffffff, true);
+	//if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//SetFontSize(16);
-	str = "回避（仮）";
+	//str = "回避（仮）";
 	if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
+	//DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
 	//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
 	//DrawCircle(x, y, 50, 0xffffff, false, 2);
+	if (current) DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeWhite, TRUE);
+	else         DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeGreen, TRUE);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
 	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 

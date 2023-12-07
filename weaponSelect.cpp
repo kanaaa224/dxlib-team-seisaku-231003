@@ -22,7 +22,7 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 	cursor_image = LoadGraph("resources/images/computer_cursor_finger_black.png");
 
 	SoundManager::SetBGM("bgm_weaponselection");
-	SoundManager::SetVolumeBGM("bgm_weaponselection", 50);
+	SoundManager::SetVolumeBGM("bgm_weaponselection", 65);
 	SetLoopPosSoundMem(56400, SoundManager::GetBGMHandle("bgm_weaponselection"));
 
 	is_selecting = false;

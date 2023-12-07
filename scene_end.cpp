@@ -23,7 +23,18 @@ End::End()
 
 End::~End()
 {
+	DeleteGraph(EndImage);
+	DeleteGraph(End_Thankyou_Text);
 
+	for (int i = 0; i < 2; i++) {
+
+		DeleteGraph(End_Enemmy_Slime_Img[i]);
+	}
+
+	for (int i = 0; i < 3; i++) {
+
+		DeleteGraph(End_Playercharacter_Img[i]);
+	}
 }
 
 Scene* End::update()
