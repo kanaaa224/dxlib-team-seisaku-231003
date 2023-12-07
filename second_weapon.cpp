@@ -39,6 +39,7 @@ second_weapon::second_weapon()
 	thunder_img[0] = LoadGraph("resources/images/Thunder_1.png");
 	thunder_img[1] = LoadGraph("resources/images/Thunder_2.png");
 	thunder_img[2] = LoadGraph("resources/images/Thunder_3.png");
+	cooltime_img = LoadGraph("resources/images/Cool_Time_green.png");
 
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
