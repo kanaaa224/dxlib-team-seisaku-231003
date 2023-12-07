@@ -531,8 +531,8 @@ void GameUI::drawHUD() const {
 	//DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
 	//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
 	//DrawCircle(x, y, 50, 0xffffff, false, 2);
-	if (current) DrawExtendGraph(x - 50, y - 50, (x - 50) + 100, (y - 50) + 100, img_coolTimeWhite, TRUE);
-	else         DrawExtendGraph(x - 50, y - 50, (x - 50) + 100, (y - 50) + 100, img_coolTimeGreen, TRUE);
+	if (current) DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeWhite, TRUE);
+	else         DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeGreen, TRUE);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
 	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
