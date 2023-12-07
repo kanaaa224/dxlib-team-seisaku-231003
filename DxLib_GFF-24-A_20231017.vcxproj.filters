@@ -174,7 +174,6 @@
     <ClInclude Include="scene_debug.h">
       <Filter>シーン\デバッグ</Filter>
     </ClInclude>
-    <ClInclude Include="DrawHelp.h" />
     <ClInclude Include="Minotaur.h">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClInclude>
@@ -288,7 +287,6 @@
     <ClCompile Include="scene_debug.cpp">
       <Filter>シーン\デバッグ</Filter>
     </ClCompile>
-    <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="Minotaur.cpp">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClCompile>

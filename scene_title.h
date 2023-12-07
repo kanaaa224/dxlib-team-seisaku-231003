@@ -18,18 +18,13 @@ class Title :public Scene
 private:
 
 	//画像の読込用変数
-	int TitleImage;
-	int Titlelogo;
 	int Titlelogo_white;
-
 	int Title_Background_Img[2];
 	int Title_SkyStar_Img;
-
 	int Title_Start_Img;
 	int Title_Help_Img;
 	int Title_Credit_Img;
 	int Title_End_Img;
-
 	int Title_Cosol_sword_Img;
 	int Title_Cosol_greatsword_Img;
 	int Title_Cosol_shortsword_Img;
@@ -77,8 +72,6 @@ private:
 	int Title_Star_Anim_Color_blue;
 
 	int g_MenuNumber;
-	//カーソル画像読み込み用変数
-	int cursor;
 	int g_MenuY;
 	//タイトルカーソル（スティック）制御用の変数
 	int TitleInterval;
