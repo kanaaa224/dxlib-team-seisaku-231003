@@ -34,7 +34,7 @@ weapon::weapon()
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	tornado_img = LoadGraph("resources/images/tornado_1.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
-
+	daggerslash_img = LoadGraph("resources/images/nc284514.png");
 	/*dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
 	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");*/
 
@@ -65,7 +65,7 @@ weapon::weapon()
 	{
 		throwDagger[i] = { {0,0},{0,0,0},false };
 	}
-	slash_img = LoadGraph("resources/images/nc284514.png");
+	slash_img = LoadGraph("resources/images/武器/Sword_S.png");
 	slashFlg = false;
 
 	avoidanceDamageFlg = false;
@@ -354,7 +354,7 @@ void weapon::Draw() const
 		if (swordSlash[i].flg) {
 			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
-			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
+			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 250, 250, 0.4, slashRot - (M_PI / 4) + M_PI + d_r(40), slash_img, TRUE);
 		}
 	}
 	//投げナイフ
@@ -369,8 +369,8 @@ void weapon::Draw() const
 		int randx = rand() % 200 - 100;
 		int randy = rand() % 200 - 100;
 		int randrot = rand() % 360;
-		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), slash_img, TRUE);
-		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
+		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), daggerslash_img, TRUE);
+		//DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
 	//バフ
@@ -409,7 +409,7 @@ void weapon::Draw() const
 			else {
 				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
 			}*/
-			DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
+			//DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
 		}
 	}
 
@@ -445,8 +445,8 @@ void weapon::Draw() const
 
 
 	if (isAttacking) {
-		DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
+		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 	
 
@@ -1023,11 +1023,11 @@ void weapon::SwordSlashAnim()
 
 		for (int i = 0; i < 10; i++) {
 			if (swordSlash[i].flg) {
-				swordSlash[i].collsion1.x = baseVec.x * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
-				swordSlash[i].collsion1.y = baseVec.x * sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
+				swordSlash[i].collsion1.x = (baseVec.x - 20) * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
+				swordSlash[i].collsion1.y =( baseVec.x - 20 )* sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
 
-				swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
-				swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;
+				swordSlash[i].collsion2.x =( baseVec.x - 20 )* cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
+				swordSlash[i].collsion2.y =( baseVec.x - 20 )* sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;
 			}
 		}
 	}
