@@ -303,7 +303,7 @@ void Map::draw() const {
 
 		// Aƒ{ƒ^ƒ“
 		DrawGraph(1150, 650, button_a_image, TRUE);
-		DrawString(1194, 662, "Œˆ’è\n", 0xffffff);
+		DrawRotaGraph(1210, 667, 0.1, 0, decision_img, TRUE);
 	}
 
 #ifdef _DEBUG	
