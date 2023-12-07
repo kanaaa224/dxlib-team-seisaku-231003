@@ -20,18 +20,6 @@ Title::Title()
 	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/武器/大剣.png")) {}
 	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/武器/短剣.png")) {}
 
-	//BGM
-	SoundManager::SetBGM("bgm_title");
-	SoundManager::SetVolumeBGM("bgm_title",50);
-
-	//SE
-	SoundManager::SetSE("se_system_Title_decision_sound");	//カーソル決定音
-	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
-	SoundManager::SetSE("se_system_select_syu");			//カーソル移動音
-	SoundManager::SetSoundSEPosition(100, "se_system_normal_decision");
-
-	SoundManager::SetVolumeSEs(65);
-
 	Title_Select_magnification = 0.01;
 	Title_Cosor_sword_Angle = 1.0;
 	Title_Cosor_greatsword_Angle = 4.15;

@@ -23,10 +23,6 @@ Blacksmith::Blacksmith()
 	img_book = LoadGraph("resources/images/•Ší/–{.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
-	SoundManager::SetBGM("bgm_smith");
-	SetLoopPosSoundMem(5100, SoundManager::GetBGMHandle("bgm_smith"));
-
-
 	// \‘¢‘Ì‰Šú‰»
 	weapon1_info = { 0, none, 0, 0, 0, false };
 	weapon2_info = { 1, none, 0, 0, 0, false };

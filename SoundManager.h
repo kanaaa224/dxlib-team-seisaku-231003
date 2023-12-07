@@ -1,5 +1,7 @@
 #pragma once
 #include<DxLib.h>
+#include<map>
+#include<string>
 
 class SoundManager
 {

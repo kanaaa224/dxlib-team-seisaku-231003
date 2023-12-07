@@ -9,8 +9,6 @@ Minotaur::Minotaur()
 	debugCnt = 0;
 
 	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
-	SoundManager::SetSE("se_enemy_shout");
-	SoundManager::SetSE("se_enemy_tackle");
 	hp = MINOTAUR_MAX_HP;
 	damage = MINOTAUR_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;

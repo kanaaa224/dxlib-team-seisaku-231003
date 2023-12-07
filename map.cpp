@@ -28,10 +28,6 @@ Map::Map() {
 	if (button_a_image == 0) button_a_image = LoadGraph("resources/images/button_a.png");
 	if (decision_img == 0) decision_img = LoadGraph("resources/images/Logo/UI/logo_dicision.png");
 
-	SoundManager::SetBGM("bgm_map");
-	SoundManager::SetVolumeBGM("bgm_map", 50);
-	SetLoopPosSoundMem(4798,SoundManager::GetBGMHandle("bgm_map"));
-
 	// ƒŠƒUƒ‹ƒg‰æ–Ê—p
 	battle_count = 0;
 	event_count = 0;

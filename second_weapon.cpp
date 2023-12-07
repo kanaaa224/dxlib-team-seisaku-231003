@@ -48,16 +48,6 @@ second_weapon::second_weapon()
 	thunder_img[3] = LoadGraph("resources/images/•Ší/lightning_Anim_4.png");
 	thunder_img[4] = LoadGraph("resources/images/•Ší/lightning_Anim_0.png");
 	cooltime_img = LoadGraph("resources/images/Cool_Time_green.png");
-
-	SoundManager::SetSE("se_weapon_spear_swing");
-	SoundManager::SetSE("se_weapon_spear_Lv8");
-	SoundManager::SetSE("se_weapon_frail_swig");
-	SoundManager::SetSE("se_weapon_frail_Lv8");
-	SoundManager::SetSE("se_weapon_frail");
-	SoundManager::SetSE("se_weapon_book_swing");
-	SoundManager::SetSE("se_weapon_book_Lv7");
-	SoundManager::SetSE("se_weapon_book_Lv8");
-	SoundManager::SetSE("");
 	
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };

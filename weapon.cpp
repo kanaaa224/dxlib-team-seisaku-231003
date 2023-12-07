@@ -38,17 +38,6 @@ weapon::weapon()
 	/*dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
 	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");*/
 
-	SoundManager::SetSE("se_weapon_sword_swing");
-	SoundManager::SetSE("se_weapon_sword_Lv8");
-	SoundManager::SetSE("se_weapon_sword_Lv7");
-	SoundManager::SetSE("se_weapon_dagger_swing");
-	SoundManager::SetSE("se_weapon_dagger_Lv8");
-	SoundManager::SetSE("se_weapon_dagger_Lv7");
-	SoundManager::SetSE("se_weapon_greatsword_swing");
-	SoundManager::SetSE("se_weapon_greatsword_Lv8");
-	SoundManager::SetVolumeSEs(100);
-
-
 	soundFlg = false;
 
 	attackbuf = 1.0f;

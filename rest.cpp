@@ -21,15 +21,6 @@ Rest::Rest(GameUI* ui)
 	logo_rest_image = LoadGraph("resources/images/Logo/UI/logo_rest.png");
 	logo_pray_image = LoadGraph("resources/images/Logo/UI/logo_pray.png");
 
-	SoundManager::SetBGM("bgm_breakstage");
-	SoundManager::SetBGM("bgm_breaktime");
-	SoundManager::SetVolumeBGM("bgm_breaktime", 50);
-
-	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
-	SoundManager::SetSE("se_system_select_syu");			//カーソル移動音
-	SoundManager::SetSE("se_system_healing");				//回復の音
-	SoundManager::SetSE("se_system_blessing");				//祝福の音
-
 	is_select = false;
 	is_ok = false;
 	rest_buf_flg = false;

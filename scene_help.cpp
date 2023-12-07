@@ -8,11 +8,6 @@ Help::Help()
 	if (HelpImage3 = LoadGraph("resources/images/Help/Help_weapon_system.png")) {}
 
 	Help_Abtn_Count = 0;
-
-	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
-
-	SoundManager::SetVolumeSEs(65);
-
 }
 
 Help::~Help()
