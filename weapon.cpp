@@ -587,7 +587,7 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
 			damage = INIT_DAMAGE_DAGGER + 1;
 			rotSpeed = 12.0f;
 			
@@ -624,8 +624,8 @@ void weapon::LevelState()
 			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER + 2;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
+			damage = INIT_DAMAGE_DAGGER + 4;
 			P_speed = 2.5f;
 			P_limit = 1.5f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
@@ -666,9 +666,9 @@ void weapon::LevelState()
 		case dagger:
 			//短剣　ダメージよりも振る速度を上げる　回避の速度を上げる
 			baseVec = { 80,0,80 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER + 1;
+			maxRot = INIT_ROTATION_DAGGER + 5.0;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
+			damage = INIT_DAMAGE_DAGGER + 2;
 			P_limit = 2.5f;
 			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
@@ -712,8 +712,8 @@ void weapon::LevelState()
 			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
+			damage = INIT_DAMAGE_DAGGER + 9;
 			P_speed = 3.0f;
 			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
@@ -756,9 +756,9 @@ void weapon::LevelState()
 		case dagger:
 			//短剣　ダメージよりも振る速度を上げる　回避のクールタイムを短くする
 			baseVec = { 80,0,80 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_DAGGER + 10.0f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
+			damage = INIT_DAMAGE_DAGGER + 6;
 			P_cooltime = 0.0f;
 			P_speed = 2.0f;//レベル２に戻す
 			Player::SetAvoidance_limit(P_cooltime);
@@ -801,8 +801,8 @@ void weapon::LevelState()
 			baseVec = { 80,0,80 };
 			// 内容は、4 5 の時よりかは低いが最終強化するとあほみたいに強くなる
 			maxRot = INIT_ROTATION_DAGGER + 5.0f; // 60 + 10 = 70
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER + 3;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
+			damage = INIT_DAMAGE_DAGGER + 20;
 			P_limit = 2.5f;
 			P_cooltime = 1.0f;
 			P_speed = 3.0f;
