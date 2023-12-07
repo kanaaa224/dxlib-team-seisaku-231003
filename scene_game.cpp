@@ -690,7 +690,7 @@ void GameScene::draw() const {
 				DrawRotaGraph2(pl.x - 5, pl.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
 			}
 		}
-		DrawFormatString(100, 300, 0xffffff, "%f", totalAttackBuf);
+
 		
 		// 敵
 		if (battleMode == GameSceneBattleMode::normal) SlimeDraw();

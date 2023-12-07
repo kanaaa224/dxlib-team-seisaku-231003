@@ -57,6 +57,7 @@ second_weapon::second_weapon()
 	SoundManager::SetSE("se_weapon_book_swing");
 	SoundManager::SetSE("se_weapon_book_Lv7");
 	SoundManager::SetSE("se_weapon_book_Lv8");
+	SoundManager::SetSE("");
 	
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
@@ -185,7 +186,7 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 					SoundManager::PlaySoundSE("se_weapon_book_Lv8");
 				}
 				else if (weaponLevel == 7) {
-					SoundManager::PlaySoundSE("se_weapon_book_Lv8");
+					SoundManager::PlaySoundSE("se_weapon_book_Lv7");
 				}
 				else {
 					SoundManager::PlaySoundSE("se_weapon_book_swing",false);
@@ -316,6 +317,12 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 		if (weaponType == spear && weaponLevel == 8) {
 			SpearThunder();
+		}
+
+		if (weaponLevel == 7) {
+			if (!barrierFlg) {
+				soundFlg = false;
+			}
 		}
 
 	}
@@ -547,13 +554,13 @@ void second_weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	if (levelUpFlg) {
+	/*if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Kキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
-	}
+	}*/
 
 }
 
