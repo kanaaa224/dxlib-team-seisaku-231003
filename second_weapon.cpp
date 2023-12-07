@@ -34,15 +34,18 @@ second_weapon::second_weapon()
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
 	crack_img = LoadGraph("resources/images/crack.png");
-	thunder_img[0] = LoadGraph("resources/images/Thunder_1.png");
-	thunder_img[1] = LoadGraph("resources/images/Thunder_2.png");
-	thunder_img[2] = LoadGraph("resources/images/Thunder_3.png");
+	thunder_img[0] = LoadGraph("resources/images/•Ší/lightning_Anim_1.png");
+	thunder_img[1] = LoadGraph("resources/images/•Ší/lightning_Anim_2.png");
+	thunder_img[2] = LoadGraph("resources/images/•Ší/lightning_Anim_3.png");
+	thunder_img[3] = LoadGraph("resources/images/•Ší/lightning_Anim_4.png");
+	thunder_img[4] = LoadGraph("resources/images/•Ší/lightning_Anim_0.png");
 	cooltime_img = LoadGraph("resources/images/Cool_Time_green.png");
 
 	SoundManager::SetSE("se_weapon_spear_swing");
 	SoundManager::SetSE("se_weapon_spear_Lv8");
 	SoundManager::SetSE("se_weapon_frail_swig");
 	SoundManager::SetSE("se_weapon_frail_Lv8");
+	SoundManager::SetSE("se_weapon_frail");
 	SoundManager::SetSE("se_weapon_book_swing");
 	SoundManager::SetSE("se_weapon_book_Lv7");
 	SoundManager::SetSE("se_weapon_book_Lv8");
@@ -368,18 +371,26 @@ void second_weapon::Draw() const
 
 	for (int i = 0; i < 64; i++){
 		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
-			
-			if (thunder[i].fps > 10) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[2], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+			if (thunder[i].fps > 8) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, 0.15, 0, thunder_img[4], TRUE, TRUE);
 			}
-			else if (thunder[i].fps > 5) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+			else if (thunder[i].fps > 6) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[3], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 4) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 2) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
 			}
 			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
@@ -1097,7 +1108,12 @@ bool second_weapon::FrailAnim()
 
 	if ((int)frailLength > (int)frailLengthCursor) {
 		frailRate = 1.0f;
-		SoundManager::PlaySoundSE("se_weapon_frail_Lv8",false);
+		if (weaponLevel == 8) {
+			SoundManager::PlaySoundSE("se_weapon_frail_Lv8", false);
+		}
+		else {
+			SoundManager::PlaySoundSE("se_weapon_frail", false);
+		}
 		return true;
 	}
 
