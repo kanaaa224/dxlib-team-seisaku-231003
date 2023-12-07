@@ -65,7 +65,7 @@ weapon::weapon()
 	{
 		throwDagger[i] = { {0,0},{0,0,0},false };
 	}
-	slash_img = LoadGraph("resources/images/nc284514.png");
+	slash_img = LoadGraph("resources/images/•Ší/Sword_Slashing.png");
 	slashFlg = false;
 
 	avoidanceDamageFlg = false;
@@ -352,9 +352,9 @@ void weapon::Draw() const
 	//aŒ‚
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
-			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
-			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
-			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
+			DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
+			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);
+			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 250, 250, 0.3, slashRot - (M_PI / 4) -  (M_PI / 2) - (d_r(12)), slash_img, TRUE);
 		}
 	}
 	//“Š‚°ƒiƒCƒt

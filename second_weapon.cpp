@@ -33,7 +33,14 @@ second_weapon::second_weapon()
 	barrier_img = LoadGraph("resources/images/baria_blue.png");
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
-	crack_img = LoadGraph("resources/images/crack.png");
+
+	crack_img[0] = LoadGraph("resources/images/ïêäÌ/Crock/Rock_crack_0.png");
+	crack_img[1] = LoadGraph("resources/images/ïêäÌ/Crock/Rock_crack_1.png");
+	crack_img[2] = LoadGraph("resources/images/ïêäÌ/Crock/Rock_crack_2.png");
+	crack_img[3] = LoadGraph("resources/images/ïêäÌ/Crock/Rock_crack_3.png");
+	crack_img[4] = LoadGraph("resources/images/ïêäÌ/Crock/Rock_crack_4.png");
+	crack_img[5] = LoadGraph("resources/images/ïêäÌ/Crock/Rock_crack_5.png");
+
 	thunder_img[0] = LoadGraph("resources/images/ïêäÌ/lightning_Anim_1.png");
 	thunder_img[1] = LoadGraph("resources/images/ïêäÌ/lightning_Anim_2.png");
 	thunder_img[2] = LoadGraph("resources/images/ïêäÌ/lightning_Anim_3.png");
@@ -56,6 +63,7 @@ second_weapon::second_weapon()
 	for (int i = 0; i < 64; i++){
 		thunder[i].flg = false;
 		thunder[i].fps = 0;
+		thunder[i].soundflg = false;
 	}
 
 	frailRadius = 30.0f;
@@ -64,6 +72,7 @@ second_weapon::second_weapon()
 	level7FrailFlg = false;
 	level8FrailRadius = 100.0f;
 	frailDistance = 0.0f;
+	frailFps = 0;
 
 	Bullet_speed = 10;
 
@@ -111,7 +120,12 @@ second_weapon::~second_weapon()
 	DeleteGraph(ironball_img);
 	DeleteGraph(barrier_img);
 	DeleteGraph(attackbuf_img);
-	DeleteGraph(crack_img);
+	DeleteGraph(crack_img[0]);
+	DeleteGraph(crack_img[1]);
+	DeleteGraph(crack_img[2]);
+	DeleteGraph(crack_img[3]);
+	DeleteGraph(crack_img[4]);
+	DeleteGraph(crack_img[5]);
 	DeleteGraph(thunder_img[0]);
 	DeleteGraph(thunder_img[1]);
 	DeleteGraph(thunder_img[2]);
@@ -291,6 +305,13 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			}
 		}
 
+		if (frailRate == 1.0f) {
+			frailFps++;
+		}
+		else {
+			frailFps = 0;
+		}
+
 		if (weaponType == spear && weaponLevel == 8) {
 			SpearThunder();
 		}
@@ -412,7 +433,59 @@ void second_weapon::Draw() const
 			
 			//DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
 			if (frailRate == 1.0f) {
-				DrawRotaGraph2(frailLcation.x, frailLcation.y, 1480 / 2, 1110 / 2, 0.2, rot + (M_PI / 4), crack_img, TRUE, TRUE);
+				if (frailFps > 12) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+				}
+				else if (frailFps > 15) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
+				}
+				else if (frailFps > 10) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+				}
+				else if (frailFps > 5) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+				}
+				else if (frailFps > 0) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+				}
+				/*switch (frailFps)
+				{
+				case 1:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					break;
+				case 2:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					break;
+				case 3:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					break;
+				case 4:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
+					break;
+				case 5:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[4], TRUE, TRUE);
+					break;
+				default:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					break;
+				}*/
+				
 			}
 		}
 		DrawRotaGraph2(frailLcation.x, frailLcation.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
@@ -934,6 +1007,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 
 			if (weaponLevel == 8) {
 				if (tmp_length < radius + frailRadius + level8FrailRadius) {
+					
 					return true;
 				}
 			}
@@ -942,6 +1016,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 					return true;
 				}
 			}
+			
 		}
 	}
 
@@ -988,6 +1063,10 @@ bool second_weapon::SpearThunder()
 {
 	for (int i = 0; i < 64; i++){
 		if (thunder[i].flg) {
+			if (!thunder[i].soundflg) {
+				SoundManager::PlaySoundSE("se_weapon_spear_Lv8",false);
+				thunder[i].soundflg = true;
+			}
 
 			thunder[i].l.x -= playerVector.x;
 			thunder[i].l.y -= playerVector.y;
@@ -995,6 +1074,7 @@ bool second_weapon::SpearThunder()
 			if (thunder[i].fps++ > 120) {
 				thunder[i].fps = 0;
 				thunder[i].flg = false;
+				thunder[i].soundflg = false;
 			}
 		}
 	}

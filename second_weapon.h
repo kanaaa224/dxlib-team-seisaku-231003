@@ -85,7 +85,7 @@ private:
 	int ironball_img;
 	int barrier_img;
 	int attackbuf_img;
-	int crack_img;
+	int crack_img[6];
 	int thunder_img[5];
 	int arrow_img;
 	int cooltime_img;
@@ -110,6 +110,7 @@ private:
 	float frailLengthCursor;
 	bool isFrailAttacking;
 	float frailRate;
+	int frailFps;
 	//‹­‰»Œã‚Ì‘‚¦‚½ƒtƒŒƒCƒ‹‚Ì“–‚½‚è”»’è
 	Location frailLocation1;
 	Vector frailVec1;
