@@ -21,6 +21,11 @@ Rest::Rest(GameUI* ui)
 	SoundManager::SetBGM("bgm_breaktime");
 	SoundManager::SetVolumeBGM("bgm_breaktime", 50);
 
+	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
+	SoundManager::SetSE("se_system_select_syu");			//カーソル移動音
+	SoundManager::SetSE("se_system_healing");				//回復の音
+	SoundManager::SetSE("se_system_blessing");				//祝福の音
+
 	is_select = false;
 	is_ok = false;
 	rest_buf_flg = false;
@@ -61,6 +66,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 			mode = GameSceneMode::map;
 			Init();
 			SoundManager::StopSoundBGMs();
+			SoundManager::SetSoundBGMsPosition(0);
 		}
 	}
 	else
@@ -68,6 +74,8 @@ void Rest::update(Player* player, int& mode, int& stage)
 		//左スティックを右に
 		if ((InputCtrl::GetStickRatio(L).x > 0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) && cursor_interval >= 15)
 		{
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false);
 			cursor_num++;
 			cursor_interval = 0;
 			if (cursor_num > 1)
@@ -79,6 +87,8 @@ void Rest::update(Player* player, int& mode, int& stage)
 		//左スティックを左に
 		if ((InputCtrl::GetStickRatio(L).x < -0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)) && cursor_interval >= 15)
 		{
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false);
 			cursor_num--;
 			cursor_interval = 0;
 			if (cursor_num < 0)
@@ -91,11 +101,15 @@ void Rest::update(Player* player, int& mode, int& stage)
 		{
 			if (cursor_num == 0)
 			{
+				//回復の音
+				SoundManager::PlaySoundSE("se_system_healing");
 				player->SetPlayer_HP(-100);
 				is_select = true;
 			}
-			else if (cursor_num == 1);
+			else if (cursor_num == 1)
 			{
+				//祝福の音
+				SoundManager::PlaySoundSE("se_system_blessing");
 				rest_buf_flg = true;
 				is_select = true;
 			}
@@ -146,6 +160,8 @@ void Rest::draw() const
 void Rest::Init()
 {
 	interval = 0;
+
+	cursor_num = 0;
 
 	is_select = false;
 	is_ok = false;
