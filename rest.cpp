@@ -53,7 +53,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	ui->update();
 
-	cursor_x = cursor_num * 400;
+	cursor_x = cursor_num * 445;
 
 	if (cursor_interval < 15)
 	{
@@ -130,7 +130,7 @@ void Rest::draw() const
 	ui->drawHP();
 
 	DrawRotaGraph(640, 300, .7f, 0, bonfire_image, TRUE);
-	DrawRotaGraph(280 + cursor_x, 620, .15, 1, cursor_image, TRUE);
+	DrawRotaGraph(280 + cursor_x, 610, .15, 1, cursor_image, TRUE);
 	DrawGraph(1150, 650, button_image, TRUE);
 	DrawRotaGraph(1210, 667, 0.1, 0, logo_dicision_image, TRUE);
 
