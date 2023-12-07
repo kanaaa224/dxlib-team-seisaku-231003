@@ -352,7 +352,7 @@ void weapon::Draw() const
 	//ŽaŒ‚
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
-			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
+			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0x00ff00, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 250, 250, 0.4, slashRot - (M_PI / 4) + M_PI + d_r(40), slash_img, TRUE);
 		}
@@ -942,14 +942,14 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 				uv.length = sqrtf(uv.x * uv.x + uv.y * uv.y);
 
 				for (int j = 0; j < (slashLength / 10) + 1; j++) {
-					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (i * 10));
-					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (i * 10));
+					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (j * 10));
+					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (j * 10));
 
 					float tmp_x2 = weaponCollisionLocation.x - enemyLocation.x;
 					float tmp_y2 = weaponCollisionLocation.y - enemyLocation.y;
 					float tmp_length2 = sqrt(tmp_x2 * tmp_x2 + tmp_y2 * tmp_y2);
 
-					if (tmp_length2 < radius + 100) {
+					if (tmp_length2 < radius + 10) {
 						return true;
 					}
 				}
@@ -1023,6 +1023,8 @@ void weapon::SwordSlashAnim()
 
 		for (int i = 0; i < 10; i++) {
 			if (swordSlash[i].flg) {
+
+				//‚±‚±C³
 				swordSlash[i].collsion1.x = (baseVec.x - 20) * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
 				swordSlash[i].collsion1.y =( baseVec.x - 20 )* sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
 
