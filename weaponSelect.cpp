@@ -137,7 +137,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
 		{
 			//ƒJ[ƒ\ƒ‹‚ÌŒˆ’è‰¹
-			SoundManager::PlaySoundSE("se_system_normal_decision");
+			SoundManager::PlaySoundSE("se_system_normal_decision", false);
 			//‰¹‚ª‚È‚Á‚Ä‚¢‚é‚È‚ç
 			if (CheckSoundMem(SoundManager::GetBGMHandle("se_system_select_syu")))
 			{
