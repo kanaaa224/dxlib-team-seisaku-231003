@@ -3,7 +3,7 @@
 #include <math.h>
 #include "inputCtrl.h"
 #define BTN_DEBUG
-#define DEBUG
+//#define DEBUG
 
 Devil_king::Devil_king()
 {
@@ -50,7 +50,8 @@ void Devil_king::Update(Player* player)
 		location.y = (location.y + skyWalkVectorY) - diff.y;
 	}
 	else if (skyWalkFlg == false) {
-
+		location.x = location.x - diff.x;
+		location.y = location.y - diff.y;
 	}
 	
 
@@ -69,21 +70,33 @@ void Devil_king::Update(Player* player)
 	
 	//シールド
 	if (bigBulletHitFlg == true) {
-		shield -= 10;
+		shield -= 20;//当たったらシールドを減らす値
 		bigBulletHitFlg = false;
 	}
 
 	if (shield <= 0) {
 		shieldFlg = true;
+		skyWalkFlg = false;
+	}
+
+	//シールドが０になったら地面に降りる
+	if (shieldFlg == true) {
+		skyWalkVectorY = 0;
+		
 	}
 
 	//ダウンタイム
-	if (shieldFlg == true) {
+	if (skyWalkFlg == false) {
 		//downTimeCounterが設定した値になったらシールドを復活させる
 		if (downTimeCounter >= DOWN_TIME) {
 			shield = MAX_SHIELD;
 			shieldFlg = false;
 			downTimeCounter = 0;
+
+			//浮遊
+			skyWalkFlg = true;
+			shadowLocation.x = location.x;
+			shadowLocation.y = location.y;
 		}
 
 		downTimeCounter++;
@@ -123,9 +136,11 @@ void Devil_king::Update(Player* player)
 void Devil_king::Draw() const
 {
 	DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//通常時
+
+	//赤色表示
 	if (redDrawFlg == true) {
 		SetDrawBright(255, 0, 0);
-		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);//赤色表示
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, img, TRUE);
 		SetDrawBright(255, 255, 255);
 	}
 
