@@ -41,6 +41,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="game_ui.h" />
+    <ClInclude Include="Ghost.h" />
     <ClInclude Include="kitamura_test.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="map_temp.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="fpsCtrl.cpp" />
     <ClCompile Include="game_ui.cpp" />
+    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="inputCtrl.cpp" />
     <ClCompile Include="kitamura_test.cpp" />
     <ClCompile Include="main.cpp" />
