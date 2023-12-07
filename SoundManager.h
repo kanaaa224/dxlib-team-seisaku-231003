@@ -36,7 +36,7 @@ public:
 	static void SetVolumeBGM(const char* fileName, const int volume);
 
 	//SE‚Ì‰¹—Ê‚ğİ’è‚·‚é
-	static void SetvolumeSE(const char* fileName, const int volume);
+	static void SetVolumeSE(const char* fileName, const int volume);
 
 	//‚·‚×‚Ä‚ÌBGM‚Ì‰¹—Ê‚ğİ’è‚·‚é
 	static void SetVolumeBGMs(const int volume);

@@ -57,7 +57,7 @@ void SoundManager::SetVolumeBGM(const char* fileName, const int volume)
 	ChangeVolumeSoundMem(255 * volume / 100, manager->bgm[fileName]);
 }
 
-void SoundManager::SetvolumeSE(const char* fileName, const int volume)
+void SoundManager::SetVolumeSE(const char* fileName, const int volume)
 {
 	ChangeVolumeSoundMem(255 * volume / 100, manager->se[fileName]);
 }
