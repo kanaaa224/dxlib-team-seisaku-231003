@@ -30,7 +30,8 @@ second_weapon::second_weapon()
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	bullet_img = LoadGraph("resources/images/magic_bullet.png");
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
-	barrier_img = LoadGraph("resources/images/baria_blue.png");
+	barrier_img[0] = LoadGraph("resources/images/ïêäÌ/Baria.png");
+	barrier_img[1] = LoadGraph("resources/images/ïêäÌ/Baria.png");
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
 
@@ -118,7 +119,8 @@ second_weapon::~second_weapon()
 	DeleteGraph(book_img);
 	DeleteGraph(bullet_img);
 	DeleteGraph(ironball_img);
-	DeleteGraph(barrier_img);
+	DeleteGraph(barrier_img[0]);
+	DeleteGraph(barrier_img[1]);
 	DeleteGraph(attackbuf_img);
 	DeleteGraph(crack_img[0]);
 	DeleteGraph(crack_img[1]);
@@ -507,7 +509,8 @@ void second_weapon::Draw() const
 
 	//ÉoÉäÉA
 	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
-		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.05, 0, barrier_img, TRUE, TRUE);
+		DrawRotaGraph2(location.x - 70, location.y, 0, 200, 0.25, 0, barrier_img[0], TRUE, TRUE);
+		DrawRotaGraph2(location.x - 30, location.y, 0, 200, 0.25, 0, barrier_img[0], TRUE, FALSE);
 	}
 
 	

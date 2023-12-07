@@ -83,7 +83,7 @@ private:
 	int book_img;
 	int bullet_img;
 	int ironball_img;
-	int barrier_img;
+	int barrier_img[2];
 	int attackbuf_img;
 	int crack_img[6];
 	int thunder_img[5];
