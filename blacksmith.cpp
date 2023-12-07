@@ -148,6 +148,8 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				// 過去にレベルアップしたことがある場合選択できる
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
+					//カーソルの決定音
+					SoundManager::PlaySoundSE("se_system_normal_decision");
 					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info, point);
 				}
 			}

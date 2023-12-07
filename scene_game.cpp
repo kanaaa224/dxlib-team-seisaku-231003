@@ -65,7 +65,6 @@ GameScene::GameScene() {
 	SoundManager::SetSE("se_enemy_bossbullet");
 	SoundManager::SetVolumeBGMs(50);
 	SoundManager::SetVolumeSEs(65);
-	SoundManager::SetvolumeSE("se_enemy_bossbullet", 1);
 	SetLoopPosSoundMem(470, SoundManager::GetBGMHandle("bgm_normal"));
 	SetLoopPosSoundMem(45900, SoundManager::GetBGMHandle("bgm_middleboss"));
 	SetLoopPosSoundMem(22720, SoundManager::GetBGMHandle("bgm_boss"));
@@ -1275,6 +1274,7 @@ void GameScene::DevilKingUpdate()
 			for (int i = 0; i < MAX_BULLET_NUM; i++) {
 				if (bigEnemyBullet[i] == nullptr) {
 					bigEnemyBullet[i] = new BigEnemyBullet(devilKing->GetEnemyLocation(), player);
+					SoundManager::SetvolumeSE("se_enemy_bossbullet", 30);
 					SoundManager::PlaySoundSE("se_enemy_bossbullet");
 					devilKing->SetBigBulletCreateFlg(false);
 					break;
