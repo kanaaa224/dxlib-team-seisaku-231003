@@ -48,6 +48,7 @@ struct Thunder
 	bool flg;
 	//int img[5];	//アニメーションの枚数分
 	int fps = 0;
+	bool soundflg;
 };
 
 class second_weapon

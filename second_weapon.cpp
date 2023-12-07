@@ -371,26 +371,27 @@ void second_weapon::Draw() const
 
 	for (int i = 0; i < 64; i++){
 		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
+			float rate = 0.2f;
 			if (thunder[i].fps > 8) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, 0.15, 0, thunder_img[4], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, rate, 0, thunder_img[4], TRUE, TRUE);
 			}
 			else if (thunder[i].fps > 6) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[3], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[2], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[3], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else if (thunder[i].fps > 4) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[2], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else if (thunder[i].fps > 2) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
 			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
