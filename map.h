@@ -108,6 +108,8 @@ private:
 	int wall_img = 0;
 	int tower_img = 0;
 	int map_back_img = 0;
+	int button_a_image = 0;
+	int decision_img = 0;
 
 	// リザルト画面で使用（縮小マップ作成が無理だった場合）
 	// ステージに何回到達したか
