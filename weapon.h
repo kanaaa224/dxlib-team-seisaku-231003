@@ -21,6 +21,8 @@ class Player;
 
 #define MAX_DUST 64
 
+#define ATTACKBUF 2.0f
+
 struct Vector
 {
 	float x;
@@ -108,6 +110,7 @@ private:
 	int greatsword_img;
 	int attackbuf_img;
 	int tornado_img;
+	int arrow_img;
 
 	int sword_sound;
 	int dagger_sound;
@@ -206,6 +209,28 @@ public:
 			}
 		}
 	}
+
+	void SetAttackBuf(bool f) {
+		if (f) {
+			if (attackbuf == ATTACKBUF || attackbuf == 1.0f) {
+				if (attackbuf == 1.0f) {
+					attackbuf = 1.5f;
+				}
+				else {
+					attackbuf = attackbuf * 1.5f;
+				}
+			}
+			
+		}
+		else {
+			if (attackbuf >= ATTACKBUF) {
+				attackbuf = ATTACKBUF;
+			}
+			else {
+				attackbuf = 1.0f;
+			}
+		}
+	}
 	//•ŠíƒŒƒxƒ‹‚ğæ“¾
 	int GetWeaponLevel() { return weaponLevel; }
 
@@ -217,6 +242,10 @@ public:
 	bool GetIsAttacking() { return isAttacking; }
 	bool GetOldIsAttacking() { return oldIsAttacking; }
 	float GetDustDamage() { return dustDamage; }
+	float GetAttackBuf() { return attackbuf; }
+
+	int GetAttackBufImg() { return attackbuf_img; }
+	int GetArrowImg() { return arrow_img; }
 
 	void InitWeapon();
 

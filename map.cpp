@@ -28,7 +28,7 @@ Map::Map() {
 
 	SoundManager::SetBGM("bgm_map");
 	SoundManager::SetVolumeBGM("bgm_map", 50);
-	SetLoopPosSoundMem(400,SoundManager::GetBGMHandle("bgm_map"));
+	SetLoopPosSoundMem(4798,SoundManager::GetBGMHandle("bgm_map"));
 
 	// リザルト画面用
 	battle_count = 0;
@@ -253,7 +253,7 @@ void Map::draw() const {
 			}
 			else {
 				DrawLineAA(icon_loc_center[i][0], icon_loc_center[i][1],
-					icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0xffffff, 5);
+					icon_loc_center[next_loc][0], icon_loc_center[next_loc][1], 0x888888, 5);
 			}
 		}
 			DrawGraph(icon_loc[i][0] - 5, icon_loc[i][1] - 5, icon_back_img, TRUE);
@@ -311,24 +311,26 @@ void Map::ResetStage() {
 		}
 	}
 
-	pattern = GetRand(PATTERN_MAX - 1);
+	pattern = 1;//GetRand(PATTERN_MAX - 1);
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 
 	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
 
 	// ランダムイベント
-	SetStage(map_ctrl[pattern][0][0], map_ctrl[pattern][0][1], map_ctrl[pattern][0][2], map_ctrl[pattern][0][3], 1);
+	SetStage(map_ctrl[pattern][0][0], map_ctrl[pattern][0][1], map_ctrl[pattern][0][2], map_ctrl[pattern][0][3], map_ctrl[pattern][0][4], 1);
 
 	// 休憩1
-	SetStage(map_ctrl[pattern][1][0], map_ctrl[pattern][1][1], map_ctrl[pattern][1][2], map_ctrl[pattern][1][3], 2);
+	SetStage(map_ctrl[pattern][1][0], map_ctrl[pattern][1][1], map_ctrl[pattern][1][2], map_ctrl[pattern][1][3], map_ctrl[pattern][1][4], 2);
 	// 休憩2
-	SetStage(map_ctrl[pattern][2][0], map_ctrl[pattern][2][1], map_ctrl[pattern][2][2], map_ctrl[pattern][2][3], 2);
+	SetStage(map_ctrl[pattern][2][0], map_ctrl[pattern][2][1], map_ctrl[pattern][2][2], map_ctrl[pattern][2][3], map_ctrl[pattern][2][4], 2);
 	// 休憩3
+	SetStage(map_ctrl[pattern][3][0], map_ctrl[pattern][3][1], map_ctrl[pattern][3][2], map_ctrl[pattern][3][3], map_ctrl[pattern][3][4], 2);
+	// 休憩4
 	MapData[data_max - 2] = 2;
 
 	// 鍛冶屋
-	SetStage(map_ctrl[pattern][3][0], map_ctrl[pattern][3][1], map_ctrl[pattern][3][2], map_ctrl[pattern][3][3], 3);
+	SetStage(map_ctrl[pattern][4][0], map_ctrl[pattern][4][1], map_ctrl[pattern][4][2], map_ctrl[pattern][4][3], map_ctrl[pattern][4][4], 3);
 
 	// ボス
 	MapData[data_max - 1] = 4;
@@ -345,15 +347,45 @@ void Map::ResetStage() {
 	}
 }
 
-void Map::SetStage(int st_min, int st_max, int rand_min, int rand_max, int data_num) {
+void Map::SetStage(int st_min, int st_max, int rand_min, int rand_max, int type ,int data_num) {
 	int RandNum = GetRand(rand_max - rand_min) + rand_min;
-	for (int i = 0; i < RandNum;) {
-		int r = GetRand(st_max - st_min) + st_min;
-		// 未変更(0なら)変更
-		if (MapData[r] == 0) {
-			MapData[r] = data_num;
-			i++;
+	switch (type)
+	{
+	case 0:
+		for (int i = 0; i < RandNum;) {
+			int r = GetRand(st_max - st_min) + st_min;
+			// 未変更(0なら)変更
+			if (MapData[r] == 0) {
+				MapData[r] = data_num;
+				i++;
+			}
+			else continue;
 		}
-		else continue;
+		break;
+	case 1:
+		for (int i = 0; i < RandNum;) {
+			int r;
+			switch (GetRand(1))
+			{
+			case 0:
+				r = st_min;
+				break;
+			case 1:
+				r = st_max;
+				break;
+			default:
+				break;
+			}
+			// 未変更(0なら)変更
+			if (MapData[r] == 0) {
+				MapData[r] = data_num;
+				i++;
+			}
+			else continue;
+		}
+		break;
+	default:
+		break;
 	}
+	
 }

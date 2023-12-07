@@ -11,6 +11,9 @@ private:
 	int g_WaitTime;
 	int g_PosY;
 
+	int Credit_Mouse_x;
+	int Credit_Mouse_y;
+
 public:
 	//コンストラクタ
 	Credit();

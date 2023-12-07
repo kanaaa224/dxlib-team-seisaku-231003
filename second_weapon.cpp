@@ -33,7 +33,8 @@ second_weapon::second_weapon()
 	bullet_img = LoadGraph("resources/images/magic_bullet.png");
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
 	barrier_img = LoadGraph("resources/images/baria_blue.png");
-	attackbuf_img = LoadGraph("resources/images/baria_red.png");
+	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
+	arrow_img = LoadGraph("resources/images/arrow_red.png");
 	crack_img = LoadGraph("resources/images/crack.png");
 	thunder_img[0] = LoadGraph("resources/images/Thunder_1.png");
 	thunder_img[1] = LoadGraph("resources/images/Thunder_2.png");
@@ -365,7 +366,10 @@ void second_weapon::Draw() const
 	}
 
 	if (attackBufRate >= 2.0f) {
-		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.04, 0, attackbuf_img, TRUE, TRUE);
+		/*DrawRotaGraph2(location.x - 25, location.y - 47, 250, 250, 0.07, 0, attackbuf_img, TRUE, TRUE);
+		
+		DrawRotaGraph2(location.x + 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
+		DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);*/
 	}
 
 	//ƒoƒŠƒA
