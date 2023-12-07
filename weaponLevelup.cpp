@@ -20,10 +20,6 @@ WeaponLevelUp::WeaponLevelUp()
 	img_book = LoadGraph("resources/images/•Ší/–{.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
-	SoundManager::SetSE("se_system_hammer");
-	SoundManager::SetSE("se_system_cancel");
-	SoundManager::SetSE("se_system_ng");
-
 	// \‘¢‘Ì‰Šú‰»
 	weapon1_info = { 0, none, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f };
 	weapon2_info = { 1, none, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f };

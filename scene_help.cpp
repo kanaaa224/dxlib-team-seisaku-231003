@@ -17,16 +17,13 @@ Help::~Help()
 	DeleteGraph(HelpImage3);
 }
 
-Scene*Help::update()
+Scene* Help::update()
 {
 	//ƒwƒ‹ƒv2‰æ–Ê‚Ö‘JˆÚ
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
 
-		SoundManager::PlaySoundSE("se_system_normal_decision", DX_PLAYTYPE_BACK);
+		SoundManager::PlaySoundSE("se_system_normal_decision", false);
 		Help_Abtn_Count++;
-	}
-	else {
-		SoundManager::StopSoundSEs();
 	}
 
 	if (Help_Abtn_Count > 2 && Help_Abtn_Count < 4) {

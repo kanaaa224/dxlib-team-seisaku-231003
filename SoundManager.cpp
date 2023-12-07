@@ -30,6 +30,9 @@ void SoundManager::CreateSoundManager()
 	SetSE("se_system_select_syu");				//ÉJÅ[É\Éãà⁄ìÆâπ
 	SetSE("se_system_healing");					//âÒïúÇÃâπ
 	SetSE("se_system_blessing");				//èjïüÇÃâπ
+	SetSE("se_system_hammer");
+	SetSE("se_system_cancel");
+	SetSE("se_system_ng");
 	SetSE("se_player_move");
 	SetSE("se_player_avoidance");
 	SetSE("se_enemy_damage");
@@ -58,14 +61,19 @@ void SoundManager::CreateSoundManager()
 	SetVolumeBGMs(30);
 	SetVolumeSEs(65);
 	SetVolumeBGM("bgm_title", 35);
-	SetVolumeBGM("bgm_weaponselection", 40);
+	SetVolumeBGM("bgm_weaponselection", 45);
 	SetVolumeBGM("bgm_normal", 30);
-	SetVolumeBGM("bgm_middleboss", 40);
-	SetVolumeBGM("bgm_boss", 50);
-	SetVolumeBGM("bgm_gameover", 40);
-	SetVolumeBGM("bgm_gameclear", 20);
+	SetVolumeBGM("bgm_middleboss", 45);
+	SetVolumeBGM("bgm_boss", 55);
+	SetVolumeBGM("bgm_gameover", 50);
+	SetVolumeBGM("bgm_gameclear", 30);
 	SetVolumeSE("se_system_normal_decision", 70);
-	SetVolumeSE("se_enemy_damage", 35);
+	SetVolumeSE("se_system_ng", 60);
+	SetVolumeSE("se_system_cancel", 60);
+	SetVolumeSE("se_enemy_damage", 30);
+	SetVolumeSE("se_enemy_barrierdamage", 40);
+	SetVolumeSE("se_enemy_shout", 65);
+	SetVolumeSE("se_enemy_tackle", 65);
 	SetVolumeSE("se_enemy_bossbullet", 30);
 	SetVolumeSE("se_weapon_dagger_swing", 50);
 	SetVolumeSE("se_weapon_sword_swing", 50);
