@@ -63,7 +63,7 @@ void SoundManager::CreateSoundManager()
 	SetVolumeBGM("bgm_title", 35);
 	SetVolumeBGM("bgm_weaponselection", 45);
 	SetVolumeBGM("bgm_normal", 30);
-	SetVolumeBGM("bgm_middleboss", 45);
+	SetVolumeBGM("bgm_middleboss", 50);
 	SetVolumeBGM("bgm_boss", 55);
 	SetVolumeBGM("bgm_gameover", 60);
 	SetVolumeBGM("bgm_gameclear", 40);
