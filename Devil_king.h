@@ -43,14 +43,21 @@ public:
 	bool GetBigBulletCreateFlg() {
 		return bigBulletCreateFlg;
 	}
+
 	float GetHP() {
 		return hp;
 	}
+
 	float GetShield() {
 		return shield;
 	}
+
 	bool GetShieldFlg() const {
 		return shieldFlg;
+	}
+
+	bool GetSkyWalkFlg() {
+		return skyWalkFlg;
 	}
 
 	//Set関数

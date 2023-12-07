@@ -67,6 +67,9 @@
     <Filter Include="メイン\サウンドマネージャー">
       <UniqueIdentifier>{40ff97f8-0d4e-4465-ab6d-389069602f4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム処理\Enemy\Boss\BossWeapon">
+      <UniqueIdentifier>{f2d05e54-6d7c-47cd-a341-02a9e11b0430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -171,21 +174,20 @@
     <ClInclude Include="scene_debug.h">
       <Filter>シーン\デバッグ</Filter>
     </ClInclude>
-    <ClInclude Include="DrawHelp.h" />
     <ClInclude Include="Minotaur.h">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Devil_king.h">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="BigEnemyBullet.h">
-      <Filter>ゲーム処理\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="SmallEnemyBullet.h">
-      <Filter>ゲーム処理\Enemy\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>メイン\サウンドマネージャー</Filter>
+    </ClInclude>
+    <ClInclude Include="BigEnemyBullet.h">
+      <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallEnemyBullet.h">
+      <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,21 +287,20 @@
     <ClCompile Include="scene_debug.cpp">
       <Filter>シーン\デバッグ</Filter>
     </ClCompile>
-    <ClCompile Include="DrawHelp.cpp" />
     <ClCompile Include="Minotaur.cpp">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Devil_king.cpp">
       <Filter>ゲーム処理\Enemy\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="BigEnemyBullet.cpp">
-      <Filter>ゲーム処理\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="SmallEnemyBullet.cpp">
-      <Filter>ゲーム処理\Enemy\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>メイン\サウンドマネージャー</Filter>
+    </ClCompile>
+    <ClCompile Include="BigEnemyBullet.cpp">
+      <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallEnemyBullet.cpp">
+      <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
