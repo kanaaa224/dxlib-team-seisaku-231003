@@ -36,8 +36,8 @@ private:
 	//Æ€
 	float AimingX;
 	float AimingY;
-	float X = 0.0;
-	float Y = 0.0;
+	float X = -100.0;
+	float Y = -100.0;
 
 	//‰¼ ‰~‰^“®
 	float Angle;

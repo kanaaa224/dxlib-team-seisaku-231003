@@ -661,7 +661,7 @@ Scene* GameScene::update() {
 
 #if 1
 	clsDx();
-	printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
+	//printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
 	//printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	//printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
 #endif
@@ -1098,7 +1098,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				if (bossState) exp += 1;
+				if (bossState) exp += 6;
 				else exp += 10;
 			}
 		}
@@ -1127,7 +1127,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				if (bossState) exp += 2;
+				if (bossState) exp += 8;
 				else exp += 20;
 			}
 		}
@@ -1167,7 +1167,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				if (bossState) exp += 3;
+				if (bossState) exp += 10;
 				else exp += 30;
 			}
 		}
