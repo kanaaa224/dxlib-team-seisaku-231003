@@ -77,6 +77,8 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
+			//カーソルの決定音
+			SoundManager::PlaySoundSE("se_system_normal_decision");
 			action_selection = true;
 
 			if (action_number == reset_level)
@@ -94,6 +96,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			weapon_levelup->SetIsBlacksmith(false);
 			stage++;
 			SoundManager::StopSoundBGM("bgm_smith");
+			SoundManager::SetSoundBGMsPosition(0);
 			mode = GameSceneMode::map;
 		}
 	}
@@ -111,6 +114,9 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				// Bボタンで行動選択に戻る
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 				{
+					//カーソルのキャンセル音
+					SoundManager::PlaySoundSE("se_system_cancel", false);
+
 					// レベルアップ画面の変数初期化
 					// レベルアップ画面を閉じたときに初期化しないと画像の表示位置がおかしくなってしまう
 					weapon_levelup->Init(weapon, second_weapon, player, restore_cursor_position);
@@ -154,10 +160,21 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon2_info, point);
 				}
 			}
+			else
+			{
+				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+				{
+					//カーソルのNG音
+					SoundManager::PlaySoundSE("se_system_ng", false);
+				}
+			}
 
 			// Bボタンで行動選択に戻る
 			if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 			{
+				//カーソルのキャンセル音
+				SoundManager::PlaySoundSE("se_system_cancel", false);
+
 				cursor_action = state_first;
 				action_number = levelup;
 				weapon_number = weapon1_info.num;
@@ -239,6 +256,9 @@ void Blacksmith::CursorMove()
 {
 	if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
 	{
+		//カーソルの移動音
+		SoundManager::PlaySoundSE("se_system_select_syu", false);
+
 		//左スティックを右に
 		interval = 0;
 
@@ -255,6 +275,9 @@ void Blacksmith::CursorMove()
 	}
 	else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
 	{
+		//カーソルの移動音
+		SoundManager::PlaySoundSE("se_system_select_syu", false);
+
 		//左スティックを左に
 		interval = 0;
 

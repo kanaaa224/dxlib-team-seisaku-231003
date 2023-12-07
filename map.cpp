@@ -71,6 +71,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	// カーソル移動(Lスティック)
 	if (move_cool <= 0) {
 		if (InputCtrl::GetStickRatio(L).x >= 0.3) {
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false);
 			if (cursor_pos + 1 <= 2 && next_stage[pattern][now_stage][cursor_pos + 1] != -1) {
 				cursor_pos++;
 				cursor_loc = next_stage[pattern][now_stage][cursor_pos];
@@ -85,6 +87,8 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 			cursor_r = 45;
 		}
 		else if (InputCtrl::GetStickRatio(L).x <= -0.3) {
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false);
 			if (cursor_pos - 1 >= 0) {
 				cursor_pos--;
 				cursor_loc = next_stage[pattern][now_stage][cursor_pos];
@@ -180,6 +184,9 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 
 		SoundManager::StopSoundBGM("bgm_map");
+		SoundManager::SetSoundBGMsPosition(0);
+		//カーソルの決定音
+		SoundManager::PlaySoundSE("se_system_normal_decision", false);
 
 		now_stage = cursor_loc;
 
