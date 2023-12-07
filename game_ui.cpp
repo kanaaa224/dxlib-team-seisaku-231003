@@ -519,8 +519,8 @@ void GameUI::drawHUD() const {
 	x -= 120;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	if (current) DrawCircle(x, y, 50, GetColor(0, 0, 0), true);
-	else         DrawCircle(x, y, 50, GetColor(89, 165, 3), true);
+	if (current) DrawCircle(x, y, 40, GetColor(0, 0, 0), true);
+	else         DrawCircle(x, y, 40, GetColor(89, 165, 3), true);
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//SetFontSize(16);
@@ -531,7 +531,7 @@ void GameUI::drawHUD() const {
 	//DrawCircle(x, y, 50, 0xffffff, false, 2);
 	/*if (current) DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeWhite, TRUE);
 	else         DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeGreen, TRUE);*/
-	DrawExtendGraph(x - 30, y - 30, (x - 30) + 60, (y - 30) + 60, img_coolTime, TRUE);
+	DrawExtendGraph(x - 25, y - 25, (x - 25) + 50, (y - 25) + 50, img_coolTime, TRUE);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
 	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
