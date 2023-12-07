@@ -65,10 +65,10 @@ void SoundManager::CreateSoundManager()
 	SetVolumeBGM("bgm_normal", 30);
 	SetVolumeBGM("bgm_middleboss", 45);
 	SetVolumeBGM("bgm_boss", 55);
-	SetVolumeBGM("bgm_gameover", 50);
-	SetVolumeBGM("bgm_gameclear", 30);
+	SetVolumeBGM("bgm_gameover", 60);
+	SetVolumeBGM("bgm_gameclear", 40);
 	SetVolumeSE("se_system_normal_decision", 70);
-	SetVolumeSE("se_system_ng", 60);
+	SetVolumeSE("se_system_ng", 50);
 	SetVolumeSE("se_system_cancel", 60);
 	SetVolumeSE("se_enemy_damage", 30);
 	SetVolumeSE("se_enemy_barrierdamage", 40);
