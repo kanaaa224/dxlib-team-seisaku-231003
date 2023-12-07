@@ -17,6 +17,10 @@ private:
 	int bonfire_image;
 	int button_image;
 
+	int logo_dicision_image;
+	int logo_rest_image;
+	int logo_pray_image;
+
 	bool is_select;
 	bool is_ok;
 	bool rest_buf_flg;			//‹xŒe‚Ìƒoƒt‚ğ‚©‚¯‚éH
