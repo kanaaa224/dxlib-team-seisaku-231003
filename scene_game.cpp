@@ -549,7 +549,7 @@ Scene* GameScene::update() {
 			gameUI->setFloor(currentFloor + 1);
 			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
 
-			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, 0, 0 }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, 25, 100 });
+			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, weaponA->GetCoolTime(), weaponA->GetMaxCoolTime() }, {weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, weaponB->GetCoolTime(), weaponB->GetMaxCoolTime() });
 			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
 				if (battleMode == GameSceneBattleMode::midBoss) 
