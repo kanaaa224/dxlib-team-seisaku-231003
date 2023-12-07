@@ -1,14 +1,9 @@
-#include "weapon.h"
-#include "inputCtrl.h"
-#include "DxLib.h"
+#include "main.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
-#include "Player.h"
+
 //#include "SphereCollider.h"
-
-
-
 
 
 weapon::weapon()
@@ -40,8 +35,18 @@ weapon::weapon()
 	tornado_img = LoadGraph("resources/images/tornado_1.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
 
-	dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
-	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");
+	/*dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
+	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");*/
+
+	SoundManager::SetSE("se_weapon_sword_swing");
+	SoundManager::SetSE("se_weapon_sword_Lv8");
+	SoundManager::SetSE("se_weapon_sword_Lv7");
+	SoundManager::SetSE("se_weapon_dagger_swing");
+	SoundManager::SetSE("se_weapon_dagger_Lv8");
+	SoundManager::SetSE("se_weapon_dagger_Lv7");
+	SoundManager::SetSE("se_weapon_greatsword_swing");
+	SoundManager::SetSE("se_weapon_greatsword_Lv8");
+	SoundManager::SetVolumeSEs(100);
 
 
 	soundFlg = false;
@@ -103,8 +108,6 @@ weapon::~weapon()
 	DeleteGraph(dagger_img);
 	DeleteGraph(greatsword_img);
 	DeleteGraph(attackbuf_img);
-	DeleteSoundMem(dagger_sound);
-	DeleteSoundMem(greatSword_sound);
 }
 
 void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)
@@ -144,17 +147,32 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			switch (weaponType)
 			{
 			case sword:
-				PlaySoundMem(greatSword_sound, DX_PLAYTYPE_BACK, TRUE);
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_sword_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_sword_swing");
+				}
 				soundFlg = true;
 				break;
 
 			case dagger:
-				PlaySoundMem(dagger_sound, DX_PLAYTYPE_BACK, TRUE);
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_dagger_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_dagger_swing");
+				}
 				soundFlg = true;
 				break;
 
 			case greatSword:
-				PlaySoundMem(greatSword_sound, DX_PLAYTYPE_BACK, TRUE);
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_greatsword_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_greatsword_swing");
+				}
 				soundFlg = true;
 				break;
 
@@ -239,6 +257,9 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 		//‰ñ”ð’†‚Éƒ_ƒ[ƒW
 		if (weaponType == dagger && weaponLevel == 7) {
 			if (player->GetPlayer_Avoidance()) {
+				if (!avoidanceDamageFlg) {
+					SoundManager::PlaySoundSE("se_weapon_dagger_Lv7");
+				}
 				avoidanceDamageFlg = true;
 			}
 			else {
