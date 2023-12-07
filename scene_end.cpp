@@ -72,10 +72,10 @@ void End::draw()const
 	DrawGraph(0, 0, EndImage, TRUE);
 	
 	//デバッグ用マウス座標
-	DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %d", End_Debug_Mouse_x);
+	/*DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %d", End_Debug_Mouse_x);
 	DrawFormatString(0, 320, GetColor(255, 0, 0), "Mouse y %d", End_Debug_Mouse_y);
 	DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
-	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
+	DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);*/
 
 	DrawRotaGraph(630, End_Text__y, 0.5, 0.0, End_Thankyou_Text, TRUE);
 

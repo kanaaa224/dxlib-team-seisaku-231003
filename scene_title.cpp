@@ -120,31 +120,6 @@ Scene* Title::update()
 		TitleInterval++;
 	}
 
-	//カーソル上下
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_UP) == PRESS)
-	{
-		//スティック移動の初期化
-		TitleInterval = 0;
-		//カーソルの移動音
-		SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
-		//タイトルカーソルの移動
-		if (--g_MenuNumber > TITLECURSOR);
-		//タイトルカーソルの移動量の制御
-		if (g_MenuNumber < 0) g_MenuNumber = 3;
-	}
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS)
-	{
-		//スティック移動の初期化
-		TitleInterval = 0;
-		//タイトルカーソルの移動
-		SoundManager::PlaySoundSE("se_system_select_syu",false, DX_PLAYTYPE_BACK);
-		if (++g_MenuNumber < -TITLECURSOR);
-		//タイトルカーソルの移動量の制御
-		if (g_MenuNumber > 3)g_MenuNumber = 0;
-	}
-
-	g_MenuY = g_MenuNumber * 90;
-
 	//Aボタンでメニュー決定・画面遷移
 	if (Title_Cursor_Flg == true)
 	{
@@ -170,6 +145,33 @@ Scene* Title::update()
 				return new End;
 			}
 		}
+	}
+	else {
+
+		//カーソル上下
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_UP) == PRESS)
+		{
+			//スティック移動の初期化
+			TitleInterval = 0;
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
+			//タイトルカーソルの移動
+			if (--g_MenuNumber > TITLECURSOR);
+			//タイトルカーソルの移動量の制御
+			if (g_MenuNumber < 0) g_MenuNumber = 3;
+		}
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS)
+		{
+			//スティック移動の初期化
+			TitleInterval = 0;
+			//タイトルカーソルの移動
+			SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
+			if (++g_MenuNumber < -TITLECURSOR);
+			//タイトルカーソルの移動量の制御
+			if (g_MenuNumber > 3)g_MenuNumber = 0;
+		}
+
+		g_MenuY = g_MenuNumber * 90;
 	}
 
 	//タイトルロゴアニメーション

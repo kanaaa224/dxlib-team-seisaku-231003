@@ -1,10 +1,8 @@
-#include "second_weapon.h"
-#include "inputCtrl.h"
-#include "DxLib.h"
+#include "main.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
-#include "Player.h"
+
 
 
 second_weapon::second_weapon()
@@ -28,24 +26,46 @@ second_weapon::second_weapon()
 	location = { 640.360 };
 
 	spear_img = LoadGraph("resources/images/武器/槍50・50.png");
-	frail_img = LoadGraph("resources/images/chain_iron ball.png");
+	frail_img = LoadGraph("resources/images/武器/鉄球30.30.png");
 	book_img = LoadGraph("resources/images/tsurugi_bronze_blue.png");
 	bullet_img = LoadGraph("resources/images/magic_bullet.png");
 	ironball_img = LoadGraph("resources/images/chain_iron ball.png");
-	barrier_img = LoadGraph("resources/images/baria_blue.png");
+	barrier_img[0] = LoadGraph("resources/images/武器/Baria.png");
+	barrier_img[1] = LoadGraph("resources/images/武器/Baria.png");
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
-	crack_img = LoadGraph("resources/images/crack.png");
-	thunder_img[0] = LoadGraph("resources/images/Thunder_1.png");
-	thunder_img[1] = LoadGraph("resources/images/Thunder_2.png");
-	thunder_img[2] = LoadGraph("resources/images/Thunder_3.png");
 
+	crack_img[0] = LoadGraph("resources/images/武器/Crock/Rock_crack_0.png");
+	crack_img[1] = LoadGraph("resources/images/武器/Crock/Rock_crack_1.png");
+	crack_img[2] = LoadGraph("resources/images/武器/Crock/Rock_crack_2.png");
+	crack_img[3] = LoadGraph("resources/images/武器/Crock/Rock_crack_3.png");
+	crack_img[4] = LoadGraph("resources/images/武器/Crock/Rock_crack_4.png");
+	crack_img[5] = LoadGraph("resources/images/武器/Crock/Rock_crack_5.png");
+
+	thunder_img[0] = LoadGraph("resources/images/武器/lightning_Anim_1.png");
+	thunder_img[1] = LoadGraph("resources/images/武器/lightning_Anim_2.png");
+	thunder_img[2] = LoadGraph("resources/images/武器/lightning_Anim_3.png");
+	thunder_img[3] = LoadGraph("resources/images/武器/lightning_Anim_4.png");
+	thunder_img[4] = LoadGraph("resources/images/武器/lightning_Anim_0.png");
+	cooltime_img = LoadGraph("resources/images/Cool_Time_green.png");
+
+	SoundManager::SetSE("se_weapon_spear_swing");
+	SoundManager::SetSE("se_weapon_spear_Lv8");
+	SoundManager::SetSE("se_weapon_frail_swig");
+	SoundManager::SetSE("se_weapon_frail_Lv8");
+	SoundManager::SetSE("se_weapon_frail");
+	SoundManager::SetSE("se_weapon_book_swing");
+	SoundManager::SetSE("se_weapon_book_Lv7");
+	SoundManager::SetSE("se_weapon_book_Lv8");
+	SoundManager::SetSE("");
+	
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
 	thunderRadius = 1000.0f;
 	for (int i = 0; i < 64; i++){
 		thunder[i].flg = false;
 		thunder[i].fps = 0;
+		thunder[i].soundflg = false;
 	}
 
 	frailRadius = 30.0f;
@@ -54,6 +74,7 @@ second_weapon::second_weapon()
 	level7FrailFlg = false;
 	level8FrailRadius = 100.0f;
 	frailDistance = 0.0f;
+	frailFps = 0;
 
 	Bullet_speed = 10;
 
@@ -67,6 +88,8 @@ second_weapon::second_weapon()
 	barrierFlg = false;
 
 	totalDamage = 0;
+
+	soundFlg = false;
 
 }
 
@@ -97,9 +120,15 @@ second_weapon::~second_weapon()
 	DeleteGraph(book_img);
 	DeleteGraph(bullet_img);
 	DeleteGraph(ironball_img);
-	DeleteGraph(barrier_img);
+	DeleteGraph(barrier_img[0]);
+	DeleteGraph(barrier_img[1]);
 	DeleteGraph(attackbuf_img);
-	DeleteGraph(crack_img);
+	DeleteGraph(crack_img[0]);
+	DeleteGraph(crack_img[1]);
+	DeleteGraph(crack_img[2]);
+	DeleteGraph(crack_img[3]);
+	DeleteGraph(crack_img[4]);
+	DeleteGraph(crack_img[5]);
 	DeleteGraph(thunder_img[0]);
 	DeleteGraph(thunder_img[1]);
 	DeleteGraph(thunder_img[2]);
@@ -136,6 +165,41 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			isAttacking = true;
 			coolTime = maxCoolTime;
 		}
+
+		if (!soundFlg && coolTime < 5) {
+			switch (weaponType)
+			{
+			case spear:
+				SoundManager::PlaySoundSE("se_weapon_spear_swing");
+				
+				soundFlg = true;
+				break;
+
+			case frail:
+				SoundManager::PlaySoundSE("se_weapon_frail_swig");
+				
+				soundFlg = true;
+				break;
+
+			case book:
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_book_Lv8");
+				}
+				else if (weaponLevel == 7) {
+					SoundManager::PlaySoundSE("se_weapon_book_Lv7");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_book_swing",false);
+				}
+				soundFlg = true;
+				break;
+
+			default:
+				break;
+			}
+
+		}
+
 
 		//攻撃中
 		if (isAttacking) {
@@ -214,6 +278,10 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			
 
 		}
+		/*else {
+			soundFlg = false;
+		}*/
+		
 
 		if (weaponType == book) {
 			MoveBookBullet();
@@ -240,8 +308,21 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 			}
 		}
 
+		if (frailRate == 1.0f) {
+			frailFps++;
+		}
+		else {
+			frailFps = 0;
+		}
+
 		if (weaponType == spear && weaponLevel == 8) {
 			SpearThunder();
+		}
+
+		if (weaponLevel == 7) {
+			if (!barrierFlg) {
+				soundFlg = false;
+			}
 		}
 
 	}
@@ -320,18 +401,27 @@ void second_weapon::Draw() const
 
 	for (int i = 0; i < 64; i++){
 		if (thunder[i].flg /*&& thunder[i].fps > 0*/) {
-			
-			if (thunder[i].fps > 10) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[2], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+			float rate = 0.2f;
+			if (thunder[i].fps > 8) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, rate, 0, thunder_img[4], TRUE, TRUE);
 			}
-			else if (thunder[i].fps > 5) {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[1], TRUE, TRUE);
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+			else if (thunder[i].fps > 6) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[3], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 4) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[2], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
+			}
+			else if (thunder[i].fps > 2) {
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[1], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 / 2, 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
 			else {
-				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.15, 0, thunder_img[0], TRUE, TRUE);
+				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
 			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
@@ -352,15 +442,67 @@ void second_weapon::Draw() const
 			
 			//DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
 			if (frailRate == 1.0f) {
-				DrawRotaGraph2(frailLcation.x, frailLcation.y, 1480 / 2, 1110 / 2, 0.2, rot + (M_PI / 4), crack_img, TRUE, TRUE);
+				if (frailFps > 12) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+				}
+				else if (frailFps > 15) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
+				}
+				else if (frailFps > 10) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+				}
+				else if (frailFps > 5) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+				}
+				else if (frailFps > 0) {
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+				}
+				/*switch (frailFps)
+				{
+				case 1:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					break;
+				case 2:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					break;
+				case 3:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					break;
+				case 4:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
+					break;
+				case 5:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[4], TRUE, TRUE);
+					break;
+				default:
+					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
+					break;
+				}*/
+				
 			}
 		}
-		DrawRotaGraph2(frailLcation.x, frailLcation.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+		DrawRotaGraph2(frailLcation.x, frailLcation.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
 			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
 			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);*/
-			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
-			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 550 / 2, 450 / 2, 0.2 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
+			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		}
 		
 	}
@@ -374,7 +516,8 @@ void second_weapon::Draw() const
 
 	//バリア
 	if (weaponType == book && weaponLevel == 7 && barrierFlg) {
-		DrawRotaGraph2(location.x, location.y, 1000, 1000, 0.05, 0, barrier_img, TRUE, TRUE);
+		DrawRotaGraph2(location.x - 70, location.y, 0, 200, 0.25, 0, barrier_img[0], TRUE, TRUE);
+		DrawRotaGraph2(location.x - 30, location.y, 0, 200, 0.25, 0, barrier_img[0], TRUE, FALSE);
 	}
 
 	
@@ -411,13 +554,13 @@ void second_weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	if (levelUpFlg) {
+	/*if (levelUpFlg) {
 		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
 		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Kキーで閉じる",weaponLevel);
 	}
 	else {
 		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
-	}
+	}*/
 
 }
 
@@ -874,6 +1017,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 
 			if (weaponLevel == 8) {
 				if (tmp_length < radius + frailRadius + level8FrailRadius) {
+					
 					return true;
 				}
 			}
@@ -882,6 +1026,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 					return true;
 				}
 			}
+			
 		}
 	}
 
@@ -928,6 +1073,10 @@ bool second_weapon::SpearThunder()
 {
 	for (int i = 0; i < 64; i++){
 		if (thunder[i].flg) {
+			if (!thunder[i].soundflg) {
+				SoundManager::PlaySoundSE("se_weapon_spear_Lv8",false);
+				thunder[i].soundflg = true;
+			}
 
 			thunder[i].l.x -= playerVector.x;
 			thunder[i].l.y -= playerVector.y;
@@ -935,6 +1084,7 @@ bool second_weapon::SpearThunder()
 			if (thunder[i].fps++ > 120) {
 				thunder[i].fps = 0;
 				thunder[i].flg = false;
+				thunder[i].soundflg = false;
 			}
 		}
 	}
@@ -971,6 +1121,7 @@ void second_weapon::SpawnBookBullets(int num)
 	for (int i = 0; i < MAX_BULLETS_NUM; i++)
 	{
 		if (!bullets[i].flg) {
+			soundFlg = false;
 			bullets[i].flg = true;
 			bullets[i].v = unitVec;
 			bullets[i].l = location;
@@ -1048,6 +1199,12 @@ bool second_weapon::FrailAnim()
 
 	if ((int)frailLength > (int)frailLengthCursor) {
 		frailRate = 1.0f;
+		if (weaponLevel == 8) {
+			SoundManager::PlaySoundSE("se_weapon_frail_Lv8", false);
+		}
+		else {
+			SoundManager::PlaySoundSE("se_weapon_frail", false);
+		}
 		return true;
 	}
 
@@ -1107,6 +1264,7 @@ void second_weapon::InitWeapon(int type)
 	}
 
 	barrierFlg = false;
+	soundFlg = false;
 }
 
 void second_weapon::AddTotalDamage()

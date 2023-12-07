@@ -9,6 +9,10 @@ Help::Help()
 
 	Help_Abtn_Count = 0;
 
+	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
+
+	SoundManager::SetVolumeSEs(65);
+
 }
 
 Help::~Help()
@@ -21,7 +25,14 @@ Help::~Help()
 Scene*Help::update()
 {
 	//ヘルプ2画面へ遷移
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) Help_Abtn_Count++;
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+
+		SoundManager::PlaySoundSE("se_system_normal_decision", DX_PLAYTYPE_BACK);
+		Help_Abtn_Count++;
+	}
+	else {
+		SoundManager::StopSoundSEs();
+	}
 
 	if (Help_Abtn_Count > 2 && Help_Abtn_Count < 4) {
 

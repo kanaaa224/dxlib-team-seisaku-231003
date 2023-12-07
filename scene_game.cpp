@@ -568,7 +568,7 @@ Scene* GameScene::update() {
 			gameUI->setFloor(currentFloor + 1);
 			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
 
-			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, 0, 0 }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, 25, 100 });
+			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, weaponA->GetCoolTime(), weaponA->GetMaxCoolTime() }, {weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, weaponB->GetCoolTime(), weaponB->GetMaxCoolTime() });
 			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
 				if (battleMode == GameSceneBattleMode::midBoss) 
@@ -577,9 +577,9 @@ Scene* GameScene::update() {
 					SoundManager::PlaySoundBGM("bgm_middleboss_end");
 				}
 				SoundManager::StopSoundSEs();
-				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("クリア！", "全てのモンスターを倒しました", 0);
-				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("Congratulation!", "ミノタウロス討伐完了", 0);
-				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了！", "戦塔を制覇しました", 0);
+				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターが倒れた！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
+				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスが倒れた！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
+				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了", "戦塔を制覇しました！", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -709,7 +709,7 @@ void GameScene::draw() const {
 				DrawRotaGraph2(pl.x - 5, pl.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
 			}
 		}
-		DrawFormatString(100, 300, 0xffffff, "%f", totalAttackBuf);
+
 		
 		// 敵
 		if (battleMode == GameSceneBattleMode::normal) SlimeDraw();
@@ -730,8 +730,10 @@ void GameScene::draw() const {
 			gameUI->draw();
 			if (battleMode == GameSceneBattleMode::midBoss) gameUI->drawEnemyHP(); // ボスの体力ゲージ
 			if (battleMode == GameSceneBattleMode::boss) {
-				if (devilKing->GetShieldFlg()) gameUI->drawEnemyHP();
-				if (!devilKing->GetShieldFlg()) gameUI->drawShieldHP();
+				if (devilKing != nullptr) {
+					if (devilKing->GetShieldFlg()) gameUI->drawEnemyHP();
+					if (!devilKing->GetShieldFlg()) gameUI->drawShieldHP();
+				};
 			};
 		};
 
@@ -782,7 +784,7 @@ void GameScene::init() {
 
 	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください", 1);
 	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください", 1);
-	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス", /*"特に何もしていない*/"魔王を討伐してください", 1);
+	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス 魔王の部屋", "魔王「我に勝てるかな？」"/*"特に何もしていない魔王を討伐してください"*/, 1);
 	gameUI->init();
 	gameUI->setState(banner);
 

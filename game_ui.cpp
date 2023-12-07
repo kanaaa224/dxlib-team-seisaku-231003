@@ -21,8 +21,7 @@ GameUI::GameUI() {
 	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png")) == -1) throw;
 	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))  == -1) throw;
 
-	if ((img["coolTimeWhite"]    = LoadGraph("resources/images/Cool_Time_white.png")) == -1) throw;
-	if ((img["coolTimeGreen"]    = LoadGraph("resources/images/Cool_Time_green.png")) == -1) throw;
+	if ((img["coolTime"]    = LoadGraph("resources/images/sprint_512.png"))  == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -56,8 +55,7 @@ GameUI::~GameUI() {
 	DeleteGraph(img["whiteCircle80"]);
 	DeleteGraph(img["blackCircle80"]);
 
-	DeleteGraph(img["coolTimeWhite"]);
-	DeleteGraph(img["coolTimeGreen"]);
+	DeleteGraph(img["coolTime"]);
 
 	//////////////////////////////////////////////////
 
@@ -160,10 +158,10 @@ void GameUI::draw() const {
 };
 
 void GameUI::drawHUD() const {
-	double opacity      = 0.0f;
+	double opacity = 0.0f;
 	double unvisibility = 0.0f;
 
-	if (hud.find("opacity")      != hud.end()) opacity      = hud.at("opacity");
+	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
 	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
 
 	//////////////////////////////////////////////////
@@ -189,7 +187,7 @@ void GameUI::drawHUD() const {
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
 	DrawCircle(rootRX - 60, rootRY + 60, 40, 0x000000, true);
-	if(opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	int color = GetColor(0, 0, 0);
 	//if (point < 10) {
@@ -217,12 +215,12 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	int current = 0;
-	int max     = 0;
-	int ratio   = 0;
+	int max = 0;
+	int ratio = 0;
 
 	if (exp.find("current") != exp.end()) current = exp.at("current");
-	if (exp.find("max")     != exp.end()) max     = exp.at("max");
-	if (exp.find("ratio")   != exp.end()) ratio   = exp.at("ratio");
+	if (exp.find("max") != exp.end()) max = exp.at("max");
+	if (exp.find("ratio") != exp.end()) ratio = exp.at("ratio");
 
 	int lx = rootRX - 400;
 	int ly = rootRY + 70;
@@ -247,18 +245,18 @@ void GameUI::drawHUD() const {
 	str = "EXP: " + std::to_string(current) + "/" + std::to_string(max);
 	DrawFormatString((rootRX - 395)/* - GetDrawFormatStringWidth(str.c_str()) / 2*/, rootRY + 60, 0xffffff, str.c_str());
 
-	
+
 	//////////////////////////////////////////////////
 	// HP
 	//////////////////////////////////////////////////
 
 	current = 0;
-	max     = 0;
-	ratio   = 0;
+	max = 0;
+	ratio = 0;
 
 	if (hp.find("current") != hp.end()) current = hp.at("current");
-	if (hp.find("max")     != hp.end()) max     = hp.at("max");
-	if (hp.find("ratio")   != hp.end()) ratio   = hp.at("ratio");
+	if (hp.find("max") != hp.end()) max = hp.at("max");
+	if (hp.find("ratio") != hp.end()) ratio = hp.at("ratio");
 
 	lx = rootLX + 40;
 	ly = rootLY + 40;
@@ -335,7 +333,7 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(38);
 	//ChangeFont("Century Gothic Bold Italic", DX_CHARSET_DEFAULT);
-	if(floor < 0) str = "B" + std::to_string(abs(floor)) + "F";
+	if (floor < 0) str = "B" + std::to_string(abs(floor)) + "F";
 	else str = std::to_string(floor) + "F";
 	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 120), 0xffffff, str.c_str());
 
@@ -345,10 +343,10 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	current = 0;
-	max     = 0;
+	max = 0;
 
 	if (enemy.find("current") != enemy.end()) current = enemy.at("current");
-	if (enemy.find("max")     != enemy.end()) max     = enemy.at("max");
+	if (enemy.find("max") != enemy.end()) max = enemy.at("max");
 
 	SetFontSize(20);
 	//ChangeFont("");
@@ -376,7 +374,7 @@ void GameUI::drawHUD() const {
 	DrawExtendGraph(lx, ly, rx, ry, img_btnX, TRUE);
 
 	SetFontSize(16);
-	DrawFormatString(lx + 40, ly + 7 , 0xffffff, "レベルアップメニュー");
+	DrawFormatString(lx + 40, ly + 7, 0xffffff, "レベルアップメニュー");
 
 	/* ly -= 40;
 	ry = ly + 30;
@@ -397,6 +395,10 @@ void GameUI::drawHUD() const {
 	// 武器
 	//////////////////////////////////////////////////
 
+	int img_blackCircle80 = 0;
+
+	if (img.find("blackCircle80") != img.end()) img_blackCircle80 = img.at("blackCircle80");
+
 	int img_weaponSword      = 0;
 	int img_weaponDagger     = 0;
 	int img_weaponGreatSword = 0;
@@ -411,22 +413,28 @@ void GameUI::drawHUD() const {
 	if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
 	if (img.find("weaponBook")       != img.end()) img_weaponBook       = img.at("weaponBook");
 
-	int weaponA[3];
-	int weaponB[3];
+	int weaponA[5];
+	int weaponB[5];
 
 	if (weapon.find("A") != weapon.end()) {
 		const std::map<std::string, int>& weaponStats = weapon.at("A");
 
-		if (weaponStats.find("type")     != weaponStats.end()) weaponA[0] = weaponStats.at("type");
-		if (weaponStats.find("level")    != weaponStats.end()) weaponA[1] = weaponStats.at("level");
-		if (weaponStats.find("selected") != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
+		if (weaponStats.find("type")        != weaponStats.end()) weaponA[0] = weaponStats.at("type");
+		if (weaponStats.find("level")       != weaponStats.end()) weaponA[1] = weaponStats.at("level");
+		if (weaponStats.find("selected")    != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
+
+		if (weaponStats.find("coolTime")    != weaponStats.end()) weaponA[3] = weaponStats.at("coolTime");
+		if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponA[4] = weaponStats.at("coolTimeMax");
 	};
 	if (weapon.find("B") != weapon.end()) {
 		const std::map<std::string, int>& weaponStats = weapon.at("B");
 
-		if (weaponStats.find("type")     != weaponStats.end()) weaponB[0] = weaponStats.at("type");
-		if (weaponStats.find("level")    != weaponStats.end()) weaponB[1] = weaponStats.at("level");
-		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
+		if (weaponStats.find("type")        != weaponStats.end()) weaponB[0] = weaponStats.at("type");
+		if (weaponStats.find("level")       != weaponStats.end()) weaponB[1] = weaponStats.at("level");
+		if (weaponStats.find("selected")    != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
+
+		if (weaponStats.find("coolTime")    != weaponStats.end()) weaponB[3] = weaponStats.at("coolTime");
+		if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponB[4] = weaponStats.at("coolTimeMax");
 	};
 
 	int x = rootRX - 80;
@@ -437,6 +445,10 @@ void GameUI::drawHUD() const {
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponB[0] != 99) {
+		if (weaponB[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		if (weaponB[3]) DrawCircleGauge(x, y, ((float)weaponB[3] / (float)weaponB[4]) * 100, img_blackCircle80);
+		if (weaponB[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 		//SetFontSize(16);
 		str = "Lv. " + std::to_string(weaponB[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
@@ -473,11 +485,15 @@ void GameUI::drawHUD() const {
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponA[0] != 99) {
+		if (weaponA[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		if (weaponA[3]) DrawCircleGauge(x, y, ((float)weaponA[3] / (float)weaponA[4]) * 100, img_blackCircle80);
+		if (weaponA[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 		//SetFontSize(16);
 		str = "Lv. " + std::to_string(weaponA[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
 
-		if(weaponA[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
+		if (weaponA[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
 
 		switch (weaponA[0]) {
 		case 0:
@@ -507,11 +523,9 @@ void GameUI::drawHUD() const {
 	// CoolTime
 	//////////////////////////////////////////////////
 
-	int img_blackCircle80 = 0, img_coolTimeWhite = 0, img_coolTimeGreen = 0;
+	int img_coolTime = 0;
 
-	if (img.find("blackCircle80") != img.end()) img_blackCircle80 = img.at("blackCircle80");
-	if (img.find("coolTimeWhite") != img.end()) img_coolTimeWhite = img.at("coolTimeWhite");
-	if (img.find("coolTimeGreen") != img.end()) img_coolTimeGreen = img.at("coolTimeGreen");
+	if (img.find("coolTime") != img.end()) img_coolTime = img.at("coolTime");
 
 	current = 0;
 	max     = 0;
@@ -521,9 +535,10 @@ void GameUI::drawHUD() const {
 
 	x -= 120;
 
-	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-	//DrawCircle(x, y, 50, 0xffffff, true);
-	//if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+	if (current) DrawCircle(x, y, 40, GetColor(0, 0, 0), true);
+	else         DrawCircle(x, y, 40, GetColor(89, 165, 3), true);
+	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	//SetFontSize(16);
 	//str = "回避（仮）";
@@ -531,8 +546,9 @@ void GameUI::drawHUD() const {
 	//DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
 	//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
 	//DrawCircle(x, y, 50, 0xffffff, false, 2);
-	if (current) DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeWhite, TRUE);
-	else         DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeGreen, TRUE);
+	/*if (current) DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeWhite, TRUE);
+	else         DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeGreen, TRUE);*/
+	DrawExtendGraph(x - 25, y - 25, (x - 25) + 50, (y - 25) + 50, img_coolTime, TRUE);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
 	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
