@@ -78,6 +78,33 @@ void SoundManager::SetVolumeSEs(const int volume)
 	}
 }
 
+void SoundManager::SetSoundBGMPosition(LONGLONG time, const char* fileName)
+{
+	SetSoundCurrentTime(time, manager->bgm[fileName]);
+	
+}
+
+void SoundManager::SetSoundBGMsPosition(LONGLONG time)
+{
+	for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
+	{
+		SetSoundCurrentTime(time, manager->bgm[iterator->first]);
+	}
+}
+
+void SoundManager::SetSoundSEPosition(LONGLONG time, const char* fileName)
+{
+	SetSoundCurrentTime(time, manager->se[fileName]);
+}
+
+void SoundManager::SetSoundSEsPosition(LONGLONG time)
+{
+	for (auto iterator = manager->se.begin(); iterator != manager->se.end(); ++iterator)
+	{
+		SetSoundCurrentTime(time, manager->se[iterator->first]);
+	}
+}
+
 void SoundManager::PlaySoundBGM(const char* fileName, int playType, int topPositionFlag)
 {
 	if (!CheckSoundMem(manager->bgm[fileName]))

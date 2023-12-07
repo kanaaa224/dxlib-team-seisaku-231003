@@ -1,12 +1,11 @@
 #include "main.h"
-#include "DrawHelp.h"
 
 Help::Help()
 {
 	//ƒwƒ‹ƒv‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 	if (HelpImage1 = LoadGraph("resources/images/Help/Help_Img2.png")) {}
 	if (HelpImage2 = LoadGraph("resources/images/Help/Help_Stage_Img.png")) {}
-	if (HelpImage3 = LoadGraph("resources/images/Help/skull.png")) {}
+	if (HelpImage3 = LoadGraph("resources/images/Help/Help_weapon_system.png")) {}
 
 	Help_Abtn_Count = 0;
 
@@ -14,7 +13,9 @@ Help::Help()
 
 Help::~Help()
 {
-
+	DeleteGraph(HelpImage1);
+	DeleteGraph(HelpImage2);
+	DeleteGraph(HelpImage3);
 }
 
 Scene*Help::update()
@@ -22,7 +23,16 @@ Scene*Help::update()
 	//ƒwƒ‹ƒv2‰æ–Ê‚Ö‘JˆÚ
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) Help_Abtn_Count++;
 
-	//return new DrawHelp;
+	if (Help_Abtn_Count > 2 && Help_Abtn_Count < 4) {
+
+		SoundManager::StopSoundBGMs();
+		return new GameScene;
+	}
+	else if(Help_Abtn_Count > 1 && Help_Abtn_Count < 3 && InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS) {
+
+		SoundManager::StopSoundBGMs();
+		return new Title;
+	}
 	
 	return this;
 }
@@ -33,12 +43,12 @@ void Help::draw()const
 
 		DrawGraph(0, 0, HelpImage1, TRUE);
 	}
-	else if(Help_Abtn_Count > 0 && Help_Abtn_Count < 2){
+	else if(Help_Abtn_Count > 0 && Help_Abtn_Count < 2){//1
 
 		//ƒwƒ‹ƒv‰æ‘œ‚Ì•\Ž¦
 		DrawGraph(0, 0, HelpImage2, TRUE);
 	}
-	else if (Help_Abtn_Count > 1 && Help_Abtn_Count < 3) {
+	else if (Help_Abtn_Count > 1 && Help_Abtn_Count < 3) {//2
 
 
 		//ƒwƒ‹ƒv‰æ‘œ‚Ì•\Ž¦

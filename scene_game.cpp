@@ -118,7 +118,12 @@ Scene* GameScene::update() {
 		else state++;
 	};
 
-	if (state == pause) return this;
+	if (state == pause)
+	{
+		SoundManager::StopSoundBGMs();
+		SoundManager::StopSoundSEs();
+		return this;
+	}
 
 	//////////////////////////////////////////////////
 
@@ -131,6 +136,7 @@ Scene* GameScene::update() {
 		}
 		// 武器のレベルアップ画面
 		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
+			SoundManager::StopSoundSE("se_player_move"); //プレイヤーの移動SE Stop
 			if (restor_cursor_position == true)
 			{
 				weaponLevelup->SetCloseMode(0);
@@ -151,19 +157,29 @@ Scene* GameScene::update() {
 	// 強制ゲームクリア
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		return new GameClearScene(weaponA, weaponB, map);
 	}
 
 	// デバッグ - Oキーで強制ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		battleMode = GameSceneBattleMode::boss;
 	};
 
 	// デバッグ - Iキーで強制中ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_I) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		battleMode = GameSceneBattleMode::midBoss;
+	};
+
+	// デバッグ - Uキーで強制ノーマル戦
+	if (InputCtrl::GetKeyState(KEY_INPUT_U) == PRESS) {
+		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
+		battleMode = GameSceneBattleMode::normal;
 	};
 
 	// デバッグ - レベルアップポイント操作
@@ -541,6 +557,7 @@ Scene* GameScene::update() {
 					SoundManager::StopSoundBGM("bgm_middleboss");
 					SoundManager::PlaySoundBGM("bgm_middleboss_end");
 				}
+				SoundManager::StopSoundSEs();
 				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("クリア！", "全てのモンスターを倒しました", 0);
 				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("Congratulation!", "ミノタウロス討伐完了", 0);
 				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了！", "戦塔を制覇しました", 0);
@@ -556,6 +573,7 @@ Scene* GameScene::update() {
 					currentFloor++;
 
 					SoundManager::StopSoundBGMs();
+					SoundManager::SetSoundBGMsPosition(0);
 					SoundManager::StopSoundSEs();
 					
 					if (battleMode == GameSceneBattleMode::midBoss)
@@ -581,6 +599,7 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == banner_playerUI) {
 					// 黒帯消滅後に発火
 					SoundManager::StopSoundBGMs();
+					SoundManager::SetSoundBGMsPosition(0);
 					return new GameOverScene(weaponA, weaponB, map);
 				};
 			};
@@ -594,7 +613,6 @@ Scene* GameScene::update() {
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
-			if (InputCtrl::GetKeyState(KEY_INPUT_V) == PRESSED) battleMode = GameSceneBattleMode::boss;
 			//////////////////////////////////////////////////
 
 			// 経験値、レベル、ポイント処理
@@ -647,7 +665,7 @@ Scene* GameScene::update() {
 
 #if 1
 	clsDx();
-	printfDx("[ GameMain ] 上下キーでポイント操作、左右キーでHP\n");
+	printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
 	//printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	//printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
 #endif
@@ -1081,7 +1099,8 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				exp += 10;
+				if (bossState) exp += 1;
+				else exp += 10;
 			}
 		}
 	}
@@ -1109,7 +1128,8 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				exp += 20;
+				if (bossState) exp += 2;
+				else exp += 20;
 			}
 		}
 	}
@@ -1148,7 +1168,8 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				exp += 30;
+				if (bossState) exp += 3;
+				else exp += 30;
 			}
 		}
 		else

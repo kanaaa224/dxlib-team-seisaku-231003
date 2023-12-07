@@ -13,7 +13,7 @@ Credit::Credit()
 
 Credit::~Credit()
 {
-
+	DeleteGraph(CreditImage);
 }
 
 Scene* Credit::update()
