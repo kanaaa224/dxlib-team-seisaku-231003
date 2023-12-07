@@ -21,8 +21,8 @@ GameUI::GameUI() {
 	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png")) == -1) throw;
 	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))  == -1) throw;
 
-	if ((img["coolTimeWhite"]    = LoadGraph("resources/images/Cool_Time_white.png")) == -1) throw;
-	if ((img["coolTimeGreen"]    = LoadGraph("resources/images/Cool_Time_green.png")) == -1) throw;
+	if ((img["coolTimeWhite"]    = LoadGraph("resources/images/sprint_512.png"))  == -1) throw;
+	if ((img["coolTimeGreen"]    = LoadGraph("resources/images/sprint2_512.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -531,8 +531,8 @@ void GameUI::drawHUD() const {
 	//DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
 	//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
 	//DrawCircle(x, y, 50, 0xffffff, false, 2);
-	if (current) DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeWhite, TRUE);
-	else         DrawExtendGraph(x - 34, y - 34, (x - 34) + 70, (y - 34) + 70, img_coolTimeGreen, TRUE);
+	if (current) DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeWhite, TRUE);
+	else         DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeGreen, TRUE);
 	if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
 	if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 

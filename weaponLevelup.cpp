@@ -20,6 +20,10 @@ WeaponLevelUp::WeaponLevelUp()
 	img_book = LoadGraph("resources/images/武器/本.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
+	SoundManager::SetSE("se_system_hammer");
+	SoundManager::SetSE("se_system_cancel");
+	SoundManager::SetSE("se_system_ng");
+
 	// 構造体初期化
 	weapon1_info = { 0, none, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f };
 	weapon2_info = { 1, none, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f };
@@ -118,6 +122,8 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 
 		if (InputCtrl::GetStickRatio(L).x > 0.8 && interval >= 15)
 			{
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false);
 			//左スティックを右に
 			interval = 0;
 			cursor_x = 960;
@@ -125,6 +131,8 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 		}
 		else if (InputCtrl::GetStickRatio(L).x < -0.8 && interval >= 15)
 		{
+			//カーソルの移動音
+			SoundManager::PlaySoundSE("se_system_select_syu", false);
 			//左スティックを左に
 			interval = 0;
 			cursor_x = 580;
@@ -138,7 +146,14 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 			// それ以外の場合は選択決定可能
 			if (cursor_x == 580 || weapon2_info.type != none)
 			{
+				//カーソルの決定音
+				SoundManager::PlaySoundSE("se_system_normal_decision",false);
 				weapon_selection = true;
+			}
+			else
+			{
+				//カーソルのNG音
+				SoundManager::PlaySoundSE("se_system_ng", false);
 			}
 		}
 	}
@@ -159,6 +174,9 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 		// Bボタンで選択武器のキャンセル
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
 		{
+			//カーソルのキャンセル音
+			SoundManager::PlaySoundSE("se_system_cancel", false);
+
 			// レベルカーソルの位置直し
 			if (weapon_number == weapon1_info.num)
 			{
@@ -458,6 +476,9 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 {
 	if (info->level_hierarchy < MAX_LEVEL_HIERARCHY && point > 0)
 	{
+		//カーソルの決定音
+		SoundManager::PlaySoundSE("se_system_normal_decision", false);
+
 		// 通常のレベルアップ
 		point--;
 
@@ -511,6 +532,9 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 	}
 	else if (info->level_hierarchy == MAX_LEVEL_HIERARCHY && is_blacksmith == true)
 	{
+		//ハンマーの音
+		SoundManager::PlaySoundSE("se_system_hammer");
+
 		// 最終強化
 
 		if (info->cursor_pos == -level_cursor_pos)
@@ -557,6 +581,14 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 		info->tmp_cool_time = weapon->GetMaxCoolTime();
 		info->tmp_damege = weapon->GetDamage();
 		info->tmp_attack_range = weapon->GetMaxRot();
+	}
+	else
+	{
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		{
+			//カーソルのNG音
+			SoundManager::PlaySoundSE("se_system_ng", false);
+		}
 	}
 }
 
