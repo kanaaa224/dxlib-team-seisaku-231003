@@ -22,7 +22,7 @@ Title::Title()
 
 	//BGM
 	SoundManager::SetBGM("bgm_title");
-	SoundManager::SetVolumeBGMs(50);
+	SoundManager::SetVolumeBGM("bgm_title",50);
 
 	//SE
 	SoundManager::SetSE("se_system_Title_decision_sound");	//ƒJ[ƒ\ƒ‹Œˆ’è‰¹
