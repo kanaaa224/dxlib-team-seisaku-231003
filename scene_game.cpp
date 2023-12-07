@@ -118,7 +118,12 @@ Scene* GameScene::update() {
 		else state++;
 	};
 
-	if (state == pause) return this;
+	if (state == pause)
+	{
+		SoundManager::StopSoundBGMs();
+		SoundManager::StopSoundSEs();
+		return this;
+	}
 
 	//////////////////////////////////////////////////
 
@@ -151,24 +156,28 @@ Scene* GameScene::update() {
 	// 強制ゲームクリア
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		return new GameClearScene(weaponA, weaponB, map);
 	}
 
 	// デバッグ - Oキーで強制ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		battleMode = GameSceneBattleMode::boss;
 	};
 
 	// デバッグ - Iキーで強制中ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_I) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		battleMode = GameSceneBattleMode::midBoss;
 	};
 
 	// デバッグ - Uキーで強制ノーマル戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_U) == PRESS) {
 		SoundManager::StopSoundBGMs();
+		SoundManager::SetSoundBGMsPosition(0);
 		battleMode = GameSceneBattleMode::normal;
 	};
 
@@ -562,6 +571,7 @@ Scene* GameScene::update() {
 					currentFloor++;
 
 					SoundManager::StopSoundBGMs();
+					SoundManager::SetSoundBGMsPosition(0);
 					SoundManager::StopSoundSEs();
 					
 					if (battleMode == GameSceneBattleMode::midBoss)
@@ -587,6 +597,7 @@ Scene* GameScene::update() {
 				if (gameUI->getState() == banner_playerUI) {
 					// 黒帯消滅後に発火
 					SoundManager::StopSoundBGMs();
+					SoundManager::SetSoundBGMsPosition(0);
 					return new GameOverScene(weaponA, weaponB, map);
 				};
 			};

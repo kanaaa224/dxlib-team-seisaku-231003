@@ -94,6 +94,7 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			weapon_levelup->SetIsBlacksmith(false);
 			stage++;
 			SoundManager::StopSoundBGM("bgm_smith");
+			SoundManager::SetSoundBGMsPosition(0);
 			mode = GameSceneMode::map;
 		}
 	}

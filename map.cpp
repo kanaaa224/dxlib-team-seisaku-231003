@@ -180,6 +180,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_RETURN) == PRESS) {
 
 		SoundManager::StopSoundBGM("bgm_map");
+		SoundManager::SetSoundBGMsPosition(0);
 
 		now_stage = cursor_loc;
 

@@ -137,6 +137,7 @@ Scene* Title::update()
 
 			if (g_MenuNumber == 0) {
 				SoundManager::StopSoundBGMs();
+				SoundManager::SetSoundBGMsPosition(0);
 				return new GameScene;
 			}
 			if (g_MenuNumber == 1) {
