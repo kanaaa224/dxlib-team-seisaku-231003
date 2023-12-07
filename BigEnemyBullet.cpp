@@ -27,7 +27,7 @@ BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 	diff.y = 0;
 	radius = 25;
 	damage = 1;
-	speed = 2.0f;
+	speed = 6.0f;
 	lifeTimeCnt = SECOND_FRAME(LIFETIME);
 	SetPlayer_Location(player->GetLocation());
 	vector.x = Normalization_X(PlayerLoadX(location.x), PlayerLoadY(location.y)) * speed;
@@ -58,8 +58,8 @@ void BigEnemyBullet::Update(Player* player)
 		x = player->Player_AimingX() - dL.x;
 		y = player->Player_AimingY() - dL.y;
 		
-		vector.x = Normalization_X(x, y);
-		vector.y = Normalization_Y(x, y);
+		vector.x = Normalization_X(x, y) * speed;
+		vector.y = Normalization_Y(x, y) * speed;
 		location.x += vector.x - diff.x;
 		location.y += vector.y - diff.y;
 		hitWeapon = false;
