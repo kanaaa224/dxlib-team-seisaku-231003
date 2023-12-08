@@ -54,14 +54,21 @@ void BigEnemyBullet::Update(Player* player)
 	}
 	else if (hitWeapon == true) {
 		//プレイヤーのカーソルの位置を取得する関数
-		float x, y;
+		/*float x, y;
 		x = player->Player_AimingX() - dL.x;
 		y = player->Player_AimingY() - dL.y;
 		
 		vector.x = Normalization_X(x, y) * speed;
 		vector.y = Normalization_Y(x, y) * speed;
 		location.x += vector.x - diff.x;
-		location.y += vector.y - diff.y;
+		location.y += vector.y - diff.y;*/
+
+		if (doOnesFlg == false) {
+			vector.x *= -1;
+			vector.y *= -1;
+			doOnesFlg = true;
+		}
+		
 		hitWeapon = false;
 	}
 	

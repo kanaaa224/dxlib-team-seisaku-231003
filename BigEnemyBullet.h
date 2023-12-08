@@ -11,6 +11,7 @@ private:
 	bool redDrawFlg = false;
 	int redDrawCounter = 0;
 
+	bool doOnesFlg = false;
 	//武器との当たり判定
 	bool hitWeapon = false;
 public:
