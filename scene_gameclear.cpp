@@ -28,9 +28,6 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 	result_info[8] = map->GetRestCount();
 	result_info[9] = map->GetAnvilCount();
 	result_info[10] = map->GetBossCount();
-
-	SoundManager::SetBGM("bgm_gameclear");
-	SoundManager::SetVolumeBGM("bgm_gameclear", 50);
 }
 
 GameClearScene::~GameClearScene()
@@ -54,6 +51,7 @@ Scene* GameClearScene::update()
 
 	// ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && value <= 0) {
+		SoundManager::PlaySoundSE("se_system_normal_decision");
 		return new ResultScene(result_info);
 	}
 

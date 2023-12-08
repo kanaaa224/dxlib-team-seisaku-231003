@@ -112,6 +112,9 @@ private:
 	int tornado_img;
 	int arrow_img;
 
+	int daggerslash_img;
+
+
 	//int sword_sound;
 	//int dagger_sound;
 	//int greatSword_sound;

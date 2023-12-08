@@ -30,14 +30,6 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 	logo_frail_image = LoadGraph("resources/images/Logo/WeaponName/logo_frail_white.png");
 	logo_book_image = LoadGraph("resources/images/Logo/WeaponName/logo_book_white.png");
 
-	SoundManager::SetBGM("bgm_weaponselection");
-	SoundManager::SetVolumeBGM("bgm_weaponselection", 65);
-	SetLoopPosSoundMem(56400, SoundManager::GetBGMHandle("bgm_weaponselection"));
-
-	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
-	SoundManager::SetSE("se_system_select_syu");			//カーソル移動音
-	SoundManager::SetVolumeSEs(50);
-
 	is_selecting = false;
 }
 

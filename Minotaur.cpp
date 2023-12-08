@@ -1,8 +1,5 @@
 ﻿#include "Minotaur.h"
-#include "Common.h"
-#include "Player.h"
-#include <math.h>
-#include "inputCtrl.h"
+#include"main.h"
 
 //#define DEBUG
 #define BTN_DEBUG
@@ -194,6 +191,7 @@ void Minotaur::TackleUpdate()
 	//タックル開始
 	if (tackleFlg == true) {
 		if (doOneFlg == false) {
+			SoundManager::PlaySoundSE("se_enemy_tackle");
 			//タックルした時に最終的に移動する場所
 			tackleTmpL.x = location.x - boxX_a;
 			tackleTmpL.y = location.y - boxY_a;
@@ -290,6 +288,7 @@ void Minotaur::RoarUpdate()
 	}
 
 	if (roarFinFlg == true) {
+		SoundManager::PlaySoundSE("se_enemy_shout");
 		roarFlg = false;
 		roarStartFlg = false;
 		tackleCnt = 0;
