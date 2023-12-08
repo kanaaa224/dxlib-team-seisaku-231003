@@ -53,6 +53,8 @@ GameScene::GameScene() {
 
 	bossState = 0;
 
+	restCnt = 2;
+
 	map->ResetStage();
 
 	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！", 1);
@@ -199,6 +201,11 @@ Scene* GameScene::update() {
 
 		if (gameUI->getState() >= banner_playerUI) {
 
+			if (restCnt <= 0)
+			{
+				rest->SetRestBufFlg(false);
+			}
+
 			//敵
 			HitCheck();
 			if (battleMode == GameSceneBattleMode::normal) SlimeUpdate();
@@ -207,9 +214,6 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
 			if (battleMode == GameSceneBattleMode::boss) DevilKingUpdate();
 
-
-			//休憩の攻撃バフ
-			//rest->SetRestBufFlg(true);
 			weaponA->SetAttackBuf(rest->GetRestBufFlg());
 			totalAttackBuf = weaponA->GetAttackBuf() * weaponB->GetAttackBufRate();
 			pl = player->GetLocation();
@@ -618,6 +622,10 @@ Scene* GameScene::update() {
 
 
 					currentFloor++;
+					if (rest->GetRestBufFlg())
+					{
+						restCnt--;
+					}
 
 					SoundManager::StopSoundBGMs();
 					SoundManager::SetSoundBGMsPosition(0);
@@ -704,7 +712,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::rest) {
-		rest->update(player, mode, currentFloor);
+		rest->update(player, mode, currentFloor, restCnt);
 		hp = MAX_HP;
 		//if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;

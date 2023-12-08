@@ -26,7 +26,7 @@ public:
 	//連想配列に格納されたBGMのサウンドハンドルを取得する
 	static int GetBGMHandle(const char* fileName) { return manager->bgm[fileName]; }
 
-	//連想配列に格納されたサウンドハンドルを取得する
+	//連想配列に格納されたSEのサウンドハンドルを取得する
 	static int GetSEHandle(const char* fileName) { return manager->se[fileName]; }
 
 	//サウンドハンドルにBGMを設定する
