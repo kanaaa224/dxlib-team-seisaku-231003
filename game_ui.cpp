@@ -21,7 +21,7 @@ GameUI::GameUI() {
 	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png")) == -1) throw;
 	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))  == -1) throw;
 
-	if ((img["coolTime"]    = LoadGraph("resources/images/sprint_512.png"))  == -1) throw;
+	if ((img["coolTime"]         = LoadGraph("resources/images/sprint_512.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -158,7 +158,7 @@ void GameUI::draw() const {
 };
 
 void GameUI::drawHUD() const {
-	double opacity = 0.0f;
+	double opacity      = 0.0f;
 	double unvisibility = 0.0f;
 
 	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
