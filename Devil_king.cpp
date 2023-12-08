@@ -120,8 +120,8 @@ void Devil_king::Update(Player* player)
 			//浮遊
 			skyWalkFlg = true;
 			//影
-			shadowLocation.x = location.x;
-			shadowLocation.y = location.y;
+			shadowLocation.x = location.x - diff.x;
+			shadowLocation.y = location.y - diff.y;
 			shadowRadiusX = LIGHT_SHADOW_RADIUS_X;
 			shadowRadiusY = LIGHT_SHADOW_RADIUS_Y;
 		}

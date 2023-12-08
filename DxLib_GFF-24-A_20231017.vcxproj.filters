@@ -189,6 +189,9 @@
     <ClInclude Include="SmallEnemyBullet.h">
       <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
     </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sceneManager.cpp">
@@ -300,6 +303,9 @@
       <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
     </ClCompile>
     <ClCompile Include="SmallEnemyBullet.cpp">
+      <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
       <Filter>ゲーム処理\Enemy\Boss\BossWeapon</Filter>
     </ClCompile>
   </ItemGroup>

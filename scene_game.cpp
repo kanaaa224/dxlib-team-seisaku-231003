@@ -473,6 +473,57 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+
+				//幽霊
+				for (int i = 0; i < MAX_GHOST_NUM; i++) {
+					if (ghost[i] != nullptr) {
+						if (weaponA->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+							if (ghost[i]->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								ghost[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								ghost[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+								ghost[i]->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
+								weaponA->AddTotalDamage();
+							}
+
+							if (true);
+						}
+						if (weaponB->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+							if (ghost[i]->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								ghost[i]->SetHitWeaponFlg();
+								ghost[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+								ghost[i]->SetHit1stFrameFlg(true);
+
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(ghost[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+										ghost[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
+									}
+								}
+								weaponB->AddTotalDamage();
+							}
+						}
+						if (weaponA->DustCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+							if (ghost[i]->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								ghost[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								ghost[i]->SetHitHP(weaponA->GetDustDamage());
+								ghost[i]->SetHit1stFrameFlg(true);
+								ghost[i]->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
+						}
+					}
+				}
 				
 			}
 
@@ -602,10 +653,8 @@ Scene* GameScene::update() {
 			//////////////////////////////////////////////////
 			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
 			if (battleMode == GameSceneBattleMode::boss) {
-				if (devilKing != nullptr) {
 					if (devilKing->GetShieldFlg()) gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
 					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("魔王 猫スライム", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
-				};
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
@@ -697,6 +746,7 @@ void GameScene::draw() const {
 		if (battleMode == GameSceneBattleMode::boss) DevilKingDraw();
 		if (battleMode == GameSceneBattleMode::boss) BigEnemyBulletDraw();
 		if (battleMode == GameSceneBattleMode::boss) SmallEnemyBulletDraw();
+		if (battleMode == GameSceneBattleMode::boss) GhostDraw();
 
 		//////////////////////////////////////////////////
 
@@ -993,7 +1043,12 @@ void GameScene::HitCheck()
 				}
 			}
 
-			
+			//幽霊とプレイヤーの当たり判定
+			for (int i = 0; i < MAX_GHOST_NUM; i++) {
+				if (ghost[i] != nullptr) {
+					HitEnemy(ghost[i]);
+				}
+			}
 
 		}
 	}
@@ -1266,6 +1321,17 @@ void GameScene::DevilKingUpdate()
 		for (int i = 0; i < MAX_BULLET_NUM; i++) {
 			SmallEnemyBulletUpdate(i);
 		}
+
+		//幽霊
+		if ((DEVILKING_MAX_HP / 2) >= devilKing->GetHP() && devilKing->GetShieldFlg() == false) {
+			GhostUpdate();
+		}
+		else if (devilKing->GetShieldFlg() == true) {
+			for (int i = 0; i < MAX_GHOST_NUM; i++) {
+				ghost[i] = nullptr;
+				tmpGhostNum = 0;
+			}
+		}
 	}
 
 	if (devilKing != nullptr) {
@@ -1321,6 +1387,33 @@ void GameScene::SmallEnemyBulletDraw() const
 	for (int i = 0; i < MAX_BULLET_NUM; i++) {
 		if (smallEnemyBullet[i] != nullptr) {
 			smallEnemyBullet[i]->Draw();
+		}
+	}
+}
+
+//幽霊
+void GameScene::GhostUpdate() 
+{
+	if (tmpGhostNum < MAX_GHOST_NUM) {
+		ghost[tmpGhostNum] = new Ghost(tmpGhostNum);
+		tmpGhostNum++;
+	}
+
+	for (int i = 0; i < MAX_GHOST_NUM; i++) {
+		if (ghost[i] != nullptr) {
+			ghost[i]->Update(player);
+			if (ghost[i]->GetHP() <= 0) {
+				ghost[i] = nullptr;
+			}
+		}
+	}
+}
+
+void GameScene::GhostDraw() const 
+{
+	for (int i = 0; i < MAX_GHOST_NUM; i++) {
+		if (ghost[i] != nullptr) {
+			ghost[i]->Draw();
 		}
 	}
 }

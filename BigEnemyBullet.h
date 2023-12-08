@@ -2,7 +2,7 @@
 #include "EnemyBase.h"
 #include "Common.h"
 
-#define LIFETIME 2
+#define LIFETIME 3.2
 
 class BigEnemyBullet :public EnemyBase
 {
