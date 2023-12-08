@@ -25,6 +25,9 @@ void Ghost::Update(Player* player)
 	//プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 
+	//画像左右
+	imgAngle = CheckImgAngle();
+
 	vector.x = Normalization_X(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * 1.0f;
 	vector.y = Normalization_Y(PlayerLoad_X(location.x), PlayerLoad_Y(location.y)) * 1.0f;
 	location.x += vector.x - diff.x;
@@ -33,9 +36,16 @@ void Ghost::Update(Player* player)
 
 void Ghost::Draw() const
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
-	DrawRotaGraph((int)location.x, (int)location.y, 1.5, 0, img, TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	if (imgAngle == IMG_L) {//左向き表示
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
+		DrawRotaGraph((int)location.x, (int)location.y, 1.5, 0, img, TRUE, 1);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	}
+	else if (imgAngle == IMG_R) {//右向き表示
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
+		DrawRotaGraph((int)location.x, (int)location.y, 1.5, 0, img, TRUE, 0);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	}
 
 #ifdef DEBUG
 	DrawCircle((int)location.x, (int)location.y, radius, C_RED, FALSE, 2);

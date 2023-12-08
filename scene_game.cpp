@@ -473,6 +473,57 @@ Scene* GameScene::update() {
 						}
 					}
 				}
+
+				//幽霊
+				for (int i = 0; i < MAX_GHOST_NUM; i++) {
+					if (ghost[i] != nullptr) {
+						if (weaponA->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+							if (ghost[i]->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								ghost[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								ghost[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+								ghost[i]->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
+								}
+								weaponA->AddTotalDamage();
+							}
+
+							if (true);
+						}
+						if (weaponB->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+							if (ghost[i]->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								ghost[i]->SetHitWeaponFlg();
+								ghost[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+								ghost[i]->SetHit1stFrameFlg(true);
+
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(ghost[i]->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+										ghost[i]->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
+									}
+								}
+								weaponB->AddTotalDamage();
+							}
+						}
+						if (weaponA->DustCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+							if (ghost[i]->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								ghost[i]->SetHitWeaponFlg();
+								//ダメージアップ
+								ghost[i]->SetHitHP(weaponA->GetDustDamage());
+								ghost[i]->SetHit1stFrameFlg(true);
+								ghost[i]->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
+						}
+					}
+				}
 				
 			}
 

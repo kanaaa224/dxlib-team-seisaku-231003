@@ -108,3 +108,12 @@
 
 //幽霊
 #define MAX_GHOST_NUM 200
+
+//ミノタウロス
+#define BOX_MAX_WIDTH  50	//タックル攻撃予測の矩形の最大の幅
+#define BOX_MAX_LENGTH 500	//タックル攻撃予測の矩形の長さ
+#define TACKLE_SPEED   8	//タックルのスピード
+#define ROAR_RADIUS    200	//咆哮の半径
+#define PLAYER_RADIUS  23
+#define MINOTAUR_MAX_HP 400		//ミノタウロスの最大HP
+#define MINOTAUR_ATTAK_DAMAGE 10//ミノタウロスの攻撃力
