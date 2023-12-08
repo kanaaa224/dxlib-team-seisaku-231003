@@ -28,7 +28,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
-	tackleCoolTime = SECOND_FRAME(3);
+	tackleCoolTime = SECOND_FRAME(1.3);
 	tackleSpeed = TACKLE_SPEED;
 	nowTackleCnt = 0;
 	tackleCnt = 0;
@@ -174,7 +174,7 @@ void Minotaur::TackleUpdate()
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
 		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-			lineSizeChageCnt += 4;
+			lineSizeChageCnt += 3;
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
 			lineSize = 0;
@@ -219,7 +219,7 @@ void Minotaur::TackleUpdate()
 		tackleCoolTime = 0;
 	}
 	else {
-		tackleCoolTime = SECOND_FRAME(3);
+		tackleCoolTime = SECOND_FRAME(1.3);
 	}
 	//タックルのクールタイム
 	if (coolTimeFlg == true && tackleFlg == false) {

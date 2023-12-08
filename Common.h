@@ -112,7 +112,7 @@
 //ミノタウロス
 #define BOX_MAX_WIDTH  50	//タックル攻撃予測の矩形の最大の幅
 #define BOX_MAX_LENGTH 500	//タックル攻撃予測の矩形の長さ
-#define TACKLE_SPEED   8	//タックルのスピード
+#define TACKLE_SPEED   10	//タックルのスピード
 #define ROAR_RADIUS    200	//咆哮の半径
 #define PLAYER_RADIUS  23
 #define MINOTAUR_MAX_HP 400		//ミノタウロスの最大HP
