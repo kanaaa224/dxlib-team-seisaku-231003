@@ -21,15 +21,6 @@ Rest::Rest(GameUI* ui)
 	logo_rest_image = LoadGraph("resources/images/Logo/UI/logo_rest.png");
 	logo_pray_image = LoadGraph("resources/images/Logo/UI/logo_pray.png");
 
-	SoundManager::SetBGM("bgm_breakstage");
-	SoundManager::SetBGM("bgm_breaktime");
-	SoundManager::SetVolumeBGM("bgm_breaktime", 50);
-
-	SoundManager::SetSE("se_system_normal_decision");		//タイトル以外のカーソル決定音
-	SoundManager::SetSE("se_system_select_syu");			//カーソル移動音
-	SoundManager::SetSE("se_system_healing");				//回復の音
-	SoundManager::SetSE("se_system_blessing");				//祝福の音
-
 	is_select = false;
 	is_ok = false;
 	rest_buf_flg = false;
@@ -53,7 +44,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
 	ui->update();
 
-	cursor_x = cursor_num * 400;
+	cursor_x = cursor_num * 445;
 
 	if (cursor_interval < 15)
 	{
@@ -130,7 +121,7 @@ void Rest::draw() const
 	ui->drawHP();
 
 	DrawRotaGraph(640, 300, .7f, 0, bonfire_image, TRUE);
-	DrawRotaGraph(280 + cursor_x, 620, .15, 1, cursor_image, TRUE);
+	DrawRotaGraph(280 + cursor_x, 610, .15, 1, cursor_image, TRUE);
 	DrawGraph(1150, 650, button_image, TRUE);
 	DrawRotaGraph(1210, 667, 0.1, 0, logo_dicision_image, TRUE);
 

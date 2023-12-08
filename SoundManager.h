@@ -1,5 +1,7 @@
 #pragma once
 #include<DxLib.h>
+#include<map>
+#include<string>
 
 class SoundManager
 {
@@ -21,8 +23,11 @@ public:
 	//SoundManagerの削除
 	static void DeleteSoundManager();
 
-	//連想配列に格納されたサウンドハンドルを取得する
+	//連想配列に格納されたBGMのサウンドハンドルを取得する
 	static int GetBGMHandle(const char* fileName) { return manager->bgm[fileName]; }
+
+	//連想配列に格納されたサウンドハンドルを取得する
+	static int GetSEHandle(const char* fileName) { return manager->se[fileName]; }
 
 	//サウンドハンドルにBGMを設定する
 	//＊fileNameにはファイルの名前だけ入れてください
@@ -36,7 +41,7 @@ public:
 	static void SetVolumeBGM(const char* fileName, const int volume);
 
 	//SEの音量を設定する
-	static void SetvolumeSE(const char* fileName, const int volume);
+	static void SetVolumeSE(const char* fileName, const int volume);
 
 	//すべてのBGMの音量を設定する
 	static void SetVolumeBGMs(const int volume);

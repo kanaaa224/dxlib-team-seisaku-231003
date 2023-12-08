@@ -38,17 +38,6 @@ weapon::weapon()
 	/*dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
 	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");*/
 
-	SoundManager::SetSE("se_weapon_sword_swing");
-	SoundManager::SetSE("se_weapon_sword_Lv8");
-	SoundManager::SetSE("se_weapon_sword_Lv7");
-	SoundManager::SetSE("se_weapon_dagger_swing");
-	SoundManager::SetSE("se_weapon_dagger_Lv8");
-	SoundManager::SetSE("se_weapon_dagger_Lv7");
-	SoundManager::SetSE("se_weapon_greatsword_swing");
-	SoundManager::SetSE("se_weapon_greatsword_Lv8");
-	SoundManager::SetVolumeSEs(100);
-
-
 	soundFlg = false;
 
 	attackbuf = 1.0f;
@@ -352,7 +341,7 @@ void weapon::Draw() const
 	//ŽaŒ‚
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
-			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
+			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0x00ff00, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 250, 250, 0.4, slashRot - (M_PI / 4) + M_PI + d_r(40), slash_img, TRUE);
 		}
@@ -598,7 +587,7 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f; //’ZŒ•‚ÍŽã‚·‚¬‚é‚½‚ßÅ‰‚Í“G‚ð‚S‰ñ‚Å“|‚¹‚é‚æ‚¤‚É‚·‚é
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f; //’ZŒ•‚ÍŽã‚·‚¬‚é‚½‚ßÅ‰‚Í“G‚ð‚S‰ñ‚Å“|‚¹‚é‚æ‚¤‚É‚·‚é
 			damage = INIT_DAMAGE_DAGGER + 1;
 			rotSpeed = 12.0f;
 			
@@ -635,8 +624,8 @@ void weapon::LevelState()
 			//’ZŒ•@ƒ_ƒ[ƒW‚ðã‚°‚é@ˆÚ“®‘¬“x‚ðã‚°‚é
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER + 2;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
+			damage = INIT_DAMAGE_DAGGER + 4;
 			P_speed = 2.5f;
 			P_limit = 1.5f;//‰Šú’l‚É–ß‚·
 			Player::SetPlayer_Speed(P_speed);
@@ -677,9 +666,9 @@ void weapon::LevelState()
 		case dagger:
 			//’ZŒ•@ƒ_ƒ[ƒW‚æ‚è‚àU‚é‘¬“x‚ðã‚°‚é@‰ñ”ð‚Ì‘¬“x‚ðã‚°‚é
 			baseVec = { 80,0,80 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER + 1;
+			maxRot = INIT_ROTATION_DAGGER + 5.0;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
+			damage = INIT_DAMAGE_DAGGER + 2;
 			P_limit = 2.5f;
 			P_speed = 2.0f;//‰Šú’l‚É–ß‚·
 			Player::SetPlayer_Upperlimit(P_limit);
@@ -723,8 +712,8 @@ void weapon::LevelState()
 			//’ZŒ•@ƒ_ƒ[ƒW‚ðã‚°‚é@ˆÚ“®‘¬“x‚ðã‚°‚é
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
+			damage = INIT_DAMAGE_DAGGER + 9;
 			P_speed = 3.0f;
 			P_cooltime = 2.0f;//‰Šú’l‚É–ß‚·
 			Player::SetPlayer_Speed(P_speed);
@@ -767,9 +756,9 @@ void weapon::LevelState()
 		case dagger:
 			//’ZŒ•@ƒ_ƒ[ƒW‚æ‚è‚àU‚é‘¬“x‚ðã‚°‚é@‰ñ”ð‚ÌƒN[ƒ‹ƒ^ƒCƒ€‚ð’Z‚­‚·‚é
 			baseVec = { 80,0,80 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_DAGGER + 10.0f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
+			damage = INIT_DAMAGE_DAGGER + 6;
 			P_cooltime = 0.0f;
 			P_speed = 2.0f;//ƒŒƒxƒ‹‚Q‚É–ß‚·
 			Player::SetAvoidance_limit(P_cooltime);
@@ -812,8 +801,8 @@ void weapon::LevelState()
 			baseVec = { 80,0,80 };
 			// “à—e‚ÍA4 5 ‚ÌŽž‚æ‚è‚©‚Í’á‚¢‚ªÅI‹­‰»‚·‚é‚Æ‚ ‚Ù‚Ý‚½‚¢‚É‹­‚­‚È‚é
 			maxRot = INIT_ROTATION_DAGGER + 5.0f; // 60 + 10 = 70
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER + 3;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
+			damage = INIT_DAMAGE_DAGGER + 20;
 			P_limit = 2.5f;
 			P_cooltime = 1.0f;
 			P_speed = 3.0f;
@@ -942,14 +931,14 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 				uv.length = sqrtf(uv.x * uv.x + uv.y * uv.y);
 
 				for (int j = 0; j < (slashLength / 10) + 1; j++) {
-					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (i * 10));
-					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (i * 10));
+					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (j * 10));
+					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (j * 10));
 
 					float tmp_x2 = weaponCollisionLocation.x - enemyLocation.x;
 					float tmp_y2 = weaponCollisionLocation.y - enemyLocation.y;
 					float tmp_length2 = sqrt(tmp_x2 * tmp_x2 + tmp_y2 * tmp_y2);
 
-					if (tmp_length2 < radius + 100) {
+					if (tmp_length2 < radius + 10) {
 						return true;
 					}
 				}
@@ -1023,6 +1012,8 @@ void weapon::SwordSlashAnim()
 
 		for (int i = 0; i < 10; i++) {
 			if (swordSlash[i].flg) {
+
+				//‚±‚±C³
 				swordSlash[i].collsion1.x = (baseVec.x - 20) * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
 				swordSlash[i].collsion1.y =( baseVec.x - 20 )* sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
 

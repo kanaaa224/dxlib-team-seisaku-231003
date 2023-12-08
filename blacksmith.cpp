@@ -23,10 +23,6 @@ Blacksmith::Blacksmith()
 	img_book = LoadGraph("resources/images/武器/本.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
-	SoundManager::SetBGM("bgm_smith");
-	SetLoopPosSoundMem(5100, SoundManager::GetBGMHandle("bgm_smith"));
-
-
 	// 構造体初期化
 	weapon1_info = { 0, none, 0, 0, 0, false };
 	weapon2_info = { 1, none, 0, 0, 0, false };
@@ -148,6 +144,8 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 				// 過去にレベルアップしたことがある場合選択できる
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
+					//カーソルの決定音
+					SoundManager::PlaySoundSE("se_system_normal_decision");
 					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info, point);
 				}
 			}

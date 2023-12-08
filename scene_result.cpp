@@ -64,6 +64,7 @@ Scene* ResultScene::update()
 	{
 		SoundManager::StopSoundBGMs();
 		SoundManager::SetSoundBGMsPosition(0);
+		SoundManager::PlaySoundSE("se_system_normal_decision");
 		return new Title;
 	}
 

@@ -20,10 +20,6 @@ WeaponLevelUp::WeaponLevelUp()
 	img_book = LoadGraph("resources/images/武器/本.png");
 	img_question_mark = LoadGraph("resources/images/mark_question.png");
 
-	SoundManager::SetSE("se_system_hammer");
-	SoundManager::SetSE("se_system_cancel");
-	SoundManager::SetSE("se_system_ng");
-
 	// 構造体初期化
 	weapon1_info = { 0, none, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f };
 	weapon2_info = { 1, none, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f };
@@ -586,8 +582,11 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 	{
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			//カーソルのNG音
-			SoundManager::PlaySoundSE("se_system_ng", false);
+			if (!CheckSoundMem(SoundManager::GetSEHandle("se_system_hammer")))
+			{
+				//カーソルのNG音
+				SoundManager::PlaySoundSE("se_system_ng", false);
+			}
 		}
 	}
 }
