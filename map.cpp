@@ -323,7 +323,7 @@ void Map::ResetStage() {
 		}
 	}
 
-	pattern = 1;//GetRand(PATTERN_MAX - 1);
+	pattern = GetRand(PATTERN_MAX - 1);
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 
