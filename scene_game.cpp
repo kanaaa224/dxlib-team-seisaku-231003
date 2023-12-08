@@ -600,11 +600,11 @@ Scene* GameScene::update() {
 				};
 			};
 			//////////////////////////////////////////////////
-			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
+			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("この塔の門番 - ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
 			if (battleMode == GameSceneBattleMode::boss) {
 				if (devilKing != nullptr) {
-					if (devilKing->GetShieldFlg()) gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
-					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("魔王 猫スライム", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
+					if (devilKing->GetShieldFlg())  gameUI->setEnemyHP ("この塔を統べる - 魔王", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
+					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("この塔を統べる - 魔王（シールド）", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
 				};
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
