@@ -85,7 +85,7 @@ private:
 
 	Blacksmith* blacksmith;
 	Rest* rest;
-
+	int restCnt;				//休憩バフのカウント
 	//////////////////////////////////////////////////
 
 	// 島袋
