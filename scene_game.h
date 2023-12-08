@@ -67,6 +67,9 @@ private:
 	BigEnemyBullet* bigEnemyBullet[MAX_BULLET_NUM];
 	//小さい弾
 	SmallEnemyBullet* smallEnemyBullet[MAX_BULLET_NUM];
+	//幽霊
+	Ghost* ghost[MAX_GHOST_NUM];
+	int tmpGhostNum = 0;
 
 	GameUI* gameUI;
 
@@ -171,4 +174,7 @@ public:
 	//小さい弾
 	void SmallEnemyBulletUpdate(int array_num);
 	void SmallEnemyBulletDraw() const;
+	//幽霊
+	void GhostUpdate();
+	void GhostDraw() const;
 };

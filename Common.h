@@ -105,3 +105,6 @@
 
 //大きい弾
 #define MAX_BIG_BULLET_NUM 3
+
+//幽霊
+#define MAX_GHOST_NUM 200

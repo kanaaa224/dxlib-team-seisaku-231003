@@ -50,6 +50,7 @@ class GameScene;
 #include "Devil_king.h"
 #include "BigEnemyBullet.h"
 #include "SmallEnemyBullet.h"
+#include "Ghost.h"
 #include "Common.h"
 
 // ゲームメインシーン内のシーン（シーンを継承していない）
