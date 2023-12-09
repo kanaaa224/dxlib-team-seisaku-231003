@@ -49,6 +49,8 @@ private:
 	float boxX_d;
 	float boxY_d;
 
+	Vector boxV;
+
 	//濃い攻撃予測
 	int lineSize;
 
