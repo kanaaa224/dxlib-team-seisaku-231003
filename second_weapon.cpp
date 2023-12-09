@@ -1045,6 +1045,7 @@ bool second_weapon::SpearAnim()
 		isAttacking = false;
 		spear_move = { 0,0,0 };
 		spear_move_cnt = 0;
+		soundFlg = false;
 		return true;
 	}
 
@@ -1195,6 +1196,7 @@ bool second_weapon::FrailAnim()
 		else {
 			SoundManager::PlaySoundSE("se_weapon_frail", false);
 		}
+		soundFlg = false;
 		return true;
 	}
 

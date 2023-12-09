@@ -80,7 +80,7 @@ void SoundManager::CreateSoundManager()
 	SetVolumeSE("se_weapon_greatsword_swing", 70);
 
 	//再生位置の調整
-	SetSoundSEPosition(100, "se_system_normal_decision");
+	SetSoundSEPosition(10, "se_system_normal_decision");
 
 	//ループ位置の調整
 	SetLoopPosSoundMem(4798, GetBGMHandle("bgm_map"));

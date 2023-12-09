@@ -36,7 +36,7 @@ Rest::~Rest()
 	DeleteGraph(logo_pray_image);
 }
 
-void Rest::update(Player* player, int& mode, int& stage)
+void Rest::update(Player* player, int& mode, int& stage, int& restCnt)
 {
 	SoundManager::PlaySoundBGM("bgm_breakstage");
 	SoundManager::PlaySoundBGM("bgm_breaktime");
@@ -110,6 +110,7 @@ void Rest::update(Player* player, int& mode, int& stage)
 				SoundManager::PlaySoundSE("se_system_blessing");
 				rest_buf_flg = true;
 				is_select = true;
+				restCnt = 2;
 			}
 		}
 
