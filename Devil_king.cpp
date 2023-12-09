@@ -36,6 +36,9 @@ void Devil_king::Update(Player* player)
 	//プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 
+	//ビーム
+	BeamUpdate();
+
 	//移動処理
 	if (skyWalkFlg == true && shieldFlg == false) {//浮遊
 		//影
@@ -188,6 +191,9 @@ void Devil_king::Draw() const
 		SetDrawBright(255, 255, 255);
 	}
 
+	//ビーム
+	BeamDraw();
+
 #ifdef DEBUG
 	/*DrawFormatString(location.x, location.y, C_BLUE,      "シールド:%0.2f", shield);
 	DrawFormatString(location.x, location.y + 10, C_BLUE, "   Flg  :%d", shieldFlg);*/
@@ -198,10 +204,25 @@ void Devil_king::Draw() const
 
 void Devil_king::BeamUpdate()
 {
+	boxX_a = location.x - dL.x;
+	boxY_a = location.y - dL.y;
 
+	//長さを一定にする
+	boxX_d = fabsf(BOX_MAX_LENGTH_D / PlayerLoad(location, false));
+	boxX_a *= boxX_d;
+	boxY_d = fabsf(BOX_MAX_LENGTH_D / PlayerLoad(location, false));
+	boxY_a *= boxY_d;
 }
 
 void Devil_king::BeamDraw() const
 {
+	//薄い赤色の矩形
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
+	DrawLine(location.x, location.y, location.x - boxX_a, location.y - boxY_a, C_RED, BOX_MAX_WIDTH);
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
+	//濃い赤色の矩形
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+	DrawLine(location.x, location.y, location.x - boxX_a, location.y - boxY_a, C_RED, lineSize);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }

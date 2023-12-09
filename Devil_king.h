@@ -12,6 +12,8 @@
 #define LIGHT_SHADOW_RADIUS_X 25				//薄い影の半径X
 #define LIGHT_SHADOW_RADIUS_Y  7				//薄い影の半径Y
 
+#define BOX_MAX_LENGTH_D 1280
+
 class Devil_king:public EnemyBase
 {
 private:
@@ -38,6 +40,17 @@ private:
 
 	//ダウン
 	int downTimeCounter = 0;
+
+	//・・・・・ビーム・・・・・//
+
+	//薄い攻撃予測
+	float boxX_a;
+	float boxY_a;
+	float boxX_d;
+	float boxY_d;
+
+	//濃い攻撃予測
+	int lineSize;
 
 public:
 	Devil_king();
