@@ -42,7 +42,7 @@ private:
 		{7, 7, 1, 1, 0},
 		{3, 6, 1, 2, 0},
 		{13, 14, 0, 1, 1},
-		{16, 18, 0, 1, 1},
+		{16, 17, 0, 1, 1},
 		{18, 18, 1, 1, 1},
 		},{
 		{7, 7, 1, 1, 0},
@@ -94,6 +94,11 @@ private:
 	int alpha;
 	bool alpha_flg;
 	int now_stage;     // 現在のステージ
+	int no_input_time;
+	bool intro_flg;
+	int intro_time;
+	int select_draw;
+	int select_loc;
 
 	// 画像
 	int battle_img = 0;
@@ -103,13 +108,13 @@ private:
 	int boss_img = 0;
 	int icon_back_img = 0;
 	int cross_img = 0;
-	int crown_img = 0;
 	int roof_img = 0;
 	int wall_img = 0;
-	int tower_img = 0;
 	int map_back_img = 0;
 	int button_a_image = 0;
 	int decision_img = 0;
+	int map_first_img = 0;
+	int stage_select_img = 0;
 
 	// リザルト画面で使用（縮小マップ作成が無理だった場合）
 	// ステージに何回到達したか
@@ -126,13 +131,13 @@ public:
 
 	int update(int&, int&, bool&);
 
-
 	void draw() const;
 
 	int NowStage() {
 		return now_stage;
 	}
 
+	// ステージクリア後処理
 	void ClearStage() {
 		cursor_pos = 0;
 		cursor_loc = next_stage[pattern][now_stage][0];
@@ -141,11 +146,33 @@ public:
 		map_move = map_move + center_def;
 		alpha = 0;
 		alpha_flg = TRUE;
+		no_input_time = 30;
+		select_draw = 180;
 		for (int i = 0; i <= 10; i++) {
 			if (stage_log[i] == -1) {
 				stage_log[i] = now_stage;
 				break;
 			}
+		}
+		switch (MapData[now_stage])
+		{
+		case 0:		//戦闘
+			battle_count++;
+			break;
+		case 1:		//イベント（中ボス）
+			event_count++;
+			break;
+		case 2:		//休憩
+			rest_count++;
+			break;
+		case 3:		//鍛冶屋
+			anvil_count++;
+			break;
+		case 4:		//ボス
+			boss_count++;
+			break;
+		default:
+			break;
 		}
 	}
 
