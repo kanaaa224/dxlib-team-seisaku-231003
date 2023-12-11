@@ -8,7 +8,7 @@ Map::Map() {
 	cursor_loc = 0;
 	move_cool = 0;
 	cursor_move = FALSE;
-	cursor_r = 45;
+	cursor_r = 30;
 	alpha = 0;
 	alpha_flg = TRUE;
 
@@ -261,6 +261,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 				map_move = 0;
 				select_draw = 180;
 				select_loc = -120;
+				cursor_r = 45;
 			}
 		}
 		
@@ -331,9 +332,10 @@ void Map::draw() const {
 
 		// フォント表示
 		if (select_draw > 0) {
-			DrawBox(435, 45 + select_loc, 890, 120 + select_loc, 0x000000, 1);
-			SetFontSize(64);
-			DrawString(440, 50 + select_loc, "マップを選べ！", 0xfffffff);
+			//DrawBox(435, 45 + select_loc, 890, 120 + select_loc, 0x000000, 1);
+			DrawExtendGraph(440, 50 + select_loc, 890, 120 + select_loc, stage_select_img, 1);
+			//SetFontSize(64);
+			//DrawString(440, 50 + select_loc, "マップを選べ！", 0xffffff);
 		}
 		if (intro_flg)
 		{
@@ -341,6 +343,13 @@ void Map::draw() const {
 			DrawString(340, -380 + map_move, "最上階の魔王を倒せ！", 0x0000a0);*/
 			DrawGraph(340, -380 + map_move, map_first_img, 1);
 		}
+
+		// アイコン説明
+		DrawExtendGraph(10, 450, 50, 490, battle_img, TRUE);
+		DrawExtendGraph(10, 500, 50, 540, event_img, TRUE);
+		DrawExtendGraph(10, 550, 50, 590, rest_img, TRUE);
+		DrawExtendGraph(10, 600, 50, 640, anvil_img, TRUE);
+		DrawExtendGraph(10, 650, 50, 690, boss_img, TRUE);
 
 		// Aボタン
 		DrawGraph(1150, 650, button_a_image, TRUE);
