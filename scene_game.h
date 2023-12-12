@@ -39,6 +39,7 @@ private:
 	weapon* weaponA;
 	second_weapon* weaponB;
 	bool bookFlg;
+	bool devilKingHitFlg;	//槍が連続ヒットする対策(未完成)
 
 	float totalAttackBuf;
 	int arrow_img, attackBuf_img;
