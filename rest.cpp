@@ -118,6 +118,7 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 			{
 				//‰ñ•œ‚Ì‰¹
 				SoundManager::PlaySoundSE("se_system_healing");
+				player->SetPlayerHP(100);
 				hp = MAX_HP;
 				is_select = true;
 			}
