@@ -10,11 +10,6 @@ class ResultScene : public Scene
 private:
 
 	// 画像用変数
-	//int img_map;					// マップ
-	//int img_branchPoint;			// 分岐点
-	//int img_weapon1;				// 武器１
-	//int img_weapon2;				// 武器２
-	//int img_background;			// 背景
 	int img_button_a;				// Aボタン
 
 	// マップアイコン読込用変数
@@ -32,6 +27,18 @@ private:
 	int img_spear;					// 槍
 	int img_frail;					// フレイア
 	int img_book;					// 本
+
+	// ロゴ画像読込用変数
+	int img_logo_result;
+	int img_logo_lv;
+	int img_logo_title;
+	int img_logo_totaldamage;
+	int img_logo_dagger;
+	int img_logo_sword;
+	int img_logo_greatsword;
+	int img_logo_spear;
+	int img_logo_frail;
+	int img_logo_book;
 
 	// フェード演出
 	int value;						// 不透明度
