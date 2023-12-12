@@ -38,7 +38,7 @@ public:
 
 	void update(/*GameScene* gameScene*/);
 
-	void draw() const;
+	void draw(int) const;
 
 	//////////////////////////////////////////////////
 
@@ -48,7 +48,7 @@ public:
 	//////////////////////////////////////////////////
 
 	// ヘッドアップディスプレイ
-	void drawHUD() const;
+	void drawHUD(int) const;
 
 	// バナー表示
 	void drawBanner() const;
@@ -58,9 +58,6 @@ public:
 
 	// シールドの体力
 	void drawShieldHP() const;
-
-	// HP表示
-	void drawHP() const;
 
 	// ポーズ画面
 	void drawPause() const;
