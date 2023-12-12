@@ -1178,7 +1178,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				if (bossState) exp += 15;
+				if (bossState) exp += 13;
 				else exp += 9;
 			}
 		}
@@ -1207,7 +1207,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				if (bossState) exp += 15;
+				if (bossState) exp += 14;
 				//else exp += 20;
 			}
 		}
