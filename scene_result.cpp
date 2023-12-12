@@ -25,7 +25,7 @@ ResultScene::ResultScene(int result_info[])
 	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
 	img_logo_lv = LoadGraph("resources/images/Logo/UI/logo_lv.png");
 	img_logo_title = LoadGraph("resources/images/Logo/UI/logo_title.png");
-	img_logo_totaldamage = LoadGraph("resources/images/武器/片手剣.png");
+	img_logo_totaldamage = LoadGraph("resources/images/Logo/UI/logo_totaldamage.png");
 	img_logo_dagger = LoadGraph("resources/images/Logo/WeaponName/logo_dagger_black.png");
 	img_logo_sword = LoadGraph("resources/images/Logo/WeaponName/logo_sword_black.png");
 	img_logo_greatsword = LoadGraph("resources/images/Logo/WeaponName/logo_greatsword_black.png");
@@ -89,13 +89,6 @@ void ResultScene::draw() const
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
 
 	DrawRotaGraph(640, 50, 0.45f, 0.0f, img_logo_result, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_totaldamage, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_dagger, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_sword, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_greatsword, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_spear, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_spear, TRUE);
-	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_book, TRUE);
 
 	SetFontSize(20);
 	DrawFormatString(10, 50, 0x000000, "到達したステージ");
@@ -104,11 +97,9 @@ void ResultScene::draw() const
 	{
 		DrawRotaGraph(1130, 685, 0.2f, 0.0f, img_button_a, TRUE);
 		DrawRotaGraph(1200, 680, 0.15f, 0.0f, img_logo_title, TRUE);
-		//DrawRotaGraph(1000, 700, 0.3f, 0.0f, img_logo_lv, TRUE);
 	}
-	
 
-	// 画像表示
+	// マップアイコン画像表示
 	DrawRotaGraph(150, 150, 1.0f, 0.0f, img_battle, TRUE);
 	DrawRotaGraph(150, 250, 1.0f, 0.0f, img_event, TRUE);
 	DrawRotaGraph(150, 350, 1.0f, 0.0f, img_rest, TRUE);
@@ -124,26 +115,30 @@ void ResultScene::draw() const
 	DrawFormatString(200, 535, 0x000000, "× %d",map_info.boss_count);
 
 	// 武器1情報表示
-	DrawFormatString(850, 200, 0x000000, "Lv．               %d", weapon1_info.level);
-	DrawFormatString(850, 250, 0x000000, "総ダメージ    %7d", weapon1_info.damage);
+	DrawRotaGraph(860, 240, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(915, 290, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	//DrawFormatString(850, 200, 0x000000, "%7d", weapon1_info.level);
+	//DrawFormatString(850, 250, 0x000000, "%7d", weapon1_info.damage);
 
 	// 武器2情報表示
-	DrawFormatString(850, 450, 0x000000, "Lv．               %d", weapon2_info.level);
-	DrawFormatString(850, 500, 0x000000, "総ダメージ    %7d", weapon2_info.damage);
+	DrawRotaGraph(860, 490, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(915, 540, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	//DrawFormatString(850, 450, 0x000000, "%7d", weapon2_info.level);
+	//DrawFormatString(850, 500, 0x000000, "%7d", weapon2_info.damage);
 
 	switch (weapon1_info.type)
 	{
 	case 0:			// 片手剣
 		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_sword, TRUE);
-		DrawFormatString(850, 150, 0x000000, "片手剣");
+		DrawRotaGraph(885, 170, 0.25f, 0.0f, img_logo_sword, TRUE);
 		break;
 	case 1:		// 短剣
 		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_dagger, TRUE);
-		DrawFormatString(850, 150, 0x000000, "短剣");
+		DrawRotaGraph(870, 170, 0.25f, 0.0f, img_logo_dagger, TRUE);
 		break;
 	case 2:	// 大剣
 		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_great_sword, TRUE);
-		DrawFormatString(850, 150, 0x000000, "大剣");
+		DrawRotaGraph(870, 170, 0.25f, 0.0f, img_logo_greatsword, TRUE);
 		break;
 	default:
 		DrawRotaGraph(750, 215, 0.15f, 0.0f, img_question_mark, TRUE);
@@ -156,15 +151,15 @@ void ResultScene::draw() const
 	{
 	case 0:			// 槍
 		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_spear, TRUE);
-		DrawFormatString(850, 400, 0x000000, "槍");
+		DrawRotaGraph(860, 420, 0.25f, 0.0f, img_logo_spear, TRUE);
 		break;
 	case 1:			// フレイル
 		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_frail, TRUE);
-		DrawFormatString(850, 400, 0x000000, "フレイル");
+		DrawRotaGraph(900, 420, 0.25f, 0.0f, img_logo_frail, TRUE);
 		break;
 	case 2:			// 魔導書
 		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_book, TRUE);
-		DrawFormatString(850, 400, 0x000000, "魔導書");
+		DrawRotaGraph(910, 420, 0.25f, 0.0f, img_logo_book, TRUE);
 		break;
 	default:
 		DrawRotaGraph(750, 470, 0.15f, 0.0f, img_question_mark, TRUE);
