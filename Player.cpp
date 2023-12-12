@@ -22,11 +22,6 @@ Player::Player() {
 
 	PlayerImg = PlayerArrayImg[0];
 
-	//SE
-	SoundManager::SetSE("se_player_move");
-	SoundManager::SetSE("se_player_avoidance");
-	SoundManager::SetVolumeSEs(100);
-
 	PlayerX = 640;
 	PlayerY = 360;
 

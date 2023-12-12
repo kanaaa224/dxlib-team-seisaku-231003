@@ -8,7 +8,6 @@ Help::Help()
 	if (HelpImage3 = LoadGraph("resources/images/Help/Help_weapon_system.png")) {}
 
 	Help_Abtn_Count = 0;
-
 }
 
 Help::~Help()
@@ -18,10 +17,14 @@ Help::~Help()
 	DeleteGraph(HelpImage3);
 }
 
-Scene*Help::update()
+Scene* Help::update()
 {
 	//ƒwƒ‹ƒv2‰æ–Ê‚Ö‘JˆÚ
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) Help_Abtn_Count++;
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS) {
+
+		SoundManager::PlaySoundSE("se_system_normal_decision", false);
+		Help_Abtn_Count++;
+	}
 
 	if (Help_Abtn_Count > 2 && Help_Abtn_Count < 4) {
 

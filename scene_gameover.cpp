@@ -8,9 +8,6 @@ GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 	img_background = LoadGraph("resources/images/stageimage2.png");
 
-	SoundManager::SetBGM("bgm_gameover");
-	SoundManager::SetVolumeBGM("bgm_gameover", 50);
-
 	// •Ï”‚Ì‰Šú‰»
 	ghost_x = 750;
 	ghost_y = 150;
@@ -66,6 +63,7 @@ Scene* GameOverScene::update()
 
 	// ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && value <= 0) {
+		SoundManager::PlaySoundSE("se_system_normal_decision");
 		return new ResultScene(result_info);
 	}
 

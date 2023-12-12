@@ -14,7 +14,7 @@ class GameUI {
 private:
 	int state, frameCounter;
 
-	int score, point, floor;
+	int score, point, floor, stageType, battleMode, abilityEnhance;
 
 	std::map<std::string, int> exp;
 	std::map<std::string, int> hp;
@@ -98,6 +98,15 @@ public:
 
 	// 何階にいるか（ステージ）の設定
 	void setFloor(int);
+
+	// 何のステージにいるかの設定
+	void setStageType(int);
+
+	// 戦闘モードを設定
+	void setBattleMode(int);
+
+	// プレイヤー強化状態を設定
+	void setAbilityEnhance(int);
 
 	// 経験値の現在値、最大値、割合（0-100）を設定
 	void setEXP(int, int, int);

@@ -17,6 +17,10 @@ private:
 	int bonfire_image;
 	int button_image;
 
+	int logo_dicision_image;
+	int logo_rest_image;
+	int logo_pray_image;
+
 	bool is_select;
 	bool is_ok;
 	bool rest_buf_flg;			//休憩のバフをかける？
@@ -28,7 +32,7 @@ public:
 	~Rest();
 
 	//描画に関すること以外の更新を実装する
-	void update(Player* player, int& mode, int& stage);
+	void update(Player* player, int& mode, int& stage, int& restCnt);
 
 	//描画に関することの更新を実装する
 	void draw()const;

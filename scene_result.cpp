@@ -6,11 +6,11 @@ ResultScene::ResultScene(int result_info[])
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 
 	// マップアイコン読込用変数
-	img_battle = LoadGraph("resources/images/skeleton.png");
-	img_event = LoadGraph("resources/images/event.png");
-	img_rest = LoadGraph("resources/images/rest.png");
-	img_anvil = LoadGraph("resources/images/anvil.png");
-	img_boss = LoadGraph("resources/images/boss.png");
+	img_battle = LoadGraph("resources/images/maps/skeleton.png");
+	img_event = LoadGraph("resources/images/maps/event.png");
+	img_rest = LoadGraph("resources/images/maps/rest.png");
+	img_anvil = LoadGraph("resources/images/maps/anvil.png");
+	img_boss = LoadGraph("resources/images/maps/boss.png");
 
 	//武器の画像読込
 	img_sword = LoadGraph("resources/images/武器/片手剣.png");
@@ -64,6 +64,7 @@ Scene* ResultScene::update()
 	{
 		SoundManager::StopSoundBGMs();
 		SoundManager::SetSoundBGMsPosition(0);
+		SoundManager::PlaySoundSE("se_system_normal_decision");
 		return new Title;
 	}
 

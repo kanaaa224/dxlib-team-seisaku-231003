@@ -1,14 +1,9 @@
-#include "weapon.h"
-#include "inputCtrl.h"
-#include "DxLib.h"
+#include "main.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
-#include "Player.h"
+
 //#include "SphereCollider.h"
-
-
-
 
 
 weapon::weapon()
@@ -39,10 +34,9 @@ weapon::weapon()
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	tornado_img = LoadGraph("resources/images/tornado_1.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
-
-	dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
-	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");
-
+	daggerslash_img = LoadGraph("resources/images/nc284514.png");
+	/*dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
+	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");*/
 
 	soundFlg = false;
 
@@ -60,7 +54,7 @@ weapon::weapon()
 	{
 		throwDagger[i] = { {0,0},{0,0,0},false };
 	}
-	slash_img = LoadGraph("resources/images/nc284514.png");
+	slash_img = LoadGraph("resources/images/武器/Sword_S.png");
 	slashFlg = false;
 
 	avoidanceDamageFlg = false;
@@ -103,8 +97,6 @@ weapon::~weapon()
 	DeleteGraph(dagger_img);
 	DeleteGraph(greatsword_img);
 	DeleteGraph(attackbuf_img);
-	DeleteSoundMem(dagger_sound);
-	DeleteSoundMem(greatSword_sound);
 }
 
 void weapon::Update(float cursorX, float cursorY, Location playerLocation, Player* player)
@@ -144,17 +136,32 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 			switch (weaponType)
 			{
 			case sword:
-				PlaySoundMem(greatSword_sound, DX_PLAYTYPE_BACK, TRUE);
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_sword_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_sword_swing");
+				}
 				soundFlg = true;
 				break;
 
 			case dagger:
-				PlaySoundMem(dagger_sound, DX_PLAYTYPE_BACK, TRUE);
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_dagger_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_dagger_swing");
+				}
 				soundFlg = true;
 				break;
 
 			case greatSword:
-				PlaySoundMem(greatSword_sound, DX_PLAYTYPE_BACK, TRUE);
+				if (weaponLevel == 8) {
+					SoundManager::PlaySoundSE("se_weapon_greatsword_Lv8");
+				}
+				else {
+					SoundManager::PlaySoundSE("se_weapon_greatsword_swing");
+				}
 				soundFlg = true;
 				break;
 
@@ -239,6 +246,9 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 		//回避中にダメージ
 		if (weaponType == dagger && weaponLevel == 7) {
 			if (player->GetPlayer_Avoidance()) {
+				if (!avoidanceDamageFlg) {
+					SoundManager::PlaySoundSE("se_weapon_dagger_Lv7");
+				}
 				avoidanceDamageFlg = true;
 			}
 			else {
@@ -331,9 +341,9 @@ void weapon::Draw() const
 	//斬撃
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
-			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0xff0000, TRUE);
+			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0x00ff00, TRUE);
 			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
-			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 256, 256, 0.3, slashRot - (M_PI / 4), slash_img, TRUE);
+			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 250, 250, 0.4, slashRot - (M_PI / 4) + M_PI + d_r(40), slash_img, TRUE);
 		}
 	}
 	//投げナイフ
@@ -348,8 +358,8 @@ void weapon::Draw() const
 		int randx = rand() % 200 - 100;
 		int randy = rand() % 200 - 100;
 		int randrot = rand() % 360;
-		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), slash_img, TRUE);
-		DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
+		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), daggerslash_img, TRUE);
+		//DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
 	}
 
 	//バフ
@@ -388,7 +398,7 @@ void weapon::Draw() const
 			else {
 				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
 			}*/
-			DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
+			//DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
 		}
 	}
 
@@ -424,8 +434,8 @@ void weapon::Draw() const
 
 
 	if (isAttacking) {
-		DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);
+		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
+		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
 	}
 	
 
@@ -434,13 +444,13 @@ void weapon::Draw() const
 		DrawCircle(680, 310, 10, 0xff0000, TRUE);
 	}*/
 
-	/*if (levelUpFlg) {
-		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
-		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
-	}
-	else {
-		DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く(武器１)");
-	}*/
+	//if (levelUpFlg) {
+	//	DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
+	//	DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
+	//}
+	//else {
+	//	DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く(武器１)");
+	//}
 
 
 	
@@ -577,7 +587,7 @@ void weapon::LevelState()
 		case dagger:
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.9f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f; //短剣は弱すぎるため最初は敵を４回で倒せるようにする
 			damage = INIT_DAMAGE_DAGGER + 1;
 			rotSpeed = 12.0f;
 			
@@ -614,8 +624,8 @@ void weapon::LevelState()
 			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.8f;
-			damage = INIT_DAMAGE_DAGGER + 2;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.6f;
+			damage = INIT_DAMAGE_DAGGER + 4;
 			P_speed = 2.5f;
 			P_limit = 1.5f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
@@ -656,9 +666,9 @@ void weapon::LevelState()
 		case dagger:
 			//短剣　ダメージよりも振る速度を上げる　回避の速度を上げる
 			baseVec = { 80,0,80 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER + 1;
+			maxRot = INIT_ROTATION_DAGGER + 5.0;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
+			damage = INIT_DAMAGE_DAGGER + 2;
 			P_limit = 2.5f;
 			P_speed = 2.0f;//初期値に戻す
 			Player::SetPlayer_Upperlimit(P_limit);
@@ -702,8 +712,8 @@ void weapon::LevelState()
 			//短剣　ダメージを上げる　移動速度を上げる
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.7f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
+			damage = INIT_DAMAGE_DAGGER + 9;
 			P_speed = 3.0f;
 			P_cooltime = 2.0f;//初期値に戻す
 			Player::SetPlayer_Speed(P_speed);
@@ -746,9 +756,9 @@ void weapon::LevelState()
 		case dagger:
 			//短剣　ダメージよりも振る速度を上げる　回避のクールタイムを短くする
 			baseVec = { 80,0,80 };
-			maxRot = INIT_ROTATION_DAGGER;
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER;
+			maxRot = INIT_ROTATION_DAGGER + 10.0f;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
+			damage = INIT_DAMAGE_DAGGER + 6;
 			P_cooltime = 0.0f;
 			P_speed = 2.0f;//レベル２に戻す
 			Player::SetAvoidance_limit(P_cooltime);
@@ -791,8 +801,8 @@ void weapon::LevelState()
 			baseVec = { 80,0,80 };
 			// 内容は、4 5 の時よりかは低いが最終強化するとあほみたいに強くなる
 			maxRot = INIT_ROTATION_DAGGER + 5.0f; // 60 + 10 = 70
-			maxCoolTime = INIT_COOLTIME_DAGGER * 0.5f;
-			damage = INIT_DAMAGE_DAGGER + 3;
+			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
+			damage = INIT_DAMAGE_DAGGER + 20;
 			P_limit = 2.5f;
 			P_cooltime = 1.0f;
 			P_speed = 3.0f;
@@ -921,14 +931,14 @@ bool weapon::WeaponCollision(Location enemyLocation, float radius)
 				uv.length = sqrtf(uv.x * uv.x + uv.y * uv.y);
 
 				for (int j = 0; j < (slashLength / 10) + 1; j++) {
-					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (i * 10));
-					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (i * 10));
+					weaponCollisionLocation.x = swordSlash[i].collsion2.x + (uv.x * (j * 10));
+					weaponCollisionLocation.y = swordSlash[i].collsion2.y + (uv.y * (j * 10));
 
 					float tmp_x2 = weaponCollisionLocation.x - enemyLocation.x;
 					float tmp_y2 = weaponCollisionLocation.y - enemyLocation.y;
 					float tmp_length2 = sqrt(tmp_x2 * tmp_x2 + tmp_y2 * tmp_y2);
 
-					if (tmp_length2 < radius + 100) {
+					if (tmp_length2 < radius + 10) {
 						return true;
 					}
 				}
@@ -1002,11 +1012,13 @@ void weapon::SwordSlashAnim()
 
 		for (int i = 0; i < 10; i++) {
 			if (swordSlash[i].flg) {
-				swordSlash[i].collsion1.x = baseVec.x * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
-				swordSlash[i].collsion1.y = baseVec.x * sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
 
-				swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
-				swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;
+				//ここ修正
+				swordSlash[i].collsion1.x = (baseVec.x - 20) * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
+				swordSlash[i].collsion1.y =( baseVec.x - 20 )* sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
+
+				swordSlash[i].collsion2.x =( baseVec.x - 20 )* cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
+				swordSlash[i].collsion2.y =( baseVec.x - 20 )* sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;
 			}
 		}
 	}

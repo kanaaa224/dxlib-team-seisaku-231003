@@ -5,9 +5,9 @@
 #include "main.h"
 
 GameUI::GameUI() {
-	if ((img["btnA"] = LoadGraph("resources/images/button_a.png")) == -1) throw;
-	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
-	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
+	if ((img["btnA"] = LoadGraph("resources/images/ui/button-a_160.png")) == -1) throw;
+	if ((img["btnB"] = LoadGraph("resources/images/ui/button-b_160.png")) == -1) throw;
+	if ((img["btnX"] = LoadGraph("resources/images/ui/button-x_160.png")) == -1) throw;
 
 	if ((img["weaponSword"]      = LoadGraph("resources/images/武器/片手剣50・50.png"))   == -1) throw;
 	if ((img["weaponDagger"]     = LoadGraph("resources/images/武器/短剣50・50.png"))     == -1) throw;
@@ -16,12 +16,18 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
-	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png")) == -1) throw;
-	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))  == -1) throw;
-	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png")) == -1) throw;
-	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))  == -1) throw;
+	if ((img["whiteCircle50"]    = LoadGraph("resources/images/ui/shiromaru_50.png")) == -1) throw;
+	if ((img["blackCircle50"]    = LoadGraph("resources/images/ui/kuromaru_50.png"))  == -1) throw;
+	if ((img["whiteCircle80"]    = LoadGraph("resources/images/ui/shiromaru_80.png")) == -1) throw;
+	if ((img["blackCircle80"]    = LoadGraph("resources/images/ui/kuromaru_80.png"))  == -1) throw;
 
-	if ((img["coolTime"]    = LoadGraph("resources/images/sprint_512.png"))  == -1) throw;
+	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png")) == -1) throw;
+
+	if ((img["stageIconBattle"] = LoadGraph("resources/images/maps/skeleton.png")) == -1) throw;
+	if ((img["stageIconEvent"]  = LoadGraph("resources/images/maps/event.png"))    == -1) throw;
+	if ((img["stageIconRest"]   = LoadGraph("resources/images/maps/rest.png"))     == -1) throw;
+	if ((img["stageIconAnvil"]  = LoadGraph("resources/images/maps/anvil.png"))    == -1) throw;
+	if ((img["stageIconBoss"]   = LoadGraph("resources/images/maps/boss.png"))     == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -56,6 +62,12 @@ GameUI::~GameUI() {
 	DeleteGraph(img["blackCircle80"]);
 
 	DeleteGraph(img["coolTime"]);
+
+	DeleteGraph(img["stageIconBattle"]);
+	DeleteGraph(img["stageIconEvent"]);
+	DeleteGraph(img["stageIconRest"]);
+	DeleteGraph(img["stageIconAnvil"]);
+	DeleteGraph(img["stageIconBoss"]);
 
 	//////////////////////////////////////////////////
 
@@ -158,10 +170,10 @@ void GameUI::draw() const {
 };
 
 void GameUI::drawHUD() const {
-	double opacity = 0.0f;
+	double opacity      = 0.0f;
 	double unvisibility = 0.0f;
 
-	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
+	if (hud.find("opacity"     ) != hud.end()) opacity      = hud.at("opacity");
 	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
 
 	//////////////////////////////////////////////////
@@ -207,7 +219,7 @@ void GameUI::drawHUD() const {
 	SetFontSize(14);
 	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
 	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("LEVELUP") / 2), rootRY + 72, 0xffffff, "LEVELUP");
-	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("POINT") / 2), rootRY + 84, 0xffffff, "POINT");
+	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("POINT")   / 2), rootRY + 84, 0xffffff, "POINT");
 
 
 	//////////////////////////////////////////////////
@@ -215,12 +227,12 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	int current = 0;
-	int max = 0;
-	int ratio = 0;
+	int max     = 0;
+	int ratio   = 0;
 
 	if (exp.find("current") != exp.end()) current = exp.at("current");
-	if (exp.find("max") != exp.end()) max = exp.at("max");
-	if (exp.find("ratio") != exp.end()) ratio = exp.at("ratio");
+	if (exp.find("max")     != exp.end()) max     = exp.at("max");
+	if (exp.find("ratio")   != exp.end()) ratio   = exp.at("ratio");
 
 	int lx = rootRX - 400;
 	int ly = rootRY + 70;
@@ -251,12 +263,12 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	current = 0;
-	max = 0;
-	ratio = 0;
+	max     = 0;
+	ratio   = 0;
 
 	if (hp.find("current") != hp.end()) current = hp.at("current");
-	if (hp.find("max") != hp.end()) max = hp.at("max");
-	if (hp.find("ratio") != hp.end()) ratio = hp.at("ratio");
+	if (hp.find("max")     != hp.end()) max     = hp.at("max");
+	if (hp.find("ratio")   != hp.end()) ratio   = hp.at("ratio");
 
 	lx = rootLX + 40;
 	ly = rootLY + 40;
@@ -333,8 +345,8 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(38);
 	//ChangeFont("Century Gothic Bold Italic", DX_CHARSET_DEFAULT);
-	if (floor < 0) str = "B" + std::to_string(abs(floor)) + "F";
-	else str = std::to_string(floor) + "F";
+	str = std::to_string(floor) + "F";
+	if (floor < 0) str = "B" + str;
 	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 120), 0xffffff, str.c_str());
 
 
@@ -343,10 +355,10 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	current = 0;
-	max = 0;
+	max     = 0;
 
 	if (enemy.find("current") != enemy.end()) current = enemy.at("current");
-	if (enemy.find("max") != enemy.end()) max = enemy.at("max");
+	if (enemy.find("max")     != enemy.end()) max     = enemy.at("max");
 
 	SetFontSize(20);
 	//ChangeFont("");
@@ -395,36 +407,46 @@ void GameUI::drawHUD() const {
 	// 武器
 	//////////////////////////////////////////////////
 
-	int img_weaponSword = 0;
-	int img_weaponDagger = 0;
+	int img_blackCircle80 = 0;
+
+	if (img.find("blackCircle80") != img.end()) img_blackCircle80 = img.at("blackCircle80");
+
+	int img_weaponSword      = 0;
+	int img_weaponDagger     = 0;
 	int img_weaponGreatSword = 0;
-	int img_weaponSpear = 0;
-	int img_weaponFrail = 0;
-	int img_weaponBook = 0;
+	int img_weaponSpear      = 0;
+	int img_weaponFrail      = 0;
+	int img_weaponBook       = 0;
 
-	if (img.find("weaponSword") != img.end()) img_weaponSword = img.at("weaponSword");
-	if (img.find("weaponDagger") != img.end()) img_weaponDagger = img.at("weaponDagger");
+	if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
+	if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
 	if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
-	if (img.find("weaponSpear") != img.end()) img_weaponSpear = img.at("weaponSpear");
-	if (img.find("weaponFrail") != img.end()) img_weaponFrail = img.at("weaponFrail");
-	if (img.find("weaponBook") != img.end()) img_weaponBook = img.at("weaponBook");
+	if (img.find("weaponSpear")      != img.end()) img_weaponSpear      = img.at("weaponSpear");
+	if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
+	if (img.find("weaponBook")       != img.end()) img_weaponBook       = img.at("weaponBook");
 
-	int weaponA[3];
-	int weaponB[3];
+	int weaponA[5];
+	int weaponB[5];
 
 	if (weapon.find("A") != weapon.end()) {
 		const std::map<std::string, int>& weaponStats = weapon.at("A");
 
-		if (weaponStats.find("type") != weaponStats.end()) weaponA[0] = weaponStats.at("type");
-		if (weaponStats.find("level") != weaponStats.end()) weaponA[1] = weaponStats.at("level");
-		if (weaponStats.find("selected") != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
+		if (weaponStats.find("type")        != weaponStats.end()) weaponA[0] = weaponStats.at("type");
+		if (weaponStats.find("level")       != weaponStats.end()) weaponA[1] = weaponStats.at("level");
+		if (weaponStats.find("selected")    != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
+
+		if (weaponStats.find("coolTime")    != weaponStats.end()) weaponA[3] = weaponStats.at("coolTime");
+		if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponA[4] = weaponStats.at("coolTimeMax");
 	};
 	if (weapon.find("B") != weapon.end()) {
 		const std::map<std::string, int>& weaponStats = weapon.at("B");
 
-		if (weaponStats.find("type") != weaponStats.end()) weaponB[0] = weaponStats.at("type");
-		if (weaponStats.find("level") != weaponStats.end()) weaponB[1] = weaponStats.at("level");
-		if (weaponStats.find("selected") != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
+		if (weaponStats.find("type")        != weaponStats.end()) weaponB[0] = weaponStats.at("type");
+		if (weaponStats.find("level")       != weaponStats.end()) weaponB[1] = weaponStats.at("level");
+		if (weaponStats.find("selected")    != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
+
+		if (weaponStats.find("coolTime")    != weaponStats.end()) weaponB[3] = weaponStats.at("coolTime");
+		if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponB[4] = weaponStats.at("coolTimeMax");
 	};
 
 	int x = rootRX - 80;
@@ -435,6 +457,10 @@ void GameUI::drawHUD() const {
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponB[0] != 99) {
+		if (weaponB[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		if (weaponB[3]) DrawCircleGauge(x, y, ((float)weaponB[3] / (float)weaponB[4]) * 100, img_blackCircle80);
+		if (weaponB[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 		//SetFontSize(16);
 		str = "Lv. " + std::to_string(weaponB[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
@@ -471,6 +497,10 @@ void GameUI::drawHUD() const {
 	if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	if (weaponA[0] != 99) {
+		if (weaponA[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		if (weaponA[3]) DrawCircleGauge(x, y, ((float)weaponA[3] / (float)weaponA[4]) * 100, img_blackCircle80);
+		if (weaponA[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 		//SetFontSize(16);
 		str = "Lv. " + std::to_string(weaponA[1]);
 		DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
@@ -505,10 +535,9 @@ void GameUI::drawHUD() const {
 	// CoolTime
 	//////////////////////////////////////////////////
 
-	int img_blackCircle80 = 0, img_coolTime = 0;
+	int img_coolTime = 0;
 
-	if (img.find("blackCircle80") != img.end()) img_blackCircle80 = img.at("blackCircle80");
-	if (img.find("coolTime")      != img.end()) img_coolTime      = img.at("coolTime");
+	if (img.find("coolTime") != img.end()) img_coolTime = img.at("coolTime");
 
 	current = 0;
 	max     = 0;
@@ -796,6 +825,18 @@ void GameUI::setPoint(int Point) {
 
 void GameUI::setFloor(int Floor) {
 	floor = Floor;
+};
+
+void GameUI::setStageType(int StageType) {
+	stageType = StageType;
+};
+
+void GameUI::setBattleMode(int BattleMode) {
+	battleMode = BattleMode;
+};
+
+void GameUI::setAbilityEnhance(int AbilityEnhance) {
+	abilityEnhance = AbilityEnhance;
 };
 
 void GameUI::setEXP(int Current, int Max, int Ratio) {

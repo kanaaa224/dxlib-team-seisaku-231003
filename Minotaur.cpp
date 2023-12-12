@@ -1,8 +1,5 @@
 ﻿#include "Minotaur.h"
-#include "Common.h"
-#include "Player.h"
-#include <math.h>
-#include "inputCtrl.h"
+#include"main.h"
 
 //#define DEBUG
 #define BTN_DEBUG
@@ -31,7 +28,7 @@ Minotaur::Minotaur()
 	doOneFlg = false;
 	coolTimeFlg = false;
 	tackleCoolTimeCnt = 0;
-	tackleCoolTime = SECOND_FRAME(3);
+	tackleCoolTime = SECOND_FRAME(1.3);
 	tackleSpeed = TACKLE_SPEED;
 	nowTackleCnt = 0;
 	tackleCnt = 0;
@@ -177,7 +174,7 @@ void Minotaur::TackleUpdate()
 	if (coolTimeFlg == false) {
 		//濃い赤色の矩形の太さ//
 		if (lineSize <= BOX_MAX_WIDTH) {//太さが最大の太さじゃないなら
-			lineSizeChageCnt += 4;
+			lineSizeChageCnt += 3;
 		}
 		else if (lineSize >= BOX_MAX_WIDTH) {//太さが最大の太さなら
 			lineSize = 0;
@@ -194,6 +191,7 @@ void Minotaur::TackleUpdate()
 	//タックル開始
 	if (tackleFlg == true) {
 		if (doOneFlg == false) {
+			SoundManager::PlaySoundSE("se_enemy_tackle");
 			//タックルした時に最終的に移動する場所
 			tackleTmpL.x = location.x - boxX_a;
 			tackleTmpL.y = location.y - boxY_a;
@@ -221,7 +219,7 @@ void Minotaur::TackleUpdate()
 		tackleCoolTime = 0;
 	}
 	else {
-		tackleCoolTime = SECOND_FRAME(3);
+		tackleCoolTime = SECOND_FRAME(1.3);
 	}
 	//タックルのクールタイム
 	if (coolTimeFlg == true && tackleFlg == false) {
@@ -290,6 +288,7 @@ void Minotaur::RoarUpdate()
 	}
 
 	if (roarFinFlg == true) {
+		SoundManager::PlaySoundSE("se_enemy_shout");
 		roarFlg = false;
 		roarStartFlg = false;
 		tackleCnt = 0;
