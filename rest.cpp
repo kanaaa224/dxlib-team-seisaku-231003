@@ -54,7 +54,7 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 
 	cursor_x = cursor_num * 445;
 
-	if (++anim_cnt % 5 == 0)
+	if (++anim_cnt % 7 == 0)
 	{
 		bonfire_anim++;
 		if (bonfire_anim >= 4)
@@ -138,7 +138,7 @@ void Rest::draw() const
 {
 	ui->drawHP();
 
-	DrawRotaGraph(640, 300, .7f, 0, bonfire_image[bonfire_anim], TRUE);
+	DrawRotaGraph(640, 300, 1.2, 0, bonfire_image[bonfire_anim], TRUE);
 	DrawRotaGraph(280 + cursor_x, 610, .15, 1, cursor_image, TRUE);
 	DrawGraph(1150, 650, button_image, TRUE);
 	DrawRotaGraph(1210, 667, 0.1, 0, logo_dicision_image, TRUE);
