@@ -34,6 +34,7 @@ GameScene::GameScene() {
 
 	swordHitFlg = false;
 	bookFlg     = false;
+	devilKingHitFlg = false;
 
 	weapon_selected = false;
 
@@ -429,7 +430,9 @@ Scene* GameScene::update() {
 							}
 						}
 					}
-					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+				
+					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius()) /*&& !devilKingHitFlg*/) {
+						devilKingHitFlg = true;
 						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
 							if (devilKing->GetHitFrameCnt() == 0) {
 								SoundManager::PlaySoundSE("se_enemy_damage", false);
@@ -447,6 +450,9 @@ Scene* GameScene::update() {
 								weaponB->AddTotalDamage();
 							}
 						}
+					}
+					else {
+						devilKingHitFlg = false;
 					}
 					if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
 						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
