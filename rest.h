@@ -6,15 +6,16 @@ class GameUI;
 class Rest
 {
 private:
-	GameUI* ui;
-
 	int cursor_interval;
 	int interval;
+	int select_interval;
 	int cursor_num;
 	int cursor_x;
+	int anim_cnt;
+	int bonfire_anim;
 
 	int cursor_image;
-	int bonfire_image;
+	int bonfire_image[4];
 	int button_image;
 
 	int logo_dicision_image;
@@ -27,12 +28,12 @@ private:
 
 public:
 	//コンストラクタ
-	Rest(GameUI* ui);
+	Rest();
 	//デストラクタ
 	~Rest();
 
 	//描画に関すること以外の更新を実装する
-	void update(Player* player, int& mode, int& stage, int& restCnt);
+	void update(Player* player, int& mode, int& stage, int& restCnt,int& hp);
 
 	//描画に関することの更新を実装する
 	void draw()const;

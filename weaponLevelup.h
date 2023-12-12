@@ -71,8 +71,6 @@ private:
 	int branch_point_y[2][5];		// 選択した分岐点のY座標を格納 [武器番号][Y座標]
 	bool is_chooce[2][5];			// どのレベル階層まで選択したか
 
-	//int line[2][4][4];				// 選択した樹形図の線 [武器番号][BoxのX座標、Y座標][どこまで選択したか]
-
 	// プレイヤー情報格納用（weaponから）
 	float w_p_speed;				// 速度
 	float w_p_avoidancecooltime;		// 回避のクールタイム
@@ -88,6 +86,10 @@ private:
 	float frail_radiusY;
 	float tmp_frail_radiusX;
 	float tmp_frail_radiusY;
+
+	// 魔導書の情報格納用
+	int book_bullet_speed;
+	int tmp_book_bullet_speed;
 
 	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
 

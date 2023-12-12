@@ -8,7 +8,7 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 	img_grail = LoadGraph("resources/images/GameClear/seihai_gold.png");
 	img_player = LoadGraph("resources/images/player_images/Player_right50・50.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
-	img_background = LoadGraph("resources/images/stageimage2.png");
+	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
 
 	value = 180;
 
@@ -32,7 +32,12 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 
 GameClearScene::~GameClearScene()
 {
-
+	DeleteGraph(img_gameclear);
+	DeleteGraph(img_crown);
+	DeleteGraph(img_grail);
+	DeleteGraph(img_player);
+	DeleteGraph(img_button_a);
+	DeleteGraph(img_logo_result);
 }
 
 Scene* GameClearScene::update()
@@ -77,9 +82,8 @@ void GameClearScene::draw() const
 
 	if (value <= 10)
 	{
-		DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
-		SetFontSize(20);
-		DrawFormatString(1175, 680, 0x000000, "RESULT");
+		DrawRotaGraph(1130, 685, 0.2f, 0.0f, img_button_a, TRUE);
+		DrawRotaGraph(1200, 680, 0.15f, 0.0f, img_logo_result, TRUE);
 	}
 
 	//フェードの設定

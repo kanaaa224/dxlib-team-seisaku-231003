@@ -705,6 +705,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
 			damage = INIT_DAMAGE_BOOK + 2;
+			Bullet_speed = 10;
 			break;
 		}
 
@@ -852,7 +853,7 @@ void second_weapon::LevelState()
 			baseVec = { 100,0,100 };
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.4f;
-			damage = INIT_DAMAGE_SPEAR;
+			damage = INIT_DAMAGE_SPEAR + 10;
 			attackBufRate = 2.0f;
 			break;
 
@@ -860,7 +861,7 @@ void second_weapon::LevelState()
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
-			damage = INIT_DAMAGE_FRAIL;
+			damage = INIT_DAMAGE_FRAIL + 10;
 			break;
 
 		case book://賢者の加護
@@ -881,14 +882,14 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_SPEAR;
 			maxCoolTime = INIT_COOLTIME_SPEAR * 0.3f;
 			damage = INIT_DAMAGE_SPEAR;
-			thunderDamage = 100.0f;
+			thunderDamage = 20.0f;
 			break;
 
 		case frail://アースクラッシャー
 			baseVec = { 70,0,70 };
 			maxRot = INIT_ROTATION_FRAIL;
 			maxCoolTime = INIT_COOLTIME_FRAIL * 0.4f;
-			damage = INIT_DAMAGE_FRAIL;
+			damage = INIT_DAMAGE_FRAIL + 20;
 			break;
 
 		case book://エンチャントバレット
