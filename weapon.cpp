@@ -842,7 +842,9 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
 			damage = INIT_DAMAGE_DAGGER + 10;
 			P_cooltime = 0.0f;
+			P_speed = 3.0f;
 			Player::SetAvoidance_limit(P_cooltime);
+			Player::SetPlayer_Speed(P_speed);
 			rotSpeed = 12.0f;
 
 			break;
