@@ -840,11 +840,13 @@ void weapon::LevelState()
 			baseVec = { 80,0,80 };
 			maxRot = INIT_ROTATION_DAGGER;
 			maxCoolTime = INIT_COOLTIME_DAGGER * 0.4f;
-			damage = INIT_DAMAGE_DAGGER + 10;
+			damage = INIT_DAMAGE_DAGGER + 20;
 			P_cooltime = 0.0f;
 			P_speed = 3.0f;
+			P_limit = 2.5f;
 			Player::SetAvoidance_limit(P_cooltime);
 			Player::SetPlayer_Speed(P_speed);
+			Player::SetPlayer_Upperlimit(P_limit);
 			rotSpeed = 12.0f;
 
 			break;

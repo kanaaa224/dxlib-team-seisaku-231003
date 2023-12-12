@@ -7,8 +7,8 @@
 #define TITLE_MOVE_DOWN -0.5f
 #define TITLE_MOVE_UP 0.5f
 
-#define TITLE_STAR_BRIGHT_COLOR1 -2.0f
-#define TITLE_STAR_BRIGHT_COLOR2 1.5f
+#define TITLE_STAR_BRIGHT_COLOR1 /*-2.0f*/-5.0f
+#define TITLE_STAR_BRIGHT_COLOR2 /*1.5f*/5.0f
 
 #define TITLE_SELECT_MG /*0.4*/ 0.1
 
