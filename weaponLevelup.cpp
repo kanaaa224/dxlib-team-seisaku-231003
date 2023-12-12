@@ -72,7 +72,20 @@ WeaponLevelUp::WeaponLevelUp()
 
 WeaponLevelUp::~WeaponLevelUp()
 {
-
+	DeleteGraph(img_tree_diagram);
+	DeleteGraph(img_cursor);
+	DeleteGraph(img_branch_point);
+	DeleteGraph(img_chooce);
+	DeleteGraph(img_button_a);
+	DeleteGraph(img_button_b);
+	DeleteGraph(img_button_x);
+	DeleteGraph(img_sword);
+	DeleteGraph(img_dagger);
+	DeleteGraph(img_great_sword);
+	DeleteGraph(img_spear);
+	DeleteGraph(img_frail);
+	DeleteGraph(img_book);
+	DeleteGraph(img_question_mark);
 }
 
 // 更新
@@ -853,7 +866,7 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 		switch (weapon1_info.type)
 		{
 		case sword:			// 片手剣
-			DrawFormatString(200, 520, 0x000000, "魔剣ブラッドファング");
+			DrawFormatString(200, 520, 0x000000, "魔剣");
 			DrawFormatString(200, 550, 0x000000, "自傷武器に変化する\n自傷した際に攻撃力が\n上がり、連続で攻撃を\n当てると微量ながら\n回復する");
 			break;
 		case dagger:		// 短剣
