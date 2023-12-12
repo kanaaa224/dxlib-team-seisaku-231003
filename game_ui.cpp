@@ -5,9 +5,9 @@
 #include "main.h"
 
 GameUI::GameUI() {
-	if ((img["btnA"] = LoadGraph("resources/images/button_a.png")) == -1) throw;
-	if ((img["btnB"] = LoadGraph("resources/images/button_b.png")) == -1) throw;
-	if ((img["btnX"] = LoadGraph("resources/images/button_x.png")) == -1) throw;
+	if ((img["btnA"] = LoadGraph("resources/images/ui/button-a_160.png")) == -1) throw;
+	if ((img["btnB"] = LoadGraph("resources/images/ui/button-b_160.png")) == -1) throw;
+	if ((img["btnX"] = LoadGraph("resources/images/ui/button-x_160.png")) == -1) throw;
 
 	if ((img["weaponSword"]      = LoadGraph("resources/images/武器/片手剣50・50.png"))   == -1) throw;
 	if ((img["weaponDagger"]     = LoadGraph("resources/images/武器/短剣50・50.png"))     == -1) throw;
@@ -16,12 +16,18 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
-	if ((img["whiteCircle50"]    = LoadGraph("resources/images/shiromaru_50.png")) == -1) throw;
-	if ((img["blackCircle50"]    = LoadGraph("resources/images/kuromaru_50.png"))  == -1) throw;
-	if ((img["whiteCircle80"]    = LoadGraph("resources/images/shiromaru_80.png")) == -1) throw;
-	if ((img["blackCircle80"]    = LoadGraph("resources/images/kuromaru_80.png"))  == -1) throw;
+	if ((img["whiteCircle50"]    = LoadGraph("resources/images/ui/shiromaru_50.png")) == -1) throw;
+	if ((img["blackCircle50"]    = LoadGraph("resources/images/ui/kuromaru_50.png"))  == -1) throw;
+	if ((img["whiteCircle80"]    = LoadGraph("resources/images/ui/shiromaru_80.png")) == -1) throw;
+	if ((img["blackCircle80"]    = LoadGraph("resources/images/ui/kuromaru_80.png"))  == -1) throw;
 
-	if ((img["coolTime"]         = LoadGraph("resources/images/sprint_512.png")) == -1) throw;
+	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png")) == -1) throw;
+
+	if ((img["stageIconBattle"] = LoadGraph("resources/images/maps/skeleton.png")) == -1) throw;
+	if ((img["stageIconEvent"]  = LoadGraph("resources/images/maps/event.png"))    == -1) throw;
+	if ((img["stageIconRest"]   = LoadGraph("resources/images/maps/rest.png"))     == -1) throw;
+	if ((img["stageIconAnvil"]  = LoadGraph("resources/images/maps/anvil.png"))    == -1) throw;
+	if ((img["stageIconBoss"]   = LoadGraph("resources/images/maps/boss.png"))     == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -56,6 +62,12 @@ GameUI::~GameUI() {
 	DeleteGraph(img["blackCircle80"]);
 
 	DeleteGraph(img["coolTime"]);
+
+	DeleteGraph(img["stageIconBattle"]);
+	DeleteGraph(img["stageIconEvent"]);
+	DeleteGraph(img["stageIconRest"]);
+	DeleteGraph(img["stageIconAnvil"]);
+	DeleteGraph(img["stageIconBoss"]);
 
 	//////////////////////////////////////////////////
 
@@ -161,7 +173,7 @@ void GameUI::drawHUD() const {
 	double opacity      = 0.0f;
 	double unvisibility = 0.0f;
 
-	if (hud.find("opacity") != hud.end()) opacity = hud.at("opacity");
+	if (hud.find("opacity"     ) != hud.end()) opacity      = hud.at("opacity");
 	if (hud.find("unvisibility") != hud.end()) unvisibility = hud.at("unvisibility");
 
 	//////////////////////////////////////////////////
@@ -207,7 +219,7 @@ void GameUI::drawHUD() const {
 	SetFontSize(14);
 	//ChangeFont("Bernard MT Condensed", DX_CHARSET_DEFAULT);
 	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("LEVELUP") / 2), rootRY + 72, 0xffffff, "LEVELUP");
-	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("POINT") / 2), rootRY + 84, 0xffffff, "POINT");
+	DrawFormatString(((rootRX - 58) - GetDrawFormatStringWidth("POINT")   / 2), rootRY + 84, 0xffffff, "POINT");
 
 
 	//////////////////////////////////////////////////
@@ -215,12 +227,12 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	int current = 0;
-	int max = 0;
-	int ratio = 0;
+	int max     = 0;
+	int ratio   = 0;
 
 	if (exp.find("current") != exp.end()) current = exp.at("current");
-	if (exp.find("max") != exp.end()) max = exp.at("max");
-	if (exp.find("ratio") != exp.end()) ratio = exp.at("ratio");
+	if (exp.find("max")     != exp.end()) max     = exp.at("max");
+	if (exp.find("ratio")   != exp.end()) ratio   = exp.at("ratio");
 
 	int lx = rootRX - 400;
 	int ly = rootRY + 70;
@@ -251,12 +263,12 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	current = 0;
-	max = 0;
-	ratio = 0;
+	max     = 0;
+	ratio   = 0;
 
 	if (hp.find("current") != hp.end()) current = hp.at("current");
-	if (hp.find("max") != hp.end()) max = hp.at("max");
-	if (hp.find("ratio") != hp.end()) ratio = hp.at("ratio");
+	if (hp.find("max")     != hp.end()) max     = hp.at("max");
+	if (hp.find("ratio")   != hp.end()) ratio   = hp.at("ratio");
 
 	lx = rootLX + 40;
 	ly = rootLY + 40;
@@ -333,8 +345,8 @@ void GameUI::drawHUD() const {
 
 	SetFontSize(38);
 	//ChangeFont("Century Gothic Bold Italic", DX_CHARSET_DEFAULT);
-	if (floor < 0) str = "B" + std::to_string(abs(floor)) + "F";
-	else str = std::to_string(floor) + "F";
+	str = std::to_string(floor) + "F";
+	if (floor < 0) str = "B" + str;
 	DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 120), 0xffffff, str.c_str());
 
 
@@ -343,10 +355,10 @@ void GameUI::drawHUD() const {
 	//////////////////////////////////////////////////
 
 	current = 0;
-	max = 0;
+	max     = 0;
 
 	if (enemy.find("current") != enemy.end()) current = enemy.at("current");
-	if (enemy.find("max") != enemy.end()) max = enemy.at("max");
+	if (enemy.find("max")     != enemy.end()) max     = enemy.at("max");
 
 	SetFontSize(20);
 	//ChangeFont("");
@@ -813,6 +825,18 @@ void GameUI::setPoint(int Point) {
 
 void GameUI::setFloor(int Floor) {
 	floor = Floor;
+};
+
+void GameUI::setStageType(int StageType) {
+	stageType = StageType;
+};
+
+void GameUI::setBattleMode(int BattleMode) {
+	battleMode = BattleMode;
+};
+
+void GameUI::setAbilityEnhance(int AbilityEnhance) {
+	abilityEnhance = AbilityEnhance;
 };
 
 void GameUI::setEXP(int Current, int Max, int Ratio) {

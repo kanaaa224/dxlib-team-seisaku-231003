@@ -14,7 +14,7 @@ LoadScene::LoadScene() {
 	//////////////////////////////////////////////////
 
 	if ((img_background = LoadGraph("./resources/images/background.png")) == -1) throw;
-	if ((img_cat = LoadGraph("./resources/images/animal_chara_computer_neko.png")) == -1) throw;
+	if ((img_cat = LoadGraph("./resources/images/ui/削除予定/animal_chara_computer_neko.png")) == -1) throw;
 };
 
 LoadScene::~LoadScene() {
