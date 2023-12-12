@@ -23,11 +23,14 @@ GameUI::GameUI() {
 
 	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png")) == -1) throw;
 
-	if ((img["stageIconBattle"] = LoadGraph("resources/images/maps/skeleton.png")) == -1) throw;
-	if ((img["stageIconEvent"]  = LoadGraph("resources/images/maps/event.png"))    == -1) throw;
-	if ((img["stageIconRest"]   = LoadGraph("resources/images/maps/rest.png"))     == -1) throw;
-	if ((img["stageIconAnvil"]  = LoadGraph("resources/images/maps/anvil.png"))    == -1) throw;
-	if ((img["stageIconBoss"]   = LoadGraph("resources/images/maps/boss.png"))     == -1) throw;
+	if ((img["iconBattle"] = LoadGraph("resources/images/maps/skeleton.png")) == -1) throw;
+	if ((img["iconEvent"]  = LoadGraph("resources/images/maps/event.png"))    == -1) throw;
+	if ((img["iconRest"]   = LoadGraph("resources/images/maps/rest.png"))     == -1) throw;
+	if ((img["iconAnvil"]  = LoadGraph("resources/images/maps/anvil.png"))    == -1) throw;
+	if ((img["iconBoss"]   = LoadGraph("resources/images/maps/boss.png"))     == -1) throw;
+
+	if ((img["iconAttack"]   = LoadGraph("resources/images/attack_buf.png")) == -1) throw;
+	if ((img["iconRedArrow"] = LoadGraph("resources/images/arrow_red.png"))  == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -63,11 +66,14 @@ GameUI::~GameUI() {
 
 	DeleteGraph(img["coolTime"]);
 
-	DeleteGraph(img["stageIconBattle"]);
-	DeleteGraph(img["stageIconEvent"]);
-	DeleteGraph(img["stageIconRest"]);
-	DeleteGraph(img["stageIconAnvil"]);
-	DeleteGraph(img["stageIconBoss"]);
+	DeleteGraph(img["iconBattle"]);
+	DeleteGraph(img["iconEvent"]);
+	DeleteGraph(img["iconRest"]);
+	DeleteGraph(img["iconAnvil"]);
+	DeleteGraph(img["iconBoss"]);
+
+	DeleteGraph(img["iconAttack"]);
+	DeleteGraph(img["iconRedArrow"]);
 
 	//////////////////////////////////////////////////
 
@@ -333,6 +339,30 @@ void GameUI::drawHUD(int mode) const {
 
 
 	//////////////////////////////////////////////////
+	// 能力強化
+	//////////////////////////////////////////////////
+
+	if (abilityEnhance) {
+		int img_iconAttack   = 0;
+		int img_iconRedArrow = 0;
+
+		if (img.find("iconAttack")   != img.end()) img_iconAttack   = img.at("iconAttack");
+		if (img.find("iconRedArrow") != img.end()) img_iconRedArrow = img.at("iconRedArrow");
+
+		lx = rootLX + 80;
+		ly = rootLY + 100;
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		DrawCircle(lx + 20, ly + 20, 30, 0x000000, true);
+		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		DrawExtendGraph(lx, ly, lx + 40, ly + 40, img_iconAttack, TRUE);
+		DrawRotaGraph2(lx + 40, ly, 250, 250, 0.05, M_PI / 2 + M_PI, img_iconRedArrow, TRUE, TRUE);
+		//DrawExtendGraph(lx + 40, ly, lx + 60, ly + 20, img_iconRedArrow, TRUE);
+	};
+
+
+	//////////////////////////////////////////////////
 	// CoolTime
 	//////////////////////////////////////////////////
 
@@ -388,17 +418,17 @@ void GameUI::drawHUD(int mode) const {
 	// ステージアイコン
 	//////////////////////////////////////////////////
 
-	int img_stageIconBattle = 0;
-	int img_stageIconEvent  = 0;
-	int img_stageIconRest   = 0;
-	int img_stageIconAnvil  = 0;
-	int img_stageIconBoss   = 0;
+	int img_iconBattle = 0;
+	int img_iconEvent  = 0;
+	int img_iconRest   = 0;
+	int img_iconAnvil  = 0;
+	int img_iconBoss   = 0;
 
-	if (img.find("stageIconBattle") != img.end()) img_stageIconBattle = img.at("stageIconBattle");
-	if (img.find("stageIconEvent")  != img.end()) img_stageIconEvent  = img.at("stageIconEvent");
-	if (img.find("stageIconRest")   != img.end()) img_stageIconRest   = img.at("stageIconRest");
-	if (img.find("stageIconAnvil")  != img.end()) img_stageIconAnvil  = img.at("stageIconAnvil");
-	if (img.find("stageIconBoss")   != img.end()) img_stageIconBoss   = img.at("stageIconBoss");
+	if (img.find("iconBattle") != img.end()) img_iconBattle = img.at("iconBattle");
+	if (img.find("iconEvent")  != img.end()) img_iconEvent  = img.at("iconEvent");
+	if (img.find("iconRest")   != img.end()) img_iconRest   = img.at("iconRest");
+	if (img.find("iconAnvil")  != img.end()) img_iconAnvil  = img.at("iconAnvil");
+	if (img.find("iconBoss")   != img.end()) img_iconBoss   = img.at("iconBoss");
 
 	int strWidth = GetDrawFormatStringWidth(str.c_str());
 
@@ -409,25 +439,25 @@ void GameUI::drawHUD(int mode) const {
 
 	switch (stageType) {
 	case 1: // 鍛冶屋
-		DrawExtendGraph(lx, ly, rx, ry, img_stageIconAnvil, TRUE);
+		DrawExtendGraph(lx, ly, rx, ry, img_iconAnvil, TRUE);
 		break;
 
 	case 2: // 休憩
-		DrawExtendGraph(lx, ly, rx, ry, img_stageIconRest, TRUE);
+		DrawExtendGraph(lx, ly, rx, ry, img_iconRest, TRUE);
 		break;
 
 	case 3: // 戦闘
 		switch (battleMode) {
 		case 0: // ノーマル戦
-			DrawExtendGraph(lx, ly, rx, ry, img_stageIconBattle, TRUE);
+			DrawExtendGraph(lx, ly, rx, ry, img_iconBattle, TRUE);
 			break;
 
 		case 1: // 中ボス戦
-			DrawExtendGraph(lx, ly, rx, ry, img_stageIconEvent, TRUE);
+			DrawExtendGraph(lx, ly, rx, ry, img_iconEvent, TRUE);
 			break;
 
 		case 2: // ボス戦
-			DrawExtendGraph(lx, ly, rx, ry, img_stageIconBoss, TRUE);
+			DrawExtendGraph(lx, ly, rx, ry, img_iconBoss, TRUE);
 			break;
 
 		default:
