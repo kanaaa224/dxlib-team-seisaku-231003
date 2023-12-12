@@ -17,6 +17,7 @@ private:
 	int img_player;						// プレイヤー
 	int img_button_a;					// Aボタン
 	int img_background;					// 背景
+	int img_logo_result;
 
 	// フェード演出
 	int value;						// 不透明度

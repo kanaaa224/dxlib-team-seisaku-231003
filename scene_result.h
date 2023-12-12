@@ -39,10 +39,6 @@ private:
 	int img_logo_spear;
 	int img_logo_frail;
 	int img_logo_book;
-	//int img_;
-	//int img_;
-	//int img_;
-	//int img_;
 
 	// フェード演出
 	int value;						// 不透明度

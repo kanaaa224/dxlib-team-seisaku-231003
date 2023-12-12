@@ -126,14 +126,6 @@ void ResultScene::draw() const
 	DrawFormatString(1050, 490, 0x000000, "%7d", weapon2_info.level);
 	DrawFormatString(1050, 540, 0x000000, "%7d", weapon2_info.damage);
 
-	//DrawRotaGraph(200, 200, 0.2f, 0.0f, img_sword, TRUE);
-	//DrawRotaGraph(400, 200, 0.2f, 0.0f, img_dagger, TRUE);
-	//DrawRotaGraph(600, 200, 0.2f, 0.0f, img_great_sword, TRUE);
-	//DrawRotaGraph(200, 400, 0.2f, 0.0f, img_spear, TRUE);
-	//DrawRotaGraph(400, 400, 0.2f, 0.0f, img_frail, TRUE);
-	//DrawRotaGraph(600, 400, 0.2f, 0.0f, img_book, TRUE);
-
-
 	switch (weapon1_info.type)
 	{
 	case 0:			// �Ў茕
