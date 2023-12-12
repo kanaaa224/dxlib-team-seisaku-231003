@@ -6,8 +6,6 @@ class GameUI;
 class Rest
 {
 private:
-	GameUI* ui;
-
 	int cursor_interval;
 	int interval;
 	int cursor_num;
@@ -27,7 +25,7 @@ private:
 
 public:
 	//コンストラクタ
-	Rest(GameUI* ui);
+	Rest();
 	//デストラクタ
 	~Rest();
 

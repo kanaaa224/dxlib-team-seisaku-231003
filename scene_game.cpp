@@ -23,7 +23,7 @@ GameScene::GameScene() {
 	weaponSelect  = new Weapon_Selection(weapon_selected);
 	weaponLevelup = new WeaponLevelUp;
 	blacksmith    = new Blacksmith;
-	rest          = new Rest(gameUI);
+	rest          = new Rest;
 
 	//////////////////////////////////////////////////
 	
@@ -183,6 +183,24 @@ Scene* GameScene::update() {
 #endif
 	//////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////
+	// GameUI 仮
+	if (mode >= GameSceneMode::rest && mode <= GameSceneMode::main) gameUI->update(/*this*/);
+	gameUI->setStageType(mode);
+	gameUI->setBattleMode(battleMode);
+	hp = player->GetPlayer_HP();
+	int maxHP = player->GetMaxPlayer_hp();
+	int maxEXP = expData[level];
+	int coolTime = (int)player->GetCoolTimeCounter(), coolTimeMax = player->GetAvoidance_limit() * 60;
+	gameUI->setCoolTime(coolTime, coolTimeMax);
+	gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
+	gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
+	gameUI->setPoint(point);
+	gameUI->setFloor(currentFloor + 1);
+	gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
+	gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, weaponA->GetCoolTime(), weaponA->GetMaxCoolTime() }, { weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, weaponB->GetCoolTime(), weaponB->GetMaxCoolTime() });
+	//////////////////////////////////////////////////
+
 	if (mode == GameSceneMode::main) {
 		if (battleMode == GameSceneBattleMode::normal)
 		{
@@ -196,8 +214,6 @@ Scene* GameScene::update() {
 		{
 			SoundManager::PlaySoundBGM("bgm_boss");
 		}
-
-		gameUI->update(/*this*/);
 
 		if (gameUI->getState() >= banner_playerUI) {
 
@@ -589,24 +605,6 @@ Scene* GameScene::update() {
 
 			//////////////////////////////////////////////////
 			// GameUI 仮
-			hp = player->GetPlayer_HP();
-			int maxHP = player->GetMaxPlayer_hp();
-
-			int maxEXP = expData[level];
-
-			int coolTime = (int)player->GetCoolTimeCounter(), coolTimeMax = player->GetAvoidance_limit() * 60;
-			
-			gameUI->setCoolTime(coolTime, coolTimeMax);
-
-			gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
-			gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
-			gameUI->setPoint(point);
-
-			gameUI->setFloor(currentFloor + 1);
-			gameUI->setEnemy(getEnemyNum(0), getEnemyMax(0));
-
-			gameUI->setWeapon({ weaponA->GetWeaponType(), weaponA->GetWeaponLevel(), false, weaponA->GetCoolTime(), weaponA->GetMaxCoolTime() }, {weaponB->GetWeaponType(), weaponB->GetWeaponLevel(), false, weaponB->GetCoolTime(), weaponB->GetMaxCoolTime() });
-			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
 				SoundManager::StopSoundSE("se_player_move");
 				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターを倒した！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
@@ -764,7 +762,7 @@ void GameScene::draw() const {
 			weaponSelect->draw(weapon_selected);
 		}
 		else {
-			gameUI->draw();
+			gameUI->draw(0);
 			if (battleMode == GameSceneBattleMode::midBoss) gameUI->drawEnemyHP(); // ボスの体力ゲージ
 			if (battleMode == GameSceneBattleMode::boss) {
 				if (devilKing != nullptr) {
@@ -783,7 +781,10 @@ void GameScene::draw() const {
 
 	if (mode == GameSceneMode::blacksmith) blacksmith->draw(weaponLevelup);
 
-	if (mode == GameSceneMode::rest)rest->draw();
+	if (mode == GameSceneMode::rest) {
+		rest->draw();
+		gameUI->draw(1);
+	};
 
 	//////////////////////////////////////////////////
 
