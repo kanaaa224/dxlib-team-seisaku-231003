@@ -4,17 +4,21 @@
 //#include"Player.h"
 //#include"game_ui.h"
 
-Rest::Rest(GameUI* ui)
+Rest::Rest()
 {
-	this->ui = ui;
-
 	cursor_interval = 0;
 	interval = 0;
+	select_interval = 0;
 	cursor_num = 0;
-
+	anim_cnt = 0;
+	bonfire_anim = 0;
 
 	cursor_image = LoadGraph("resources/images/ïêäÌ/ï–éËåï.png");
-	bonfire_image = LoadGraph("resources/images/bonfirelit.png");
+	for (int i = 0; i < 4; i++)
+	{
+		string path = "resources/images/Rest/bonfire0" + std::to_string(i) + ".png";
+		bonfire_image[i] = LoadGraph(path.c_str());
+	}
 	button_image = LoadGraph("resources/images/button_a.png");
 
 	logo_dicision_image = LoadGraph("resources/images/Logo/UI/logo_dicision.png");
@@ -29,22 +33,31 @@ Rest::Rest(GameUI* ui)
 Rest::~Rest()
 {
 	DeleteGraph(cursor_image);
-	DeleteGraph(bonfire_image);
+	for (int i = 0; i < 4; i++)
+	{
+		DeleteGraph(bonfire_image[i]);
+	}
 	DeleteGraph(button_image);
 	DeleteGraph(logo_dicision_image);
 	DeleteGraph(logo_rest_image);
 	DeleteGraph(logo_pray_image);
 }
 
-void Rest::update(Player* player, int& mode, int& stage, int& restCnt)
+void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 {
 	SoundManager::PlaySoundBGM("bgm_breakstage");
 	SoundManager::PlaySoundBGM("bgm_breaktime");
 
-	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
-	ui->update();
-
 	cursor_x = cursor_num * 445;
+
+	if (++anim_cnt % 7 == 0)
+	{
+		bonfire_anim++;
+		if (bonfire_anim >= 4)
+		{
+			bonfire_anim = 0;
+		}
+	}
 
 	if (cursor_interval < 15)
 	{
@@ -95,33 +108,34 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt)
 			}
 		}
 
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
+		if (++select_interval > 30)
 		{
-			if (cursor_num == 0)
+			if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
 			{
-				//âÒïúÇÃâπ
-				SoundManager::PlaySoundSE("se_system_healing");
-				player->SetPlayer_HP(-100);
-				is_select = true;
-			}
-			else if (cursor_num == 1)
-			{
-				//èjïüÇÃâπ
-				SoundManager::PlaySoundSE("se_system_blessing");
-				rest_buf_flg = true;
-				is_select = true;
-				restCnt = 2;
+				if (cursor_num == 0)
+				{
+					//âÒïúÇÃâπ
+					SoundManager::PlaySoundSE("se_system_healing");
+					player->SetPlayerHP(100);
+					hp = MAX_HP;
+					is_select = true;
+				}
+				else if (cursor_num == 1)
+				{
+					//èjïüÇÃâπ
+					SoundManager::PlaySoundSE("se_system_blessing");
+					rest_buf_flg = true;
+					is_select = true;
+					restCnt = 2;
+				}
 			}
 		}
-
 	}
 }
 
 void Rest::draw() const
 {
-	ui->drawHP();
-
-	DrawRotaGraph(640, 300, .7f, 0, bonfire_image, TRUE);
+	DrawRotaGraph(640, 300, 1.2, 0, bonfire_image[bonfire_anim], TRUE);
 	DrawRotaGraph(280 + cursor_x, 610, .15, 1, cursor_image, TRUE);
 	DrawGraph(1150, 650, button_image, TRUE);
 	DrawRotaGraph(1210, 667, 0.1, 0, logo_dicision_image, TRUE);
@@ -161,6 +175,7 @@ void Rest::draw() const
 void Rest::Init()
 {
 	interval = 0;
+	select_interval = 0;
 
 	cursor_num = 0;
 

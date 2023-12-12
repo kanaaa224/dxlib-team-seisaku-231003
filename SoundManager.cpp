@@ -122,10 +122,26 @@ void SoundManager::SetSE(const char* fileName)
 
 	//設定されていない場合
 	if (iterator == manager->se.end())
-	{
+	{		
 		//ファイルのパス
 		string filePath;
-		filePath = "resources/sounds/SE/" + string(fileName) + ".wav";
+
+		if (strstr(fileName, "se_system") != NULL)
+		{
+			filePath = "resources/sounds/SE/System/" + string(fileName) + ".wav";
+		}
+		else if (strstr(fileName, "se_enemy") != NULL)
+		{
+			filePath = "resources/sounds/SE/Enemy/" + string(fileName) + ".wav";
+		}
+		else if (strstr(fileName, "se_player") != NULL)
+		{
+			filePath = "resources/sounds/SE/Player/" + string(fileName) + ".wav";
+		}
+		else if (strstr(fileName, "se_weapon") != NULL)
+		{
+			filePath = "resources/sounds/SE/Weapon/" + string(fileName) + ".wav";
+		}
 
 		//キーにSEを読みこむ
 		manager->se[fileName] = LoadSoundMem(filePath.c_str());

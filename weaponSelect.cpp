@@ -5,7 +5,8 @@ Weapon_Selection::Weapon_Selection(const bool selected)
 {
 	cnt = 0;
 	interval = 0;
-	cursor_num = 0;
+	select_interval = 0;
+	cursor_num = 1;
 	select_num = 0;
 	cursor_x = 0;
 	image_shift = 0;
@@ -147,70 +148,74 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 
 	bool switch_flg = is_weapon_select;
 
-	//武器を選択していないなら
-	if (is_selecting != true)
+	if (++select_interval > 30)
 	{
-		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS)
+		//武器を選択していないなら
+		if (is_selecting != true)
 		{
-			//カーソルの決定音
-			SoundManager::PlaySoundSE("se_system_normal_decision", false);
-			//音がなっているなら
-			if (CheckSoundMem(SoundManager::GetBGMHandle("se_system_select_syu")))
+			if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS || InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS && select_interval >= 30)
 			{
-				//まだ武器を選択したことがないなら
-				if (is_weapon_select != true)
+				//カーソルの決定音
+				SoundManager::PlaySoundSE("se_system_normal_decision", false);
+				//音がなっているなら
+				if (CheckSoundMem(SoundManager::GetBGMHandle("se_system_select_syu")))
 				{
-					if (cursor_num == 0)
+					//まだ武器を選択したことがないなら
+					if (is_weapon_select != true)
 					{
-						_weapon->SetWeaponType(dagger);
-						select_num = 0;
+						if (cursor_num == 0)
+						{
+							_weapon->SetWeaponType(dagger);
+							select_num = 0;
+						}
+						else if (cursor_num == 1)
+						{
+							_weapon->SetWeaponType(sword);
+							select_num = 1;
+						}
+						else
+						{
+							_weapon->SetWeaponType(greatSword);
+							select_num = 2;
+						}
 					}
-					else if (cursor_num == 1)
-					{
-						_weapon->SetWeaponType(sword);
-						select_num = 1;
-					}
+					//武器を選択したことがあるなら
 					else
 					{
-						_weapon->SetWeaponType(greatSword);
-						select_num = 2;
+						if (cursor_num == 0)
+						{
+							_second_weapon->SetWeaponType(spear);
+							select_num = 0;
+						}
+						else if (cursor_num == 1)
+						{
+							_second_weapon->SetWeaponType(frail);
+							select_num = 1;
+						}
+						else
+						{
+							_second_weapon->SetWeaponType(book);
+							select_num = 2;
+						}
 					}
 				}
-				//武器を選択したことがあるなら
+				//武器を選択した状態にする
+				//is_selecting = true;
+				//カーソルを「はい」の位置にする
+				cursor_num = 0;
+				//武器選択画面はなし
+				is_weapon_select = true;
+				SoundManager::StopSoundBGMs();
+				SoundManager::SetSoundBGMsPosition(0);
+				if (switch_flg)
+				{
+					mode = GameSceneMode::map;
+				}
 				else
 				{
-					if (cursor_num == 0)
-					{
-						_second_weapon->SetWeaponType(spear);
-						select_num = 0;
-					}
-					else if (cursor_num == 1)
-					{
-						_second_weapon->SetWeaponType(frail);
-						select_num = 1;
-					}
-					else
-					{
-						_second_weapon->SetWeaponType(book);
-						select_num = 2;
-					}
+					mode = GameSceneMode::main;
+					select_interval = 0;
 				}
-			}
-			//武器を選択した状態にする
-			//is_selecting = true;
-			//カーソルを「はい」の位置にする
-			cursor_num = 0;
-			//武器選択画面はなし
-			is_weapon_select = true;
-			SoundManager::StopSoundBGMs();
-			SoundManager::SetSoundBGMsPosition(0);
-			if (switch_flg)
-			{
-				mode = GameSceneMode::map;
-			}
-			else
-			{
-				mode = GameSceneMode::main;
 			}
 		}
 	}

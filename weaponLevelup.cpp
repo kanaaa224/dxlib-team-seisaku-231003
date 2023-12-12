@@ -692,9 +692,9 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 		DrawFormatString(200, 380, 0x000000, "移動速度");
 		DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", p_speed, w_p_speed);
 		DrawFormatString(200, 420, 0x000000, "回避速度");
-		DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", p_avoidancecooltime, w_p_avoidancecooltime);
+		DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", p_upperlimitlimit, w_p_upperlimitlimit);
 		DrawFormatString(200, 460, 0x000000, "回避クールタイム");
-		DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_upperlimitlimit, w_p_upperlimitlimit);
+		DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_avoidancecooltime, w_p_avoidancecooltime);
 	}
 	else if(weapon2_info.type != none)
 	{
@@ -835,7 +835,7 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 			break;
 		case dagger:		// 短剣
 			DrawFormatString(200, 520, 0x000000, "投げナイフ");
-			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する");
+			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する\n+ダメージ　6 x 5");
 			break;
 		case greatSword:	// 大剣
 			DrawFormatString(200, 520, 0x000000, "砂塵の太刀");
