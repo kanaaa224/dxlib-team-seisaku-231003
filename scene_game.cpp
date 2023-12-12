@@ -611,7 +611,7 @@ Scene* GameScene::update() {
 				SoundManager::StopSoundSE("se_player_move");
 				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターを倒した！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
 				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスを倒した！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
-				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了", "戦塔を制覇しました！", 0);
+				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("勝利！　魔王討伐完了", "戦塔を制覇！", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -646,7 +646,7 @@ Scene* GameScene::update() {
 				};
 			};
 			if (player->GetPlayer_HP() <= 0) {
-				gameUI->setBanner("失敗", "体力が尽きました、、", 0);
+				gameUI->setBanner("敗北", "体力が尽きた.....", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -819,8 +819,8 @@ void GameScene::init() {
 	};
 	tmpBulletNum = 0;
 
-	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋", "全てのモンスターを倒してください", 1);
-	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "討伐してください", 1);
+	     if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 魔王の手下の部屋", "全てのモンスターを倒せ！", 1);
+	else if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner(std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋", "打ち勝て！", 1);
 	else if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("最上階 - ラスボス 魔王の部屋", "魔王「我に勝てるかな？」"/*"特に何もしていない魔王を討伐してください"*/, 1);
 	gameUI->init();
 	gameUI->setState(banner);
@@ -1172,7 +1172,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				if (bossState) exp += 10;
+				if (bossState) exp += 15;
 				else exp += 9;
 			}
 		}
@@ -1201,7 +1201,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				if (bossState) exp += 10;
+				if (bossState) exp += 15;
 				//else exp += 20;
 			}
 		}
@@ -1241,7 +1241,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				if (bossState) exp += 15;
+				if (bossState) exp += 17;
 				//else exp += 30;
 			}
 		}
