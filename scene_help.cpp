@@ -4,7 +4,7 @@ Help::Help()
 {
 	//ƒwƒ‹ƒv‰æ‘œ‚Ì“Ç‚İ‚İ
 	if (HelpImage1 = LoadGraph("resources/images/Help/Help_Img3.png")) {}
-	if (HelpImage2 = LoadGraph("resources/images/Help/Help_Stage_Img.png")) {}
+	if (HelpImage2 = LoadGraph("resources/images/Help/Help_Stage_Img_1.png")) {}
 	if (HelpImage3 = LoadGraph("resources/images/Help/Help_weapon_system_1.png")) {}
 
 	Help_Abtn_Count = 0;
