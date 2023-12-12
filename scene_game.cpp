@@ -712,8 +712,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::rest) {
-		rest->update(player, mode, currentFloor, restCnt);
-		hp = MAX_HP;
+		rest->update(player, mode, currentFloor, restCnt, hp);
 		//if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
 	};
