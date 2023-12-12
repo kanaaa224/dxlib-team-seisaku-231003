@@ -4,10 +4,8 @@
 //#include"Player.h"
 //#include"game_ui.h"
 
-Rest::Rest(GameUI* ui)
+Rest::Rest()
 {
-	this->ui = ui;
-
 	cursor_interval = 0;
 	interval = 0;
 	cursor_num = 0;
@@ -48,9 +46,6 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 {
 	SoundManager::PlaySoundBGM("bgm_breakstage");
 	SoundManager::PlaySoundBGM("bgm_breaktime");
-
-	ui->setHP(player->GetPlayer_HP(), 100, (int)(player->GetPlayer_HP()));
-	ui->update();
 
 	cursor_x = cursor_num * 445;
 
@@ -118,6 +113,7 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 			{
 				//‰ñ•œ‚Ì‰¹
 				SoundManager::PlaySoundSE("se_system_healing");
+				player->SetPlayerHP(100);
 				hp = MAX_HP;
 				is_select = true;
 			}
@@ -136,8 +132,6 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 
 void Rest::draw() const
 {
-	ui->drawHP();
-
 	DrawRotaGraph(640, 300, 1.2, 0, bonfire_image[bonfire_anim], TRUE);
 	DrawRotaGraph(280 + cursor_x, 610, .15, 1, cursor_image, TRUE);
 	DrawGraph(1150, 650, button_image, TRUE);
