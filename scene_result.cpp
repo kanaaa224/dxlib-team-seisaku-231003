@@ -21,6 +21,18 @@ ResultScene::ResultScene(int result_info[])
 	img_frail = LoadGraph("resources/images/武器/フレイル.png");
 	img_book = LoadGraph("resources/images/武器/本.png");
 
+	// ロゴ画像読込
+	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
+	img_logo_lv = LoadGraph("resources/images/Logo/UI/logo_lv.png");
+	img_logo_title = LoadGraph("resources/images/Logo/UI/logo_title.png");
+	img_logo_totaldamage = LoadGraph("resources/images/武器/片手剣.png");
+	img_logo_dagger = LoadGraph("resources/images/Logo/WeaponName/logo_dagger_black.png");
+	img_logo_sword = LoadGraph("resources/images/Logo/WeaponName/logo_sword_black.png");
+	img_logo_greatsword = LoadGraph("resources/images/Logo/WeaponName/logo_greatsword_black.png");
+	img_logo_spear = LoadGraph("resources/images/Logo/WeaponName/logo_spear_black.png");
+	img_logo_frail = LoadGraph("resources/images/Logo/WeaponName/logo_frail_black.png");
+	img_logo_book = LoadGraph("resources/images/Logo/WeaponName/logo_book_black.png");
+
 	// 変数の初期化
 	value = 180;
 
@@ -76,16 +88,23 @@ void ResultScene::draw() const
 	// 背景色
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
 
-	// テキスト表示
-	SetFontSize(60);
-	DrawFormatString(550, 10, 0x000000, "RESULT");
+	DrawRotaGraph(640, 50, 0.45f, 0.0f, img_logo_result, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_totaldamage, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_dagger, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_sword, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_greatsword, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_spear, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_spear, TRUE);
+	//DrawRotaGraph(0, 0, 1.0f, 0.0f, img_logo_book, TRUE);
+
 	SetFontSize(20);
 	DrawFormatString(10, 50, 0x000000, "到達したステージ");
 
 	if (value <= 10)
 	{
-		DrawRotaGraph(1150, 690, 0.2f, 0.0f, img_button_a, TRUE);
-		DrawFormatString(1180, 680, 0x000000, "TITLE");
+		DrawRotaGraph(1130, 685, 0.2f, 0.0f, img_button_a, TRUE);
+		DrawRotaGraph(1200, 680, 0.15f, 0.0f, img_logo_title, TRUE);
+		//DrawRotaGraph(1000, 700, 0.3f, 0.0f, img_logo_lv, TRUE);
 	}
 	
 
@@ -164,6 +183,6 @@ void ResultScene::draw() const
 
 
 #ifdef _DEBUG
-	//DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
 }
