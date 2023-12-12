@@ -1132,7 +1132,7 @@ void second_weapon::MoveBookBullet()
 	{
 		if (bullets[i].flg) {
 			if (weaponLevel == 8) {
-				bullets[i].rot += 4.0f;
+				bullets[i].rot += 3.0f;
 				if (bullets[i].rot > 360.0f) {
 					bullets[i].rot = bullets[i].rot - 360.0f;
 				}
