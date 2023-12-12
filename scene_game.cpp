@@ -54,6 +54,8 @@ GameScene::GameScene() {
 
 	bossState = 0;
 
+	restCnt = 2;
+
 	map->ResetStage();
 
 	gameUI->setBanner(std::to_string(currentFloor + 1) + "F - 冒険の始まり", "全てのモンスターを倒し、塔の最上階を目指せ！", 1);
@@ -200,6 +202,11 @@ Scene* GameScene::update() {
 
 		if (gameUI->getState() >= banner_playerUI) {
 
+			if (restCnt <= 0)
+			{
+				rest->SetRestBufFlg(false);
+			}
+
 			//敵
 			HitCheck();
 			if (battleMode == GameSceneBattleMode::normal) SlimeUpdate();
@@ -208,9 +215,6 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::midBoss) MinotaurUpdate();
 			if (battleMode == GameSceneBattleMode::boss) DevilKingUpdate();
 
-
-			//休憩の攻撃バフ
-			//rest->SetRestBufFlg(true);
 			weaponA->SetAttackBuf(rest->GetRestBufFlg());
 			totalAttackBuf = weaponA->GetAttackBuf() * weaponB->GetAttackBufRate();
 			pl = player->GetLocation();
@@ -611,8 +615,8 @@ Scene* GameScene::update() {
 			//////////////////////////////////////////////////
 			if (getEnemyNum(0) <= 0 && frameCounter) {
 				SoundManager::StopSoundSE("se_player_move");
-				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターが倒れた！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
-				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスが倒れた！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
+				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターを倒した！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
+				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスを倒した！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
 				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("魔王討伐完了", "戦塔を制覇しました！", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
@@ -624,6 +628,10 @@ Scene* GameScene::update() {
 
 
 					currentFloor++;
+					if (rest->GetRestBufFlg())
+					{
+						restCnt--;
+					}
 
 					SoundManager::StopSoundBGMs();
 					SoundManager::SetSoundBGMsPosition(0);
@@ -657,10 +665,12 @@ Scene* GameScene::update() {
 				};
 			};
 			//////////////////////////////////////////////////
-			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
+			if (battleMode == GameSceneBattleMode::midBoss) gameUI->setEnemyHP("この塔の門番 - ミノタウロス", (int)(minotaur->GetHP()), MINOTAUR_MAX_HP, (int)((minotaur->GetHP() / MINOTAUR_MAX_HP) * 100.0f));
 			if (battleMode == GameSceneBattleMode::boss) {
-					if (devilKing->GetShieldFlg()) gameUI->setEnemyHP("魔王 猫スライム", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
-					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("魔王 猫スライム", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
+				if (devilKing != nullptr) {
+					if (devilKing->GetShieldFlg())  gameUI->setEnemyHP ("この塔を統べる - 魔王", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
+					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("この塔を統べる - 魔王（シールド）", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
+				};
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
 			//printfDx("%f\n", (c / SLIME_1_STAGE_NUM) * 100.0f);
@@ -708,7 +718,7 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::rest) {
-		rest->update(player, mode, currentFloor);
+		rest->update(player, mode, currentFloor, restCnt);
 		hp = MAX_HP;
 		//if (mode >= GameSceneMode::map) map->ClearStage();
 		return this;
@@ -898,155 +908,165 @@ int GameScene::getEnemyNum(int type) {
 // 当たり判定・敵の処理
 //////////////////////////////////////////////////
 
-void GameScene::HitCheck()
-{
-	//スライムの当たり判定
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			HitEnemy(slime[i]);//プレイヤーとの当たり判定
-			for (int j = 0; j < MAX_SLIME_NUM; j++) {
-				if (slime[j] != nullptr && i != j) {
-					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
-						slime[i]->SetHitFlg(HIT);
-						slime[j]->SetHitFlg(HIT);
+void GameScene::HitCheck() {
 
-						slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
-						slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+	if (battleMode == GameSceneBattleMode::normal) {
+		//スライムの当たり判定
+		for (int i = 0; i < MAX_SLIME_NUM; i++) {
+			if (slime[i] != nullptr) {
+				HitEnemy(slime[i]);//プレイヤーとの当たり判定
+				for (int j = 0; j < MAX_SLIME_NUM; j++) {
+					if (slime[j] != nullptr && i != j) {
+						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*slime[j]), player) == HIT) {//当たっている
+							slime[i]->SetHitFlg(HIT);
+							slime[j]->SetHitFlg(HIT);
+
+							slime[i]->HitVectorCale(static_cast<SphereCollider>(*slime[j]), player);
+							slime[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	//スケルトンの当たり判定
-	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
-		if (skeleton[i] != nullptr) {
-			HitEnemy(skeleton[i]);//プレイヤーとの当たり判定
-			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
-				if (skeleton[j] != nullptr && i != j) {
-					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
-						skeleton[i]->SetHitFlg(HIT);
-						skeleton[j]->SetHitFlg(HIT);
+		//スケルトンの当たり判定
+		for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				HitEnemy(skeleton[i]);//プレイヤーとの当たり判定
+				for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+					if (skeleton[j] != nullptr && i != j) {
+						if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+							skeleton[i]->SetHitFlg(HIT);
+							skeleton[j]->SetHitFlg(HIT);
 
-						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
-						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+							skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+							skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	//魔法使いの当たり判定
-	for (int i = 0; i < MAX_WIZARD_NUM; i++) {
-		if (wizard[i] != nullptr) {
-			HitEnemy(wizard[i]);//プレイヤーとの当たり判定
-			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
-				if (wizard[j] != nullptr && i != j) {
-					if (wizard[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
-						wizard[i]->SetHitFlg(HIT);
-						wizard[j]->SetHitFlg(HIT);
+		//魔法使いの当たり判定
+		for (int i = 0; i < MAX_WIZARD_NUM; i++) {
+			if (wizard[i] != nullptr) {
+				HitEnemy(wizard[i]);//プレイヤーとの当たり判定
+				for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+					if (wizard[j] != nullptr && i != j) {
+						if (wizard[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+							wizard[i]->SetHitFlg(HIT);
+							wizard[j]->SetHitFlg(HIT);
 
-						wizard[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
-						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*wizard[i]), player);
+							wizard[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+							wizard[j]->HitVectorCale(static_cast<SphereCollider>(*wizard[i]), player);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	//スライムとスケルトンの当たり判定
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			for (int j = 0; j < MAX_SKELETON_NUM; j++) {
-				if (skeleton[j] != nullptr) {
-					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
-						slime[i]->SetHitFlg(HIT);
-						skeleton[j]->SetHitFlg(HIT);
+		//スライムとスケルトンの当たり判定
+		for (int i = 0; i < MAX_SLIME_NUM; i++) {
+			if (slime[i] != nullptr) {
+				for (int j = 0; j < MAX_SKELETON_NUM; j++) {
+					if (skeleton[j] != nullptr) {
+						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*skeleton[j]), player) == HIT) {
+							slime[i]->SetHitFlg(HIT);
+							skeleton[j]->SetHitFlg(HIT);
 
-						slime[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
-						skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+							slime[i]->HitVectorCale(static_cast<SphereCollider>(*skeleton[j]), player);
+							skeleton[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	//スライムと魔法使いの当たり判定
-	for (int i = 0; i < MAX_SLIME_NUM; i++) {
-		if (slime[i] != nullptr) {
-			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
-				if (wizard[j] != nullptr) {
-					if (slime[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
-						slime[i]->SetHitFlg(HIT);
-						wizard[j]->SetHitFlg(HIT);
+		//スライムと魔法使いの当たり判定
+		for (int i = 0; i < MAX_SLIME_NUM; i++) {
+			if (slime[i] != nullptr) {
+				for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+					if (wizard[j] != nullptr) {
+						if (slime[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+							slime[i]->SetHitFlg(HIT);
+							wizard[j]->SetHitFlg(HIT);
 
-						slime[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
-						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+							slime[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+							wizard[j]->HitVectorCale(static_cast<SphereCollider>(*slime[i]), player);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	//魔法使いとスケルトンの当たり判定
-	for (int i = 0; i < MAX_SKELETON_NUM; i++) {
-		if (skeleton[i] != nullptr) {
-			for (int j = 0; j < MAX_WIZARD_NUM; j++) {
-				if (wizard[j] != nullptr) {
-					if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
-						skeleton[i]->SetHitFlg(HIT);
-						wizard[j]->SetHitFlg(HIT);
+		//魔法使いとスケルトンの当たり判定
+		for (int i = 0; i < MAX_SKELETON_NUM; i++) {
+			if (skeleton[i] != nullptr) {
+				for (int j = 0; j < MAX_WIZARD_NUM; j++) {
+					if (wizard[j] != nullptr) {
+						if (skeleton[i]->CheckCollision(static_cast<SphereCollider>(*wizard[j]), player) == HIT) {
+							skeleton[i]->SetHitFlg(HIT);
+							wizard[j]->SetHitFlg(HIT);
 
-						skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
-						wizard[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+							skeleton[i]->HitVectorCale(static_cast<SphereCollider>(*wizard[j]), player);
+							wizard[j]->HitVectorCale(static_cast<SphereCollider>(*skeleton[i]), player);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	for (int i = 0; i < MAX_BULLET_NUM; i++) {
-		if (enemyBullet[i] != nullptr) {
-			if (HitEnemy(enemyBullet[i]) == true) {
-				enemyBullet[i] = nullptr;
-				tmpBulletNum--;
+		// 魔法使いの弾
+		for (int i = 0; i < MAX_BULLET_NUM; i++) {
+			if (enemyBullet[i] != nullptr) {
+				if (HitEnemy(enemyBullet[i]) == true) {
+					enemyBullet[i] = nullptr;
+					tmpBulletNum--;
+				}
 			}
 		}
-	}
+	};
 
-	//ミノタウロスとプレイヤーの当たり判定
-	if (minotaur != nullptr) {
-		if (battleMode == GameSceneBattleMode::midBoss) {
-			HitEnemy(minotaur);
-		}
-	}
-
-	//魔王と魔王の武器、プレイヤーの当たり判定
-	if (devilKing != nullptr) {
-		if (battleMode == GameSceneBattleMode::boss) {
-			//魔王とプレイヤー
-			if (devilKing->GetSkyWalkFlg() == false) {
-				HitEnemy(devilKing);
+	if (battleMode == GameSceneBattleMode::midBoss) {
+		//ミノタウロスとプレイヤーの当たり判定
+		if (minotaur != nullptr) {
+			if (battleMode == GameSceneBattleMode::midBoss) {
+				HitEnemy(minotaur);
 			}
-			
-			for (int i = 0; i < MAX_BULLET_NUM; i++) {
-				if (bigEnemyBullet[i] != nullptr) {
-					//大きい弾とプレイヤー
-					HitEnemy(bigEnemyBullet[i]);
+		}
+	};
 
-					//魔王と大きい弾
-					if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
-						SoundManager::PlaySoundSE("se_enemy_barrierdamage", false);
-						devilKing->SetBigBulletHitFlg(true);
-						bigEnemyBullet[i] = nullptr;
+	if (battleMode == GameSceneBattleMode::boss) {
+		//魔王と魔王の武器、プレイヤーの当たり判定
+		if (devilKing != nullptr) {
+			if (battleMode == GameSceneBattleMode::boss) {
+				//魔王とプレイヤー
+				if (devilKing->GetSkyWalkFlg() == false) {
+					HitEnemy(devilKing);
+				}
+
+				for (int i = 0; i < MAX_BULLET_NUM; i++) {
+					if (bigEnemyBullet[i] != nullptr) {
+						//大きい弾とプレイヤー
+						HitEnemy(bigEnemyBullet[i]);
+
+						//魔王と大きい弾
+						if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
+							SoundManager::PlaySoundSE("se_enemy_barrierdamage", false);
+							devilKing->SetBigBulletHitFlg(true);
+							bigEnemyBullet[i] = nullptr;
+						}
 					}
 				}
-			}
-			//小さい弾とプレイヤー
-			for (int i = 0; i < 7; i++) {
-				if (smallEnemyBullet[i] != nullptr) {
-					HitEnemy(smallEnemyBullet[i]);
+				//小さい弾とプレイヤー
+				for (int i = 0; i < 7; i++) {
+					if (smallEnemyBullet[i] != nullptr) {
+						HitEnemy(smallEnemyBullet[i]);
+					}
 				}
+
+
+
 			}
 
 			//幽霊とプレイヤーの当たり判定
@@ -1055,9 +1075,8 @@ void GameScene::HitCheck()
 					HitEnemy(ghost[i]);
 				}
 			}
-
 		}
-	}
+	};
 }
 
 bool GameScene::HitEnemy(EnemyBase* enemy)

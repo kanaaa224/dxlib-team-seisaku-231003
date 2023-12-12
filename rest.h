@@ -32,7 +32,7 @@ public:
 	~Rest();
 
 	//描画に関すること以外の更新を実装する
-	void update(Player* player, int& mode, int& stage);
+	void update(Player* player, int& mode, int& stage, int& restCnt);
 
 	//描画に関することの更新を実装する
 	void draw()const;
