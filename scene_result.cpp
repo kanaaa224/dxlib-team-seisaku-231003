@@ -26,12 +26,30 @@ ResultScene::ResultScene(int result_info[])
 	img_logo_lv = LoadGraph("resources/images/Logo/UI/logo_lv.png");
 	img_logo_title = LoadGraph("resources/images/Logo/UI/logo_title.png");
 	img_logo_totaldamage = LoadGraph("resources/images/Logo/UI/logo_totaldamage.png");
+
+	// ïêäÌñºÉçÉSâÊëú
 	img_logo_dagger = LoadGraph("resources/images/Logo/WeaponName/logo_dagger_black.png");
 	img_logo_sword = LoadGraph("resources/images/Logo/WeaponName/logo_sword_black.png");
 	img_logo_greatsword = LoadGraph("resources/images/Logo/WeaponName/logo_greatsword_black.png");
 	img_logo_spear = LoadGraph("resources/images/Logo/WeaponName/logo_spear_black.png");
 	img_logo_frail = LoadGraph("resources/images/Logo/WeaponName/logo_frail_black.png");
 	img_logo_book = LoadGraph("resources/images/Logo/WeaponName/logo_book_black.png");
+	
+	// ÉåÉxÉã7ÇÃïêäÌñºÉçÉSâÊëú
+	img_logo_assasinsdagger = LoadGraph("resources/images/Logo/WeaponName/logo_assasin'sdagger.png");;
+	img_logo_legendsword = LoadGraph("resources/images/Logo/WeaponName/logo_legendsword.png");
+	img_logo_windslash = LoadGraph("resources/images/Logo/WeaponName/logo_windslash.png");
+	img_logo_royallance = LoadGraph("resources/images/Logo/WeaponName/logo_royallance.png");
+	img_logo_threechain =  LoadGraph("resources/images/Logo/WeaponName/logo_threechain.png");
+	img_logo_blessing = LoadGraph("resources/images/Logo/WeaponName/logo_blessing.png");
+
+	// ÉåÉxÉã8ÇÃïêäÌñºÉçÉSâÊëú
+	img_logo_throwingknife = LoadGraph("resources/images/Logo/WeaponName/logo_throwingknife.png");;
+	img_logo_magicsword = LoadGraph("resources/images/Logo/WeaponName/logo_magicsword.png");
+	img_logo_dustsword = LoadGraph("resources/images/Logo/WeaponName/logo_dustsword.png");
+	img_logo_gungnir = LoadGraph("resources/images/Logo/WeaponName/logo_gungnir.png");
+	img_logo_earthcrusher = LoadGraph("resources/images/Logo/WeaponName/logo_earthcrusher.png");
+	img_logo_bullet = LoadGraph("resources/images/Logo/WeaponName/logo_bullet.png");
 
 	// ïœêîÇÃèâä˙âª
 	value = 180;
@@ -56,7 +74,42 @@ ResultScene::ResultScene(int result_info[])
 
 ResultScene::~ResultScene()
 {
+	DeleteGraph(img_button_a);
+	
+	DeleteGraph(img_battle);
+	DeleteGraph(img_event);
+	DeleteGraph(img_rest);
+	DeleteGraph(img_anvil);
+	DeleteGraph(img_boss);
 
+	DeleteGraph(img_sword);
+	DeleteGraph(img_dagger);
+	DeleteGraph(img_great_sword);
+	DeleteGraph(img_question_mark);
+	DeleteGraph(img_spear);
+	DeleteGraph(img_frail);
+	DeleteGraph(img_book);
+
+	DeleteGraph(img_logo_sword);
+	DeleteGraph(img_logo_dagger);
+	DeleteGraph(img_logo_greatsword);
+	DeleteGraph(img_logo_spear);
+	DeleteGraph(img_logo_frail);
+	DeleteGraph(img_logo_book);
+
+	DeleteGraph(img_logo_assasinsdagger);
+	DeleteGraph(img_logo_legendsword);
+	DeleteGraph(img_logo_windslash);
+	DeleteGraph(img_logo_royallance);
+	DeleteGraph(img_logo_threechain);
+	DeleteGraph(img_logo_blessing);
+
+	DeleteGraph(img_logo_throwingknife);
+	DeleteGraph(img_logo_magicsword);
+	DeleteGraph(img_logo_dustsword);
+	DeleteGraph(img_logo_gungnir);
+	DeleteGraph(img_logo_earthcrusher);
+	DeleteGraph(img_logo_bullet);
 }
 
 Scene* ResultScene::update()
@@ -115,34 +168,64 @@ void ResultScene::draw() const
 	DrawFormatString(200, 535, 0x000000, "Å~ %d",map_info.boss_count);
 
 	// ïêäÌ1èÓïÒï\é¶
-	DrawRotaGraph(860, 250, 0.2f, 0.0f, img_logo_lv, TRUE);
-	DrawRotaGraph(915, 300, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
-	DrawFormatString(1050, 240, 0x000000, "%7d", weapon1_info.level);
-	DrawFormatString(1050, 290, 0x000000, "%7d", weapon1_info.damage);
+	DrawRotaGraph(840, 250, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(895, 300, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	DrawFormatString(1030, 240, 0x000000, "%7d", weapon1_info.level);
+	DrawFormatString(1030, 290, 0x000000, "%7d", weapon1_info.damage);
 
 	// ïêäÌ2èÓïÒï\é¶
-	DrawRotaGraph(860, 500, 0.2f, 0.0f, img_logo_lv, TRUE);
-	DrawRotaGraph(915, 550, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
-	DrawFormatString(1050, 490, 0x000000, "%7d", weapon2_info.level);
-	DrawFormatString(1050, 540, 0x000000, "%7d", weapon2_info.damage);
+	DrawRotaGraph(840, 500, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(895, 550, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	DrawFormatString(1030, 490, 0x000000, "%7d", weapon2_info.level);
+	DrawFormatString(1030, 540, 0x000000, "%7d", weapon2_info.damage);
 
 	switch (weapon1_info.type)
 	{
 	case 0:			// ï–éËåï
-		DrawRotaGraph(720, 240, 0.2f, 0.0f, img_sword, TRUE);
-		DrawRotaGraph(885, 180, 0.25f, 0.0f, img_logo_sword, TRUE);
+		DrawRotaGraph(700, 240, 0.2f, 0.0f, img_sword, TRUE);
+		DrawRotaGraph(865, 180, 0.25f, 0.0f, img_logo_sword, TRUE);
+		if (weapon1_info.level == 7)
+		{
+			DrawFormatString(930, 175, 0x000000, "-");
+			DrawRotaGraph(1030, 180, 0.25f, 0.0f, img_logo_legendsword, TRUE);
+		}
+		else if (weapon1_info.level == 8)
+		{
+			DrawFormatString(930, 175, 0x000000, "-");
+			DrawRotaGraph(1000, 180, 0.25f, 0.0f, img_logo_magicsword, TRUE);
+		}
 		break;
 	case 1:		// íZåï
-		DrawRotaGraph(720, 240, 0.17f, 0.0f, img_dagger, TRUE);
-		DrawRotaGraph(870, 180, 0.25f, 0.0f, img_logo_dagger, TRUE);
+		DrawRotaGraph(700, 240, 0.17f, 0.0f, img_dagger, TRUE);
+		DrawRotaGraph(850, 180, 0.25f, 0.0f, img_logo_dagger, TRUE);
+		if (weapon1_info.level == 7)
+		{
+			DrawFormatString(900, 175, 0x000000, "-");
+			DrawRotaGraph(1030, 180, 0.25f, 0.0f, img_logo_assasinsdagger, TRUE);
+		}
+		else if (weapon1_info.level == 8)
+		{
+			DrawFormatString(900, 175, 0x000000, "-");
+			DrawRotaGraph(1000, 180, 0.25f, 0.0f, img_logo_throwingknife, TRUE);
+		}
 		break;
 	case 2:	// ëÂåï
-		DrawRotaGraph(720, 240, 0.25f, 0.0f, img_great_sword, TRUE);
-		DrawRotaGraph(870, 180, 0.25f, 0.0f, img_logo_greatsword, TRUE);
+		DrawRotaGraph(700, 240, 0.25f, 0.0f, img_great_sword, TRUE);
+		DrawRotaGraph(850, 180, 0.25f, 0.0f, img_logo_greatsword, TRUE);
+		if (weapon1_info.level == 7)
+		{
+			DrawFormatString(900, 175, 0x000000, "-");
+			DrawRotaGraph(980, 180, 0.25f, 0.0f, img_logo_windslash, TRUE);
+		}
+		else if (weapon1_info.level == 8)
+		{
+			DrawFormatString(900, 175, 0x000000, "-");
+			DrawRotaGraph(1020, 180, 0.25f, 0.0f, img_logo_dustsword, TRUE);
+		}
 		break;
 	default:
-		DrawRotaGraph(720, 260, 0.15f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(840, 200, 0x000000, "ïêäÌÇ™Ç†ÇËÇ‹ÇπÇÒ");
+		DrawRotaGraph(700, 260, 0.15f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(820, 200, 0x000000, "ïêäÌÇ™Ç†ÇËÇ‹ÇπÇÒ");
 		break;
 	}
 
@@ -150,20 +233,50 @@ void ResultScene::draw() const
 	switch (weapon2_info.type)
 	{
 	case 0:			// ëÑ
-		DrawRotaGraph(720, 500, 0.25f, 0.0f, img_spear, TRUE);
-		DrawRotaGraph(860, 430, 0.25f, 0.0f, img_logo_spear, TRUE);
+		DrawRotaGraph(700, 500, 0.25f, 0.0f, img_spear, TRUE);
+		DrawRotaGraph(840, 430, 0.25f, 0.0f, img_logo_spear, TRUE);
+		if (weapon2_info.level == 7)
+		{
+			DrawFormatString(870, 425, 0x000000, "-");
+			DrawRotaGraph(1020, 425, 0.3f, 0.0f, img_logo_royallance, TRUE);
+		}
+		else if (weapon2_info.level == 8)
+		{
+			DrawFormatString(870, 425, 0x000000, "-");
+			DrawRotaGraph(980, 425, 0.3f, 0.0f, img_logo_gungnir, TRUE);
+		}
 		break;
 	case 1:			// ÉtÉåÉCÉã
-		DrawRotaGraph(700, 500, 0.25f, 0.0f, img_frail, TRUE);
-		DrawRotaGraph(900, 430, 0.25f, 0.0f, img_logo_frail, TRUE);
+		DrawRotaGraph(680, 500, 0.25f, 0.0f, img_frail, TRUE);
+		DrawRotaGraph(880, 430, 0.25f, 0.0f, img_logo_frail, TRUE);
+		if (weapon2_info.level == 7)
+		{
+			DrawFormatString(965, 425, 0x000000, "-");
+			DrawRotaGraph(1080, 425, 0.3f, 0.0f, img_logo_threechain, TRUE);
+		}
+		else if (weapon2_info.level == 8)
+		{
+			DrawFormatString(965, 425, 0x000000, "-");
+			DrawRotaGraph(1120, 420, 0.35f, 0.0f, img_logo_earthcrusher, TRUE);
+		}
 		break;
 	case 2:			// ñÇì±èë
-		DrawRotaGraph(720, 500, 0.17f, 0.0f, img_book, TRUE);
-		DrawRotaGraph(910, 430, 0.25f, 0.0f, img_logo_book, TRUE);
+		DrawRotaGraph(700, 500, 0.17f, 0.0f, img_book, TRUE);
+		DrawRotaGraph(890, 430, 0.25f, 0.0f, img_logo_book, TRUE);
+		if (weapon2_info.level == 7)
+		{
+			DrawFormatString(950, 425, 0x000000, "-");
+			DrawRotaGraph(1060, 425, 0.3f, 0.0f, img_logo_blessing, TRUE);
+		}
+		else if (weapon2_info.level == 8)
+		{
+			DrawFormatString(950, 425, 0x000000, "-");
+			DrawRotaGraph(1110, 410, 0.4f, 0.0f, img_logo_bullet, TRUE);
+		}
 		break;
 	default:
-		DrawRotaGraph(720, 520, 0.15f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(840, 450, 0x000000, "ïêäÌÇ™Ç†ÇËÇ‹ÇπÇÒ");
+		DrawRotaGraph(700, 520, 0.15f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(820, 450, 0x000000, "ïêäÌÇ™Ç†ÇËÇ‹ÇπÇÒ");
 		break;
 	}
 

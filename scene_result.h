@@ -33,12 +33,30 @@ private:
 	int img_logo_lv;
 	int img_logo_title;
 	int img_logo_totaldamage;
+
+	// 武器名ロゴ画像
 	int img_logo_dagger;
 	int img_logo_sword;
 	int img_logo_greatsword;
 	int img_logo_spear;
 	int img_logo_frail;
 	int img_logo_book;
+
+	// レベル7の武器名ロゴ画像
+	int img_logo_assasinsdagger;
+	int img_logo_legendsword;
+	int img_logo_windslash;
+	int img_logo_royallance;
+	int img_logo_threechain;
+	int img_logo_blessing;
+
+	// レベル8の武器名ロゴ画像
+	int img_logo_throwingknife;
+	int img_logo_magicsword;
+	int img_logo_dustsword;
+	int img_logo_gungnir;
+	int img_logo_earthcrusher;
+	int img_logo_bullet;
 
 	// フェード演出
 	int value;						// 不透明度
