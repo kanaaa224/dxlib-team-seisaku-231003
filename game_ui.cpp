@@ -5,9 +5,9 @@
 #include "main.h"
 
 GameUI::GameUI() {
-	if ((img["btnA"] = LoadGraph("resources/images/ui/button-a_160.png")) == -1) throw;
-	if ((img["btnB"] = LoadGraph("resources/images/ui/button-b_160.png")) == -1) throw;
-	if ((img["btnX"] = LoadGraph("resources/images/ui/button-x_160.png")) == -1) throw;
+	if ((img["btnA"]             = LoadGraph("resources/images/ui/button-a_160.png"))     == -1) throw;
+	if ((img["btnB"]             = LoadGraph("resources/images/ui/button-b_160.png"))     == -1) throw;
+	if ((img["btnX"]             = LoadGraph("resources/images/ui/button-x_160.png"))     == -1) throw;
 
 	if ((img["weaponSword"]      = LoadGraph("resources/images/武器/片手剣50・50.png"))   == -1) throw;
 	if ((img["weaponDagger"]     = LoadGraph("resources/images/武器/短剣50・50.png"))     == -1) throw;
@@ -16,21 +16,21 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
-	if ((img["whiteCircle50"]    = LoadGraph("resources/images/ui/shiromaru_50.png")) == -1) throw;
-	if ((img["blackCircle50"]    = LoadGraph("resources/images/ui/kuromaru_50.png"))  == -1) throw;
-	if ((img["whiteCircle80"]    = LoadGraph("resources/images/ui/shiromaru_80.png")) == -1) throw;
-	if ((img["blackCircle80"]    = LoadGraph("resources/images/ui/kuromaru_80.png"))  == -1) throw;
+	if ((img["whiteCircle50"]    = LoadGraph("resources/images/ui/shiromaru_50.png"))     == -1) throw;
+	if ((img["blackCircle50"]    = LoadGraph("resources/images/ui/kuromaru_50.png"))      == -1) throw;
+	if ((img["whiteCircle80"]    = LoadGraph("resources/images/ui/shiromaru_80.png"))     == -1) throw;
+	if ((img["blackCircle80"]    = LoadGraph("resources/images/ui/kuromaru_80.png"))      == -1) throw;
 
-	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png")) == -1) throw;
+	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png"))       == -1) throw;
 
-	if ((img["iconBattle"] = LoadGraph("resources/images/maps/skeleton.png")) == -1) throw;
-	if ((img["iconEvent"]  = LoadGraph("resources/images/maps/event.png"))    == -1) throw;
-	if ((img["iconRest"]   = LoadGraph("resources/images/maps/rest.png"))     == -1) throw;
-	if ((img["iconAnvil"]  = LoadGraph("resources/images/maps/anvil.png"))    == -1) throw;
-	if ((img["iconBoss"]   = LoadGraph("resources/images/maps/boss.png"))     == -1) throw;
+	if ((img["iconBattle"]       = LoadGraph("resources/images/maps/skeleton.png"))       == -1) throw;
+	if ((img["iconEvent"]        = LoadGraph("resources/images/maps/event.png"))          == -1) throw;
+	if ((img["iconRest"]         = LoadGraph("resources/images/maps/rest.png"))           == -1) throw;
+	if ((img["iconAnvil"]        = LoadGraph("resources/images/maps/anvil.png"))          == -1) throw;
+	if ((img["iconBoss"]         = LoadGraph("resources/images/maps/boss.png"))           == -1) throw;
 
-	if ((img["iconAttack"]   = LoadGraph("resources/images/attack_buf.png")) == -1) throw;
-	if ((img["iconRedArrow"] = LoadGraph("resources/images/arrow_red.png"))  == -1) throw;
+	if ((img["iconAttack"]       = LoadGraph("resources/images/attack_buf.png"))          == -1) throw;
+	if ((img["iconRedArrow"]     = LoadGraph("resources/images/arrow_red.png"))           == -1) throw;
 
 	//////////////////////////////////////////////////
 
