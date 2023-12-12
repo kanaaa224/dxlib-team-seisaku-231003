@@ -10,6 +10,7 @@ private:
 
 	int cursor_interval;
 	int interval;
+	int select_interval;
 	int cursor_num;
 	int cursor_x;
 	int anim_cnt;
