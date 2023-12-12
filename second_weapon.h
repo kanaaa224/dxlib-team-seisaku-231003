@@ -209,6 +209,7 @@ public:
 	// レベルアップ画面で使用
 	int GetMaxCoolTime() { return maxCoolTime; }
 	float GetMaxRot() { return maxRot; }
+	int GetBulletSpeed() { return Bullet_speed; }
 
 	int GetTotalDamage() { return totalDamage; }
 	void AddTotalDamage();
