@@ -90,7 +90,7 @@ void ResultScene::draw() const
 
 	DrawRotaGraph(640, 50, 0.45f, 0.0f, img_logo_result, TRUE);
 
-	SetFontSize(20);
+	SetFontSize(35);
 	DrawFormatString(10, 50, 0x000000, "到達したステージ");
 
 	if (value <= 10)
@@ -115,34 +115,42 @@ void ResultScene::draw() const
 	DrawFormatString(200, 535, 0x000000, "× %d",map_info.boss_count);
 
 	// 武器1情報表示
-	DrawRotaGraph(860, 240, 0.2f, 0.0f, img_logo_lv, TRUE);
-	DrawRotaGraph(915, 290, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
-	//DrawFormatString(850, 200, 0x000000, "%7d", weapon1_info.level);
-	//DrawFormatString(850, 250, 0x000000, "%7d", weapon1_info.damage);
+	DrawRotaGraph(860, 250, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(915, 300, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	DrawFormatString(1050, 240, 0x000000, "%7d", weapon1_info.level);
+	DrawFormatString(1050, 290, 0x000000, "%7d", weapon1_info.damage);
 
 	// 武器2情報表示
-	DrawRotaGraph(860, 490, 0.2f, 0.0f, img_logo_lv, TRUE);
-	DrawRotaGraph(915, 540, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
-	//DrawFormatString(850, 450, 0x000000, "%7d", weapon2_info.level);
-	//DrawFormatString(850, 500, 0x000000, "%7d", weapon2_info.damage);
+	DrawRotaGraph(860, 500, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(915, 550, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	DrawFormatString(1050, 490, 0x000000, "%7d", weapon2_info.level);
+	DrawFormatString(1050, 540, 0x000000, "%7d", weapon2_info.damage);
+
+	//DrawRotaGraph(200, 200, 0.2f, 0.0f, img_sword, TRUE);
+	//DrawRotaGraph(400, 200, 0.2f, 0.0f, img_dagger, TRUE);
+	//DrawRotaGraph(600, 200, 0.2f, 0.0f, img_great_sword, TRUE);
+	//DrawRotaGraph(200, 400, 0.2f, 0.0f, img_spear, TRUE);
+	//DrawRotaGraph(400, 400, 0.2f, 0.0f, img_frail, TRUE);
+	//DrawRotaGraph(600, 400, 0.2f, 0.0f, img_book, TRUE);
+
 
 	switch (weapon1_info.type)
 	{
 	case 0:			// 片手剣
-		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_sword, TRUE);
-		DrawRotaGraph(885, 170, 0.25f, 0.0f, img_logo_sword, TRUE);
+		DrawRotaGraph(720, 240, 0.2f, 0.0f, img_sword, TRUE);
+		DrawRotaGraph(885, 180, 0.25f, 0.0f, img_logo_sword, TRUE);
 		break;
 	case 1:		// 短剣
-		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_dagger, TRUE);
-		DrawRotaGraph(870, 170, 0.25f, 0.0f, img_logo_dagger, TRUE);
+		DrawRotaGraph(720, 240, 0.17f, 0.0f, img_dagger, TRUE);
+		DrawRotaGraph(870, 180, 0.25f, 0.0f, img_logo_dagger, TRUE);
 		break;
 	case 2:	// 大剣
-		DrawRotaGraph(750, 215, 0.2f, 0.0f, img_great_sword, TRUE);
-		DrawRotaGraph(870, 170, 0.25f, 0.0f, img_logo_greatsword, TRUE);
+		DrawRotaGraph(720, 240, 0.25f, 0.0f, img_great_sword, TRUE);
+		DrawRotaGraph(870, 180, 0.25f, 0.0f, img_logo_greatsword, TRUE);
 		break;
 	default:
-		DrawRotaGraph(750, 215, 0.15f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(850, 150, 0x000000, "武器がありません");
+		DrawRotaGraph(720, 260, 0.15f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(840, 200, 0x000000, "武器がありません");
 		break;
 	}
 
@@ -150,20 +158,20 @@ void ResultScene::draw() const
 	switch (weapon2_info.type)
 	{
 	case 0:			// 槍
-		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_spear, TRUE);
-		DrawRotaGraph(860, 420, 0.25f, 0.0f, img_logo_spear, TRUE);
+		DrawRotaGraph(720, 500, 0.25f, 0.0f, img_spear, TRUE);
+		DrawRotaGraph(860, 430, 0.25f, 0.0f, img_logo_spear, TRUE);
 		break;
 	case 1:			// フレイル
-		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_frail, TRUE);
-		DrawRotaGraph(900, 420, 0.25f, 0.0f, img_logo_frail, TRUE);
+		DrawRotaGraph(700, 500, 0.25f, 0.0f, img_frail, TRUE);
+		DrawRotaGraph(900, 430, 0.25f, 0.0f, img_logo_frail, TRUE);
 		break;
 	case 2:			// 魔導書
-		DrawRotaGraph(750, 470, 0.2f, 0.0f, img_book, TRUE);
-		DrawRotaGraph(910, 420, 0.25f, 0.0f, img_logo_book, TRUE);
+		DrawRotaGraph(720, 500, 0.17f, 0.0f, img_book, TRUE);
+		DrawRotaGraph(910, 430, 0.25f, 0.0f, img_logo_book, TRUE);
 		break;
 	default:
-		DrawRotaGraph(750, 470, 0.15f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(850, 400, 0x000000, "武器がありません");
+		DrawRotaGraph(720, 520, 0.15f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(840, 450, 0x000000, "武器がありません");
 		break;
 	}
 

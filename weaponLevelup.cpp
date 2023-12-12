@@ -835,7 +835,7 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 			break;
 		case dagger:		// 短剣
 			DrawFormatString(200, 520, 0x000000, "投げナイフ");
-			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する");
+			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する\n+ダメージ　6 x 5");
 			break;
 		case greatSword:	// 大剣
 			DrawFormatString(200, 520, 0x000000, "砂塵の太刀");
