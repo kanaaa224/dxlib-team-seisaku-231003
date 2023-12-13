@@ -6,7 +6,6 @@ GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 	img_gameover = LoadGraph("resources/images/gameover.png");
 	img_ghost = LoadGraph("resources/images/ghost.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
-	img_background = LoadGraph("resources/images/stageimage2.png");
 	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
 
 	// 変数の初期化
@@ -36,7 +35,10 @@ GameOverScene::GameOverScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 
 GameOverScene::~GameOverScene()
 {
-
+	DeleteGraph(img_gameover);
+	DeleteGraph(img_ghost);
+	DeleteGraph(img_button_a);
+	DeleteGraph(img_logo_result);
 }
 
 Scene* GameOverScene::update()
@@ -75,7 +77,6 @@ void GameOverScene::draw() const
 {
 	// 背景色
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
-	//DrawGraph(0, 0, img_background, TRUE);
 
 	// テキスト表示
 	SetFontSize(60);

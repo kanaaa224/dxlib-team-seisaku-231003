@@ -8,7 +8,6 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 	img_grail = LoadGraph("resources/images/GameClear/seihai_gold.png");
 	img_player = LoadGraph("resources/images/player_images/Player_right50ÅE50.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
-	img_background = LoadGraph("resources/images/stageimage2.png");
 	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
 
 	value = 180;
@@ -33,7 +32,12 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 
 GameClearScene::~GameClearScene()
 {
-
+	DeleteGraph(img_gameclear);
+	DeleteGraph(img_crown);
+	DeleteGraph(img_grail);
+	DeleteGraph(img_player);
+	DeleteGraph(img_button_a);
+	DeleteGraph(img_logo_result);
 }
 
 Scene* GameClearScene::update()

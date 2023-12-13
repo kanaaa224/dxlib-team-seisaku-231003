@@ -87,6 +87,10 @@ private:
 	float tmp_frail_radiusX;
 	float tmp_frail_radiusY;
 
+	// 魔導書の情報格納用
+	int book_bullet_speed;
+	int tmp_book_bullet_speed;
+
 	int close_mode;					// 0:開く　1:Xボタン離した　2:閉じる
 
 public:
