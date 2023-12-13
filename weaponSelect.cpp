@@ -4,7 +4,7 @@
 Weapon_Selection::Weapon_Selection(const bool selected)
 {
 	cnt = 0;
-	interval = 0;
+	cursor_interval = 0;
 	select_interval = 0;
 	cursor_num = 1;
 	select_num = 0;
@@ -59,9 +59,9 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 	SoundManager::PlaySoundBGM("bgm_weaponselection");
 
 	//１５ｆのインターバルを設ける
-	if (interval < INTERVAL)
+	if (cursor_interval < INTERVAL)
 	{
-		interval++;
+		cursor_interval++;
 	}
 
 	//カウントする
@@ -89,7 +89,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 	}
 
 	//左スティックを右に
-	if ((InputCtrl::GetStickRatio(L).x > 0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) && interval >= 15)
+	if ((InputCtrl::GetStickRatio(L).x > 0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) && cursor_interval >= 15)
 	{
 		//カーソルの移動音
 		SoundManager::PlaySoundSE("se_system_select_syu", false);
@@ -97,7 +97,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 		if(CheckSoundMem(SoundManager::GetBGMHandle("se_system_select_syu")))
 		{
 			cursor_num++;
-			interval = 0;
+			cursor_interval = 0;
 			//武器を選択していないなら３つまで
 			if (is_selecting != true)
 			{
@@ -118,7 +118,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 	}
 
 	//左スティックを左に
-	if ((InputCtrl::GetStickRatio(L).x < -0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)) && interval >= 15)
+	if ((InputCtrl::GetStickRatio(L).x < -0.8 || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)) && cursor_interval >= 15)
 	{
 		//カーソルの移動音
 		SoundManager::PlaySoundSE("se_system_select_syu", false);
@@ -126,7 +126,7 @@ void Weapon_Selection::update(weapon* _weapon, second_weapon* _second_weapon, bo
 		if (CheckSoundMem(SoundManager::GetBGMHandle("se_system_select_syu")))
 		{
 			cursor_num--;
-			interval = 0;
+			cursor_interval = 0;
 			//武器を選択していないなら３つまで
 			if (is_selecting != true)
 			{
