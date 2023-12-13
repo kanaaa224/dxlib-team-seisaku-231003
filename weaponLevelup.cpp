@@ -158,12 +158,16 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			// 武器2がnoneだったら武器2の選択決定は不可
-			// それ以外の場合は選択決定可能
-			if (cursor_x == 580 || weapon2_info.type != none)
+			if (weapon_number == weapon1_info.num && weapon1_info.level < 7)
 			{
 				//カーソルの決定音
 				SoundManager::PlaySoundSE("se_system_normal_decision",false);
+				weapon_selection = true;
+			}
+			else if (weapon_number == weapon2_info.num && weapon2_info.type != none && weapon2_info.level < 7)
+			{
+				//カーソルの決定音
+				SoundManager::PlaySoundSE("se_system_normal_decision", false);
 				weapon_selection = true;
 			}
 			else
@@ -212,13 +216,13 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	}
 
 	// Xボタン離した
-	if (InputCtrl::GetKeyState(KEY_INPUT_X) == RELEASE || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
 	{
 		close_mode = 1;
 	}
 
 	// 閉じるとき
-	if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 	{
 		if (close_mode == 1)
 		{
@@ -335,32 +339,11 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(0, 270, 0x000000, "W2level (State): %d", weapon2_info.level);
 	//DrawFormatString(0, 290, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
 	//DrawFormatString(0, 310, 0x000000, "W2tmpレベル : %d", weapon2_info.tmp_level);
-	//DrawFormatString(0, 90, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
-	//DrawFormatString(0, 110, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
-	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
-	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
-	//DrawFormatString(0, 0, 0x000000, "branch_point_x[0][0] : %d", branch_point_x[0][0]);
+	//DrawFormatString(0, 20, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
+	//DrawFormatString(0, 40, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
+	//DrawFormatString(0, 40, 0x000000, "1level_hierarchy : %d", weapon1_info.level_hierarchy);
 	//DrawFormatString(0, 20, 0x000000, "cursor_x : %d", cursor_x);
-
-	// 多分現在のプレイヤーのステータス
-	//DrawFormatString(0, 20, 0xf0f0f0, "weapon.cppからの情報");
-	//DrawFormatString(0, 40, 0xf0f0f0, "w_p_speed : %d", w_p_speed);
-	//DrawFormatString(0, 60, 0xf0f0f0, "w_p_avoidancecooltime : %d", w_p_avoidancecooltime);
-	//DrawFormatString(0, 80, 0xf0f0f0, "w_p_upperlimitlimit : %d", w_p_upperlimitlimit);
-	//
-	//DrawFormatString(0, 120, 0xf0f0f0, "player.cppからの情報");
-	//DrawFormatString(0, 140, 0xf0f0f0, "p_speed : %f", p_speed);
-	//DrawFormatString(0, 160, 0xf0f0f0, "p_avoidancecooltime : %d", p_avoidancecooltime);
-	//DrawFormatString(0, 180, 0xf0f0f0, "p_upperlimitlimit : %f", p_upperlimitlimit);
-
-	//DrawFormatString(0, 210, 0xa00000, "cool_time : %d", weapon1_info.cool_time);
-	//DrawFormatString(0, 230, 0xa00000, "damage : %d", weapon1_info.damege);
-	//DrawFormatString(0, 250, 0xa00000, "範囲 : %f", weapon1_info.attack_range);
-
-	//DrawFormatString(0, 270, 0xa00000, "tmp_cool_time : %d", weapon1_info.tmp_cool_time);
-	//DrawFormatString(0, 290, 0xa00000, "tmp_damage : %d", weapon1_info.tmp_damege);
-	//DrawFormatString(0, 310, 0xa00000, "tmp_範囲 : %f", weapon1_info.tmp_attack_range);
-
+	//DrawFormatString(0, 40, 0x000000, "weapon_selection : %d", weapon_selection);
 #endif
 }
 
@@ -811,8 +794,8 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	}
 	
 	// 武器選択済み
-	//if (weapon_selection == true)
-	//{
+	if (weapon_selection == true)
+	{
 		if (weapon_number == weapon1_info.num)
 		{
 			if (weapon1_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
@@ -829,7 +812,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 				DrawWeapon2FinalText();
 			}
 		}
-	//}
+	}
 }
 
 // 武器1最終強化のテキスト群
@@ -837,6 +820,7 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 {
 	DrawFormatString(200, 140, 0xb00000, "次は最終強化です");
 
+	// レベルアップカーソルが左側にある時
 	if (weapon1_info.cursor_pos == -level_cursor_pos)
 	{
 		// レベル7
