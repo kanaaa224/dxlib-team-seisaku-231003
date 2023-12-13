@@ -11,7 +11,6 @@ Blacksmith::Blacksmith()
 	img_arrow = LoadGraph("resources/images/arrow.png");
 	img_button_b = LoadGraph("resources/images/button_b.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
-	// テスト用
 	img_background = LoadGraph("resources/images/stageimage2.png");
 
 	// 武器画像
@@ -43,14 +42,27 @@ Blacksmith::Blacksmith()
 	cursor_action = state_first;
 	box_color = 0x696868;
 	box_color_hover = 0xb0b0b0;
-	//box_color = 0x8BA6D1;
-	//box_color = 0x9bbaeb;
 	value = 80;
 }
 
 Blacksmith::~Blacksmith()
 {
-
+	DeleteGraph(img_cursor);
+	DeleteGraph(img_chooce);
+	DeleteGraph(img_hammer);
+	DeleteGraph(img_spark);
+	DeleteGraph(img_exclamation_mark);
+	DeleteGraph(img_arrow);
+	DeleteGraph(img_button_b);
+	DeleteGraph(img_button_a);
+	DeleteGraph(img_background);
+	DeleteGraph(img_sword);
+	DeleteGraph(img_dagger);
+	DeleteGraph(img_great_sword);
+	DeleteGraph(img_spear);
+	DeleteGraph(img_frail);
+	DeleteGraph(img_book);
+	DeleteGraph(img_question_mark);
 }
 
 // 更新

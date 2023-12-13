@@ -189,6 +189,7 @@ Scene* GameScene::update() {
 	if (mode >= GameSceneMode::rest && mode <= GameSceneMode::main) gameUI->update(/*this*/);
 	gameUI->setStageType(mode);
 	gameUI->setBattleMode(battleMode);
+	if (totalAttackBuf > 1.0f) gameUI->setAbilityEnhance(1);
 	hp = player->GetPlayer_HP();
 	int maxHP = player->GetMaxPlayer_hp();
 	int maxEXP = expData[level];

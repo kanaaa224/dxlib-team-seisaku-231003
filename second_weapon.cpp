@@ -705,6 +705,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
 			damage = INIT_DAMAGE_BOOK + 2;
+			Bullet_speed = 10;
 			break;
 		}
 
