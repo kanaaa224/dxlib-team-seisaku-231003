@@ -201,16 +201,38 @@ void SoundManager::SetSoundSEsPosition(LONGLONG time)
 	}
 }
 
-void SoundManager::PlaySoundBGM(const char* fileName, int playType, int topPositionFlag)
+void SoundManager::PlaySoundBGM(const char* fileName, bool isSingleUnit, int playType, int topPositionFlag)
 {
-	if (!CheckSoundMem(manager->bgm[fileName]))
+	//音を重ねないなら
+	if (isSingleUnit)
 	{
-		PlaySoundMem(manager->bgm[fileName], playType, topPositionFlag);
+		//現在なっている音を止める
+		for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
+		{
+			if (CheckSoundMem(manager->bgm[iterator->first]))
+			{
+				StopSoundMem(manager->bgm[iterator->first]);
+				SetSoundCurrentTime(0, manager->bgm[iterator->first]);
+			}
+		}
+		if (!CheckSoundMem(manager->bgm[fileName]))
+		{
+			PlaySoundMem(manager->bgm[fileName], playType, topPositionFlag);
+		}
+	}
+	//音を重ねるなら
+	else
+	{
+		if (!CheckSoundMem(manager->bgm[fileName]))
+		{
+			PlaySoundMem(manager->bgm[fileName], playType, topPositionFlag);
+		}
 	}
 }
 
 void SoundManager::PlaySoundSE(const char* fileName, bool isSingleUnit, int playType, int topPositionFlag)
 {
+	//音を重ねないなら
 	if (isSingleUnit)
 	{
 		if (!CheckSoundMem(manager->se[fileName]))
@@ -218,6 +240,7 @@ void SoundManager::PlaySoundSE(const char* fileName, bool isSingleUnit, int play
 			PlaySoundMem(manager->se[fileName], playType, topPositionFlag);
 		}
 	}
+	//音を重ねるなら
 	else
 	{
 		PlaySoundMem(manager->se[fileName], playType, topPositionFlag);

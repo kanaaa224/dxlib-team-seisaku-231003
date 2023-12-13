@@ -66,8 +66,9 @@ public:
 	static void SetSoundSEsPosition(LONGLONG time);
 
 	//BGMを再生する
+	//＊isSingleUnitはtrueなら音を重ねない、falseなら音を重ねる、デフォルトはtrue
 	//＊デフォルトの再生形式はループ、再生位置は最後に止めたところか、再生位置を指定したところから
-	static void PlaySoundBGM(const char* fileName, int playType = DX_PLAYTYPE_LOOP, int topPositionFlag = FALSE);
+	static void PlaySoundBGM(const char* fileName, bool isSingleUnit = true, int playType = DX_PLAYTYPE_LOOP, int topPositionFlag = FALSE);
 
 	//SEを再生する
 	//＊isSingleUnitはtrueなら音を重ねない、falseなら音を重ねる、デフォルトはtrue
