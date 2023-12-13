@@ -64,12 +64,28 @@ WeaponLevelUp::WeaponLevelUp()
 	tmp_frail_radiusX = 0.0f;
 	tmp_frail_radiusY = 0.0f;
 
+	book_bullet_speed = 0;
+	tmp_book_bullet_speed = 0;
+
 	close_mode = 2;
 }
 
 WeaponLevelUp::~WeaponLevelUp()
 {
-
+	DeleteGraph(img_tree_diagram);
+	DeleteGraph(img_cursor);
+	DeleteGraph(img_branch_point);
+	DeleteGraph(img_chooce);
+	DeleteGraph(img_button_a);
+	DeleteGraph(img_button_b);
+	DeleteGraph(img_button_x);
+	DeleteGraph(img_sword);
+	DeleteGraph(img_dagger);
+	DeleteGraph(img_great_sword);
+	DeleteGraph(img_spear);
+	DeleteGraph(img_frail);
+	DeleteGraph(img_book);
+	DeleteGraph(img_question_mark);
 }
 
 // 更新
@@ -93,6 +109,10 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	{
 		frail_radiusX = second_weapon->GetP_aiming_radiusX();
 		frail_radiusY = second_weapon->GetP_aiming_radiusY();
+	}
+	else if (weapon2_info.type == book)
+	{
+		book_bullet_speed = second_weapon->GetBulletSpeed();
 	}
 
 	lv_point = point;
@@ -138,12 +158,16 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 		// Aボタンで決定
 		if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			// 武器2がnoneだったら武器2の選択決定は不可
-			// それ以外の場合は選択決定可能
-			if (cursor_x == 580 || weapon2_info.type != none)
+			if (weapon_number == weapon1_info.num && weapon1_info.level < 7)
 			{
 				//カーソルの決定音
 				SoundManager::PlaySoundSE("se_system_normal_decision",false);
+				weapon_selection = true;
+			}
+			else if (weapon_number == weapon2_info.num && weapon2_info.type != none && weapon2_info.level < 7)
+			{
+				//カーソルの決定音
+				SoundManager::PlaySoundSE("se_system_normal_decision", false);
 				weapon_selection = true;
 			}
 			else
@@ -192,13 +216,13 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 	}
 
 	// Xボタン離した
-	if (InputCtrl::GetKeyState(KEY_INPUT_X) == RELEASE || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == RELEASE && close_mode == 0)
 	{
 		close_mode = 1;
 	}
 
 	// 閉じるとき
-	if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 	{
 		if (close_mode == 1)
 		{
@@ -315,32 +339,11 @@ void WeaponLevelUp::draw() const
 	//DrawFormatString(0, 270, 0x000000, "W2level (State): %d", weapon2_info.level);
 	//DrawFormatString(0, 290, 0x000000, "W2レベル階層 : %d", weapon2_info.level_hierarchy);
 	//DrawFormatString(0, 310, 0x000000, "W2tmpレベル : %d", weapon2_info.tmp_level);
-	//DrawFormatString(0, 90, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
-	//DrawFormatString(0, 110, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
-	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
-	//DrawFormatString(0, 130, 0x000000, "level_cursor_pos : %d", level_cursor_pos);
-	//DrawFormatString(0, 0, 0x000000, "branch_point_x[0][0] : %d", branch_point_x[0][0]);
+	//DrawFormatString(0, 20, 0x000000, "1cursor_pos : %d", weapon1_info.cursor_pos);
+	//DrawFormatString(0, 40, 0x000000, "2cursor_pos : %d", weapon2_info.cursor_pos);
+	//DrawFormatString(0, 40, 0x000000, "1level_hierarchy : %d", weapon1_info.level_hierarchy);
 	//DrawFormatString(0, 20, 0x000000, "cursor_x : %d", cursor_x);
-
-	// 多分現在のプレイヤーのステータス
-	//DrawFormatString(0, 20, 0xf0f0f0, "weapon.cppからの情報");
-	//DrawFormatString(0, 40, 0xf0f0f0, "w_p_speed : %d", w_p_speed);
-	//DrawFormatString(0, 60, 0xf0f0f0, "w_p_avoidancecooltime : %d", w_p_avoidancecooltime);
-	//DrawFormatString(0, 80, 0xf0f0f0, "w_p_upperlimitlimit : %d", w_p_upperlimitlimit);
-	//
-	//DrawFormatString(0, 120, 0xf0f0f0, "player.cppからの情報");
-	//DrawFormatString(0, 140, 0xf0f0f0, "p_speed : %f", p_speed);
-	//DrawFormatString(0, 160, 0xf0f0f0, "p_avoidancecooltime : %d", p_avoidancecooltime);
-	//DrawFormatString(0, 180, 0xf0f0f0, "p_upperlimitlimit : %f", p_upperlimitlimit);
-
-	//DrawFormatString(0, 210, 0xa00000, "cool_time : %d", weapon1_info.cool_time);
-	//DrawFormatString(0, 230, 0xa00000, "damage : %d", weapon1_info.damege);
-	//DrawFormatString(0, 250, 0xa00000, "範囲 : %f", weapon1_info.attack_range);
-
-	//DrawFormatString(0, 270, 0xa00000, "tmp_cool_time : %d", weapon1_info.tmp_cool_time);
-	//DrawFormatString(0, 290, 0xa00000, "tmp_damage : %d", weapon1_info.tmp_damege);
-	//DrawFormatString(0, 310, 0xa00000, "tmp_範囲 : %f", weapon1_info.tmp_attack_range);
-
+	//DrawFormatString(0, 40, 0x000000, "weapon_selection : %d", weapon_selection);
 #endif
 }
 
@@ -383,6 +386,10 @@ void WeaponLevelUp::Init(weapon* weapon, second_weapon* second_weapon, Player* p
 		// フレイルの情報
 		tmp_frail_radiusX = player->GetPlayer_RadiusX();
 		tmp_frail_radiusY = player->GetPlayer_RadiusY();
+	}
+	else if (weapon2_info.type == book)
+	{
+		book_bullet_speed = second_weapon->GetBulletSpeed();
 	}
 
 	// 現在のプレイヤーステータス
@@ -510,6 +517,10 @@ void WeaponLevelUp::LevelUp(weapon* weapon, second_weapon* second_weapon, Player
 			{
 				tmp_frail_radiusX = player->GetPlayer_RadiusX();
 				tmp_frail_radiusY = player->GetPlayer_RadiusY();
+			}
+			else if (info->type == book)
+			{
+				tmp_book_bullet_speed = second_weapon->GetBulletSpeed();
 			}
 		}
 
@@ -688,13 +699,16 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 		DrawFormatString(200, 300, 0x000000, "攻撃範囲");
 		DrawFormatString(200, 320, 0x000000, "　%.1f　→　%.1f", weapon1_info.tmp_attack_range, weapon1_info.attack_range);
 			
-		DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
-		DrawFormatString(200, 380, 0x000000, "移動速度");
-		DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", p_speed, w_p_speed);
-		DrawFormatString(200, 420, 0x000000, "回避速度");
-		DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", p_avoidancecooltime, w_p_avoidancecooltime);
-		DrawFormatString(200, 460, 0x000000, "回避クールタイム");
-		DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_upperlimitlimit, w_p_upperlimitlimit);
+		if (weapon1_info.type != greatSword)
+		{
+			DrawFormatString(200, 360, 0x000000, "プレイヤーステータス");
+			DrawFormatString(200, 380, 0x000000, "移動速度");
+			DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", p_speed, w_p_speed);
+			DrawFormatString(200, 420, 0x000000, "回避速度");
+			DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", p_upperlimitlimit, w_p_upperlimitlimit);
+			DrawFormatString(200, 460, 0x000000, "回避クールタイム");
+			DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_avoidancecooltime, w_p_avoidancecooltime);
+		}
 	}
 	else if(weapon2_info.type != none)
 	{
@@ -714,6 +728,11 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			//DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
 			DrawFormatString(200, 340, 0x000000, "鉄球の飛距離");
 			DrawFormatString(200, 360, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
+		}
+		else if (weapon2_info.type == book)
+		{
+			DrawFormatString(200, 340, 0x000000, "弾の速度");
+			DrawFormatString(200, 360, 0x000000, "　%d　→　%d", tmp_book_bullet_speed, book_bullet_speed);
 		}
 	}
 
@@ -775,8 +794,8 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 	}
 	
 	// 武器選択済み
-	//if (weapon_selection == true)
-	//{
+	if (weapon_selection == true)
+	{
 		if (weapon_number == weapon1_info.num)
 		{
 			if (weapon1_info.level_hierarchy == MAX_LEVEL_HIERARCHY)
@@ -793,7 +812,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 				DrawWeapon2FinalText();
 			}
 		}
-	//}
+	}
 }
 
 // 武器1最終強化のテキスト群
@@ -801,6 +820,7 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 {
 	DrawFormatString(200, 140, 0xb00000, "次は最終強化です");
 
+	// レベルアップカーソルが左側にある時
 	if (weapon1_info.cursor_pos == -level_cursor_pos)
 	{
 		// レベル7
@@ -830,12 +850,12 @@ void WeaponLevelUp::DrawWeapon1FinalText() const
 		switch (weapon1_info.type)
 		{
 		case sword:			// 片手剣
-			DrawFormatString(200, 520, 0x000000, "魔剣ブラッドファング");
+			DrawFormatString(200, 520, 0x000000, "魔剣");
 			DrawFormatString(200, 550, 0x000000, "自傷武器に変化する\n自傷した際に攻撃力が\n上がり、連続で攻撃を\n当てると微量ながら\n回復する");
 			break;
 		case dagger:		// 短剣
 			DrawFormatString(200, 520, 0x000000, "投げナイフ");
-			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する");
+			DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する\n+ダメージ　6 x 5");
 			break;
 		case greatSword:	// 大剣
 			DrawFormatString(200, 520, 0x000000, "砂塵の太刀");

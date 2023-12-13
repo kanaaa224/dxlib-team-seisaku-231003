@@ -18,7 +18,7 @@ private:
 	int img_gameover;					// ゲームオーバー（装飾）
 	int img_ghost;						// ゴースト
 	int img_button_a;					// Aボタン
-	int img_background;				// 背景
+	int img_logo_result;
 
 	// 座標移動
 	int ghost_x;

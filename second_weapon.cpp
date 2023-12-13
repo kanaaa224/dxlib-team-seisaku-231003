@@ -705,6 +705,7 @@ void second_weapon::LevelState()
 			maxRot = INIT_ROTATION_BOOK;
 			maxCoolTime = INIT_COOLTIME_BOOK * 0.6f;
 			damage = INIT_DAMAGE_BOOK + 2;
+			Bullet_speed = 10;
 			break;
 		}
 
@@ -1132,7 +1133,7 @@ void second_weapon::MoveBookBullet()
 	{
 		if (bullets[i].flg) {
 			if (weaponLevel == 8) {
-				bullets[i].rot += 4.0f;
+				bullets[i].rot += 3.0f;
 				if (bullets[i].rot > 360.0f) {
 					bullets[i].rot = bullets[i].rot - 360.0f;
 				}

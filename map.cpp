@@ -249,7 +249,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 	else
 	{
 		if (map_move < 440) {
-			map_move = map_move + 5;
+			map_move = map_move + 7;
 		}
 		else {
 			if (intro_time > 0) {
@@ -274,7 +274,6 @@ void Map::draw() const {
 	DrawExtendGraph(200, -500 + map_move, SCREEN_WIDTH - 200, SCREEN_HEIGHT + 70 + map_move, map_back_img, 1);
 	DrawExtendGraph(250, -450 + map_move, 1070, -170 + map_move, roof_img, 1);
 	DrawExtendGraph(370, -170 + map_move, 940, 680 + map_move, wall_img, 1);
-	//DrawGraph(370, -170 + map_move, wall_img, 1);
 
 	int log_i = 0; // stage_log用変数
 	int x_img = 0;
@@ -322,39 +321,33 @@ void Map::draw() const {
 		}
 		if (i == stage_log[x_img]) {
 			DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
-			//DrawGraph(icon_loc[i][0] + 10, icon_loc[i][1] - 20, crown_img, TRUE);
 			x_img++;
 		}
-		
-		// カーソル表示(アイコンの円と被るように半径に-1)
-		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0x050505, 0, 5);
-		DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xFFD000, 0, 3);
-
-		// フォント表示
-		if (select_draw > 0) {
-			//DrawBox(435, 45 + select_loc, 890, 120 + select_loc, 0x000000, 1);
-			DrawExtendGraph(440, 50 + select_loc, 890, 120 + select_loc, stage_select_img, 1);
-			//SetFontSize(64);
-			//DrawString(440, 50 + select_loc, "マップを選べ！", 0xffffff);
-		}
-		if (intro_flg)
-		{
-			/*SetFontSize(64);
-			DrawString(340, -380 + map_move, "最上階の魔王を倒せ！", 0x0000a0);*/
-			DrawGraph(340, -380 + map_move, map_first_img, 1);
-		}
-
-		// アイコン説明
-		DrawExtendGraph(10, 450, 50, 490, battle_img, TRUE);
-		DrawExtendGraph(10, 500, 50, 540, event_img, TRUE);
-		DrawExtendGraph(10, 550, 50, 590, rest_img, TRUE);
-		DrawExtendGraph(10, 600, 50, 640, anvil_img, TRUE);
-		DrawExtendGraph(10, 650, 50, 690, boss_img, TRUE);
-
-		// Aボタン
-		DrawGraph(1150, 650, button_a_image, TRUE);
-		DrawRotaGraph(1210, 667, 0.1, 0, decision_img, TRUE);
 	}
+
+	// カーソル表示(アイコンの円と被るように半径に-1)
+	DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0x050505, 0, 5);
+	DrawCircle(icon_loc_center[cursor_loc][0], icon_loc_center[cursor_loc][1], cursor_r - 1, 0xFFD000, 0, 3);
+
+	// フォント表示
+	if (select_draw > 0) {
+		DrawExtendGraph(410, 30 + select_loc, 900, 120 + select_loc, stage_select_img, 1);
+	}
+	if (intro_flg)
+	{
+		DrawGraph(320, -390 + map_move, map_first_img, 1);
+	}
+
+	// アイコン説明
+	DrawExtendGraph(10, 450, 50, 490, battle_img, TRUE);
+	DrawExtendGraph(10, 500, 50, 540, event_img, TRUE);
+	DrawExtendGraph(10, 550, 50, 590, rest_img, TRUE);
+	DrawExtendGraph(10, 600, 50, 640, anvil_img, TRUE);
+	DrawExtendGraph(10, 650, 50, 690, boss_img, TRUE);
+
+	// Aボタン
+	DrawGraph(1150, 650, button_a_image, TRUE);
+	DrawRotaGraph(1210, 667, 0.1, 0, decision_img, TRUE);
 
 #ifdef _DEBUG	
 	/*DrawFormatString(0, 80, 0xffffff, "リザルト用（仮）");
@@ -381,25 +374,74 @@ void Map::ResetStage() {
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 
-	// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
+	switch (pattern)
+	{
+	case 0:
+		// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
 
-	// ランダムイベント
-	SetStage(map_ctrl[pattern][0][0], map_ctrl[pattern][0][1], map_ctrl[pattern][0][2], map_ctrl[pattern][0][3], map_ctrl[pattern][0][4], 1);
+		// ランダムイベント
+		MapData[7] = 1;
 
-	// 休憩1
-	SetStage(map_ctrl[pattern][1][0], map_ctrl[pattern][1][1], map_ctrl[pattern][1][2], map_ctrl[pattern][1][3], map_ctrl[pattern][1][4], 2);
-	// 休憩2
-	SetStage(map_ctrl[pattern][2][0], map_ctrl[pattern][2][1], map_ctrl[pattern][2][2], map_ctrl[pattern][2][3], map_ctrl[pattern][2][4], 2);
-	// 休憩3
-	SetStage(map_ctrl[pattern][3][0], map_ctrl[pattern][3][1], map_ctrl[pattern][3][2], map_ctrl[pattern][3][3], map_ctrl[pattern][3][4], 2);
-	// 休憩4
-	MapData[data_max - 2] = 2;
+		// 休憩1
+		SetStage(3, 6, 1, 2, 0, 2);
+		// 休憩2
+		SetStage(13, 14, 0, 1, 1, 2);
+		// 休憩3
+		SetStage(16, 17, 0, 1, 1, 2);
+		// 休憩4
+		MapData[data_max - 2] = 2;
 
-	// 鍛冶屋
-	SetStage(map_ctrl[pattern][4][0], map_ctrl[pattern][4][1], map_ctrl[pattern][4][2], map_ctrl[pattern][4][3], map_ctrl[pattern][4][4], 3);
+		// 鍛冶屋
+		SetStage(18, 18, 1, 1, 1, 3);
 
-	// ボス
-	MapData[data_max - 1] = 4;
+		// ボス
+		MapData[data_max - 1] = 4;
+		break;
+	case 1:
+		// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
+
+		// ランダムイベント
+		MapData[7] = 1;
+
+		// 休憩1
+		SetStage(2, 6, 1, 2, 0, 2);
+		// 休憩2
+		SetStage(8, 9, 0, 1, 1, 2);
+		// 休憩3
+		SetStage(11, 14, 0, 1, 1, 2);
+		// 休憩4
+		SetStage(17, 18, 1, 1, 1, 2);
+
+		// 鍛冶屋
+		MapData[data_max - 2] = 3;
+
+		// ボス
+		MapData[data_max - 1] = 4;
+		break;
+	case 2:
+		// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
+
+		// ランダムイベント
+		MapData[7] = 1;
+
+		// 休憩1
+		SetStage(1, 6, 1, 2, 0, 2);
+		// 休憩2
+		SetStage(10, 11, 0, 1, 1, 2);
+		// 休憩3
+		SetStage(12, 13, 0, 1, 1, 2);
+		// 休憩4
+		MapData[data_max - 2] = 2;
+
+		// 鍛冶屋
+		SetStage(16, 17, 1, 1, 1, 3);
+
+		// ボス
+		MapData[data_max - 1] = 4;
+		break;
+	default:
+		break;
+	}
 
 	// アイコン位置をデフォルトにセット
 	for (int i = 0; i < data_max; i++)
