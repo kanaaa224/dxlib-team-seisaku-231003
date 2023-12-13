@@ -323,7 +323,6 @@ void Map::draw() const {
 			DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
 			x_img++;
 		}
-		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0x00ff00, "%d", i);
 	}
 
 	// カーソル表示(アイコンの円と被るように半径に-1)

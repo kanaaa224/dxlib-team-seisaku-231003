@@ -7,7 +7,7 @@
 Rest::Rest()
 {
 	cursor_interval = 0;
-	interval = 0;
+	scene_interval = 0;
 	select_interval = 0;
 	cursor_num = 0;
 	anim_cnt = 0;
@@ -24,9 +24,10 @@ Rest::Rest()
 	logo_dicision_image = LoadGraph("resources/images/Logo/UI/logo_dicision.png");
 	logo_rest_image = LoadGraph("resources/images/Logo/UI/logo_rest.png");
 	logo_pray_image = LoadGraph("resources/images/Logo/UI/logo_pray.png");
+	logo_cure_image = LoadGraph("resources/images/Logo/UI/logo_cure.png");
+	logo_buf_image = LoadGraph("resources/images/Logo/UI/logo_buf.png");
 
 	is_select = false;
-	is_ok = false;
 	rest_buf_flg = false;
 }
 
@@ -41,6 +42,8 @@ Rest::~Rest()
 	DeleteGraph(logo_dicision_image);
 	DeleteGraph(logo_rest_image);
 	DeleteGraph(logo_pray_image);
+	DeleteGraph(logo_cure_image);
+	DeleteGraph(logo_buf_image);
 }
 
 void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
@@ -66,13 +69,12 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 
 	if (is_select)
 	{
-		if (interval < 120)
+		if (scene_interval < 120)
 		{
-			interval++;
+			scene_interval++;
 		}
 		else
 		{
-			is_ok = true;
 			stage++;
 			mode = GameSceneMode::map;
 			Init();
@@ -117,7 +119,7 @@ void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 					//‰ñ•œ‚Ì‰¹
 					SoundManager::PlaySoundSE("se_system_healing");
 					player->SetPlayerHP(100);
-					hp = MAX_HP;
+					hp = static_cast<int>(MAX_HP);
 					is_select = true;
 				}
 				else if (cursor_num == 1)
@@ -142,12 +144,8 @@ void Rest::draw() const
 
 	if (is_select != true)
 	{
-		SetFontSize(48);
-		//DrawString(370, 600, "‹xŒe‚·‚é", 0xffffff);
 		DrawRotaGraph(470, 600, 0.2, 0, logo_rest_image, TRUE);
 		DrawRotaGraph(870, 600, 0.2, 0, logo_pray_image, TRUE);
-		//DrawString(770, 600, "‹F‚é", 0xffffff);
-		SetFontSize(16);
 	}
 	else
 	{
@@ -156,30 +154,24 @@ void Rest::draw() const
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
 			DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, 0x000000, TRUE);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			SetFontSize(48);
-			DrawString((SCREEN_WIDTH / 2) - 48 * 4.5, (SCREEN_HEIGHT / 2) - 24, "HP‚ª‘S‰ñ•œ‚µ‚Ü‚µ‚½", 0xffffff);
-			SetFontSize(16);
+			DrawRotaGraph((SCREEN_WIDTH / 2) + 40, (SCREEN_HEIGHT / 2), 0.5, 0, logo_cure_image, TRUE);
 		}
 		else if (cursor_num == 1)
 		{
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
 			DrawBox(0, (SCREEN_HEIGHT / 3), SCREEN_WIDTH, (SCREEN_HEIGHT / 3) * 2, 0x000000, TRUE);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-			SetFontSize(48);
-			DrawString((SCREEN_WIDTH / 2) - 48 * 4.5, (SCREEN_HEIGHT / 2) - 24, "ƒoƒt‚ðŠl“¾‚µ‚Ü‚µ‚½", 0xffffff);
-			SetFontSize(16);
+			DrawRotaGraph((SCREEN_WIDTH / 2) + 40, (SCREEN_HEIGHT / 2), 0.5, 0, logo_buf_image, TRUE);
 		}
 	}
 }
 
 void Rest::Init()
 {
-	interval = 0;
+	scene_interval = 0;
 	select_interval = 0;
 
 	cursor_num = 0;
 
 	is_select = false;
-	is_ok = false;
-
 }

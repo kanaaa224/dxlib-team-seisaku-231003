@@ -10,8 +10,8 @@ class Weapon_Selection
 {
 private:
 	int cnt;					//カウント
-	int interval;				//インターバル
-	int select_interval;
+	int cursor_interval;		//インターバル
+	int select_interval;		//決定のインターバル
 	int cursor_num;				//カーソル番号
 	int select_num;				//選択した番号
 	int cursor_x;				//カーソルｘの座標

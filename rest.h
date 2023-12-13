@@ -6,25 +6,26 @@ class GameUI;
 class Rest
 {
 private:
-	int cursor_interval;
-	int interval;
-	int select_interval;
-	int cursor_num;
-	int cursor_x;
-	int anim_cnt;
-	int bonfire_anim;
+	int cursor_interval;			//カーソルのインターバル
+	int scene_interval;				//シーンのインターバル
+	int select_interval;			//決定のインターバル
+	int cursor_num;					//カーソル番号
+	int cursor_x;					//カーソルのｘ座標
+	int anim_cnt;					//アニメーションの切り替えカウント
+	int bonfire_anim;				//焚火のアニメーション番号
 
-	int cursor_image;
-	int bonfire_image[4];
-	int button_image;
+	int cursor_image;				//カーソルの画像
+	int bonfire_image[4];			//焚火の画像
+	int button_image;				//ボタンの画像
 
-	int logo_dicision_image;
-	int logo_rest_image;
-	int logo_pray_image;
+	int logo_dicision_image;		//決定のロゴ画像
+	int logo_rest_image;			//休憩するのロゴ画像
+	int logo_pray_image;			//祈るのロゴ画像
+	int logo_cure_image;			//回復のロゴ画像
+	int logo_buf_image;				//バフのロゴ画像
 
-	bool is_select;
-	bool is_ok;
-	bool rest_buf_flg;			//休憩のバフをかける？
+	bool is_select;					//決定した？
+	bool rest_buf_flg;				//休憩のバフをかける？
 
 public:
 	//コンストラクタ
