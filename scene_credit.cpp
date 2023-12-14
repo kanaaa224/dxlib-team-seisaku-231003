@@ -25,7 +25,7 @@ Scene* Credit::update()
 	//Credit_Mouse_x = InputCtrl::GetMouseCursor().x;
 	//Credit_Mouse_y = InputCtrl::GetMouseCursor().y;
 
-	if (++g_WaitTime < /*2370*/  2700) {
+	if (++g_WaitTime < /*2370*/  2800) {
 
 		g_PosY = /*600*/ 450 - g_WaitTime;
 	}
@@ -50,7 +50,7 @@ void Credit::draw()const
 	//使ったサイトや関係者名の名前を表示
 	SetFontSize(50);
 
-	//DrawString(485, 350 + g_PosY, "いろいろ倉庫", 0xffffff);
+	//DrawString(575, 350 + g_PosY, "BOOTH", 0xffffff);
 
 	DrawString(460, 350 + g_PosY, "使用したサイト", 0xffffff);
 	DrawString(535, 450 + g_PosY, "画像など", 0xffffff);
@@ -62,27 +62,14 @@ void Credit::draw()const
 	DrawString(480, 1050 + g_PosY, "BANNERKOUBOU", 0xffffff);
 	DrawString(460, 1150 + g_PosY, "Game-icons.net", 0xffffff);
 	DrawString(485, 1250 + g_PosY, "いろいろ倉庫", 0xffffff);
+	DrawString(575, 1350 + g_PosY, "BOOTH", 0xffffff);
 
-	DrawString(500, 1450 + g_PosY, "SE・BGMなど", 0xffffff);	//+ 200
-	DrawString(472, 1550 + g_PosY, "DOVA-SYNDROME", 0xffffff);
-	DrawString(510, 1650 + g_PosY, "ユーフルカ", 0xffffff);
-	DrawString(513, 1750 + g_PosY, "効果音工房", 0xffffff);
-	DrawString(513, 1850 + g_PosY, "効果音ラボ", 0xffffff);
+	DrawString(500, 1550 + g_PosY, "SE・BGMなど", 0xffffff);	//+ 200
+	DrawString(472, 1650 + g_PosY, "DOVA-SYNDROME", 0xffffff);
+	DrawString(510, 1750 + g_PosY, "ユーフルカ", 0xffffff);
+	DrawString(513, 1850 + g_PosY, "効果音工房", 0xffffff);
+	DrawString(513, 1950 + g_PosY, "効果音ラボ", 0xffffff);
 
-	DrawString(410, 2050 + g_PosY, "スペシャルサンクス", 0xffffff);		//+ 200
-	DrawString(250, 2150 + g_PosY, "グラフィックデザイン科のみなさん", 0xffffff);
-
-	//DrawString(200, 350+g_PosY, "pngtree", 0xffffff);
-	//DrawString(200, 470+g_PosY, "チコデザ", 0xffffff);
-	//DrawString(200, 530+g_PosY, "ツカッテ", 0xffffff);
-	//DrawString(200, 590+g_PosY, "BOOTH", 0xffffff);
-	//DrawString(200, 650+g_PosY, "インディー8ビット", 0xffffff);
-	//DrawString(200, 710+g_PosY, "AKKODiS", 0xffffff);
-	//DrawString(200, 770+g_PosY, "romptnAI", 0xffffff);
-	//DrawString(200, 830+g_PosY, "ITOTM", 0xffffff);
-	//DrawString(200, 890+g_PosY, "くろくまそふと", 0xffffff);
-	//DrawString(200, 950+g_PosY, "note_lilish", 0xffffff);
-	//DrawString(200, 1010+g_PosY, "A.I. Art Stock", 0xffffff);
-	//DrawString(200, 1070+g_PosY, "ドッタウン", 0xffffff);
-	//DrawString(200, 1130+g_PosY, "ピクセルアートタウン", 0xffffff);
+	DrawString(410, 2150 + g_PosY, "スペシャルサンクス", 0xffffff);		//+ 200
+	DrawString(250, 2250 + g_PosY, "グラフィックデザイン科のみなさん", 0xffffff);
 }
