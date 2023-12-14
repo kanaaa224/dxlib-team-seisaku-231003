@@ -159,9 +159,12 @@ void GameUI::update() {
 		if (std::stoi(shieldHP["currentRatio"]) < std::stoi(shieldHP["ratio"])) shieldHP["ratio"] = std::to_string(std::stoi(shieldHP["ratio"]) - 1);
 	};
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init();
-	//if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX");
+#if 1
+	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // リセット
+	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 通知テスト
 	if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESS) state = 1; // スキップ
+#endif
+
 };
 
 void GameUI::draw(int mode) const {
