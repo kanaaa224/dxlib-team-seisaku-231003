@@ -58,6 +58,9 @@ private:
 	int img_logo_earthcrusher;
 	int img_logo_bullet;
 
+	// マップアイコン同士の幅
+	int img_width;
+
 	// フェード演出
 	int value;						// 不透明度
 

@@ -7,7 +7,7 @@ BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 	//プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 	//変数の初期化
-	img = LoadGraph("resources/images/enemy_tmp_images/dekatama.png");
+	img = LoadGraph("resources/images/enemy_images/devilKing/Weapon/bullet_r1.png");
 
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
@@ -62,6 +62,7 @@ void BigEnemyBullet::Update(Player* player)
 		vector.y = Normalization_Y(x, y) * speed;
 		location.x += vector.x - diff.x;
 		location.y += vector.y - diff.y;
+		
 		hitWeapon = false;
 	}
 	

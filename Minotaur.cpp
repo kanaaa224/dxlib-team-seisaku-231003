@@ -8,7 +8,14 @@ Minotaur::Minotaur()
 {
 	debugCnt = 0;
 
-	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
+	//画像読込
+	minotaurImg[MINOTAUR_IMG_STATE_NOROAR] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_syoumen.png");
+	minotaurImg[MINOTAUR_IMG_STATE_TACKLE_RIGHT] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_right_move.png");
+	minotaurImg[MINOTAUR_IMG_STATE_TACKLE_LEFT] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_left_move.png");
+	minotaurImg[MINOTAUR_IMG_STATE_ROAR] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_houkou.png");
+
+	img = minotaurImg[MINOTAUR_IMG_STATE_NOROAR];
+
 	hp = MINOTAUR_MAX_HP;
 	damage = MINOTAUR_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
@@ -59,6 +66,9 @@ Minotaur::Minotaur()
 Minotaur::~Minotaur()
 {
 	DeleteGraph(img);
+	for (int i = 0; i <= 4; i++) {
+		DeleteGraph(minotaurImg[i]);
+	}
 }
 
 void Minotaur::Update(Player* player)
@@ -69,15 +79,24 @@ void Minotaur::Update(Player* player)
 	//プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 
+	img = minotaurImg[MINOTAUR_IMG_STATE_NOROAR];
 	if (roarStartFlg == false) {
+
 		TackleUpdate();//タックル
 	}
 	else if (roarStartFlg == true) {
+
 		RoarUpdate();//咆哮
 		if (roarEffectFlg == true) {
+
 			RoarEffectUpdate();
+
+			if (roarEndedFrame > 0) img = minotaurImg[MINOTAUR_IMG_STATE_ROAR];
 		}
 	}
+	else if (roarStartFlg == false) {
+		img = minotaurImg[MINOTAUR_IMG_STATE_ROAR];
+	};
 	
 	
 	//移動処理
@@ -88,6 +107,11 @@ void Minotaur::Update(Player* player)
 	else if (tackleFlg == true) {//タックル中
 		location.x += vector.x * TACKLE_SPEED - diff.x;
 		location.y += vector.y * TACKLE_SPEED - diff.y;
+
+		// 画像切り替え
+		if (vector.x < 0.0f)    img = minotaurImg[MINOTAUR_IMG_STATE_TACKLE_LEFT];
+		if (vector.x > 0.0f)    img = minotaurImg[MINOTAUR_IMG_STATE_TACKLE_RIGHT];
+		if (vector.x == 0.0f)   img = minotaurImg[MINOTAUR_IMG_STATE_NOROAR];
 	}
 	//武器からの攻撃とHPが０以上なら赤く表示する
 	if (hitWeaponFlg == true && hp > 0) {
@@ -138,7 +162,7 @@ void Minotaur::Draw() const
 	}
 	
 	if (roarStartFlg == true) {
-		RoarDraw();
+		if (roarEndedFrame <= 0) RoarDraw();
 	}
 
 #ifdef DEBUG
@@ -212,7 +236,6 @@ void Minotaur::TackleUpdate()
 			lineSize = 0;
 		}
 	}
-
 	
 	//咆哮が当たったなら
 	if (playerRoarHitFlg == true) {
@@ -275,35 +298,45 @@ float Minotaur::M_PLY(float location_Y)
 
 void Minotaur::RoarUpdate()
 {
-	roarFlg = true;
-	if (roarRadius <= ROAR_RADIUS) {
-		roarRadius += 2;
-	}
-	else if (roarRadius >= ROAR_RADIUS) {
-		roarEffectFlg = true;
-	}
+	if (roarEndedFrame <= 0) {
+		roarFlg = true;
+		if (roarRadius <= ROAR_RADIUS) {
+			roarRadius += 2;
+		}
+		else if (roarRadius >= ROAR_RADIUS) {
+			roarEffectFlg = true;
+		}
 
-	if (roarEffectFinFlg == true) {
-		roarFinFlg = true;
-	}
+		if (roarEffectFinFlg == true) {
+			roarFinFlg = true;
+		}
+	};
 
 	if (roarFinFlg == true) {
-		SoundManager::PlaySoundSE("se_enemy_shout");
-		roarFlg = false;
-		roarStartFlg = false;
-		tackleCnt = 0;
-		roarRadius = 0;
-		roarFinFlg = false;
-		roarEffectFinFlg = false;
-		roarEffectFlg = false;
+		if (roarEndedFrame <= 0) {
+			SoundManager::PlaySoundSE("se_enemy_shout");
+			roarRadius = 0;
+			roarEndedFrame = 60;
+		}
+		else {
+			if (roarEndedFrame == 1) {
+				roarFlg = false;
+				roarStartFlg = false;
+				tackleCnt = 0;
+				roarFinFlg = false;
+				roarEffectFinFlg = false;
+				roarEffectFlg = false;
+			};
+			roarEndedFrame--;
+		};
 	}
 }
 
 void Minotaur::RoarDraw() const
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 	DrawCircle(location.x, location.y, ROAR_RADIUS, C_RED, TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
 	DrawCircle(location.x, location.y, roarRadius, C_RED, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }

@@ -51,6 +51,8 @@ ResultScene::ResultScene(int result_info[])
 	img_logo_earthcrusher = LoadGraph("resources/images/Logo/WeaponName/logo_earthcrusher.png");
 	img_logo_bullet = LoadGraph("resources/images/Logo/WeaponName/logo_bullet.png");
 
+	img_width = 40;
+
 	// 変数の初期化
 	value = 180;
 
@@ -143,8 +145,8 @@ void ResultScene::draw() const
 
 	DrawRotaGraph(640, 50, 0.45f, 0.0f, img_logo_result, TRUE);
 
-	SetFontSize(35);
-	DrawFormatString(10, 50, 0x000000, "到達したステージ");
+	SetFontSize(25);
+	DrawFormatString(50, 120, 0x000000, "制覇したステージ");
 
 	if (value <= 10)
 	{
@@ -153,19 +155,27 @@ void ResultScene::draw() const
 	}
 
 	// マップアイコン画像表示
-	DrawRotaGraph(150, 150, 1.0f, 0.0f, img_battle, TRUE);
-	DrawRotaGraph(150, 250, 1.0f, 0.0f, img_event, TRUE);
-	DrawRotaGraph(150, 350, 1.0f, 0.0f, img_rest, TRUE);
-	DrawRotaGraph(150, 450, 1.0f, 0.0f, img_anvil, TRUE);
-	DrawRotaGraph(150, 550, 1.0f, 0.0f, img_boss, TRUE);
+	DrawRotaGraph(150, 200, 1.2f, 0.0f, img_battle, TRUE);
+	DrawRotaGraph(150, 300, 1.2f, 0.0f, img_event, TRUE);
+	DrawRotaGraph(150, 400, 1.2f, 0.0f, img_rest, TRUE);
+	DrawRotaGraph(150, 500, 1.2f, 0.0f, img_anvil, TRUE);
+	DrawRotaGraph(150, 600, 1.2f, 0.0f, img_boss, TRUE);
 	
 	// マップ情報
 	SetFontSize(30);
-	DrawFormatString(200, 135, 0x000000, "× %d",map_info.battle_count);
-	DrawFormatString(200, 235, 0x000000, "× %d",map_info.event_count);
-	DrawFormatString(200, 335, 0x000000, "× %d",map_info.event_count);
-	DrawFormatString(200, 435, 0x000000, "× %d",map_info.anvil_count);
-	DrawFormatString(200, 535, 0x000000, "× %d",map_info.boss_count);
+	DrawFormatString(230, 190, 0x000000, "× %d",map_info.battle_count);
+	DrawFormatString(230, 290, 0x000000, "× %d",map_info.event_count);
+	DrawFormatString(230, 390, 0x000000, "× %d",map_info.event_count);
+	DrawFormatString(230, 490, 0x000000, "× %d",map_info.anvil_count);
+	DrawFormatString(230, 590, 0x000000, "× %d",map_info.boss_count);
+
+
+	//for (int i = 0; i < map_info.battle_count; i++)
+	//{
+	//	DrawRotaGraph(250 + (img_width * i), 200, 0.7f, 0.0f, img_battle, TRUE);
+	//}
+
+
 
 	// 武器1情報表示
 	DrawRotaGraph(840, 250, 0.2f, 0.0f, img_logo_lv, TRUE);

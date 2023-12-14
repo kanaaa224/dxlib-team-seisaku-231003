@@ -2,7 +2,7 @@
 #include "EnemyBase.h"
 #include "Common.h"
 
-#define LIFETIME 3.2
+#define LIFETIME 3.2f
 
 class BigEnemyBullet :public EnemyBase
 {
@@ -11,6 +11,7 @@ private:
 	bool redDrawFlg = false;
 	int redDrawCounter = 0;
 
+	bool doOnesFlg = false;
 	//武器との当たり判定
 	bool hitWeapon = false;
 public:

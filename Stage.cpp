@@ -4,11 +4,11 @@
 
 Stage::Stage() {
 
-	if (StageImg1 = LoadGraph("resources/images/stageimage2.png")) {}
+	if (StageImg1 = LoadGraph("resources/images/lkvhg.png")) {}
 
 	for (int i = 0; i < 9; i++) {
 
-		StageArrayImg[i].img = LoadGraph("resources/images/stageimage2.png");
+		StageArrayImg[i].img = LoadGraph("resources/images/lkvhg.png");
 
 
 		switch (i)

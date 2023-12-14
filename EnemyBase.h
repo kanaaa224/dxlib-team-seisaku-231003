@@ -34,6 +34,9 @@ protected:
 	int imgArray[2];//画像格納用変数
 	int imgAngle;	//画像左右を格納用
 
+	Location previousFrameLocation;//1フレーム前のプレイヤーの座標
+	Location currenFrameLcoation;//現在のフレームのプレイヤーの座標
+
 	//FrameCnt変数
 	int hitFrameCounter = 0;//武器と当たった時のダメージストップ用Cnt変数
 	int redFrameCounter = 0;//画像を赤くする時間をCnt

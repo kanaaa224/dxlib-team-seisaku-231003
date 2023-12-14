@@ -12,6 +12,32 @@
 #define LIGHT_SHADOW_RADIUS_X 25				//薄い影の半径X
 #define LIGHT_SHADOW_RADIUS_Y  7				//薄い影の半径Y
 
+#define BOX_MAX_LENGTH_D 1280
+
+#define TELEPORTATION_RADIUS 150
+
+#define BEAM_MAX_WIDTH 300//ビームの幅
+#define BEAM_POSITION_CROSS    0//ビームが十字方向
+#define BEAM_POSITION_DIAGONAL 1//ビームが斜め方向
+
+#define BEAM_CAN_TIEM SECOND_FRAME(2)//ビームのクールタイム
+
+#define BEAM_SIZE 3000//ビームの縦
+
+#define DEVILKING_BEAM_SPACE 60//ビームと魔王との隙間
+
+//ビームの配列//
+//十字
+#define RIGHT 0//右
+#define LEFT  1//左
+#define LOWER 2//下
+#define UPPER 3//上
+//斜め
+#define UPPER_RIGHT 0//右上
+#define UPPER_LEFT  1//左上
+#define LOWER_RIGHT 2//右下
+#define LOWER_LEFT  3//左下
+
 class Devil_king:public EnemyBase
 {
 private:
@@ -39,17 +65,43 @@ private:
 	//ダウン
 	int downTimeCounter = 0;
 
+	//瞬間移動
+	bool teleportationFlg = false;
+
+	//・・・・・ビーム・・・・・//
+	int beamPosition = 0;//十字か斜めか
+	Location beamLocation[4];
+	int lineSize = 0;
+	bool beamPossibleFlg = false;//発射準備してもいいか
+	int beamPossibleCounter = 0;
+	bool beamShootFlg = false;//ビームが発射されているか
+
+	Location beamCenterCoordinates[4];//ビーム（矩形）の中心座標を入れる用
+	Location beamTopLeft[4];	//ビームの左上
+	Location beamTopRight[4];	//ビームの右上
+	Location beamBottomLeft[4];	//ビームの左下
+	Location beamBottomRight[4];//ビームの右下
+	bool hitBeamPlayer = false;	//プレイヤーがビームにヒット時の判定用
+
 public:
 	Devil_king();
 	~Devil_king();
 	void Update(Player* player);
 	void Draw() const;
 
+	//瞬間移動
+	void Teleportation();
+
 	//ビーム
 	void BeamUpdate();
 	void BeamDraw() const;
+	//ビームの当たり判定
+	void BeamCollision();
+	Location BeamCenterCoordinatesCale(Location b_Location, int arrayNum);//ビームの中心座標計算
 
-	//Get関数
+
+
+	//・・・・・Get関数・・・・・//
 	bool GetBigBulletCreateFlg() {
 		return bigBulletCreateFlg;
 	}
@@ -70,7 +122,7 @@ public:
 		return skyWalkFlg;
 	}
 
-	//Set関数
+	//・・・・・Set関数・・・・・//
 	void SetBigBulletCreateFlg(bool flg) {
 		bigBulletCreateFlg = flg;
 	}
