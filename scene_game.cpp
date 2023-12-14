@@ -48,6 +48,9 @@ GameScene::GameScene() {
 	level = 0;
 	point = 0;
 
+	activeFlg = true;
+	pauseFlg = false;
+
 	currentFloor = 0;
 	//currentStage = 0;
 	battleMode   = 0;
@@ -102,13 +105,23 @@ GameScene::~GameScene() {
 };
 
 Scene* GameScene::update() {
+	activeFlg = (GetMainWindowHandle() == GetForegroundWindow());
+
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
 	// ポーズ
-	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
-		if (state) state = 0;
-		else state++;
-	};
+	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
+		if (state)
+		{
+			state = 0;
+			pauseFlg = true;
+		}
+		else
+		{
+			state++;
+			pauseFlg = false;
+		}
+	}
 
 	if (state == pause)
 	{
@@ -698,6 +711,18 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::weaponLevelup) {
+		if (battleMode == GameSceneBattleMode::normal)
+		{
+			SoundManager::PlaySoundBGM("bgm_normal");
+		}
+		if (battleMode == GameSceneBattleMode::midBoss)
+		{
+			SoundManager::PlaySoundBGM("bgm_middleboss");
+		}
+		if (battleMode == GameSceneBattleMode::boss)
+		{
+			SoundManager::PlaySoundBGM("bgm_boss");
+		}
 		weaponLevelup->update(weaponA, weaponB, player, restor_cursor_position, point);
 		return this;
 	};
