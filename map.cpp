@@ -335,7 +335,6 @@ void Map::draw() const {
 			DrawGraph(icon_loc[i][0], icon_loc[i][1], cross_img, TRUE);
 			x_img++;
 		}
-		DrawFormatString(icon_loc[i][0], icon_loc[i][1], 0xfffffff, "%d", i);
 	}
 
 	// カーソル表示(アイコンの円と被るように半径に-1)
@@ -388,7 +387,7 @@ void Map::ResetStage() {
 		}
 	}
 
-	pattern = 2;//GetRand(PATTERN_MAX - 1);
+	pattern = GetRand(PATTERN_MAX - 1);
 	data_max = pattern_data_max[pattern];
 	now_stage = data_max - 1;
 
