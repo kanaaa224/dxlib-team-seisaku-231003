@@ -206,17 +206,18 @@ void SoundManager::PlaySoundBGM(const char* fileName, bool isSingleUnit, int pla
 	//‰¹‚ðd‚Ë‚È‚¢‚È‚ç
 	if (isSingleUnit)
 	{
-		//Œ»Ý‚È‚Á‚Ä‚¢‚é‰¹‚ðŽ~‚ß‚é
-		for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
-		{
-			if (CheckSoundMem(manager->bgm[iterator->first]))
-			{
-				StopSoundMem(manager->bgm[iterator->first]);
-				SetSoundCurrentTime(0, manager->bgm[iterator->first]);
-			}
-		}
 		if (!CheckSoundMem(manager->bgm[fileName]))
 		{
+			//Œ»Ý‚È‚Á‚Ä‚¢‚é‰¹‚ðŽ~‚ß‚é
+			for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
+			{
+				if (CheckSoundMem(manager->bgm[iterator->first]))
+				{
+					StopSoundMem(manager->bgm[iterator->first]);
+					SetSoundCurrentTime(0, manager->bgm[iterator->first]);
+				}
+			}
+
 			PlaySoundMem(manager->bgm[fileName], playType, topPositionFlag);
 		}
 	}
