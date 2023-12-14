@@ -56,14 +56,17 @@ Scene* GameClearScene::update()
 		value = 0;
 	}
 
-	if (count < FPS_PERIOD)
+	if (jump_count < 2)
 	{
-		count++;
-	}
-	else
-	{
-		count = 0;
-		jump_count++;
+		if (count < FPS_PERIOD)
+		{
+			count++;
+		}
+		else
+		{
+			count = 0;
+			jump_count++;
+		}
 	}
 
 	// ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
