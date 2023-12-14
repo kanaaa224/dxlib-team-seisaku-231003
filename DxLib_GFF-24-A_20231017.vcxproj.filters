@@ -159,9 +159,6 @@
     <ClInclude Include="weaponSelect.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器選択</Filter>
     </ClInclude>
-    <ClInclude Include="map_temp.h">
-      <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\マップ</Filter>
-    </ClInclude>
     <ClInclude Include="weaponLevelup.h">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器強化</Filter>
     </ClInclude>
@@ -274,9 +271,6 @@
     </ClCompile>
     <ClCompile Include="weaponSelect.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器選択</Filter>
-    </ClCompile>
-    <ClCompile Include="map_temp.cpp">
-      <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\マップ</Filter>
     </ClCompile>
     <ClCompile Include="weaponLevelup.cpp">
       <Filter>ゲーム処理\ゲームメイン内シーン（シーン未継承）\武器強化</Filter>
