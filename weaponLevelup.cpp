@@ -245,8 +245,9 @@ void WeaponLevelUp::draw() const
 	SetFontSize(30);
 	DrawFormatString(560, 10, 0x000000, "レベルアップ");
 
+	DrawBox(190, 40, 420, 80, 0x000000, FALSE);
 	SetFontSize(20);
-	DrawFormatString(900, 20, 0x000000, "LevelUpPoint：%d", lv_point);
+	DrawFormatString(220, 50, 0x000000, "LevelUpPoint：%d", lv_point);
 
 	// ボタン案内
 	if (is_blacksmith == false)
