@@ -51,6 +51,8 @@ ResultScene::ResultScene(int result_info[])
 	img_logo_earthcrusher = LoadGraph("resources/images/Logo/WeaponName/logo_earthcrusher.png");
 	img_logo_bullet = LoadGraph("resources/images/Logo/WeaponName/logo_bullet.png");
 
+	img_width = 40;
+
 	// 変数の初期化
 	value = 180;
 
@@ -144,7 +146,7 @@ void ResultScene::draw() const
 	DrawRotaGraph(640, 50, 0.45f, 0.0f, img_logo_result, TRUE);
 
 	SetFontSize(25);
-	DrawFormatString(50, 120, 0x000000, "到達したステージ");
+	DrawFormatString(50, 120, 0x000000, "制覇したステージ");
 
 	if (value <= 10)
 	{
@@ -166,6 +168,14 @@ void ResultScene::draw() const
 	DrawFormatString(230, 390, 0x000000, "× %d",map_info.event_count);
 	DrawFormatString(230, 490, 0x000000, "× %d",map_info.anvil_count);
 	DrawFormatString(230, 590, 0x000000, "× %d",map_info.boss_count);
+
+
+	//for (int i = 0; i < map_info.battle_count; i++)
+	//{
+	//	DrawRotaGraph(250 + (img_width * i), 200, 0.7f, 0.0f, img_battle, TRUE);
+	//}
+
+
 
 	// 武器1情報表示
 	DrawRotaGraph(840, 250, 0.2f, 0.0f, img_logo_lv, TRUE);
