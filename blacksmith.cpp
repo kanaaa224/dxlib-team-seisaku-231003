@@ -11,7 +11,7 @@ Blacksmith::Blacksmith()
 	img_arrow = LoadGraph("resources/images/arrow.png");
 	img_button_b = LoadGraph("resources/images/button_b.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
-	img_background = LoadGraph("resources/images/stageimage2.png");
+	img_background = LoadGraph("resources/images/lkvhg.png");
 
 	// •Ší‰æ‘œ
 	img_sword = LoadGraph("resources/images/•Ší/•ĞèŒ•.png");
