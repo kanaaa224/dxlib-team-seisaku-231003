@@ -573,30 +573,6 @@ Scene* GameScene::update() {
 				bookFlg = false;
 			}
 
-			//武器のレベルアップ（デバッグ用）
-			if (!weaponA->GetLevelUpFlg()) {
-				if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
-					weaponA->SetWeaponType(sword);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
-					weaponA->SetWeaponType(dagger);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
-					weaponA->SetWeaponType(greatSword);
-				}
-			}
-
-			if (!weaponB->GetLevelUpFlg()) {
-				if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
-					weaponB->SetWeaponType(spear);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
-					weaponB->SetWeaponType(frail);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
-					weaponB->SetWeaponType(book);
-				}
-			}
 
 			////////////
 			player->SetLeftTop(stage->GetStageArray(0));
@@ -649,6 +625,7 @@ Scene* GameScene::update() {
 						mode = GameSceneMode::map;
 					}
 				};
+				weaponA->SetAvoidanceDamageFlg(false);
 			};
 			if (player->GetPlayer_HP() <= 0) {
 				gameUI->setBanner("敗北", "体力が尽きた.....", 0);

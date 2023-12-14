@@ -145,8 +145,6 @@ public:
 	void Draw() const;
 
 	void SetWeaponType(int type);
-
-	void LevelUpDebug(int num);
 	void LevelState();
 
 	bool WeaponCollision(Location enemyLocation, float radius);
