@@ -1,7 +1,7 @@
 #pragma once
 
-#define STAGEIMG_X 640.0f*2
-#define STAGEIMG_Y 369.5f*2
+#define STAGEIMG_X 1275
+#define STAGEIMG_Y 703
 
 struct StageArray {
 	float x;
