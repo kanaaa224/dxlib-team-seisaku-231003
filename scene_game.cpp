@@ -616,7 +616,7 @@ Scene* GameScene::update() {
 				SoundManager::StopSoundSE("se_player_move");
 				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターを倒した！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
 				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスを倒した！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
-				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("勝利！　魔王討伐完了", "戦塔を制覇！", 0);
+				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("勝利！ 魔王討伐完了", "戦塔を制覇！", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -668,7 +668,7 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::boss) {
 				if (devilKing != nullptr) {
 					if (devilKing->GetShieldFlg())  gameUI->setEnemyHP ("この塔を統べる - 魔王", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
-					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("この塔を統べる - 魔王（シールド）", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
+					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("この塔を統べる - 魔王", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
 				};
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
