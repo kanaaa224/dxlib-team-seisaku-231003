@@ -70,7 +70,7 @@ void Credit::draw()const
 	DrawString(513, 1850 + g_PosY, "効果音ラボ", 0xffffff);
 
 	DrawString(410, 2050 + g_PosY, "スペシャルサンクス", 0xffffff);		//+ 200
-	DrawString(270, 2150 + g_PosY, "グラフィックデザイン科の方々", 0xffffff);
+	DrawString(250, 2150 + g_PosY, "グラフィックデザイン科のみなさん", 0xffffff);
 
 	//DrawString(200, 350+g_PosY, "pngtree", 0xffffff);
 	//DrawString(200, 470+g_PosY, "チコデザ", 0xffffff);
