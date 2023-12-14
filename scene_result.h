@@ -18,6 +18,7 @@ private:
 	int img_rest;					// 休憩
 	int img_anvil;					// 鍛冶
 	int img_boss;					// ボス
+	int img_cross;					// バツマーク
 
 	// 武器画像読込用変数
 	int img_sword;					// 片手剣
