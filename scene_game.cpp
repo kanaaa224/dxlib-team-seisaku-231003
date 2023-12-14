@@ -106,8 +106,6 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	activeFlg = (GetMainWindowHandle() == GetForegroundWindow());
-
-	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
 	// ポーズ
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
@@ -150,7 +148,9 @@ Scene* GameScene::update() {
 		};
 	};
 
-#ifdef _DEBUG
+#if 0
+	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
 		SoundManager::StopSoundBGMs();
