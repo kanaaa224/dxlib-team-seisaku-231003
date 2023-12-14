@@ -4,7 +4,7 @@
 #include "inputCtrl.h"
 #include"Stage.h"
 
-//#define DEBUG
+#define DEBUG
 
 Skeleton::Skeleton(Player* player, int arrayNum, int SkeletonMaxNum)
 {

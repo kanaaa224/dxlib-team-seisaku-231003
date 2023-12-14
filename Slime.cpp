@@ -4,7 +4,7 @@
 #include "inputCtrl.h"
 #include"Stage.h"
 
-//#define DEBUG
+#define DEBUG
 
 Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum, int stage)
 {
@@ -195,31 +195,6 @@ void Slime::Draw(int arrayNum) const
 				SetDrawBright(255, 255, 255);
 			}
 		}
-		
-
-		//デバッグ表示（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
-#ifdef DEBUG
-		float hpRate = hp / SLIME_HP_MAX;
-		float sizeRate = -20.0f + 40.0f * hpRate;
-		
-		if (InputCtrl::GetKeyState(KEY_INPUT_H) == PRESSED) {//HP表示
-			if (hp > 0) {
-				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + 20, (int)location.y - 25, C_BLACK, TRUE);
-				DrawBox((int)location.x - 20, (int)location.y - 30, (int)location.x + (int)sizeRate, (int)location.y - 25, C_RED, TRUE);
-				DrawFormatString((int)location.x, (int)location.y, C_RED, "hpRate:%.2f", hpRate);
-				DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "sizeRate:%.2f", sizeRate);
-			}
-		}
-
-		if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESSED) {//ステータス表示
-			DrawFormatString((int)location.x, (int)location.y, C_RED, "array:%d", arrayNum);
-			DrawFormatString((int)location.x, (int)location.y + 15, C_RED, "VX:%.2f, VY:%.2f", vector.x, vector.y);
-			DrawFormatString((int)location.x, (int)location.y + 30, C_RED, "dx:%.2f, dy:%.2f", diff.x, diff.y);
-			DrawFormatString((int)location.x, (int)location.y + 45, C_RED, "HP:%d", hp);
-			DrawFormatString((int)location.x, (int)location.y + 60, C_RED, "HitFlg:%d", hitFlg);
-			DrawFormatString((int)location.x, (int)location.y + 65, C_RED, "imgFrameCnt:%d", imgFrameCounter);
-		}
-#endif // DEBUG
 	}
 }
 
