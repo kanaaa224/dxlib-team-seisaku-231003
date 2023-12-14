@@ -4,7 +4,7 @@
 #include "inputCtrl.h"
 #include"Stage.h"
 
-//#define DEBUG
+#define DEBUG
 
 Wizard::Wizard(Player* player, int arrayNum, int WizardMaxNum)
 {
