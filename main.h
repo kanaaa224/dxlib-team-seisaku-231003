@@ -74,4 +74,3 @@ class GameScene;
 // デバッグ用
 #include "scene_debug.h"
 #include "kitamura_test.h"
-#include "map_temp.h"
