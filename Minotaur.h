@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "EnemyBase.h"
 
-#define MINOTAUR_IMG_STATE_NORMAR       0 //通常時の画像
+#define MINOTAUR_IMG_STATE_NOROAR       0 //通常時の画像
 #define MINOTAUR_IMG_STATE_TACKLE_RIGHT 1 //タックル右の画像
 #define MINOTAUR_IMG_STATE_TACKLE_LEFT  2 //タックル左の画像
 #define MINOTAUR_IMG_STATE_ROAR         3 //咆哮状態の画像
@@ -50,6 +50,8 @@ private:
 	bool playerRoarHitFlg;
 
 	int playerRoarHitCounter = 0;
+
+	int roarEndedFrame; // 円が回りきって咆哮の画像を表示するフレーム
 
 	//----------その他----------//
 	//HP
