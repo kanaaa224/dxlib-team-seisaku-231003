@@ -48,8 +48,8 @@ Rest::~Rest()
 
 void Rest::update(Player* player, int& mode, int& stage, int& restCnt,int& hp)
 {
-	SoundManager::PlaySoundBGM("bgm_breakstage");
-	SoundManager::PlaySoundBGM("bgm_breaktime");
+	SoundManager::PlaySoundBGM("bgm_breakstage", false);
+	SoundManager::PlaySoundBGM("bgm_breaktime", false);
 
 	cursor_x = cursor_num * 445;
 

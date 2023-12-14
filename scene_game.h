@@ -29,6 +29,8 @@ enum GameSceneBattleMode {
 
 class GameScene : public Scene {
 private:
+	bool activeFlg;
+	bool pauseFlg;
 	int mode, state, frameCounter;
 
 	//////////////////////////////////////////////////
