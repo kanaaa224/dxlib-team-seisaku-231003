@@ -39,7 +39,7 @@ Scene* Help::update()
 	
 	return this;
 }
-
+ 
 void Help::draw()const
 {
 	if (Help_Abtn_Count == 0) {

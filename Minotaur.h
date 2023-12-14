@@ -1,11 +1,17 @@
 ﻿#pragma once
 #include "EnemyBase.h"
 
+#define MINOTAUR_IMG_STATE_NORMAR       0 //通常時の画像
+#define MINOTAUR_IMG_STATE_TACKLE_RIGHT 1 //タックル右の画像
+#define MINOTAUR_IMG_STATE_TACKLE_LEFT  2 //タックル左の画像
+#define MINOTAUR_IMG_STATE_ROAR         3 //咆哮状態の画像
+
 class Minotaur :public EnemyBase
 {
 private:
 	int debugCnt;
 
+	int minotaurImg[4];
 	float pLength;//プレイヤーとの距離
 	//----------タックル----------//
 	int tackleCoolTimeCnt;		//タックルした後のクールタイムカウント変数
