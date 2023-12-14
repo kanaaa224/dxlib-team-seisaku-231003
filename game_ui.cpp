@@ -32,6 +32,8 @@ GameUI::GameUI() {
 	if ((img["iconAttack"]       = LoadGraph("resources/images/attack_buf.png"))          == -1) throw;
 	if ((img["iconRedArrow"]     = LoadGraph("resources/images/arrow_red.png"))           == -1) throw;
 
+	if ((img["pause"] = LoadGraph("resources/images/Logo/UI/logo_pause.png"))			  == -1) throw;
+
 	//////////////////////////////////////////////////
 
 	//if (AddFontResourceEx("resources/fonts/PressStart2P-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
@@ -838,6 +840,8 @@ void GameUI::drawShieldHP() const {
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 };
 
+int img_pause = 0;
+
 void GameUI::drawPause() const {
 	SetFontSize(16);
 
@@ -845,8 +849,11 @@ void GameUI::drawPause() const {
 	DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	std::string str = "PAUSE（仮）";
-	DrawFormatString((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth(str.c_str()) / 2), SCREEN_HEIGHT / 2, 0xffffff, str.c_str());
+	//std::string str = "PAUSE（仮）";
+	//DrawFormatString((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth(str.c_str()) / 2), SCREEN_HEIGHT / 2, 0xffffff, str.c_str());
+
+	if (img.find("pause") != img.end()) img_pause = img.at("pause");
+	DrawRotaGraph((SCREEN_WIDTH / 2) + 20, (SCREEN_HEIGHT / 2), 0.25, 0, img_pause, TRUE);
 };
 
 void GameUI::drawNotice() const {
