@@ -176,6 +176,13 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 				SoundManager::PlaySoundSE("se_system_ng", false);
 			}
 		}
+
+		// Bƒ{ƒ^ƒ“‚Å•Â‚¶‚é
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			// •Â‚¶‚é
+			close_mode = 2;
+		}
 	}
 	else
 	{
