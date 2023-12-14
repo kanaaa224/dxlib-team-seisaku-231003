@@ -2,7 +2,7 @@
 #include"main.h"
 
 //#define DEBUG
-#define BTN_DEBUG
+//#define BTN_DEBUG
 
 Minotaur::Minotaur()
 {

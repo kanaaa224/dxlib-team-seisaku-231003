@@ -2,8 +2,8 @@
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
-#define BTN_DEBUG
-#define DEBUG
+//#define BTN_DEBUG
+//#define DEBUG
 
 Devil_king::Devil_king()
 {
