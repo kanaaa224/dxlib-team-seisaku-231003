@@ -73,7 +73,7 @@ map_temp::map_temp() {
 	change_icon_tab = 0;
 
 	// ‰æ‘œ“Ç
-	if (battle_img == 0) battle_img = (LoadGraph("resources/images/maps/skeleton.png"));
+	if (battle_img == 0) battle_img = (LoadGraph("resources/images/maps/battle.png"));
 	if (event_img == 0) event_img = (LoadGraph("resources/images/maps/event.png"));
 	if (rest_img == 0) rest_img = (LoadGraph("resources/images/maps/rest.png"));
 	if (anvil_img == 0) anvil_img = (LoadGraph("resources/images/maps/anvil.png"));

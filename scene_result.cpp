@@ -6,7 +6,7 @@ ResultScene::ResultScene(int result_info[])
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 
 	// マップアイコン読込用変数
-	img_battle = LoadGraph("resources/images/maps/skeleton.png");
+	img_battle = LoadGraph("resources/images/maps/battle.png");
 	img_event = LoadGraph("resources/images/maps/event.png");
 	img_rest = LoadGraph("resources/images/maps/rest.png");
 	img_anvil = LoadGraph("resources/images/maps/anvil.png");

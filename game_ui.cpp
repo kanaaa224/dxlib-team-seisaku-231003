@@ -23,7 +23,7 @@ GameUI::GameUI() {
 
 	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png"))       == -1) throw;
 
-	if ((img["iconBattle"]       = LoadGraph("resources/images/maps/skeleton.png"))       == -1) throw;
+	if ((img["iconBattle"]       = LoadGraph("resources/images/maps/battle.png"))       == -1) throw;
 	if ((img["iconEvent"]        = LoadGraph("resources/images/maps/event.png"))          == -1) throw;
 	if ((img["iconRest"]         = LoadGraph("resources/images/maps/rest.png"))           == -1) throw;
 	if ((img["iconAnvil"]        = LoadGraph("resources/images/maps/anvil.png"))          == -1) throw;
