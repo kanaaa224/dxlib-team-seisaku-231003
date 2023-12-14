@@ -1,9 +1,9 @@
-#include"main.h"
+ï»¿#include"main.h"
 
 EnemyBullet::EnemyBullet(Location spawnLocation , Player* player)
 {
-	//•Ï”‚Ì‰Šú‰»
-	img = LoadGraph("resources/images/enemy_tmp_images/tama.png");
+	//å¤‰æ•°ã®åˆæœŸåŒ–
+	img = LoadGraph("resources/images/enemy_images/wizard/bullet_b.png");
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
 	vector.x = 0;
@@ -27,7 +27,7 @@ EnemyBullet::~EnemyBullet()
 
 void EnemyBullet::Update(Player* player)
 {
-	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®—Ê‚ðdiff‚ÉƒZƒbƒg
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é‡ã‚’diffã«ã‚»ãƒƒãƒˆ
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
 

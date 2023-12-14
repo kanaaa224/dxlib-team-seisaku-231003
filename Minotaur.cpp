@@ -212,7 +212,6 @@ void Minotaur::TackleUpdate()
 			lineSize = 0;
 		}
 	}
-
 	
 	//咆哮が当たったなら
 	if (playerRoarHitFlg == true) {

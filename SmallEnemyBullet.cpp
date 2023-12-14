@@ -4,7 +4,7 @@
 SmallEnemyBullet::SmallEnemyBullet(Location spawnLocation)
 {
 	//変数の初期化
-	img = LoadGraph("resources/images/enemy_tmp_images/tama.png");
+	img = LoadGraph("resources/images/enemy_images/devilKing/Weapon/bullet_r.png");
 	location.x = spawnLocation.x;
 	location.y = spawnLocation.y;
 	vector.x = 0;
@@ -17,7 +17,7 @@ SmallEnemyBullet::SmallEnemyBullet(Location spawnLocation)
 	vector.x = Normalization_X(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
 	vector.y = Normalization_Y(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
 
-	lifeTimeCnt = SECOND_FRAME(12);
+	lifeTimeCnt = SECOND_FRAME(20);
 }
 
 SmallEnemyBullet::~SmallEnemyBullet()
