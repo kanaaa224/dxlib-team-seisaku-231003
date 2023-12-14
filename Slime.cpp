@@ -4,7 +4,7 @@
 #include "inputCtrl.h"
 #include"Stage.h"
 
-#define DEBUG
+//#define DEBUG
 
 Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum, int stage)
 {

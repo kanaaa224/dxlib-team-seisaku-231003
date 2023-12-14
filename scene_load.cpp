@@ -13,12 +13,12 @@ LoadScene::LoadScene() {
 
 	//////////////////////////////////////////////////
 
-	if ((img_background = LoadGraph("./resources/images/background.png")) == -1) throw;
+	//if ((img_background = LoadGraph("./resources/images/background.png")) == -1) throw;
 	//if ((img_cat = LoadGraph("./resources/images/ui/削除予定/animal_chara_computer_neko.png")) == -1) throw;
 };
 
 LoadScene::~LoadScene() {
-	DeleteGraph(img_background);
+	//DeleteGraph(img_background);
 	//DeleteGraph(img_cat);
 };
 
@@ -59,7 +59,7 @@ Scene* LoadScene::update() {
 void LoadScene::draw() const {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * opacity);
 
-	DrawExtendGraph(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, img_background, TRUE);
+	//DrawExtendGraph(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, img_background, TRUE);
 	//DrawRotaGraph(620, 470, 0.5, 0.0, img_cat, true);
 
 	SetFontSize(40);

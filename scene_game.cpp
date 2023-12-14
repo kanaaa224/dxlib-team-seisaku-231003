@@ -106,8 +106,6 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	activeFlg = (GetMainWindowHandle() == GetForegroundWindow());
-
-	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
 	// ポーズ
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
@@ -150,7 +148,9 @@ Scene* GameScene::update() {
 		};
 	};
 
-#ifdef _DEBUG
+#if 0
+	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
 		SoundManager::StopSoundBGMs();
@@ -203,6 +203,7 @@ Scene* GameScene::update() {
 	gameUI->setStageType(mode);
 	gameUI->setBattleMode(battleMode);
 	if (totalAttackBuf > 1.0f) gameUI->setAbilityEnhance(1);
+	else gameUI->setAbilityEnhance(0);
 	hp = player->GetPlayer_HP();
 	int maxHP = player->GetMaxPlayer_hp();
 	int maxEXP = expData[level];
@@ -1360,6 +1361,8 @@ void GameScene::DevilKingUpdate()
 				tmpGhostNum = 0;
 			}
 		}
+
+		//ビーム
 	}
 
 	if (devilKing != nullptr) {
