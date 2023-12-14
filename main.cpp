@@ -13,7 +13,7 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	SoundManager::CreateSoundManager();
 
-	SceneManager* sceneMng = new SceneManager((Scene*) new Title());
+	SceneManager* sceneMng = new SceneManager((Scene*) new DebugScene());
 
 	FPSCtrl::SetLimitRate(SCREEN_FPS);
 	FPSCtrl::SetUpdateInterval(1000);

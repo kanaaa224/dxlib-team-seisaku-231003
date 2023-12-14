@@ -17,7 +17,7 @@
 #define TELEPORTATION_RADIUS 150
 
 #define BEAM_MAX_WIDTH 300//ビームの幅
-#define BEAM_POSITION_CROSS    0//ビームが十字方向
+#define BEAM_POSITION_CROSS	   0//ビームが十字方向
 #define BEAM_POSITION_DIAGONAL 1//ビームが斜め方向
 
 #define BEAM_CAN_TIEM SECOND_FRAME(2)//ビームのクールタイム
@@ -25,7 +25,8 @@
 #define BEAM_SIZE 3000//ビームの縦
 
 #define DEVILKING_BEAM_SPACE 60//ビームと魔王との隙間
-#define BEAM_DAMAGE 5
+#define BEAM_DAMAGE 1
+#define NOW_BEAM_TIME SECOND_FRAME(7)//ビームの照射時間
 
 //ビームの配列//
 //十字
@@ -44,6 +45,7 @@ class Devil_king:public EnemyBase
 private:
 	int debugCnt = 0;
 
+	bool InitFlg = false;
 	//シールド
 	float shield;//魔王のシールド
 	bool shieldFlg;//シールドが０になったらtrueを返す
@@ -70,6 +72,9 @@ private:
 	bool teleportationFlg = false;
 
 	//・・・・・ビーム・・・・・//
+	int beamChargeImg[4];	//チャージ画像
+	int beamShootImg[4];	//発射画像
+
 	int beamPosition = 0;//十字か斜めか
 	Location beamLocation[4];
 	int lineSize = 0;
@@ -77,8 +82,12 @@ private:
 	int beamPossibleCounter = 0;
 	bool beamShootFlg = false;//ビームが発射されているか
 	bool beamShootFinFlg = false;
+	bool nowBeamFlg = false;//ビーム中か？
+	int nowBeamCounter = 0;
 
 	bool hitBeamPlayer[8];	//プレイヤーがビームにヒット時の判定用
+
+
 
 public:
 	Devil_king();

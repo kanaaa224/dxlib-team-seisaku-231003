@@ -24,16 +24,30 @@ Devil_king::Devil_king()
 	shadowLocation.y = location.y;
 
 	//・・・・・・ビーム・・・・・・//
-	beamPosition = BEAM_POSITION_CROSS;
+	beamPosition = 0;
+	//画像読込
+	for (int i = 0; i <= 4; i++) {
+		beamChargeImg[i] = LoadGraph("resources/images/enemy_images/devilKing/Weapon/Beam_Cannon_1.png");
+		beamShootImg[i] = LoadGraph("resources/images/enemy_images/devilKing/Weapon/Beam_Cannon_0.png");
+	}
 }
 
 Devil_king::~Devil_king()
 {
 	DeleteGraph(img);
+	for (int i = 0; i <= 4; i++) {
+		DeleteGraph(beamChargeImg[i]);
+		DeleteGraph(beamShootImg[i]);
+	}
 }
 
 void Devil_king::Update(Player* player)
 {
+	if (InitFlg == false) {
+		beamPosition = 0;
+		InitFlg = true;
+	}
+
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
@@ -211,15 +225,7 @@ void Devil_king::Draw() const
 	}
 
 #ifdef DEBUG
-	
-
-
-	DrawFormatString(500, 600, C_RED, "%.2f", diff.x);
-	DrawFormatString(500, 620, C_RED, "%.2f", diff.y);
-	DrawFormatString(500, 660, C_RED, "%.2f", location.x);
-	DrawFormatString(500, 680, C_RED, "%.2f", location.y);
-	DrawFormatString(570, 660, C_RED, "%.2f", vector.x);
-	DrawFormatString(570, 680, C_RED, "%.2f", vector.y);
+	DrawFormatString(500, 600, C_RED, "%d", beamPosition);
 #endif // DEBUG
 
 }
@@ -255,20 +261,30 @@ void Devil_king::BeamUpdate(Player* player)
 			lineSize += 3;
 		}
 		else if (lineSize >= BEAM_MAX_WIDTH) {
-			beamPossibleCounter = 0;
-			beamPossibleFlg = false;
-			lineSize = 0;
-			beamShootFinFlg = true;
-
-			//ビームの当たり判定
-			BeamCollision(player);
-
-			if (beamPosition == BEAM_POSITION_CROSS) {
-				beamPosition = BEAM_POSITION_DIAGONAL;
+			if (nowBeamFlg == true) {
+				beamPossibleCounter = 0;
+				beamPossibleFlg = false;
+				lineSize = 0;
+				beamShootFinFlg = true;
+				nowBeamFlg = false;
 			}
-			else if (beamPosition == BEAM_POSITION_DIAGONAL) {
-				beamPosition = BEAM_POSITION_CROSS;
+			else if (nowBeamFlg == false) {
+				nowBeamCounter++;
+				//ビームの当たり判定
+				BeamCollision(player);
+				if (NOW_BEAM_TIME <= nowBeamCounter) {
+					nowBeamFlg = true;
+					nowBeamCounter = 0;
+
+					if (beamPosition == BEAM_POSITION_CROSS) {
+						beamPosition = BEAM_POSITION_DIAGONAL;
+					}
+					else if (beamPosition == BEAM_POSITION_DIAGONAL) {
+						beamPosition = BEAM_POSITION_CROSS;
+					}
+				}
 			}
+			
 		}
 
 		switch (beamPosition)
@@ -330,6 +346,10 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE, beamLocation[RIGHT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
+		if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[RIGHT].x + 50, beamLocation[RIGHT].y, 1.0f, 0, beamChargeImg[0], TRUE);
+		}
+
 		//左
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
@@ -338,6 +358,10 @@ void Devil_king::BeamDraw() const
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawLine(beamLocation[LEFT].x, beamLocation[1].y, beamLocation[LEFT].x - BEAM_SIZE, beamLocation[LEFT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+
+		if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[LEFT].x - 60, beamLocation[LEFT].y, 1.0f, 3.1f, beamChargeImg[1], TRUE);
+		}
 
 		//下
 		//薄い赤色の矩形
@@ -348,6 +372,10 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[LOWER].x, beamLocation[LOWER].y + BEAM_SIZE, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
+		if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[LOWER].x, beamLocation[LOWER].y + 50, 1.0f, 1.55f, beamChargeImg[2], TRUE);
+		}
+
 		//上
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
@@ -356,6 +384,10 @@ void Devil_king::BeamDraw() const
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+
+		if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[UPPER].x, beamLocation[UPPER].y - 60, 1.0f, -1.57f, beamChargeImg[3], TRUE);
+		}
 
 		break;
 	case BEAM_POSITION_DIAGONAL:
