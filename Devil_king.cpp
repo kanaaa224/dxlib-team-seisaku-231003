@@ -2,8 +2,8 @@
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
-#define BTN_DEBUG
-#define DEBUG
+//#define BTN_DEBUG
+//#define DEBUG
 
 Devil_king::Devil_king()
 {
@@ -104,7 +104,7 @@ void Devil_king::Update(Player* player)
 	}
 
 	//ビーム
-	if (shieldFlg == false /*&& DEVILKING_MAX_HP / 3 >= hp*/) {//シールドがある時と魔王のHPが3/1を下回ったら
+	if (shieldFlg == false && DEVILKING_MAX_HP / 3 >= hp) {//シールドがある時と魔王のHPが3/1を下回ったら
 		BeamUpdate(player);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
@@ -346,9 +346,9 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE, beamLocation[RIGHT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
+		/*if (beamPossibleFlg == true) {
 			DrawRotaGraph(beamLocation[RIGHT].x + 50, beamLocation[RIGHT].y, 1.0f, 0, beamChargeImg[0], TRUE);
-		}
+		}*/
 
 		//左
 		//薄い赤色の矩形
@@ -359,9 +359,9 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[LEFT].x, beamLocation[1].y, beamLocation[LEFT].x - BEAM_SIZE, beamLocation[LEFT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
+		/*if (beamPossibleFlg == true) {
 			DrawRotaGraph(beamLocation[LEFT].x - 60, beamLocation[LEFT].y, 1.0f, 3.1f, beamChargeImg[1], TRUE);
-		}
+		}*/
 
 		//下
 		//薄い赤色の矩形
@@ -372,9 +372,9 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[LOWER].x, beamLocation[LOWER].y + BEAM_SIZE, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
+		/*if (beamPossibleFlg == true) {
 			DrawRotaGraph(beamLocation[LOWER].x, beamLocation[LOWER].y + 50, 1.0f, 1.55f, beamChargeImg[2], TRUE);
-		}
+		}*/
 
 		//上
 		//薄い赤色の矩形
@@ -385,9 +385,9 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
+		/*if (beamPossibleFlg == true) {
 			DrawRotaGraph(beamLocation[UPPER].x, beamLocation[UPPER].y - 60, 1.0f, -1.57f, beamChargeImg[3], TRUE);
-		}
+		}*/
 
 		break;
 	case BEAM_POSITION_DIAGONAL:
