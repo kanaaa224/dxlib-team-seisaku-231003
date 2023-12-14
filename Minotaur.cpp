@@ -8,7 +8,14 @@ Minotaur::Minotaur()
 {
 	debugCnt = 0;
 
-	img = LoadGraph("resources/images/enemy_tmp_images/usi.png");
+	//画像読込
+	minotaurImg[MINOTAUR_IMG_STATE_NORMAR] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_syoumen.png");
+	minotaurImg[MINOTAUR_IMG_STATE_TACKLE_RIGHT] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_right_move.png");
+	minotaurImg[MINOTAUR_IMG_STATE_TACKLE_LEFT] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_left_move.png");
+	minotaurImg[MINOTAUR_IMG_STATE_ROAR] = LoadGraph("resources/images/enemy_images/minotaur/minotaur_houkou.png");
+
+	img = minotaurImg[MINOTAUR_IMG_STATE_NORMAR];
+
 	hp = MINOTAUR_MAX_HP;
 	damage = MINOTAUR_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
@@ -59,6 +66,9 @@ Minotaur::Minotaur()
 Minotaur::~Minotaur()
 {
 	DeleteGraph(img);
+	for (int i = 0; i <= 4; i++) {
+		DeleteGraph(minotaurImg[i]);
+	}
 }
 
 void Minotaur::Update(Player* player)
@@ -69,12 +79,16 @@ void Minotaur::Update(Player* player)
 	//プレイヤーの座標をdiffLocationにセット
 	SetPlayer_Location(player->GetLocation());
 
+	img = minotaurImg[MINOTAUR_IMG_STATE_NORMAR];
 	if (roarStartFlg == false) {
+		
 		TackleUpdate();//タックル
 	}
 	else if (roarStartFlg == true) {
+		
 		RoarUpdate();//咆哮
 		if (roarEffectFlg == true) {
+			img = minotaurImg[MINOTAUR_IMG_STATE_ROAR];
 			RoarEffectUpdate();
 		}
 	}
