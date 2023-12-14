@@ -1358,6 +1358,8 @@ void GameScene::DevilKingUpdate()
 				tmpGhostNum = 0;
 			}
 		}
+
+		//ビーム
 	}
 
 	if (devilKing != nullptr) {
