@@ -13,7 +13,7 @@ Map::Map() {
 	alpha_flg = TRUE;
 
 	// 画像読込
-	if (battle_img == 0) battle_img = (LoadGraph("resources/images/maps/skeleton.png"));
+	if (battle_img == 0) battle_img = (LoadGraph("resources/images/maps/battle.png"));
 	if (event_img == 0) event_img = (LoadGraph("resources/images/maps/event.png"));
 	if (rest_img == 0) rest_img = (LoadGraph("resources/images/maps/rest.png"));
 	if (anvil_img == 0) anvil_img = (LoadGraph("resources/images/maps/anvil.png"));
@@ -27,6 +27,13 @@ Map::Map() {
 	if (decision_img == 0) decision_img = LoadGraph("resources/images/Logo/UI/logo_dicision.png");
 	if (map_first_img == 0) map_first_img = (LoadGraph("resources/images/maps/map_first.png"));
 	if (stage_select_img == 0) stage_select_img = (LoadGraph("resources/images/maps/stage_select.png"));
+	if (battle_font_img == 0) battle_font_img = (LoadGraph("resources/images/maps/battle_font.png"));
+	if (event_font_img == 0) event_font_img = (LoadGraph("resources/images/maps/event_font.png"));
+	if (rest_font_img == 0) rest_font_img = (LoadGraph("resources/images/maps/rest_font.png"));
+	if (anvil_font_img == 0) anvil_font_img = (LoadGraph("resources/images/maps/anvil_font.png"));
+	if (boss_font_img == 0) boss_font_img = (LoadGraph("resources/images/maps/boss_font.png"));
+	if (cursor_font_img == 0) cursor_font_img = (LoadGraph("resources/images/maps/cursor_font.png"));
+	if (scroll_font_img == 0) scroll_font_img = (LoadGraph("resources/images/maps/scroll_font.png"));
 
 	// リザルト画面用
 	battle_count = 0;
@@ -49,6 +56,13 @@ Map::~Map() {
 	DeleteGraph(decision_img);
 	DeleteGraph(map_first_img);
 	DeleteGraph(stage_select_img);
+	DeleteGraph(battle_font_img);
+	DeleteGraph(event_font_img);
+	DeleteGraph(rest_font_img);
+	DeleteGraph(anvil_font_img);
+	DeleteGraph(boss_font_img);
+	DeleteGraph(cursor_font_img);
+	DeleteGraph(scroll_font_img);
 }
 
 int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
@@ -232,14 +246,11 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 					else mode = GameSceneMode::weaponSelect;
 
 					battleMode = GameSceneBattleMode::boss;
-					ClearStage();
 					break;
 				default:
 					break;
 				}
 			}
-
-			return 0;
 		}
 		else
 		{
@@ -266,6 +277,7 @@ int Map::update(int& mode, int& battleMode, bool& weapon_selected) {
 		}
 		
 	}
+	return 0;
 };
 
 void Map::draw() const {
@@ -340,10 +352,15 @@ void Map::draw() const {
 
 	// アイコン説明
 	DrawExtendGraph(10, 450, 50, 490, battle_img, TRUE);
+	DrawGraph(55, 460, battle_font_img, TRUE);
 	DrawExtendGraph(10, 500, 50, 540, event_img, TRUE);
+	DrawGraph(55, 510, event_font_img, TRUE);
 	DrawExtendGraph(10, 550, 50, 590, rest_img, TRUE);
+	DrawGraph(55, 560, rest_font_img, TRUE);
 	DrawExtendGraph(10, 600, 50, 640, anvil_img, TRUE);
+	DrawGraph(55, 610, anvil_font_img, TRUE);
 	DrawExtendGraph(10, 650, 50, 690, boss_img, TRUE);
+	DrawGraph(55, 660, boss_font_img, TRUE);
 
 	// Aボタン
 	DrawGraph(1150, 650, button_a_image, TRUE);
@@ -422,19 +439,19 @@ void Map::ResetStage() {
 		// マップ生成(0:戦闘、1:ランダムイベント、2:休憩、3:鍛冶屋、4:ボス)
 
 		// ランダムイベント
-		MapData[7] = 1;
+		MapData[8] = 1;
 
 		// 休憩1
-		SetStage(1, 6, 1, 2, 0, 2);
+		SetStage(1, 7, 1, 2, 0, 2);
 		// 休憩2
-		SetStage(10, 11, 0, 1, 1, 2);
+		SetStage(9, 10, 0, 1, 1, 2);
 		// 休憩3
-		SetStage(12, 13, 0, 1, 1, 2);
+		SetStage(11, 14, 0, 1, 0, 2);
 		// 休憩4
 		MapData[data_max - 2] = 2;
 
 		// 鍛冶屋
-		SetStage(16, 17, 1, 1, 1, 3);
+		SetStage(17, 18, 1, 1, 1, 3);
 
 		// ボス
 		MapData[data_max - 1] = 4;

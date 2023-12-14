@@ -48,6 +48,9 @@ GameScene::GameScene() {
 	level = 0;
 	point = 0;
 
+	activeFlg = true;
+	pauseFlg = false;
+
 	currentFloor = 0;
 	//currentStage = 0;
 	battleMode   = 0;
@@ -102,13 +105,23 @@ GameScene::~GameScene() {
 };
 
 Scene* GameScene::update() {
+	activeFlg = (GetMainWindowHandle() == GetForegroundWindow());
+
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
 	// ポーズ
-	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) {
-		if (state) state = 0;
-		else state++;
-	};
+	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
+		if (state)
+		{
+			state = 0;
+			pauseFlg = true;
+		}
+		else
+		{
+			state++;
+			pauseFlg = false;
+		}
+	}
 
 	if (state == pause)
 	{
@@ -573,30 +586,6 @@ Scene* GameScene::update() {
 				bookFlg = false;
 			}
 
-			//武器のレベルアップ（デバッグ用）
-			if (!weaponA->GetLevelUpFlg()) {
-				if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
-					weaponA->SetWeaponType(sword);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
-					weaponA->SetWeaponType(dagger);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
-					weaponA->SetWeaponType(greatSword);
-				}
-			}
-
-			if (!weaponB->GetLevelUpFlg()) {
-				if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
-					weaponB->SetWeaponType(spear);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
-					weaponB->SetWeaponType(frail);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
-					weaponB->SetWeaponType(book);
-				}
-			}
 
 			////////////
 			player->SetLeftTop(stage->GetStageArray(0));
@@ -616,7 +605,7 @@ Scene* GameScene::update() {
 				SoundManager::StopSoundSE("se_player_move");
 				if (battleMode == GameSceneBattleMode::normal)  gameUI->setBanner("すべてのモンスターを倒した！", std::to_string(currentFloor + 1) + "F - 魔王の手下たちの部屋 制覇", 0);
 				if (battleMode == GameSceneBattleMode::midBoss) gameUI->setBanner("ミノタウロスを倒した！", std::to_string(currentFloor + 1) + "F - ミノタウロスの部屋 制覇", 0);
-				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("勝利！　魔王討伐完了", "戦塔を制覇！", 0);
+				if (battleMode == GameSceneBattleMode::boss)    gameUI->setBanner("勝利！ 魔王討伐完了", "戦塔を制覇！", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();
 					gameUI->setState(banner);
@@ -649,6 +638,7 @@ Scene* GameScene::update() {
 						mode = GameSceneMode::map;
 					}
 				};
+				weaponA->SetAvoidanceDamageFlg(false);
 			};
 			if (player->GetPlayer_HP() <= 0) {
 				gameUI->setBanner("敗北", "体力が尽きた.....", 0);
@@ -668,7 +658,7 @@ Scene* GameScene::update() {
 			if (battleMode == GameSceneBattleMode::boss) {
 				if (devilKing != nullptr) {
 					if (devilKing->GetShieldFlg())  gameUI->setEnemyHP ("この塔を統べる - 魔王", (int)(devilKing->GetHP()), DEVILKING_MAX_HP, (int)((devilKing->GetHP() / DEVILKING_MAX_HP) * 100.0f));
-					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("この塔を統べる - 魔王（シールド）", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
+					if (!devilKing->GetShieldFlg()) gameUI->setShieldHP("この塔を統べる - 魔王", (int)(devilKing->GetShield()), MAX_SHIELD, (int)((devilKing->GetShield() / MAX_SHIELD) * 100.0f));
 				};
 			};
 			//printfDx("%d\n", static_cast<int>((SLIME_1_STAGE_NUM / c) * 100.0f));
@@ -698,6 +688,18 @@ Scene* GameScene::update() {
 	};
 
 	if (mode == GameSceneMode::weaponLevelup) {
+		if (battleMode == GameSceneBattleMode::normal)
+		{
+			SoundManager::PlaySoundBGM("bgm_normal");
+		}
+		if (battleMode == GameSceneBattleMode::midBoss)
+		{
+			SoundManager::PlaySoundBGM("bgm_middleboss");
+		}
+		if (battleMode == GameSceneBattleMode::boss)
+		{
+			SoundManager::PlaySoundBGM("bgm_boss");
+		}
 		weaponLevelup->update(weaponA, weaponB, player, restor_cursor_position, point);
 		return this;
 	};
@@ -722,9 +724,9 @@ Scene* GameScene::update() {
 		return this;
 	};
 
-#if 1
+#if 0
 	clsDx();
-	//printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
+	printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
 	//printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	//printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
 #endif

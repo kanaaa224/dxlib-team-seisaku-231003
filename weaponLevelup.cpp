@@ -176,6 +176,13 @@ void WeaponLevelUp::update(weapon* weapon, second_weapon* second_weapon, Player*
 				SoundManager::PlaySoundSE("se_system_ng", false);
 			}
 		}
+
+		// Bボタンで閉じる
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			// 閉じる
+			close_mode = 2;
+		}
 	}
 	else
 	{
@@ -245,8 +252,9 @@ void WeaponLevelUp::draw() const
 	SetFontSize(30);
 	DrawFormatString(560, 10, 0x000000, "レベルアップ");
 
+	DrawBox(190, 40, 420, 80, 0x000000, FALSE);
 	SetFontSize(20);
-	DrawFormatString(900, 20, 0x000000, "LevelUpPoint：%d", lv_point);
+	DrawFormatString(220, 50, 0x000000, "LevelUpPoint：%d", lv_point);
 
 	// ボタン案内
 	if (is_blacksmith == false)
@@ -692,6 +700,9 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 
 	if (weapon_number == weapon1_info.num)
 	{
+		if (weapon1_info.level >= 7) {
+			DrawFormatString(200, 140, 0xb00000, "最終強化済みです");
+		}
 		DrawFormatString(200, 220, 0x000000, "ダメージ");
 		DrawFormatString(200, 240, 0x000000, "　%d　→　%d", weapon1_info.tmp_damege, weapon1_info.damege);
 		DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
@@ -709,9 +720,58 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 460, 0x000000, "回避クールタイム");
 			DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_avoidancecooltime, w_p_avoidancecooltime);
 		}
+		// レベルアップカーソルが左側にある時
+		if (weapon1_info.level == 7)
+		{
+			// レベル7
+			switch (weapon1_info.type)
+			{
+			case sword:			// 片手剣
+				DrawFormatString(200, 520, 0x000000, "伝説の剣");
+				DrawFormatString(200, 550, 0x000000, "斬撃を飛ばす");
+				break;
+			case dagger:		// 短剣
+				DrawFormatString(200, 520, 0x000000, "アサシンダガ―");
+				//SetFontSize(15);
+				DrawFormatString(200, 550, 0x000000, "回避した軌道にいる敵\nにダメージを与える");
+				break;
+			case greatSword:	// 大剣
+				DrawFormatString(200, 520, 0x000000, "旋風斬");
+				DrawFormatString(200, 550, 0x000000, "回転攻撃に変化する");
+				break;
+			default:
+				DrawFormatString(200, 520, 0xb00000, "武器がありません");
+				break;
+			}
+		}
+		else if(weapon1_info.level == 8)
+		{
+			// レベル8
+			switch (weapon1_info.type)
+			{
+			case sword:			// 片手剣
+				DrawFormatString(200, 520, 0x000000, "魔剣");
+				DrawFormatString(200, 550, 0x000000, "自傷武器に変化する\n自傷した際に攻撃力が\n上がり、連続で攻撃を\n当てると微量ながら\n回復する");
+				break;
+			case dagger:		// 短剣
+				DrawFormatString(200, 520, 0x000000, "投げナイフ");
+				DrawFormatString(200, 550, 0x000000, "照準の方向にナイフを\n5本発射する\n+ダメージ　6 x 5");
+				break;
+			case greatSword:	// 大剣
+				DrawFormatString(200, 520, 0x000000, "砂塵の太刀");
+				DrawFormatString(200, 550, 0x000000, "砂塵が舞い敵に\n小ダメージを与える");
+				break;
+			default:
+				DrawFormatString(200, 520, 0xb00000, "武器がありません");
+				break;
+			}
+		}
 	}
 	else if(weapon2_info.type != none)
 	{
+		if (weapon2_info.level >= 7) {
+			DrawFormatString(200, 140, 0xb00000, "最終強化済みです");
+		}
 		DrawFormatString(200, 220, 0x000000, "ダメージ");
 		DrawFormatString(200, 240, 0x000000, "　%d　→　%d", weapon2_info.tmp_damege, weapon2_info.damege);
 		DrawFormatString(200, 260, 0x000000, "攻撃クールタイム");
@@ -733,6 +793,51 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 		{
 			DrawFormatString(200, 340, 0x000000, "弾の速度");
 			DrawFormatString(200, 360, 0x000000, "　%d　→　%d", tmp_book_bullet_speed, book_bullet_speed);
+		}
+		if (weapon2_info.level == 7)
+		{
+			// レベル7
+			switch (weapon2_info.type)
+			{
+			case spear:
+				DrawFormatString(200, 520, 0x000000, "ロイヤルランス");
+				DrawFormatString(200, 550, 0x000000, "攻撃範囲が縦方向に\n拡大される");
+				break;
+			case frail:
+				DrawFormatString(200, 520, 0x000000, "三つ首の鎖");
+				DrawFormatString(200, 550, 0x000000, "鉄球が３つになる");
+				break;
+			case book:
+				DrawFormatString(200, 520, 0x000000, "賢者の加護");
+				//SetFontSize(15);
+				DrawFormatString(200, 550, 0x000000, "武器ダメージが上がり\n一定時間武器のクール\nタイムが減少しバリア\nがつくが、バリアは攻\n撃されると消える");
+				break;
+			default:
+				DrawFormatString(200, 520, 0xb00000, "武器がありません");
+				break;
+			}
+		}
+		else if(weapon2_info.level == 8)
+		{
+			// レベル8
+			switch (weapon2_info.type)
+			{
+			case spear:
+				DrawFormatString(200, 520, 0x000000, "グングニル");
+				DrawFormatString(200, 550, 0x000000, "攻撃が当たった敵に\n雷が落ちる");
+				break;
+			case frail:
+				DrawFormatString(200, 520, 0x000000, "アースクラッシャー");
+				DrawFormatString(200, 550, 0x000000, "鉄球が大きくなり\n地割れが発生する");
+				break;
+			case book:
+				DrawFormatString(200, 520, 0x000000, "エンチャントバレット");
+				DrawFormatString(200, 550, 0x000000, "球が６つ円状に回転し\n攻撃をする");
+				break;
+			default:
+				DrawFormatString(200, 520, 0xb00000, "武器がありません");
+				break;
+			}
 		}
 	}
 

@@ -81,7 +81,7 @@ void GameOverScene::draw() const
 	// テキスト表示
 	SetFontSize(60);
 	DrawFormatString(545, 515, 0x000000, "GAME OVER");
-
+	
 	// 画像表示
 	DrawGraph(0, 0, img_gameover, TRUE);
 	// sin( PI*2 / 周期 * Count ) * 振幅

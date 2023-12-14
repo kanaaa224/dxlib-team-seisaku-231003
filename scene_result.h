@@ -18,6 +18,7 @@ private:
 	int img_rest;					// 休憩
 	int img_anvil;					// 鍛冶
 	int img_boss;					// ボス
+	int img_cross;					// バツマーク
 
 	// 武器画像読込用変数
 	int img_sword;					// 片手剣
@@ -57,6 +58,9 @@ private:
 	int img_logo_gungnir;
 	int img_logo_earthcrusher;
 	int img_logo_bullet;
+
+	// マップアイコン同士の幅
+	int img_width;
 
 	// フェード演出
 	int value;						// 不透明度

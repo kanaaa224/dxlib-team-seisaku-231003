@@ -148,8 +148,8 @@ void Player::update(bool minotaur) {
 	}
 	else {
 		//‰ñ”ðƒtƒ‰ƒO ON
-		if (Provisional_Abtn == PRESS && Provisional_LStickX > 0 || Provisional_Abtn == PRESS && Provisional_LStickX < 0 ||
-			Provisional_Abtn == PRESS && Provisional_LStickY > 0 || Provisional_Abtn == PRESS && Provisional_LStickY < 0)
+		if ((Provisional_Abtn == PRESS && Provisional_LStickX > MOVE_RIGHT) || (Provisional_Abtn == PRESS && Provisional_LStickX < MOVE_LEFT) ||
+			(Provisional_Abtn == PRESS && Provisional_LStickY > MOVE_UP) ||(Provisional_Abtn == PRESS && Provisional_LStickY < MOVE_DOWN))
 		{
 			A_value = true;
 		}

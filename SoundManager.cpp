@@ -38,8 +38,14 @@ void SoundManager::CreateSoundManager()
 	SetSE("se_enemy_damage");
 	SetSE("se_enemy_shout");
 	SetSE("se_enemy_tackle");
-	SetSE("se_enemy_barrierdamage");
+	SetSE("se_enemy_barrier_damage");
+	SetSE("se_enemy_barrier_open");
+	SetSE("se_enemy_barrier_close");
+	SetSE("se_enemy_spirit");
+	SetSE("se_enemy_teleportation");
 	SetSE("se_enemy_bossbullet");
+	SetSE("se_enemy_beam_charge");
+	SetSE("se_enemy_beam_fire");
 	SetSE("se_weapon_sword_swing");
 	SetSE("se_weapon_sword_Lv8");
 	SetSE("se_weapon_sword_Lv7");
@@ -62,6 +68,7 @@ void SoundManager::CreateSoundManager()
 	SetVolumeSEs(65);
 	SetVolumeBGM("bgm_title", 35);
 	SetVolumeBGM("bgm_weaponselection", 45);
+	SetVolumeBGM("bgm_breakstage", 70);
 	SetVolumeBGM("bgm_normal", 30);
 	SetVolumeBGM("bgm_middleboss", 50);
 	SetVolumeBGM("bgm_boss", 55);
@@ -206,17 +213,18 @@ void SoundManager::PlaySoundBGM(const char* fileName, bool isSingleUnit, int pla
 	//‰¹‚ðd‚Ë‚È‚¢‚È‚ç
 	if (isSingleUnit)
 	{
-		//Œ»Ý‚È‚Á‚Ä‚¢‚é‰¹‚ðŽ~‚ß‚é
-		for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
-		{
-			if (CheckSoundMem(manager->bgm[iterator->first]))
-			{
-				StopSoundMem(manager->bgm[iterator->first]);
-				SetSoundCurrentTime(0, manager->bgm[iterator->first]);
-			}
-		}
 		if (!CheckSoundMem(manager->bgm[fileName]))
 		{
+			//Œ»Ý‚È‚Á‚Ä‚¢‚é‰¹‚ðŽ~‚ß‚é
+			for (auto iterator = manager->bgm.begin(); iterator != manager->bgm.end(); ++iterator)
+			{
+				if (CheckSoundMem(manager->bgm[iterator->first]))
+				{
+					StopSoundMem(manager->bgm[iterator->first]);
+					SetSoundCurrentTime(0, manager->bgm[iterator->first]);
+				}
+			}
+
 			PlaySoundMem(manager->bgm[fileName], playType, topPositionFlag);
 		}
 	}

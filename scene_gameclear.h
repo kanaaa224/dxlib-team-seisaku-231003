@@ -20,6 +20,8 @@ private:
 
 	// フェード演出
 	int value;						// 不透明度
+	int count;
+	int jump_count;
 
 	int result_info[11];			// リザルト画面に渡す武器情報、マップ情報
 

@@ -317,56 +317,6 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 	}
 
-
-
-	//レベルアップデバッグ
-	if (levelUpFlg) {
-		if (InputCtrl::GetKeyState(KEY_INPUT_K) == PRESS) {
-			levelUpFlg = false;
-		}
-
-		if (InputCtrl::GetKeyState(KEY_INPUT_0) == PRESS) {
-			weaponLevel = 0;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
-			weaponLevel = 1;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
-			weaponLevel = 2;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
-			weaponLevel = 3;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
-			weaponLevel = 4;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
-			weaponLevel = 5;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
-			weaponLevel = 6;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_7) == PRESS) {
-			weaponLevel = 7;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_8) == PRESS) {
-			weaponLevel = 8;
-			LevelState();
-
-		}
-
-	}
-	else if (InputCtrl::GetKeyState(KEY_INPUT_K) == PRESS) {
-		levelUpFlg = true;
-	}
 }
 
 void second_weapon::Draw() const
@@ -413,24 +363,19 @@ void second_weapon::Draw() const
 			else {
 				DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 1200 /2 , 900/2, rate, 0, thunder_img[0], TRUE, TRUE);
 			}
-			//DrawRotaGraph2(thunder[i].l.x, thunder[i].l.y, 917 / 2, 1001 / 2, 0.1, 0, thunder[i].img[0], TRUE, TRUE);
 		}
 	}
 
 	//弾
 	for (int i = 0; i < MAX_BULLETS_NUM; i++){
 		if (bullets[i].flg == true) {
-			//DrawCircle(bullets[i].l.x, bullets[i].l.y, 10, 0xffff00, TRUE);
 			DrawRotaGraph2(bullets[i].l.x, bullets[i].l.y, 250, 250, 0.05, rot + (M_PI / 4), bullet_img, TRUE, TRUE);
 		}
 	}
 
 	//フレイル
 	if (weaponType == frail) {
-		//DrawCircle(frailLcation.x, frailLcation.y, frailRadius, 0x000000, TRUE);
 		if (weaponLevel == 8) {
-			
-			//DrawCircle(frailLcation.x, frailLcation.y, level8FrailRadius, 0x000000, FALSE);
 			if (frailRate == 1.0f) {
 				if (frailFps > 12) {
 					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
@@ -453,55 +398,17 @@ void second_weapon::Draw() const
 				else if (frailFps > 0) {
 					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.4, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
 				}
-				/*switch (frailFps)
-				{
-				case 1:
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
-					break;
-				case 2:
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
-					break;
-				case 3:
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
-					break;
-				case 4:
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
-					break;
-				case 5:
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[1], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[2], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[3], TRUE, TRUE);
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[4], TRUE, TRUE);
-					break;
-				default:
-					DrawRotaGraph2(frailLcation.x, frailLcation.y, 250, 250, 0.5, rot + (M_PI / 4), crack_img[0], TRUE, TRUE);
-					break;
-				}*/
+				
 				
 			}
 		}
 		DrawRotaGraph2(frailLcation.x, frailLcation.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		if (level7FrailFlg) {
-			/*DrawCircle(frailLocation1.x, frailLocation1.y, frailRadius, 0x000000, TRUE);
-			DrawCircle(frailLocation2.x, frailLocation2.y, frailRadius, 0x000000, TRUE);*/
+			
 			DrawRotaGraph2(frailLocation1.x, frailLocation1.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 			DrawRotaGraph2(frailLocation2.x, frailLocation2.y, 15, 15, 3 * frailRate, rot + (M_PI / 4), frail_img, TRUE, TRUE);
 		}
 		
-	}
-
-	if (attackBufRate >= 2.0f) {
-		/*DrawRotaGraph2(location.x - 25, location.y - 47, 250, 250, 0.07, 0, attackbuf_img, TRUE, TRUE);
-		
-		DrawRotaGraph2(location.x + 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);
-		DrawRotaGraph2(location.x - 5, location.y - 47, 250, 250, 0.05, M_PI / 2 + M_PI, arrow_img, TRUE, TRUE);*/
 	}
 
 	//バリア
@@ -510,101 +417,12 @@ void second_weapon::Draw() const
 		DrawRotaGraph2(location.x - 30, location.y, 0, 200, 0.25, 0, barrier_img[0], TRUE, FALSE);
 	}
 
-	
-	//spear
-	/*DrawCircle(spearlocation.x, spearlocation.y, 3, 0xff0000, TRUE);
-	DrawLine(location.x, location.y, spearlocation.x, spearlocation.y, 0xffffff);*/
-
-	//debug
-	int x = InputCtrl::GetMouseCursor().x;
-	int y = InputCtrl::GetMouseCursor().y;
-
-	/*DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType+1);*/
-	/*DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
-	DrawFormatString(0, 60, 0xffffff, "クールタイム　%d", maxCoolTime);
-	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);
-	DrawFormatString(0, 120, 0xffffff, "fraillength %f", frailLength);
-	DrawFormatString(0, 150, 0xffffff, "fraillengthCursor %f", frailLengthCursor);*/
-	//DrawFormatString(0, 180, 0xffffff, "totaldamage 2 %d", totalDamage);
-	/*DrawFormatString(0, 210, 0xffffff, "フレイルY %d", thunder[1].fps);
-	DrawFormatString(0, 240, 0xffffff, " %f", attackBufRate);*/
-	
-
-	if (isAttacking) {
-		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
-	}
-
-	/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-	
-	DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
-
-	//DrawCircle(640, 360, 3, 0xff0000, TRUE);
-	/*if (tmp == 0) {
-		DrawCircle(680, 310, 10, 0xff0000, TRUE);
-	}*/
-
-	/*if (levelUpFlg) {
-		DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
-		DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Kキーで閉じる",weaponLevel);
-	}
-	else {
-		DrawFormatString(450, 90, 0xffffff, "Kキーでレベルアップメニューを開く(武器２)");
-	}*/
-
 }
 
 void second_weapon::SetWeaponType(int type)
 {
 	weaponType = type;
 	LevelState();
-}
-
-void second_weapon::LevelUpDebug(int num)
-{
-	weaponLevel = num;
-	switch (weaponLevel)
-	{
-	case 0:
-
-
-		break;
-	case 1:
-
-
-		break;
-	case 2:
-
-
-		break;
-	case 3:
-
-
-		break;
-	case 4:
-
-
-		break;
-	case 5:
-
-
-		break;
-	case 6:
-
-
-		break;
-	case 7:
-
-
-		break;
-		/*case 8:
-			weaponLevel++;*/
-
-		break;
-	default:
-		break;
-	}
-
 }
 
 void second_weapon::LevelState()
@@ -931,16 +749,7 @@ bool second_weapon::WeaponCollision(Location enemyLocation, float radius)
 			}
 			break;
 		case frail:
-			/*weaponCollisionLocation.x = frailLcation.x;
-			weaponCollisionLocation.y = frailLcation.y;
-
-			tmp_x = weaponCollisionLocation.x - enemyLocation.x;
-			tmp_y = weaponCollisionLocation.y - enemyLocation.y;
-			tmp_length = sqrt(tmp_x * tmp_x + tmp_y * tmp_y);
-
-			if (tmp_length < radius + frailRadius) {
-				return true;
-			}*/
+			//下に記載
 			break;
 		case book:
 			//下に記載
@@ -1206,12 +1015,7 @@ bool second_weapon::FrailAnim()
 
 bool second_weapon::ThreeFrailAnim()
 {
-	/*swordSlash[i].collsion1.x = baseVec.x * cos(d_r(90.0f) + slashRot) - baseVec.y * sin(d_r(90.0f) + slashRot) + swordSlash[i].l.x;
-	swordSlash[i].collsion1.y = baseVec.x * sin(d_r(90.0f) + slashRot) + baseVec.y * cos(d_r(90.0f) + slashRot) + swordSlash[i].l.y;
-
-	swordSlash[i].collsion2.x = baseVec.x * cos(d_r(270.0f) + slashRot) - baseVec.y * sin(d_r(270.0f) + slashRot) + swordSlash[i].l.x;
-	swordSlash[i].collsion2.y = baseVec.x * sin(d_r(270.0f) + slashRot) + baseVec.y * cos(d_r(270.0f) + slashRot) + swordSlash[i].l.y;*/
-
+	
 	frailDistance += 7.0f;
 
 	frailLocation1.x = frailDistance * cos(d_r(120.0f) + level7FrailRot) - 0 * sin(d_r(90.0f) + level7FrailRot) + frailLcation.x;

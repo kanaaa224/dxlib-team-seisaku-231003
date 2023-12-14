@@ -22,7 +22,10 @@ int WINAPI WinMain(_In_ HINSTANCE  hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	while ((ProcessMessage() == 0) && (sceneMng->update() != nullptr)) {
 		ClearDrawScreen();
 
-		InputCtrl::Update();
+		if ((GetMainWindowHandle() == GetForegroundWindow()))
+		{
+			InputCtrl::Update();
+		}
 
 		FPSCtrl::Limit();
 		FPSCtrl::Update();

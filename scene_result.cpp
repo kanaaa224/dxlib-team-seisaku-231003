@@ -6,11 +6,12 @@ ResultScene::ResultScene(int result_info[])
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 
 	// マップアイコン読込用変数
-	img_battle = LoadGraph("resources/images/maps/skeleton.png");
+	img_battle = LoadGraph("resources/images/maps/battle.png");
 	img_event = LoadGraph("resources/images/maps/event.png");
 	img_rest = LoadGraph("resources/images/maps/rest.png");
 	img_anvil = LoadGraph("resources/images/maps/anvil.png");
 	img_boss = LoadGraph("resources/images/maps/boss.png");
+	img_cross = LoadGraph("resources/images/maps/cross.png");
 
 	//武器の画像読込
 	img_sword = LoadGraph("resources/images/武器/片手剣.png");
@@ -51,6 +52,8 @@ ResultScene::ResultScene(int result_info[])
 	img_logo_earthcrusher = LoadGraph("resources/images/Logo/WeaponName/logo_earthcrusher.png");
 	img_logo_bullet = LoadGraph("resources/images/Logo/WeaponName/logo_bullet.png");
 
+	img_width = 40;
+
 	// 変数の初期化
 	value = 180;
 
@@ -81,6 +84,7 @@ ResultScene::~ResultScene()
 	DeleteGraph(img_rest);
 	DeleteGraph(img_anvil);
 	DeleteGraph(img_boss);
+	DeleteGraph(img_cross);
 
 	DeleteGraph(img_sword);
 	DeleteGraph(img_dagger);
@@ -143,8 +147,8 @@ void ResultScene::draw() const
 
 	DrawRotaGraph(640, 50, 0.45f, 0.0f, img_logo_result, TRUE);
 
-	SetFontSize(35);
-	DrawFormatString(10, 50, 0x000000, "到達したステージ");
+	SetFontSize(25);
+	DrawFormatString(50, 120, 0x000000, "制覇したステージ");
 
 	if (value <= 10)
 	{
@@ -153,79 +157,106 @@ void ResultScene::draw() const
 	}
 
 	// マップアイコン画像表示
-	DrawRotaGraph(150, 150, 1.0f, 0.0f, img_battle, TRUE);
-	DrawRotaGraph(150, 250, 1.0f, 0.0f, img_event, TRUE);
-	DrawRotaGraph(150, 350, 1.0f, 0.0f, img_rest, TRUE);
-	DrawRotaGraph(150, 450, 1.0f, 0.0f, img_anvil, TRUE);
-	DrawRotaGraph(150, 550, 1.0f, 0.0f, img_boss, TRUE);
+	DrawRotaGraph(100, 200, 1.2f, 0.0f, img_battle, TRUE);
+	DrawRotaGraph(100, 300, 1.2f, 0.0f, img_event, TRUE);
+	DrawRotaGraph(100, 400, 1.2f, 0.0f, img_rest, TRUE);
+	DrawRotaGraph(100, 500, 1.2f, 0.0f, img_anvil, TRUE);
+	DrawRotaGraph(100, 600, 1.2f, 0.0f, img_boss, TRUE);
 	
 	// マップ情報
 	SetFontSize(30);
-	DrawFormatString(200, 135, 0x000000, "× %d",map_info.battle_count);
-	DrawFormatString(200, 235, 0x000000, "× %d",map_info.event_count);
-	DrawFormatString(200, 335, 0x000000, "× %d",map_info.event_count);
-	DrawFormatString(200, 435, 0x000000, "× %d",map_info.anvil_count);
-	DrawFormatString(200, 535, 0x000000, "× %d",map_info.boss_count);
+	DrawFormatString(500, 185, 0x000000, "%dコ",map_info.battle_count);
+	DrawFormatString(500, 285, 0x000000, "%dコ",map_info.event_count);
+	DrawFormatString(500, 385, 0x000000, "%dコ",map_info.rest_count);
+	DrawFormatString(500, 485, 0x000000, "%dコ",map_info.anvil_count);
+	DrawFormatString(500, 585, 0x000000, "%dコ",map_info.boss_count);
+
+	// 制覇したステージ数分アイコンを表示
+	for (int i = 0; i < map_info.battle_count; i++)
+	{
+		DrawRotaGraph(180 + (img_width * i), 200, 0.7f, 0.0f, img_battle, TRUE);
+		DrawRotaGraph(180 + (img_width * i), 200, 0.7f, 0.0f, img_cross, TRUE);
+	}
+	for (int i = 0; i < map_info.event_count; i++)
+	{
+		DrawRotaGraph(180 + (img_width * i), 300, 0.7f, 0.0f, img_event, TRUE);
+		DrawRotaGraph(180 + (img_width * i), 300, 0.7f, 0.0f, img_cross, TRUE);
+	}
+	for (int i = 0; i < map_info.rest_count; i++)
+	{
+		DrawRotaGraph(180 + (img_width * i), 400, 0.7f, 0.0f, img_rest, TRUE);
+		DrawRotaGraph(180 + (img_width * i), 400, 0.7f, 0.0f, img_cross, TRUE);
+	}
+	for (int i = 0; i < map_info.anvil_count; i++)
+	{
+		DrawRotaGraph(180 + (img_width * i), 500, 0.7f, 0.0f, img_anvil, TRUE);
+		DrawRotaGraph(180 + (img_width * i), 500, 0.7f, 0.0f, img_cross, TRUE);
+	}
+	for (int i = 0; i < map_info.boss_count; i++)
+	{
+		DrawRotaGraph(180 + (img_width * i), 600, 0.7f, 0.0f, img_boss, TRUE);
+		DrawRotaGraph(180 + (img_width * i), 600, 0.7f, 0.0f, img_cross, TRUE);
+	}
 
 	// 武器1情報表示
-	DrawRotaGraph(840, 250, 0.2f, 0.0f, img_logo_lv, TRUE);
-	DrawRotaGraph(895, 300, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
-	DrawFormatString(1030, 240, 0x000000, "%7d", weapon1_info.level);
-	DrawFormatString(1030, 290, 0x000000, "%7d", weapon1_info.damage);
+	DrawRotaGraph(840, 260, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(895, 310, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
+	DrawFormatString(1030, 250, 0x000000, "%7d", weapon1_info.level);
+	DrawFormatString(1030, 300, 0x000000, "%7d", weapon1_info.damage);
 
 	// 武器2情報表示
-	DrawRotaGraph(840, 500, 0.2f, 0.0f, img_logo_lv, TRUE);
+	DrawRotaGraph(840, 510, 0.2f, 0.0f, img_logo_lv, TRUE);
 	DrawRotaGraph(895, 550, 0.2f, 0.0f, img_logo_totaldamage, TRUE);
-	DrawFormatString(1030, 490, 0x000000, "%7d", weapon2_info.level);
-	DrawFormatString(1030, 540, 0x000000, "%7d", weapon2_info.damage);
+	DrawFormatString(1030, 500, 0x000000, "%7d", weapon2_info.level);
+	DrawFormatString(1030, 550, 0x000000, "%7d", weapon2_info.damage);
 
 	switch (weapon1_info.type)
 	{
 	case 0:			// 片手剣
-		DrawRotaGraph(700, 240, 0.2f, 0.0f, img_sword, TRUE);
-		DrawRotaGraph(865, 180, 0.25f, 0.0f, img_logo_sword, TRUE);
+		DrawRotaGraph(700, 250, 0.2f, 0.0f, img_sword, TRUE);
+		DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 		if (weapon1_info.level == 7)
 		{
-			DrawFormatString(930, 175, 0x000000, "-");
-			DrawRotaGraph(1030, 180, 0.25f, 0.0f, img_logo_legendsword, TRUE);
+			DrawFormatString(930, 185, 0x000000, "-");
+			DrawRotaGraph(1030, 190, 0.25f, 0.0f, img_logo_legendsword, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
-			DrawFormatString(930, 175, 0x000000, "-");
-			DrawRotaGraph(1000, 180, 0.25f, 0.0f, img_logo_magicsword, TRUE);
+			DrawFormatString(930, 185, 0x000000, "-");
+			DrawRotaGraph(1000, 190, 0.25f, 0.0f, img_logo_magicsword, TRUE);
 		}
 		break;
 	case 1:		// 短剣
-		DrawRotaGraph(700, 240, 0.17f, 0.0f, img_dagger, TRUE);
-		DrawRotaGraph(850, 180, 0.25f, 0.0f, img_logo_dagger, TRUE);
+		DrawRotaGraph(700, 250, 0.17f, 0.0f, img_dagger, TRUE);
+		DrawRotaGraph(850, 190, 0.25f, 0.0f, img_logo_dagger, TRUE);
 		if (weapon1_info.level == 7)
 		{
-			DrawFormatString(900, 175, 0x000000, "-");
-			DrawRotaGraph(1030, 180, 0.25f, 0.0f, img_logo_assasinsdagger, TRUE);
+			DrawFormatString(900, 185, 0x000000, "-");
+			DrawRotaGraph(1030, 190, 0.25f, 0.0f, img_logo_assasinsdagger, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
-			DrawFormatString(900, 175, 0x000000, "-");
-			DrawRotaGraph(1000, 180, 0.25f, 0.0f, img_logo_throwingknife, TRUE);
+			DrawFormatString(900, 185, 0x000000, "-");
+			DrawRotaGraph(1000, 190, 0.25f, 0.0f, img_logo_throwingknife, TRUE);
 		}
 		break;
 	case 2:	// 大剣
-		DrawRotaGraph(700, 240, 0.25f, 0.0f, img_great_sword, TRUE);
-		DrawRotaGraph(850, 180, 0.25f, 0.0f, img_logo_greatsword, TRUE);
+		DrawRotaGraph(700, 250, 0.25f, 0.0f, img_great_sword, TRUE);
+		DrawRotaGraph(850, 190, 0.25f, 0.0f, img_logo_greatsword, TRUE);
 		if (weapon1_info.level == 7)
 		{
-			DrawFormatString(900, 175, 0x000000, "-");
-			DrawRotaGraph(980, 180, 0.25f, 0.0f, img_logo_windslash, TRUE);
+			DrawFormatString(900, 185, 0x000000, "-");
+			DrawRotaGraph(980, 190, 0.25f, 0.0f, img_logo_windslash, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
-			DrawFormatString(900, 175, 0x000000, "-");
-			DrawRotaGraph(1020, 180, 0.25f, 0.0f, img_logo_dustsword, TRUE);
+			DrawFormatString(900, 185, 0x000000, "-");
+			DrawRotaGraph(1020, 190, 0.25f, 0.0f, img_logo_dustsword, TRUE);
 		}
 		break;
 	default:
-		DrawRotaGraph(700, 260, 0.15f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(820, 200, 0x000000, "武器がありません");
+		DrawRotaGraph(700, 270, 0.15f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(820, 210, 0x000000, "武器がありません");
 		break;
 	}
 
@@ -233,50 +264,50 @@ void ResultScene::draw() const
 	switch (weapon2_info.type)
 	{
 	case 0:			// 槍
-		DrawRotaGraph(700, 500, 0.25f, 0.0f, img_spear, TRUE);
-		DrawRotaGraph(840, 430, 0.25f, 0.0f, img_logo_spear, TRUE);
+		DrawRotaGraph(700, 510, 0.25f, 0.0f, img_spear, TRUE);
+		DrawRotaGraph(840, 440, 0.25f, 0.0f, img_logo_spear, TRUE);
 		if (weapon2_info.level == 7)
 		{
-			DrawFormatString(870, 425, 0x000000, "-");
-			DrawRotaGraph(1020, 425, 0.3f, 0.0f, img_logo_royallance, TRUE);
+			DrawFormatString(870, 435, 0x000000, "-");
+			DrawRotaGraph(1020, 435, 0.3f, 0.0f, img_logo_royallance, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			DrawFormatString(870, 425, 0x000000, "-");
-			DrawRotaGraph(980, 425, 0.3f, 0.0f, img_logo_gungnir, TRUE);
+			DrawFormatString(870, 435, 0x000000, "-");
+			DrawRotaGraph(980, 435, 0.3f, 0.0f, img_logo_gungnir, TRUE);
 		}
 		break;
 	case 1:			// フレイル
-		DrawRotaGraph(680, 500, 0.25f, 0.0f, img_frail, TRUE);
-		DrawRotaGraph(880, 430, 0.25f, 0.0f, img_logo_frail, TRUE);
+		DrawRotaGraph(680, 510, 0.25f, 0.0f, img_frail, TRUE);
+		DrawRotaGraph(880, 440, 0.25f, 0.0f, img_logo_frail, TRUE);
 		if (weapon2_info.level == 7)
 		{
-			DrawFormatString(965, 425, 0x000000, "-");
-			DrawRotaGraph(1080, 425, 0.3f, 0.0f, img_logo_threechain, TRUE);
+			DrawFormatString(965, 435, 0x000000, "-");
+			DrawRotaGraph(1080, 435, 0.3f, 0.0f, img_logo_threechain, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			DrawFormatString(965, 425, 0x000000, "-");
-			DrawRotaGraph(1120, 420, 0.35f, 0.0f, img_logo_earthcrusher, TRUE);
+			DrawFormatString(965, 435, 0x000000, "-");
+			DrawRotaGraph(1120, 430, 0.35f, 0.0f, img_logo_earthcrusher, TRUE);
 		}
 		break;
 	case 2:			// 魔導書
-		DrawRotaGraph(700, 500, 0.17f, 0.0f, img_book, TRUE);
-		DrawRotaGraph(890, 430, 0.25f, 0.0f, img_logo_book, TRUE);
+		DrawRotaGraph(700, 510, 0.17f, 0.0f, img_book, TRUE);
+		DrawRotaGraph(890, 440, 0.25f, 0.0f, img_logo_book, TRUE);
 		if (weapon2_info.level == 7)
 		{
-			DrawFormatString(950, 425, 0x000000, "-");
-			DrawRotaGraph(1060, 425, 0.3f, 0.0f, img_logo_blessing, TRUE);
+			DrawFormatString(950, 435, 0x000000, "-");
+			DrawRotaGraph(1060, 435, 0.3f, 0.0f, img_logo_blessing, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			DrawFormatString(950, 425, 0x000000, "-");
-			DrawRotaGraph(1110, 410, 0.4f, 0.0f, img_logo_bullet, TRUE);
+			DrawFormatString(950, 435, 0x000000, "-");
+			DrawRotaGraph(1110, 420, 0.4f, 0.0f, img_logo_bullet, TRUE);
 		}
 		break;
 	default:
-		DrawRotaGraph(700, 520, 0.15f, 0.0f, img_question_mark, TRUE);
-		DrawFormatString(820, 450, 0x000000, "武器がありません");
+		DrawRotaGraph(700, 530, 0.15f, 0.0f, img_question_mark, TRUE);
+		DrawFormatString(820, 460, 0x000000, "武器がありません");
 		break;
 	}
 
@@ -289,8 +320,7 @@ void ResultScene::draw() const
 	//デフォルトに戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-
 #ifdef _DEBUG
-	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
+	//	DrawFormatString(0, 0, 0xffffff, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
 }

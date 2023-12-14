@@ -11,7 +11,7 @@ Blacksmith::Blacksmith()
 	img_arrow = LoadGraph("resources/images/arrow.png");
 	img_button_b = LoadGraph("resources/images/button_b.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
-	img_background = LoadGraph("resources/images/stageimage2.png");
+	img_background = LoadGraph("resources/images/lkvhg.png");
 
 	// 武器画像
 	img_sword = LoadGraph("resources/images/武器/片手剣.png");
@@ -328,7 +328,7 @@ void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, Weapon
 	}
 	else
 	{
-		weapon_levelup->SetLevelUpPoint(point, info->level_hierarchy - 1);
+		weapon_levelup->SetLevelUpPoint(point, info->level_hierarchy);
 	}
 
 	info->can_reset = false;
@@ -520,7 +520,7 @@ void Blacksmith::DrawWeapon1ResetText() const
 	{
 		if (weapon1_info.level_hierarchy > 0 && weapon1_info.level_hierarchy <= 3)
 		{
-			DrawFormatString(290, 560, 0x000000, "返却ポイント： %d", weapon1_info.level_hierarchy - 1);
+			DrawFormatString(290, 560, 0x000000, "返却ポイント： %d", weapon1_info.level_hierarchy);
 		}
 		else if (weapon1_info.level_hierarchy > 3)
 		{
@@ -542,7 +542,7 @@ void Blacksmith::DrawWeapon2ResetText() const
 	{
 		if (weapon2_info.level_hierarchy > 0 && weapon2_info.level_hierarchy <= 3)
 		{
-			DrawFormatString(800, 560, 0x000000, "返却ポイント： %d", weapon2_info.level_hierarchy - 1);
+			DrawFormatString(800, 560, 0x000000, "返却ポイント： %d", weapon2_info.level_hierarchy);
 		}
 		else if (weapon2_info.level_hierarchy > 3)
 		{

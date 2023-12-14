@@ -11,6 +11,8 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
 
 	value = 180;
+	count = 0;
+	jump_count = 0;
 
 	// 武器1情報
 	result_info[0] = weapon1->GetWeaponType();
@@ -54,6 +56,19 @@ Scene* GameClearScene::update()
 		value = 0;
 	}
 
+	if (jump_count < 2)
+	{
+		if (count < FPS_PERIOD)
+		{
+			count++;
+		}
+		else
+		{
+			count = 0;
+			jump_count++;
+		}
+	}
+
 	// リザルトへ遷移
 	if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && value <= 0) {
 		SoundManager::PlaySoundSE("se_system_normal_decision");
@@ -75,8 +90,8 @@ void GameClearScene::draw() const
 	DrawFormatString(530, 515, 0x000000, "GAME CLEAR");
 
 	// 画像表示
-	//DrawGraph(0, 0, img_gameclear, TRUE);
-	DrawRotaGraph(650, 350, 3.0f, 0.0f, img_player, TRUE);
+	// プレイヤー画像ジャンプっぽく表示
+	DrawRotaGraph(650, 350 - abs(sinf(M_PI * 2 / FPS_PERIOD * count) * 30), 3.0f, 0.0f, img_player, TRUE);
 	DrawRotaGraph(640, 180, 0.15f, 0.0f, img_crown, TRUE);
 	DrawRotaGraph(480, 545, 0.1f, 0.0f, img_grail, TRUE);
 
