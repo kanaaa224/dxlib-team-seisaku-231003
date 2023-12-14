@@ -23,7 +23,7 @@ GameUI::GameUI() {
 
 	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png"))       == -1) throw;
 
-	if ((img["iconBattle"]       = LoadGraph("resources/images/maps/battle.png"))       == -1) throw;
+	if ((img["iconBattle"]       = LoadGraph("resources/images/maps/battle.png"))         == -1) throw;
 	if ((img["iconEvent"]        = LoadGraph("resources/images/maps/event.png"))          == -1) throw;
 	if ((img["iconRest"]         = LoadGraph("resources/images/maps/rest.png"))           == -1) throw;
 	if ((img["iconAnvil"]        = LoadGraph("resources/images/maps/anvil.png"))          == -1) throw;
@@ -32,7 +32,7 @@ GameUI::GameUI() {
 	if ((img["iconAttack"]       = LoadGraph("resources/images/attack_buf.png"))          == -1) throw;
 	if ((img["iconRedArrow"]     = LoadGraph("resources/images/arrow_red.png"))           == -1) throw;
 
-	if ((img["pause"] = LoadGraph("resources/images/Logo/UI/logo_pause.png"))			  == -1) throw;
+	if ((img["pause"]            = LoadGraph("resources/images/Logo/UI/logo_pause.png"))  == -1) throw;
 
 	//////////////////////////////////////////////////
 
@@ -76,6 +76,8 @@ GameUI::~GameUI() {
 
 	DeleteGraph(img["iconAttack"]);
 	DeleteGraph(img["iconRedArrow"]);
+
+	DeleteGraph(img["pause"]);
 
 	//////////////////////////////////////////////////
 
@@ -843,8 +845,6 @@ void GameUI::drawShieldHP() const {
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 };
 
-int img_pause = 0;
-
 void GameUI::drawPause() const {
 	SetFontSize(16);
 
@@ -854,6 +854,8 @@ void GameUI::drawPause() const {
 
 	//std::string str = "PAUSE（仮）";
 	//DrawFormatString((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth(str.c_str()) / 2), SCREEN_HEIGHT / 2, 0xffffff, str.c_str());
+
+	int img_pause = 0;
 
 	if (img.find("pause") != img.end()) img_pause = img.at("pause");
 	DrawRotaGraph((SCREEN_WIDTH / 2) + 20, (SCREEN_HEIGHT / 2), 0.25, 0, img_pause, TRUE);
