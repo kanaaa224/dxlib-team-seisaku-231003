@@ -720,7 +720,7 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 			DrawFormatString(200, 460, 0x000000, "回避クールタイム");
 			DrawFormatString(200, 480, 0x000000, "　%.1f　→　%.1f", p_avoidancecooltime, w_p_avoidancecooltime);
 		}
-		// レベルアップカーソルが左側にある時
+
 		if (weapon1_info.level == 7)
 		{
 			// レベル7
@@ -778,22 +778,44 @@ void WeaponLevelUp::DrawLevelUpDetails() const
 		DrawFormatString(200, 280, 0x000000, "　%d　→　%d", weapon2_info.tmp_cool_time, weapon2_info.cool_time);
 		DrawFormatString(200, 300, 0x000000, "攻撃範囲");
 		DrawFormatString(200, 320, 0x000000, "　%.1f　→　%.1f", weapon2_info.tmp_attack_range, weapon2_info.attack_range);
+		
+		if (weapon_selection == true)
+		{
+			if (weapon2_info.type == frail)
+			{
+				// 照準はどこまで攻撃が届くか（鎖の長さ）
+				//DrawFormatString(200, 380, 0x000000, "攻撃距離X");
+				//DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
+				//DrawFormatString(200, 420, 0x000000, "攻撃距離Y");
+				//DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
+				DrawFormatString(200, 340, 0x000000, "鉄球の飛距離");
+				DrawFormatString(200, 360, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
+			}
+			else if (weapon2_info.type == book)
+			{
+				DrawFormatString(200, 340, 0x000000, "弾の速度");
+				DrawFormatString(200, 360, 0x000000, "　%d　→　%d", tmp_book_bullet_speed, book_bullet_speed);
+			}
+		}
+		else
+		{
+			if (weapon2_info.type == frail)
+			{
+				// 照準はどこまで攻撃が届くか（鎖の長さ）
+				//DrawFormatString(200, 380, 0x000000, "攻撃距離X");
+				//DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
+				//DrawFormatString(200, 420, 0x000000, "攻撃距離Y");
+				//DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
+				DrawFormatString(200, 340, 0x000000, "鉄球の飛距離");
+				DrawFormatString(200, 360, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, tmp_frail_radiusX);
+			}
+			else if (weapon2_info.type == book)
+			{
+				DrawFormatString(200, 340, 0x000000, "弾の速度");
+				DrawFormatString(200, 360, 0x000000, "　%d　→　%d", tmp_book_bullet_speed, tmp_book_bullet_speed);
+			}
+		}
 
-		if (weapon2_info.type == frail)
-		{
-			// 照準はどこまで攻撃が届くか（鎖の長さ）
-			//DrawFormatString(200, 380, 0x000000, "攻撃距離X");
-			//DrawFormatString(200, 400, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
-			//DrawFormatString(200, 420, 0x000000, "攻撃距離Y");
-			//DrawFormatString(200, 440, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusY, frail_radiusY);
-			DrawFormatString(200, 340, 0x000000, "鉄球の飛距離");
-			DrawFormatString(200, 360, 0x000000, "　%.1f　→　%.1f", tmp_frail_radiusX, frail_radiusX);
-		}
-		else if (weapon2_info.type == book)
-		{
-			DrawFormatString(200, 340, 0x000000, "弾の速度");
-			DrawFormatString(200, 360, 0x000000, "　%d　→　%d", tmp_book_bullet_speed, book_bullet_speed);
-		}
 		if (weapon2_info.level == 7)
 		{
 			// レベル7
