@@ -29,6 +29,22 @@ private:
 	int img_frail;					// フレイア
 	int img_book;					// 本
 
+	//// レベル7の武器画像
+	//int img_assasinsdagger;
+	//int img_legendsword;
+	//int img_windslash;
+	//int img_royallance;
+	//int img_threechain;
+	//int img_blessing;
+
+	//// レベル8の武器画像
+	//int img_throwingknife;
+	//int img_magicsword;
+	//int img_dustsword;
+	//int img_gungnir;
+	//int img_earthcrusher;
+	//int img_bullet;
+
 	// ロゴ画像読込用変数
 	int img_logo_result;
 	int img_logo_lv;
