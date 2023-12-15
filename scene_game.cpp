@@ -684,8 +684,8 @@ Scene* GameScene::update() {
 
 
 	if (mode == GameSceneMode::weaponSelect) {
-		//weaponSelect->update(weaponA, weaponB, weapon_selected, mode);
-		return new Title;
+		weaponSelect->update(weaponA, weaponB, weapon_selected, mode);
+		return this;
 	};
 
 	if (mode == GameSceneMode::weaponLevelup) {
