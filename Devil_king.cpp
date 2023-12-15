@@ -2,8 +2,8 @@
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
-#define BTN_DEBUG
-#define DEBUG
+//#define BTN_DEBUG
+//#define DEBUG
 
 Devil_king::Devil_king()
 {
@@ -24,16 +24,30 @@ Devil_king::Devil_king()
 	shadowLocation.y = location.y;
 
 	//・・・・・・ビーム・・・・・・//
-	beamPosition = BEAM_POSITION_CROSS;
+	beamPosition = 0;
+	//画像読込
+	for (int i = 0; i <= 4; i++) {
+		beamChargeImg[i] = LoadGraph("resources/images/enemy_images/devilKing/Weapon/Beam_Cannon_1.png");
+		beamShootImg[i] = LoadGraph("resources/images/enemy_images/devilKing/Weapon/Beam_Cannon_0.png");
+	}
 }
 
 Devil_king::~Devil_king()
 {
 	DeleteGraph(img);
+	for (int i = 0; i <= 4; i++) {
+		DeleteGraph(beamChargeImg[i]);
+		DeleteGraph(beamShootImg[i]);
+	}
 }
 
 void Devil_king::Update(Player* player)
 {
+	if (InitFlg == false) {
+		beamPosition = 0;
+		InitFlg = true;
+	}
+
 	//プレイヤーの移動量をdiffにセット
 	SetPlayerAmountOfTravel_X(player->Player_MoveX());
 	SetPlayerAmountOfTravel_Y(player->Player_MoveY());
@@ -90,9 +104,8 @@ void Devil_king::Update(Player* player)
 	}
 
 	//ビーム
-	if (shieldFlg == false /*&& DEVILKING_MAX_HP / 3 >= hp*/) {//シールドがある時と魔王のHPが3/1を下回ったら
-		BeamUpdate();
-		BeamCollision();
+	if (shieldFlg == false && DEVILKING_MAX_HP / 3 >= hp) {//シールドがある時と魔王のHPが3/1を下回ったら
+		BeamUpdate(player);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
 		beamPossibleCounter = 0;
@@ -212,15 +225,7 @@ void Devil_king::Draw() const
 	}
 
 #ifdef DEBUG
-	
-
-
-	DrawFormatString(500, 600, C_RED, "%.2f", diff.x);
-	DrawFormatString(500, 620, C_RED, "%.2f", diff.y);
-	DrawFormatString(500, 660, C_RED, "%.2f", location.x);
-	DrawFormatString(500, 680, C_RED, "%.2f", location.y);
-	DrawFormatString(570, 660, C_RED, "%.2f", vector.x);
-	DrawFormatString(570, 680, C_RED, "%.2f", vector.y);
+	DrawFormatString(500, 600, C_RED, "%d", beamPosition);
 #endif // DEBUG
 
 }
@@ -249,23 +254,37 @@ void Devil_king::Teleportation()
 	}
 }
 
-void Devil_king::BeamUpdate()
+void Devil_king::BeamUpdate(Player* player)
 {
 	if (beamPossibleFlg == true) {
 		if (lineSize < BEAM_MAX_WIDTH) {
-			lineSize++;
+			lineSize += 3;
 		}
 		else if (lineSize >= BEAM_MAX_WIDTH) {
-			beamPossibleCounter = 0;
-			beamPossibleFlg = false;
-			lineSize = 0;
+			if (nowBeamFlg == true) {
+				beamPossibleCounter = 0;
+				beamPossibleFlg = false;
+				lineSize = 0;
+				beamShootFinFlg = true;
+				nowBeamFlg = false;
+			}
+			else if (nowBeamFlg == false) {
+				nowBeamCounter++;
+				//ビームの当たり判定
+				BeamCollision(player);
+				if (NOW_BEAM_TIME <= nowBeamCounter) {
+					nowBeamFlg = true;
+					nowBeamCounter = 0;
 
-			if (beamPosition == BEAM_POSITION_CROSS) {
-				beamPosition = BEAM_POSITION_DIAGONAL;
+					if (beamPosition == BEAM_POSITION_CROSS) {
+						beamPosition = BEAM_POSITION_DIAGONAL;
+					}
+					else if (beamPosition == BEAM_POSITION_DIAGONAL) {
+						beamPosition = BEAM_POSITION_CROSS;
+					}
+				}
 			}
-			else if (beamPosition == BEAM_POSITION_DIAGONAL) {
-				beamPosition = BEAM_POSITION_CROSS;
-			}
+			
 		}
 
 		switch (beamPosition)
@@ -327,6 +346,10 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE, beamLocation[RIGHT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
+		/*if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[RIGHT].x + 50, beamLocation[RIGHT].y, 1.0f, 0, beamChargeImg[0], TRUE);
+		}*/
+
 		//左
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
@@ -335,6 +358,10 @@ void Devil_king::BeamDraw() const
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawLine(beamLocation[LEFT].x, beamLocation[1].y, beamLocation[LEFT].x - BEAM_SIZE, beamLocation[LEFT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+
+		/*if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[LEFT].x - 60, beamLocation[LEFT].y, 1.0f, 3.1f, beamChargeImg[1], TRUE);
+		}*/
 
 		//下
 		//薄い赤色の矩形
@@ -345,6 +372,10 @@ void Devil_king::BeamDraw() const
 		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[LOWER].x, beamLocation[LOWER].y + BEAM_SIZE, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
+		/*if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[LOWER].x, beamLocation[LOWER].y + 50, 1.0f, 1.55f, beamChargeImg[2], TRUE);
+		}*/
+
 		//上
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
@@ -353,6 +384,10 @@ void Devil_king::BeamDraw() const
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+
+		/*if (beamPossibleFlg == true) {
+			DrawRotaGraph(beamLocation[UPPER].x, beamLocation[UPPER].y - 60, 1.0f, -1.57f, beamChargeImg[3], TRUE);
+		}*/
 
 		break;
 	case BEAM_POSITION_DIAGONAL:
@@ -393,22 +428,31 @@ void Devil_king::BeamDraw() const
 	}
 }
 
-void Devil_king::BeamCollision()
+void Devil_king::BeamCollision(Player* player)
 {
 	switch (beamPosition)
 	{
 	case BEAM_POSITION_CROSS://十字
 		//右
-		
+		BeamCollisionRight(player);
 		//左
-
+		BeamCollisionLeft(player);
 		//下
-
+		BeamCollisionLower(player);
 		//上
-
+		BeamCollisionUpper(player);
+		beamShootFinFlg = false;
 		break;
 	case BEAM_POSITION_DIAGONAL://斜め
-
+		//右上
+		BeamCollisionUpperRight(player);
+		//左上
+		BeamCollisionUpperLeft(player);
+		//右下
+		BeamCollisionLowerRight(player);
+		//左下
+		BeamCollisionLowerLeft(player);
+		beamShootFinFlg = false;
 		break;
 	default:
 
@@ -416,69 +460,146 @@ void Devil_king::BeamCollision()
 	}
 }
 
-Location Devil_king::BeamCenterCoordinatesCale(Location b_Location, int arrayNum)
+void Devil_king::BeamCollisionRight(Player* player)
 {
-	//関数内で使う変数の宣言
-	Location r;//結果を格納
-	Location upperLeft;//ビームの左上
-	Location lowerRight;//ビームの右下
+	for (int i = 1; i <= 13; i++) {
 
-	//ビームの左上右下を計算
-	switch (beamPosition)
-	{
-	case BEAM_POSITION_CROSS://十字
-		switch (arrayNum)
-		{
-		case RIGHT://右
-			upperLeft.x = b_Location.x;
-			upperLeft.y = b_Location.y + (BEAM_MAX_WIDTH / 2);
-			lowerRight.x = b_Location.x + BEAM_SIZE;
-			lowerRight.y = b_Location.y - (BEAM_MAX_WIDTH / 2);
-			break;
-		case LEFT://左
-			upperLeft.x = b_Location.x;
-			upperLeft.y = b_Location.y + (BEAM_MAX_WIDTH / 2);
-			lowerRight.x = b_Location.x - BEAM_SIZE;
-			lowerRight.y = b_Location.y - (BEAM_MAX_WIDTH / 2);
-			break;
-		case LOWER://下
-			upperLeft.x = b_Location.x + (BEAM_MAX_WIDTH / 2);
-			upperLeft.y = b_Location.y;
-			lowerRight.x = b_Location.x - (BEAM_MAX_WIDTH / 2);
-			lowerRight.y = b_Location.y + BEAM_SIZE;
-			break;
-		case UPPER://上
-			upperLeft.x = b_Location.x + (BEAM_MAX_WIDTH / 2);
-			upperLeft.y = b_Location.y;
-			lowerRight.x = b_Location.x - (BEAM_MAX_WIDTH / 2);
-			lowerRight.y = b_Location.y - BEAM_SIZE;
-			break;
-		default:
-			break;
+		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = beamLocation[RIGHT].y - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[0] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
 		}
-		break;
-	case BEAM_POSITION_DIAGONAL://斜め
-		switch (arrayNum)
-		{
-		case UPPER_RIGHT://右上
-			break;
-		case UPPER_LEFT:
-			break;
-		case LOWER_RIGHT:
-			break;
-		case LOWER_LEFT:
-			break;
-		default:
-			break;
+		else {
+			hitBeamPlayer[0] = false;
 		}
-		break;
-	default:
-		break;
 	}
+}
 
-	//矩形の中心座標計算
-	r.x = (upperLeft.x + lowerRight.x) / 2;
-	r.y = (upperLeft.y + lowerRight.y) / 2;
+void Devil_king::BeamCollisionLeft(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
 
-	return r;
+		float a = (beamLocation[LEFT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = beamLocation[LEFT].y - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[1] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[1] = false;
+		}
+	}
+}
+
+void Devil_king::BeamCollisionLower(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
+
+		float a = beamLocation[LOWER].x - dL.x;
+		float b = (beamLocation[LOWER].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[2] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[2] = false;
+		}
+	}
+}
+
+void Devil_king::BeamCollisionUpper(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
+
+		float a = beamLocation[LOWER].x - dL.x;
+		float b = (beamLocation[LOWER].y -(BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[3] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[3] = false;
+		}
+	}
+}
+
+void Devil_king::BeamCollisionUpperRight(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
+
+		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[4] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[4] = false;
+		}
+	}
+}
+
+void Devil_king::BeamCollisionUpperLeft(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
+
+		float a = (beamLocation[RIGHT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[5] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[5] = false;
+		}
+	}
+}
+
+void Devil_king::BeamCollisionLowerRight(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
+
+		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[6] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[6] = false;
+		}
+	}
+}
+
+void Devil_king::BeamCollisionLowerLeft(Player* player)
+{
+	for (int i = 1; i <= 13; i++) {
+
+		float a = (beamLocation[RIGHT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float c = sqrtf(pow(a, 2) + pow(b, 2));
+
+		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
+			hitBeamPlayer[7] = true;
+			player->SetPlayer_HP(BEAM_DAMAGE);
+		}
+		else {
+			hitBeamPlayer[7] = false;
+		}
+	}
 }

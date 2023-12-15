@@ -442,7 +442,7 @@ void Map::ResetStage() {
 		MapData[8] = 1;
 
 		// ãxåe1
-		SetStage(1, 7, 1, 2, 0, 2);
+		SetStage(2, 7, 1, 2, 0, 2);
 		// ãxåe2
 		SetStage(9, 10, 0, 1, 1, 2);
 		// ãxåe3

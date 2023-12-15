@@ -165,7 +165,6 @@ public:
 
 	void SetWeaponType(int type);
 
-	void LevelUpDebug(int num);
 	void LevelState();
 
 	bool WeaponCollision(Location enemyLocation, float radius);
@@ -233,6 +232,10 @@ public:
 				attackbuf = 1.0f;
 			}
 		}
+	}
+
+	void SetAvoidanceDamageFlg(bool f) {
+		avoidanceDamageFlg = f;
 	}
 	//•ŠíƒŒƒxƒ‹‚ğæ“¾
 	int GetWeaponLevel() { return weaponLevel; }

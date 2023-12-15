@@ -106,8 +106,6 @@ GameScene::~GameScene() {
 
 Scene* GameScene::update() {
 	activeFlg = (GetMainWindowHandle() == GetForegroundWindow());
-
-	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 	
 	// ポーズ
 	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
@@ -150,7 +148,9 @@ Scene* GameScene::update() {
 		};
 	};
 
-#ifdef _DEBUG
+#if 0
+	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
+
 	// 鍛冶ステージテスト用
 	if (InputCtrl::GetKeyState(KEY_INPUT_B) == PRESS) {
 		SoundManager::StopSoundBGMs();
@@ -203,6 +203,7 @@ Scene* GameScene::update() {
 	gameUI->setStageType(mode);
 	gameUI->setBattleMode(battleMode);
 	if (totalAttackBuf > 1.0f) gameUI->setAbilityEnhance(1);
+	else gameUI->setAbilityEnhance(0);
 	hp = player->GetPlayer_HP();
 	int maxHP = player->GetMaxPlayer_hp();
 	int maxEXP = expData[level];
@@ -586,30 +587,6 @@ Scene* GameScene::update() {
 				bookFlg = false;
 			}
 
-			//武器のレベルアップ（デバッグ用）
-			if (!weaponA->GetLevelUpFlg()) {
-				if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
-					weaponA->SetWeaponType(sword);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
-					weaponA->SetWeaponType(dagger);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
-					weaponA->SetWeaponType(greatSword);
-				}
-			}
-
-			if (!weaponB->GetLevelUpFlg()) {
-				if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
-					weaponB->SetWeaponType(spear);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
-					weaponB->SetWeaponType(frail);
-				}
-				if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
-					weaponB->SetWeaponType(book);
-				}
-			}
 
 			////////////
 			player->SetLeftTop(stage->GetStageArray(0));
@@ -662,6 +639,7 @@ Scene* GameScene::update() {
 						mode = GameSceneMode::map;
 					}
 				};
+				weaponA->SetAvoidanceDamageFlg(false);
 			};
 			if (player->GetPlayer_HP() <= 0) {
 				gameUI->setBanner("敗北", "体力が尽きた.....", 0);
@@ -747,9 +725,9 @@ Scene* GameScene::update() {
 		return this;
 	};
 
-#if 1
+#if 0
 	clsDx();
-	//printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
+	printfDx("[ GameMain ] 上下キー: ポイント操作、左右キー: HP、P: ポーズ、O: ボス戦、I: 中ボス戦、U: ノーマル戦、S: GameUI Skip\n");
 	//printfDx("敵最大数:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyMax(1), getEnemyMax(2), getEnemyMax(3), getEnemyMax(4));
 	//printfDx("残りの敵:（スラ: %d）（スケ: %d）（ウィザ: %d）（ミノ: %d）\n", getEnemyNum(1), getEnemyNum(2), getEnemyNum(3), getEnemyNum(4));
 #endif
@@ -1204,7 +1182,7 @@ void GameScene::SlimeUpdate()
 			if (slime[i]->GetHP() <= 0) {
 				slime[i] = nullptr;
 				//tmpSlimeNum--;
-				if (bossState) exp += 13;
+				if (bossState) exp += 11;
 				else exp += 9;
 			}
 		}
@@ -1233,7 +1211,7 @@ void GameScene::SkeletonUpdate()
 			if (skeleton[i]->GetHP() <= 0) {
 				skeleton[i] = nullptr;
 				//tmpSkeletonNum--;
-				if (bossState) exp += 14;
+				if (bossState) exp += 12;
 				//else exp += 20;
 			}
 		}
@@ -1273,7 +1251,7 @@ void GameScene::WizardUpdate()
 			if (wizard[i]->GetHP() <= 0) {
 				wizard[i] = nullptr;
 				//tmpWizardNum--;
-				if (bossState) exp += 17;
+				if (bossState) exp += 15;
 				//else exp += 30;
 			}
 		}
@@ -1383,6 +1361,8 @@ void GameScene::DevilKingUpdate()
 				tmpGhostNum = 0;
 			}
 		}
+
+		//ビーム
 	}
 
 	if (devilKing != nullptr) {

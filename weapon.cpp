@@ -3,8 +3,6 @@
 #include <math.h>
 #include <cmath>
 
-//#include "SphereCollider.h"
-
 
 weapon::weapon()
 {
@@ -34,9 +32,8 @@ weapon::weapon()
 	attackbuf_img = LoadGraph("resources/images/attack_buf.png");
 	tornado_img = LoadGraph("resources/images/tornado_1.png");
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
-	daggerslash_img = LoadGraph("resources/images/nc284514.png");
-	/*dagger_sound = LoadSoundMem("resources/sounds/SE/se_dagger_swing.wav");
-	greatSword_sound = LoadSoundMem("resources/sounds/SE/se_greatsword_sword_swing.wav");*/
+	daggerslash_img = LoadGraph("resources/images/daggerslash.png");
+	
 
 	soundFlg = false;
 
@@ -104,13 +101,10 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 	location = playerLocation;
 	playerVector = { player->Player_MoveX(),player->Player_MoveY() };
 	oldIsAttacking = isAttacking;
-	//debug
-	//x y length　にはプレイヤーとカーソルのベクトルを入れる
-	/*float x = InputCtrl::GetMouseCursor().x - 640;
-	float y = InputCtrl::GetMouseCursor().y - 360;*/
+	
 
-	float x = cursorX - location.x; //kk
-	float y = cursorY - location.y;	//kk
+	float x = cursorX - location.x; 
+	float y = cursorY - location.y;	
 	float length = sqrt((x) * (x) + (y) * (y));
 
 
@@ -269,54 +263,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 	SwordLevel8(player);
 
-	//レベルアップデバッグ
-	if (levelUpFlg) {
-		if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
-			levelUpFlg = false;
-		}
-
-		if (InputCtrl::GetKeyState(KEY_INPUT_0) == PRESS) {
-			weaponLevel = 0;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_1) == PRESS) {
-			weaponLevel = 1;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_2) == PRESS) {
-			weaponLevel = 2;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_3) == PRESS) {
-			weaponLevel = 3;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_4) == PRESS) {
-			weaponLevel = 4;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_5) == PRESS) {
-			weaponLevel = 5;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_6) == PRESS) {
-			weaponLevel = 6;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_7) == PRESS) {
-			weaponLevel = 7;
-			LevelState();
-
-		}else if (InputCtrl::GetKeyState(KEY_INPUT_8) == PRESS) {
-			weaponLevel = 8;
-			LevelState();
-
-		}
-
-	}
-	else if (InputCtrl::GetKeyState(KEY_INPUT_L) == PRESS) {
-		levelUpFlg = true;
-	}
+	
 }
 
 void weapon::Draw() const
@@ -341,8 +288,6 @@ void weapon::Draw() const
 	//斬撃
 	for (int i = 0; i < 10; i++){
 		if (swordSlash[i].flg) {
-			/*DrawCircle(swordSlash[i].collsion1.x, swordSlash[i].collsion1.y, 10, 0x00ff00, TRUE);
-			DrawCircle(swordSlash[i].collsion2.x, swordSlash[i].collsion2.y, 10, 0xff0000, TRUE);*/
 			DrawRotaGraph2(swordSlash[i].l.x, swordSlash[i].l.y, 250, 250, 0.4, slashRot - (M_PI / 4) + M_PI + d_r(40), slash_img, TRUE);
 		}
 	}
@@ -358,8 +303,8 @@ void weapon::Draw() const
 		int randx = rand() % 200 - 100;
 		int randy = rand() % 200 - 100;
 		int randrot = rand() % 360;
-		DrawRotaGraph2(location.x + randx /*+ (playerVector.x * -10)*/, location.y + randy /*+ (playerVector.y * -10)*/, 256, 256, 0.3, d_r(randrot), daggerslash_img, TRUE);
-		//DrawCircle(location.x, location.y, AVOIDANCE_DAMAGE_RADIUS, 0xff0000, FALSE);
+		DrawRotaGraph2(location.x + randx , location.y + randy , 256, 256, 0.3, d_r(randrot), daggerslash_img, TRUE);
+		
 	}
 
 	//バフ
@@ -392,67 +337,9 @@ void weapon::Draw() const
 					DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
 				}
 			}
-			/*if ((dust[i].startcnt + dust[i].endcnt) % 2 == 0) {
-				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, FALSE);
-			}
-			else {
-				DrawRotaGraph2(dust[i].l.x, dust[i].l.y + dust[i].radius, 1000 / 2, 906, 0.0022 * dust[i].radius, 0, tornado_img, TRUE, TRUE);
-			}*/
-			//DrawCircle(dust[i].l.x, dust[i].l.y, dust[i].radius, 0xff0000, FALSE);
+			
 		}
 	}
-
-	/*if (dust[i].startcnt++ < 70) {
-		dust[i].l.x += dust[i].v.x;
-		dust[i].l.y += dust[i].v.y;
-		dust[i].radius += 2;
-	}
-	else {
-		dust[i].endcnt++;
-		dust[i].l.x -= playerVector.x;
-		dust[i].l.y -= playerVector.y;
-	}*/
-
-
-
-
-
-
-	//debug
-	int x = InputCtrl::GetMouseCursor().x;
-	int y = InputCtrl::GetMouseCursor().y;
-
-	//DrawFormatString(0, 0, 0xffffff, "武器タイプ %d 1,片手剣 2,短剣 3,大剣 100,なし", weaponType + 1);
-	//DrawFormatString(0, 30, 0xffffff, "武器レベル %d", weaponLevel);
-	/*DrawFormatString(0, 120, 0xffffff, "クールタイム　%d", maxCoolTime);
-	DrawFormatString(0, 90, 0xffffff, "クールタイムカウント　%d", coolTime);*/
-	//DrawFormatString(0, 140, 0xffffff, "攻撃範囲 %f", maxRot);
-	//DrawFormatString(0, 160, 0xffffff, "ダメージ %d", damage);
-	//DrawFormatString(0, 180, 0xffffff, "単位ベクトルX %f", sl[0].x);
-	/*DrawFormatString(0, 210, 0xffffff, "単位ベクトルY %d", dustcnt);
-	DrawFormatString(0, 240, 0xffffff, "rennzoku %d", totalDamage);*/
-
-
-	if (isAttacking) {
-		/*DrawCircle(collisionX, collisionY, 3, 0xff0000, TRUE);
-		DrawLine(location.x, location.y, collisionX, collisionY, 0xffffff);*/
-	}
-	
-
-	//DrawCircle(640, 360, 3, 0xff0000, TRUE);
-	/*if (tmp == 0) {
-		DrawCircle(680, 310, 10, 0xff0000, TRUE);
-	}*/
-
-	//if (levelUpFlg) {
-	//	DrawFormatString(450, 60, 0xffffff, "武器をレベルアップします。レベルを入力してください.(0~8)");
-	//	DrawFormatString(450, 90, 0xffffff, "武器レベル :: %d     Lキーで閉じる",weaponLevel);
-	//}
-	//else {
-	//	DrawFormatString(450, 60, 0xffffff, "Lキーでレベルアップメニューを開く(武器１)");
-	//}
-
-
 	
 }
 
@@ -460,70 +347,7 @@ void weapon::SetWeaponType(int type)
 {
 	weaponType = type;
 	LevelState();
-	/*switch (weaponType)
-	{
-	case sword:
-		baseVec = { 80,0,80 };
-		maxRot = 60.0f;
-		break;
-
-	case dagger:
-		baseVec = { 50,0,50 };
-		maxRot = 60.0f;
-		break;
-
-	case greatSword:
-		baseVec = { 100,0,100 };
-		maxRot = 90.0f;
-		break;
-	}*/
-}
-
-void weapon::LevelUpDebug(int num)
-{
-	weaponLevel = num;
-	switch (weaponLevel)
-	{
-	case 0:
-		
-
-		break;
-	case 1:
-		
-
-		break;
-	case 2:
-		
-
-		break;
-	case 3:
-		
-
-		break;
-	case 4:
-		
-
-		break;
-	case 5:
-		
-
-		break;
-	case 6:
-		
-
-		break;
-	case 7:
-		
-
-		break;
-	/*case 8:
-		weaponLevel++;*/
-
-		break;
-	default:
-		break;
-	}
-
+	
 }
 
 void weapon::LevelState()
@@ -1037,13 +861,11 @@ void weapon::SwordLevel8(Player* player)
 		if (isAttacking && !oldIsAttacking) {
 			if (player->GetPlayer_HP() > MAX_HP / 2) {
 				player->SetPlayer_HP(MAX_HP / 100);//ダメージを受ける
-
-				//damage = INIT_DAMAGE_SWORD * attackbuf;
 				attackbuf = ATTACKBUF;
 			}
 		}
 
-		//if (damage == INIT_DAMAGE_SWORD * attackbuf) {
+	
 		if (attackbuf == ATTACKBUF) {
 			fpsCnt++;
 			if (fpsCnt > 120) {
@@ -1226,9 +1048,6 @@ void weapon::AddTotalDamageDust()
 	totalDamage += dustDamage;
 }
 
-
-//collisionX = (baseVec.x * cos((rot)) - baseVec.y * sin((rot))) + location.x;	//kk
-//collisionY = (baseVec.x * sin((rot)) + baseVec.y * cos((rot))) + location.y;	//kk
 
 //回転の公式
 //r: 角度(ラジアン)
