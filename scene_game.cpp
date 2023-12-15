@@ -148,7 +148,7 @@ Scene* GameScene::update() {
 		};
 	};
 
-#if 0
+#if 1
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
 	// 鍛冶ステージテスト用

@@ -32,8 +32,6 @@ Scene* DebugScene::update() {
 	if (InputCtrl::GetKeyState(KEY_INPUT_T) == PRESS) return new Title();
 	if (InputCtrl::GetKeyState(KEY_INPUT_C) == PRESS) return new Credit();
 
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS) return new map_temp();
-
 
 	float v = InputCtrl::GetStickRatio(L).x;
 	float h = InputCtrl::GetStickRatio(L).y;
