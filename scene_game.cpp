@@ -80,7 +80,7 @@ GameScene::GameScene() {
 
 	// 仮 - 経験値の最大値データ生成
 	for (int i = 1; i < 20; i++) {
-		expData.push_back(i * 120);
+		expData.push_back(100 * i + (100 * 0.2 * i * i));
 	};
 
 	attackBuf_img = LoadGraph("resources/images/attack_buf.png");
@@ -108,7 +108,7 @@ Scene* GameScene::update() {
 	activeFlg = (GetMainWindowHandle() == GetForegroundWindow());
 	
 	// ポーズ
-	if (InputCtrl::GetKeyState(KEY_INPUT_P) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
+	if (InputCtrl::GetButtonState(XINPUT_BUTTON_START) == PRESS || !activeFlg && !pauseFlg) {
 		if (state)
 		{
 			state = 0;
@@ -138,7 +138,7 @@ Scene* GameScene::update() {
 			mode = GameSceneMode::main;
 		}
 		// 武器のレベルアップ画面
-		if (InputCtrl::GetKeyState(KEY_INPUT_X) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
+		if (InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS) {
 			SoundManager::StopSoundSE("se_player_move"); //プレイヤーの移動SE Stop
 			if (restor_cursor_position == true)
 			{
