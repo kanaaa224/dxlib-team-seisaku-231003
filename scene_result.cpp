@@ -22,6 +22,22 @@ ResultScene::ResultScene(int result_info[])
 	img_frail = LoadGraph("resources/images/武器/フレイル.png");
 	img_book = LoadGraph("resources/images/武器/本.png");
 
+	//// レベル7の武器画像
+	//img_assasinsdagger = LoadGraph("resources/images/武器/片手剣.png");
+	//img_legendsword = LoadGraph("resources/images/武器/片手剣.png");
+	//img_windslash = LoadGraph("resources/images/武器/片手剣.png");
+	//img_royallance = LoadGraph("resources/images/武器/片手剣.png");
+	//img_threechain = LoadGraph("resources/images/武器/片手剣.png");
+	//img_blessing = LoadGraph("resources/images/武器/片手剣.png");
+
+	//// レベル8の武器画像
+	//img_throwingknife = LoadGraph("resources/images/武器/片手剣.png");
+	//img_magicsword = LoadGraph("resources/images/武器/片手剣.png");
+	//img_dustsword = LoadGraph("resources/images/武器/片手剣.png");
+	//img_gungnir = LoadGraph("resources/images/武器/片手剣.png");
+	//img_earthcrusher = LoadGraph("resources/images/武器/片手剣.png");
+	//img_bullet = LoadGraph("resources/images/武器/片手剣.png");
+
 	// ロゴ画像読込
 	img_logo_result = LoadGraph("resources/images/Logo/UI/logo_result.png");
 	img_logo_lv = LoadGraph("resources/images/Logo/UI/logo_lv.png");
@@ -79,6 +95,7 @@ ResultScene::~ResultScene()
 {
 	DeleteGraph(img_button_a);
 	
+	// マップアイコン
 	DeleteGraph(img_battle);
 	DeleteGraph(img_event);
 	DeleteGraph(img_rest);
@@ -86,6 +103,7 @@ ResultScene::~ResultScene()
 	DeleteGraph(img_boss);
 	DeleteGraph(img_cross);
 
+	//武器の画像
 	DeleteGraph(img_sword);
 	DeleteGraph(img_dagger);
 	DeleteGraph(img_great_sword);
@@ -94,6 +112,29 @@ ResultScene::~ResultScene()
 	DeleteGraph(img_frail);
 	DeleteGraph(img_book);
 
+	//// レベル7の武器画像
+	//DeleteGraph(img_assasinsdagger);
+	//DeleteGraph(img_legendsword);
+	//DeleteGraph(img_windslash);
+	//DeleteGraph(img_royallance);
+	//DeleteGraph(img_threechain);
+	//DeleteGraph(img_blessing);
+
+	//// レベル8の武器画像
+	//DeleteGraph(img_throwingknife);
+	//DeleteGraph(img_magicsword);
+	//DeleteGraph(img_dustsword);
+	//DeleteGraph(img_gungnir);
+	//DeleteGraph(img_earthcrusher);
+	//DeleteGraph(img_bullet);
+
+	// ロゴ画像
+	DeleteGraph(img_logo_result);
+	DeleteGraph(img_logo_lv);
+	DeleteGraph(img_logo_title);
+	DeleteGraph(img_logo_totaldamage);
+
+	// 武器名ロゴ画像
 	DeleteGraph(img_logo_sword);
 	DeleteGraph(img_logo_dagger);
 	DeleteGraph(img_logo_greatsword);
@@ -101,6 +142,7 @@ ResultScene::~ResultScene()
 	DeleteGraph(img_logo_frail);
 	DeleteGraph(img_logo_book);
 
+	// レベル7の武器名ロゴ画像
 	DeleteGraph(img_logo_assasinsdagger);
 	DeleteGraph(img_logo_legendsword);
 	DeleteGraph(img_logo_windslash);
@@ -108,6 +150,7 @@ ResultScene::~ResultScene()
 	DeleteGraph(img_logo_threechain);
 	DeleteGraph(img_logo_blessing);
 
+	// レベル8の武器名ロゴ画像
 	DeleteGraph(img_logo_throwingknife);
 	DeleteGraph(img_logo_magicsword);
 	DeleteGraph(img_logo_dustsword);
@@ -210,49 +253,70 @@ void ResultScene::draw() const
 	DrawFormatString(1030, 500, 0x000000, "%7d", weapon2_info.level);
 	DrawFormatString(1030, 550, 0x000000, "%7d", weapon2_info.damage);
 
+
 	switch (weapon1_info.type)
 	{
 	case 0:			// 片手剣
+		// 最終強化画像ができ次第削除
 		DrawRotaGraph(700, 250, 0.2f, 0.0f, img_sword, TRUE);
 		DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 		if (weapon1_info.level == 7)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(930, 185, 0x000000, "-");
 			DrawRotaGraph(1030, 190, 0.25f, 0.0f, img_logo_legendsword, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(930, 185, 0x000000, "-");
 			DrawRotaGraph(1000, 190, 0.25f, 0.0f, img_logo_magicsword, TRUE);
 		}
+		//else
+		//{
+		//	DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
+		//}
 		break;
 	case 1:		// 短剣
+		// 最終強化画像ができ次第削除
 		DrawRotaGraph(700, 250, 0.17f, 0.0f, img_dagger, TRUE);
 		DrawRotaGraph(850, 190, 0.25f, 0.0f, img_logo_dagger, TRUE);
 		if (weapon1_info.level == 7)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(900, 185, 0x000000, "-");
 			DrawRotaGraph(1030, 190, 0.25f, 0.0f, img_logo_assasinsdagger, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(900, 185, 0x000000, "-");
 			DrawRotaGraph(1000, 190, 0.25f, 0.0f, img_logo_throwingknife, TRUE);
 		}
+		//else
+		//{
+		//	DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
+		//}
 		break;
 	case 2:	// 大剣
 		DrawRotaGraph(700, 250, 0.25f, 0.0f, img_great_sword, TRUE);
 		DrawRotaGraph(850, 190, 0.25f, 0.0f, img_logo_greatsword, TRUE);
 		if (weapon1_info.level == 7)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(900, 185, 0x000000, "-");
 			DrawRotaGraph(980, 190, 0.25f, 0.0f, img_logo_windslash, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(900, 185, 0x000000, "-");
 			DrawRotaGraph(1020, 190, 0.25f, 0.0f, img_logo_dustsword, TRUE);
 		}
+		//else
+		//{
+		//	DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
+		//}
 		break;
 	default:
 		DrawRotaGraph(700, 270, 0.15f, 0.0f, img_question_mark, TRUE);
@@ -268,42 +332,60 @@ void ResultScene::draw() const
 		DrawRotaGraph(840, 440, 0.25f, 0.0f, img_logo_spear, TRUE);
 		if (weapon2_info.level == 7)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(870, 435, 0x000000, "-");
 			DrawRotaGraph(1020, 435, 0.3f, 0.0f, img_logo_royallance, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(870, 435, 0x000000, "-");
 			DrawRotaGraph(980, 435, 0.3f, 0.0f, img_logo_gungnir, TRUE);
 		}
+		//else
+		//{
+		//	DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
+		//}
 		break;
 	case 1:			// フレイル
 		DrawRotaGraph(680, 510, 0.25f, 0.0f, img_frail, TRUE);
 		DrawRotaGraph(880, 440, 0.25f, 0.0f, img_logo_frail, TRUE);
 		if (weapon2_info.level == 7)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(965, 435, 0x000000, "-");
 			DrawRotaGraph(1080, 435, 0.3f, 0.0f, img_logo_threechain, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(965, 435, 0x000000, "-");
 			DrawRotaGraph(1120, 430, 0.35f, 0.0f, img_logo_earthcrusher, TRUE);
 		}
+		//else
+		//{
+		//	DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
+		//}
 		break;
 	case 2:			// 魔導書
 		DrawRotaGraph(700, 510, 0.17f, 0.0f, img_book, TRUE);
 		DrawRotaGraph(890, 440, 0.25f, 0.0f, img_logo_book, TRUE);
 		if (weapon2_info.level == 7)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(950, 435, 0x000000, "-");
 			DrawRotaGraph(1060, 435, 0.3f, 0.0f, img_logo_blessing, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
+			// DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
 			DrawFormatString(950, 435, 0x000000, "-");
 			DrawRotaGraph(1110, 420, 0.4f, 0.0f, img_logo_bullet, TRUE);
 		}
+		//else
+		//{
+		//	DrawRotaGraph(865, 190, 0.25f, 0.0f, img_logo_sword, TRUE);
+		//}
 		break;
 	default:
 		DrawRotaGraph(700, 530, 0.15f, 0.0f, img_question_mark, TRUE);
