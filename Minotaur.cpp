@@ -328,6 +328,7 @@ void Minotaur::RoarUpdate()
 				roarEffectFlg = false;
 			};
 			roarEndedFrame--;
+			//エフェクトの処理をここに書く
 		};
 	}
 }

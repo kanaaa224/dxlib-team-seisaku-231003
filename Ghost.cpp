@@ -1,6 +1,6 @@
 ﻿#include "Ghost.h"
 #include "Common.h"
-#define DEBUG
+//#define DEBUG
 
 Ghost::Ghost(int arrayNum)
 {

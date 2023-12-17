@@ -115,5 +115,5 @@
 #define TACKLE_SPEED   10	//タックルのスピード
 #define ROAR_RADIUS    200	//咆哮の半径
 #define PLAYER_RADIUS  23
-#define MINOTAUR_MAX_HP 400		//ミノタウロスの最大HP
+#define MINOTAUR_MAX_HP 200		//ミノタウロスの最大HP
 #define MINOTAUR_ATTAK_DAMAGE 10//ミノタウロスの攻撃力
