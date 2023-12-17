@@ -17,6 +17,13 @@ SmallEnemyBullet::SmallEnemyBullet(Location spawnLocation)
 	vector.x = Normalization_X(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
 	vector.y = Normalization_Y(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
 
+	while (vector.x == 0){
+		vector.x = Normalization_X(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
+	}
+	while (vector.y == 0){
+		vector.y = Normalization_Y(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
+	}
+
 	lifeTimeCnt = SECOND_FRAME(20);
 }
 

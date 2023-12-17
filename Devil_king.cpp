@@ -229,11 +229,11 @@ void Devil_king::Draw() const
 void Devil_king::Teleportation()
 {
 	//瞬間移動する条件
-	//プレイヤーとの当たり判定
+	//プレイヤーとの距離判定
 	float a = location.x - dL.x;
 	float b = location.y - dL.y;
 	float c = sqrtf(pow(a, 2) + pow(b, 2));
-	if (c <= TELEPORTATION_RADIUS + PLAYER_RADIUS) {//当たった
+	if (c <= TELEPORTATION_RADIUS + PLAYER_RADIUS) {//設定した範囲内
 		teleportationFlg = true;//瞬間移動する
 	}
 	else {
@@ -242,11 +242,7 @@ void Devil_king::Teleportation()
 
 	//瞬間移動する処理
 	if (teleportationFlg == true) {
-		/*float tmp = location.x;
-		location.x = location.y;
-		location.y = tmp;
-		shadowLocation.x = location.x;
-		shadowLocation.y = location.y;*/
+		
 	}
 }
 
