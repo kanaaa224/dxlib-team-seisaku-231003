@@ -159,12 +159,12 @@ Scene* GameScene::update() {
 	};
 
 
-	// 強制ゲームクリア
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
-		SoundManager::StopSoundBGMs();
-		SoundManager::SetSoundBGMsPosition(0);
-		return new GameClearScene(weaponA, weaponB, map);
-	}
+	//// 強制ゲームクリア
+	//if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
+	//	SoundManager::StopSoundBGMs();
+	//	SoundManager::SetSoundBGMsPosition(0);
+	//	return new GameClearScene(weaponA, weaponB, map);
+	//}
 
 	// デバッグ - Oキーで強制ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
