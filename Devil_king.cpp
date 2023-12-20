@@ -2,8 +2,8 @@
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
-//#define BTN_DEBUG
-//#define DEBUG
+#define BTN_DEBUG
+#define DEBUG
 
 Devil_king::Devil_king()
 {
@@ -11,7 +11,7 @@ Devil_king::Devil_king()
 	hp = DEVILKING_MAX_HP;
 	damage = DEVILKING_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
-	location.y = 700;
+	location.y = 60;
 	vector.x = 0;
 	vector.y = 0;
 
@@ -226,6 +226,7 @@ void Devil_king::Draw() const
 
 }
 
+//魔王の移動処理（テレポート）
 void Devil_king::Teleportation()
 {
 	//瞬間移動する条件
@@ -246,35 +247,36 @@ void Devil_king::Teleportation()
 	}
 }
 
+//ビームのアップデート
 void Devil_king::BeamUpdate(Player* player)
 {
 	if (beamPossibleFlg == true) {
-		if (lineSize < BEAM_MAX_WIDTH) {
-			lineSize += 1;
-			beamDrawFlg = false;
+		if (lineSize < BEAM_MAX_WIDTH) {//濃い攻撃予測がまだ薄い攻撃予測と同じ太さじゃないなら
+			lineSize += 1;//濃い攻撃予測の広がる速度
+			beamDrawFlg = false;//ビームの描画用Flgをfalse
 		}
-		else if (lineSize >= BEAM_MAX_WIDTH) {
-			if (nowBeamFlg == true) {
+		else if (lineSize >= BEAM_MAX_WIDTH) {//濃い攻撃予測がまだ薄い攻撃予測と同じ太さなら
+			if (nowBeamFlg == true) {//ビーム発射前
 				beamPossibleCounter = 0;
 				beamPossibleFlg = false;
 				lineSize = 0;
 				beamShootFinFlg = true;
 				nowBeamFlg = false;
+
+				if (beamPosition == BEAM_POSITION_CROSS) {
+					beamPosition = BEAM_POSITION_DIAGONAL;
+				}
+				else if (beamPosition == BEAM_POSITION_DIAGONAL) {
+					beamPosition = BEAM_POSITION_CROSS;
+				}
 			}
-			else if (nowBeamFlg == false) {
+			else if (nowBeamFlg == false) {//ビーム発射中
 				nowBeamCounter++;
 				//ビームの当たり判定
 				BeamCollision(player);
-				if (NOW_BEAM_TIME <= nowBeamCounter) {
+				if (NOW_BEAM_TIME <= nowBeamCounter) {//ビームの照射時間を過ぎたら
 					nowBeamFlg = true;
 					nowBeamCounter = 0;
-
-					if (beamPosition == BEAM_POSITION_CROSS) {
-						beamPosition = BEAM_POSITION_DIAGONAL;
-					}
-					else if (beamPosition == BEAM_POSITION_DIAGONAL) {
-						beamPosition = BEAM_POSITION_CROSS;
-					}
 				}
 			}
 			beamDrawFlg = true;
@@ -325,6 +327,7 @@ void Devil_king::BeamUpdate(Player* player)
 	
 }
 
+//ビームの描画
 void Devil_king::BeamDraw() const
 {
 	switch (beamPosition)
@@ -462,6 +465,7 @@ void Devil_king::BeamDraw() const
 	}
 }
 
+//・・・・・・・ビームの当たり判定・・・・・・・//
 void Devil_king::BeamCollision(Player* player)
 {
 	switch (beamPosition)
