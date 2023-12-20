@@ -34,6 +34,12 @@ weapon::weapon()
 	arrow_img = LoadGraph("resources/images/arrow_red.png");
 	daggerslash_img = LoadGraph("resources/images/daggerslash.png");
 	
+	sword_level7_img = LoadGraph("resources/images/武器/最終強化(仮)/完成/densetu.png");
+	sword_level8_img = LoadGraph("resources/images/武器/最終強化(仮)/完成/maken.png");
+	dagger_level7_img = LoadGraph("resources/images/武器/最終強化(仮)/完成/asasin.png");
+	dagger_level8_img = LoadGraph("resources/images/武器/最終強化(仮)/完成/nagenaihu.png");
+	greatsword_level7_img = LoadGraph("resources/images/武器/最終強化(仮)/完成/senpuu.png");
+	greatsword_level8_img = LoadGraph("resources/images/武器/最終強化(仮)/完成/sajin.png");
 
 	soundFlg = false;
 
@@ -263,7 +269,18 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 	SwordLevel8(player);
 
-	
+	//if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
+	//	weaponLevel = 7;
+	//	LevelState();
+	//}
+	//if (InputCtrl::GetKeyState(KEY_INPUT_8)) {
+	//	weaponLevel = 8;
+	//	LevelState();
+	//}
+	//if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
+	//	weaponLevel = 6;
+	//	LevelState();
+	//}
 }
 
 void weapon::Draw() const
@@ -273,13 +290,57 @@ void weapon::Draw() const
 		switch (weaponType)
 		{
 		case sword:
-			DrawRotaGraph2(location.x, location.y, 5, 45, /*0.16*/3, rot + (M_PI / 4) + d_r(12), sword_img, TRUE, FALSE);
+			switch (weaponLevel)
+			{
+			case 7:
+				DrawRotaGraph2(location.x, location.y, 5,570 , /*0.16*/0.18, rot + (M_PI / 4) + d_r(12), sword_level7_img, TRUE, FALSE);
+				break;
+
+			case 8:
+				DrawRotaGraph2(location.x, location.y, 5, 590,/*0.16*/0.18, rot + (M_PI / 4) + d_r(12), sword_level8_img, TRUE, FALSE);
+				break;
+
+			default:
+				DrawRotaGraph2(location.x, location.y, 5, 45, /*0.16*/3, rot + (M_PI / 4) + d_r(12), sword_img, TRUE, FALSE);
+				break;
+			}
+			
 			break;
+
 		case dagger:
-			DrawRotaGraph2(location.x, location.y, 3, 48, 2, rot + (M_PI / 4) + d_r(12), dagger_img, TRUE, FALSE);
+			switch (weaponLevel)
+			{
+			case 7:
+				DrawRotaGraph2(location.x, location.y, 3, 580, 0.15, rot + (M_PI / 4) + d_r(12), dagger_level7_img, TRUE, FALSE);
+				break;
+
+			case 8:
+				DrawRotaGraph2(location.x, location.y, 3, 550, 0.15, rot + (M_PI / 4) + d_r(12), dagger_level8_img, TRUE, FALSE);
+				break;
+
+			default:
+				DrawRotaGraph2(location.x, location.y, 3, 48, 2, rot + (M_PI / 4) + d_r(12), dagger_img, TRUE, FALSE);
+				break;
+			}
+			
 			break;
+
 		case greatSword:
-			DrawRotaGraph2(location.x, location.y, 10, 50, 3.7 , rot + (M_PI / 4) + d_r(12), greatsword_img, TRUE, FALSE);
+			switch (weaponLevel)
+			{
+			case 7:
+				DrawRotaGraph2(location.x, location.y, 3, 580, 0.22, rot + (M_PI / 4) + d_r(12), greatsword_level7_img, TRUE, FALSE);
+				break;
+
+			case 8:
+				DrawRotaGraph2(location.x, location.y, 3, 580, 0.22, rot + (M_PI / 4) + d_r(12), greatsword_level8_img, TRUE, FALSE);
+				break;
+
+			default:
+				DrawRotaGraph2(location.x, location.y, 10, 50, 3.7, rot + (M_PI / 4) + d_r(12), greatsword_img, TRUE, FALSE);
+				break;
+			}
+			
 			break;
 		default:
 			break;
@@ -294,7 +355,7 @@ void weapon::Draw() const
 	//投げナイフ
 	for (int i = 0; i < MAX_THROW_DAGGER; i++){
 		if (throwDagger[i].flg) {
-			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, 10, 40, 2, throwDagger[i].rot + d_r(throwDagger[i].relativeRot) +(M_PI / 4) + d_r(12), dagger_img, TRUE, FALSE);
+			DrawRotaGraph2(throwDagger[i].l.x, throwDagger[i].l.y, 3, 550, 0.15, throwDagger[i].rot + d_r(throwDagger[i].relativeRot) +(M_PI / 4) + d_r(12), dagger_level8_img, TRUE, FALSE);
 		}
 	}
 

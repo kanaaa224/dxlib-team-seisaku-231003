@@ -49,6 +49,10 @@ second_weapon::second_weapon()
 	thunder_img[4] = LoadGraph("resources/images/ïêäÌ/lightning_Anim_0.png");
 	cooltime_img = LoadGraph("resources/images/Cool_Time_green.png");
 	
+	spear_level7_img = LoadGraph("resources/images/ïêäÌ/ç≈èIã≠âª(âº)/äÆê¨/roiyaru.png");
+	spear_level8_img = LoadGraph("resources/images/ïêäÌ/ç≈èIã≠âª(âº)/äÆê¨/gung.png");
+	
+
 	spear_move_cnt = 0.0f;
 	spear_move = { 0,0,0 };
 	thunderRadius = 1000.0f;
@@ -317,6 +321,18 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 	}
 
+	if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
+		weaponLevel = 7;
+		LevelState();
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_8)) {
+		weaponLevel = 8;
+		LevelState();
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
+		weaponLevel = 6;
+		LevelState();
+	}
 }
 
 void second_weapon::Draw() const
@@ -326,7 +342,19 @@ void second_weapon::Draw() const
 		switch (weaponType)
 		{
 		case spear:
-			DrawRotaGraph2(spearlocation.x, spearlocation.y, 45, 0, 2.5, rot + (M_PI / 4) + d_r(12), spear_img, TRUE);
+			switch (weaponLevel)
+			{
+			case 7:
+				DrawRotaGraph2(spearlocation.x, spearlocation.y, 580, 0, 0.23, rot + (M_PI / 4) + d_r(0), spear_level7_img, TRUE);
+				break;
+			case 8:
+				DrawRotaGraph2(spearlocation.x, spearlocation.y, 580, 0, 0.23, rot + (M_PI / 4) + d_r(0), spear_level8_img, TRUE);
+				break;
+			default:
+				DrawRotaGraph2(spearlocation.x, spearlocation.y, 45, 0, 2.5, rot + (M_PI / 4) + d_r(8), spear_img, TRUE);
+				break;
+			}
+			
 			break;
 		case frail:
 			DrawRotaGraph2(location.x, location.y, -50, 550, 0.1, rot + (M_PI / 4), frail_img, TRUE, TRUE);

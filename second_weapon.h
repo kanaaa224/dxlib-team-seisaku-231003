@@ -90,6 +90,9 @@ private:
 	int arrow_img;
 	int cooltime_img;
 
+	int spear_level7_img;
+	int spear_level8_img;
+	int bullet_level8_img;
 
 	float tmp, tmp1;
 

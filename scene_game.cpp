@@ -587,6 +587,9 @@ Scene* GameScene::update() {
 				bookFlg = false;
 			}
 
+			if (InputCtrl::GetKeyState(KEY_INPUT_1)) {
+				weaponB->SetWeaponType(spear);
+			}
 
 			////////////
 			player->SetLeftTop(stage->GetStageArray(0));
