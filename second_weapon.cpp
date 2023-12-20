@@ -321,7 +321,7 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 	}
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
+	/*if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
 		weaponLevel = 7;
 		LevelState();
 	}
@@ -332,7 +332,7 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 	if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
 		weaponLevel = 6;
 		LevelState();
-	}
+	}*/
 }
 
 void second_weapon::Draw() const
