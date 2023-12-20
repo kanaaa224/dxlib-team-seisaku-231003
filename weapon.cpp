@@ -269,15 +269,15 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 	SwordLevel8(player);
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD7)) {
+	if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
 		weaponLevel = 7;
 		LevelState();
 	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD8)) {
+	if (InputCtrl::GetKeyState(KEY_INPUT_8)) {
 		weaponLevel = 8;
 		LevelState();
 	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD9)) {
+	if (InputCtrl::GetKeyState(KEY_INPUT_9)) {
 		weaponLevel = 6;
 		LevelState();
 	}
