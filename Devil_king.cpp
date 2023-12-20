@@ -495,9 +495,10 @@ void Devil_king::BeamCollision(Player* player)
 }
 
 //・・・・・・・・・・十字・・・・・・・・・・//
+//右
 void Devil_king::BeamCollisionRight(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_C; i++) {
 
 		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = beamLocation[RIGHT].y - dL.y;
@@ -512,10 +513,10 @@ void Devil_king::BeamCollisionRight(Player* player)
 		}
 	}
 }
-
+//左
 void Devil_king::BeamCollisionLeft(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_C; i++) {
 
 		float a = (beamLocation[LEFT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = beamLocation[LEFT].y - dL.y;
@@ -530,10 +531,10 @@ void Devil_king::BeamCollisionLeft(Player* player)
 		}
 	}
 }
-
+//下
 void Devil_king::BeamCollisionLower(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_C; i++) {
 
 		float a = beamLocation[LOWER].x - dL.x;
 		float b = (beamLocation[LOWER].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -548,10 +549,10 @@ void Devil_king::BeamCollisionLower(Player* player)
 		}
 	}
 }
-
+//上
 void Devil_king::BeamCollisionUpper(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_C; i++) {
 
 		float a = beamLocation[LOWER].x - dL.x;
 		float b = (beamLocation[LOWER].y -(BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -568,12 +569,13 @@ void Devil_king::BeamCollisionUpper(Player* player)
 }
 
 //・・・・・・・・・・斜め・・・・・・・・・・//
+//右上
 void Devil_king::BeamCollisionUpperRight(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_D; i++) {
 
-		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
-		float b = (beamLocation[RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float a = (beamLocation[UPPER_RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[UPPER_RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
 		float c = sqrtf(pow(a, 2) + pow(b, 2));
 
 		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
@@ -585,13 +587,13 @@ void Devil_king::BeamCollisionUpperRight(Player* player)
 		}
 	}
 }
-
+//左上!!(当たり判定がずれている)!!
 void Devil_king::BeamCollisionUpperLeft(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_D; i++) {
 
-		float a = (beamLocation[RIGHT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
-		float b = (beamLocation[RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float a = (beamLocation[UPPER_LEFT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[UPPER_LEFT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
 		float c = sqrtf(pow(a, 2) + pow(b, 2));
 
 		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
@@ -603,13 +605,13 @@ void Devil_king::BeamCollisionUpperLeft(Player* player)
 		}
 	}
 }
-
+//右下!!(当たり判定がずれている)!!
 void Devil_king::BeamCollisionLowerRight(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_D; i++) {
 
-		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
-		float b = (beamLocation[RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float a = (beamLocation[LOWER_RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[LOWER_RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
 		float c = sqrtf(pow(a, 2) + pow(b, 2));
 
 		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
@@ -621,13 +623,13 @@ void Devil_king::BeamCollisionLowerRight(Player* player)
 		}
 	}
 }
-
+//左下
 void Devil_king::BeamCollisionLowerLeft(Player* player)
 {
-	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM_D; i++) {
 
-		float a = (beamLocation[RIGHT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
-		float b = (beamLocation[RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
+		float a = (beamLocation[LOWER_LEFT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
+		float b = (beamLocation[LOWER_LEFT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
 		float c = sqrtf(pow(a, 2) + pow(b, 2));
 
 		if (c <= (BEAM_MAX_WIDTH / 2) + PLAYER_RADIUS) {
