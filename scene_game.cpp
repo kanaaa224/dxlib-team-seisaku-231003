@@ -588,23 +588,23 @@ Scene* GameScene::update() {
 			}
 
 			//武器デバッグ
-			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD1)) {
+			if (InputCtrl::GetKeyState(KEY_INPUT_1)) {
 				weaponA->SetWeaponType(dagger);
 			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD2)) {
+			if (InputCtrl::GetKeyState(KEY_INPUT_2)) {
 				weaponA->SetWeaponType(sword);
 			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD3)) {
+			if (InputCtrl::GetKeyState(KEY_INPUT_3)) {
 				weaponA->SetWeaponType(greatSword);
 			}
 
-			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD4)) {
+			if (InputCtrl::GetKeyState(KEY_INPUT_4)) {
 				weaponB->SetWeaponType(spear);
 			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD5)) {
+			if (InputCtrl::GetKeyState(KEY_INPUT_5)) {
 				weaponB->SetWeaponType(frail);
 			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD6)) {
+			if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
 				weaponB->SetWeaponType(book);
 			}
 

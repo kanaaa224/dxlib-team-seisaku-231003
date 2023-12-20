@@ -321,15 +321,15 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 	}
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
+	if (InputCtrl::GetKeyState(KEY_INPUT_Z)) {
 		weaponLevel = 7;
 		LevelState();
 	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_8)) {
+	if (InputCtrl::GetKeyState(KEY_INPUT_X)) {
 		weaponLevel = 8;
 		LevelState();
 	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
+	if (InputCtrl::GetKeyState(KEY_INPUT_C)) {
 		weaponLevel = 6;
 		LevelState();
 	}
