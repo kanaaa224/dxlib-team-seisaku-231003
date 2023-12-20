@@ -11,7 +11,7 @@ Devil_king::Devil_king()
 	hp = DEVILKING_MAX_HP;
 	damage = DEVILKING_ATTAK_DAMAGE;
 	location.x = _SCREEN_WIDHT_ / 2;
-	location.y = 60;
+	location.y = 700;
 	vector.x = 0;
 	vector.y = 0;
 
@@ -100,7 +100,7 @@ void Devil_king::Update(Player* player)
 	}
 
 	//ビーム
-	if (shieldFlg == false && DEVILKING_MAX_HP / 3 >= hp) {//シールドがある時と魔王のHPが3/1を下回ったら
+	if (shieldFlg == false /*&& DEVILKING_MAX_HP / 3 >= hp*/) {//シールドがある時と魔王のHPが3/1を下回ったら
 		BeamUpdate(player);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
@@ -233,7 +233,7 @@ void Devil_king::Teleportation()
 	float a = location.x - dL.x;
 	float b = location.y - dL.y;
 	float c = sqrtf(pow(a, 2) + pow(b, 2));
-	if (c <= TELEPORTATION_RADIUS + PLAYER_RADIUS) {//設定した範囲内
+	if (c <= TELEPORTATION_RADIUS_N + PLAYER_RADIUS) {//設定した範囲内
 		teleportationFlg = true;//瞬間移動する
 	}
 	else {
@@ -250,7 +250,8 @@ void Devil_king::BeamUpdate(Player* player)
 {
 	if (beamPossibleFlg == true) {
 		if (lineSize < BEAM_MAX_WIDTH) {
-			lineSize += 3;
+			lineSize += 1;
+			beamDrawFlg = false;
 		}
 		else if (lineSize >= BEAM_MAX_WIDTH) {
 			if (nowBeamFlg == true) {
@@ -276,7 +277,7 @@ void Devil_king::BeamUpdate(Player* player)
 					}
 				}
 			}
-			
+			beamDrawFlg = true;
 		}
 
 		switch (beamPosition)
@@ -332,115 +333,127 @@ void Devil_king::BeamDraw() const
 		//右
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE, beamLocation[RIGHT].y, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE_C, beamLocation[RIGHT].y, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE, beamLocation[RIGHT].y, C_RED, lineSize);
+		DrawLine(beamLocation[RIGHT].x, beamLocation[RIGHT].y, beamLocation[RIGHT].x + BEAM_SIZE_C, beamLocation[RIGHT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[RIGHT].x, beamLocation[RIGHT].y, 0, 200,1.0f, 0, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {//発射前の画像描画
+			DrawRotaGraph2(beamLocation[RIGHT].x, beamLocation[RIGHT].y + 110, 0, 200,1.0f, 0, beamChargeImg, TRUE);
 		}
-		if (nowBeamFlg == false) {
-			DrawRotaGraph2(beamLocation[RIGHT].x, beamLocation[RIGHT].y, 0, 200, 1.0f, 0, beamShootImg, TRUE);
+		if (beamDrawFlg == true) {//発射後の画像描画
+			DrawRotaGraph2(beamLocation[RIGHT].x, beamLocation[RIGHT].y + 110, 0, 200, 1.0f, 0, beamShootImg, TRUE);
 		}
 
 		//左
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[LEFT].x, beamLocation[LEFT].y, beamLocation[LEFT].x - BEAM_SIZE, beamLocation[LEFT].y, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[LEFT].x, beamLocation[LEFT].y, beamLocation[LEFT].x - BEAM_SIZE_C, beamLocation[LEFT].y, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[LEFT].x, beamLocation[1].y, beamLocation[LEFT].x - BEAM_SIZE, beamLocation[LEFT].y, C_RED, lineSize);
+		DrawLine(beamLocation[LEFT].x, beamLocation[1].y, beamLocation[LEFT].x - BEAM_SIZE_C, beamLocation[LEFT].y, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[LEFT].x, beamLocation[LEFT].y, 0, 200,1.0f, 3.1f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[LEFT].x, beamLocation[LEFT].y - 110, 0, 200,1.0f, 3.1f, beamChargeImg, TRUE);
 		}
-		if (nowBeamFlg == false) {
-			DrawRotaGraph2(beamLocation[LEFT].x, beamLocation[LEFT].y, 0, 200, 1.0f, 3.1f, beamShootImg, TRUE);
+		if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[LEFT].x, beamLocation[LEFT].y - 110, 0, 200, 1.0f, 3.141f, beamShootImg, TRUE);
 		}
 
 		//下
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[2].x, beamLocation[LOWER].y + BEAM_SIZE, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[2].x, beamLocation[LOWER].y + BEAM_SIZE_C, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[LOWER].x, beamLocation[LOWER].y + BEAM_SIZE, C_RED, lineSize);
+		DrawLine(beamLocation[LOWER].x, beamLocation[LOWER].y, beamLocation[LOWER].x, beamLocation[LOWER].y + BEAM_SIZE_C, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[LOWER].x, beamLocation[LOWER].y, 0, 200,1.0f, 1.55f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[LOWER].x - 110, beamLocation[LOWER].y, 0, 200,1.0f, 1.55f, beamChargeImg, TRUE);
 		}
-		if (nowBeamFlg == false) {
-			DrawRotaGraph2(beamLocation[LOWER].x, beamLocation[LOWER].y, 0, 200, 1.0f, 1.55f, beamShootImg, TRUE);
+		if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[LOWER].x - 110, beamLocation[LOWER].y, 0, 200, 1.0f, 1.57f, beamShootImg, TRUE);
 		}
 
 		//上
 		//薄い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE_C, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE, C_RED, lineSize);
+		DrawLine(beamLocation[UPPER].x, beamLocation[UPPER].y, beamLocation[UPPER].x, beamLocation[UPPER].y - BEAM_SIZE_C, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[UPPER].x, beamLocation[UPPER].y, 0, 200,1.0f, -1.55f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[UPPER].x + 110, beamLocation[UPPER].y, 0, 200,1.0f, -1.55f, beamChargeImg, TRUE);
 		}
-		if (nowBeamFlg == true) {
-			DrawRotaGraph2(beamLocation[UPPER].x, beamLocation[UPPER].y, 0, 200, 1.0f, -1.55f, beamShootImg, TRUE);
+		if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[UPPER].x + 110, beamLocation[UPPER].y, 0, 200, 1.0f, -1.57f, beamShootImg, TRUE);
 		}
 
 		break;
 	case BEAM_POSITION_DIAGONAL:
 		//右上
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[UPPER_RIGHT].x, beamLocation[UPPER_RIGHT].y, beamLocation[UPPER_RIGHT].x + BEAM_SIZE, beamLocation[UPPER_RIGHT].y - BEAM_SIZE, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[UPPER_RIGHT].x, beamLocation[UPPER_RIGHT].y, beamLocation[UPPER_RIGHT].x + BEAM_SIZE_D, beamLocation[UPPER_RIGHT].y - BEAM_SIZE_D, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[UPPER_RIGHT].x, beamLocation[UPPER_RIGHT].y, beamLocation[UPPER_RIGHT].x + BEAM_SIZE, beamLocation[UPPER_RIGHT].y - BEAM_SIZE, C_RED, lineSize);
+		DrawLine(beamLocation[UPPER_RIGHT].x, beamLocation[UPPER_RIGHT].y, beamLocation[UPPER_RIGHT].x + BEAM_SIZE_D, beamLocation[UPPER_RIGHT].y - BEAM_SIZE_D, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[UPPER_RIGHT].x, beamLocation[UPPER_RIGHT].y, 0, 200, 1.0f, -0.85f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[UPPER_RIGHT].x + 75, beamLocation[UPPER_RIGHT].y + 76, 0, 200, 1.0f, -0.78f, beamChargeImg, TRUE);
+		}
+		else if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[UPPER_RIGHT].x + 75, beamLocation[UPPER_RIGHT].y + 76, 0, 200, 1.0f, -0.78f, beamShootImg, TRUE);
 		}
 
 		//左上
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[UPPER_LEFT].x, beamLocation[UPPER_LEFT].y, beamLocation[UPPER_LEFT].x - BEAM_SIZE, beamLocation[UPPER_LEFT].y - BEAM_SIZE, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[UPPER_LEFT].x, beamLocation[UPPER_LEFT].y, beamLocation[UPPER_LEFT].x - BEAM_SIZE_D, beamLocation[UPPER_LEFT].y - BEAM_SIZE_D, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[UPPER_LEFT].x, beamLocation[UPPER_LEFT].y, beamLocation[UPPER_LEFT].x - BEAM_SIZE, beamLocation[UPPER_LEFT].y - BEAM_SIZE, C_RED, lineSize);
+		DrawLine(beamLocation[UPPER_LEFT].x, beamLocation[UPPER_LEFT].y, beamLocation[UPPER_LEFT].x - BEAM_SIZE_D, beamLocation[UPPER_LEFT].y - BEAM_SIZE_D, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[UPPER_LEFT].x, beamLocation[UPPER_LEFT].y, 0, 200, 1.0f, -2.4f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[UPPER_LEFT].x + 75, beamLocation[UPPER_LEFT].y - 76, 0, 200, 1.0f, -2.35f, beamChargeImg, TRUE);
+		}
+		else if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[UPPER_LEFT].x + 75, beamLocation[UPPER_LEFT].y - 76, 0, 200, 1.0f, -2.35f, beamShootImg, TRUE);
 		}
 
 		//右下
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[LOWER_RIGHT].x, beamLocation[LOWER_RIGHT].y, beamLocation[LOWER_RIGHT].x + BEAM_SIZE, beamLocation[LOWER_RIGHT].y + BEAM_SIZE, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[LOWER_RIGHT].x, beamLocation[LOWER_RIGHT].y, beamLocation[LOWER_RIGHT].x + BEAM_SIZE_D, beamLocation[LOWER_RIGHT].y + BEAM_SIZE_D, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[LOWER_RIGHT].x, beamLocation[LOWER_RIGHT].y, beamLocation[LOWER_RIGHT].x + BEAM_SIZE, beamLocation[LOWER_RIGHT].y + BEAM_SIZE, C_RED, lineSize);
+		DrawLine(beamLocation[LOWER_RIGHT].x, beamLocation[LOWER_RIGHT].y, beamLocation[LOWER_RIGHT].x + BEAM_SIZE_D, beamLocation[LOWER_RIGHT].y + BEAM_SIZE_D, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[LOWER_RIGHT].x, beamLocation[LOWER_RIGHT].y, 0, 200, 1.0f, 0.85f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[LOWER_RIGHT].x - 75, beamLocation[LOWER_RIGHT].y + 70, 0, 200, 1.0f, 0.79f, beamChargeImg, TRUE);
+		}
+		else if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[LOWER_RIGHT].x - 75, beamLocation[LOWER_RIGHT].y + 70, 0, 200, 1.0f, 0.79f, beamShootImg, TRUE);
 		}
 
 		//左下
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
-		DrawLine(beamLocation[LOWER_LEFT].x, beamLocation[LOWER_LEFT].y, beamLocation[LOWER_LEFT].x - BEAM_SIZE, beamLocation[LOWER_LEFT].y + BEAM_SIZE, C_RED, BEAM_MAX_WIDTH);
+		DrawLine(beamLocation[LOWER_LEFT].x, beamLocation[LOWER_LEFT].y, beamLocation[LOWER_LEFT].x - BEAM_SIZE_D, beamLocation[LOWER_LEFT].y + BEAM_SIZE_D, C_RED, BEAM_MAX_WIDTH);
 		//濃い赤色の矩形
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawLine(beamLocation[LOWER_LEFT].x, beamLocation[LOWER_LEFT].y, beamLocation[LOWER_LEFT].x - BEAM_SIZE, beamLocation[LOWER_LEFT].y + BEAM_SIZE, C_RED, lineSize);
+		DrawLine(beamLocation[LOWER_LEFT].x, beamLocation[LOWER_LEFT].y, beamLocation[LOWER_LEFT].x - BEAM_SIZE_D, beamLocation[LOWER_LEFT].y + BEAM_SIZE_D, C_RED, lineSize);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
-		if (beamPossibleFlg == true) {
-			DrawRotaGraph2(beamLocation[LOWER_LEFT].x, beamLocation[LOWER_LEFT].y, 0, 200, 1.0f, 2.4f, beamChargeImg, TRUE);
+		if (beamDrawFlg == false) {
+			DrawRotaGraph2(beamLocation[LOWER_LEFT].x - 73, beamLocation[LOWER_LEFT].y - 75, 0, 200, 1.0f, 2.36f, beamChargeImg, TRUE);
+		}
+		else if (beamDrawFlg == true) {
+			DrawRotaGraph2(beamLocation[LOWER_LEFT].x - 73, beamLocation[LOWER_LEFT].y - 75, 0, 200, 1.0f, 2.36f, beamShootImg, TRUE);
 		}
 
 		break;
@@ -481,9 +494,10 @@ void Devil_king::BeamCollision(Player* player)
 	}
 }
 
+//・・・・・・・・・・十字・・・・・・・・・・//
 void Devil_king::BeamCollisionRight(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = beamLocation[RIGHT].y - dL.y;
@@ -501,7 +515,7 @@ void Devil_king::BeamCollisionRight(Player* player)
 
 void Devil_king::BeamCollisionLeft(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = (beamLocation[LEFT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = beamLocation[LEFT].y - dL.y;
@@ -519,7 +533,7 @@ void Devil_king::BeamCollisionLeft(Player* player)
 
 void Devil_king::BeamCollisionLower(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = beamLocation[LOWER].x - dL.x;
 		float b = (beamLocation[LOWER].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -537,7 +551,7 @@ void Devil_king::BeamCollisionLower(Player* player)
 
 void Devil_king::BeamCollisionUpper(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = beamLocation[LOWER].x - dL.x;
 		float b = (beamLocation[LOWER].y -(BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -553,9 +567,10 @@ void Devil_king::BeamCollisionUpper(Player* player)
 	}
 }
 
+//・・・・・・・・・・斜め・・・・・・・・・・//
 void Devil_king::BeamCollisionUpperRight(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = (beamLocation[RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -573,7 +588,7 @@ void Devil_king::BeamCollisionUpperRight(Player* player)
 
 void Devil_king::BeamCollisionUpperLeft(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = (beamLocation[RIGHT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = (beamLocation[RIGHT].y - (BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -591,7 +606,7 @@ void Devil_king::BeamCollisionUpperLeft(Player* player)
 
 void Devil_king::BeamCollisionLowerRight(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = (beamLocation[RIGHT].x + (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = (beamLocation[RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;
@@ -609,7 +624,7 @@ void Devil_king::BeamCollisionLowerRight(Player* player)
 
 void Devil_king::BeamCollisionLowerLeft(Player* player)
 {
-	for (int i = 1; i <= 13; i++) {
+	for (int i = 1; i <= BEAM_COLLISION_CIRCLE_NUM; i++) {
 
 		float a = (beamLocation[RIGHT].x - (BEAM_MAX_WIDTH / 2) * i) - dL.x;
 		float b = (beamLocation[RIGHT].y + (BEAM_MAX_WIDTH / 2) * i) - dL.y;

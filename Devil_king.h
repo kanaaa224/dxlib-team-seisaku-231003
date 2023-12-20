@@ -5,7 +5,7 @@
 #define DEVILKING_ATTAK_DAMAGE 1				//魔王のダメージ
 #define BIG_BULLET_CREATE_TIME  SECOND_FRAME(1.5)//大きい弾の生成速度
 #define MAX_SHIELD 100							//シールドの最大値
-#define DOWN_TIME SECOND_FRAME(7)				//ダウンタイム
+#define DOWN_TIME SECOND_FRAME(4)				//ダウンタイム
 
 #define DARK_SHADOW_RADIUS_X  50				//濃い影の半径X
 #define DARK_SHADOW_RADIUS_Y  15				//濃い影の半径Y
@@ -14,18 +14,21 @@
 
 #define BOX_MAX_LENGTH_D 1280
 
-#define TELEPORTATION_RADIUS 150
+#define TELEPORTATION_RADIUS_N 150
+#define TELEPORTATION_RADIUS_F 800
 
-#define BEAM_MAX_WIDTH 150//ビームの幅
+#define BEAM_MAX_WIDTH 70//ビームの幅
 #define BEAM_POSITION_CROSS	   0//ビームが十字方向
 #define BEAM_POSITION_DIAGONAL 1//ビームが斜め方向
 
 #define BEAM_CAN_TIEM SECOND_FRAME(2)//ビームのクールタイム
 
-#define BEAM_SIZE 3000//ビームの縦
+#define BEAM_SIZE_C 720//ビームの縦(十字)
+#define BEAM_SIZE_D 510//ビームの縦(斜め)
+#define BEAM_COLLISION_CIRCLE_NUM 9//ビームの当たり判定用の円の数 
 
 #define DEVILKING_BEAM_SPACE 60//ビームと魔王との隙間
-#define BEAM_DAMAGE 1
+#define BEAM_DAMAGE 0.1f//ビームのダメージ
 #define NOW_BEAM_TIME SECOND_FRAME(7)//ビームの照射時間
 
 //ビームの配列//
@@ -84,6 +87,7 @@ private:
 	bool beamShootFinFlg = false;
 	bool nowBeamFlg = false;//ビーム中か？
 	int nowBeamCounter = 0;
+	bool beamDrawFlg = false;//(false:ビーム発射前 true:ビーム発射)
 
 	bool hitBeamPlayer[8];	//プレイヤーがビームにヒット時の判定用
 
