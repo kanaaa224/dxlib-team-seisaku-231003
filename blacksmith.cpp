@@ -358,7 +358,7 @@ void Blacksmith::ResetLevel(weapon* weapon, second_weapon* second_weapon, Weapon
 	// ポイントの返却
 	if (info->level_hierarchy >= 4)
 	{
-		weapon_levelup->SetLevelUpPoint(point, 3);
+		weapon_levelup->SetLevelUpPoint(point, 4);
 	}
 	else
 	{
@@ -630,7 +630,7 @@ void Blacksmith::DrawWeapon1ResetText() const
 		}
 		else if (weapon1_info.level_hierarchy > 3)
 		{
-			DrawFormatString(290, 560, 0x000000, "返却ポイント： 3");
+			DrawFormatString(290, 560, 0x000000, "返却ポイント： 4");
 		}
 	}
 }
@@ -652,7 +652,7 @@ void Blacksmith::DrawWeapon2ResetText() const
 		}
 		else if (weapon2_info.level_hierarchy > 3)
 		{
-			DrawFormatString(800, 560, 0x000000, "返却ポイント： 3");
+			DrawFormatString(800, 560, 0x000000, "返却ポイント： 4");
 		}
 	}
 }
