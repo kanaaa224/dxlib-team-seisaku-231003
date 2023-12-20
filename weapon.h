@@ -114,6 +114,13 @@ private:
 
 	int daggerslash_img;
 
+	int sword_level7_img;
+	int sword_level8_img;
+	int dagger_level7_img;
+	int dagger_level8_img;
+	int greatsword_level7_img;
+	int greatsword_level8_img;
+
 
 	//int sword_sound;
 	//int dagger_sound;
