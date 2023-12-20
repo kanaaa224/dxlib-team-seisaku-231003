@@ -105,10 +105,10 @@
 
 //大きい弾
 #define MAX_BIG_BULLET_NUM 3
-#define BIG_BULLET_DAMAGE 0//ダメージ
+#define BIG_BULLET_DAMAGE 1.0f//ダメージ
 
 //小さい弾
-#define SMALL_BULLET_DAMAGE 0//ダメージ
+#define SMALL_BULLET_DAMAGE 1.0f//ダメージ
 
 
 //幽霊
