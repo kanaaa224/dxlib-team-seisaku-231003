@@ -2,8 +2,8 @@
 #include "Common.h"
 #include <math.h>
 #include "inputCtrl.h"
-#define BTN_DEBUG
-#define DEBUG
+//#define BTN_DEBUG
+//#define DEBUG
 
 Devil_king::Devil_king()
 {
@@ -100,7 +100,7 @@ void Devil_king::Update(Player* player)
 	}
 
 	//ビーム
-	if (shieldFlg == false /*&& DEVILKING_MAX_HP / 3 >= hp*/) {//シールドがある時と魔王のHPが3/1を下回ったら
+	if (shieldFlg == false && DEVILKING_MAX_HP / 3 >= hp) {//シールドがある時と魔王のHPが3/1を下回ったら
 		BeamUpdate(player);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
