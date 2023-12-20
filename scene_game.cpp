@@ -587,7 +587,26 @@ Scene* GameScene::update() {
 				bookFlg = false;
 			}
 
-		
+			//武器デバッグ
+			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD1)) {
+				weaponA->SetWeaponType(dagger);
+			}
+			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD2)) {
+				weaponA->SetWeaponType(sword);
+			}
+			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD3)) {
+				weaponA->SetWeaponType(greatSword);
+			}
+
+			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD4)) {
+				weaponB->SetWeaponType(spear);
+			}
+			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD5)) {
+				weaponB->SetWeaponType(frail);
+			}
+			if (InputCtrl::GetKeyState(KEY_INPUT_NUMPAD6)) {
+				weaponB->SetWeaponType(book);
+			}
 
 			////////////
 			player->SetLeftTop(stage->GetStageArray(0));
