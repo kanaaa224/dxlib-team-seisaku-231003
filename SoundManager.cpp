@@ -78,7 +78,9 @@ void SoundManager::CreateSoundManager()
 	SetVolumeSE("se_system_ng", 50);
 	SetVolumeSE("se_system_cancel", 60);
 	SetVolumeSE("se_enemy_damage", 30);
-	SetVolumeSE("se_enemy_barrierdamage", 40);
+	SetVolumeSE("se_enemy_barrier_damage", 40);
+	SetVolumeSE("se_enemy_barrier_open", 50);
+	SetVolumeSE("se_enemy_spirit", 50);
 	SetVolumeSE("se_enemy_shout", 65);
 	SetVolumeSE("se_enemy_tackle", 65);
 	SetVolumeSE("se_enemy_bossbullet", 30);

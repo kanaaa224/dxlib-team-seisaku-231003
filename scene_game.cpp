@@ -1084,7 +1084,7 @@ void GameScene::HitCheck() {
 
 						//魔王と大きい弾
 						if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
-							SoundManager::PlaySoundSE("se_enemy_barrierdamage", false);
+ 							SoundManager::PlaySoundSE("se_enemy_barrier_damage");
 							devilKing->SetBigBulletHitFlg(true);
 							bigEnemyBullet[i] = nullptr;
 						}
@@ -1454,6 +1454,10 @@ void GameScene::SmallEnemyBulletDraw() const
 void GameScene::GhostUpdate() 
 {
 	if (tmpGhostNum < MAX_GHOST_NUM) {
+		if (ghost[0] == nullptr)
+		{
+			SoundManager::PlaySoundSE("se_enemy_spirit");
+		}
 		ghost[tmpGhostNum] = new Ghost(tmpGhostNum);
 		tmpGhostNum++;
 	}

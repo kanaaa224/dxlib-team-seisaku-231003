@@ -1,7 +1,8 @@
-﻿#include "Devil_king.h"
-#include "Common.h"
-#include <math.h>
-#include "inputCtrl.h"
+﻿//#include "Devil_king.h"
+//#include "Common.h"
+//#include <math.h>
+//#include "inputCtrl.h"
+#include"main.h"
 //#define BTN_DEBUG
 //#define DEBUG
 
@@ -104,6 +105,8 @@ void Devil_king::Update(Player* player)
 		BeamUpdate(player);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
+		SoundManager::StopSoundSE("se_enemy_beam_charge");
+		SoundManager::StopSoundSE("se_enemy_beam_fire");
 		beamPossibleCounter = 0;
 		beamPossibleFlg = false;
 		lineSize = 0;
@@ -116,6 +119,10 @@ void Devil_king::Update(Player* player)
 	}
 
 	if (shield <= 0) {
+		if (skyWalkFlg && !shieldFlg)
+		{
+			SoundManager::PlaySoundSE("se_enemy_barrier_close");
+		}
 		shieldFlg = true;
 	}
 
@@ -140,6 +147,7 @@ void Devil_king::Update(Player* player)
 	if (skyWalkFlg == false) {
 		//downTimeCounterが設定した値になったらシールドを復活させる
 		if (downTimeCounter >= DOWN_TIME) {
+			SoundManager::PlaySoundSE("se_enemy_barrier_open");
 			shield = MAX_SHIELD;
 			shieldFlg = false;
 			downTimeCounter = 0;
@@ -236,6 +244,7 @@ void Devil_king::Teleportation()
 	float c = sqrtf(pow(a, 2) + pow(b, 2));
 	if (c <= TELEPORTATION_RADIUS_N + PLAYER_RADIUS) {//設定した範囲内
 		teleportationFlg = true;//瞬間移動する
+		//SoundManager::PlaySoundSE("se_enemy_teleportation");
 	}
 	else {
 		teleportationFlg = false;//しない
@@ -252,6 +261,7 @@ void Devil_king::BeamUpdate(Player* player)
 {
 	if (beamPossibleFlg == true) {
 		if (lineSize < BEAM_MAX_WIDTH) {//濃い攻撃予測がまだ薄い攻撃予測と同じ太さじゃないなら
+			SoundManager::PlaySoundSE("se_enemy_beam_charge");
 			lineSize += 1;//濃い攻撃予測の広がる速度
 			beamDrawFlg = false;//ビームの描画用Flgをfalse
 		}
@@ -271,6 +281,7 @@ void Devil_king::BeamUpdate(Player* player)
 				}
 			}
 			else if (nowBeamFlg == false) {//ビーム発射中
+				SoundManager::PlaySoundSE("se_enemy_beam_fire");
 				nowBeamCounter++;
 				//ビームの当たり判定
 				BeamCollision(player);
