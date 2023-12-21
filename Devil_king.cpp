@@ -55,7 +55,7 @@ void Devil_king::Update(Player* player)
 	//移動処理
 	if (skyWalkFlg == true && shieldFlg == false) {//浮遊
 		//瞬間移動
-		Teleportation();
+		//Teleportation();
 		//影
 		shadowLocation.x = shadowLocation.x - (vector.x + diff.x);
 		shadowLocation.y = shadowLocation.y - (vector.y + diff.y);
