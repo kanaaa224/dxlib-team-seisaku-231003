@@ -60,6 +60,12 @@ Minotaur::Minotaur()
 	roarFinFlg = false;
 	playerRoarHitFlg = false;
 
+	//エフェクト
+	for (int i = 0; i < ROAR_EFFECT_CIRCLE_NUM; i++) {
+		roarEffectRadius[i] = 0;
+		roarEffectDrawFlg[i] = false;
+	}
+
 	//-----その他-----//
 }
 
@@ -83,6 +89,15 @@ void Minotaur::Update(Player* player)
 	if (roarStartFlg == false) {
 
 		TackleUpdate();//タックル
+
+		//咆哮エフェクトの初期化
+		for (int i = 0; i < ROAR_EFFECT_CIRCLE_NUM; i++) {
+			roarEffectRadius[i] = 0;
+			roarEffectDrawFlg[i] = false;
+		}
+		roarEffectCircleNum = -1;
+		nextCircleCoolTimeCounter = 0;
+		roarEffectCircleCreateFlg = false;
 	}
 	else if (roarStartFlg == true) {
 
@@ -163,7 +178,12 @@ void Minotaur::Draw() const
 	
 	if (roarStartFlg == true) {
 		if (roarEndedFrame <= 0) RoarDraw();
+		if (roarEndedFrame > 0) {
+			RoarEffectDraw();
+		}
 	}
+
+	DrawCircle(location.x, location.y, ROAR_RADIUS, C_BLUE, FALSE, 2);//デバッグ用
 
 #ifdef DEBUG
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
@@ -328,7 +348,7 @@ void Minotaur::RoarUpdate()
 				roarEffectFlg = false;
 			};
 			roarEndedFrame--;
-			//エフェクトの処理をここに書く
+			
 		};
 	}
 }
@@ -340,6 +360,11 @@ void Minotaur::RoarDraw() const
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 70);
 	DrawCircle(location.x, location.y, roarRadius, C_RED, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+}
+
+void Minotaur::RoarHit()
+{
+	
 }
 
 void Minotaur::RoarEffectUpdate()
@@ -355,13 +380,56 @@ void Minotaur::RoarEffectUpdate()
 		playerRoarHitFlg = false;
 	}
 
-
 	roarEffectFinFlg = true;
+	
+
+	//・・・・・エフェクトの処理・・・・・//
+	//円の生成
+	if (nextCircleCoolTimeCounter == 0) {
+		roarEffectCircleCreateFlg = true;
+		nextCircleCoolTimeCounter++;
+
+		roarEffectCircleNum++;
+	}
+	else {
+		roarEffectCircleCreateFlg = false;
+		nextCircleCoolTimeCounter++;
+		if (nextCircleCoolTimeCounter >= ROAR_EFFECT_NEXT_CIRCLE_TIEM) {
+			nextCircleCoolTimeCounter = 0;
+		}
+	}
+
+	if (roarEffectCircleCreateFlg == true) {//DrawFlgをTrueにする
+		roarEffectLocation[roarEffectCircleNum].x = location.x - diff.x;
+		roarEffectLocation[roarEffectCircleNum].y = location.y - diff.y;
+		roarEffectDrawFlg[roarEffectCircleNum] = true;
+	}
+	//円の半径＆下に少し移動する処理
+	for (int i = 0; i < 10; i++) {
+		if (roarEffectDrawFlg[i] == true) {
+			roarEffectLocation[i].x = location.x;
+			roarEffectLocation[i].y = location.y;
+			roarEffectRadius[i] += ROAR_EFFECT_SPPED;
+			if (roarEffectRadius[i] >= ROAR_RADIUS) {
+				roarEffectRadius[i] = ROAR_RADIUS;
+			}
+			//ここにｙ軸を少し下にずらす処理を書く
+		}
+
+		roarEffectLocation[roarEffectCircleNum].x = location.x;
+		roarEffectLocation[roarEffectCircleNum].y = location.y;
+	}
+
+	
 }
 
 void Minotaur::RoarEffectDraw() const
 {
-
+	for (int i = 0; i < ROAR_EFFECT_CIRCLE_NUM; i++) {
+		if (roarEffectDrawFlg[i] == true) {
+			DrawCircle(roarEffectLocation[i].x, roarEffectLocation[i].y, roarEffectRadius[i], C_RED, FALSE,2);
+		}
+	}
 }
 
 bool Minotaur::GetRoarHitFlg()

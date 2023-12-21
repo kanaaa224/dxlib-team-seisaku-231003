@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "EnemyBase.h"
 #include "Common.h"
-#define DEVILKING_MAX_HP 5000					//魔王の最大体力
+#define DEVILKING_MAX_HP 4000					//魔王の最大体力
 #define DEVILKING_ATTAK_DAMAGE 1				//魔王のダメージ
 #define BIG_BULLET_CREATE_TIME  SECOND_FRAME(1.5)//大きい弾の生成速度
 #define MAX_SHIELD 100							//シールドの最大値
