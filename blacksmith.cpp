@@ -171,11 +171,6 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 		{
 			// レベルの振り直し、ポイントの返却
 
-
-			// 武器の種類のセット
-			weapon1_info.type = weapon->GetWeaponType();
-			weapon2_info.type = second_weapon->GetWeaponType();
-
 			// 初期設定
 			Init(weapon, second_weapon, weapon_levelup);
 
@@ -183,10 +178,8 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 			CursorMove();
 
 			// 武器の決定
-			if (weapon_number == weapon1_info.num && weapon1_info.level != 0)
+			if (weapon_number == weapon1_info.num && weapon1_info.can_reset == true)
 			{
-				weapon1_info.can_reset = true;
-
 				// 過去にレベルアップしたことがある場合選択できる
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
@@ -195,10 +188,8 @@ void Blacksmith::update(weapon* weapon, second_weapon* second_weapon, WeaponLeve
 					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon1_info, point);
 				}
 			}
-			else if (weapon2_info.num != none && weapon2_info.level_hierarchy != 0)
+			else if (weapon_number == weapon2_info.num && weapon2_info.num != none && weapon2_info.can_reset == true)
 			{
-				weapon2_info.can_reset = true;
-
 				if (InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 				{
 					ResetLevel(weapon, second_weapon, weapon_levelup, &weapon2_info, point);
@@ -286,6 +277,10 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 // 初期設定
 void Blacksmith::Init(weapon* weapon, second_weapon* second_weapon, WeaponLevelUp* weapon_levelup)
 {
+	// 武器の種類のセット
+	weapon1_info.type = weapon->GetWeaponType();
+	weapon2_info.type = second_weapon->GetWeaponType();
+
 	// 現在の武器レベルのセット
 	weapon1_info.level = weapon->GetWeaponLevel();
 	weapon2_info.level = second_weapon->GetWeaponLevel();
@@ -293,6 +288,15 @@ void Blacksmith::Init(weapon* weapon, second_weapon* second_weapon, WeaponLevelU
 	// レベル階層のセット
 	weapon1_info.level_hierarchy = weapon_levelup->GetWeapon1LevelHierarchy();
 	weapon2_info.level_hierarchy = weapon_levelup->GetWeapon2LevelHierarchy();
+
+	if (weapon1_info.level != 0)
+	{
+		weapon1_info.can_reset = true;
+	}
+	if (weapon2_info.level != 0)
+	{
+		weapon2_info.can_reset = true;
+	}
 }
 
 // カーソル左右移動処理
@@ -498,7 +502,6 @@ void Blacksmith::DrawWeapon1Images() const
 	switch (weapon1_info.type)
 	{
 	case sword:			// 片手剣
-		//DrawRotaGraph(img_x, img_y, 0.28f, 0.0f, img_sword, TRUE);
 		DrawFormatString(290, 520, 0x000000, "片手剣");
 		if (weapon1_info.level == 7)
 		{
@@ -514,7 +517,6 @@ void Blacksmith::DrawWeapon1Images() const
 		}
 		break;
 	case dagger:		// 短剣
-		//DrawRotaGraph(img_x, img_y, 0.28f, 0.0f, img_dagger, TRUE);
 		DrawFormatString(290, 520, 0x000000, "短剣");
 		if (weapon1_info.level == 7)
 		{
@@ -530,7 +532,6 @@ void Blacksmith::DrawWeapon1Images() const
 		}
 		break;
 	case greatSword:	// 大剣
-		//DrawRotaGraph(img_x, img_y, 0.4f, 0.0f, img_great_sword, TRUE);
 		DrawFormatString(290, 520, 0x000000, "大剣");
 		if (weapon1_info.level == 7)
 		{
@@ -559,7 +560,6 @@ void Blacksmith::DrawWeapon2Images() const
 	switch (weapon2_info.type)
 	{
 	case spear:			// 槍
-		//DrawRotaGraph(img_x + 510, img_y, 0.34f, 0.0f, img_spear, TRUE);
 		DrawFormatString(800, 520, 0x000000, "槍");
 		if (weapon2_info.level == 7)
 		{
@@ -575,23 +575,21 @@ void Blacksmith::DrawWeapon2Images() const
 		}
 		break;
 	case frail:			// フレイル
-		//DrawRotaGraph(img_x + 510, img_y, 0.34f, 0.0f, img_frail, TRUE);
 		DrawFormatString(800, 520, 0x000000, "フレイル");
 		if (weapon2_info.level == 7)
 		{
-			 DrawRotaGraph(img_x + 510, img_y, 0.34f, 0.0f, img_threechain, TRUE);
+			 DrawRotaGraph(img_x + 510, img_y, 0.32f, 0.0f, img_threechain, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			 DrawRotaGraph(img_x + 510, img_y, 0.34f, 0.0f, img_earthcrusher, TRUE);
+			 DrawRotaGraph(img_x + 510, img_y, 0.32f, 0.0f, img_earthcrusher, TRUE);
 		}
 		else
 		{
-			DrawRotaGraph(img_x + 510, img_y, 0.34f, 0.0f, img_frail, TRUE);
+			DrawRotaGraph(img_x + 510, img_y, 0.32f, 0.0f, img_frail, TRUE);
 		}
 		break;
 	case book:			// 魔導書
-		//DrawRotaGraph(img_x + 510, img_y, 0.28f, 0.0f, img_book, TRUE);
 		DrawFormatString(800, 520, 0x000000, "魔導書");
 		if (weapon2_info.level == 7)
 		{
