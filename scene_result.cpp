@@ -279,13 +279,13 @@ void ResultScene::draw() const
 		DrawRotaGraph(850, 190, 0.25f, 0.0f, img_logo_dagger, TRUE);
 		if (weapon1_info.level == 7)
 		{
-			DrawRotaGraph(700, 250, 0.25f, 0.0f, img_assasinsdagger, TRUE);
+			DrawRotaGraph(700, 250, 0.17f, 0.0f, img_assasinsdagger, TRUE);
 			DrawFormatString(900, 185, 0x000000, "-");
 			DrawRotaGraph(1030, 190, 0.25f, 0.0f, img_logo_assasinsdagger, TRUE);
 		}
 		else if (weapon1_info.level == 8)
 		{
-			DrawRotaGraph(700, 250, 0.25f, 0.0f, img_throwingknife, TRUE);
+			DrawRotaGraph(700, 250, 0.17f, 0.0f, img_throwingknife, TRUE);
 			DrawFormatString(900, 185, 0x000000, "-");
 			DrawRotaGraph(1000, 190, 0.25f, 0.0f, img_logo_throwingknife, TRUE);
 		}
@@ -326,13 +326,13 @@ void ResultScene::draw() const
 		DrawRotaGraph(840, 440, 0.25f, 0.0f, img_logo_spear, TRUE);
 		if (weapon2_info.level == 7)
 		{
-			DrawRotaGraph(700, 510, 0.25f, 0.0f, img_royallance, TRUE);
+			DrawRotaGraph(700, 510, 0.3f, 0.0f, img_royallance, TRUE);
 			DrawFormatString(870, 435, 0x000000, "-");
 			DrawRotaGraph(1020, 435, 0.3f, 0.0f, img_logo_royallance, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			DrawRotaGraph(700, 510, 0.25f, 0.0f, img_gungnir, TRUE);
+			DrawRotaGraph(700, 510, 0.3f, 0.0f, img_gungnir, TRUE);
 			DrawFormatString(870, 435, 0x000000, "-");
 			DrawRotaGraph(980, 435, 0.3f, 0.0f, img_logo_gungnir, TRUE);
 		}
@@ -345,32 +345,32 @@ void ResultScene::draw() const
 		DrawRotaGraph(880, 440, 0.25f, 0.0f, img_logo_frail, TRUE);
 		if (weapon2_info.level == 7)
 		{
-			DrawRotaGraph(680, 510, 0.25f, 0.0f, img_threechain, TRUE);
+			DrawRotaGraph(680, 510, 0.23f, 0.0f, img_threechain, TRUE);
 			DrawFormatString(965, 435, 0x000000, "-");
 			DrawRotaGraph(1080, 435, 0.3f, 0.0f, img_logo_threechain, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			DrawRotaGraph(680, 510, 0.25f, 0.0f, img_earthcrusher, TRUE);
+			DrawRotaGraph(680, 510, 0.23f, 0.0f, img_earthcrusher, TRUE);
 			DrawFormatString(965, 435, 0x000000, "-");
 			DrawRotaGraph(1120, 430, 0.35f, 0.0f, img_logo_earthcrusher, TRUE);
 		}
 		else
 		{
-			DrawRotaGraph(680, 510, 0.25f, 0.0f, img_frail, TRUE);
+			DrawRotaGraph(680, 510, 0.23f, 0.0f, img_frail, TRUE);
 		}
 		break;
 	case 2:			// ñÇì±èë
 		DrawRotaGraph(890, 440, 0.25f, 0.0f, img_logo_book, TRUE);
 		if (weapon2_info.level == 7)
 		{
-			DrawRotaGraph(700, 510, 0.25f, 0.0f, img_blessing, TRUE);
+			DrawRotaGraph(700, 510, 0.17f, 0.0f, img_blessing, TRUE);
 			DrawFormatString(950, 435, 0x000000, "-");
 			DrawRotaGraph(1060, 435, 0.3f, 0.0f, img_logo_blessing, TRUE);
 		}
 		else if (weapon2_info.level == 8)
 		{
-			DrawRotaGraph(700, 510, 0.25f, 0.0f, img_bullet, TRUE);
+			DrawRotaGraph(700, 510, 0.32f, 0.0f, img_bullet, TRUE);
 			DrawFormatString(950, 435, 0x000000, "-");
 			DrawRotaGraph(1110, 420, 0.4f, 0.0f, img_logo_bullet, TRUE);
 		}
