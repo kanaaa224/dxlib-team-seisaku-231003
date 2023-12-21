@@ -586,7 +586,7 @@ Scene* GameScene::update() {
 				weaponB->SetBarrierFlg(false);
 				bookFlg = false;
 			}
-
+			
 			//武器デバッグ
 			if (InputCtrl::GetKeyState(KEY_INPUT_1)) {
 				weaponA->SetWeaponType(dagger);

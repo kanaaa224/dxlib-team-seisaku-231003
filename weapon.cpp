@@ -742,6 +742,7 @@ void weapon::LevelState()
 			maxCoolTime = INIT_COOLTIME_GREATSWORD * 0.4f;
 			damage = INIT_DAMAGE_GREATSWORD;
 			rotSpeed = 8.0f;
+			relativeRot = maxRot;
 			break;
 		}
 
