@@ -103,6 +103,7 @@ void Devil_king::Update(Player* player)
 	//ビーム
 	if (shieldFlg == false && DEVILKING_MAX_HP / 3 >= hp) {//シールドがある時と魔王のHPが3/1を下回ったら
 		BeamUpdate(player);
+		downTime = SECOND_FRAME(1.7);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
 		SoundManager::StopSoundSE("se_enemy_beam_charge");
@@ -146,7 +147,7 @@ void Devil_king::Update(Player* player)
 	//ダウンタイム
 	if (skyWalkFlg == false) {
 		//downTimeCounterが設定した値になったらシールドを復活させる
-		if (downTimeCounter >= DOWN_TIME) {
+		if (downTimeCounter >= downTime) {
 			SoundManager::PlaySoundSE("se_enemy_barrier_open");
 			shield = MAX_SHIELD;
 			shieldFlg = false;

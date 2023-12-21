@@ -71,6 +71,7 @@ private:
 
 	//ダウン
 	int downTimeCounter = 0;
+	int downTime = DOWN_TIME;
 
 	//瞬間移動
 	bool teleportationFlg = false;
