@@ -253,7 +253,10 @@ void Devil_king::Teleportation()
 
 	//瞬間移動する処理
 	if (teleportationFlg == true) {
-		
+		location.x = SetGetRand(100, 1180);
+		location.y = SetGetRand(100, 620);
+		shadowLocation.x = location.x - diff.x;
+		shadowLocation.y = (location.y + vector.y) - diff.y;
 	}
 }
 
