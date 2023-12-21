@@ -25,7 +25,8 @@
 
 #define BEAM_SIZE_C 720//ビームの縦(十字)
 #define BEAM_SIZE_D 510//ビームの縦(斜め)
-#define BEAM_COLLISION_CIRCLE_NUM 9//ビームの当たり判定用の円の数 
+#define BEAM_COLLISION_CIRCLE_NUM_C 22//ビームの当たり判定用の円の数(十字)
+#define BEAM_COLLISION_CIRCLE_NUM_D 14//ビームの当たり判定用の円の数(斜め)
 
 #define DEVILKING_BEAM_SPACE 60//ビームと魔王との隙間
 #define BEAM_DAMAGE 0.1f//ビームのダメージ

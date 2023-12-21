@@ -26,7 +26,7 @@ BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 	diff.x = 0;
 	diff.y = 0;
 	radius = 25;
-	damage = 1;
+	damage = BIG_BULLET_DAMAGE;
 	speed = 3.0f;
 	lifeTimeCnt = SECOND_FRAME(LIFETIME);
 	SetPlayer_Location(player->GetLocation());

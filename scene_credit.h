@@ -10,6 +10,7 @@ private:
 	//クレジットロール用の変数
 	int g_WaitTime;
 	int g_PosY;
+	int g_PosY_D;
 
 	int Credit_Mouse_x;
 	int Credit_Mouse_y;

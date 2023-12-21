@@ -12,7 +12,7 @@ SmallEnemyBullet::SmallEnemyBullet(Location spawnLocation)
 	diff.x = 0;
 	diff.y = 0;
 	radius = 5;
-	damage = 1.0f;
+	damage = SMALL_BULLET_DAMAGE;
 	speed = SetGetRand(2, 3);
 	vector.x = Normalization_X(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;
 	vector.y = Normalization_Y(SetGetRand(-1, 1), SetGetRand(-1, 1)) * speed;

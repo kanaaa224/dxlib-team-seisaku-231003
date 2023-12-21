@@ -159,12 +159,12 @@ Scene* GameScene::update() {
 	};
 
 
-	// 強制ゲームクリア
-	if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
-		SoundManager::StopSoundBGMs();
-		SoundManager::SetSoundBGMsPosition(0);
-		return new GameClearScene(weaponA, weaponB, map);
-	}
+	//// 強制ゲームクリア
+	//if (InputCtrl::GetButtonState(XINPUT_BUTTON_Y) == PRESS) {
+	//	SoundManager::StopSoundBGMs();
+	//	SoundManager::SetSoundBGMsPosition(0);
+	//	return new GameClearScene(weaponA, weaponB, map);
+	//}
 
 	// デバッグ - Oキーで強制ボス戦
 	if (InputCtrl::GetKeyState(KEY_INPUT_O) == PRESS) {
@@ -207,8 +207,8 @@ Scene* GameScene::update() {
 	hp = player->GetPlayer_HP();
 	int maxHP = player->GetMaxPlayer_hp();
 	int maxEXP = expData[level];
-	int coolTime = (int)player->GetCoolTimeCounter(), coolTimeMax = player->GetAvoidance_limit() * 60;
-	gameUI->setCoolTime(coolTime, coolTimeMax);
+	int coolTime = (int)player->GetCoolTimeCounter(), maxCoolTime = player->GetAvoidance_limit() * 60;
+	gameUI->setCoolTime(coolTime, maxCoolTime);
 	gameUI->setHP(hp, maxHP, ((float)hp / (float)maxHP) * 100);
 	gameUI->setEXP(exp, maxEXP, ((float)exp / (float)maxEXP) * 100);
 	gameUI->setPoint(point);
@@ -218,6 +218,7 @@ Scene* GameScene::update() {
 	//////////////////////////////////////////////////
 
 	if (mode == GameSceneMode::main) {
+
 		if (battleMode == GameSceneBattleMode::normal)
 		{
 			SoundManager::PlaySoundBGM("bgm_normal");
@@ -252,320 +253,327 @@ Scene* GameScene::update() {
 
 			//武器と敵の当たり判定
 			if (true/*currentFloor == 1*/) {
-				for (int i = 0; i < enemySpawnData["slime"]; i++) {
-					if (slime[i] != nullptr) {
-						if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-							if (slime[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								slime[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								slime[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
-								slime[i]->SetHit1stFrameFlg(true);
-								if (weaponA->GetIsAttacking() && !swordHitFlg) {
-									swordHitFlg = true;
-									weaponA->SetHitCnt(true);
-									weaponA->SwordLevel8(player);
-									weaponA->SwordLevel8Heel(player);
-								}
-								weaponA->AddTotalDamage();
-							}
-						}
-						if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-							if (slime[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								slime[i]->SetHitWeaponFlg();
-								slime[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
-								slime[i]->SetHit1stFrameFlg(true);
-								
-								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-										slime[i]->SetHitHP(weaponB->GetThunderDamage());
-										weaponB->AddTotalDamageThunder();
+				if (battleMode == GameSceneBattleMode::normal) {
+					for (int i = 0; i < enemySpawnData["slime"]; i++) {
+						if (slime[i] != nullptr) {
+							if (weaponA->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+								if (slime[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									slime[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									slime[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+									slime[i]->SetHit1stFrameFlg(true);
+									if (weaponA->GetIsAttacking() && !swordHitFlg) {
+										swordHitFlg = true;
+										weaponA->SetHitCnt(true);
+										weaponA->SwordLevel8(player);
+										weaponA->SwordLevel8Heel(player);
 									}
+									weaponA->AddTotalDamage();
 								}
-								weaponB->AddTotalDamage();
 							}
-						}
-						if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
-							if (slime[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								slime[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								slime[i]->SetHitHP(weaponA->GetDustDamage());
-								slime[i]->SetHit1stFrameFlg(true);
-								slime[i]->SetCloudOfDustHitFlg(true);
-								weaponA->AddTotalDamageDust();
+							if (weaponB->WeaponCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+								if (slime[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									slime[i]->SetHitWeaponFlg();
+									slime[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+									slime[i]->SetHit1stFrameFlg(true);
+
+									if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+										weaponB->SetThunderLocation(slime[i]->GetEnemyLocation());
+										if (weaponB->SpearThunderCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+											slime[i]->SetHitHP(weaponB->GetThunderDamage());
+											weaponB->AddTotalDamageThunder();
+										}
+									}
+									weaponB->AddTotalDamage();
+								}
+							}
+							if (weaponA->DustCollision(slime[i]->GetEnemyLocation(), slime[i]->GetEnemyRadius())) {
+								if (slime[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									slime[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									slime[i]->SetHitHP(weaponA->GetDustDamage());
+									slime[i]->SetHit1stFrameFlg(true);
+									slime[i]->SetCloudOfDustHitFlg(true);
+									weaponA->AddTotalDamageDust();
+								}
 							}
 						}
 					}
-				}
 
-				for (int i = 0; i < enemySpawnData["skeleton"]; i++) {
-					if (skeleton[i] != nullptr) {
-						if (weaponA->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
-							if (skeleton[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
-								skeleton[i]->SetHit1stFrameFlg(true);
-								if (weaponA->GetIsAttacking() && !swordHitFlg) {
-									swordHitFlg = true;
-									weaponA->SetHitCnt(true);
-									weaponA->SwordLevel8(player);
-									weaponA->SwordLevel8Heel(player);
-								}
-								weaponA->AddTotalDamage();
-							}
-						}
-						if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
-							if (skeleton[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								skeleton[i]->SetHitWeaponFlg();
-								skeleton[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
-								skeleton[i]->SetHit1stFrameFlg(true);
-
-								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(skeleton[i]->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
-										skeleton[i]->SetHitHP(weaponB->GetThunderDamage());
-										weaponB->AddTotalDamageThunder();
+					for (int i = 0; i < enemySpawnData["skeleton"]; i++) {
+						if (skeleton[i] != nullptr) {
+							if (weaponA->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+								if (skeleton[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									skeleton[i]->SetHitWeaponFlg();
+									skeleton[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+									skeleton[i]->SetHit1stFrameFlg(true);
+									if (weaponA->GetIsAttacking() && !swordHitFlg) {
+										swordHitFlg = true;
+										weaponA->SetHitCnt(true);
+										weaponA->SwordLevel8(player);
+										weaponA->SwordLevel8Heel(player);
 									}
+									weaponA->AddTotalDamage();
 								}
-								weaponB->AddTotalDamage();
 							}
-						}
-						if (weaponA->DustCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
-							if (skeleton[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								skeleton[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								skeleton[i]->SetHitHP(weaponA->GetDustDamage());
-								skeleton[i]->SetHit1stFrameFlg(true);
-								skeleton[i]->SetCloudOfDustHitFlg(true);
-								weaponA->AddTotalDamageDust();
+							if (weaponB->WeaponCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+								if (skeleton[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									skeleton[i]->SetHitWeaponFlg();
+									skeleton[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+									skeleton[i]->SetHit1stFrameFlg(true);
+
+									if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+										weaponB->SetThunderLocation(skeleton[i]->GetEnemyLocation());
+										if (weaponB->SpearThunderCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+											skeleton[i]->SetHitHP(weaponB->GetThunderDamage());
+											weaponB->AddTotalDamageThunder();
+										}
+									}
+									weaponB->AddTotalDamage();
+								}
+							}
+							if (weaponA->DustCollision(skeleton[i]->GetEnemyLocation(), skeleton[i]->GetEnemyRadius())) {
+								if (skeleton[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									skeleton[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									skeleton[i]->SetHitHP(weaponA->GetDustDamage());
+									skeleton[i]->SetHit1stFrameFlg(true);
+									skeleton[i]->SetCloudOfDustHitFlg(true);
+									weaponA->AddTotalDamageDust();
+								}
 							}
 						}
 					}
-				}
 
-				for (int i = 0; i < enemySpawnData["wizard"]; i++) {
-					if (wizard[i] != nullptr) {
-						if (weaponA->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
-							if (wizard[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								wizard[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								wizard[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
-								wizard[i]->SetHit1stFrameFlg(true);
-								if (weaponA->GetIsAttacking() && !swordHitFlg) {
-									swordHitFlg = true;
-									weaponA->SetHitCnt(true);
-									weaponA->SwordLevel8(player);
-								}
-								weaponA->AddTotalDamage();
-							}
-						}
-						if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
-							if (wizard[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								wizard[i]->SetHitWeaponFlg();
-								wizard[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
-								wizard[i]->SetHit1stFrameFlg(true);
-
-								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(wizard[i]->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
-										wizard[i]->SetHitHP(weaponB->GetThunderDamage());
-										weaponB->AddTotalDamageThunder();
+					for (int i = 0; i < enemySpawnData["wizard"]; i++) {
+						if (wizard[i] != nullptr) {
+							if (weaponA->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+								if (wizard[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									wizard[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									wizard[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+									wizard[i]->SetHit1stFrameFlg(true);
+									if (weaponA->GetIsAttacking() && !swordHitFlg) {
+										swordHitFlg = true;
+										weaponA->SetHitCnt(true);
+										weaponA->SwordLevel8(player);
 									}
+									weaponA->AddTotalDamage();
 								}
-								weaponB->AddTotalDamage();
 							}
-						}
-						if (weaponA->DustCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
-							if (wizard[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								wizard[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								wizard[i]->SetHitHP(weaponA->GetDustDamage());
-								wizard[i]->SetHit1stFrameFlg(true);
-								wizard[i]->SetCloudOfDustHitFlg(true);
-								weaponA->AddTotalDamageDust();
+							if (weaponB->WeaponCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+								if (wizard[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									wizard[i]->SetHitWeaponFlg();
+									wizard[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+									wizard[i]->SetHit1stFrameFlg(true);
+
+									if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+										weaponB->SetThunderLocation(wizard[i]->GetEnemyLocation());
+										if (weaponB->SpearThunderCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+											wizard[i]->SetHitHP(weaponB->GetThunderDamage());
+											weaponB->AddTotalDamageThunder();
+										}
+									}
+									weaponB->AddTotalDamage();
+								}
+							}
+							if (weaponA->DustCollision(wizard[i]->GetEnemyLocation(), wizard[i]->GetEnemyRadius())) {
+								if (wizard[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									wizard[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									wizard[i]->SetHitHP(weaponA->GetDustDamage());
+									wizard[i]->SetHit1stFrameFlg(true);
+									wizard[i]->SetCloudOfDustHitFlg(true);
+									weaponA->AddTotalDamageDust();
+								}
 							}
 						}
 					}
-				}
+				};
+
 				//ミノタウロス
-				if (minotaur != nullptr) {
-					if (weaponA->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
-						if (minotaur->GetHitFrameCnt() == 0) {
-							SoundManager::PlaySoundSE("se_enemy_damage", false);
-							minotaur->SetHitWeaponFlg();
-							//ダメージアップ
-							minotaur->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
-							minotaur->SetHit1stFrameFlg(true);
-							if (weaponA->GetIsAttacking() && !swordHitFlg) {
-								swordHitFlg = true;
-								weaponA->SetHitCnt(true);
-								weaponA->SwordLevel8(player);
-							}
-							weaponA->AddTotalDamage();
-						}
-					}
-					if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
-						if (minotaur->GetHitFrameCnt() == 0) {
-							SoundManager::PlaySoundSE("se_enemy_damage", false);
-							minotaur->SetHitWeaponFlg();
-							minotaur->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
-							minotaur->SetHit1stFrameFlg(true);
-
-							if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-								weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
-								if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
-									minotaur->SetHitHP(weaponB->GetThunderDamage());
-									weaponB->AddTotalDamageThunder();
+				if (battleMode == GameSceneBattleMode::midBoss) {
+					if (minotaur != nullptr) {
+						if (weaponA->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+							if (minotaur->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								minotaur->SetHitWeaponFlg();
+								//ダメージアップ
+								minotaur->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+								minotaur->SetHit1stFrameFlg(true);
+								if (weaponA->GetIsAttacking() && !swordHitFlg) {
+									swordHitFlg = true;
+									weaponA->SetHitCnt(true);
+									weaponA->SwordLevel8(player);
 								}
+								weaponA->AddTotalDamage();
 							}
-							weaponB->AddTotalDamage();
+						}
+						if (weaponB->WeaponCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+							if (minotaur->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								minotaur->SetHitWeaponFlg();
+								minotaur->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+								minotaur->SetHit1stFrameFlg(true);
+
+								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+									weaponB->SetThunderLocation(minotaur->GetEnemyLocation());
+									if (weaponB->SpearThunderCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+										minotaur->SetHitHP(weaponB->GetThunderDamage());
+										weaponB->AddTotalDamageThunder();
+									}
+								}
+								weaponB->AddTotalDamage();
+							}
+						}
+						if (weaponA->DustCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
+							if (minotaur->GetHitFrameCnt() == 0) {
+								SoundManager::PlaySoundSE("se_enemy_damage", false);
+								minotaur->SetHitWeaponFlg();
+								//ダメージアップ
+								minotaur->SetHitHP(weaponA->GetDustDamage());
+								minotaur->SetHit1stFrameFlg(true);
+								minotaur->SetCloudOfDustHitFlg(true);
+								weaponA->AddTotalDamageDust();
+							}
 						}
 					}
-					if (weaponA->DustCollision(minotaur->GetEnemyLocation(), minotaur->GetEnemyRadius())) {
-						if (minotaur->GetHitFrameCnt() == 0) {
-							SoundManager::PlaySoundSE("se_enemy_damage", false);
-							minotaur->SetHitWeaponFlg();
-							//ダメージアップ
-							minotaur->SetHitHP(weaponA->GetDustDamage());
-							minotaur->SetHit1stFrameFlg(true);
-							minotaur->SetCloudOfDustHitFlg(true);
-							weaponA->AddTotalDamageDust();
-						}
-					}
-				}
+				};
+
 				//魔王
-				if (devilKing != nullptr) {
-					if (weaponA->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
-							if (devilKing->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								devilKing->SetHitWeaponFlg();
-								//ダメージアップ
-								devilKing->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
-								devilKing->SetHit1stFrameFlg(true);
-								if (weaponA->GetIsAttacking() && !swordHitFlg) {
-									swordHitFlg = true;
-									weaponA->SetHitCnt(true);
-									weaponA->SwordLevel8(player);
-								}
-								weaponA->AddTotalDamage();
-							}
-						}
-					}
-				
-					if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius()) /*&& !devilKingHitFlg*/) {
-						devilKingHitFlg = true;
-						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
-							if (devilKing->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								devilKing->SetHitWeaponFlg();
-								devilKing->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
-								devilKing->SetHit1stFrameFlg(true);
-
-								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-										devilKing->SetHitHP(weaponB->GetThunderDamage());
-										weaponB->AddTotalDamageThunder();
+				if (battleMode == GameSceneBattleMode::boss) {
+					if (devilKing != nullptr) {
+						if (weaponA->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+							if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+								if (devilKing->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									devilKing->SetHitWeaponFlg();
+									//ダメージアップ
+									devilKing->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+									devilKing->SetHit1stFrameFlg(true);
+									if (weaponA->GetIsAttacking() && !swordHitFlg) {
+										swordHitFlg = true;
+										weaponA->SetHitCnt(true);
+										weaponA->SwordLevel8(player);
 									}
+									weaponA->AddTotalDamage();
 								}
-								weaponB->AddTotalDamage();
 							}
 						}
-					}
-					else {
-						devilKingHitFlg = false;
-					}
-					if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
-						if (devilKing->GetShieldFlg() == true) {//シールドが０なら
-							if (devilKing->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								devilKing->SetHitWeaponFlg();
-								//ダメージアップ
-								devilKing->SetHitHP(weaponA->GetDustDamage());
-								devilKing->SetHit1stFrameFlg(true);
-								devilKing->SetCloudOfDustHitFlg(true);
-								weaponA->AddTotalDamageDust();
-							}
-						}
-					}
-				}
-				//魔王の弾
-				for (int i = 0; i < MAX_BULLET_NUM; i++){
-					if (bigEnemyBullet[i] != nullptr) {
-						if (weaponA->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
-							//weaponAと魔王の弾の当たり判定
-							bigEnemyBullet[i]->SetHitWeapon(true);
-							
-							if (true);
-						}
-						if (weaponB->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
-							//weaponBと魔王の弾の当たり判定
-							/*bigEnemyBullet[i]->SetHitWeapon(true);*/
-						}
-					}
-				}
 
-				//幽霊
-				for (int i = 0; i < MAX_GHOST_NUM; i++) {
-					if (ghost[i] != nullptr) {
-						if (weaponA->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
-							if (ghost[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								ghost[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								ghost[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
-								ghost[i]->SetHit1stFrameFlg(true);
-								if (weaponA->GetIsAttacking() && !swordHitFlg) {
-									swordHitFlg = true;
-									weaponA->SetHitCnt(true);
-									weaponA->SwordLevel8(player);
-								}
-								weaponA->AddTotalDamage();
-							}
+						if (weaponB->WeaponCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius()) /*&& !devilKingHitFlg*/) {
+							devilKingHitFlg = true;
+							if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+								if (devilKing->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									devilKing->SetHitWeaponFlg();
+									devilKing->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+									devilKing->SetHit1stFrameFlg(true);
 
-							if (true);
-						}
-						if (weaponB->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
-							if (ghost[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								ghost[i]->SetHitWeaponFlg();
-								ghost[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
-								ghost[i]->SetHit1stFrameFlg(true);
-
-								if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
-									weaponB->SetThunderLocation(ghost[i]->GetEnemyLocation());
-									if (weaponB->SpearThunderCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
-										ghost[i]->SetHitHP(weaponB->GetThunderDamage());
-										weaponB->AddTotalDamageThunder();
+									if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+										weaponB->SetThunderLocation(devilKing->GetEnemyLocation());
+										if (weaponB->SpearThunderCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+											devilKing->SetHitHP(weaponB->GetThunderDamage());
+											weaponB->AddTotalDamageThunder();
+										}
 									}
+									weaponB->AddTotalDamage();
 								}
-								weaponB->AddTotalDamage();
 							}
 						}
-						if (weaponA->DustCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
-							if (ghost[i]->GetHitFrameCnt() == 0) {
-								SoundManager::PlaySoundSE("se_enemy_damage", false);
-								ghost[i]->SetHitWeaponFlg();
-								//ダメージアップ
-								ghost[i]->SetHitHP(weaponA->GetDustDamage());
-								ghost[i]->SetHit1stFrameFlg(true);
-								ghost[i]->SetCloudOfDustHitFlg(true);
-								weaponA->AddTotalDamageDust();
+						else {
+							devilKingHitFlg = false;
+						}
+						if (weaponA->DustCollision(devilKing->GetEnemyLocation(), devilKing->GetEnemyRadius())) {
+							if (devilKing->GetShieldFlg() == true) {//シールドが０なら
+								if (devilKing->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									devilKing->SetHitWeaponFlg();
+									//ダメージアップ
+									devilKing->SetHitHP(weaponA->GetDustDamage());
+									devilKing->SetHit1stFrameFlg(true);
+									devilKing->SetCloudOfDustHitFlg(true);
+									weaponA->AddTotalDamageDust();
+								}
 							}
 						}
 					}
-				}
-				
+					//魔王の弾
+					for (int i = 0; i < MAX_BULLET_NUM; i++) {
+						if (bigEnemyBullet[i] != nullptr) {
+							if (weaponA->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
+								//weaponAと魔王の弾の当たり判定
+								bigEnemyBullet[i]->SetHitWeapon(true);
+
+								if (true);
+							}
+							if (weaponB->WeaponCollision(bigEnemyBullet[i]->GetEnemyLocation(), bigEnemyBullet[i]->GetEnemyRadius())) {
+								//weaponBと魔王の弾の当たり判定
+								/*bigEnemyBullet[i]->SetHitWeapon(true);*/
+							}
+						}
+					}
+
+					//幽霊
+					for (int i = 0; i < MAX_GHOST_NUM; i++) {
+						if (ghost[i] != nullptr) {
+							if (weaponA->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+								if (ghost[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									ghost[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									ghost[i]->SetHitHP(weaponA->GetDamage() * totalAttackBuf);
+									ghost[i]->SetHit1stFrameFlg(true);
+									if (weaponA->GetIsAttacking() && !swordHitFlg) {
+										swordHitFlg = true;
+										weaponA->SetHitCnt(true);
+										weaponA->SwordLevel8(player);
+									}
+									weaponA->AddTotalDamage();
+								}
+
+								if (true);
+							}
+							if (weaponB->WeaponCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+								if (ghost[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									ghost[i]->SetHitWeaponFlg();
+									ghost[i]->SetHitHP(weaponB->GetDamage() * totalAttackBuf);
+									ghost[i]->SetHit1stFrameFlg(true);
+
+									if (weaponB->GetWeaponType() == spear && weaponB->GetWeaponLevel() == 8) {
+										weaponB->SetThunderLocation(ghost[i]->GetEnemyLocation());
+										if (weaponB->SpearThunderCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+											ghost[i]->SetHitHP(weaponB->GetThunderDamage());
+											weaponB->AddTotalDamageThunder();
+										}
+									}
+									weaponB->AddTotalDamage();
+								}
+							}
+							if (weaponA->DustCollision(ghost[i]->GetEnemyLocation(), ghost[i]->GetEnemyRadius())) {
+								if (ghost[i]->GetHitFrameCnt() == 0) {
+									SoundManager::PlaySoundSE("se_enemy_damage", false);
+									ghost[i]->SetHitWeaponFlg();
+									//ダメージアップ
+									ghost[i]->SetHitHP(weaponA->GetDustDamage());
+									ghost[i]->SetHit1stFrameFlg(true);
+									ghost[i]->SetCloudOfDustHitFlg(true);
+									weaponA->AddTotalDamageDust();
+								}
+							}
+						}
+					}
+				};
 			}
 
 			if (!weaponA->GetIsAttacking() && weaponA->GetOldIsAttacking()) {
@@ -1076,7 +1084,7 @@ void GameScene::HitCheck() {
 
 						//魔王と大きい弾
 						if (bigEnemyBullet[i]->CheckCollision(static_cast<SphereCollider>(*devilKing), player) == HIT) {
-							SoundManager::PlaySoundSE("se_enemy_barrierdamage", false);
+ 							SoundManager::PlaySoundSE("se_enemy_barrier_damage");
 							devilKing->SetBigBulletHitFlg(true);
 							bigEnemyBullet[i] = nullptr;
 						}
@@ -1446,6 +1454,10 @@ void GameScene::SmallEnemyBulletDraw() const
 void GameScene::GhostUpdate() 
 {
 	if (tmpGhostNum < MAX_GHOST_NUM) {
+		if (ghost[0] == nullptr)
+		{
+			SoundManager::PlaySoundSE("se_enemy_spirit");
+		}
 		ghost[tmpGhostNum] = new Ghost(tmpGhostNum);
 		tmpGhostNum++;
 	}
