@@ -183,8 +183,6 @@ void Minotaur::Draw() const
 		}
 	}
 
-	DrawCircle(location.x, location.y, ROAR_RADIUS, C_BLUE, FALSE, 2);//デバッグ用
-
 #ifdef DEBUG
 	DrawFormatString(300, 560, C_RED, "%d", tackleCnt);
 
