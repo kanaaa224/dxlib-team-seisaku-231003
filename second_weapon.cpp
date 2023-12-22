@@ -321,18 +321,18 @@ void second_weapon::Update(float cursorX, float cursorY, Location playerLocation
 
 	}
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_Z)) {
-		weaponLevel = 7;
-		LevelState();
-	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_X)) {
-		weaponLevel = 8;
-		LevelState();
-	}
-	if (InputCtrl::GetKeyState(KEY_INPUT_C)) {
-		weaponLevel = 6;
-		LevelState();
-	}
+	//if (InputCtrl::GetKeyState(KEY_INPUT_Z)) {
+	//	weaponLevel = 7;
+	//	LevelState();
+	//}
+	//if (InputCtrl::GetKeyState(KEY_INPUT_X)) {
+	//	weaponLevel = 8;
+	//	LevelState();
+	//}
+	//if (InputCtrl::GetKeyState(KEY_INPUT_C)) {
+	//	weaponLevel = 6;
+	//	LevelState();
+	//}
 }
 
 void second_weapon::Draw() const

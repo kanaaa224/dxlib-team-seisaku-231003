@@ -269,7 +269,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 
 	SwordLevel8(player);
 
-	if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
+	/*if (InputCtrl::GetKeyState(KEY_INPUT_7)) {
 		weaponLevel = 7;
 		LevelState();
 	}
@@ -280,7 +280,7 @@ void weapon::Update(float cursorX, float cursorY, Location playerLocation, Playe
 	if (InputCtrl::GetKeyState(KEY_INPUT_9)) {
 		weaponLevel = 6;
 		LevelState();
-	}
+	}*/
 }
 
 void weapon::Draw() const
