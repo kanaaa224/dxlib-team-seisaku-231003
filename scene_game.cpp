@@ -148,7 +148,7 @@ Scene* GameScene::update() {
 		};
 	};
 
-#if 1
+#if 0
 	if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE)) return new DebugScene(); // 仮
 
 	// 鍛冶ステージテスト用
@@ -194,6 +194,28 @@ Scene* GameScene::update() {
 	// デバッグ - HP操作
 	if (InputCtrl::GetKeyState(KEY_INPUT_RIGHT) == PRESS) player->SetPlayerHP(player->GetPlayer_HP() + 1);
 	if (InputCtrl::GetKeyState(KEY_INPUT_LEFT)  == PRESS) player->SetPlayerHP(player->GetPlayer_HP() - 1);
+
+
+	//武器デバッグ
+	if (InputCtrl::GetKeyState(KEY_INPUT_1)) {
+		weaponA->SetWeaponType(dagger);
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_2)) {
+		weaponA->SetWeaponType(sword);
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_3)) {
+		weaponA->SetWeaponType(greatSword);
+	}
+
+	if (InputCtrl::GetKeyState(KEY_INPUT_4)) {
+		weaponB->SetWeaponType(spear);
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_5)) {
+		weaponB->SetWeaponType(frail);
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
+		weaponB->SetWeaponType(book);
+	}
 #endif
 	//////////////////////////////////////////////////
 
@@ -594,27 +616,7 @@ Scene* GameScene::update() {
 				weaponB->SetBarrierFlg(false);
 				bookFlg = false;
 			}
-
-			//武器デバッグ
-			if (InputCtrl::GetKeyState(KEY_INPUT_1)) {
-				weaponA->SetWeaponType(dagger);
-			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_2)) {
-				weaponA->SetWeaponType(sword);
-			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_3)) {
-				weaponA->SetWeaponType(greatSword);
-			}
-
-			if (InputCtrl::GetKeyState(KEY_INPUT_4)) {
-				weaponB->SetWeaponType(spear);
-			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_5)) {
-				weaponB->SetWeaponType(frail);
-			}
-			if (InputCtrl::GetKeyState(KEY_INPUT_6)) {
-				weaponB->SetWeaponType(book);
-			}
+			
 
 			////////////
 			player->SetLeftTop(stage->GetStageArray(0));
