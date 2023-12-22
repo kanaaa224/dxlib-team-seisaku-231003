@@ -3,7 +3,6 @@
 GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map)
 {
 	// 画像読込
-	img_gameclear = LoadGraph("resources/images/GameClear/gameclear.png");
 	img_crown = LoadGraph("resources/images/GameClear/crown_01_gold_red.png");
 	img_grail = LoadGraph("resources/images/GameClear/seihai_gold.png");
 	img_player = LoadGraph("resources/images/player_images/Player_right50・50.png");
@@ -34,7 +33,6 @@ GameClearScene::GameClearScene(weapon* weapon1, second_weapon* weapon2, Map* map
 
 GameClearScene::~GameClearScene()
 {
-	DeleteGraph(img_gameclear);
 	DeleteGraph(img_crown);
 	DeleteGraph(img_grail);
 	DeleteGraph(img_player);
@@ -82,8 +80,6 @@ void GameClearScene::draw() const
 {
 	// 背景色
 	DrawBox(0, 0, 1280, 720, 0xa0a0a0, TRUE);
-	//DrawBox(0, 0, 1280, 720, 0x68030c, TRUE);
-	//DrawGraph(0, 0, img_background, TRUE);
 
 	// テキスト表示
 	SetFontSize(60);

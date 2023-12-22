@@ -4,11 +4,11 @@ Blacksmith::Blacksmith()
 {
 	// 画像の読込
 	img_cursor = LoadGraph("resources/images/levelup_cursor.png");
-	img_chooce = LoadGraph("resources/images/blacksmith_choose.png");
-	img_hammer = LoadGraph("resources/images/hammer.png");
-	img_spark = LoadGraph("resources/images/spark.png");
-	img_exclamation_mark = LoadGraph("resources/images/mark_exclamation_white.png");
-	img_arrow = LoadGraph("resources/images/arrow.png");
+	img_chooce = LoadGraph("resources/images/Blacksmith/blacksmith_choose.png");
+	img_hammer = LoadGraph("resources/images/Blacksmith/hammer.png");
+	img_spark = LoadGraph("resources/images/Blacksmith/spark.png");
+	img_exclamation_mark = LoadGraph("resources/images/Blacksmith/mark_exclamation_white.png");
+	img_arrow = LoadGraph("resources/images/Blacksmith/arrow.png");
 	img_button_b = LoadGraph("resources/images/button_b.png");
 	img_button_a = LoadGraph("resources/images/button_a01.png");
 	img_background = LoadGraph("resources/images/lkvhg.png");
@@ -269,6 +269,8 @@ void Blacksmith::draw(WeaponLevelUp* weapon_levelup) const
 	//DrawFormatString(0, 260, 0x000000, "cursor_y %d", cursor_y);
 	//DrawFormatString(0, 280, 0x000000, "action_number %d", action_number);
 
+	//DrawLine(1280 / 2, 0, 1280 / 2, 720, 0xff0000);
+
 //	DrawFormatString(0, 0, 0x000000, "カーソル位置: %d - %d", InputCtrl::GetMouseCursor().x, InputCtrl::GetMouseCursor().y);
 #endif
 
@@ -439,12 +441,12 @@ void Blacksmith::FirstDraw(WeaponLevelUp* weapon_levelup) const
 // レベルリセット画面描画
 void Blacksmith::DrawResetLevel(WeaponLevelUp* weapon_levelup) const
 {
-	DrawBox(490, 35, 790, 110, box_color_hover, TRUE);
+	DrawBox(470, 30, 810, 120, box_color_hover, TRUE);
 
-	SetFontSize(35);
-	DrawFormatString(510, 45, 0x000000, "レベルリセット");
-	SetFontSize(15);
-	DrawFormatString(530, 85, 0xb00000, "武器のレベルが0になります");
+	SetFontSize(40);
+	DrawFormatString(500, 45, 0x000000, "レベルリセット");
+	SetFontSize(20);
+	DrawFormatString(500, 90, 0xb00000, "武器のレベルが 0 になります");
 
 	SetFontSize(20);
 	if (weapon_number == weapon1_info.num)
