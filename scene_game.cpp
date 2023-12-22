@@ -669,7 +669,7 @@ Scene* GameScene::update() {
 				};
 				weaponA->SetAvoidanceDamageFlg(false);
 			};
-			if (player->GetPlayer_HP() <= 0) {
+			if (hp <= 0) {
 				gameUI->setBanner("敗北", "体力が尽きた.....", 0);
 				if (gameUI->getState() == playerUI) {
 					gameUI->init();

@@ -55,7 +55,7 @@ void Devil_king::Update(Player* player)
 	//移動処理
 	if (skyWalkFlg == true && shieldFlg == false) {//浮遊
 		//瞬間移動
-		Teleportation();
+		//Teleportation();
 		//影
 		shadowLocation.x = shadowLocation.x - (vector.x + diff.x);
 		shadowLocation.y = shadowLocation.y - (vector.y + diff.y);
@@ -103,6 +103,7 @@ void Devil_king::Update(Player* player)
 	//ビーム
 	if (shieldFlg == false && DEVILKING_MAX_HP / 3 >= hp) {//シールドがある時と魔王のHPが3/1を下回ったら
 		BeamUpdate(player);
+		downTime = SECOND_FRAME(1.7);
 	}
 	else if (shieldFlg == true) {//シールドが無い時
 		SoundManager::StopSoundSE("se_enemy_beam_charge");
@@ -146,7 +147,7 @@ void Devil_king::Update(Player* player)
 	//ダウンタイム
 	if (skyWalkFlg == false) {
 		//downTimeCounterが設定した値になったらシールドを復活させる
-		if (downTimeCounter >= DOWN_TIME) {
+		if (downTimeCounter >= downTime) {
 			SoundManager::PlaySoundSE("se_enemy_barrier_open");
 			shield = MAX_SHIELD;
 			shieldFlg = false;
@@ -252,7 +253,10 @@ void Devil_king::Teleportation()
 
 	//瞬間移動する処理
 	if (teleportationFlg == true) {
-		
+		location.x = SetGetRand(100, 1180);
+		location.y = SetGetRand(100, 620);
+		shadowLocation.x = location.x - diff.x;
+		shadowLocation.y = (location.y + vector.y) - diff.y;
 	}
 }
 

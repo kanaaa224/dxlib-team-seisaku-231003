@@ -5,9 +5,14 @@
 #include "main.h"
 
 GameUI::GameUI() {
-	if ((img["btnA"]             = LoadGraph("resources/images/ui/button-a_160.png"))     == -1) throw;
-	if ((img["btnB"]             = LoadGraph("resources/images/ui/button-b_160.png"))     == -1) throw;
-	if ((img["btnX"]             = LoadGraph("resources/images/ui/button-x_160.png"))     == -1) throw;
+	if ((img["btnA"] = LoadGraph("resources/images/ui/button-a_160.png")) == -1) throw;
+	if ((img["btnB"] = LoadGraph("resources/images/ui/button-b_160.png")) == -1) throw;
+	if ((img["btnX"] = LoadGraph("resources/images/ui/button-x_160.png")) == -1) throw;
+
+	if ((img["whiteCircle50"] = LoadGraph("resources/images/ui/shiromaru_50.png")) == -1) throw;
+	if ((img["blackCircle50"] = LoadGraph("resources/images/ui/kuromaru_50.png"))  == -1) throw;
+	if ((img["whiteCircle80"] = LoadGraph("resources/images/ui/shiromaru_80.png")) == -1) throw;
+	if ((img["blackCircle80"] = LoadGraph("resources/images/ui/kuromaru_80.png"))  == -1) throw;
 
 	if ((img["weaponSword"]      = LoadGraph("resources/images/武器/片手剣50・50.png"))   == -1) throw;
 	if ((img["weaponDagger"]     = LoadGraph("resources/images/武器/短剣50・50.png"))     == -1) throw;
@@ -16,28 +21,39 @@ GameUI::GameUI() {
 	if ((img["weaponFrail"]      = LoadGraph("resources/images/武器/フレイル50・50.png")) == -1) throw;
 	if ((img["weaponBook"]       = LoadGraph("resources/images/武器/本50・50.png"))       == -1) throw;
 
-	if ((img["whiteCircle50"]    = LoadGraph("resources/images/ui/shiromaru_50.png"))     == -1) throw;
-	if ((img["blackCircle50"]    = LoadGraph("resources/images/ui/kuromaru_50.png"))      == -1) throw;
-	if ((img["whiteCircle80"]    = LoadGraph("resources/images/ui/shiromaru_80.png"))     == -1) throw;
-	if ((img["blackCircle80"]    = LoadGraph("resources/images/ui/kuromaru_80.png"))      == -1) throw;
+	if ((img["weaponSwordL7"]      = LoadGraph("resources/images/武器/最終強化(仮)/完成/asasin50.png"))  == -1) throw;
+	if ((img["weaponDaggerL7"]     = LoadGraph("resources/images/武器/最終強化(仮)/完成/densetu50.png")) == -1) throw;
+	if ((img["weaponGreatSwordL7"] = LoadGraph("resources/images/武器/最終強化(仮)/完成/senpuu50.png"))  == -1) throw;
+	if ((img["weaponSpearL7"]      = LoadGraph("resources/images/武器/最終強化(仮)/完成/roiyaru50.png")) == -1) throw;
+	if ((img["weaponFrailL7"]      = LoadGraph("resources/images/武器/最終強化(仮)/完成/3tukubi.png"))   == -1) throw;
+	if ((img["weaponBookL7"]       = LoadGraph("resources/images/武器/最終強化(仮)/完成/kago.png"))      == -1) throw;
 
-	if ((img["coolTime"]         = LoadGraph("resources/images/ui/sprint_512.png"))       == -1) throw;
+	if ((img["weaponSwordL8"]      = LoadGraph("resources/images/武器/最終強化(仮)/完成/nagenaihu50.png")) == -1) throw;
+	if ((img["weaponDaggerL8"]     = LoadGraph("resources/images/武器/最終強化(仮)/完成/maken50.png"))     == -1) throw;
+	if ((img["weaponGreatSwordL8"] = LoadGraph("resources/images/武器/最終強化(仮)/完成/sajin50.png"))     == -1) throw;
+	if ((img["weaponSpearL8"]      = LoadGraph("resources/images/武器/最終強化(仮)/完成/gung50.png"))      == -1) throw;
+	if ((img["weaponFrailL8"]      = LoadGraph("resources/images/武器/最終強化(仮)/完成/a-su.png"))        == -1) throw;
+	if ((img["weaponBookL8"]       = LoadGraph("resources/images/武器/最終強化(仮)/完成/aaaa.png"))        == -1) throw;
 
-	if ((img["iconBattle"]       = LoadGraph("resources/images/maps/battle.png"))         == -1) throw;
-	if ((img["iconEvent"]        = LoadGraph("resources/images/maps/event.png"))          == -1) throw;
-	if ((img["iconRest"]         = LoadGraph("resources/images/maps/rest.png"))           == -1) throw;
-	if ((img["iconAnvil"]        = LoadGraph("resources/images/maps/anvil.png"))          == -1) throw;
-	if ((img["iconBoss"]         = LoadGraph("resources/images/maps/boss.png"))           == -1) throw;
+	if ((img["coolTime"] = LoadGraph("resources/images/ui/sprint_512.png")) == -1) throw;
 
-	if ((img["iconAttack"]       = LoadGraph("resources/images/attack_buf.png"))          == -1) throw;
-	if ((img["iconRedArrow"]     = LoadGraph("resources/images/arrow_red.png"))           == -1) throw;
+	if ((img["iconBattle"] = LoadGraph("resources/images/maps/battle.png")) == -1) throw;
+	if ((img["iconEvent"]  = LoadGraph("resources/images/maps/event.png"))  == -1) throw;
+	if ((img["iconRest"]   = LoadGraph("resources/images/maps/rest.png"))   == -1) throw;
+	if ((img["iconAnvil"]  = LoadGraph("resources/images/maps/anvil.png"))  == -1) throw;
+	if ((img["iconBoss"]   = LoadGraph("resources/images/maps/boss.png"))   == -1) throw;
 
-	if ((img["pause"]            = LoadGraph("resources/images/Logo/UI/logo_pause.png"))  == -1) throw;
+	if ((img["iconAttack"]   = LoadGraph("resources/images/attack_buf.png")) == -1) throw;
+	if ((img["iconRedArrow"] = LoadGraph("resources/images/arrow_red.png"))  == -1) throw;
+
+
+	if ((img["pause"] = LoadGraph("resources/images/Logo/UI/logo_pause.png")) == -1) throw;
 
 	//////////////////////////////////////////////////
 
-	//if (AddFontResourceEx("resources/fonts/PressStart2P-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
+	if (AddFontResourceEx("resources/fonts/PixelMplus10-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
 	//MessageBox(NULL, "フォントのロードに失敗しました。resourcesフォルダーを確認してください。", "", MB_OK);
+	ChangeFont("PixelMplus10", DX_CHARSET_DEFAULT);
 
 	//////////////////////////////////////////////////
 
@@ -54,6 +70,11 @@ GameUI::~GameUI() {
 	DeleteGraph(img["btnB"]);
 	DeleteGraph(img["btnX"]);
 
+	DeleteGraph(img["whiteCircle50"]);
+	DeleteGraph(img["blackCircle50"]);
+	DeleteGraph(img["whiteCircle80"]);
+	DeleteGraph(img["blackCircle80"]);
+
 	DeleteGraph(img["weaponSword"]);
 	DeleteGraph(img["weaponDagger"]);
 	DeleteGraph(img["weaponGreatSword"]);
@@ -61,10 +82,19 @@ GameUI::~GameUI() {
 	DeleteGraph(img["weaponFrail"]);
 	DeleteGraph(img["weaponBook"]);
 
-	DeleteGraph(img["whiteCircle50"]);
-	DeleteGraph(img["blackCircle50"]);
-	DeleteGraph(img["whiteCircle80"]);
-	DeleteGraph(img["blackCircle80"]);
+	DeleteGraph(img["weaponSwordL7"]);
+	DeleteGraph(img["weaponDaggerL7"]);
+	DeleteGraph(img["weaponGreatSwordL7"]);
+	DeleteGraph(img["weaponSpearL7"]);
+	DeleteGraph(img["weaponFrailL7"]);
+	DeleteGraph(img["weaponBookL7"]);
+
+	DeleteGraph(img["weaponSwordL8"]);
+	DeleteGraph(img["weaponDaggerL8"]);
+	DeleteGraph(img["weaponGreatSwordL8"]);
+	DeleteGraph(img["weaponSpearL8"]);
+	DeleteGraph(img["weaponFrailL8"]);
+	DeleteGraph(img["weaponBookL8"]);
 
 	DeleteGraph(img["coolTime"]);
 
@@ -81,7 +111,8 @@ GameUI::~GameUI() {
 
 	//////////////////////////////////////////////////
 
-	//RemoveFontResourceEx("resources/fonts/APressStart2P-Regular.ttf", FR_PRIVATE, NULL);
+	RemoveFontResourceEx("resources/fonts/PixelMplus10-Regular.ttf", FR_PRIVATE, NULL);
+	ChangeFont("");
 };
 
 void GameUI::init() {
@@ -161,12 +192,11 @@ void GameUI::update() {
 		if (std::stoi(shieldHP["currentRatio"]) < std::stoi(shieldHP["ratio"])) shieldHP["ratio"] = std::to_string(std::stoi(shieldHP["ratio"]) - 1);
 	};
 
-#if 1
+#if 0
 	if (InputCtrl::GetKeyState(KEY_INPUT_G) == PRESS) init(); // リセット
 	if (InputCtrl::GetKeyState(KEY_INPUT_N) == PRESS) notification("武器強化可能！", "Xボタンで確認", "btnX"); // 通知テスト
 	if (InputCtrl::GetKeyState(KEY_INPUT_S) == PRESS) state = 1; // スキップ
 #endif
-
 };
 
 void GameUI::draw(int mode) const {
@@ -253,7 +283,7 @@ void GameUI::drawHUD(int mode) const {
 
 	DrawCircle(rootRX - 60, rootRY + 60, 40, color, false, 5);
 
-	SetFontSize(40);
+	SetFontSize(42);
 	//ChangeFont("Bodoni MT Black Italic", DX_CHARSET_DEFAULT);
 	std::string str = std::to_string(point);
 	DrawFormatString(((rootRX - 60) - GetDrawFormatStringWidth(str.c_str()) / 2), rootRY + 34, 0xffffff, str.c_str());
@@ -370,6 +400,294 @@ void GameUI::drawHUD(int mode) const {
 
 
 	//////////////////////////////////////////////////
+	// 操作案内
+	//////////////////////////////////////////////////
+
+	if (!mode) {
+		lx = rootLX + 50;
+		ly = rootLY + (SCREEN_HEIGHT - 200);
+		rx = lx + 30;
+		ry = ly + 30;
+
+		DrawExtendGraph(lx, ly, rx, ry, img_btnX, TRUE);
+
+		//SetFontSize(16);
+		DrawFormatString(lx + 40, ly + 7, 0xffffff, "レベルアップメニュー");
+
+		/* ly -= 40;
+		ry = ly + 30;
+
+		DrawExtendGraph(lx, ly, rx, ry, img_btnB, TRUE);
+
+		DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）"); */
+
+		ly -= 40;
+		ry = ly + 30;
+
+		DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
+
+		DrawFormatString(lx + 40, ly + 7, 0xffffff, "回避");
+	};
+
+
+	//////////////////////////////////////////////////
+	// 武器
+	//////////////////////////////////////////////////
+
+	if (!mode) {
+		int img_weaponSword      = 0;
+		int img_weaponDagger     = 0;
+		int img_weaponGreatSword = 0;
+		int img_weaponSpear      = 0;
+		int img_weaponFrail      = 0;
+		int img_weaponBook       = 0;
+
+		int img_weaponSwordL7      = 0;
+		int img_weaponDaggerL7     = 0;
+		int img_weaponGreatSwordL7 = 0;
+		int img_weaponSpearL7      = 0;
+		int img_weaponFrailL7      = 0;
+		int img_weaponBookL7       = 0;
+
+		int img_weaponSwordL8      = 0;
+		int img_weaponDaggerL8     = 0;
+		int img_weaponGreatSwordL8 = 0;
+		int img_weaponSpearL8      = 0;
+		int img_weaponFrailL8      = 0;
+		int img_weaponBookL8       = 0;
+
+		if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
+		if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
+		if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
+		if (img.find("weaponSpear")      != img.end()) img_weaponSpear      = img.at("weaponSpear");
+		if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
+		if (img.find("weaponBook")       != img.end()) img_weaponBook       = img.at("weaponBook");
+
+		if (img.find("weaponSwordL7")      != img.end()) img_weaponSwordL7      = img.at("weaponSwordL7");
+		if (img.find("weaponDaggerL7")     != img.end()) img_weaponDaggerL7     = img.at("weaponDaggerL7");
+		if (img.find("weaponGreatSwordL7") != img.end()) img_weaponGreatSwordL7 = img.at("weaponGreatSwordL7");
+		if (img.find("weaponSpearL7")      != img.end()) img_weaponSpearL7      = img.at("weaponSpearL7");
+		if (img.find("weaponFrailL7")      != img.end()) img_weaponFrailL7      = img.at("weaponFrailL7");
+		if (img.find("weaponBookL7")       != img.end()) img_weaponBookL7       = img.at("weaponBookL7");
+
+		if (img.find("weaponSwordL8")      != img.end()) img_weaponSwordL8      = img.at("weaponSwordL8");
+		if (img.find("weaponDaggerL8")     != img.end()) img_weaponDaggerL8     = img.at("weaponDaggerL8");
+		if (img.find("weaponGreatSwordL8") != img.end()) img_weaponGreatSwordL8 = img.at("weaponGreatSwordL8");
+		if (img.find("weaponSpearL8")      != img.end()) img_weaponSpearL8      = img.at("weaponSpearL8");
+		if (img.find("weaponFrailL8")      != img.end()) img_weaponFrailL8      = img.at("weaponFrailL8");
+		if (img.find("weaponBookL8")       != img.end()) img_weaponBookL8       = img.at("weaponBookL8");
+
+		int weaponA[5];
+		int weaponB[5];
+
+		if (weapon.find("A") != weapon.end()) {
+			const std::map<std::string, int>& weaponStats = weapon.at("A");
+
+			if (weaponStats.find("type")        != weaponStats.end()) weaponA[0] = weaponStats.at("type");
+			if (weaponStats.find("level")       != weaponStats.end()) weaponA[1] = weaponStats.at("level");
+			if (weaponStats.find("selected")    != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
+
+			if (weaponStats.find("coolTime")    != weaponStats.end()) weaponA[3] = weaponStats.at("coolTime");
+			if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponA[4] = weaponStats.at("coolTimeMax");
+		};
+		if (weapon.find("B") != weapon.end()) {
+			const std::map<std::string, int>& weaponStats = weapon.at("B");
+
+			if (weaponStats.find("type")        != weaponStats.end()) weaponB[0] = weaponStats.at("type");
+			if (weaponStats.find("level")       != weaponStats.end()) weaponB[1] = weaponStats.at("level");
+			if (weaponStats.find("selected")    != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
+
+			if (weaponStats.find("coolTime")    != weaponStats.end()) weaponB[3] = weaponStats.at("coolTime");
+			if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponB[4] = weaponStats.at("coolTimeMax");
+		};
+
+		int imgHandle = 0;
+
+		x = rootRX - 80;
+		y = rootRY + (SCREEN_HEIGHT - 80);
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		DrawCircle(x, y, 50, 0x000000, true);
+		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		if (weaponB[0] != 99) {
+			if (weaponB[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+			if (weaponB[3]) DrawCircleGauge(x, y, ((float)weaponB[3] / (float)weaponB[4]) * 100, img_blackCircle80);
+			if (weaponB[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+			//SetFontSize(16);
+			str = "Lv. " + std::to_string(weaponB[1]);
+			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
+
+			if (weaponB[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
+
+			switch (weaponB[0]) {
+			case 0:
+				if (weaponB[1] == 7) {
+					imgHandle = img_weaponSpearL7;
+					str = "ロイヤルランス";
+				}
+				else if (weaponB[1] == 8) {
+					imgHandle = img_weaponSpearL8;
+					str = "グングニル";
+				}
+				else {
+					imgHandle = img_weaponSpear;
+					str = "槍";
+				};
+				
+				break;
+
+			case 1:
+				if (weaponB[1] == 7) {
+					imgHandle = img_weaponFrailL7;
+					str = "三つ首の鎖";
+				}
+				else if (weaponB[1] == 8) {
+					imgHandle = img_weaponFrailL8;
+					str = "アースクラッシャー";
+				}
+				else {
+					imgHandle = img_weaponFrail;
+					str = "フレイル";
+				};
+				break;
+
+			case 2:
+				if (weaponB[1] == 7) {
+					imgHandle = img_weaponBookL7;
+					str = "賢者の加護";
+				}
+				else if (weaponB[1] == 8) {
+					imgHandle = img_weaponBookL8;
+					str = "エンチャントバレット";
+				}
+				else {
+					imgHandle = img_weaponBook;
+					str = "魔導書";
+				};
+				break;
+
+			default:
+				break;
+			};
+
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, imgHandle, TRUE);
+
+			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
+		};
+
+		x -= 120;
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		DrawCircle(x, y, 50, 0x000000, true);
+		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		if (weaponA[0] != 99) {
+			if (weaponA[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+			if (weaponA[3]) DrawCircleGauge(x, y, ((float)weaponA[3] / (float)weaponA[4]) * 100, img_blackCircle80);
+			if (weaponA[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+			//SetFontSize(16);
+			str = "Lv. " + std::to_string(weaponA[1]);
+			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
+
+			if (weaponA[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
+
+			switch (weaponA[0]) {
+			case 0:
+				if (weaponA[1] == 7) {
+					imgHandle = img_weaponSwordL7;
+					str = "伝説の剣";
+				}
+				else if (weaponA[1] == 8) {
+					imgHandle = img_weaponSwordL8;
+					str = "魔剣";
+				}
+				else {
+					imgHandle = img_weaponSword;
+					str = "片手剣";
+				};
+				break;
+
+			case 1:
+				if (weaponA[1] == 7) {
+					imgHandle = img_weaponDaggerL7;
+					str = "アサシンダガー";
+				}
+				else if (weaponA[1] == 8) {
+					imgHandle = img_weaponDaggerL8;
+					str = "投げナイフ";
+				}
+				else {
+					imgHandle = img_weaponDagger;
+					str = "短剣";
+				};
+				break;
+
+			case 2:
+				if (weaponA[1] == 7) {
+					imgHandle = img_weaponGreatSwordL7;
+					str = "旋風斬";
+				}
+				else if (weaponA[1] == 8) {
+					imgHandle = img_weaponGreatSwordL8;
+					str = "砂塵の太刀";
+				}
+				else {
+					imgHandle = img_weaponGreatSword;
+					str = "大剣";
+				};
+				break;
+
+			default:
+				break;
+			};
+
+			DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, imgHandle, TRUE);
+
+			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
+		};
+	};
+
+
+	//////////////////////////////////////////////////
+	// CoolTime
+	//////////////////////////////////////////////////
+
+	if (!mode) {
+		int img_coolTime = 0;
+
+		if (img.find("coolTime") != img.end()) img_coolTime = img.at("coolTime");
+
+		current = 0;
+		max     = 0;
+
+		if (coolTime.find("current") != coolTime.end()) current = coolTime.at("current");
+		if (coolTime.find("max")     != coolTime.end()) max     = coolTime.at("max");
+
+		x -= 120;
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		if (current) DrawCircle(x, y, 40, GetColor(0, 0, 0), true);
+		else         DrawCircle(x, y, 40, GetColor(89, 165, 3), true);
+		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		//SetFontSize(16);
+		//str = "回避（仮）";
+		if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
+		//DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
+		//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
+		//DrawCircle(x, y, 50, 0xffffff, false, 2);
+		/*if (current) DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeWhite, TRUE);
+		else         DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeGreen, TRUE);*/
+		DrawExtendGraph(x - 25, y - 25, (x - 25) + 50, (y - 25) + 50, img_coolTime, TRUE);
+		if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
+		if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	};
+
+
+	//////////////////////////////////////////////////
 	// CoolTime
 	//////////////////////////////////////////////////
 
@@ -426,16 +744,16 @@ void GameUI::drawHUD(int mode) const {
 	//////////////////////////////////////////////////
 
 	int img_iconBattle = 0;
-	int img_iconEvent  = 0;
-	int img_iconRest   = 0;
-	int img_iconAnvil  = 0;
-	int img_iconBoss   = 0;
+	int img_iconEvent = 0;
+	int img_iconRest = 0;
+	int img_iconAnvil = 0;
+	int img_iconBoss = 0;
 
 	if (img.find("iconBattle") != img.end()) img_iconBattle = img.at("iconBattle");
-	if (img.find("iconEvent")  != img.end()) img_iconEvent  = img.at("iconEvent");
-	if (img.find("iconRest")   != img.end()) img_iconRest   = img.at("iconRest");
-	if (img.find("iconAnvil")  != img.end()) img_iconAnvil  = img.at("iconAnvil");
-	if (img.find("iconBoss")   != img.end()) img_iconBoss   = img.at("iconBoss");
+	if (img.find("iconEvent") != img.end()) img_iconEvent = img.at("iconEvent");
+	if (img.find("iconRest") != img.end()) img_iconRest = img.at("iconRest");
+	if (img.find("iconAnvil") != img.end()) img_iconAnvil = img.at("iconAnvil");
+	if (img.find("iconBoss") != img.end()) img_iconBoss = img.at("iconBoss");
 
 	int strWidth = GetDrawFormatStringWidth(str.c_str());
 
@@ -483,208 +801,15 @@ void GameUI::drawHUD(int mode) const {
 
 	if (!mode) {
 		current = 0;
-		max     = 0;
+		max = 0;
 
 		if (enemy.find("current") != enemy.end()) current = enemy.at("current");
-		if (enemy.find("max")     != enemy.end()) max     = enemy.at("max");
+		if (enemy.find("max") != enemy.end()) max = enemy.at("max");
 
 		SetFontSize(20);
 		//ChangeFont("");
 		str = "残りの敵: " + std::to_string(current) + "/" + std::to_string(max) + " 体";
 		DrawFormatString(rootLX + 50, rootLY + (SCREEN_HEIGHT - 80), 0xffffff, str.c_str());
-	};
-
-
-	//////////////////////////////////////////////////
-	// 操作案内
-	//////////////////////////////////////////////////
-
-	if (!mode) {
-		lx = rootLX + 50;
-		ly = rootLY + (SCREEN_HEIGHT - 200);
-		rx = lx + 30;
-		ry = ly + 30;
-
-		DrawExtendGraph(lx, ly, rx, ry, img_btnX, TRUE);
-
-		SetFontSize(16);
-		DrawFormatString(lx + 40, ly + 7, 0xffffff, "レベルアップメニュー");
-
-		/* ly -= 40;
-		ry = ly + 30;
-
-		DrawExtendGraph(lx, ly, rx, ry, img_btnB, TRUE);
-
-		DrawFormatString(lx + 40, ly + 5, 0xffffff, "武器持ち替え（仮）"); */
-
-		ly -= 40;
-		ry = ly + 30;
-
-		DrawExtendGraph(lx, ly, rx, ry, img_btnA, TRUE);
-
-		DrawFormatString(lx + 40, ly + 7, 0xffffff, "回避");
-	};
-
-
-	//////////////////////////////////////////////////
-	// 武器
-	//////////////////////////////////////////////////
-
-	if (!mode) {
-		int img_weaponSword      = 0;
-		int img_weaponDagger     = 0;
-		int img_weaponGreatSword = 0;
-		int img_weaponSpear      = 0;
-		int img_weaponFrail      = 0;
-		int img_weaponBook       = 0;
-
-		if (img.find("weaponSword")      != img.end()) img_weaponSword      = img.at("weaponSword");
-		if (img.find("weaponDagger")     != img.end()) img_weaponDagger     = img.at("weaponDagger");
-		if (img.find("weaponGreatSword") != img.end()) img_weaponGreatSword = img.at("weaponGreatSword");
-		if (img.find("weaponSpear")      != img.end()) img_weaponSpear      = img.at("weaponSpear");
-		if (img.find("weaponFrail")      != img.end()) img_weaponFrail      = img.at("weaponFrail");
-		if (img.find("weaponBook")       != img.end()) img_weaponBook       = img.at("weaponBook");
-
-		int weaponA[5];
-		int weaponB[5];
-
-		if (weapon.find("A") != weapon.end()) {
-			const std::map<std::string, int>& weaponStats = weapon.at("A");
-
-			if (weaponStats.find("type")        != weaponStats.end()) weaponA[0] = weaponStats.at("type");
-			if (weaponStats.find("level")       != weaponStats.end()) weaponA[1] = weaponStats.at("level");
-			if (weaponStats.find("selected")    != weaponStats.end()) weaponA[2] = weaponStats.at("selected");
-
-			if (weaponStats.find("coolTime")    != weaponStats.end()) weaponA[3] = weaponStats.at("coolTime");
-			if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponA[4] = weaponStats.at("coolTimeMax");
-		};
-		if (weapon.find("B") != weapon.end()) {
-			const std::map<std::string, int>& weaponStats = weapon.at("B");
-
-			if (weaponStats.find("type")        != weaponStats.end()) weaponB[0] = weaponStats.at("type");
-			if (weaponStats.find("level")       != weaponStats.end()) weaponB[1] = weaponStats.at("level");
-			if (weaponStats.find("selected")    != weaponStats.end()) weaponB[2] = weaponStats.at("selected");
-
-			if (weaponStats.find("coolTime")    != weaponStats.end()) weaponB[3] = weaponStats.at("coolTime");
-			if (weaponStats.find("coolTimeMax") != weaponStats.end()) weaponB[4] = weaponStats.at("coolTimeMax");
-		};
-
-		x = rootRX - 80;
-		y = rootRY + (SCREEN_HEIGHT - 80);
-
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-		DrawCircle(x, y, 50, 0x000000, true);
-		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		if (weaponB[0] != 99) {
-			if (weaponB[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-			if (weaponB[3]) DrawCircleGauge(x, y, ((float)weaponB[3] / (float)weaponB[4]) * 100, img_blackCircle80);
-			if (weaponB[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-			//SetFontSize(16);
-			str = "Lv. " + std::to_string(weaponB[1]);
-			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
-
-			if (weaponB[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
-
-			switch (weaponB[0]) {
-			case 0:
-				DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSpear, TRUE);
-				str = "槍";
-				break;
-
-			case 1:
-				DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponFrail, TRUE);
-				str = "フレイル";
-				break;
-
-			case 2:
-				DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponBook, TRUE);
-				str = "魔導書";
-				break;
-
-			default:
-				break;
-			};
-
-			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
-		};
-
-		x -= 120;
-
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-		DrawCircle(x, y, 50, 0x000000, true);
-		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		if (weaponA[0] != 99) {
-			if (weaponA[3]) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-			if (weaponA[3]) DrawCircleGauge(x, y, ((float)weaponA[3] / (float)weaponA[4]) * 100, img_blackCircle80);
-			if (weaponA[3]) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-			//SetFontSize(16);
-			str = "Lv. " + std::to_string(weaponA[1]);
-			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y + 30, 0xffffff, str.c_str());
-
-			if (weaponA[2]) DrawCircle(x, y, 55, 0xffffff, false, 3);
-
-			switch (weaponA[0]) {
-			case 0:
-				DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponSword, TRUE);
-				str = "片手剣";
-				break;
-
-			case 1:
-				DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponDagger, TRUE);
-				str = "短剣";
-				break;
-
-			case 2:
-				DrawExtendGraph(x - 20, y - 20, (x - 20) + 50, (y - 20) + 50, img_weaponGreatSword, TRUE);
-				str = "大剣";
-				break;
-
-			default:
-				break;
-			};
-
-			DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 40, 0xffffff, str.c_str());
-		};
-	};
-
-
-	//////////////////////////////////////////////////
-	// CoolTime
-	//////////////////////////////////////////////////
-
-	if (!mode) {
-		int img_coolTime = 0;
-
-		if (img.find("coolTime") != img.end()) img_coolTime = img.at("coolTime");
-
-		current = 0;
-		max     = 0;
-
-		if (coolTime.find("current") != coolTime.end()) current = coolTime.at("current");
-		if (coolTime.find("max")     != coolTime.end()) max     = coolTime.at("max");
-
-		x -= 120;
-
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-		if (current) DrawCircle(x, y, 40, GetColor(0, 0, 0), true);
-		else         DrawCircle(x, y, 40, GetColor(89, 165, 3), true);
-		if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		//SetFontSize(16);
-		//str = "回避（仮）";
-		if (current) SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120 * opacity);
-		//DrawFormatString((x - GetDrawFormatStringWidth(str.c_str()) / 2), y - 8, 0x000000, str.c_str());
-		//DrawBox(x - 35, y - 35, x + 35, y + 35, 0xffffff, false);
-		//DrawCircle(x, y, 50, 0xffffff, false, 2);
-		/*if (current) DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeWhite, TRUE);
-		else         DrawExtendGraph(x - 35, y - 35, (x - 35) + 70, (y - 35) + 70, img_coolTimeGreen, TRUE);*/
-		DrawExtendGraph(x - 25, y - 25, (x - 25) + 50, (y - 25) + 50, img_coolTime, TRUE);
-		if (current) DrawCircleGauge(x, y, ((float)current / (float)max) * 100, img_blackCircle80);
-		if (current) if (opacity >= 1.0f) SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	};
 
 
@@ -719,10 +844,10 @@ void GameUI::drawBanner() const {
 
 	//ChangeFont("");
 
-	SetFontSize(40);
+	SetFontSize(42);
 	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(title.c_str()) / 2, 320, 0xffffff, title.c_str());
 
-	SetFontSize(24);
+	SetFontSize(26);
 	DrawFormatString((rx / 2) - GetDrawFormatStringWidth(subTitle.c_str()) / 2, 370, 0xffffff, subTitle.c_str());
 
 	if (std::stoi(mode)) {

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "EnemyBase.h"
 #include "Common.h"
-#define DEVILKING_MAX_HP 5000					//魔王の最大体力
+#define DEVILKING_MAX_HP 4000					//魔王の最大体力
 #define DEVILKING_ATTAK_DAMAGE 1				//魔王のダメージ
 #define BIG_BULLET_CREATE_TIME  SECOND_FRAME(1.5)//大きい弾の生成速度
 #define MAX_SHIELD 100							//シールドの最大値
@@ -14,8 +14,7 @@
 
 #define BOX_MAX_LENGTH_D 1280
 
-#define TELEPORTATION_RADIUS_N 150
-#define TELEPORTATION_RADIUS_F 800
+#define TELEPORTATION_RADIUS_N 200
 
 #define BEAM_MAX_WIDTH 70//ビームの幅
 #define BEAM_POSITION_CROSS	   0//ビームが十字方向
@@ -71,6 +70,7 @@ private:
 
 	//ダウン
 	int downTimeCounter = 0;
+	int downTime = DOWN_TIME;
 
 	//瞬間移動
 	bool teleportationFlg = false;
