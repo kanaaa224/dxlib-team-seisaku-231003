@@ -4,8 +4,8 @@ End::End()
 {
 	if (EndImage = LoadGraph("resources/images/End/End_background_Img.png")) {}
 	if (End_Thankyou_Text = LoadGraph("resources/images/End/logo_Thank_you_for_playing.png")) {}
-	if (End_Enemmy_Slime_Img[0] = LoadGraph("resources/images/enemy_tmp_images/slime03_blue01/slime03_blue01/slime03_blue01_9.png")) {}
-	if (End_Enemmy_Slime_Img[1] = LoadGraph("resources/images/enemy_tmp_images/slime03_blue01/slime03_blue01/slime03_blue01_10.png")) {}
+	if (End_Enemmy_Slime_Img[0] = LoadGraph("resources/images/End/slime03_blue01_9.png")) {}
+	if (End_Enemmy_Slime_Img[1] = LoadGraph("resources/images/End/slime03_blue01_10.png")) {}
 	if (End_Playercharacter_Img[0] = LoadGraph("resources/images/player_images/Player_right50ÅE50.png")) {}
 	if (End_Playercharacter_Img[1] = LoadGraph("resources/images/player_images/Player_right_move1äZ150.50.png")) {}
 	if (End_Playercharacter_Img[2] = LoadGraph("resources/images/player_images/Player_right_move2äZ250.50.png")) {}
