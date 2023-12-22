@@ -1,6 +1,6 @@
 ﻿#include "BigEnemyBullet.h"
 #include "Common.h"
-#define DEBUG
+//#define DEBUG
 
 BigEnemyBullet::BigEnemyBullet(Location spawnLocation, Player* player)
 {

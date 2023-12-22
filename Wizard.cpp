@@ -4,7 +4,7 @@
 #include "inputCtrl.h"
 #include"Stage.h"
 
-#define DEBUG
+//#define DEBUG
 
 Wizard::Wizard(Player* player, int arrayNum, int WizardMaxNum)
 {
@@ -127,6 +127,9 @@ void Wizard::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		imgFrameCounter = 0;
 	}
 
+	else {
+		hitWeaponFlg = false;
+	}
 	//デバッグ（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
 #ifdef DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
