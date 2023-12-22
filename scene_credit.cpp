@@ -75,6 +75,9 @@ void Credit::draw()const
 	DrawString(513, 1850 + g_PosY, "効果音工房", 0xffffff);
 	DrawString(513, 1950 + g_PosY, "効果音ラボ", 0xffffff);
 
+	DrawString(((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth("フォント") / 2)), 2150 + g_PosY, "フォント", 0xffffff);
+	DrawString(((SCREEN_WIDTH / 2) - (GetDrawFormatStringWidth("「PixelMplus」 - itouhiro") / 2)), 2250 + g_PosY, "「PixelMplus」 - itouhiro", 0xffffff);
+
 	//DrawString(410, 2150 + g_PosY, "スペシャルサンクス", 0xffffff);		//+ 200
 	//DrawString(250, 2250 + g_PosY, "グラフィックデザイン科のみなさん", 0xffffff);
 }
