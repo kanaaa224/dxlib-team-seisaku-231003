@@ -50,7 +50,7 @@ void Credit::draw()const
 	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "%d", g_PosY, TRUE);
-	DrawFormatString(0, 320, GetColor(255, 0, 0), "%d", g_WaitTime, TRUE);
+	//DrawFormatString(0, 320, GetColor(255, 0, 0), "%d", g_WaitTime, TRUE);
 
 	//使ったサイトや関係者名の名前を表示
 	SetFontSize(50);
