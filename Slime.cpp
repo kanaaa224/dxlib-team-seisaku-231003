@@ -4,7 +4,7 @@
 #include "inputCtrl.h"
 #include"Stage.h"
 
-#define DEBUG
+//#define DEBUG
 
 Slime::Slime(Player* player,int arrayNum, int SlimeMaxNum, int stage)
 {
@@ -146,16 +146,19 @@ void Slime::Update(int arrayNum, Player* player, weapon* w, Stage stage)
 		imgFrameCounter = 0;
 	}
 
-	//デバッグ（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
-#ifdef DEBUG
-	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
-		hitWeaponFlg = true;
-		hp -= 9999;
-	}
 	else {
-		hitWeaponFlg = false;
+			hitWeaponFlg = false;
 	}
-#endif // DEBUG
+	//デバッグ（マクロのDEBUGをコメントアウト又はReleaseにすれば使えなくなります）
+//#ifdef DEBUG
+//	if (InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS && hp >= 0) {
+//		hitWeaponFlg = true;
+//		hp -= 9999;
+//	}
+//	else {
+//		hitWeaponFlg = false;
+//	}
+//#endif // DEBUG
 	
 }
 
