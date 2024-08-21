@@ -1,9 +1,9 @@
 #include "main.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 Title::Title()
 {
-	Titlelogo_white = LoadGraph("resources/images/Title/logo/í“ƒƒƒS-”’.png");
+	Titlelogo_white = LoadGraph("resources/images/Title/logo/ï¿½í“ƒï¿½ï¿½ï¿½S-ï¿½ï¿½.png");
 	g_MenuNumber = 0;
 	TitleInterval = 0;
 
@@ -16,16 +16,16 @@ Title::Title()
 	if (Title_Credit_Img = LoadGraph("resources/images/Title/title_logo_credit.png")) {}
 	if (Title_End_Img = LoadGraph("resources/images/Title/title_logo_end.png")) {}
 
-	if (Title_Cosol_sword_Img = LoadGraph("resources/images/•Ší/•ĞèŒ•.png")) {}
-	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/•Ší/‘åŒ•.png")) {}
-	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/•Ší/’ZŒ•.png")) {}
+	if (Title_Cosol_sword_Img = LoadGraph("resources/images/ï¿½ï¿½ï¿½ï¿½/ï¿½ĞèŒ•.png")) {}
+	if (Title_Cosol_greatsword_Img = LoadGraph("resources/images/ï¿½ï¿½ï¿½ï¿½/ï¿½åŒ•.png")) {}
+	if (Title_Cosol_shortsword_Img = LoadGraph("resources/images/ï¿½ï¿½ï¿½ï¿½/ï¿½Zï¿½ï¿½.png")) {}
 
 	Title_Select_magnification = 0.01;
 	Title_Cosor_sword_Angle = 1.0;
 	Title_Cosor_greatsword_Angle = 4.15;
 	Title_Cosor_shortsword_Angle = 0.0;
 
-	//À•WŒn
+	//ï¿½ï¿½ï¿½Wï¿½n
 	logo_white_x = 640.0f;
 	logo_white_y = -70.0f;
 	logo_move_x = 0.0f;
@@ -38,21 +38,21 @@ Title::Title()
 		Title_Star_y[i] = 0;
 	}
 
-	//ƒfƒoƒbƒO—pƒ}ƒEƒXƒ|ƒCƒ“ƒ^location
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½}ï¿½Eï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^location
 	Title_Debug_Mousepoint_x = 0;
 	Title_Debug_Mousepoint_y = 0;
 
-	//fpsŒn
+	//fpsï¿½n
 	Title_Animation_fps = 0;
 
-	//—”
+	//ï¿½ï¿½ï¿½ï¿½
 	Title_Star_rand = 0;
 
-	//ƒJƒEƒ“ƒ^
+	//ï¿½Jï¿½Eï¿½ï¿½ï¿½^
 	Star_Anim_Count = 0;
 	Title_Star_rand_Count = 0;
 
-	//ƒtƒ‰ƒOŒn
+	//ï¿½tï¿½ï¿½ï¿½Oï¿½n
 	logo_location_y_flg = false;
 	Title_Select_mg_flg = false;
 	Title_Anim_flg = true;
@@ -62,7 +62,7 @@ Title::Title()
 	Title_Cursor_Flg = false;
 	Title_logo_Anim_End_Flg = true;
 
-	//F
+	//ï¿½F
 	Title_Star_Anim_Color_red = 255;
 	Title_Star_Anim_Color_green = 255;
 	Title_Star_Anim_Color_blue = 255;
@@ -86,14 +86,14 @@ Title::~Title()
 	}
 }
 
-//XV
+//ï¿½Xï¿½V
 Scene* Title::update()
 {
 	SoundManager::PlaySoundBGM("bgm_title");
 
 	Title_Animation_fps++;
 
-	//ƒfƒoƒbƒO—p ‚ ‚Æ‚ÅÁ‚·
+	//ï¿½fï¿½oï¿½bï¿½Oï¿½p ï¿½ï¿½ï¿½Æ‚Åï¿½ï¿½ï¿½
 	Title_Debug_Mousepoint_x = InputCtrl::GetMouseCursor().x;
 	Title_Debug_Mousepoint_y = InputCtrl::GetMouseCursor().y;
 
@@ -102,20 +102,20 @@ Scene* Title::update()
 		Title_Cursor_Flg = true;
 	}
 
-	//ƒXƒeƒBƒbƒN‚Ì§Œä
+	//ï¿½Xï¿½eï¿½Bï¿½bï¿½Nï¿½Ìï¿½ï¿½ï¿½
 	if (TitleInterval < TITLEINTERVAL)
 	{
 		TitleInterval++;
 	}
 
-	//Aƒ{ƒ^ƒ“‚Åƒƒjƒ…[Œˆ’èE‰æ–Ê‘JˆÚ
+	//Aï¿½{ï¿½^ï¿½ï¿½ï¿½Åƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½Ê‘Jï¿½ï¿½
 	if (Title_Cursor_Flg == true)
 	{
 		Star_Anim_Count++;
 
 		Title_Cursor_Anim();
 
-		//ƒJ[ƒ\ƒ‹‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ªI—¹‚µ‚Ä 2•b‘Ò‚Á‚Ä‚©‚ç“®‚­
+		//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½bï¿½Ò‚ï¿½ï¿½Ä‚ï¿½ï¿½ç“®ï¿½ï¿½
 		if (Star_Anim_Count > 100) {
 
 			if (g_MenuNumber == 0) {
@@ -137,26 +137,26 @@ Scene* Title::update()
 	else {
 
 		if (Title_select_flg == true) {
-			//ƒJ[ƒ\ƒ‹ã‰º
+			//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ã‰º
 			if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_UP) == PRESS || InputCtrl::GetStickRatio(L).y > 0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_UP) == PRESS)
 			{
-				//ƒXƒeƒBƒbƒNˆÚ“®‚Ì‰Šú‰»
+				//ï¿½Xï¿½eï¿½Bï¿½bï¿½Nï¿½Ú“ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 				TitleInterval = 0;
-				//ƒJ[ƒ\ƒ‹‚ÌˆÚ“®‰¹
+				//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½ï¿½
 				SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
-				//ƒ^ƒCƒgƒ‹ƒJ[ƒ\ƒ‹‚ÌˆÚ“®
+				//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½
 				if (--g_MenuNumber > TITLECURSOR);
-				//ƒ^ƒCƒgƒ‹ƒJ[ƒ\ƒ‹‚ÌˆÚ“®—Ê‚Ì§Œä
+				//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½Ê‚Ìï¿½ï¿½ï¿½
 				if (g_MenuNumber < 0) g_MenuNumber = 3;
 			}
 			if (InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == PRESS || InputCtrl::GetStickRatio(L).y < -0.8 && TitleInterval >= 15 || InputCtrl::GetKeyState(KEY_INPUT_DOWN) == PRESS)
 			{
-				//ƒXƒeƒBƒbƒNˆÚ“®‚Ì‰Šú‰»
+				//ï¿½Xï¿½eï¿½Bï¿½bï¿½Nï¿½Ú“ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 				TitleInterval = 0;
-				//ƒ^ƒCƒgƒ‹ƒJ[ƒ\ƒ‹‚ÌˆÚ“®
+				//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½
 				SoundManager::PlaySoundSE("se_system_select_syu", false, DX_PLAYTYPE_BACK);
 				if (++g_MenuNumber < -TITLECURSOR);
-				//ƒ^ƒCƒgƒ‹ƒJ[ƒ\ƒ‹‚ÌˆÚ“®—Ê‚Ì§Œä
+				//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½Ê‚Ìï¿½ï¿½ï¿½
 				if (g_MenuNumber > 3)g_MenuNumber = 0;
 			}
 
@@ -164,29 +164,29 @@ Scene* Title::update()
 		}
 	}
 
-	//ƒ^ƒCƒgƒ‹ƒƒSƒAƒjƒ[ƒVƒ‡ƒ“
+	//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
 	Title_logo_Animation();
 
 	logo_white_y = logo_white_y + logo_move_y;
 
 	//if (logo_location_y_flg == true && Title_Select_mg_flg == false) {
-	//	//ƒ^ƒCƒgƒ‹‚ÌƒZƒŒƒNƒgƒAƒjƒ[ƒVƒ‡ƒ“
+	//	//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ÌƒZï¿½ï¿½ï¿½Nï¿½gï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
 	//	Title_Select_Anim();
 	//}
 
 	if (Title_Anim_flg == true) {
 
-		//¯‚ÌÀ•W‚ğ rands_x:25`500  rands_y:25`250 rands1_x:775`1260 rands1_y:25`250‚Ì”ÍˆÍ“à‚Åæ“¾‚·‚é
+		//ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ rands_x:25ï¿½`500  rands_y:25ï¿½`250 rands1_x:775ï¿½`1260 rands1_y:25ï¿½`250ï¿½Ì”ÍˆÍ“ï¿½Åæ“¾ï¿½ï¿½ï¿½ï¿½
 		Title_Star_Rands(499, 249, 1259, 249);
 	}
 	else if (Title_FadeOut_flg == true) {
 
-		//¯‚ÌƒtƒF[ƒhƒAƒEƒgŠÖ”
+		//ï¿½ï¿½ï¿½Ìƒtï¿½Fï¿½[ï¿½hï¿½Aï¿½Eï¿½gï¿½Öï¿½
 		Title_Star_FadeOut();
 	}
 	else if (Title_FadeIn_flg == true) {
 
-		//¯‚ÌƒtƒF[ƒhƒCƒ“ŠÖ”
+		//ï¿½ï¿½ï¿½Ìƒtï¿½Fï¿½[ï¿½hï¿½Cï¿½ï¿½ï¿½Öï¿½
 		Title_Star_FadeIn();
 	}
 	
@@ -196,7 +196,7 @@ Scene* Title::update()
 	}
 
 	if (Title_Animation_fps > 59) {
-		// 1•b
+		// 1ï¿½b
 		Title_Animation_fps = 0;
 		//Star_Anim_Count++;
 		if (Star_Anim_Count > 100) {
@@ -207,50 +207,50 @@ Scene* Title::update()
 	return this;
 }
 
-//•`‰æ
+//ï¿½`ï¿½ï¿½
 void Title::draw() const
 {	
 	SetDrawBright(255, 255, 255);
-	//–Ø‚Æ“ƒ
+	//ï¿½Ø‚Æ“ï¿½
 	DrawGraph(0, 0, Title_Background_Img[0], TRUE);
 
-	//@’†Sü
+	//ï¿½@ï¿½ï¿½ï¿½Sï¿½ï¿½
 	//DrawLine(0, 360, 1280, 360, GetColor(255, 0, 0), TRUE);
 	//DrawLine(640, 0, 640, 720, GetColor(255, 0, 0), TRUE);
 
-	//¯‚ğƒ‰ƒ“ƒ_ƒ€‚ÉoŒ»‚³‚¹‚é”ÍˆÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Éoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íˆï¿½
 	//DrawBox(25, 25, 500, 250, GetColor(255, 0, 0), FALSE);
 	//DrawBox(775, 25, 1260, 250, GetColor(255, 0, 0), FALSE);
 
 	//DrawFormatString(0, 300, GetColor(255, 0, 0), "Mouse x %lf", Title_Cosor_greatsword_x);
 	//DrawFormatString(0, 320, GetColor(255, 0, 0), "Mouse y %lf", Title_Cosor_greatsword_y);
-	//DrawFormatString(0, 360, GetColor(255, 0, 0), "•b	%d", Star_Anim_Count);
-	//DrawFormatString(0, 380, GetColor(255, 0, 0), "ƒJƒEƒ“ƒ^ %d", Title_Star_rand_Count);
-	//DrawFormatString(0, 400, GetColor(255, 0, 0), "¯‚ÌÀ•W x1  %d", Title_Star_x[1]);
-	//DrawFormatString(0, 420, GetColor(255, 0, 0), "¯‚ÌÀ•W y1  %d", Title_Star_y[1]);
-	//DrawFormatString(0, 440, GetColor(255, 0, 0), "¯‚ÌÀ•W x2  %d", Title_Star_x[2]);
-	//DrawFormatString(0, 460, GetColor(255, 0, 0), "¯‚ÌÀ•W y2  %d", Title_Star_y[2]);
+	//DrawFormatString(0, 360, GetColor(255, 0, 0), "ï¿½b	%d", Star_Anim_Count);
+	//DrawFormatString(0, 380, GetColor(255, 0, 0), "ï¿½Jï¿½Eï¿½ï¿½ï¿½^ %d", Title_Star_rand_Count);
+	//DrawFormatString(0, 400, GetColor(255, 0, 0), "ï¿½ï¿½ï¿½Ìï¿½ï¿½W x1  %d", Title_Star_x[1]);
+	//DrawFormatString(0, 420, GetColor(255, 0, 0), "ï¿½ï¿½ï¿½Ìï¿½ï¿½W y1  %d", Title_Star_y[1]);
+	//DrawFormatString(0, 440, GetColor(255, 0, 0), "ï¿½ï¿½ï¿½Ìï¿½ï¿½W x2  %d", Title_Star_x[2]);
+	//DrawFormatString(0, 460, GetColor(255, 0, 0), "ï¿½ï¿½ï¿½Ìï¿½ï¿½W y2  %d", Title_Star_y[2]);
 
-	//¯‚ÌƒtƒF[ƒhƒAƒEƒg
+	//ï¿½ï¿½ï¿½Ìƒtï¿½Fï¿½[ï¿½hï¿½Aï¿½Eï¿½g
 	SetDrawBright(Title_Star_Anim_Color_red, Title_Star_Anim_Color_green, Title_Star_Anim_Color_blue);
 	for (int i = 0; i < 8; i++) {
-		//¯
+		//ï¿½ï¿½
 		DrawRotaGraph(Title_Star_x[i], Title_Star_y[i], 0.05, 0.0, Title_SkyStar_Img, TRUE);
 	}
 	SetDrawBright(255, 255, 255);
 
-	//ƒ^ƒCƒgƒ‹ƒƒS
+	//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½S
 	DrawRotaGraph(logo_white_x, logo_white_y, 0.58, 0.0, Titlelogo_white, TRUE);
 
 	if (Title_select_flg == true) {
 
-		//ƒ^ƒCƒgƒ‹‚ÌƒJ[ƒ\ƒ‹
+		//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ÌƒJï¿½[ï¿½\ï¿½ï¿½
 		DrawRotaGraph(480, 300 + g_MenuY, 0.1,  Title_Cosor_sword_Angle/*1.0*/, Title_Cosol_sword_Img, TRUE);
 		DrawRotaGraph(Title_Cosor_greatsword_x, Title_Cosor_greatsword_y + g_MenuY, 0.1, Title_Cosor_greatsword_Angle/*4.15*/, Title_Cosol_greatsword_Img, TRUE);
 		//DrawRotaGraph(659, 300, 0.32, 0.0, Title_Cosol_shortsword_Img, TRUE);
 
-		//ƒ^ƒCƒgƒ‹‚ÌƒZƒŒƒNƒg
-		// 90‚¸‚Â‘«‚µ‚Ä‚¢‚é	”{—¦‚Í0.32
+		//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ÌƒZï¿½ï¿½ï¿½Nï¿½g
+		// 90ï¿½ï¿½ï¿½Â‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½	ï¿½{ï¿½ï¿½ï¿½ï¿½0.32
 		DrawRotaGraph(659, 300, 0.32, 0.0, Title_Start_Img, TRUE);
 		DrawRotaGraph(659, 390, 0.32, 0.0, Title_Help_Img, TRUE);
 		DrawRotaGraph(659, 480, 0.32, 0.0, Title_Credit_Img, TRUE);
@@ -281,11 +281,11 @@ void Title::Title_logo_Animation() {
 void Title::Title_Star_Rands(int rands_x, int rands_y, int rands1_x, int rands1_y) {
 
 	for (int i = 0; i < 4;) {
-		//¯‚ÌÀ•W‚ğ x:25`500  y:25`250 ‚Ì”ÍˆÍ“à‚Åæ“¾‚·‚é
+		//ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ x:25ï¿½`500  y:25ï¿½`250 ï¿½Ì”ÍˆÍ“ï¿½Åæ“¾ï¿½ï¿½ï¿½ï¿½
 		Title_Star_x[i] = GetRand(rands_x) + 5;
 		Title_Star_y[i] = GetRand(rands_y) + 50;
 
-		//¯‚ÌÀ•W”ÍˆÍ‚Æ‰æ‘œ‚ª”í‚ç‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß
+		//ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ÍˆÍ‚Æ‰æ‘œï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½é‚½ï¿½ï¿½
 		if (Title_Star_x[i] > 25 && Title_Star_y[i] > 25 && Title_Star_x[i] != Title_Star_x[i - 1] && Title_Star_y[i] != Title_Star_y[i - 1]) {
 
 			i++;
@@ -293,11 +293,11 @@ void Title::Title_Star_Rands(int rands_x, int rands_y, int rands1_x, int rands1_
 	}
 
 	for (int j = 4; j < 8;) {
-		//¯‚ÌÀ•W‚ğ x:25`500  y:25`250 ‚Ì”ÍˆÍ“à‚Åæ“¾‚·‚é
+		//ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ x:25ï¿½`500  y:25ï¿½`250 ï¿½Ì”ÍˆÍ“ï¿½Åæ“¾ï¿½ï¿½ï¿½ï¿½
 		Title_Star_x[j] = GetRand(rands1_x) - 5;
 		Title_Star_y[j] = GetRand(rands1_y) + 50;
 
-		//¯‚ÌÀ•W”ÍˆÍ‚Æ‰æ‘œ‚ª”í‚ç‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß
+		//ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½ÍˆÍ‚Æ‰æ‘œï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½é‚½ï¿½ï¿½
 		if (Title_Star_x[j] > 775 && Title_Star_y[j] > 25 && Title_Star_x[j] != Title_Star_x[j - 1] && Title_Star_y[j] != Title_Star_y[j - 1]) {
 				
 			j++;
@@ -330,10 +330,10 @@ void Title::Title_Star_FadeOut() {
 
 	if (Title_Star_Anim_Color_red <= 0 && Title_Star_Anim_Color_green <= 0 && Title_Star_Anim_Color_blue <= 0) {
 
-		//ƒtƒF[ƒhƒAƒEƒgŠÖ”
+		//ï¿½tï¿½Fï¿½[ï¿½hï¿½Aï¿½Eï¿½gï¿½Öï¿½
 		Title_FadeOut_flg = false;
 
-		//F‚ğ•‚ÉƒZƒbƒg
+		//ï¿½Fï¿½ï¿½ï¿½ï¿½ÉƒZï¿½bï¿½g
 		Title_Star_Anim_Color_red = 0;
 		Title_Star_Anim_Color_green = 0;
 		Title_Star_Anim_Color_blue = 0;
